@@ -92,6 +92,8 @@ celerybeat.pid
 .env
 .venv/
 .venv-kimera-clean/
+.testing_artifacts/
+.testing_artifacts
 .venv
 .venv-kimera-clean
 env/
