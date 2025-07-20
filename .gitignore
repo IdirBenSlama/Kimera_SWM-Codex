@@ -90,6 +90,8 @@ celerybeat.pid
 
 # Environments
 .env
+.venv/
+.venv-kimera-clean/
 .venv
 .venv-kimera-clean
 env/
