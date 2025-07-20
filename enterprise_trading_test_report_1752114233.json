@@ -1,0 +1,94 @@
+{
+  "test_timestamp": "2025-07-10T03:23:53.141080",
+  "system_requirements": {
+    "gpu_available": true,
+    "cuda_available": true,
+    "quantum_libraries": [
+      "Qiskit",
+      "Cirq"
+    ],
+    "ml_libraries": [
+      "Scikit-learn",
+      "Transformers"
+    ],
+    "trading_libraries": [
+      "NumPy",
+      "Pandas",
+      "SciPy",
+      "Numba"
+    ],
+    "system_info": {
+      "gpu_name": "NVIDIA GeForce RTX 2080 Ti",
+      "gpu_memory": 10.99957275390625
+    }
+  },
+  "component_tests": {
+    "ComplexEventProcessor": {
+      "status": "error",
+      "component": "ComplexEventProcessor",
+      "error": "cannot import name 'Aer' from 'qiskit' (C:\\Users\\Loomine\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\qiskit\\__init__.py)",
+      "traceback": "Traceback (most recent call last):\n  File \"D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\test_enterprise_trading_robust.py\", line 110, in test_complex_event_processor\n    processor = ComplexEventProcessor()\n  File \"D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\backend\\trading\\enterprise\\complex_event_processor.py\", line 138, in __init__\n    self.quantum_matcher = QuantumPatternMatcher() if QUANTUM_AVAILABLE else None\n                           ~~~~~~~~~~~~~~~~~~~~~^^\n  File \"D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\backend\\trading\\enterprise\\complex_event_processor.py\", line 628, in __init__\n    from qiskit import Aer\nImportError: cannot import name 'Aer' from 'qiskit' (C:\\Users\\Loomine\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\qiskit\\__init__.py)\n",
+      "execution_time": 10.244652032852173
+    },
+    "SmartOrderRouter": {
+      "status": "error",
+      "component": "SmartOrderRouter",
+      "error": "no running event loop",
+      "traceback": "Traceback (most recent call last):\n  File \"D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\test_enterprise_trading_robust.py\", line 153, in test_smart_order_router\n    router = SmartOrderRouter()\n  File \"D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\backend\\trading\\enterprise\\smart_order_router.py\", line 123, in __init__\n    asyncio.create_task(self._monitor_venue_performance())\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Loomine\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\asyncio\\tasks.py\", line 407, in create_task\n    loop = events.get_running_loop()\nRuntimeError: no running event loop\n",
+      "execution_time": 0.020856857299804688
+    },
+    "MarketMicrostructureAnalyzer": {
+      "status": "error",
+      "component": "MarketMicrostructureAnalyzer",
+      "error": "no running event loop",
+      "traceback": "Traceback (most recent call last):\n  File \"D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\test_enterprise_trading_robust.py\", line 195, in test_market_microstructure_analyzer\n    analyzer = MarketMicrostructureAnalyzer()\n  File \"D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\backend\\trading\\enterprise\\market_microstructure_analyzer.py\", line 133, in __init__\n    asyncio.create_task(self.continuous_analysis())\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Loomine\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\asyncio\\tasks.py\", line 407, in create_task\n    loop = events.get_running_loop()\nRuntimeError: no running event loop\n",
+      "execution_time": 0.0012021064758300781
+    },
+    "RegulatoryComplianceEngine": {
+      "status": "error",
+      "component": "RegulatoryComplianceEngine",
+      "error": "no running event loop",
+      "traceback": "Traceback (most recent call last):\n  File \"D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\test_enterprise_trading_robust.py\", line 237, in test_regulatory_compliance_engine\n    compliance = RegulatoryComplianceEngine()\n  File \"D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\backend\\trading\\enterprise\\regulatory_compliance_engine.py\", line 154, in __init__\n    asyncio.create_task(self._continuous_monitoring())\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Loomine\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\asyncio\\tasks.py\", line 407, in create_task\n    loop = events.get_running_loop()\nRuntimeError: no running event loop\n",
+      "execution_time": 0.0011699199676513672
+    },
+    "QuantumTradingEngine": {
+      "status": "partial",
+      "component": "QuantumTradingEngine",
+      "message": "Component loaded but optimize_portfolio method not found",
+      "features": [
+        "component_loaded"
+      ],
+      "execution_time": 0.0005021095275878906
+    },
+    "MLTradingEngine": {
+      "status": "partial",
+      "component": "MLTradingEngine",
+      "message": "Component loaded but predict_price method not found",
+      "features": [
+        "component_loaded"
+      ],
+      "execution_time": 0.0005712509155273438
+    },
+    "HFTInfrastructure": {
+      "status": "error",
+      "component": "HFTInfrastructure",
+      "error": "no running event loop",
+      "traceback": "Traceback (most recent call last):\n  File \"D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\test_enterprise_trading_robust.py\", line 362, in test_hft_infrastructure\n    hft = HFTInfrastructure()\n  File \"D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\backend\\trading\\enterprise\\hft_infrastructure.py\", line 202, in __init__\n    self.start_background_tasks()\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\backend\\trading\\enterprise\\hft_infrastructure.py\", line 246, in start_background_tasks\n    asyncio.create_task(self.process_market_data_stream())\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Loomine\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\asyncio\\tasks.py\", line 407, in create_task\n    loop = events.get_running_loop()\nRuntimeError: no running event loop\n",
+      "execution_time": 0.03457283973693848
+    },
+    "IntegratedTradingSystem": {
+      "status": "error",
+      "component": "IntegratedTradingSystem",
+      "error": "IntegratedTradingSystem.__init__() missing 3 required positional arguments: 'cognitive_field', 'thermodynamic_engine', and 'contradiction_engine'",
+      "traceback": "Traceback (most recent call last):\n  File \"D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\test_enterprise_trading_robust.py\", line 397, in test_integrated_trading_system\n    integrated_system = IntegratedTradingSystem()\nTypeError: IntegratedTradingSystem.__init__() missing 3 required positional arguments: 'cognitive_field', 'thermodynamic_engine', and 'contradiction_engine'\n",
+      "execution_time": 0.0005743503570556641
+    }
+  },
+  "summary": {
+    "total_components": 8,
+    "successful_components": 0,
+    "partial_components": 2,
+    "failed_components": 6,
+    "success_rate": 25.0
+  }
+}

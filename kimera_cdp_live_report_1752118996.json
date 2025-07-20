@@ -1,0 +1,206 @@
+{
+  "session_summary": {
+    "duration_seconds": 304.39254879951477,
+    "total_operations": 38,
+    "successful_operations": 38,
+    "success_rate": 1.0,
+    "operations_per_minute": 7.4903278972892995
+  },
+  "cognitive_performance": {
+    "final_state": {
+      "confidence": 0.6387574290124773,
+      "market_sentiment": 0.45396916029169726,
+      "safety_score": 0.9,
+      "pattern_strength": 0.6429244122394961
+    },
+    "avg_confidence": 0.7062320706901722
+  },
+  "system_info": {
+    "network": "base-sepolia",
+    "api_key": "9268de76-b5f4-4683-b593-327fb2c19503",
+    "live_trading": true,
+    "testnet": true
+  },
+  "operation_history": [
+    {
+      "timestamp": "2025-07-10T04:40:35.938870",
+      "action": "hold",
+      "amount": 0.0,
+      "confidence": 0.716512723080148,
+      "success": true,
+      "execution_time": 0.0015404224395751953,
+      "reason": "Medium confidence (0.717) - monitoring"
+    },
+    {
+      "timestamp": "2025-07-10T04:40:43.945957",
+      "action": "hold",
+      "amount": 0.0,
+      "confidence": 0.7332262887659877,
+      "success": true,
+      "execution_time": 0.0013954639434814453,
+      "reason": "Medium confidence (0.733) - monitoring"
+    },
+    {
+      "timestamp": "2025-07-10T04:40:51.953666",
+      "action": "hold",
+      "amount": 0.0,
+      "confidence": 0.6977584882521038,
+      "success": true,
+      "execution_time": 0.0018191337585449219,
+      "reason": "Medium confidence (0.698) - monitoring"
+    },
+    {
+      "timestamp": "2025-07-10T04:40:59.961554",
+      "action": "hold",
+      "amount": 0.0,
+      "confidence": 0.7109192645384723,
+      "success": true,
+      "execution_time": 0.001735687255859375,
+      "reason": "Medium confidence (0.711) - monitoring"
+    },
+    {
+      "timestamp": "2025-07-10T04:41:07.970208",
+      "action": "hold",
+      "amount": 0.0,
+      "confidence": 0.6729461483811587,
+      "success": true,
+      "execution_time": 0.00183868408203125,
+      "reason": "Medium confidence (0.673) - monitoring"
+    },
+    {
+      "timestamp": "2025-07-10T04:41:15.973369",
+      "action": "hold",
+      "amount": 0.0,
+      "confidence": 0.7440871925334291,
+      "success": true,
+      "execution_time": 0.0015196800231933594,
+      "reason": "Medium confidence (0.744) - monitoring"
+    },
+    {
+      "timestamp": "2025-07-10T04:41:23.978765",
+      "action": "hold",
+      "amount": 0.0,
+      "confidence": 0.6943466492723436,
+      "success": true,
+      "execution_time": 0.0021331310272216797,
+      "reason": "Medium confidence (0.694) - monitoring"
+    },
+    {
+      "timestamp": "2025-07-10T04:41:31.987995",
+      "action": "hold",
+      "amount": 0.0,
+      "confidence": 0.6951770921221203,
+      "success": true,
+      "execution_time": 0.001348257064819336,
+      "reason": "Medium confidence (0.695) - monitoring"
+    },
+    {
+      "timestamp": "2025-07-10T04:41:39.999810",
+      "action": "hold",
+      "amount": 0.0,
+      "confidence": 0.733270785592516,
+      "success": true,
+      "execution_time": 0.0015780925750732422,
+      "reason": "Medium confidence (0.733) - monitoring"
+    },
+    {
+      "timestamp": "2025-07-10T04:41:48.010540",
+      "action": "hold",
+      "amount": 0.0,
+      "confidence": 0.6415546562758833,
+      "success": true,
+      "execution_time": 0.0020227432250976562,
+      "reason": "Medium confidence (0.642) - monitoring"
+    },
+    {
+      "timestamp": "2025-07-10T04:41:56.017570",
+      "action": "hold",
+      "amount": 0.0,
+      "confidence": 0.6725741765390421,
+      "success": true,
+      "execution_time": 0.0016744136810302734,
+      "reason": "Medium confidence (0.673) - monitoring"
+    },
+    {
+      "timestamp": "2025-07-10T04:42:04.022098",
+      "action": "hold",
+      "amount": 0.0,
+      "confidence": 0.7568879676422813,
+      "success": true,
+      "execution_time": 0.0017473697662353516,
+      "reason": "Medium confidence (0.757) - monitoring"
+    },
+    {
+      "timestamp": "2025-07-10T04:42:12.034951",
+      "action": "hold",
+      "amount": 0.0,
+      "confidence": 0.7542896440821998,
+      "success": true,
+      "execution_time": 0.0022084712982177734,
+      "reason": "Medium confidence (0.754) - monitoring"
+    },
+    {
+      "timestamp": "2025-07-10T04:42:20.050709",
+      "action": "hold",
+      "amount": 0.0,
+      "confidence": 0.7469277793458771,
+      "success": true,
+      "execution_time": 0.0023651123046875,
+      "reason": "Medium confidence (0.747) - monitoring"
+    },
+    {
+      "timestamp": "2025-07-10T04:42:28.059940",
+      "action": "hold",
+      "amount": 0.0,
+      "confidence": 0.7233914729180362,
+      "success": true,
+      "execution_time": 0.0015833377838134766,
+      "reason": "Medium confidence (0.723) - monitoring"
+    },
+    {
+      "timestamp": "2025-07-10T04:42:36.067134",
+      "action": "hold",
+      "amount": 0.0,
+      "confidence": 0.7573591673636093,
+      "success": true,
+      "execution_time": 0.001318216323852539,
+      "reason": "Medium confidence (0.757) - monitoring"
+    },
+    {
+      "timestamp": "2025-07-10T04:42:44.076037",
+      "action": "hold",
+      "amount": 0.0,
+      "confidence": 0.702745319164805,
+      "success": true,
+      "execution_time": 0.0014510154724121094,
+      "reason": "Medium confidence (0.703) - monitoring"
+    },
+    {
+      "timestamp": "2025-07-10T04:42:52.083290",
+      "action": "hold",
+      "amount": 0.0,
+      "confidence": 0.7626240670496856,
+      "success": true,
+      "execution_time": 0.0020570755004882812,
+      "reason": "Medium confidence (0.763) - monitoring"
+    },
+    {
+      "timestamp": "2025-07-10T04:43:00.094003",
+      "action": "hold",
+      "amount": 0.0,
+      "confidence": 0.7465306486421055,
+      "success": true,
+      "execution_time": 0.0014126300811767578,
+      "reason": "Medium confidence (0.747) - monitoring"
+    },
+    {
+      "timestamp": "2025-07-10T04:43:08.110194",
+      "action": "hold",
+      "amount": 0.0,
+      "confidence": 0.6387574290124773,
+      "success": true,
+      "execution_time": 0.002076387405395508,
+      "reason": "Medium confidence (0.639) - monitoring"
+    }
+  ]
+}

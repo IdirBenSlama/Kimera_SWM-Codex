@@ -1,0 +1,104 @@
+{
+  "test_timestamp": "2025-07-13T22:21:40.530010",
+  "system_requirements": {
+    "gpu_available": true,
+    "cuda_available": true,
+    "quantum_libraries": [
+      "Qiskit",
+      "Cirq"
+    ],
+    "ml_libraries": [
+      "Scikit-learn",
+      "Transformers"
+    ],
+    "trading_libraries": [
+      "NumPy",
+      "Pandas",
+      "SciPy",
+      "Numba"
+    ],
+    "system_info": {
+      "gpu_name": "NVIDIA GeForce RTX 2080 Ti",
+      "gpu_memory": 10.99957275390625
+    }
+  },
+  "component_tests": {
+    "ComplexEventProcessor": {
+      "status": "error",
+      "component": "ComplexEventProcessor",
+      "error": "name 'QISKIT_AER_AVAILABLE' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\test_enterprise_trading_robust.py\", line 110, in test_complex_event_processor\n    processor = ComplexEventProcessor()\n  File \"D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\backend\\trading\\enterprise\\complex_event_processor.py\", line 149, in __init__\n    self.quantum_matcher = QuantumPatternMatcher() if QUANTUM_AVAILABLE else None\n                           ~~~~~~~~~~~~~~~~~~~~~^^\n  File \"D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\backend\\trading\\enterprise\\complex_event_processor.py\", line 650, in __init__\n    if QUANTUM_AVAILABLE and QISKIT_AER_AVAILABLE:\n                             ^^^^^^^^^^^^^^^^^^^^\nNameError: name 'QISKIT_AER_AVAILABLE' is not defined\n",
+      "execution_time": 27.330854654312134
+    },
+    "SmartOrderRouter": {
+      "status": "success",
+      "component": "SmartOrderRouter",
+      "test_result": "<coroutine object SmartOrderRouter.route_order at 0x0000016008A51940>",
+      "features": [
+        "order_routing",
+        "venue_selection",
+        "optimization"
+      ],
+      "execution_time": 0.0006003379821777344
+    },
+    "MarketMicrostructureAnalyzer": {
+      "status": "partial",
+      "component": "MarketMicrostructureAnalyzer",
+      "message": "Component loaded but analyze_order_book method not found",
+      "features": [
+        "component_loaded"
+      ],
+      "execution_time": 0.0007092952728271484
+    },
+    "RegulatoryComplianceEngine": {
+      "status": "partial",
+      "component": "RegulatoryComplianceEngine",
+      "message": "Component loaded but check_compliance method not found",
+      "features": [
+        "component_loaded"
+      ],
+      "execution_time": 0.0005950927734375
+    },
+    "QuantumTradingEngine": {
+      "status": "partial",
+      "component": "QuantumTradingEngine",
+      "message": "Component loaded but optimize_portfolio method not found",
+      "features": [
+        "component_loaded"
+      ],
+      "execution_time": 0.0005342960357666016
+    },
+    "MLTradingEngine": {
+      "status": "partial",
+      "component": "MLTradingEngine",
+      "message": "Component loaded but predict_price method not found",
+      "features": [
+        "component_loaded"
+      ],
+      "execution_time": 0.0005784034729003906
+    },
+    "HFTInfrastructure": {
+      "status": "partial",
+      "component": "HFTInfrastructure",
+      "message": "Component loaded but measure_latency method not found",
+      "features": [
+        "component_loaded"
+      ],
+      "execution_time": 0.004651308059692383
+    },
+    "IntegratedTradingSystem": {
+      "status": "error",
+      "component": "IntegratedTradingSystem",
+      "error": "IntegratedTradingSystem.__init__() missing 3 required positional arguments: 'cognitive_field', 'thermodynamic_engine', and 'contradiction_engine'",
+      "traceback": "Traceback (most recent call last):\n  File \"D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\test_enterprise_trading_robust.py\", line 397, in test_integrated_trading_system\n    integrated_system = IntegratedTradingSystem()\nTypeError: IntegratedTradingSystem.__init__() missing 3 required positional arguments: 'cognitive_field', 'thermodynamic_engine', and 'contradiction_engine'\n",
+      "execution_time": 0.0006241798400878906
+    }
+  },
+  "summary": {
+    "total_components": 8,
+    "successful_components": 1,
+    "partial_components": 5,
+    "failed_components": 2,
+    "success_rate": 75.0
+  }
+}

@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: kimera_postgres
+    environment:
+      POSTGRES_USER: kimera
+      POSTGRES_PASSWORD: kimera_secure_pass_2025
+      POSTGRES_DB: kimera_swm
+    ports:
+      - "5432:5432"
+    volumes:
+      - kimera_postgres_data:/var/lib/postgresql/data
+      - ./init_db.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kimera -d kimera_swm"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  kimera_postgres_data:

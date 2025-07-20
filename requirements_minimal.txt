@@ -1,0 +1,14 @@
+# Minimal Kimera requirements
+numpy==1.24.3
+torch==2.0.1
+fastapi==0.100.0
+uvicorn[standard]==0.23.1
+transformers==4.30.2
+pydantic==2.0.3
+requests==2.31.0
+python-dotenv==1.0.0
+sqlalchemy==2.0.19
+psycopg2-binary==2.9.7
+prometheus-client==0.17.1
+colorlog==6.7.0
+tqdm==4.65.0

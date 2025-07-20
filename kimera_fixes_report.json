@@ -1,0 +1,10 @@
+{
+  "timestamp": "2025-07-09T16:13:15.587751",
+  "fixes_applied": [],
+  "fixes_failed": [
+    "Optimize performance: (psycopg2.OperationalError) connection to server at \"localhost\" (::1), port 5432 failed: FATAL:  password authentication failed for user \"postgres\"\n\n(Background on this error at: https://sqlalche.me/e/20/e3q8)"
+  ],
+  "total_fixes": 0,
+  "total_failures": 1,
+  "success_rate": 0.0
+}

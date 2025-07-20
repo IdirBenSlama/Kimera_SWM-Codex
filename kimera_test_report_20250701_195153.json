@@ -1,0 +1,405 @@
+{
+  "system_info": {
+    "timestamp": "2025-07-01T19:51:53.564417",
+    "python_version": "3.13.3 (tags/v3.13.3:6280bb5, Apr  8 2025, 14:47:33) [MSC v.1943 64 bit (AMD64)]",
+    "pytorch_version": "2.7.1+cu118",
+    "cuda_available": true,
+    "cuda_device": "NVIDIA GeForce RTX 4090"
+  },
+  "test_summary": {
+    "total_tests": 7,
+    "passed": 3,
+    "failed": 4,
+    "warnings": 0,
+    "success_rate": 0.42857142857142855,
+    "total_execution_time": 130.53070730000036,
+    "average_scientific_validity": 0.44465666469186543,
+    "average_physics_compliance": 0.5714285714285714
+  },
+  "detailed_results": {
+    "Entropy Systems": {
+      "status": "PASSED",
+      "execution_time": 0.5790072999989206,
+      "scientific_validity": 1.0,
+      "physics_compliance": 1.0,
+      "measurements": {
+        "thermodynamic_entropy": 1.0986122886651097,
+        "information_integration_phi": 0.6000000000000001,
+        "epistemic_temperature": {
+          "semantic": 0.1,
+          "physical": 0.6666666666666666,
+          "information_rate": 0.0,
+          "uncertainty": 0.0,
+          "confidence": 0.6766666666666667
+        },
+        "entropy_production_rate": 0.0
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "Thermodynamic Systems": {
+      "status": "PASSED",
+      "execution_time": 0.13628670000252896,
+      "scientific_validity": 1.0,
+      "physics_compliance": 1.0,
+      "measurements": {
+        "carnot_cycle": {
+          "hot_temp": 0.6666666666666666,
+          "cold_temp": 0.6666666666666666,
+          "theoretical_efficiency": 0.0,
+          "actual_efficiency": 0.0,
+          "work_extracted": 0.0,
+          "heat_absorbed": 5.0,
+          "heat_rejected": 5.0,
+          "physics_compliant": true,
+          "epistemic_confidence": 0.6833333333333332
+        },
+        "carnot_statistics": {
+          "mean_efficiency": 0.0,
+          "std_efficiency": 0.0,
+          "max_efficiency": 0.0,
+          "min_efficiency": 0.0,
+          "violation_rate": 0.0
+        },
+        "temperature_modes": {
+          "semantic": {
+            "semantic": 0.1,
+            "physical": 0.6666666666666666,
+            "coherence": 0.5405405405405405
+          },
+          "physical": {
+            "semantic": 0.1,
+            "physical": 0.6666666666666666,
+            "coherence": 0.5405405405405405
+          },
+          "hybrid": {
+            "semantic": 0.1,
+            "physical": 0.6666666666666666,
+            "coherence": 0.5405405405405405
+          }
+        },
+        "physics_compliance_report": {
+          "total_cycles": 11,
+          "physics_violations": 0,
+          "compliance_rate": 1.0,
+          "average_efficiency": 0.0,
+          "average_confidence": 0.6772727272727272,
+          "violation_details": [],
+          "mode": "hybrid"
+        }
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "Homeostasis Mechanisms": {
+      "status": "FAILED",
+      "execution_time": 0.2768672999991395,
+      "scientific_validity": 0.0,
+      "physics_compliance": 0.0,
+      "measurements": {
+        "vortex_healing": {
+          "initial_states": {
+            "a916cee0-4762-495b-ae2e-7669f5eda5c7": "stable",
+            "2cdb8b90-e9a2-4742-99b2-bffb13f8057c": "stable",
+            "806e20b9-0350-4255-af02-179eefd75c97": "stable"
+          },
+          "healing_events": 3,
+          "low_energy_vortex_healed": true
+        },
+        "energy_homeostasis": {
+          "initial_variance": 35.471894787788315,
+          "final_variance": 8.936207444813528,
+          "variance_reduction": 0.7480763996884109,
+          "vortices_adjusted": 7,
+          "total_adjustments": 20.73327991885906
+        }
+      },
+      "errors": [
+        "Unable to allocate 16.0 TiB for an array with shape (1048576, 1048576) and data type complex128"
+      ],
+      "warnings": []
+    },
+    "Gyroscopic Architecture": {
+      "status": "FAILED",
+      "execution_time": 0.016542900000786176,
+      "scientific_validity": 0.0,
+      "physics_compliance": 0.0,
+      "measurements": {},
+      "errors": [
+        "'dict' object has no attribute 'source_modality'"
+      ],
+      "warnings": []
+    },
+    "Diffusion Model": {
+      "status": "FAILED",
+      "execution_time": 129.29306279999946,
+      "scientific_validity": 0.5125966528430581,
+      "physics_compliance": 1.0,
+      "measurements": {
+        "basic_diffusion": {
+          "confidence": 1.0,
+          "semantic_coherence": 0.01228328701108694,
+          "gyroscopic_stability": 0.2500091791152954,
+          "cognitive_resonance": 0.8024566574022174,
+          "generation_time": 23.847395181655884,
+          "diffusion_steps_used": 20,
+          "generated_length": 394
+        },
+        "noise_schedule": {
+          "beta_start": 0.007992684841156006,
+          "beta_end": 0.9990000128746033,
+          "mean_beta": 0.24160988628864288,
+          "alpha_cumprod_final": 6.05958302912768e-06
+        },
+        "mode_comparison": {
+          "standard": {
+            "confidence": 1.0,
+            "coherence": 0.04714057594537735,
+            "resonance": 0.8094281151890755,
+            "persona_alignment": 1.0
+          },
+          "cognitive_enhanced": {
+            "confidence": 1.0,
+            "coherence": 0.028439341112971306,
+            "resonance": 0.9028439341112972,
+            "persona_alignment": 1.0
+          },
+          "persona_aware": {
+            "confidence": 1.0,
+            "coherence": 0.0,
+            "resonance": 0.7945800788700581,
+            "persona_alignment": 0.955
+          }
+        },
+        "embedding_analysis": {
+          "magnitude": 33.17224884033203,
+          "complexity_score": 41.059540869494505,
+          "information_density": 33.01027496904135,
+          "sparsity": 0.0048828125
+        }
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "Vortex System": {
+      "status": "PASSED",
+      "execution_time": 0.0007984999974723905,
+      "scientific_validity": 0.6000000000000001,
+      "physics_compliance": 1.0,
+      "measurements": {
+        "vortex_creation": {
+          "total_created": 5,
+          "vortices": [
+            {
+              "id": "a822caf9-9c4b-4372-a4ab-515a16caa9f2",
+              "position": [
+                0,
+                0
+              ],
+              "energy": 10.0,
+              "state": "stable",
+              "fibonacci_resonance": 0.2543677832430957
+            },
+            {
+              "id": "78533293-0b23-4c91-9761-22a8f87e57be",
+              "position": [
+                6.0,
+                5.0
+              ],
+              "energy": 15.0,
+              "state": "stable",
+              "fibonacci_resonance": 0.25442915071277017
+            },
+            {
+              "id": "3b82268f-5932-4523-8d9a-49810a4724ca",
+              "position": [
+                11.0,
+                0.0
+              ],
+              "energy": 8.0,
+              "state": "stable",
+              "fibonacci_resonance": 0.2544670535314219
+            },
+            {
+              "id": "8b504c16-679c-4a46-993b-a8453fbd4767",
+              "position": [
+                6.0,
+                -5.0
+              ],
+              "energy": 12.0,
+              "state": "stable",
+              "fibonacci_resonance": 0.2545115008489145
+            },
+            {
+              "id": "4beb97d3-2ab6-4a80-9653-34f7d75d3bd2",
+              "position": [
+                1.0,
+                10.0
+              ],
+              "energy": 20.0,
+              "state": "stable",
+              "fibonacci_resonance": 0.25455418514151973
+            }
+          ],
+          "total_energy_stored": 134.99275130438696
+        },
+        "quantum_coherence": {
+          "coherence_metrics": [
+            {
+              "vortex_id": "a822caf9",
+              "coherence_pairs": 0,
+              "entanglement_strength": 0.0,
+              "state": "stable"
+            },
+            {
+              "vortex_id": "78533293",
+              "coherence_pairs": 0,
+              "entanglement_strength": 0.0,
+              "state": "stable"
+            },
+            {
+              "vortex_id": "3b82268f",
+              "coherence_pairs": 0,
+              "entanglement_strength": 0.0,
+              "state": "stable"
+            },
+            {
+              "vortex_id": "8b504c16",
+              "coherence_pairs": 0,
+              "entanglement_strength": 0.0,
+              "state": "stable"
+            },
+            {
+              "vortex_id": "4beb97d3",
+              "coherence_pairs": 0,
+              "entanglement_strength": 0.0,
+              "state": "stable"
+            }
+          ],
+          "avg_coherence_pairs": 0.0,
+          "avg_entanglement": 0.0
+        },
+        "energy_extraction": {
+          "extractions": [
+            {
+              "vortex_id": "a822caf9",
+              "requested": 3.0,
+              "extracted": 2.865262066994586,
+              "efficiency": 0.9550873556648619,
+              "vortex_state": "stable"
+            },
+            {
+              "vortex_id": "78533293",
+              "requested": 4.5,
+              "extracted": 4.297898623564149,
+              "efficiency": 0.9550885830142554,
+              "vortex_state": "stable"
+            },
+            {
+              "vortex_id": "3b82268f",
+              "requested": 2.4,
+              "extracted": 2.292214418569508,
+              "efficiency": 0.9550893410706284,
+              "vortex_state": "stable"
+            }
+          ],
+          "avg_efficiency": 0.9550884265832486
+        },
+        "optimization": {
+          "pre_optimization": {
+            "active_vortices": 5,
+            "total_energy_stored": 134.99275130438696,
+            "total_energy_extracted": 9.455375109128243,
+            "storage_efficiency": 0.07004357654583163,
+            "quantum_coherence_level": 1.0,
+            "optimization_count": 1,
+            "average_metrics": {
+              "energy_efficiency": 0.9550884265832486,
+              "quantum_coherence": 0.0,
+              "fibonacci_alignment": 0.25442132916242927,
+              "thermodynamic_balance": 0.05704009975052466,
+              "resonance_stability": 1.0,
+              "healing_events": 0.0,
+              "uptime": 0.0004693333333333333
+            },
+            "vortex_states": {
+              "stable": 5
+            }
+          },
+          "optimization_result": {
+            "optimized": true,
+            "vortices_adjusted": 3,
+            "total_adjustments": 9.21,
+            "average_energy": 11.02
+          },
+          "post_optimization": {
+            "active_vortices": 5,
+            "total_energy_stored": 134.99275130438696,
+            "total_energy_extracted": 9.455375109128243,
+            "storage_efficiency": 0.07004357654583163,
+            "quantum_coherence_level": 1.0,
+            "optimization_count": 2,
+            "average_metrics": {
+              "energy_efficiency": 0.9550884265832486,
+              "quantum_coherence": 0.0,
+              "fibonacci_alignment": 0.25442132916242927,
+              "thermodynamic_balance": 0.05704009975052466,
+              "resonance_stability": 1.0,
+              "healing_events": 0.0,
+              "uptime": 0.0004693333333333333
+            },
+            "vortex_states": {
+              "stable": 5
+            }
+          },
+          "efficiency_improvement": 0.0
+        },
+        "system_health": {
+          "active_vortices": 5,
+          "total_energy_stored": 134.99275130438696,
+          "total_energy_extracted": 9.455375109128243,
+          "storage_efficiency": 0.07004357654583163,
+          "quantum_coherence_level": 1.0,
+          "optimization_count": 2,
+          "average_metrics": {
+            "energy_efficiency": 0.9550884265832486,
+            "quantum_coherence": 0.0,
+            "fibonacci_alignment": 0.25442132916242927,
+            "thermodynamic_balance": 0.05704009975052466,
+            "resonance_stability": 1.0,
+            "healing_events": 0.0,
+            "uptime": 0.0004693333333333333
+          },
+          "vortex_states": {
+            "stable": 5
+          }
+        }
+      },
+      "errors": [],
+      "warnings": []
+    },
+    "Quantum Aspects": {
+      "status": "FAILED",
+      "execution_time": 0.22814180000204942,
+      "scientific_validity": 0.0,
+      "physics_compliance": 0.0,
+      "measurements": {},
+      "errors": [
+        "Unable to allocate 16.0 TiB for an array with shape (1048576, 1048576) and data type complex128"
+      ],
+      "warnings": []
+    }
+  },
+  "physics_constants_used": {
+    "normalized_kb": 1.0,
+    "min_temperature": 0.1,
+    "carnot_tolerance": 0.01,
+    "max_efficiency": 0.99
+  },
+  "overall_assessment": {
+    "system_operational": false,
+    "scientific_rigor": "False",
+    "physics_compliant": "False",
+    "recommendation": "REQUIRES ATTENTION"
+  }
+}

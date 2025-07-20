@@ -1,0 +1,341 @@
+{
+  "timestamp": "2025-07-09T01:46:47.804149",
+  "summary": {
+    "total_checks": 42,
+    "passed": 40,
+    "failed": 2,
+    "success_rate": 95.23809523809523
+  },
+  "component_summary": {
+    "CORE SYSTEM": {
+      "passed": 6,
+      "failed": 0
+    },
+    "GPU FOUNDATION": {
+      "passed": 1,
+      "failed": 0
+    },
+    "EMBEDDING & VECTORS": {
+      "passed": 2,
+      "failed": 0
+    },
+    "GEOID OPERATIONS": {
+      "passed": 2,
+      "failed": 0
+    },
+    "SCAR OPERATIONS": {
+      "passed": 1,
+      "failed": 0
+    },
+    "VAULT MANAGER": {
+      "passed": 3,
+      "failed": 0
+    },
+    "STATISTICAL ENGINE": {
+      "passed": 2,
+      "failed": 0
+    },
+    "THERMODYNAMIC ENGINE": {
+      "passed": 2,
+      "failed": 0
+    },
+    "CONTRADICTION ENGINE": {
+      "passed": 2,
+      "failed": 0
+    },
+    "INSIGHT ENGINE": {
+      "passed": 2,
+      "failed": 0
+    },
+    "COGNITIVE CONTROL": {
+      "passed": 7,
+      "failed": 0
+    },
+    "MONITORING SYSTEM": {
+      "passed": 3,
+      "failed": 0
+    },
+    "REVOLUTIONARY INTELLIGENCE": {
+      "passed": 1,
+      "failed": 0
+    },
+    "LAW ENFORCEMENT": {
+      "passed": 1,
+      "failed": 0
+    },
+    "COGNITIVE PHARMACEUTICAL": {
+      "passed": 1,
+      "failed": 0
+    },
+    "FOUNDATIONAL THERMODYNAMICS": {
+      "passed": 1,
+      "failed": 0
+    },
+    "OUTPUT ANALYSIS": {
+      "passed": 1,
+      "failed": 0
+    },
+    "CORE ACTIONS": {
+      "passed": 1,
+      "failed": 0
+    },
+    "CHAT (DIFFUSION MODEL)": {
+      "passed": 1,
+      "failed": 2
+    }
+  },
+  "detailed_results": [
+    {
+      "component": "CORE SYSTEM",
+      "endpoint": "GET /",
+      "success": true,
+      "message": "\u2705 GET / - Status: 200"
+    },
+    {
+      "component": "CORE SYSTEM",
+      "endpoint": "GET /kimera/status",
+      "success": true,
+      "message": "\u2705 GET /kimera/status - Status: 200"
+    },
+    {
+      "component": "CORE SYSTEM",
+      "endpoint": "GET /kimera/system/health",
+      "success": true,
+      "message": "\u2705 GET /kimera/system/health - Status: 200"
+    },
+    {
+      "component": "CORE SYSTEM",
+      "endpoint": "GET /kimera/system/health/detailed",
+      "success": true,
+      "message": "\u2705 GET /kimera/system/health/detailed - Status: 200"
+    },
+    {
+      "component": "CORE SYSTEM",
+      "endpoint": "GET /kimera/system/stability",
+      "success": true,
+      "message": "\u2705 GET /kimera/system/stability - Status: 200"
+    },
+    {
+      "component": "CORE SYSTEM",
+      "endpoint": "GET /kimera/system/utilization_stats",
+      "success": true,
+      "message": "\u2705 GET /kimera/system/utilization_stats - Status: 200"
+    },
+    {
+      "component": "GPU FOUNDATION",
+      "endpoint": "GET /kimera/system/gpu_foundation",
+      "success": true,
+      "message": "\u2705 GET /kimera/system/gpu_foundation - Status: 200"
+    },
+    {
+      "component": "EMBEDDING & VECTORS",
+      "endpoint": "POST /kimera/embed",
+      "success": true,
+      "message": "\u2705 POST /kimera/embed - Status: 200"
+    },
+    {
+      "component": "EMBEDDING & VECTORS",
+      "endpoint": "POST /kimera/semantic_features",
+      "success": true,
+      "message": "\u2705 POST /kimera/semantic_features - Status: 200"
+    },
+    {
+      "component": "GEOID OPERATIONS",
+      "endpoint": "POST /kimera/geoids",
+      "success": true,
+      "message": "\u2705 POST /kimera/geoids - Status: 200"
+    },
+    {
+      "component": "GEOID OPERATIONS",
+      "endpoint": "GET /kimera/geoids/search?query=test&limit=5",
+      "success": true,
+      "message": "\u2705 GET /kimera/geoids/search?query=test&limit=5 - Status: 200"
+    },
+    {
+      "component": "SCAR OPERATIONS",
+      "endpoint": "GET /kimera/scars/search?query=test&limit=3",
+      "success": true,
+      "message": "\u2705 GET /kimera/scars/search?query=test&limit=3 - Status: 200"
+    },
+    {
+      "component": "VAULT MANAGER",
+      "endpoint": "GET /kimera/vault/stats",
+      "success": true,
+      "message": "\u2705 GET /kimera/vault/stats - Status: 200"
+    },
+    {
+      "component": "VAULT MANAGER",
+      "endpoint": "GET /kimera/vault/geoids/recent?limit=5",
+      "success": true,
+      "message": "\u2705 GET /kimera/vault/geoids/recent?limit=5 - Status: 200"
+    },
+    {
+      "component": "VAULT MANAGER",
+      "endpoint": "GET /kimera/vault/scars/recent?limit=5",
+      "success": true,
+      "message": "\u2705 GET /kimera/vault/scars/recent?limit=5 - Status: 200"
+    },
+    {
+      "component": "STATISTICAL ENGINE",
+      "endpoint": "GET /kimera/statistics/capabilities",
+      "success": true,
+      "message": "\u2705 GET /kimera/statistics/capabilities - Status: 200"
+    },
+    {
+      "component": "STATISTICAL ENGINE",
+      "endpoint": "POST /kimera/statistics/analyze",
+      "success": true,
+      "message": "\u2705 POST /kimera/statistics/analyze - Status: 200"
+    },
+    {
+      "component": "THERMODYNAMIC ENGINE",
+      "endpoint": "GET /kimera/thermodynamic_engine",
+      "success": true,
+      "message": "\u2705 GET /kimera/thermodynamic_engine - Status: 200"
+    },
+    {
+      "component": "THERMODYNAMIC ENGINE",
+      "endpoint": "POST /kimera/thermodynamics/analyze",
+      "success": true,
+      "message": "\u2705 POST /kimera/thermodynamics/analyze - Status: 200"
+    },
+    {
+      "component": "CONTRADICTION ENGINE",
+      "endpoint": "GET /kimera/contradiction_engine",
+      "success": true,
+      "message": "\u2705 GET /kimera/contradiction_engine - Status: 200"
+    },
+    {
+      "component": "CONTRADICTION ENGINE",
+      "endpoint": "POST /kimera/contradiction/detect",
+      "success": true,
+      "message": "\u2705 POST /kimera/contradiction/detect - Status: 200"
+    },
+    {
+      "component": "INSIGHT ENGINE",
+      "endpoint": "GET /kimera/insights/status",
+      "success": true,
+      "message": "\u2705 GET /kimera/insights/status - Status: 200"
+    },
+    {
+      "component": "INSIGHT ENGINE",
+      "endpoint": "POST /kimera/insights/generate_simple",
+      "success": true,
+      "message": "\u2705 POST /kimera/insights/generate_simple - Status: 200"
+    },
+    {
+      "component": "COGNITIVE CONTROL",
+      "endpoint": "GET /kimera/cognitive-control/health",
+      "success": true,
+      "message": "\u2705 GET /kimera/cognitive-control/health - Status: 200"
+    },
+    {
+      "component": "COGNITIVE CONTROL",
+      "endpoint": "GET /kimera/cognitive-control/system/status",
+      "success": true,
+      "message": "\u2705 GET /kimera/cognitive-control/system/status - Status: 200"
+    },
+    {
+      "component": "COGNITIVE CONTROL",
+      "endpoint": "GET /kimera/cognitive-control/context/status",
+      "success": true,
+      "message": "\u2705 GET /kimera/cognitive-control/context/status - Status: 200"
+    },
+    {
+      "component": "COGNITIVE CONTROL",
+      "endpoint": "GET /kimera/cognitive-control/profiler/status",
+      "success": true,
+      "message": "\u2705 GET /kimera/cognitive-control/profiler/status - Status: 200"
+    },
+    {
+      "component": "COGNITIVE CONTROL",
+      "endpoint": "GET /kimera/cognitive-control/security/status",
+      "success": true,
+      "message": "\u2705 GET /kimera/cognitive-control/security/status - Status: 200"
+    },
+    {
+      "component": "COGNITIVE CONTROL",
+      "endpoint": "POST /kimera/cognitive-control/context/configure",
+      "success": true,
+      "message": "\u2705 POST /kimera/cognitive-control/context/configure - Status: 200"
+    },
+    {
+      "component": "COGNITIVE CONTROL",
+      "endpoint": "GET /kimera/cognitive-control/context/presets/standard",
+      "success": true,
+      "message": "\u2705 GET /kimera/cognitive-control/context/presets/standard - Status: 200"
+    },
+    {
+      "component": "MONITORING SYSTEM",
+      "endpoint": "GET /kimera/monitoring/status",
+      "success": true,
+      "message": "\u2705 GET /kimera/monitoring/status - Status: 200"
+    },
+    {
+      "component": "MONITORING SYSTEM",
+      "endpoint": "GET /kimera/monitoring/integration/status",
+      "success": true,
+      "message": "\u2705 GET /kimera/monitoring/integration/status - Status: 200"
+    },
+    {
+      "component": "MONITORING SYSTEM",
+      "endpoint": "GET /kimera/monitoring/engines/status",
+      "success": true,
+      "message": "\u2705 GET /kimera/monitoring/engines/status - Status: 200"
+    },
+    {
+      "component": "REVOLUTIONARY INTELLIGENCE",
+      "endpoint": "GET /kimera/revolutionary/status/complete",
+      "success": true,
+      "message": "\u2705 GET /kimera/revolutionary/status/complete - Status: 200"
+    },
+    {
+      "component": "LAW ENFORCEMENT",
+      "endpoint": "GET /kimera/law_enforcement/system_status",
+      "success": true,
+      "message": "\u2705 GET /kimera/law_enforcement/system_status - Status: 200"
+    },
+    {
+      "component": "COGNITIVE PHARMACEUTICAL",
+      "endpoint": "GET /kimera/cognitive-pharmaceutical/system/status",
+      "success": true,
+      "message": "\u2705 GET /kimera/cognitive-pharmaceutical/system/status - Status: 200"
+    },
+    {
+      "component": "FOUNDATIONAL THERMODYNAMICS",
+      "endpoint": "GET /kimera/thermodynamics/status/system",
+      "success": true,
+      "message": "\u2705 GET /kimera/thermodynamics/status/system - Status: 200"
+    },
+    {
+      "component": "OUTPUT ANALYSIS",
+      "endpoint": "POST /kimera/output/analyze",
+      "success": true,
+      "message": "\u2705 POST /kimera/output/analyze - Status: 200"
+    },
+    {
+      "component": "CORE ACTIONS",
+      "endpoint": "POST /kimera/action/execute",
+      "success": true,
+      "message": "\u2705 POST /kimera/action/execute - Status: 200"
+    },
+    {
+      "component": "CHAT (DIFFUSION MODEL)",
+      "endpoint": "POST /kimera/chat/",
+      "success": false,
+      "message": "\u274c POST /kimera/chat/ - Status: 500 (Expected: 200)"
+    },
+    {
+      "component": "CHAT (DIFFUSION MODEL)",
+      "endpoint": "GET /kimera/chat/capabilities",
+      "success": true,
+      "message": "\u2705 GET /kimera/chat/capabilities - Status: 200"
+    },
+    {
+      "component": "CHAT (DIFFUSION MODEL)",
+      "endpoint": "POST /kimera/chat/modes/test",
+      "success": false,
+      "message": "\u274c POST /kimera/chat/modes/test - Status: 500 (Expected: 200)"
+    }
+  ]
+}

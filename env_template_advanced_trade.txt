@@ -1,0 +1,34 @@
+# COINBASE ADVANCED TRADE API CREDENTIALS
+# ========================================
+# Get these from: https://www.coinbase.com/settings/api
+# NOT from CDP portal - different API!
+
+# Your API Key Name (format: organizations/{org_id}/apiKeys/{key_id})
+COINBASE_ADVANCED_API_KEY=your_api_key_name_here
+
+# Your Private Key (PEM format - include the full content)
+COINBASE_ADVANCED_API_SECRET=-----BEGIN EC PRIVATE KEY-----
+MHcCAQEEIAbcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnop
+qr3oAoGCCqGSM49AwEHoUQDQgAEabcdefghijklmnopqrstuvwxyz1234567890
+abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz12
+34567890abcdefghijklmnopqr==
+-----END EC PRIVATE KEY-----
+
+# IMPORTANT NOTES:
+# 1. Replace the example key above with your actual private key
+# 2. Keep the -----BEGIN EC PRIVATE KEY----- and -----END EC PRIVATE KEY----- lines
+# 3. Include all lines of the private key content
+# 4. Do not add extra spaces or characters
+# 5. Save this as .env (not .env.template) in your project root
+# 6. Add .env to your .gitignore to avoid committing secrets
+
+# API PERMISSIONS REQUIRED:
+# - wallet:accounts:read (view balances)
+# - wallet:trades:read (view trades) 
+# - wallet:buys:create (place buy orders)
+# - wallet:sells:create (place sell orders)
+
+# TRADING CONFIGURATION (optional)
+MIN_TRADE_SIZE_EUR=5.0
+MAX_POSITION_SIZE_EUR=100.0
+TRADING_DURATION_MINUTES=5 

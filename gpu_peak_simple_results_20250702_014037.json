@@ -1,0 +1,1127 @@
+{
+  "test_suite": "GPU_PEAK_PERFORMANCE_SIMPLIFIED",
+  "timestamp": "2025-07-02T01:40:37.925509",
+  "total_duration": 330.75226950645447,
+  "gpu_model": "NVIDIA GeForce RTX 4090",
+  "test_results": {
+    "gpu_foundation_concurrent": {
+      "test": "gpu_foundation_concurrent",
+      "total_requests": 50,
+      "total_time": 2.1384379863739014,
+      "success_rate": 1.0,
+      "avg_response_time": 2.0600176668167114,
+      "requests_per_second": 23.38155247830395,
+      "results": [
+        {
+          "success": true,
+          "duration": 2.023787021636963,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0384600162506104,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0301241874694824,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.030651330947876,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0417520999908447,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.047323703765869,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0398130416870117,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0490028858184814,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0383541584014893,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0482687950134277,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0549328327178955,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0599300861358643,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.062282085418701,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0524048805236816,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.054109811782837,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0507607460021973,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0495553016662598,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.060645341873169,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.057968854904175,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0519442558288574,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.05037260055542,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.054809093475342,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0592994689941406,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.06355881690979,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.056570529937744,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0656917095184326,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0597927570343018,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0740630626678467,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.065272092819214,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0640206336975098,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0534462928771973,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.063105821609497,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.06355619430542,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.064138174057007,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0611040592193604,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.066840887069702,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0742452144622803,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.069058418273926,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.076676845550537,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0805342197418213,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.084888458251953,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0723371505737305,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0768163204193115,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0703790187835693,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0706138610839844,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.07525372505188,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.0834944248199463,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.079531192779541,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.08161997795105,
+          "status_code": 200
+        },
+        {
+          "success": true,
+          "duration": 2.077720880508423,
+          "status_code": 200
+        }
+      ]
+    },
+    "system_endpoints_stress": {
+      "/health": {
+        "success_rate": 1.0,
+        "avg_response_time": 2.059829902648926,
+        "total_requests": 10,
+        "results": [
+          {
+            "success": true,
+            "duration": 2.0560712814331055,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.073439359664917,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.0573363304138184,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.0645253658294678,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.0417585372924805,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.058215618133545,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.0606822967529297,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.073699712753296,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.075670003890991,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.036900520324707,
+            "status_code": 200
+          }
+        ]
+      },
+      "/kimera/status": {
+        "success_rate": 1.0,
+        "avg_response_time": 2.057529854774475,
+        "total_requests": 10,
+        "results": [
+          {
+            "success": true,
+            "duration": 2.050737142562866,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.0721817016601562,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.044651985168457,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.0620129108428955,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.0709781646728516,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.052145481109619,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.03985333442688,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.065518617630005,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.055349111557007,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.0618700981140137,
+            "status_code": 200
+          }
+        ]
+      },
+      "/kimera/system/gpu_foundation": {
+        "success_rate": 1.0,
+        "avg_response_time": 2.0666630983352663,
+        "total_requests": 10,
+        "results": [
+          {
+            "success": true,
+            "duration": 2.071094274520874,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.078324317932129,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.0512006282806396,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.0505056381225586,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.070138931274414,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.051487922668457,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.080798387527466,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.0698437690734863,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.0727803707122803,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.0704567432403564,
+            "status_code": 200
+          }
+        ]
+      },
+      "/kimera/monitoring/performance": {
+        "success_rate": 1.0,
+        "avg_response_time": 2.06914222240448,
+        "total_requests": 10,
+        "results": [
+          {
+            "success": true,
+            "duration": 2.1517207622528076,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.05047345161438,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.0690670013427734,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.0455596446990967,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.0486652851104736,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.029838800430298,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.0679123401641846,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.066624402999878,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.079885482788086,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.0816750526428223,
+            "status_code": 200
+          }
+        ]
+      },
+      "/kimera/monitoring/engines/status": {
+        "success_rate": 1.0,
+        "avg_response_time": 2.059348464012146,
+        "total_requests": 10,
+        "results": [
+          {
+            "success": true,
+            "duration": 2.033515214920044,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.0608396530151367,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.054957151412964,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.066425323486328,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.0615036487579346,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.0568206310272217,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.069185733795166,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.0523438453674316,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.067014455795288,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.0708789825439453,
+            "status_code": 200
+          }
+        ]
+      },
+      "/kimera/thermodynamics/status/system": {
+        "success_rate": 1.0,
+        "avg_response_time": 2.0495423316955566,
+        "total_requests": 10,
+        "results": [
+          {
+            "success": true,
+            "duration": 2.067829132080078,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.026122570037842,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.061816692352295,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.063080310821533,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.038414478302002,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.028566598892212,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.030327558517456,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.055088520050049,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.06645131111145,
+            "status_code": 200
+          },
+          {
+            "success": true,
+            "duration": 2.0577261447906494,
+            "status_code": 200
+          }
+        ]
+      }
+    },
+    "gpu_memory_stress": {
+      "test": "gpu_memory_stress",
+      "total_iterations": 100,
+      "success_rate": 1.0,
+      "avg_response_time": 2.049876446723938,
+      "results": [
+        {
+          "iteration": 1,
+          "success": true,
+          "duration": 2.0636801719665527
+        },
+        {
+          "iteration": 2,
+          "success": true,
+          "duration": 2.048234701156616
+        },
+        {
+          "iteration": 3,
+          "success": true,
+          "duration": 2.0683887004852295
+        },
+        {
+          "iteration": 4,
+          "success": true,
+          "duration": 2.074871778488159
+        },
+        {
+          "iteration": 5,
+          "success": true,
+          "duration": 2.0718297958374023
+        },
+        {
+          "iteration": 6,
+          "success": true,
+          "duration": 2.0505173206329346
+        },
+        {
+          "iteration": 7,
+          "success": true,
+          "duration": 2.0581653118133545
+        },
+        {
+          "iteration": 8,
+          "success": true,
+          "duration": 2.054615020751953
+        },
+        {
+          "iteration": 9,
+          "success": true,
+          "duration": 2.0265254974365234
+        },
+        {
+          "iteration": 10,
+          "success": true,
+          "duration": 2.04768967628479
+        },
+        {
+          "iteration": 11,
+          "success": true,
+          "duration": 2.041867971420288
+        },
+        {
+          "iteration": 12,
+          "success": true,
+          "duration": 2.040574789047241
+        },
+        {
+          "iteration": 13,
+          "success": true,
+          "duration": 2.0448930263519287
+        },
+        {
+          "iteration": 14,
+          "success": true,
+          "duration": 2.0723466873168945
+        },
+        {
+          "iteration": 15,
+          "success": true,
+          "duration": 2.050191640853882
+        },
+        {
+          "iteration": 16,
+          "success": true,
+          "duration": 2.0638346672058105
+        },
+        {
+          "iteration": 17,
+          "success": true,
+          "duration": 2.0275700092315674
+        },
+        {
+          "iteration": 18,
+          "success": true,
+          "duration": 2.055986166000366
+        },
+        {
+          "iteration": 19,
+          "success": true,
+          "duration": 2.056684970855713
+        },
+        {
+          "iteration": 20,
+          "success": true,
+          "duration": 2.0651159286499023
+        },
+        {
+          "iteration": 21,
+          "success": true,
+          "duration": 2.076265335083008
+        },
+        {
+          "iteration": 22,
+          "success": true,
+          "duration": 2.0401837825775146
+        },
+        {
+          "iteration": 23,
+          "success": true,
+          "duration": 2.041038751602173
+        },
+        {
+          "iteration": 24,
+          "success": true,
+          "duration": 2.0461015701293945
+        },
+        {
+          "iteration": 25,
+          "success": true,
+          "duration": 2.054962635040283
+        },
+        {
+          "iteration": 26,
+          "success": true,
+          "duration": 2.0423054695129395
+        },
+        {
+          "iteration": 27,
+          "success": true,
+          "duration": 2.039405107498169
+        },
+        {
+          "iteration": 28,
+          "success": true,
+          "duration": 2.0334060192108154
+        },
+        {
+          "iteration": 29,
+          "success": true,
+          "duration": 2.0410101413726807
+        },
+        {
+          "iteration": 30,
+          "success": true,
+          "duration": 2.0440962314605713
+        },
+        {
+          "iteration": 31,
+          "success": true,
+          "duration": 2.0410618782043457
+        },
+        {
+          "iteration": 32,
+          "success": true,
+          "duration": 2.0356085300445557
+        },
+        {
+          "iteration": 33,
+          "success": true,
+          "duration": 2.032921314239502
+        },
+        {
+          "iteration": 34,
+          "success": true,
+          "duration": 2.0605359077453613
+        },
+        {
+          "iteration": 35,
+          "success": true,
+          "duration": 2.060020923614502
+        },
+        {
+          "iteration": 36,
+          "success": true,
+          "duration": 2.054015874862671
+        },
+        {
+          "iteration": 37,
+          "success": true,
+          "duration": 2.073753833770752
+        },
+        {
+          "iteration": 38,
+          "success": true,
+          "duration": 2.0758674144744873
+        },
+        {
+          "iteration": 39,
+          "success": true,
+          "duration": 2.037055730819702
+        },
+        {
+          "iteration": 40,
+          "success": true,
+          "duration": 2.0556750297546387
+        },
+        {
+          "iteration": 41,
+          "success": true,
+          "duration": 2.038849353790283
+        },
+        {
+          "iteration": 42,
+          "success": true,
+          "duration": 2.042725086212158
+        },
+        {
+          "iteration": 43,
+          "success": true,
+          "duration": 2.0421249866485596
+        },
+        {
+          "iteration": 44,
+          "success": true,
+          "duration": 2.0387754440307617
+        },
+        {
+          "iteration": 45,
+          "success": true,
+          "duration": 2.0701262950897217
+        },
+        {
+          "iteration": 46,
+          "success": true,
+          "duration": 2.067460775375366
+        },
+        {
+          "iteration": 47,
+          "success": true,
+          "duration": 2.0384905338287354
+        },
+        {
+          "iteration": 48,
+          "success": true,
+          "duration": 2.071284770965576
+        },
+        {
+          "iteration": 49,
+          "success": true,
+          "duration": 2.061868190765381
+        },
+        {
+          "iteration": 50,
+          "success": true,
+          "duration": 2.0352320671081543
+        },
+        {
+          "iteration": 51,
+          "success": true,
+          "duration": 2.0367422103881836
+        },
+        {
+          "iteration": 52,
+          "success": true,
+          "duration": 2.0389554500579834
+        },
+        {
+          "iteration": 53,
+          "success": true,
+          "duration": 2.0257723331451416
+        },
+        {
+          "iteration": 54,
+          "success": true,
+          "duration": 2.044553756713867
+        },
+        {
+          "iteration": 55,
+          "success": true,
+          "duration": 2.0576744079589844
+        },
+        {
+          "iteration": 56,
+          "success": true,
+          "duration": 2.0406479835510254
+        },
+        {
+          "iteration": 57,
+          "success": true,
+          "duration": 2.04066801071167
+        },
+        {
+          "iteration": 58,
+          "success": true,
+          "duration": 2.0373923778533936
+        },
+        {
+          "iteration": 59,
+          "success": true,
+          "duration": 2.0640156269073486
+        },
+        {
+          "iteration": 60,
+          "success": true,
+          "duration": 2.056957244873047
+        },
+        {
+          "iteration": 61,
+          "success": true,
+          "duration": 2.0710129737854004
+        },
+        {
+          "iteration": 62,
+          "success": true,
+          "duration": 2.0637335777282715
+        },
+        {
+          "iteration": 63,
+          "success": true,
+          "duration": 2.042539596557617
+        },
+        {
+          "iteration": 64,
+          "success": true,
+          "duration": 2.056555986404419
+        },
+        {
+          "iteration": 65,
+          "success": true,
+          "duration": 2.04034423828125
+        },
+        {
+          "iteration": 66,
+          "success": true,
+          "duration": 2.0478649139404297
+        },
+        {
+          "iteration": 67,
+          "success": true,
+          "duration": 2.0482048988342285
+        },
+        {
+          "iteration": 68,
+          "success": true,
+          "duration": 2.060424566268921
+        },
+        {
+          "iteration": 69,
+          "success": true,
+          "duration": 2.040091037750244
+        },
+        {
+          "iteration": 70,
+          "success": true,
+          "duration": 2.059828042984009
+        },
+        {
+          "iteration": 71,
+          "success": true,
+          "duration": 2.036860942840576
+        },
+        {
+          "iteration": 72,
+          "success": true,
+          "duration": 2.041334390640259
+        },
+        {
+          "iteration": 73,
+          "success": true,
+          "duration": 2.0474302768707275
+        },
+        {
+          "iteration": 74,
+          "success": true,
+          "duration": 2.0366668701171875
+        },
+        {
+          "iteration": 75,
+          "success": true,
+          "duration": 2.039548397064209
+        },
+        {
+          "iteration": 76,
+          "success": true,
+          "duration": 2.056307554244995
+        },
+        {
+          "iteration": 77,
+          "success": true,
+          "duration": 2.0462257862091064
+        },
+        {
+          "iteration": 78,
+          "success": true,
+          "duration": 2.0538923740386963
+        },
+        {
+          "iteration": 79,
+          "success": true,
+          "duration": 2.048788547515869
+        },
+        {
+          "iteration": 80,
+          "success": true,
+          "duration": 2.0645692348480225
+        },
+        {
+          "iteration": 81,
+          "success": true,
+          "duration": 2.0422563552856445
+        },
+        {
+          "iteration": 82,
+          "success": true,
+          "duration": 2.042447566986084
+        },
+        {
+          "iteration": 83,
+          "success": true,
+          "duration": 2.0351271629333496
+        },
+        {
+          "iteration": 84,
+          "success": true,
+          "duration": 2.0358808040618896
+        },
+        {
+          "iteration": 85,
+          "success": true,
+          "duration": 2.033437490463257
+        },
+        {
+          "iteration": 86,
+          "success": true,
+          "duration": 2.0393078327178955
+        },
+        {
+          "iteration": 87,
+          "success": true,
+          "duration": 2.066582679748535
+        },
+        {
+          "iteration": 88,
+          "success": true,
+          "duration": 2.028671979904175
+        },
+        {
+          "iteration": 89,
+          "success": true,
+          "duration": 2.0627262592315674
+        },
+        {
+          "iteration": 90,
+          "success": true,
+          "duration": 2.063786268234253
+        },
+        {
+          "iteration": 91,
+          "success": true,
+          "duration": 2.072227716445923
+        },
+        {
+          "iteration": 92,
+          "success": true,
+          "duration": 2.0497195720672607
+        },
+        {
+          "iteration": 93,
+          "success": true,
+          "duration": 2.030670642852783
+        },
+        {
+          "iteration": 94,
+          "success": true,
+          "duration": 2.0277769565582275
+        },
+        {
+          "iteration": 95,
+          "success": true,
+          "duration": 2.053448438644409
+        },
+        {
+          "iteration": 96,
+          "success": true,
+          "duration": 2.0553176403045654
+        },
+        {
+          "iteration": 97,
+          "success": true,
+          "duration": 2.054187297821045
+        },
+        {
+          "iteration": 98,
+          "success": true,
+          "duration": 2.0584537982940674
+        },
+        {
+          "iteration": 99,
+          "success": true,
+          "duration": 2.0435004234313965
+        },
+        {
+          "iteration": 100,
+          "success": true,
+          "duration": 2.0707013607025146
+        }
+      ]
+    }
+  },
+  "summary": {
+    "gpu_foundation_success_rate": 1.0,
+    "gpu_foundation_rps": 23.38155247830395,
+    "gpu_memory_success_rate": 1.0,
+    "system_stability": 1.0,
+    "peak_performance_achieved": true
+  }
+}

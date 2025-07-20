@@ -1,0 +1,70 @@
+{
+  "summary": {
+    "demo_runtime_seconds": 14.424903,
+    "initial_balance": "5.06466000",
+    "final_balance": "5.06466000",
+    "total_pnl": "0E-8",
+    "pnl_percentage": 0.0,
+    "successful_executions": 5,
+    "total_demo_trades": 5,
+    "success_rate": 100.0
+  },
+  "latency_performance": {
+    "total_execution_avg_ns": 1235063280,
+    "market_data_avg_ns": 224033040,
+    "decision_avg_ns": 225881120,
+    "order_placement_avg_ns": 456177660
+  },
+  "individual_trades": [
+    {
+      "trade_number": 1,
+      "symbol": "DOGEUSDT",
+      "quantity": "22.00000000",
+      "price": "0.20342",
+      "total_latency_ns": 1222804700,
+      "market_data_latency_ns": 223520400,
+      "decision_latency_ns": 225403100,
+      "order_latency_ns": 447995200
+    },
+    {
+      "trade_number": 2,
+      "symbol": "DOGEUSDT",
+      "quantity": "22.00000000",
+      "price": "0.20348",
+      "total_latency_ns": 1237548200,
+      "market_data_latency_ns": 223239600,
+      "decision_latency_ns": 223936100,
+      "order_latency_ns": 464470100
+    },
+    {
+      "trade_number": 3,
+      "symbol": "DOGEUSDT",
+      "quantity": "22.00000000",
+      "price": "0.2034",
+      "total_latency_ns": 1245794700,
+      "market_data_latency_ns": 224307000,
+      "decision_latency_ns": 226633300,
+      "order_latency_ns": 458145400
+    },
+    {
+      "trade_number": 4,
+      "symbol": "DOGEUSDT",
+      "quantity": "22.00000000",
+      "price": "0.20345",
+      "total_latency_ns": 1234409200,
+      "market_data_latency_ns": 223848100,
+      "decision_latency_ns": 227409200,
+      "order_latency_ns": 454944300
+    },
+    {
+      "trade_number": 5,
+      "symbol": "DOGEUSDT",
+      "quantity": "22.00000000",
+      "price": "0.20349",
+      "total_latency_ns": 1234759600,
+      "market_data_latency_ns": 225250100,
+      "decision_latency_ns": 226023900,
+      "order_latency_ns": 455333300
+    }
+  ]
+}

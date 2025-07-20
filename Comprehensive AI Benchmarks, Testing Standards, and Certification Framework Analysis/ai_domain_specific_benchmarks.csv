@@ -1,0 +1,33 @@
+Domain,Benchmark,Primary Task,Metric Type,Industry Adoption,Certification Potential
+Natural Language Processing,SuperGLUE,Language Understanding,Accuracy Average,High,Medium
+Natural Language Processing,GLUE,Language Understanding,Accuracy Average,Medium,Low
+Natural Language Processing,HELM,Holistic LLM Evaluation,Composite Score,Medium,Low
+Natural Language Processing,BIG-bench,Advanced Reasoning,Task-specific Accuracy,Medium,Low
+Computer Vision,ImageNet,Image Classification,Top-1/Top-5 Accuracy,Very High,High
+Computer Vision,COCO,Object Detection,mAP Score,Very High,High
+Computer Vision,UL Procyon AI CV,Computer Vision Inference,Inference Speed Score,Medium,High
+Computer Vision,CIFAR-10/100,Image Classification,Classification Accuracy,High,Medium
+Healthcare & Medical AI,HealthBench,Medical Conversations,Physician-graded Score,Early Stage,High
+Healthcare & Medical AI,MedPerf,Federated Medical AI,Performance Metrics,Early Stage,High
+Healthcare & Medical AI,MIMIC-III/IV,Clinical Data Analysis,Clinical Metrics,Medium,High
+Financial Services,FinBen,Financial Tasks,Task Accuracy,Early Stage,High
+Financial Services,FiQA,Financial QA,F1 Score,Medium,Medium
+Financial Services,Financial QA,Financial Reasoning,Accuracy,Low,Low
+Autonomous Vehicles,ADBench,Autonomous Driving,Safety & Performance,Early Stage,Very High
+Autonomous Vehicles,DriveAction,Driving Decisions,Action Accuracy,Early Stage,High
+Autonomous Vehicles,nuScenes,Autonomous Navigation,Driving Score,Medium,High
+Robotics,RoboCup,Robot Soccer,Game Performance,Medium,Medium
+Robotics,Manipulation Tasks,Object Manipulation,Success Rate,Medium,Medium
+Robotics,Navigation Tasks,Path Planning,Path Efficiency,Medium,Medium
+Code Generation,HumanEval,Python Code Generation,Pass@k Rate,Very High,Medium
+Code Generation,MBPP,Python Programming,Pass@k Rate,High,Medium
+Code Generation,CodeContests,Competitive Programming,Solve Rate,Medium,Low
+Scientific Reasoning,GPQA Diamond,Graduate-level Science,Accuracy %,High,Medium
+Scientific Reasoning,MATH,Mathematical Reasoning,Accuracy %,High,Medium
+Scientific Reasoning,ScienceQA,Science Question Answering,Accuracy %,Medium,Medium
+AI Safety & Ethics,AILuminate,AI Safety Assessment,Safety Score,Medium,High
+AI Safety & Ethics,TruthfulQA,Truthfulness,Truthfulness %,Medium,Medium
+AI Safety & Ethics,Winogender,Gender Bias Detection,Bias Score,Low,Medium
+Hardware Performance,MLPerf Training,Training Performance,Time to Target,Very High,Very High
+Hardware Performance,MLPerf Inference,Inference Speed,Throughput/Latency,Very High,Very High
+Hardware Performance,MLPerf Mobile,Mobile Performance,Mobile Speed,High,High

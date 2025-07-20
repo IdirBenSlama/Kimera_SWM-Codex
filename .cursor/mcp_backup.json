@@ -1,0 +1,38 @@
+{
+  "mcpServers": {
+    "kimera-simple": {
+      "command": "python",
+      "args": [
+        "D:\\DEV\\MCP servers\\kimera_simple.py"
+      ],
+      "env": {
+        "DEBUG": "*",
+        "KIMERA_PROJECT_ROOT": "D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625",
+        "PYTHONPATH": "D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625",
+        "PYTHONUNBUFFERED": "1"
+      }
+    },
+    "fetch": {
+      "command": "python",
+      "args": [
+        "-m",
+        "mcp_server_fetch"
+      ],
+      "env": {
+        "DEBUG": "*",
+        "PYTHONUNBUFFERED": "1"
+      }
+    },
+    "sqlite-kimera": {
+      "command": "mcp-server-sqlite",
+      "args": [
+        "--db-path",
+        "D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\kimera_swm.db"
+      ],
+      "env": {
+        "DEBUG": "*",
+        "PYTHONUNBUFFERED": "1"
+      }
+    }
+  }
+}

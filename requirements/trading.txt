@@ -1,0 +1,13 @@
+# Finance & Trading-Specific Dependencies
+# ----------------------------------------
+# Libraries used for financial data acquisition, analysis, and trading.
+
+alpha_vantage==3.0.0
+ccxt==4.4.90
+finta==1.3
+fredapi==0.5.2
+newsapi-python==0.2.7
+newspaper3k==0.2.8
+yfinance # Not in original but highly recommended for financial data 
+websockets==12.0
+cryptography>=42.0.0 

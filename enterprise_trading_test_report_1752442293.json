@@ -1,0 +1,110 @@
+{
+  "test_timestamp": "2025-07-13T22:31:33.419307",
+  "system_requirements": {
+    "gpu_available": true,
+    "cuda_available": true,
+    "quantum_libraries": [
+      "Qiskit",
+      "Cirq"
+    ],
+    "ml_libraries": [
+      "Scikit-learn",
+      "Transformers"
+    ],
+    "trading_libraries": [
+      "NumPy",
+      "Pandas",
+      "SciPy",
+      "Numba"
+    ],
+    "system_info": {
+      "gpu_name": "NVIDIA GeForce RTX 2080 Ti",
+      "gpu_memory": 10.99957275390625
+    }
+  },
+  "component_tests": {
+    "ComplexEventProcessor": {
+      "status": "success",
+      "component": "ComplexEventProcessor",
+      "test_result": "<coroutine object ComplexEventProcessor.process_event at 0x00000283888AE040>",
+      "features": [
+        "event_processing",
+        "pattern_matching",
+        "real_time_analysis"
+      ],
+      "execution_time": 13.197521686553955
+    },
+    "SmartOrderRouter": {
+      "status": "success",
+      "component": "SmartOrderRouter",
+      "test_result": "<coroutine object SmartOrderRouter.route_order at 0x00000283888ADF40>",
+      "features": [
+        "order_routing",
+        "venue_selection",
+        "optimization"
+      ],
+      "execution_time": 0.0007677078247070312
+    },
+    "MarketMicrostructureAnalyzer": {
+      "status": "partial",
+      "component": "MarketMicrostructureAnalyzer",
+      "message": "Component loaded but analyze_order_book method not found",
+      "features": [
+        "component_loaded"
+      ],
+      "execution_time": 0.0007002353668212891
+    },
+    "RegulatoryComplianceEngine": {
+      "status": "partial",
+      "component": "RegulatoryComplianceEngine",
+      "message": "Component loaded but check_compliance method not found",
+      "features": [
+        "component_loaded"
+      ],
+      "execution_time": 0.0006153583526611328
+    },
+    "QuantumTradingEngine": {
+      "status": "partial",
+      "component": "QuantumTradingEngine",
+      "message": "Component loaded but optimize_portfolio method not found",
+      "features": [
+        "component_loaded"
+      ],
+      "execution_time": 0.0005550384521484375
+    },
+    "MLTradingEngine": {
+      "status": "partial",
+      "component": "MLTradingEngine",
+      "message": "Component loaded but predict_price method not found",
+      "features": [
+        "component_loaded"
+      ],
+      "execution_time": 0.0005700588226318359
+    },
+    "HFTInfrastructure": {
+      "status": "partial",
+      "component": "HFTInfrastructure",
+      "message": "Component loaded but measure_latency method not found",
+      "features": [
+        "component_loaded"
+      ],
+      "execution_time": 0.008739471435546875
+    },
+    "IntegratedTradingSystem": {
+      "status": "partial",
+      "component": "IntegratedTradingSystem",
+      "message": "Component loaded but initialize_system method not found",
+      "features": [
+        "component_loaded"
+      ],
+      "execution_time": 0.5892319679260254
+    }
+  },
+  "summary": {
+    "total_components": 8,
+    "successful_components": 2,
+    "partial_components": 6,
+    "failed_components": 0,
+    "success_rate": 100.0
+  }
+}

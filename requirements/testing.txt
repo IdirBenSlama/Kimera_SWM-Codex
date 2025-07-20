@@ -1,0 +1,11 @@
+# Core Testing Framework
+pytest
+pytest-asyncio
+pytest-mock
+
+# TCSE System Dependencies
+cupy-cuda12x
+qiskit
+
+# Other Project Dependencies discovered during test runs
+confluent-kafka 

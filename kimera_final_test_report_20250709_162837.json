@@ -1,0 +1,121 @@
+{
+  "timestamp": "2025-07-09T16:28:24.744256",
+  "passed": [
+    {
+      "test": "env_file_exists",
+      "details": ".env file found"
+    },
+    {
+      "test": "env_var_DATABASE_URL",
+      "details": "DATABASE_URL is set"
+    },
+    {
+      "test": "env_var_KIMERA_DATABASE_URL",
+      "details": "KIMERA_DATABASE_URL is set"
+    },
+    {
+      "test": "import_backend.core.kimera_system",
+      "details": "Module imported successfully"
+    },
+    {
+      "test": "import_backend.engines.geoid_scar_manager",
+      "details": "Module imported successfully"
+    },
+    {
+      "test": "import_backend.monitoring.system_monitor",
+      "details": "Module imported successfully"
+    },
+    {
+      "test": "import_backend.governance.ethical_governor",
+      "details": "Module imported successfully"
+    },
+    {
+      "test": "import_backend.utils.config",
+      "details": "Module imported successfully"
+    },
+    {
+      "test": "database_config_aligned",
+      "details": "Database configuration uses environment variable"
+    },
+    {
+      "test": "kimera_system_create",
+      "details": "KimeraSystem instance created"
+    },
+    {
+      "test": "kimera_system_initialize",
+      "details": "KimeraSystem initialized"
+    },
+    {
+      "test": "component_geoid_scar_manager",
+      "details": "geoid_scar_manager registered and available"
+    },
+    {
+      "test": "component_system_monitor",
+      "details": "system_monitor registered and available"
+    },
+    {
+      "test": "component_ethical_governor",
+      "details": "ethical_governor registered and available"
+    },
+    {
+      "test": "component_vault_manager",
+      "details": "vault_manager registered and available"
+    },
+    {
+      "test": "system_status",
+      "details": "System state: running"
+    },
+    {
+      "test": "endpoint_contradiction_/contradictions/detect",
+      "details": "Endpoint /contradictions/detect found"
+    },
+    {
+      "test": "endpoint_contradiction_/contradictions/resolve",
+      "details": "Endpoint /contradictions/resolve found"
+    },
+    {
+      "test": "endpoint_vault_/vault/store",
+      "details": "Endpoint /vault/store found"
+    },
+    {
+      "test": "endpoint_vault_/vault/retrieve",
+      "details": "Endpoint /vault/retrieve found"
+    },
+    {
+      "test": "geoid_creation",
+      "details": "Created geoid: f7218b58-5fab-4288-8f5c-b87c48689c61"
+    },
+    {
+      "test": "scar_creation",
+      "details": "Created SCAR: f6f157be-7982-4f79-a88a-45d81f581338"
+    },
+    {
+      "test": "system_monitor_health",
+      "details": "Health status: critical"
+    },
+    {
+      "test": "ethical_evaluation",
+      "details": "Action approved: True"
+    }
+  ],
+  "failed": [
+    {
+      "test": "env_var_OPENAI_API_KEY",
+      "details": "OPENAI_API_KEY not found"
+    },
+    {
+      "test": "import_backend.vault.vault_manager",
+      "details": "(psycopg2.OperationalError) connection to server at \"localhost\" (::1), port 5432 failed: FATAL:  password authentication failed for user \"postgres\"\n\n(Background on this error at: https://sqlalche.me/e/20/e3q8)"
+    },
+    {
+      "test": "import_backend.engines.contradiction_engine",
+      "details": "(psycopg2.OperationalError) connection to server at \"localhost\" (::1), port 5432 failed: FATAL:  password authentication failed for user \"postgres\"\n\n(Background on this error at: https://sqlalche.me/e/20/e3q8)"
+    }
+  ],
+  "warnings": [
+    {
+      "test": "component_contradiction_engine",
+      "details": "contradiction_engine not available (may have failed to initialize)"
+    }
+  ]
+}

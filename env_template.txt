@@ -1,0 +1,50 @@
+# KIMERA-BINANCE INTEGRATION CONFIGURATION
+# ========================================
+# Copy this file to .env and fill in your actual values
+# Never commit the .env file to version control!
+
+# Binance API Configuration (Ed25519 Asymmetric Keys)
+# ---------------------------------------------------
+BINANCE_API_KEY=your_binance_api_key_here
+BINANCE_PRIVATE_KEY_PATH=binance_private_key.pem
+
+# Trading Environment
+# ------------------
+# Set to 'true' for testnet (recommended for initial testing)
+# Set to 'false' for live trading (use with extreme caution!)
+BINANCE_USE_TESTNET=true
+
+# Kimera System Configuration
+# ---------------------------
+KIMERA_LOG_LEVEL=INFO
+KIMERA_MAX_POSITION_SIZE=50.0
+KIMERA_RISK_PER_TRADE=0.01
+
+# Optional: Additional Exchange APIs
+# ----------------------------------
+# COINBASE_API_KEY=your_coinbase_key
+# COINBASE_API_SECRET=your_coinbase_secret
+# COINBASE_PASSPHRASE=your_coinbase_passphrase
+
+# Optional: Data Providers
+# ------------------------
+# TAAPI_API_KEY=your_taapi_key
+# CRYPTOPANIC_API_KEY=your_cryptopanic_key
+
+# Database Configuration (Optional)
+# ---------------------------------
+# QUESTDB_HOST=localhost
+# QUESTDB_PORT=9009
+# KAFKA_SERVERS=localhost:9092
+
+# Security Settings
+# -----------------
+# IP_WHITELIST=197.17.113.13  # Your current IP
+# ENABLE_2FA=true
+
+# Instructions:
+# 1. Copy this file to .env
+# 2. Replace all 'your_*_here' values with actual credentials
+# 3. Ensure binance_private_key.pem exists in project root
+# 4. Start with BINANCE_USE_TESTNET=true for safety
+# 5. Only change to false when ready for live trading 

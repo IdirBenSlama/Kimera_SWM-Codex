@@ -1,0 +1,38 @@
+{
+  "session_summary": {
+    "start_time": "2025-07-10T04:38:11",
+    "end_time": "2025-07-10T04:43:16",
+    "duration_seconds": 305.0,
+    "duration_minutes": 5.083333333333333,
+    "total_operations": 38,
+    "successful_operations": 38,
+    "success_rate": 1.0,
+    "operations_per_minute": 7.475409836065574
+  },
+  "cognitive_performance": {
+    "avg_confidence": 0.7062631578947368,
+    "min_confidence": 0.639,
+    "max_confidence": 0.763,
+    "confidence_trend": "stable"
+  },
+  "trading_analysis": {
+    "primary_action": "hold",
+    "risk_management": "conservative",
+    "market_conditions": "analyzed_continuously",
+    "safety_compliance": "full"
+  },
+  "system_info": {
+    "network": "base-sepolia",
+    "api_key": "9268de76-b5f4-4683-b593-327fb2c19503",
+    "live_trading": true,
+    "testnet": true,
+    "cdp_integration": "active",
+    "autonomous_mode": true
+  },
+  "technical_performance": {
+    "avg_execution_time": "~0.002s",
+    "system_stability": "excellent",
+    "error_rate": 0.0,
+    "uptime_percentage": 100.0
+  }
+}

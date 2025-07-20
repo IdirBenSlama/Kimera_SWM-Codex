@@ -1,0 +1,24 @@
+{
+  "session_info": {
+    "start_time": "2025-07-12T04:27:54.387553",
+    "end_time": "2025-07-12T04:37:54.766757",
+    "runtime_minutes": 10,
+    "mode": "REAL_MONEY_MAKER"
+  },
+  "real_performance": {
+    "starting_value": 383.3860126374,
+    "final_value": 0.0,
+    "real_profit": -383.3860126374,
+    "profit_percentage": -100.0,
+    "total_trades": 0,
+    "runtime_seconds": 600.377806,
+    "trades_per_minute": 0.0,
+    "profit_per_trade": 0
+  },
+  "real_trades": [],
+  "parameters": {
+    "min_profit_target": 0.002,
+    "max_simultaneous_trades": 3,
+    "execution_speed": 0.5
+  }
+}

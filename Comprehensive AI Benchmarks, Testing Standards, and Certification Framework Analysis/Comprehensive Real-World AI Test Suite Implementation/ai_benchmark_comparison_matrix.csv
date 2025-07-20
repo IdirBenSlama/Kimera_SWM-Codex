@@ -1,0 +1,13 @@
+Benchmark,Category,Domain,Test Count,Certification,Industry Adoption,Target Accuracy,Scenarios,Current SOTA,Implementation,Hardware,Cost
+MLPerf Inference,Performance,Multi-domain,12,Official,Very High,99% of FP32,4 (SS/MS/Server/Offline),o3: 90.4%,Python/C++,CPU/GPU/TPU,Free
+MLPerf Training,Training Performance,Multi-domain,6,Official,High,Convergence metrics,1 (Time to convergence),Various by model,Python/C++,GPU/TPU clusters,Free
+AILuminate,Safety,LLM Safety,24000,Official,Growing,99.9% safe responses,1 (Safety evaluation),Excellent rating,Python,GPU,Free
+SuperGLUE,NLU,Language,8,Academic,High,Human baseline: 89.8%,1 (Zero/few-shot),90.4%,Python,GPU,Free
+HELM,Holistic Evaluation,Language,42,Academic,Medium,Multi-metric,7 metric types,Llama 2 70B: 94.4%,Python,GPU,Free
+COCO,Computer Vision,Object Detection,80,Academic,Very High,mAP metrics,3 (Detection/Segmentation/Keypoints),YOLO11x: 54.7%,Python,GPU,Free
+ImageNet,Image Classification,Computer Vision,1000,Academic,Very High,Top-1/Top-5,1 (Classification),ViT: >90%,Python,GPU,Free
+HumanEval,Code Generation,Programming,164,Academic,High,Pass@k,1 (Code completion),o3: 94.2%,Python,GPU,Free
+AWS ML Specialty,Professional Cert,Cloud ML,65,Professional,High,750/1000,1 (Multiple choice),N/A,Exam format,N/A,$300
+CompTIA AI Essentials,Professional Cert,AI Fundamentals,TBD,Professional,Medium,Pass/Fail,1 (Multiple choice),N/A,Exam format,N/A,$370
+ISO/IEC 25059,Quality Standard,AI Quality,6,International,Growing,Compliance,6 characteristics,N/A,Standard,N/A,Implementation cost
+NIST AI RMF,Risk Management,AI Governance,4,Government,Very High,Risk assessment,4 functions,N/A,Framework,N/A,Implementation cost

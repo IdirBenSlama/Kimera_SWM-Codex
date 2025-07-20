@@ -1,0 +1,79 @@
+{
+  "session_info": {
+    "start_time": "2025-07-12T04:17:30.295801",
+    "end_time": "2025-07-12T04:22:31.274975",
+    "allocation": 25.0,
+    "runtime_minutes": 5
+  },
+  "performance": {
+    "initial_allocation": 25.0,
+    "final_value": 379.058360985,
+    "profit": 354.058360985,
+    "profit_percentage": 1416.23344394,
+    "total_trades": 0,
+    "successful_trades": 0,
+    "success_rate": 0.0,
+    "runtime_seconds": 300.978211,
+    "trades_per_minute": 0.0,
+    "final_balances": {
+      "BNB": {
+        "free": 0.00602631,
+        "total": 0.00602631
+      },
+      "USDT": {
+        "free": 5.06466,
+        "total": 5.06466
+      },
+      "TRX": {
+        "free": 1223.40105,
+        "total": 1223.40105
+      },
+      "EON": {
+        "free": 1.0,
+        "total": 1.0
+      },
+      "ADD": {
+        "free": 0.5,
+        "total": 0.5
+      },
+      "MEETONE": {
+        "free": 0.5,
+        "total": 0.5
+      },
+      "ATD": {
+        "free": 1.0,
+        "total": 1.0
+      },
+      "EOP": {
+        "free": 1.0,
+        "total": 1.0
+      },
+      "IQ": {
+        "free": 5.1,
+        "total": 5.1
+      },
+      "NFT": {
+        "free": 200931.922043,
+        "total": 200931.922043
+      }
+    }
+  },
+  "completed_trades": [],
+  "parameters": {
+    "min_profit_threshold": 0.0005,
+    "max_positions": 6,
+    "execution_interval": 0.2,
+    "trading_pairs": [
+      "TRXUSDT",
+      "ADAUSDT",
+      "DOGEUSDT",
+      "SHIBUSDT",
+      "PEPEUSDT",
+      "XRPUSDT",
+      "SOLUSDT",
+      "MATICUSDT",
+      "DOTUSDT",
+      "AVAXUSDT"
+    ]
+  }
+}

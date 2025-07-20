@@ -1,0 +1,22 @@
+{
+  "summary": {
+    "runtime_seconds": 600.542453,
+    "initial_balance": "5.06466000",
+    "final_balance": "5.06466000",
+    "total_profit": "0E-8",
+    "profit_percentage": 0.0,
+    "successful_trades": 0,
+    "total_trades": 0,
+    "success_rate": 0.0,
+    "trades_per_minute": 0.0
+  },
+  "configuration": {
+    "min_profit_bps": 2,
+    "max_profit_bps": 50,
+    "min_trade_percentage": "0.95",
+    "trading_pairs": [
+      "DOGEUSDT",
+      "TRXUSDT"
+    ]
+  }
+}

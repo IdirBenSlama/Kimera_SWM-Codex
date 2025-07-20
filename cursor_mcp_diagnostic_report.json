@@ -1,0 +1,33 @@
+{
+  "timestamp": "2025-06-29 20:54:41",
+  "issues": [
+    "npx command not available",
+    "Batch file servers failing"
+  ],
+  "solutions": [
+    "Install Node.js globally or use full path to npx",
+    "Check batch file paths and permissions"
+  ],
+  "detailed_results": {
+    "node_env": {
+      "node": true,
+      "npm": false,
+      "npx": false
+    },
+    "python_servers": {
+      "kimera-cognitive": true,
+      "kimera-enhanced": true,
+      "fetch": true,
+      "sqlite": true
+    },
+    "batch_servers": {
+      "filesystem": false,
+      "git": false,
+      "memory": false
+    },
+    "cursor_config": {
+      "Project Config": true,
+      "Global Config": true
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "test_timestamp": "2025-07-10T03:29:56.842911",
+  "system_info": {
+    "gpu_available": true
+  },
+  "component_tests": {
+    "ComplexEventProcessor": {
+      "status": "success",
+      "component": "ComplexEventProcessor",
+      "patterns_available": 8,
+      "quantum_enabled": true,
+      "features": [
+        "event_processing",
+        "pattern_matching",
+        "quantum_enhanced"
+      ],
+      "execution_time": 16.720632314682007
+    },
+    "SmartOrderRouter": {
+      "status": "error",
+      "component": "SmartOrderRouter",
+      "error": "",
+      "execution_time": 0.0011315345764160156
+    },
+    "MarketMicrostructureAnalyzer": {
+      "status": "error",
+      "component": "MarketMicrostructureAnalyzer",
+      "error": "",
+      "execution_time": 0.0006020069122314453
+    },
+    "RegulatoryComplianceEngine": {
+      "status": "error",
+      "component": "RegulatoryComplianceEngine",
+      "error": "",
+      "execution_time": 0.0007157325744628906
+    },
+    "QuantumTradingEngine": {
+      "status": "success",
+      "component": "QuantumTradingEngine",
+      "quantum_available": false,
+      "features": [
+        "quantum_optimization",
+        "portfolio_management",
+        "pattern_recognition"
+      ],
+      "execution_time": 0.0009181499481201172
+    },
+    "MLTradingEngine": {
+      "status": "success",
+      "component": "MLTradingEngine",
+      "device": "cuda",
+      "features": [
+        "neural_networks",
+        "ensemble_methods",
+        "reinforcement_learning"
+      ],
+      "execution_time": 0.0008406639099121094
+    },
+    "HFTInfrastructure": {
+      "status": "error",
+      "component": "HFTInfrastructure",
+      "error": "",
+      "execution_time": 0.005013704299926758
+    },
+    "IntegratedTradingSystem": {
+      "status": "error",
+      "component": "IntegratedTradingSystem",
+      "error": "",
+      "execution_time": 0.445026159286499
+    }
+  },
+  "functional_tests": {},
+  "summary": {
+    "total_components": 8,
+    "successful_components": 3,
+    "failed_components": 5,
+    "success_rate": 37.5
+  }
+}

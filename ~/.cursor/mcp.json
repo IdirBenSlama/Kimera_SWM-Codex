@@ -1,0 +1,52 @@
+{
+  "mcpServers": {
+    "fetch-global": {
+      "command": "python",
+      "args": ["-m", "mcp_server_fetch"],
+      "env": {
+        "DEBUG": "*"
+      }
+    },
+    "sqlite-global": {
+      "command": "mcp-server-sqlite",
+      "args": ["--db-path", "D:\\DEV\\MCP servers\\test.db"],
+      "env": {
+        "DEBUG": "*"
+      }
+    },
+    "mcp-builder-global": {
+      "command": "python",
+      "args": ["-m", "mcp_builder.server"],
+      "env": {
+        "DEBUG": "*"
+      }
+    },
+    "filesystem-global": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "C:\\Users\\Loomine\\Documents",
+        "C:\\Users\\Loomine\\Downloads",
+        "D:\\DEV"
+      ],
+      "env": {
+        "DEBUG": "*"
+      }
+    },
+    "git-global": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-git"],
+      "env": {
+        "DEBUG": "*"
+      }
+    },
+    "memory-global": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"],
+      "env": {
+        "DEBUG": "*"
+      }
+    }
+  }
+}

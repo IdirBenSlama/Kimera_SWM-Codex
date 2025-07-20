@@ -1,0 +1,143 @@
+{
+  "timestamp": 1752027167.6752152,
+  "test_duration": 13.282470464706421,
+  "overall_system_health": 0.9105776342774003,
+  "system_status": "EXCELLENT",
+  "readiness": "PRODUCTION_READY",
+  "components_loaded": {
+    "dependency_manager": "<backend.utils.dependency_manager.DependencyManager object at 0x000001885F989940>",
+    "memory_manager": "<backend.utils.memory_manager.MemoryManager object at 0x0000018849AD2120>",
+    "processing_optimizer": "<backend.utils.processing_optimizer.ProcessingOptimizer object at 0x0000018849AD34D0>",
+    "gpu_optimizer": "<backend.utils.gpu_optimizer.GPUOptimizer object at 0x000001884A025160>",
+    "vortex_storage": "<backend.engines.vortex_energy_storage.VortexEnergyStorage object at 0x000001884A024EC0>",
+    "ResonancePattern": "<enum 'ResonancePattern'>",
+    "GyroscopicUniversalTranslator": "<class 'backend.engines.gyroscopic_universal_translator.GyroscopicUniversalTranslator'>",
+    "TranslationModality": "<enum 'TranslationModality'>",
+    "TranslationRequest": "<class 'backend.engines.gyroscopic_universal_translator.TranslationRequest'>",
+    "ai_optimizer": "<backend.optimization.ai_system_optimizer.AISystemOptimizer object at 0x000001885BC11550>"
+  },
+  "detailed_test_results": {
+    "component_loading": {
+      "health_score": 1.0
+    },
+    "interconnections": {
+      "status": "PASSED",
+      "health_score": 1.0,
+      "detailed_results": {
+        "dependency_manager_connectivity": true,
+        "memory_manager_connectivity": true,
+        "vortex_storage_connectivity": true,
+        "translator_connectivity": true,
+        "optimization_connectivity": true
+      }
+    },
+    "communications": {
+      "status": "PASSED",
+      "health_score": 1.0,
+      "detailed_results": {
+        "vortex_energy_operations": true,
+        "translation_processing": true,
+        "memory_operations": true,
+        "optimization_cycles": true
+      }
+    },
+    "latency": {
+      "status": "PASSED",
+      "average_latency": 0.00047397613525390625,
+      "max_latency": 0.001355886459350586,
+      "latency_grade": "EXCELLENT",
+      "measurements": {
+        "vortex_status": 6.246566772460938e-05,
+        "translator_init": 0.001355886459350586,
+        "memory_context": 3.5762786865234375e-06
+      }
+    },
+    "frequencies": {
+      "status": "PASSED",
+      "frequency_health": 1.0,
+      "detailed_results": {
+        "resonance_strength": 1095.7664121878722,
+        "pattern_tests": {
+          "golden_ratio": true,
+          "fibonacci_spiral": true,
+          "harmonic_series": true,
+          "quantum_spiral": true
+        },
+        "golden_ratio": 1.618033988749,
+        "fibonacci_sequence": [
+          1,
+          1,
+          2,
+          3,
+          5,
+          8,
+          13,
+          21
+        ]
+      }
+    },
+    "entropy": {
+      "status": "PASSED",
+      "entropy_health": 1.0,
+      "detailed_results": {
+        "shannon_entropy": 1.5810317453264966,
+        "normalized_entropy": 0.9975199694674978,
+        "system_states": [
+          0.7165179526451271,
+          0.6793008705881597,
+          0.5994940841622307
+        ]
+      }
+    },
+    "thermodynamics": {
+      "status": "PASSED",
+      "thermodynamic_health": 0.6268321371554914,
+      "detailed_results": {
+        "energy_stored": true,
+        "energy_retrieved": 4.842649098044455,
+        "retrieval_efficiency": 0.00968529819608891,
+        "capacity_utilization": 0.394668862744443,
+        "efficiency_breakdown": {
+          "retrieval_efficiency": 0.00968529819608891,
+          "capacity_utilization": 0.394668862744443,
+          "average_vortex_utilization": 0.394668862744443,
+          "energy_efficiency_ratio": 8.569121343897604e-05,
+          "active_vortex_ratio": 1.0
+        }
+      }
+    },
+    "quantum_states": {
+      "status": "PASSED",
+      "quantum_health": 0.8053577298307065,
+      "detailed_results": {
+        "system_coherence": 0.7165179526451271,
+        "quantum_efficiency": 0.5994940841622307,
+        "system_stability": 0.6793008705881597
+      }
+    },
+    "general_behavior": {
+      "status": "PASSED",
+      "behavior_health": 0.8524312072330051,
+      "detailed_results": {
+        "test_duration": 13.281191349029541,
+        "responsiveness": 0.5572936216990153,
+        "integration_score": 1.0,
+        "reliability": 1.0
+      }
+    }
+  },
+  "health_scores": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.6268321371554914,
+    0.8053577298307065,
+    0.8524312072330051
+  ],
+  "recommendations": [
+    "System operating at excellent levels - monitor and maintain",
+    "Improve thermodynamics: thermodynamic_health is below optimal (0.63)"
+  ]
+}

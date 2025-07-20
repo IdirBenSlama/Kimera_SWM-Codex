@@ -1,0 +1,55 @@
+{
+  "session_start": "2025-07-12T16:11:50.777601",
+  "session_duration_minutes": 5.091067286332448,
+  "starting_value": 370.33575667299993,
+  "final_value": 369.9711995274,
+  "total_profit": -0.3645571455999175,
+  "profit_percentage": -0.09843962918271894,
+  "peak_value": 370.570910268,
+  "max_drawdown": 0.30823620498811877,
+  "total_trades": 0,
+  "successful_trades": 0,
+  "failed_trades": 0,
+  "trades_per_minute": 0.0,
+  "trade_history": [],
+  "final_portfolio": {
+    "assets": {
+      "BNB": {
+        "amount": 0.00365494,
+        "price": 682.71,
+        "value_usd": 2.4952640874000003,
+        "tradeable": false,
+        "symbol": "BNB/USDT"
+      },
+      "USDT": {
+        "amount": 33.4129241,
+        "price": 1.0,
+        "value_usd": 33.4129241,
+        "tradeable": true,
+        "symbol": null
+      },
+      "TRX": {
+        "amount": 143.20105,
+        "price": 0.2988,
+        "value_usd": 42.78847374000001,
+        "tradeable": true,
+        "symbol": "TRX/USDT"
+      },
+      "ADA": {
+        "amount": 415.9,
+        "price": 0.7003,
+        "value_usd": 291.25477,
+        "tradeable": true,
+        "symbol": "ADA/USDT"
+      },
+      "IQ": {
+        "amount": 5.1,
+        "price": 0.003876,
+        "value_usd": 0.0197676,
+        "tradeable": false,
+        "symbol": "IQ/USDT"
+      }
+    },
+    "total_value": 369.9711995274
+  }
+}

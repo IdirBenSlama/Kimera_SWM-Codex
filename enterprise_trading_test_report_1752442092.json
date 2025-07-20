@@ -1,0 +1,108 @@
+{
+  "test_timestamp": "2025-07-13T22:28:12.063383",
+  "system_requirements": {
+    "gpu_available": true,
+    "cuda_available": true,
+    "quantum_libraries": [
+      "Qiskit",
+      "Cirq"
+    ],
+    "ml_libraries": [
+      "Scikit-learn",
+      "Transformers"
+    ],
+    "trading_libraries": [
+      "NumPy",
+      "Pandas",
+      "SciPy",
+      "Numba"
+    ],
+    "system_info": {
+      "gpu_name": "NVIDIA GeForce RTX 2080 Ti",
+      "gpu_memory": 10.99957275390625
+    }
+  },
+  "component_tests": {
+    "ComplexEventProcessor": {
+      "status": "success",
+      "component": "ComplexEventProcessor",
+      "test_result": "<coroutine object ComplexEventProcessor.process_event at 0x0000019008BF1F40>",
+      "features": [
+        "event_processing",
+        "pattern_matching",
+        "real_time_analysis"
+      ],
+      "execution_time": 13.158288478851318
+    },
+    "SmartOrderRouter": {
+      "status": "success",
+      "component": "SmartOrderRouter",
+      "test_result": "<coroutine object SmartOrderRouter.route_order at 0x0000019008BF1E40>",
+      "features": [
+        "order_routing",
+        "venue_selection",
+        "optimization"
+      ],
+      "execution_time": 0.0007307529449462891
+    },
+    "MarketMicrostructureAnalyzer": {
+      "status": "partial",
+      "component": "MarketMicrostructureAnalyzer",
+      "message": "Component loaded but analyze_order_book method not found",
+      "features": [
+        "component_loaded"
+      ],
+      "execution_time": 0.0007944107055664062
+    },
+    "RegulatoryComplianceEngine": {
+      "status": "partial",
+      "component": "RegulatoryComplianceEngine",
+      "message": "Component loaded but check_compliance method not found",
+      "features": [
+        "component_loaded"
+      ],
+      "execution_time": 0.0008165836334228516
+    },
+    "QuantumTradingEngine": {
+      "status": "partial",
+      "component": "QuantumTradingEngine",
+      "message": "Component loaded but optimize_portfolio method not found",
+      "features": [
+        "component_loaded"
+      ],
+      "execution_time": 0.0006768703460693359
+    },
+    "MLTradingEngine": {
+      "status": "partial",
+      "component": "MLTradingEngine",
+      "message": "Component loaded but predict_price method not found",
+      "features": [
+        "component_loaded"
+      ],
+      "execution_time": 0.0010495185852050781
+    },
+    "HFTInfrastructure": {
+      "status": "partial",
+      "component": "HFTInfrastructure",
+      "message": "Component loaded but measure_latency method not found",
+      "features": [
+        "component_loaded"
+      ],
+      "execution_time": 0.01116943359375
+    },
+    "IntegratedTradingSystem": {
+      "status": "error",
+      "component": "IntegratedTradingSystem",
+      "error": "SmartOrderRouter.__init__() got an unexpected keyword argument 'cognitive_field'",
+      "traceback": "Traceback (most recent call last):\n  File \"D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\test_enterprise_trading_robust.py\", line 397, in test_integrated_trading_system\n    integrated_system = IntegratedTradingSystem()\n  File \"D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\backend\\trading\\enterprise\\integrated_trading_system.py\", line 125, in __init__\n    self._initialize_components()\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\backend\\trading\\enterprise\\integrated_trading_system.py\", line 153, in _initialize_components\n    self.smart_router = create_smart_order_router(\n                        ~~~~~~~~~~~~~~~~~~~~~~~~~^\n        self.cognitive_field,\n        ^^^^^^^^^^^^^^^^^^^^^\n        self.thermodynamic_engine\n        ^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\backend\\trading\\enterprise\\smart_order_router.py\", line 669, in create_smart_order_router\n    return SmartOrderRouter(\n        cognitive_field=cognitive_field,\n        thermodynamic_engine=thermodynamic_engine\n    )\nTypeError: SmartOrderRouter.__init__() got an unexpected keyword argument 'cognitive_field'\n",
+      "execution_time": 16.74436616897583
+    }
+  },
+  "summary": {
+    "total_components": 8,
+    "successful_components": 2,
+    "partial_components": 5,
+    "failed_components": 1,
+    "success_rate": 87.5
+  }
+}

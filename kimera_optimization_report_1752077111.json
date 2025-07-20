@@ -1,0 +1,22 @@
+{
+  "timestamp": "2025-07-09 17:05:11",
+  "optimizations": [
+    {
+      "component": "thermodynamic_engine",
+      "entropy_calc_time": 0.0003478527069091797,
+      "carnot_cycle_time": 0.004123687744140625,
+      "physics_compliant": true
+    },
+    {
+      "component": "portal_manager",
+      "creation_time": 0.0034346580505371094,
+      "traversal_time": 0.0002963542938232422,
+      "pathfinding_time": 0.0005862712860107422,
+      "active_portals": 10
+    },
+    {
+      "component": "semantic_processing",
+      "single_encoding_time": 7.497230291366577,
+      "batch_encoding_time": 0.14745545387268066,
+      "embedding_dimension": 1024,
+      "avg_similarity": 

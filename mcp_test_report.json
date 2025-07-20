@@ -1,0 +1,36 @@
+{
+  "timestamp": "2025-06-29T20:47:17.428456",
+  "total_tests": 18,
+  "passed_tests": 18,
+  "success_rate": 100.0,
+  "detailed_results": {
+    "Python Imports": {
+      "fastmcp": true,
+      "mcp_builder": true,
+      "sqlite3": true,
+      "pathlib": true
+    },
+    "MCP Servers": {
+      "mcp-server-fetch": true,
+      "mcp-server-sqlite": true,
+      "kimera-cognitive": true,
+      "kimera-enhanced": true
+    },
+    "Databases": {
+      "test.db": true,
+      "kimera_swm.db": true
+    },
+    "Configuration Files": {
+      "Claude Desktop (Global)": true,
+      "Cursor (Project)": true,
+      "Cursor (Global)": true
+    },
+    "Kimera Integration": {
+      "Kimera Root": true,
+      "Backend Directory": true,
+      "Logs Directory": true,
+      "Reports Directory": true,
+      "Docs Directory": true
+    }
+  }
+}

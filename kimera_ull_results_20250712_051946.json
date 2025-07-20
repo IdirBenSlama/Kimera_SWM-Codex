@@ -1,0 +1,24 @@
+{
+  "summary": {
+    "runtime_seconds": 900.39553,
+    "initial_balance": "5.06466000",
+    "final_balance": "5.06466000",
+    "total_profit": "0E-8",
+    "profit_percentage": 0.0,
+    "successful_trades": 0,
+    "total_trades": 0,
+    "success_rate": 0.0,
+    "final_risk_level": "GREEN"
+  },
+  "performance_metrics": {},
+  "trading_pairs": [
+    "TRXUSDT",
+    "DOGEUSDT",
+    "ADAUSDT",
+    "XRPUSDT"
+  ],
+  "configuration": {
+    "target_profit_bps": 10,
+    "min_trade_percentage": "0.8"
+  }
+}

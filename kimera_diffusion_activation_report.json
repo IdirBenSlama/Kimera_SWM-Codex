@@ -1,0 +1,62 @@
+{
+  "activation_timestamp": 1752276888.0940754,
+  "activation_date": "2025-07-12 00:34:48",
+  "device": "cuda",
+  "gpu_available": true,
+  "gpu_name": "NVIDIA GeForce RTX 2080 Ti",
+  "configuration": {
+    "mode": "hybrid_enhanced",
+    "num_diffusion_steps": 30,
+    "guidance_scale": 7.5,
+    "temperature": 0.8,
+    "enable_gpu": true,
+    "enable_vault_integration": true,
+    "enable_cognitive_enhancement": true,
+    "enable_monitoring": true,
+    "max_sequence_length": 512,
+    "embedding_dim": 1024,
+    "noise_schedule": "cosine"
+  },
+  "metrics": {
+    "kimera_system_status": "initialized",
+    "diffusion_engine_status": "fallback",
+    "vault_integration": "unavailable",
+    "test_results": {
+      "engine_availability": {
+        "passed": false,
+        "reason": "engine_not_created"
+      },
+      "basic_generation": {
+        "passed": false,
+        "reason": "no_engine"
+      },
+      "cognitive_modes": {
+        "passed": false,
+        "reason": "no_engine"
+      },
+      "system_integration": {
+        "passed": true,
+        "integration_score": 0.75,
+        "integration_details": {
+          "kimera_system": true,
+          "diffusion_engine": false,
+          "gpu_available": true,
+          "device_configured": true
+        }
+      }
+    }
+  },
+  "status": "PARTIAL",
+  "capabilities": {
+    "text_generation": false,
+    "cognitive_enhancement": true,
+    "vault_integration": false,
+    "hybrid_processing": true,
+    "real_time_monitoring": true
+  },
+  "recommendations": [
+    "Install missing dependencies for full diffusion engine functionality",
+    "Configure vault integration for persistent memory",
+    "Review failed tests: engine_availability, basic_generation, cognitive_modes"
+  ]
+}

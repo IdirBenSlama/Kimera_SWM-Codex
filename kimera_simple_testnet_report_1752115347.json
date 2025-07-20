@@ -1,0 +1,97 @@
+{
+  "testnet_summary": {
+    "start_time": "2025-07-10T03:39:07.755410",
+    "end_time": "2025-07-10T03:42:27.673913",
+    "duration_seconds": 199.918503,
+    "duration_minutes": 3.3319750499999996,
+    "symbols_tested": [
+      "BTCUSDT",
+      "ETHUSDT",
+      "ADAUSDT"
+    ],
+    "components_tested": [
+      "cep",
+      "smart_router",
+      "microstructure",
+      "compliance",
+      "quantum",
+      "ml",
+      "hft",
+      "integrated"
+    ]
+  },
+  "performance_metrics": {
+    "total_market_events": 5376,
+    "total_component_executions": 1416,
+    "successful_operations": 1416,
+    "failed_operations": 0,
+    "success_rate_percent": 100.0,
+    "events_per_second": 26.890957661882855,
+    "executions_per_second": 7.08288616987093
+  },
+  "component_performance": {
+    "cep": {
+      "executions": 177,
+      "average_latency_ms": 3.305938957774707,
+      "executions_per_second": 0.8853607712338663
+    },
+    "smart_router": {
+      "executions": 177,
+      "average_latency_ms": 2.106879390565689,
+      "executions_per_second": 0.8853607712338663
+    },
+    "microstructure": {
+      "executions": 177,
+      "average_latency_ms": 3.104911685663428,
+      "executions_per_second": 0.8853607712338663
+    },
+    "compliance": {
+      "executions": 177,
+      "average_latency_ms": 1.1038227943377306,
+      "executions_per_second": 0.8853607712338663
+    },
+    "quantum": {
+      "executions": 177,
+      "average_latency_ms": 1.2566356335656121,
+      "executions_per_second": 0.8853607712338663
+    },
+    "ml": {
+      "executions": 177,
+      "average_latency_ms": 1.0688614710576116,
+      "executions_per_second": 0.8853607712338663
+    },
+    "hft": {
+      "executions": 177,
+      "average_latency_ms": 0.2049685871533755,
+      "executions_per_second": 0.8853607712338663
+    },
+    "integrated": {
+      "executions": 177,
+      "average_latency_ms": 2.1032061280503767,
+      "executions_per_second": 0.8853607712338663
+    }
+  },
+  "specialized_metrics": {
+    "ml_predictions": 37,
+    "quantum_optimizations": 22,
+    "compliance_checks": 177,
+    "cognitive_insights": 177
+  },
+  "market_simulation": {
+    "symbols": [
+      "BTCUSDT",
+      "ETHUSDT",
+      "ADAUSDT"
+    ],
+    "final_prices": {
+      "BTCUSDT": 43131.4895666116,
+      "ETHUSDT": 3131.0325795585277,
+      "ADAUSDT": 0.5067586786571564
+    },
+    "total_volume": {
+      "BTCUSDT": 4659.446256240196,
+      "ETHUSDT": 4521.391354966363,
+      "ADAUSDT": 4547.469125563598
+    }
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "test_timestamp": "2025-07-10T03:33:27.807064",
+  "system_info": {
+    "gpu_available": true
+  },
+  "component_tests": {
+    "ComplexEventProcessor": {
+      "status": "success",
+      "component": "ComplexEventProcessor",
+      "patterns_available": 8,
+      "quantum_enabled": true,
+      "features": [
+        "event_processing",
+        "pattern_matching",
+        "quantum_enhanced"
+      ],
+      "execution_time": 16.2901394367218
+    },
+    "SmartOrderRouter": {
+      "status": "success",
+      "component": "SmartOrderRouter",
+      "venues_available": 5,
+      "features": [
+        "order_routing",
+        "venue_selection",
+        "latency_optimization"
+      ],
+      "execution_time": 0.0009691715240478516
+    },
+    "MarketMicrostructureAnalyzer": {
+      "status": "success",
+      "component": "MarketMicrostructureAnalyzer",
+      "features": [
+        "order_book_reconstruction",
+        "liquidity_analysis",
+        "market_impact_prediction"
+      ],
+      "execution_time": 0.0005478858947753906
+    },
+    "RegulatoryComplianceEngine": {
+      "status": "success",
+      "component": "RegulatoryComplianceEngine",
+      "rules_loaded": 6,
+      "features": [
+        "multi_jurisdictional",
+        "real_time_monitoring",
+        "automated_reporting"
+      ],
+      "execution_time": 0.0008478164672851562
+    },
+    "QuantumTradingEngine": {
+      "status": "success",
+      "component": "QuantumTradingEngine",
+      "quantum_available": false,
+      "features": [
+        "quantum_optimization",
+        "portfolio_management",
+        "pattern_recognition"
+      ],
+      "execution_time": 0.0007708072662353516
+    },
+    "MLTradingEngine": {
+      "status": "success",
+      "component": "MLTradingEngine",
+      "device": "cuda",
+      "features": [
+        "neural_networks",
+        "ensemble_methods",
+        "reinforcement_learning"
+      ],
+      "execution_time": 0.00078582763671875
+    },
+    "HFTInfrastructure": {
+      "status": "success",
+      "component": "HFTInfrastructure",
+      "gpu_acceleration": false,
+      "features": [
+        "ultra_low_latency",
+        "hardware_acceleration",
+        "lock_free_structures"
+      ],
+      "execution_time": 0.005145072937011719
+    },
+    "IntegratedTradingSystem": {
+      "status": "success",
+      "component": "IntegratedTradingSystem",
+      "components_integrated": 7,
+      "features": [
+        "unified_control",
+        "cognitive_integration",
+        "orchestration"
+      ],
+      "execution_time": 0.43838953971862793
+    }
+  },
+  "functional_tests": {},
+  "summary": {
+    "total_components": 8,
+    "successful_components": 8,
+    "failed_components": 0,
+    "success_rate": 100.0
+  }
+}

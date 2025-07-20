@@ -1,0 +1,12 @@
+{
+  "session_duration": 601.066557,
+  "initial_capital": 2000.0,
+  "final_capital": 2000.0,
+  "total_profit": 0.0,
+  "profit_percentage": 0.0,
+  "target_reached": false,
+  "total_trades": 0,
+  "successful_trades": 0,
+  "cycles_completed": 117,
+  "trades_per_minute": 0.0
+}

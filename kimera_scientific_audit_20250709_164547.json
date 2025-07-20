@@ -1,0 +1,125 @@
+{
+  "timestamp": "2025-07-09T16:45:23.874994",
+  "postgresql_issues": [],
+  "entropy_issues": [
+    {
+      "issue": "Missing entropy gradient calculations",
+      "severity": "warning",
+      "timestamp": "2025-07-09T16:45:28.208688",
+      "data": {}
+    }
+  ],
+  "thermodynamic_issues": [],
+  "quantum_issues": [
+    {
+      "issue": "Missing quantum module: backend.engines.quantum_field_engine",
+      "severity": "warning",
+      "timestamp": "2025-07-09T16:45:28.209513",
+      "data": {}
+    },
+    {
+      "issue": "Missing quantum module: backend.engines.quantum_consciousness_bridge",
+      "severity": "warning",
+      "timestamp": "2025-07-09T16:45:28.209932",
+      "data": {}
+    },
+    {
+      "issue": "Missing quantum module: backend.core.quantum_operators",
+      "severity": "warning",
+      "timestamp": "2025-07-09T16:45:28.210420",
+      "data": {}
+    },
+    {
+      "issue": "Quantum field dynamics error: CognitiveFieldDynamics.__init__() missing 1 required positional argument: 'dimension'",
+      "severity": "warning",
+      "timestamp": "2025-07-09T16:45:28.269721",
+      "data": {}
+    }
+  ],
+  "diffusion_issues": [],
+  "portal_vortex_issues": [],
+  "semantic_issues": [
+    {
+      "issue": "Unexpected embedding dimension: 1024 (expected 384)",
+      "severity": "warning",
+      "timestamp": "2025-07-09T16:45:47.005474",
+      "data": {}
+    }
+  ],
+  "performance_issues": [
+    {
+      "issue": "Failed to measure entropy_calculation: 'FoundationalThermodynamicEngine' object has no attribute 'calculate_entropy'",
+      "severity": "warning",
+      "timestamp": "2025-07-09T16:45:47.009060",
+      "data": {}
+    },
+    {
+      "issue": "Failed to measure database_query: (psycopg2.OperationalError) connection to server at \"localhost\" (::1), port 5432 failed: FATAL:  password authentication failed for user \"postgres\"\n\n(Background on this error at: https://sqlalche.me/e/20/e3q8)",
+      "severity": "warning",
+      "timestamp": "2025-07-09T16:45:47.906374",
+      "data": {}
+    }
+  ],
+  "optimization_issues": [],
+  "critical_findings": [
+    {
+      "issue": "System configured for SQLite instead of PostgreSQL",
+      "severity": "critical",
+      "timestamp": "2025-07-09T16:45:24.320578",
+      "data": {
+        "current_db": "sqlite:///kimera_swm.db"
+      }
+    },
+    {
+      "issue": "Entropy calculation failed: 'FoundationalThermodynamicEngine' object has no attribute 'calculate_entropy'",
+      "severity": "critical",
+      "timestamp": "2025-07-09T16:45:28.207327",
+      "data": {}
+    },
+    {
+      "issue": "Entropy calculation failed: 'FoundationalThermodynamicEngine' object has no attribute 'calculate_entropy'",
+      "severity": "critical",
+      "timestamp": "2025-07-09T16:45:28.207655",
+      "data": {}
+    },
+    {
+      "issue": "Entropy calculation failed: 'FoundationalThermodynamicEngine' object has no attribute 'calculate_entropy'",
+      "severity": "critical",
+      "timestamp": "2025-07-09T16:45:28.207939",
+      "data": {}
+    },
+    {
+      "issue": "Entropy calculation failed: 'FoundationalThermodynamicEngine' object has no attribute 'calculate_entropy'",
+      "severity": "critical",
+      "timestamp": "2025-07-09T16:45:28.208230",
+      "data": {}
+    },
+    {
+      "issue": "Field evolution failed: 'SPDEEngine' object has no attribute 'evolve'",
+      "severity": "critical",
+      "timestamp": "2025-07-09T16:45:28.273939",
+      "data": {}
+    },
+    {
+      "issue": "Portal manager not implemented",
+      "severity": "critical",
+      "timestamp": "2025-07-09T16:45:31.994889",
+      "data": {}
+    },
+    {
+      "issue": "Vortex dynamics not implemented",
+      "severity": "critical",
+      "timestamp": "2025-07-09T16:45:31.996141",
+      "data": {}
+    }
+  ],
+  "measurements": {
+    "semantic_sim_quantum en_quantum su": 0.8140842318534851,
+    "semantic_sim_thermodyna_informatio": 0.8091679811477661,
+    "semantic_sim_cognitive _neural syn": 0.7289676070213318,
+    "geoid_creation_latency_ms": 0.33783912658691406,
+    "embedding_generation_latency_ms": 28.99456024169922,
+    "gpu_memory_gb": 1.0655832290649414,
+    "gpu_utilization": 19
+  }
+}

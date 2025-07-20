@@ -1,0 +1,78 @@
+{
+  "execution_summary": {
+    "start_time": "2025-07-10T04:00:45.201252",
+    "end_time": "2025-07-10T04:05:45.201681",
+    "duration_seconds": 300.000429,
+    "duration_minutes": 5.00000715,
+    "test_type": "ultimate_real_time_testnet"
+  },
+  "system_architecture": {
+    "backend_engines": 2,
+    "trading_components": 8,
+    "total_components": 10,
+    "gpu_acceleration": true,
+    "cognitive_dimension": 512
+  },
+  "performance_metrics": {
+    "total_events": 29805,
+    "component_executions": 4752,
+    "event_rate_per_second": 99.34985792970316,
+    "execution_rate_per_second": 15.839977348832392,
+    "trade_rate_per_second": 0.019999971400040898
+  },
+  "cognitive_metrics": {
+    "hft_operations": 594,
+    "ml_predictions": 154,
+    "quantum_optimizations": 100,
+    "compliance_checks": 594,
+    "cognitive_insights": 594,
+    "microstructure_analyses": 594,
+    "smart_routes": 594,
+    "integrated_decisions": 594
+  },
+  "trading_summary": {
+    "total_trades": 6,
+    "win_rate": 0.0,
+    "total_pnl": -0.004430297374265729,
+    "positions": {
+      "ADAUSDT": 0.0006,
+      "SOLUSDT": 0.0003,
+      "BNBUSDT": -0.0003,
+      "BTCUSDT": -0.0006
+    },
+    "symbols_traded": [
+      "BTCUSDT",
+      "ETHUSDT",
+      "ADAUSDT",
+      "BNBUSDT",
+      "SOLUSDT"
+    ],
+    "strategies_used": [
+      "mean_reversion"
+    ]
+  },
+  "system_health": {
+    "cpu_usage": 9.0,
+    "memory_usage": 49.9,
+    "gpu_usage": 38,
+    "component_health": {
+      "thermodynamic": true,
+      "contradiction": true,
+      "cep": true,
+      "smart_router": true,
+      "microstructure": true,
+      "compliance": true,
+      "quantum": true,
+      "ml": true,
+      "hft": true,
+      "integrated": true
+    }
+  },
+  "configuration": {
+    "test_duration_minutes": 5,
+    "market_data_frequency_ms": 50,
+    "component_frequency_ms": 500,
+    "trading_frequency_s": 5,
+    "active_trading_enabled": true
+  }
+}

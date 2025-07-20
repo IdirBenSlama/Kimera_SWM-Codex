@@ -1,0 +1,56 @@
+{
+  "summary": {
+    "mode": "demonstration",
+    "runtime_seconds": 120.651885,
+    "initial_balance": "5.05150000",
+    "final_balance": "5.04725000",
+    "total_profit": "-0.00425000",
+    "profit_percentage": -0.08413342571513412,
+    "successful_trades": 38,
+    "total_trades": 0,
+    "success_rate": 3800.0,
+    "final_risk_level": "GREEN"
+  },
+  "configuration": {
+    "trading_pairs": [
+      "DOGEUSDT"
+    ],
+    "target_profit_bps": 0,
+    "max_spread_bps": 100,
+    "min_trade_percentage": "0.9"
+  },
+  "performance_metrics": {
+    "latency": {
+      "total": {
+        "min_ns": 956775700,
+        "max_ns": 1363160800,
+        "mean_ns": 977071102.6315789,
+        "median_ns": 963250350.0,
+        "p95_ns": 1012082930.0,
+        "p99_ns": 1233328725.000001
+      },
+      "market_data": {
+        "mean_ns": 0,
+        "median_ns": 0.0
+      },
+      "execution": {
+        "mean_ns": 456472447.3684211,
+        "median_ns": 455028700.0
+      }
+    },
+    "trading": {
+      "total_trades": 76,
+      "successful_trades": 76,
+      "success_rate": 100.0,
+      "trades_per_minute": 43.94303844324339
+    },
+    "pnl": {
+      "total_pnl": "-0.00425000",
+      "average_pnl": "-0.0001118421052631578947368421053",
+      "win_rate": 28.947368421052634,
+      "average_win": "0.0004027272727272727272727272727",
+      "average_loss": "-0.0004568421052631578947368421053",
+      "profit_factor": "0.5103686635944700460829493088"
+    }
+  }
+}

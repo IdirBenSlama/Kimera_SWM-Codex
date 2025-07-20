@@ -1,0 +1,11 @@
+{
+  "timestamp": "2025-07-10T05:26:47.056919",
+  "total_profit_eur": 1.7749999999999995,
+  "trades_executed": 21,
+  "average_per_trade": 0.0845238095238095,
+  "strategies_used": [
+    "horizontal_momentum",
+    "vertical_microstructure"
+  ],
+  "status": "COMPLETE"
+}

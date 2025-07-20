@@ -1,0 +1,257 @@
+# KIMERA LIVE TRADING ENVIRONMENT CONFIGURATION
+# =============================================
+#
+# This file contains API credentials and configuration for Kimera's live trading system.
+# 
+# SECURITY WARNING:
+# - Never commit this file to version control
+# - Store credentials securely
+# - Use environment-specific files (.env.production, .env.testnet)
+# - Rotate API keys regularly
+#
+# CONSTITUTIONAL COMPLIANCE:
+# - All trading operations are subject to Ethical Governor approval
+# - Risk management systems are enforced at all levels
+# - Emergency stops can halt trading at any time
+
+# =============================================================================
+# TRADING MODE CONFIGURATION
+# =============================================================================
+
+# Trading mode: simulation, testnet, live_minimal, live_growth, live_scaling
+KIMERA_TRADING_MODE=simulation
+
+# Trading phase: initialization, proof_of_concept, validation, growth, scaling, mastery
+KIMERA_TRADING_PHASE=proof_of_concept
+
+# Starting capital (must meet phase minimums)
+KIMERA_STARTING_CAPITAL=1.0
+
+# Enable constitutional compliance (STRONGLY RECOMMENDED: true)
+KIMERA_CONSTITUTIONAL_COMPLIANCE=true
+
+# Enable circuit breakers and safety mechanisms
+KIMERA_ENABLE_CIRCUIT_BREAKERS=true
+
+# =============================================================================
+# BINANCE API CREDENTIALS (Primary Exchange)
+# =============================================================================
+
+# Binance API credentials
+# Get these from: https://www.binance.com/en/my/settings/api-management
+BINANCE_API_KEY=your_binance_api_key_here
+BINANCE_API_SECRET=your_binance_api_secret_here
+
+# Use testnet for testing (true/false)
+BINANCE_USE_TESTNET=true
+
+# =============================================================================
+# COINBASE ADVANCED TRADING API (Backup Exchange)
+# =============================================================================
+
+# Coinbase Advanced Trading API credentials
+# Get these from: https://www.coinbase.com/settings/api
+COINBASE_API_KEY=your_coinbase_api_key_here
+COINBASE_API_SECRET=your_coinbase_api_secret_here
+COINBASE_PASSPHRASE=your_coinbase_passphrase_here
+
+# Use sandbox for testing (true/false)
+COINBASE_USE_SANDBOX=true
+
+# =============================================================================
+# RISK MANAGEMENT CONFIGURATION
+# =============================================================================
+
+# Maximum daily risk as percentage of portfolio (0.01 = 1%)
+KIMERA_MAX_DAILY_RISK=0.02
+
+# Maximum position size as percentage of portfolio (0.1 = 10%)
+KIMERA_MAX_POSITION_SIZE=0.1
+
+# Emergency stop loss percentage (0.1 = 10%)
+KIMERA_EMERGENCY_STOP_LOSS=0.10
+
+# Maximum consecutive losses before pause
+KIMERA_MAX_CONSECUTIVE_LOSSES=3
+
+# Minimum confidence threshold for trades (0.0 to 1.0)
+KIMERA_MIN_CONFIDENCE_THRESHOLD=0.7
+
+# Risk tolerance level: MINIMAL, LOW, MEDIUM, HIGH, CRITICAL
+KIMERA_RISK_TOLERANCE=MEDIUM
+
+# =============================================================================
+# CONSTITUTIONAL PARAMETERS
+# =============================================================================
+
+# Require ethical approval for all trades (true/false)
+KIMERA_REQUIRE_ETHICAL_APPROVAL=true
+
+# Enable enhanced transparency logging (true/false)
+KIMERA_ENHANCED_LOGGING=true
+
+# Enable monitoring integration (true/false)
+KIMERA_ENABLE_MONITORING=true
+
+# Constitutional alignment threshold (0.0 to 1.0)
+KIMERA_CONSTITUTIONAL_THRESHOLD=0.6
+
+# =============================================================================
+# COGNITIVE FIELD CONFIGURATION
+# =============================================================================
+
+# Cognitive field dimension for analysis
+KIMERA_COGNITIVE_DIMENSION=256
+
+# Enable contradiction detection (true/false)
+KIMERA_ENABLE_CONTRADICTION_DETECTION=true
+
+# Enable thermodynamic analysis (true/false)
+KIMERA_ENABLE_THERMODYNAMIC_ANALYSIS=true
+
+# Cognitive confidence threshold (0.0 to 1.0)
+KIMERA_COGNITIVE_CONFIDENCE_THRESHOLD=0.6
+
+# =============================================================================
+# TRADING INTELLIGENCE CONFIGURATION
+# =============================================================================
+
+# Enable market intelligence gathering (true/false)
+KIMERA_ENABLE_MARKET_INTELLIGENCE=true
+
+# Enable sentiment analysis (true/false)
+KIMERA_ENABLE_SENTIMENT_ANALYSIS=true
+
+# Enable live data collection (true/false)
+KIMERA_ENABLE_LIVE_DATA=true
+
+# Intelligence update interval (seconds)
+KIMERA_INTELLIGENCE_UPDATE_INTERVAL=300
+
+# =============================================================================
+# LOGGING AND MONITORING
+# =============================================================================
+
+# Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+KIMERA_LOG_LEVEL=INFO
+
+# Enable file logging (true/false)
+KIMERA_ENABLE_FILE_LOGGING=true
+
+# Log directory path
+KIMERA_LOG_DIRECTORY=./logs
+
+# Enable performance metrics (true/false)
+KIMERA_ENABLE_PERFORMANCE_METRICS=true
+
+# Enable audit trail (true/false)
+KIMERA_ENABLE_AUDIT_TRAIL=true
+
+# =============================================================================
+# EMERGENCY CONTACTS AND NOTIFICATIONS
+# =============================================================================
+
+# Emergency contact email (optional)
+KIMERA_EMERGENCY_EMAIL=your_email@example.com
+
+# Enable email notifications for critical events (true/false)
+KIMERA_ENABLE_EMAIL_NOTIFICATIONS=false
+
+# Slack webhook for notifications (optional)
+KIMERA_SLACK_WEBHOOK_URL=
+
+# Discord webhook for notifications (optional)
+KIMERA_DISCORD_WEBHOOK_URL=
+
+# =============================================================================
+# ADVANCED CONFIGURATION
+# =============================================================================
+
+# Trading iteration delay (seconds)
+KIMERA_TRADING_ITERATION_DELAY=30
+
+# Maximum concurrent trades
+KIMERA_MAX_CONCURRENT_TRADES=3
+
+# Enable paper trading mode (true/false)
+KIMERA_PAPER_TRADING_MODE=false
+
+# Enable backtesting integration (true/false)
+KIMERA_ENABLE_BACKTESTING=true
+
+# =============================================================================
+# DATABASE CONFIGURATION
+# =============================================================================
+
+# Database URL for trade history and analytics
+KIMERA_DATABASE_URL=sqlite:///kimera_trading.db
+
+# Enable database logging (true/false)
+KIMERA_ENABLE_DATABASE_LOGGING=true
+
+# =============================================================================
+# SECURITY CONFIGURATION
+# =============================================================================
+
+# Enable API key encryption (true/false)
+KIMERA_ENCRYPT_API_KEYS=true
+
+# Enable secure communication (true/false)
+KIMERA_ENABLE_SECURE_COMMUNICATION=true
+
+# Enable IP whitelisting (true/false)
+KIMERA_ENABLE_IP_WHITELISTING=false
+
+# Allowed IP addresses (comma-separated)
+KIMERA_ALLOWED_IPS=127.0.0.1,localhost
+
+# =============================================================================
+# PHASE PROGRESSION TARGETS
+# =============================================================================
+
+# Proof of Concept target ($)
+KIMERA_PROOF_OF_CONCEPT_TARGET=10.0
+
+# Validation phase target ($)
+KIMERA_VALIDATION_TARGET=100.0
+
+# Growth phase target ($)
+KIMERA_GROWTH_TARGET=1000.0
+
+# Scaling phase target ($)
+KIMERA_SCALING_TARGET=10000.0
+
+# Mastery phase target ($)
+KIMERA_MASTERY_TARGET=100000.0
+
+# =============================================================================
+# CONSTITUTIONAL CANONS ENFORCEMENT
+# =============================================================================
+
+# Enable Canon 27 (Moderation) enforcement
+KIMERA_ENFORCE_MODERATION=true
+
+# Enable Canon 36 (Prime Directive) enforcement
+KIMERA_ENFORCE_PRIME_DIRECTIVE=true
+
+# Enable Heart over Head decision making
+KIMERA_ENABLE_HEART_OVER_HEAD=true
+
+# Enable relational context analysis
+KIMERA_ENABLE_RELATIONAL_CONTEXT=true
+
+# =============================================================================
+# DEVELOPMENT AND TESTING
+# =============================================================================
+
+# Enable debug mode (true/false)
+KIMERA_DEBUG_MODE=false
+
+# Enable simulation mode override (true/false)
+KIMERA_FORCE_SIMULATION=false
+
+# Enable verbose logging (true/false)
+KIMERA_VERBOSE_LOGGING=false
+
+# Test mode duration (minutes, 0 = unlimited)
+KIMERA_TEST_DURATION=0 

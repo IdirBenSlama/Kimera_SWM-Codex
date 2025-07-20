@@ -1,0 +1,50 @@
+# Machine Learning, Deep Learning, & NLP Dependencies
+# ----------------------------------------------------
+# These packages are for AI/ML model training, inference, and related tasks.
+# They are often large and have specific hardware requirements (e.g., CUDA).
+
+# Core ML/DL Frameworks
+torch==2.4.0
+torchvision
+torchaudio
+accelerate==0.34.2
+bitsandbytes==0.46.0
+cupy-cuda11x==13.4.1 # Explicit CUDA version
+# Note: consider making a cpu version: cupy
+
+# Transformers & Hugging Face Ecosystem
+transformers==4.43.3
+huggingface-hub==0.30.2
+datasets==3.6.0
+evaluate==0.4.3
+tokenizers==0.19.1
+
+# Vector Stores & Search
+chromadb==1.0.13
+faiss-cpu==1.11.0 # CPU version, faiss-gpu should be in a separate gpu.txt if needed
+hnswlib==0.8.0
+
+# NLP & Language
+spacy==3.7.5
+en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl#sha256=1932429db727d4bff3deed6b34cfc05df17794f4a52eeb26cf8928f7c1a0fb85
+catalogue==2.0.10
+confection==0.1.5
+cymem==2.0.11
+langchain==0.3.25
+langchain-core==0.3.65
+langchain-text-splitters==0.3.8
+langcodes==3.5.0
+langsmith==0.3.45
+llvmlite==0.44.0
+murmurhash==1.0.13
+nltk==3.9.1
+srsly==2.4.9
+spacy-legacy==3.0.12
+spacy-loggers==1.0.5
+
+# Other ML/AI
+gymnasium==1.1.1
+scikit-learn==1.5.1
+safetensors==0.4.3
+sentence-transformers==3.0.1
+timm 

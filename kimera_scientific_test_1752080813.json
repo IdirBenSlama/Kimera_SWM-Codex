@@ -1,0 +1,32 @@
+{
+  "timestamp": "2025-07-09T18:06:36.961643",
+  "tests_passed": 6,
+  "tests_failed": 1,
+  "components": {
+    "postgresql": "failed",
+    "thermodynamics": "operational",
+    "quantum": "operational",
+    "diffusion": "operational",
+    "portal_vortex": "operational",
+    "semantics": "operational",
+    "integration": "operational"
+  },
+  "scientific_metrics": {
+    "entropy": 6.714881672611469,
+    "carnot_efficiency": 0.0,
+    "physics_compliant": true,
+    "quantum_coherence": 1.0000000000000002,
+    "entanglement_entropy": 2.220446049250313e-16,
+    "diffusion_conservation": 0.0017899642535878805,
+    "total_circulation": 0.6639729496740737,
+    "vortex_energy": 0.058630379987016784,
+    "semantic_coherence": 0.7211384177207947
+  },
+  "performance_metrics": {
+    "diffusion_time": 0.5610079765319824
+  },
+  "success_rate": 85.71428571428571,
+  "gpu_available": true,
+  "gpu_name": "NVIDIA GeForce RTX 2080 Ti",
+  "gpu_memory_gb": 10.99957275390625
+}

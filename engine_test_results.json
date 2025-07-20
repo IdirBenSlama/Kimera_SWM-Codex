@@ -1,0 +1,259 @@
+{
+  "timestamp": "2025-07-08T23:35:59.895241",
+  "base_url": "http://localhost:8000",
+  "results": {
+    "System Health Check": {
+      "status": "\u26a0\ufe0f WARN",
+      "response_time": "2.065s",
+      "engine_status": "healthy",
+      "data": {
+        "status": "healthy",
+        "kimera_status": "running"
+      }
+    },
+    "Engines Status Overview": {
+      "status": "\u26a0\ufe0f WARN",
+      "response_time": "2.042s",
+      "engine_status": "unknown",
+      "data": {
+        "timestamp": "2025-07-08T23:35:45.567981",
+        "engines": {
+          "contradiction_engine": {
+            "name": "Contradiction Engine",
+            "status": "operational",
+            "type": "ContradictionEngine",
+            "available": true
+          },
+          "thermodynamics_engine": {
+            "name": "Thermodynamics Engine",
+            "status": "operational",
+            "type": "FoundationalThermodynamicEngine",
+            "available": true
+          },
+          "vault_manager": {
+            "name": "Vault Manager",
+            "status": "operational",
+            "type": "VaultManager",
+            "available": true
+          },
+          "spde_engine": {
+            "name": "SPDE Engine",
+            "status": "operational",
+            "type": "SPDEEngine",
+            "available": true
+          },
+          "cognitive_cycle": {
+            "name": "Cognitive Cycle",
+            "status": "operational",
+            "type": "CognitiveCycleEngine",
+            "available": true
+          },
+          "meta_insight_engine": {
+            "name": "Meta Insight Engine",
+            "status": "operational",
+            "type": "MetaInsightEngine",
+            "available": true
+          },
+          "proactive_detector": {
+            "name": "Proactive Detector",
+            "status": "operational",
+            "type": "ProactiveDetector",
+            "available": true
+          },
+          "revolutionary_intelligence": {
+            "name": "Revolutionary Intelligence",
+            "status": "operational",
+            "type": "RevolutionaryIntelligenceEngine",
+            "available": true
+          }
+        },
+        "system_metrics": {
+          "active_geoids": 0,
+          "cycle_count": 0,
+          "insights_count": 0,
+          "recent_insights_count": 0
+        }
+      }
+    },
+    "Contradiction Engine": {
+      "status": "\u2705 PASS",
+      "response_time": "2.031s",
+      "engine_status": "operational",
+      "data": {
+        "timestamp": "2025-07-08T23:35:47.600661",
+        "status": "operational",
+        "tension_threshold": 0.4,
+        "engine_type": "ContradictionEngine"
+      }
+    },
+    "Thermodynamics Engine": {
+      "status": "\u2705 PASS",
+      "response_time": "2.053s",
+      "engine_status": "operational",
+      "data": {
+        "timestamp": "2025-07-08T23:35:49.654623",
+        "status": "operational",
+        "engine_type": "FoundationalThermodynamicEngine"
+      }
+    },
+    "SPDE Engine": {
+      "status": "\u2705 PASS",
+      "response_time": "2.048s",
+      "engine_status": "operational",
+      "data": {
+        "timestamp": "2025-07-08T23:35:51.704564",
+        "status": "operational",
+        "engine_type": "SPDEEngine",
+        "device": "cuda",
+        "total_solutions": 0,
+        "average_solve_time": 0.0,
+        "last_solve_time": 0.0,
+        "solution_history_size": 0,
+        "available_solvers": [
+          "cognitive_diffusion",
+          "semantic_wave"
+        ]
+      }
+    },
+    "Cognitive Cycle Engine": {
+      "status": "\u2705 PASS",
+      "response_time": "2.037s",
+      "engine_status": "operational",
+      "data": {
+        "timestamp": "2025-07-08T23:35:53.742373",
+        "status": "operational",
+        "engine_type": "CognitiveCycleEngine",
+        "current_state": "idle",
+        "cycle_count": 0,
+        "total_processing_time": 0.0,
+        "average_cycle_time": 0.0,
+        "working_memory_load": 0.0,
+        "attention_entropy": 0.0,
+        "long_term_memory_size": 0,
+        "semantic_network_size": 0,
+        "insight_events_count": 0,
+        "recent_insights": 0,
+        "recent_cycles": [],
+        "insights_summary": {
+          "total_insights": 0,
+          "recent_insights": 0,
+          "average_insight_score": 0.0,
+          "top_insights": []
+        }
+      }
+    },
+    "Meta Insight Engine": {
+      "status": "\u2705 PASS",
+      "response_time": "2.062s",
+      "engine_status": "operational",
+      "data": {
+        "timestamp": "2025-07-08T23:35:55.805271",
+        "status": "operational",
+        "engine_type": "MetaInsightEngine",
+        "total_insights_processed": 0,
+        "total_meta_insights_generated": 0,
+        "average_processing_time": 0.0,
+        "insights_in_repository": 0,
+        "meta_insights_in_repository": 0,
+        "processing_history_size": 0,
+        "quality_assessor_history": 0,
+        "metacognitive_processor_history": 0,
+        "insights_summary": {
+          "total_insights": 0,
+          "quality_distribution": {},
+          "type_distribution": {},
+          "recent_insights": []
+        },
+        "meta_insights_summary": {
+          "total_meta_insights": 0,
+          "meta_types": {},
+          "recent_meta_insights": []
+        }
+      }
+    },
+    "Proactive Detector": {
+      "status": "\u2705 PASS",
+      "response_time": "2.037s",
+      "engine_status": "operational",
+      "data": {
+        "timestamp": "2025-07-08T23:35:57.844610",
+        "status": "operational",
+        "engine_type": "ProactiveDetector",
+        "total_detections": 0,
+        "active_alerts": 0,
+        "data_streams": 0,
+        "detection_accuracy": 0.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "detection_events_history": 0,
+        "prediction_models": 0,
+        "threshold_adaptations": 0,
+        "detection_summary": {
+          "total_detections": 0,
+          "recent_detections": 0,
+          "active_alerts_count": 0,
+          "data_streams_count": 0,
+          "detection_accuracy": 0.0,
+          "false_positive_rate": 0.0,
+          "type_distribution": {},
+          "alert_distribution": {},
+          "threshold_adaptations": 0
+        },
+        "active_alerts_list": []
+      }
+    },
+    "Revolutionary Intelligence Engine": {
+      "status": "\u2705 PASS",
+      "response_time": "2.037s",
+      "engine_status": "operational",
+      "data": {
+        "timestamp": "2025-07-08T23:35:59.883609",
+        "status": "operational",
+        "engine_type": "RevolutionaryIntelligenceEngine",
+        "intelligence_level": "basic",
+        "current_mode": "exploration",
+        "total_orchestrations": 0,
+        "total_breakthroughs": 0,
+        "intelligence_assessments": 0,
+        "registered_engines": 0,
+        "breakthrough_count": 0,
+        "cognitive_capacity": 0.5,
+        "processing_efficiency": 0.5,
+        "revolutionary_index": 0.3,
+        "revolutionary_status": {
+          "current_intelligence_level": "basic",
+          "current_mode": "exploration",
+          "performance_metrics": {
+            "cognitive_capacity": 0.5,
+            "processing_efficiency": 0.5,
+            "breakthrough_potential": 0.3,
+            "revolutionary_index": 0.3
+          },
+          "breakthrough_count": 0,
+          "last_breakthrough": null,
+          "total_orchestrations": 0,
+          "intelligence_progression": {
+            "progression": [],
+            "trend": "no_data"
+          },
+          "breakthrough_summary": {
+            "total_breakthroughs": 0,
+            "breakthrough_types": {},
+            "recent_breakthroughs": [],
+            "significance_distribution": {}
+          },
+          "recent_orchestrations": [],
+          "registered_engines": 0
+        },
+        "revolutionary_capabilities": [
+          "breakthrough_detection",
+          "paradigm_shift_analysis",
+          "emergent_intelligence",
+          "cognitive_transcendence",
+          "multi_engine_orchestration",
+          "intelligence_analysis"
+        ]
+      }
+    }
+  }
+}

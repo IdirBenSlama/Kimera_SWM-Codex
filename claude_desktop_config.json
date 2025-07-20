@@ -1,0 +1,93 @@
+{
+  "globalShortcut": "Ctrl+Space",
+  "mcpServers": {
+    "fetch": {
+      "command": "python",
+      "args": [
+        "-m",
+        "mcp_server_fetch"
+      ],
+      "env": {
+        "DEBUG": "*"
+      }
+    },
+    "sqlite": {
+      "command": "mcp-server-sqlite",
+      "args": [
+        "--db-path",
+        "D:\\DEV\\MCP servers\\test.db"
+      ],
+      "env": {
+        "DEBUG": "*"
+      }
+    },
+    "filesystem": {
+      "command": "node",
+      "args": [
+        "D:\\DEV\\MCP servers\\official-servers\\src\\filesystem\\dist\\index.js",
+        "D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625",
+        "D:\\DEV\\MCP servers",
+        "C:\\Users\\Loomine\\Documents",
+        "C:\\Users\\Loomine\\Downloads"
+      ],
+      "env": {
+        "DEBUG": "*"
+      }
+    },
+    "memory": {
+      "command": "node",
+      "args": [
+        "D:\\DEV\\MCP servers\\official-servers\\src\\memory\\dist\\index.js"
+      ],
+      "env": {
+        "DEBUG": "*"
+      }
+    },
+    "git": {
+      "command": "node",
+      "args": [
+        "D:\\DEV\\MCP servers\\official-servers\\src\\git\\dist\\index.js"
+      ],
+      "env": {
+        "DEBUG": "*"
+      }
+    },
+    "sequential-thinking": {
+      "command": "node",
+      "args": [
+        "D:\\DEV\\MCP servers\\official-servers\\src\\sequentialthinking\\dist\\index.js"
+      ],
+      "env": {
+        "DEBUG": "*"
+      }
+    },
+    "time": {
+      "command": "node",
+      "args": [
+        "D:\\DEV\\MCP servers\\official-servers\\src\\time\\dist\\index.js"
+      ],
+      "env": {
+        "DEBUG": "*"
+      }
+    },
+    "kimera-cognitive": {
+      "command": "python",
+      "args": [
+        "D:\\DEV\\MCP servers\\kimera_mcp_server.py"
+      ],
+      "env": {
+        "DEBUG": "*"
+      }
+    },
+    "mcp-builder": {
+      "command": "python",
+      "args": [
+        "-m",
+        "mcp_builder.server"
+      ],
+      "env": {
+        "DEBUG": "*"
+      }
+    }
+  }
+}

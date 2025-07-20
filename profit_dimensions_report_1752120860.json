@@ -1,0 +1,17 @@
+{
+  "timestamp": "2025-07-10T05:14:20.839738",
+  "horizontal_profit": 167.70568830816808,
+  "vertical_profit": 695.2940958440647,
+  "synergy_bonus": 116.60477492013426,
+  "total_profit": 979.604559072367,
+  "profit_ratio": {
+    "horizontal": 0.17119733340867296,
+    "vertical": 0.7097701714480289
+  },
+  "recommendations": [
+    "Focus on high-momentum assets for horizontal expansion",
+    "Implement HFT infrastructure for vertical optimization",
+    "Combine strategies for maximum synergy",
+    "Scale gradually as profits compound"
+  ]
+}

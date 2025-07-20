@@ -1,0 +1,113 @@
+{
+  "timestamp": "2025-07-09T17:19:02.307918",
+  "system_health": {
+    "api_status": "offline"
+  },
+  "performance_metrics": {
+    "embedding": {
+      "single_encoding_ms": 28.749823570251465,
+      "batch_encoding_ms": 673.1977462768555,
+      "batch_size": 20,
+      "throughput_per_sec": 29.708952697198892
+    },
+    "error": "(psycopg2.OperationalError) connection to server at \"localhost\" (::1), port 5432 failed: FATAL:  password authentication failed for user \"postgres\"\n\n(Background on this error at: https://sqlalche.me/e/20/e3q8)"
+  },
+  "scientific_integrity": {
+    "thermodynamics": {
+      "carnot_efficiency": 0.0,
+      "theoretical_max": 0.7,
+      "efficiency_ratio": 0.0,
+      "physics_compliant": true,
+      "violations": 0
+    },
+    "quantum": {
+      "uncertainty_product": 1.8708286933869707,
+      "heisenberg_satisfied": "True",
+      "dimension": 8
+    },
+    "diffusion": {
+      "conservation_error": 0.08731013536453247,
+      "conservation_satisfied": "False"
+    }
+  },
+  "optimization_opportunities": [
+    {
+      "area": "GPU",
+      "issue": "Low GPU utilization",
+      "recommendation": "Batch more operations for GPU processing",
+      "priority": "medium"
+    },
+    {
+      "area": "Diffusion",
+      "issue": "Conservation law violations",
+      "recommendation": "Implement symplectic integrators",
+      "priority": "high"
+    }
+  ],
+  "resource_utilization": {
+    "cpu_percent": 12.6,
+    "memory_percent": 47.8,
+    "memory_available_gb": 33.328575134277344,
+    "disk_percent": 95.1,
+    "disk_free_gb": 181.29010391235352,
+    "gpu_memory_gb": 0.0,
+    "gpu_memory_percent": 0.0
+  },
+  "api_responsiveness": {
+    "/": {
+      "status_code": 0,
+      "latency_ms": 0,
+      "healthy": false,
+      "error": "HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001F83F308B90>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))"
+    },
+    "/health": {
+      "status_code": 0,
+      "latency_ms": 0,
+      "healthy": false,
+      "error": "HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /health (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001F83F308E10>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))"
+    },
+    "/kimera/status": {
+      "status_code": 0,
+      "latency_ms": 0,
+      "healthy": false,
+      "error": "HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /kimera/status (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001F83F331E00>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))"
+    },
+    "/kimera/geoid/create": {
+      "status_code": 0,
+      "latency_ms": 0,
+      "healthy": false,
+      "error": "HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /kimera/geoid/create (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001F83F332520>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))"
+    },
+    "/kimera/scars": {
+      "status_code": 0,
+      "latency_ms": 0,
+      "healthy": false,
+      "error": "HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /kimera/scars (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001F845FC85F0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))"
+    },
+    "/kimera/contradictions/detect": {
+      "status_code": 0,
+      "latency_ms": 0,
+      "healthy": false,
+      "error": "HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /kimera/contradictions/detect (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001F83F312580>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))"
+    },
+    "/kimera/insights/generate": {
+      "status_code": 0,
+      "latency_ms": 0,
+      "healthy": false,
+      "error": "HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /kimera/insights/generate (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001F83F312CF0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))"
+    },
+    "/kimera/revolutionary": {
+      "status_code": 0,
+      "latency_ms": 0,
+      "healthy": false,
+      "error": "HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /kimera/revolutionary (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001F83F313020>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))"
+    },
+    "/kimera/metrics": {
+      "status_code": 0,
+      "latency_ms": 0,
+      "healthy": false,
+      "error": "HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /kimera/metrics (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001F83F313350>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))"
+    }
+  },
+  "overall_health_score": 45.4888888888889
+}

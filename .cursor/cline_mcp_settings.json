@@ -1,0 +1,8 @@
+{
+  "servers": [
+    {
+      "name": "github.com/AgentDeskAI/browser-tools-mcp",
+      "uri": "http://localhost:3000"
+    }
+  ]
+}

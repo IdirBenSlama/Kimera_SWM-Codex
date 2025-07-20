@@ -1,0 +1,26 @@
+{
+  "summary": {
+    "mode": "aggressive",
+    "runtime_seconds": 180.590361,
+    "initial_balance": "5.05794000",
+    "final_balance": "5.05150000",
+    "total_profit": "-0.00644000",
+    "profit_percentage": -0.1273245629643689,
+    "successful_trades": 0,
+    "total_trades": 0,
+    "success_rate": 0.0,
+    "final_risk_level": "GREEN"
+  },
+  "configuration": {
+    "trading_pairs": [
+      "DOGEUSDT",
+      "TRXUSDT",
+      "SHIBUSDT",
+      "PEPEUSDT"
+    ],
+    "target_profit_bps": 2,
+    "max_spread_bps": 20,
+    "min_trade_percentage": "0.95"
+  },
+  "performance_metrics": {}
+}

@@ -1,0 +1,65 @@
+# Core Application & Web Framework Dependencies
+# -------------------------------------------
+# These packages form the fundamental building blocks of the Kimera API
+# and application structure.
+
+# Web Framework & Server
+fastapi==0.115.13
+uvicorn  # Version managed by fastapi, but good to have explicit
+aiohttp>=3.12.0
+anyio==4.9.0
+asgiref==3.8.1
+click==8.2.1
+h11==0.16.0
+httptools==0.6.4
+httpx==0.28.1
+python-dotenv  # Explicitly add dotenv, it's used in kimera.py
+rich # Used for logging in kimera.py
+
+# Database & ORM
+sqlalchemy==2.0.31 # From your provided list, but newer versions exist
+alembic==1.16.2
+greenlet==3.2.3
+neo4j==5.28.1
+
+# General Utilities
+aiofiles==24.1.0
+aiosignal==1.3.2
+annotated-types==0.7.0
+attrs==25.3.0
+babel==2.17.0
+backoff==2.2.1
+cachetools==5.5.2
+certifi==2025.6.15
+charset-normalizer==3.4.2
+colorama==0.4.6
+coloredlogs==15.0.1
+decorator==5.2.1
+fastrlock==0.8.3
+filelock==3.18.0
+idna==3.10
+importlib_metadata==8.7.0
+importlib_resources==6.5.2
+itsdangerous==2.2.0
+Jinja2==3.1.6
+loguru==0.7.3
+Mako==1.3.10
+markdown-it-py==3.0.0
+MarkupSafe==3.0.2
+mdurl==0.1.2
+multidict==6.4.4
+nest-asyncio==1.6.0
+packaging # Often a transitive dependency, but good to have
+pydantic==2.8.2 # Newer versions available, using one from a similar project
+pydantic-core
+PyYAML
+requests==2.32.3
+sniffio==1.3.1
+starlette # from fastapi
+tqdm==4.66.4
+typing-extensions # Critical for pydantic and fastapi
+urllib3==2.2.2
+zipp>=3.20.0 
+
+# File locking for process-safe logging
+portalocker>=2.0.0 

@@ -1,0 +1,30 @@
+{
+  "execution_summary": {
+    "start_time": "2025-07-10T03:52:10.685167",
+    "end_time": "2025-07-10T03:55:10.685616",
+    "duration_seconds": 180.000449,
+    "duration_minutes": 3.0000074833333334
+  },
+  "system_components": {
+    "backend_engines": 3,
+    "trading_components": 8,
+    "total_components": 11
+  },
+  "performance_metrics": {
+    "total_events": 5391,
+    "component_executions": 1424,
+    "cognitive_insights": 178,
+    "quantum_optimizations": 18,
+    "ml_predictions": 33,
+    "compliance_checks": 178,
+    "trades_executed": 0
+  },
+  "trading_summary": {
+    "total_trades": 0,
+    "symbols_traded": [
+      "BTCUSDT",
+      "ETHUSDT",
+      "ADAUSDT"
+    ]
+  }
+}

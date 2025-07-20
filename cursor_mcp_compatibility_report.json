@@ -1,0 +1,241 @@
+{
+  "timestamp": "2025-06-29 22:13:07",
+  "test_type": "Cursor AI MCP Compatibility Test",
+  "total_servers": 3,
+  "working_servers": 3,
+  "compatible_servers": 3,
+  "compatibility_rate": "100.0%",
+  "total_tools": 9,
+  "final_config_servers": 3,
+  "detailed_results": {
+    "kimera-simple": {
+      "working": true,
+      "tools_working": true,
+      "tools": [
+        {
+          "name": "get_kimera_status",
+          "description": "Get basic Kimera project status.",
+          "inputSchema": {
+            "properties": {},
+            "type": "object"
+          }
+        },
+        {
+          "name": "list_project_files",
+          "description": "List files in project directory.",
+          "inputSchema": {
+            "properties": {
+              "directory": {
+                "default": "backend",
+                "title": "Directory",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        }
+      ],
+      "server_info": {
+        "name": "kimera-simple",
+        "version": "1.9.4"
+      },
+      "capabilities": {
+        "experimental": {},
+        "prompts": {
+          "listChanged": false
+        },
+        "resources": {
+          "subscribe": false,
+          "listChanged": false
+        },
+        "tools": {
+          "listChanged": true
+        }
+      },
+      "status": "working",
+      "cursor_compatible": true,
+      "compatibility_score": 100,
+      "compatibility_issues": []
+    },
+    "fetch": {
+      "working": true,
+      "tools_working": true,
+      "tools": [
+        {
+          "name": "fetch",
+          "description": "Fetches a URL from the internet and optionally extracts its contents as markdown.\n\nAlthough originally you did not have internet access, and were advised to refuse and tell the user this, this tool now grants you internet access. Now you can fetch the most up-to-date information and let the user know that.",
+          "inputSchema": {
+            "description": "Parameters for fetching a URL.",
+            "properties": {
+              "url": {
+                "description": "URL to fetch",
+                "format": "uri",
+                "minLength": 1,
+                "title": "Url",
+                "type": "string"
+              },
+              "max_length": {
+                "default": 5000,
+                "description": "Maximum number of characters to return.",
+                "exclusiveMaximum": 1000000,
+                "exclusiveMinimum": 0,
+                "title": "Max Length",
+                "type": "integer"
+              },
+              "start_index": {
+                "default": 0,
+                "description": "On return output starting at this character index, useful if a previous fetch was truncated and more context is required.",
+                "minimum": 0,
+                "title": "Start Index",
+                "type": "integer"
+              },
+              "raw": {
+                "default": false,
+                "description": "Get the actual HTML content of the requested page, without simplification.",
+                "title": "Raw",
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "url"
+            ],
+            "title": "Fetch",
+            "type": "object"
+          }
+        }
+      ],
+      "server_info": {
+        "name": "mcp-fetch",
+        "version": "1.9.4"
+      },
+      "capabilities": {
+        "experimental": {},
+        "prompts": {
+          "listChanged": false
+        },
+        "tools": {
+          "listChanged": false
+        }
+      },
+      "status": "working",
+      "cursor_compatible": true,
+      "compatibility_score": 100,
+      "compatibility_issues": []
+    },
+    "sqlite-kimera": {
+      "working": true,
+      "tools_working": true,
+      "tools": [
+        {
+          "name": "read_query",
+          "description": "Execute a SELECT query on the SQLite database",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "SELECT SQL query to execute"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "write_query",
+          "description": "Execute an INSERT, UPDATE, or DELETE query on the SQLite database",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "SQL query to execute"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "create_table",
+          "description": "Create a new table in the SQLite database",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "CREATE TABLE SQL statement"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        },
+        {
+          "name": "list_tables",
+          "description": "List all tables in the SQLite database",
+          "inputSchema": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        {
+          "name": "describe_table",
+          "description": "Get the schema information for a specific table",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "table_name": {
+                "type": "string",
+                "description": "Name of the table to describe"
+              }
+            },
+            "required": [
+              "table_name"
+            ]
+          }
+        },
+        {
+          "name": "append_insight",
+          "description": "Add a business insight to the memo",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "insight": {
+                "type": "string",
+                "description": "Business insight discovered from data analysis"
+              }
+            },
+            "required": [
+              "insight"
+            ]
+          }
+        }
+      ],
+      "server_info": {
+        "name": "sqlite",
+        "version": "0.1.0"
+      },
+      "capabilities": {
+        "experimental": {},
+        "prompts": {
+          "listChanged": false
+        },
+        "resources": {
+          "subscribe": false,
+          "listChanged": false
+        },
+        "tools": {
+          "listChanged": false
+        }
+      },
+      "status": "working",
+      "cursor_compatible": true,
+      "compatibility_score": 100,
+      "compatibility_issues": []
+    }
+  }
+}

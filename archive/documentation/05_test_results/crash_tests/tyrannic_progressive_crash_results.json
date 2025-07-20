@@ -1,0 +1,218 @@
+{
+  "results": [
+    {
+      "threads": 2,
+      "feature_count": 32,
+      "depth": 2,
+      "operations": 20,
+      "successes": 20,
+      "failures": 0,
+      "success_rate": 100.0,
+      "duration": 6.350547790527344,
+      "ops_per_sec": 3.1493346180045387,
+      "avg_response_time": 0.6221361279487609,
+      "start_metrics": {
+        "cpu_percent": 4.0,
+        "memory_percent": 27.9,
+        "memory_used_mb": 828.79296875,
+        "threads": 57,
+        "gpu_util": 1,
+        "gpu_mem": 2692.078125,
+        "gpu_temp": 46
+      },
+      "end_metrics": {
+        "cpu_percent": 11.8,
+        "memory_percent": 28.5,
+        "memory_used_mb": 1260.51953125,
+        "threads": 128,
+        "gpu_util": 7,
+        "gpu_mem": 3853.078125,
+        "gpu_temp": 46
+      }
+    },
+    {
+      "threads": 4,
+      "feature_count": 64,
+      "depth": 3,
+      "operations": 40,
+      "successes": 40,
+      "failures": 0,
+      "success_rate": 100.0,
+      "duration": 1.2202322483062744,
+      "ops_per_sec": 32.78064487766277,
+      "avg_response_time": 0.10819226503372192,
+      "start_metrics": {
+        "cpu_percent": 2.0,
+        "memory_percent": 28.5,
+        "memory_used_mb": 1260.53125,
+        "threads": 128,
+        "gpu_util": 4,
+        "gpu_mem": 3853.078125,
+        "gpu_temp": 45
+      },
+      "end_metrics": {
+        "cpu_percent": 10.0,
+        "memory_percent": 28.5,
+        "memory_used_mb": 1265.11328125,
+        "threads": 128,
+        "gpu_util": 67,
+        "gpu_mem": 3925.078125,
+        "gpu_temp": 47
+      }
+    },
+    {
+      "threads": 8,
+      "feature_count": 128,
+      "depth": 4,
+      "operations": 80,
+      "successes": 80,
+      "failures": 0,
+      "success_rate": 100.0,
+      "duration": 2.611516237258911,
+      "ops_per_sec": 30.633544934022417,
+      "avg_response_time": 0.24384201765060426,
+      "start_metrics": {
+        "cpu_percent": 2.0,
+        "memory_percent": 28.6,
+        "memory_used_mb": 1265.12890625,
+        "threads": 128,
+        "gpu_util": 1,
+        "gpu_mem": 3925.078125,
+        "gpu_temp": 45
+      },
+      "end_metrics": {
+        "cpu_percent": 12.9,
+        "memory_percent": 28.6,
+        "memory_used_mb": 1277.72265625,
+        "threads": 128,
+        "gpu_util": 39,
+        "gpu_mem": 4057.0625,
+        "gpu_temp": 46
+      }
+    },
+    {
+      "threads": 16,
+      "feature_count": 256,
+      "depth": 5,
+      "operations": 160,
+      "successes": 160,
+      "failures": 0,
+      "success_rate": 100.0,
+      "duration": 5.372220993041992,
+      "ops_per_sec": 29.782840320089072,
+      "avg_response_time": 0.5092213779687882,
+      "start_metrics": {
+        "cpu_percent": 4.4,
+        "memory_percent": 28.6,
+        "memory_used_mb": 1277.734375,
+        "threads": 128,
+        "gpu_util": 6,
+        "gpu_mem": 4050.8125,
+        "gpu_temp": 45
+      },
+      "end_metrics": {
+        "cpu_percent": 9.3,
+        "memory_percent": 28.6,
+        "memory_used_mb": 1306.1328125,
+        "threads": 128,
+        "gpu_util": 34,
+        "gpu_mem": 4244.703125,
+        "gpu_temp": 46
+      }
+    },
+    {
+      "threads": 32,
+      "feature_count": 512,
+      "depth": 6,
+      "operations": 320,
+      "successes": 320,
+      "failures": 0,
+      "success_rate": 100.0,
+      "duration": 11.61025857925415,
+      "ops_per_sec": 27.561832306800955,
+      "avg_response_time": 1.1144223652780056,
+      "start_metrics": {
+        "cpu_percent": 3.2,
+        "memory_percent": 28.6,
+        "memory_used_mb": 1306.1328125,
+        "threads": 128,
+        "gpu_util": 3,
+        "gpu_mem": 4244.703125,
+        "gpu_temp": 45
+      },
+      "end_metrics": {
+        "cpu_percent": 10.0,
+        "memory_percent": 28.3,
+        "memory_used_mb": 1377.640625,
+        "threads": 128,
+        "gpu_util": 41,
+        "gpu_mem": 4656.078125,
+        "gpu_temp": 46
+      }
+    },
+    {
+      "threads": 64,
+      "feature_count": 1024,
+      "depth": 7,
+      "operations": 640,
+      "successes": 640,
+      "failures": 0,
+      "success_rate": 100.0,
+      "duration": 29.108614444732666,
+      "ops_per_sec": 21.98661847045801,
+      "avg_response_time": 2.666802325099707,
+      "start_metrics": {
+        "cpu_percent": 2.5,
+        "memory_percent": 28.3,
+        "memory_used_mb": 1377.640625,
+        "threads": 128,
+        "gpu_util": 6,
+        "gpu_mem": 4652.328125,
+        "gpu_temp": 46
+      },
+      "end_metrics": {
+        "cpu_percent": 10.3,
+        "memory_percent": 28.5,
+        "memory_used_mb": 1518.0234375,
+        "threads": 125,
+        "gpu_util": 7,
+        "gpu_mem": 5412.328125,
+        "gpu_temp": 47
+      }
+    },
+    {
+      "threads": 128,
+      "feature_count": 2048,
+      "depth": 8,
+      "operations": 1280,
+      "successes": 1276,
+      "failures": 4,
+      "success_rate": 99.6875,
+      "duration": 65.59277248382568,
+      "ops_per_sec": 19.51434512568639,
+      "avg_response_time": 5.822112998552621,
+      "start_metrics": {
+        "cpu_percent": 3.2,
+        "memory_percent": 28.5,
+        "memory_used_mb": 1518.0234375,
+        "threads": 125,
+        "gpu_util": 1,
+        "gpu_mem": 5412.328125,
+        "gpu_temp": 47
+      },
+      "end_metrics": {
+        "cpu_percent": 10.9,
+        "memory_percent": 29.2,
+        "memory_used_mb": 2065.57421875,
+        "threads": 123,
+        "gpu_util": 16,
+        "gpu_mem": 6937.390625,
+        "gpu_temp": 48
+      }
+    }
+  ],
+  "breaking_point": null,
+  "system_survived": true,
+  "innovations_used": false,
+  "test_duration": 136.1923794746399
+}

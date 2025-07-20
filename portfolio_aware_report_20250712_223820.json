@@ -1,0 +1,12 @@
+{
+  "session_type": "PORTFOLIO_AWARE_TRADING",
+  "start_time": "2025-07-12T22:08:15.204041",
+  "end_time": "2025-07-12T22:38:15.808932",
+  "duration_minutes": 30.010081516666666,
+  "start_balance": 372.4419204078075,
+  "end_balance": 372.4424775089409,
+  "profit_usd": 0.0005571011333813658,
+  "profit_percentage": 0.00014958067361787967,
+  "trades_executed": 0,
+  "profit_per_trade": 0
+}

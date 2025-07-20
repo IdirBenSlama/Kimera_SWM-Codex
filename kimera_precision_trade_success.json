@@ -1,0 +1,54 @@
+{
+  "timestamp": "2025-07-12T04:10:34.541924",
+  "symbol": "TRXUSDT",
+  "order_calculation": {
+    "requested_quantity": "16.60000000",
+    "quantity_string": "16.6",
+    "expected_notional": "5.066320000000",
+    "steps_used": "166"
+  },
+  "execution_summary": {
+    "total_executed": "16.60000000",
+    "total_proceeds": "5.0646600000000000",
+    "total_fees": "0.00000546",
+    "net_proceeds": "5.0646545400000000"
+  },
+  "full_order_response": {
+    "symbol": "TRXUSDT",
+    "orderId": 3215146764,
+    "orderListId": -1,
+    "clientOrderId": "x-HNA2TXFJd886a5136c97321654f42e",
+    "transactTime": 1752289834744,
+    "price": "0.00000000",
+    "origQty": "16.60000000",
+    "executedQty": "16.60000000",
+    "origQuoteOrderQty": "0.00000000",
+    "cummulativeQuoteQty": "5.06466000",
+    "status": "FILLED",
+    "timeInForce": "GTC",
+    "type": "MARKET",
+    "side": "SELL",
+    "workingTime": 1752289834744,
+    "fills": [
+      {
+        "price": "0.30510000",
+        "qty": "16.60000000",
+        "commission": "0.00000546",
+        "commissionAsset": "BNB",
+        "tradeId": 366826574
+      }
+    ],
+    "selfTradePreventionMode": "EXPIRE_MAKER"
+  },
+  "exchange_filters": {
+    "min_price": "0.00010000",
+    "max_price": "1000.00000000",
+    "tick_size": "0.00010000",
+    "min_qty": "0.10000000",
+    "max_qty": "9000000.00000000",
+    "step_size": "0.10000000",
+    "min_notional": "5.00000000",
+    "max_notional": "9000000.00000000",
+    "apply_min_to_market": "True"
+  }
+}

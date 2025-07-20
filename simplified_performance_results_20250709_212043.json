@@ -1,0 +1,88 @@
+{
+  "test_start": "2025-07-09T21:20:32.694814",
+  "system_info": {
+    "cpu_count": 48,
+    "memory_total_gb": 63.89223861694336,
+    "gpu_available": true,
+    "gpu_name": "NVIDIA GeForce RTX 2080 Ti",
+    "gpu_memory_gb": 10.99957275390625,
+    "python_version": "3.13.3 (tags/v3.13.3:6280bb5, Apr  8 2025, 14:47:33) [MSC v.1943 64 bit (AMD64)]",
+    "torch_version": "2.7.1+cu118"
+  },
+  "engine_tests": {
+    "thermodynamic": {
+      "status": "FAIL",
+      "error": "'ThermodynamicEngine' object has no attribute 'calculate_pressure'",
+      "execution_time": 0.43524765968322754
+    },
+    "quantum_cognitive": {
+      "status": "FAIL",
+      "error": "'QuantumCognitiveEngine' object has no attribute 'process_quantum_state'",
+      "execution_time": 1.95939302444458
+    },
+    "gpu_cryptographic": {
+      "status": "FAIL",
+      "error": "'GPUCryptographicEngine' object has no attribute 'encrypt'",
+      "execution_time": 1.3810327053070068
+    }
+  },
+  "performance_metrics": {
+    "pytorch": {
+      "status": "PASS",
+      "execution_time": 0.6551303863525391,
+      "tensor_sizes_tested": [
+        1000,
+        2000,
+        3000
+      ],
+      "avg_cpu_time": 0.1646751562754313,
+      "avg_gpu_time": 0.05364759763081869,
+      "gpu_speedup": 3.0695718643108663
+    },
+    "memory": {
+      "status": "PASS",
+      "execution_time": 0.05330300331115723,
+      "initial_memory_percent": 45.1,
+      "peak_memory_percent": 45.2,
+      "final_memory_percent": 45.2,
+      "memory_increase": 0.10000000000000142,
+      "initial_gpu_memory_mb": 8.55517578125,
+      "peak_gpu_memory_mb": 47.6298828125,
+      "final_gpu_memory_mb": 12.3701171875
+    }
+  },
+  "stress_tests": {
+    "concurrent": {
+      "status": "PASS",
+      "execution_time": 0.04176783561706543,
+      "tasks_completed": 9,
+      "avg_task_time": 0.004640870624118381
+    }
+  },
+  "api_tests": {
+    "/health": {
+      "status": "FAIL",
+      "error": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /health (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000152831EE270>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))",
+      "response_time": 2.0480618476867676
+    },
+    "/": {
+      "status": "FAIL",
+      "error": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000152831D2E90>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))",
+      "response_time": 2.0455193519592285
+    },
+    "/docs": {
+      "status": "FAIL",
+      "error": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /docs (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000152831D3750>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))",
+      "response_time": 2.0386760234832764
+    }
+  },
+  "summary": {
+    "test_end": "2025-07-09T21:20:43.412999",
+    "total_tests": 9,
+    "passed_tests": 3,
+    "failed_tests": 6,
+    "skipped_tests": 0,
+    "success_rate": 33.33333333333333,
+    "overall_status": "FAIL"
+  }
+}

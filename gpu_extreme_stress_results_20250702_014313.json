@@ -1,0 +1,29 @@
+{
+  "test_suite": "GPU_EXTREME_STRESS_TEST",
+  "timestamp": "2025-07-02T01:43:13.513131",
+  "total_duration": 7.495742559432983,
+  "gpu_model": "NVIDIA GeForce RTX 4090",
+  "max_workers": 192,
+  "test_results": {
+    "extreme_concurrent": {
+      "test": "extreme_concurrent_gpu",
+      "total_requests": 500,
+      "total_time": 7.491289377212524,
+      "success_rate": 0.12,
+      "avg_response_time": 2.0836825291315715,
+      "requests_per_second": 66.74418445520627,
+      "max_workers": 192,
+      "successful_requests": 60,
+      "failed_requests": 440
+    }
+  },
+  "extreme_performance_summary": {
+    "total_requests": 500,
+    "total_successful": 60,
+    "overall_success_rate": 0.12,
+    "peak_requests_per_second": 66.74418445520627,
+    "extreme_performance_achieved": false,
+    "gpu_stability_under_extreme_load": false,
+    "rtx_4090_utilization_rating": "HIGH"
+  }
+}

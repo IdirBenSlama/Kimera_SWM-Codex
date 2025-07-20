@@ -1,0 +1,74 @@
+# CUDA Quantum and Quantum Computing Dependencies (Comprehensive Installation)
+# =============================================================================
+# Scientific-grade quantum computing dependencies for KIMERA with CUDA Quantum
+
+# === CUDA QUANTUM CORE DEPENDENCIES ===
+# Primary installation method (requires NVIDIA PyPI access)
+# cudaq>=0.9.0
+
+# Alternative installation commands:
+# Method 1: pip install --extra-index-url https://pypi.nvidia.com cudaq
+# Method 2: pip install cudaq (if available on main PyPI)
+# Method 3: Manual installation from NVIDIA releases
+
+# GPU-accelerated dependencies for CUDA Quantum
+cuda-python>=12.8.0
+cupy-cuda12x>=13.0.0
+
+# === QUANTUM COMPUTING FRAMEWORK ALTERNATIVES ===
+# Always available quantum libraries for fallback
+qiskit>=1.0.0
+qiskit-aer>=0.15.0
+qiskit-algorithms>=0.3.0
+qiskit-optimization>=0.6.0
+
+cirq>=1.4.0
+cirq-core>=1.4.0
+cirq-google>=1.4.0
+
+pennylane>=0.35.0
+pennylane-lightning>=0.35.0
+pennylane-qiskit>=0.35.0
+
+# === SCIENTIFIC COMPUTING FOUNDATIONS ===
+numpy>=1.24.0
+scipy>=1.11.0
+sympy>=1.12.0
+
+# Linear algebra and tensor operations
+einops>=0.7.0
+opt-einsum>=3.3.0
+
+# === OPTIMIZATION AND MACHINE LEARNING ===
+# For variational quantum algorithms
+scikit-learn>=1.3.0
+scikit-optimize>=0.9.0
+
+# Optimization libraries
+nlopt>=2.7.0
+cvxpy>=1.4.0
+
+# === VISUALIZATION AND ANALYSIS ===
+matplotlib>=3.7.0
+seaborn>=0.13.0
+plotly>=5.17.0
+
+# Quantum visualization (included in main qiskit package)
+# qiskit-terra (deprecated, included in qiskit>=1.0.0)
+
+# === PERFORMANCE AND MONITORING ===
+psutil>=5.9.0
+memory-profiler>=0.61.0
+line-profiler>=4.1.0
+
+# Timing and benchmarking (built-in modules)
+# timeit (built-in)
+# cProfile (built-in)
+
+# === CUDA AND GPU SUPPORT ===
+# PyTorch with CUDA support (optional but recommended)
+torch>=2.1.0
+
+# NVIDIA tools
+nvidia-ml-py>=12.0.0
+pynvml>=11.5.0 

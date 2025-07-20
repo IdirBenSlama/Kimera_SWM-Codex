@@ -1,0 +1,45 @@
+# Development, Testing, & Tooling Dependencies
+# ----------------------------------------------
+# Packages used for development, testing, linting, and debugging.
+# These are generally not required for a production deployment.
+
+# Jupyter Ecosystem
+jupyter==1.1.1
+jupyter-console==6.6.3
+jupyter-events==0.12.0
+jupyter-lsp==2.2.5
+jupyter_client==8.6.3
+jupyter_core==5.8.1
+jupyter_server==2.16.0
+jupyter_server_terminals==0.5.3
+jupyterlab==4.4.3
+jupyterlab_pygments==0.3.0
+jupyterlab_server==2.27.3
+jupyterlab_widgets==3.0.15
+ipykernel==6.29.5
+ipython==9.3.0
+ipywidgets==8.1.7
+nbclient==0.10.2
+nbconvert==7.16.6
+nbformat==5.10.4
+notebook==7.4.3
+
+# Testing & Linting
+pytest
+pytest-asyncio
+hypothesis==6.135.12
+ruff # Modern, high-performance linter
+pylint
+black
+
+# Debugging & Profiling
+debugpy==1.8.14
+line_profiler==4.2.0
+memory-profiler==0.61.0
+GPUtil==1.4.0
+
+# Other Dev Tools
+build==1.2.2.post1
+pip-tools # For compiling requirements files
+pre-commit # For git hooks
+shellingham==1.5.4 

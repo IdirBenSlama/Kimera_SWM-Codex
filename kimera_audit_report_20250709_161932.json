@@ -1,0 +1,274 @@
+{
+  "timestamp": "2025-07-09T16:19:18.963452",
+  "holes": [
+    {
+      "issue": "Missing environment variable: DATABASE_URL",
+      "severity": "warning",
+      "timestamp": "2025-07-09T16:19:18.972365",
+      "details": {}
+    },
+    {
+      "issue": "Missing environment variable: KIMERA_DATABASE_URL",
+      "severity": "warning",
+      "timestamp": "2025-07-09T16:19:18.972657",
+      "details": {}
+    },
+    {
+      "issue": "Missing environment variable: OPENAI_API_KEY",
+      "severity": "warning",
+      "timestamp": "2025-07-09T16:19:18.972872",
+      "details": {}
+    },
+    {
+      "issue": "Missing endpoint: /contradictions/detect in contradiction_router",
+      "severity": "warning",
+      "timestamp": "2025-07-09T16:19:31.651364",
+      "details": {}
+    },
+    {
+      "issue": "Missing endpoint: /contradictions/resolve in contradiction_router",
+      "severity": "warning",
+      "timestamp": "2025-07-09T16:19:31.651663",
+      "details": {}
+    },
+    {
+      "issue": "Missing endpoint: /vault/store in vault_router",
+      "severity": "warning",
+      "timestamp": "2025-07-09T16:19:31.652300",
+      "details": {}
+    },
+    {
+      "issue": "Missing endpoint: /vault/retrieve in vault_router",
+      "severity": "warning",
+      "timestamp": "2025-07-09T16:19:31.652624",
+      "details": {}
+    }
+  ],
+  "misalignments": [],
+  "disconnections": [
+    {
+      "issue": "Error checking backend.api.main: (psycopg2.OperationalError) connection to server at \"localhost\" (::1), port 5432 failed: FATAL:  password authentication failed for user \"postgres\"\n\n(Background on this error at: https://sqlalche.me/e/20/e3q8)",
+      "severity": "warning",
+      "timestamp": "2025-07-09T16:19:31.583031",
+      "details": {}
+    },
+    {
+      "issue": "Error checking backend.engines.contradiction_engine: (psycopg2.OperationalError) connection to server at \"localhost\" (::1), port 5432 failed: FATAL:  password authentication failed for user \"postgres\"\n\n(Background on this error at: https://sqlalche.me/e/20/e3q8)",
+      "severity": "warning",
+      "timestamp": "2025-07-09T16:19:31.646653",
+      "details": {}
+    }
+  ],
+  "mocks": [
+    {
+      "issue": "Possible mock implementation in system_router",
+      "severity": "warning",
+      "timestamp": "2025-07-09T16:19:31.653871",
+      "details": {}
+    },
+    {
+      "issue": "Mock pattern found in backend\\api\\auth_routes.py: fake_users_db",
+      "severity": "warning",
+      "timestamp": "2025-07-09T16:19:31.667440",
+      "details": {}
+    },
+    {
+      "issue": "Mock pattern found in backend\\core\\anthropomorphic_context.py: dummy_vector",
+      "severity": "warning",
+      "timestamp": "2025-07-09T16:19:31.688942",
+      "details": {}
+    }
+  ],
+  "fluidity_issues": [],
+  "coherence_issues": [
+    {
+      "issue": "Component not registered: geoid_scar_manager",
+      "severity": "warning",
+      "timestamp": "2025-07-09T16:19:31.704700",
+      "details": {}
+    },
+    {
+      "issue": "Component not registered: contradiction_engine",
+      "severity": "warning",
+      "timestamp": "2025-07-09T16:19:31.705078",
+      "details": {}
+    },
+    {
+      "issue": "Component not registered: vault_manager",
+      "severity": "warning",
+      "timestamp": "2025-07-09T16:19:31.705441",
+      "details": {}
+    },
+    {
+      "issue": "Component not registered: system_monitor",
+      "severity": "warning",
+      "timestamp": "2025-07-09T16:19:31.705803",
+      "details": {}
+    },
+    {
+      "issue": "Component not registered: ethical_governor",
+      "severity": "warning",
+      "timestamp": "2025-07-09T16:19:31.706144",
+      "details": {}
+    }
+  ],
+  "critical_issues": [
+    {
+      "issue": "Database mismatch: settings.py uses SQLite (sqlite:///kimera_swm.db) but database.py defaults to PostgreSQL (postgresql+psycopg2://kimera:kimera_secure_pass_2025@localhost:5432/kimera_swm)",
+      "severity": "critical",
+      "timestamp": "2025-07-09T16:19:19.467038",
+      "details": {}
+    },
+    {
+      "issue": "Failed to import backend.engines.geoid_scar_manager: No module named 'backend.engines.geoid_scar_manager'",
+      "severity": "critical",
+      "timestamp": "2025-07-09T16:19:31.647590",
+      "details": {}
+    },
+    {
+      "issue": "Failed to import backend.monitoring.system_monitor: No module named 'backend.monitoring.system_monitor'",
+      "severity": "critical",
+      "timestamp": "2025-07-09T16:19:31.648232",
+      "details": {}
+    },
+    {
+      "issue": "Failed to import backend.governance.ethical_governor: No module named 'backend.governance.ethical_governor'",
+      "severity": "critical",
+      "timestamp": "2025-07-09T16:19:31.648660",
+      "details": {}
+    },
+    {
+      "issue": "High disk usage: 95.1%",
+      "severity": "critical",
+      "timestamp": "2025-07-09T16:19:32.725601",
+      "details": {}
+    }
+  ],
+  "warnings": [],
+  "successes": [
+    {
+      "message": "Environment file found: .env",
+      "timestamp": "2025-07-09T16:19:18.964341",
+      "details": {}
+    },
+    {
+      "message": "Environment file found: .env.dev",
+      "timestamp": "2025-07-09T16:19:18.968943",
+      "details": {}
+    },
+    {
+      "message": "Settings database URL: sqlite:///kimera_swm.db",
+      "timestamp": "2025-07-09T16:19:19.465765",
+      "details": {}
+    },
+    {
+      "message": "Module imported: backend.core.kimera_system",
+      "timestamp": "2025-07-09T16:19:22.644209",
+      "details": {}
+    },
+    {
+      "message": "Module imported: backend.vault.vault_manager",
+      "timestamp": "2025-07-09T16:19:31.583764",
+      "details": {}
+    },
+    {
+      "message": "Module imported: backend.utils.config",
+      "timestamp": "2025-07-09T16:19:31.648975",
+      "details": {}
+    },
+    {
+      "message": "get_config function found in backend.utils.config",
+      "timestamp": "2025-07-09T16:19:31.649231",
+      "details": {}
+    },
+    {
+      "message": "Module imported: backend.security.enhanced_security_hardening",
+      "timestamp": "2025-07-09T16:19:31.649541",
+      "details": {}
+    },
+    {
+      "message": "Endpoint found: /scars in geoid_scar_router",
+      "timestamp": "2025-07-09T16:19:31.650519",
+      "details": {}
+    },
+    {
+      "message": "Endpoint found: /geoids in geoid_scar_router",
+      "timestamp": "2025-07-09T16:19:31.650825",
+      "details": {}
+    },
+    {
+      "message": "Endpoint found: /status in system_router",
+      "timestamp": "2025-07-09T16:19:31.653214",
+      "details": {}
+    },
+    {
+      "message": "Endpoint found: /health in system_router",
+      "timestamp": "2025-07-09T16:19:31.653571",
+      "details": {}
+    },
+    {
+      "message": "KimeraSystem instantiated successfully",
+      "timestamp": "2025-07-09T16:19:31.704311",
+      "details": {}
+    },
+    {
+      "message": "CPU usage normal: 10.4%",
+      "timestamp": "2025-07-09T16:19:32.724565",
+      "details": {}
+    },
+    {
+      "message": "Memory usage normal: 47.7%",
+      "timestamp": "2025-07-09T16:19:32.725276",
+      "details": {}
+    },
+    {
+      "message": "Configuration file exists: requirements.txt",
+      "timestamp": "2025-07-09T16:19:32.726269",
+      "details": {}
+    },
+    {
+      "message": "Configuration file exists: README.md",
+      "timestamp": "2025-07-09T16:19:32.726631",
+      "details": {}
+    },
+    {
+      "message": "Configuration file exists: .gitignore",
+      "timestamp": "2025-07-09T16:19:32.726979",
+      "details": {}
+    },
+    {
+      "message": "Configuration file exists: backend/__init__.py",
+      "timestamp": "2025-07-09T16:19:32.727477",
+      "details": {}
+    },
+    {
+      "message": "Configuration file exists: backend/core/__init__.py",
+      "timestamp": "2025-07-09T16:19:32.727860",
+      "details": {}
+    },
+    {
+      "message": "Configuration file exists: backend/config/settings.py",
+      "timestamp": "2025-07-09T16:19:32.728236",
+      "details": {}
+    },
+    {
+      "message": "Logs directory exists",
+      "timestamp": "2025-07-09T16:19:32.728801",
+      "details": {}
+    },
+    {
+      "message": "No print statements found (good - using logging)",
+      "timestamp": "2025-07-09T16:19:32.792864",
+      "details": {}
+    }
+  ],
+  "statistics": {
+    "resources": {
+      "cpu_percent": 10.4,
+      "memory_percent": 47.7,
+      "disk_percent": 95.1
+    },
+    "total_issues": 22,
+    "total_successes": 23
+  }
+}

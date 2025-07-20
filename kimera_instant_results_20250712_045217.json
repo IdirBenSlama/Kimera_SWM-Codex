@@ -1,0 +1,12 @@
+{
+  "performance": {
+    "total_spent": 0.0,
+    "total_received": 0.0,
+    "net_profit": 0.0,
+    "total_trades": 0,
+    "buy_orders": 0,
+    "sell_orders": 0,
+    "runtime_minutes": 10
+  },
+  "trades": []
+}

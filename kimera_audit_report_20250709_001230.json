@@ -1,0 +1,322 @@
+{
+  "audit_summary": {
+    "start_time": "2025-07-09T00:07:26.230682",
+    "end_time": "2025-07-09T00:12:30.479332",
+    "planned_runtime_minutes": 5,
+    "actual_runtime_minutes": 5.070810833333334,
+    "total_checks": 12,
+    "successful_checks": 0,
+    "success_rate": 0.0,
+    "critical_failures": 2,
+    "system_stability_percentage": 0.0
+  },
+  "engine_metrics": {
+    "System Health": {
+      "name": "System Health",
+      "total_requests": 14,
+      "successful_requests": 13,
+      "failed_requests": 1,
+      "response_times": [
+        2.040414810180664,
+        2.051246404647827,
+        2.0554447174072266,
+        2.079439878463745,
+        2.043513298034668,
+        2.9632997512817383,
+        2.0291707515716553,
+        2.043600082397461,
+        2.065784215927124,
+        2.0394890308380127,
+        2.064321279525757,
+        2.0448780059814453,
+        3.0677390098571777
+      ],
+      "error_count": 1,
+      "last_status": "unhealthy",
+      "uptime_percentage": 92.85714285714286
+    },
+    "Engines Status": {
+      "name": "Engines Status",
+      "total_requests": 19,
+      "successful_requests": 18,
+      "failed_requests": 1,
+      "response_times": [
+        2.0255179405212402,
+        2.072491407394409,
+        2.067234516143799,
+        2.0715062618255615,
+        2.0700602531433105,
+        2.0495264530181885,
+        2.068157911300659,
+        2.0656819343566895,
+        2.0422146320343018,
+        3.003119707107544,
+        2.0242960453033447,
+        2.0420424938201904,
+        2.0502982139587402,
+        2.0449182987213135,
+        2.07432222366333,
+        2.039329767227173,
+        2.055098533630371,
+        2.054955005645752
+      ],
+      "error_count": 1,
+      "last_status": "unknown",
+      "uptime_percentage": 94.73684210526315
+    },
+    "Contradiction Engine": {
+      "name": "Contradiction Engine",
+      "total_requests": 14,
+      "successful_requests": 14,
+      "failed_requests": 0,
+      "response_times": [
+        3.076975107192993,
+        2.035360813140869,
+        2.046427011489868,
+        2.052250623703003,
+        2.0489823818206787,
+        3.024062395095825,
+        2.0809824466705322,
+        2.072425365447998,
+        2.02736759185791,
+        2.0836992263793945,
+        2.065328598022461,
+        2.0417699813842773,
+        2.987795114517212,
+        2.050607204437256
+      ],
+      "error_count": 0,
+      "last_status": "operational",
+      "uptime_percentage": 100.0
+    },
+    "Thermodynamics Engine": {
+      "name": "Thermodynamics Engine",
+      "total_requests": 19,
+      "successful_requests": 19,
+      "failed_requests": 0,
+      "response_times": [
+        2.0549237728118896,
+        2.087047815322876,
+        2.0625038146972656,
+        2.0695130825042725,
+        2.0416955947875977,
+        2.0681395530700684,
+        2.018005609512329,
+        2.0535433292388916,
+        2.047389030456543,
+        2.084885358810425,
+        3.0788848400115967,
+        2.0372865200042725,
+        2.0598130226135254,
+        2.0503273010253906,
+        2.060734510421753,
+        2.0387470722198486,
+        2.0244827270507812,
+        2.0438201427459717,
+        2.0645346641540527
+      ],
+      "error_count": 0,
+      "last_status": "operational",
+      "uptime_percentage": 100.0
+    },
+    "SPDE Engine": {
+      "name": "SPDE Engine",
+      "total_requests": 18,
+      "successful_requests": 18,
+      "failed_requests": 0,
+      "response_times": [
+        2.055626392364502,
+        2.034593343734741,
+        2.025341033935547,
+        2.975285530090332,
+        2.065333127975464,
+        2.0374433994293213,
+        2.076303243637085,
+        2.0655014514923096,
+        2.0286712646484375,
+        2.8213822841644287,
+        2.0443475246429443,
+        2.037940740585327,
+        2.0407357215881348,
+        2.051236867904663,
+        2.048717737197876,
+        3.0524919033050537,
+        2.0567729473114014,
+        2.090830087661743
+      ],
+      "error_count": 0,
+      "last_status": "operational",
+      "uptime_percentage": 100.0
+    },
+    "Cognitive Cycle": {
+      "name": "Cognitive Cycle",
+      "total_requests": 14,
+      "successful_requests": 14,
+      "failed_requests": 0,
+      "response_times": [
+        2.0757532119750977,
+        2.0398643016815186,
+        2.055234432220459,
+        2.03960919380188,
+        2.0865015983581543,
+        2.065160036087036,
+        2.0380029678344727,
+        3.0051677227020264,
+        2.0654172897338867,
+        2.0226736068725586,
+        2.058828830718994,
+        2.0548901557922363,
+        2.0443849563598633,
+        2.025012731552124
+      ],
+      "error_count": 0,
+      "last_status": "operational",
+      "uptime_percentage": 100.0
+    },
+    "Meta Insight": {
+      "name": "Meta Insight",
+      "total_requests": 18,
+      "successful_requests": 18,
+      "failed_requests": 0,
+      "response_times": [
+        2.053506374359131,
+        2.0393850803375244,
+        2.0834081172943115,
+        2.052269458770752,
+        3.021331787109375,
+        2.0725440979003906,
+        2.070646047592163,
+        2.051640033721924,
+        2.0270707607269287,
+        2.0508055686950684,
+        2.049415111541748,
+        2.0498225688934326,
+        2.049551486968994,
+        2.8595807552337646,
+        3.04827618598938,
+        2.074227809906006,
+        2.020864963531494,
+        2.037867784500122
+      ],
+      "error_count": 0,
+      "last_status": "operational",
+      "uptime_percentage": 100.0
+    },
+    "Proactive Detector": {
+      "name": "Proactive Detector",
+      "total_requests": 17,
+      "successful_requests": 17,
+      "failed_requests": 0,
+      "response_times": [
+        2.0541207790374756,
+        2.035684823989868,
+        2.024696111679077,
+        2.052885055541992,
+        2.04288911819458,
+        2.03967022895813,
+        2.0362019538879395,
+        2.070746421813965,
+        3.009549140930176,
+        2.0342254638671875,
+        2.0548434257507324,
+        2.0349419116973877,
+        2.0626273155212402,
+        2.053054094314575,
+        2.0331242084503174,
+        2.049138069152832,
+        3.004531145095825
+      ],
+      "error_count": 0,
+      "last_status": "operational",
+      "uptime_percentage": 100.0
+    },
+    "Revolutionary Intelligence": {
+      "name": "Revolutionary Intelligence",
+      "total_requests": 14,
+      "successful_requests": 14,
+      "failed_requests": 0,
+      "response_times": [
+        2.0620503425598145,
+        2.058272361755371,
+        2.069026231765747,
+        2.050936698913574,
+        2.040682554244995,
+        2.058140277862549,
+        2.0371975898742676,
+        2.0542850494384766,
+        2.054198980331421,
+        3.054313898086548,
+        2.0371310710906982,
+        2.0914838314056396,
+        2.054257869720459,
+        2.045029401779175
+      ],
+      "error_count": 0,
+      "last_status": "operational",
+      "uptime_percentage": 100.0
+    }
+  },
+  "performance_statistics": {
+    "average_response_time": 2.1634939966530635,
+    "median_response_time": 2.0535433292388916,
+    "min_response_time": 2.018005609512329,
+    "max_response_time": 3.0788848400115967,
+    "response_time_std": 0.30835062025111026
+  },
+  "engine_reliability_ranking": [
+    {
+      "name": "Contradiction Engine",
+      "success_rate": 100.0,
+      "uptime_percentage": 100.0,
+      "avg_response_time": 2.2638595615114485,
+      "total_requests": 14
+    },
+    {
+      "name": "Thermodynamics Engine",
+      "success_rate": 100.0,
+      "uptime_percentage": 100.0,
+      "avg_response_time": 2.107698829550492,
+      "total_requests": 19
+    },
+    {
+      "name": "SPDE Engine",
+      "success_rate": 100.0,
+      "uptime_percentage": 100.0,
+      "avg_response_time": 2.200475255648295,
+      "total_requests": 18
+    },
+    {
+      "name": "Cognitive Cycle",
+      "success_rate": 100.0,
+      "uptime_percentage": 100.0,
+      "avg_response_time": 2.119750073977879,
+      "total_requests": 14
+    },
+    {
+      "name": "Meta Insight",
+      "success_rate": 100.0,
+      "uptime_percentage": 100.0,
+      "avg_response_time": 2.2062341107262506,
+      "total_requests": 18
+    },
+    {
+      "name": "Proactive Detector",
+      "success_rate": 100.0,
+      "uptime_percentage": 100.0,
+      "avg_response_time": 2.1584076039931355,
+      "total_requests": 17
+    },
+    {
+      "name": "Revolutionary Intelligence",
+      "success_rate": 100.0,
+      "uptime_percentage": 100.0,
+      "avg_response_time": 2.126214725630624,
+      "total_requests": 14
+    }
+  ],
+  "system_snapshots_count": 12,
+  "recommendations": [
+    "\ud83d\udd27 System stability is low (0.0%) - investigate recurring issues",
+    "\ud83d\udea8 2 critical failures detected - check server connectivity"
+  ]
+}

@@ -1,0 +1,87 @@
+# Omnidimensional Protocol Engine Dependencies
+# ============================================
+# Specialized packages for DeFi protocol integration,
+# blockchain interaction, and advanced trading strategies
+
+# Blockchain & Web3 Integration
+web3==6.15.1
+eth-hash==0.6.0 
+eth-typing==4.0.0
+eth-utils==2.3.1
+py-evm==0.7.0a4
+
+# DeFi Protocol SDKs and Integration
+ccxt==4.2.25  # Cryptocurrency trading library
+uniswap-python==0.7.6  # Uniswap protocol integration
+# curve-sdk  # Would need specific curve integration package
+# balancer-sdk  # Would need specific balancer integration package
+
+# Crypto and Trading Libraries
+cryptography==42.0.2
+ecdsa==0.18.0
+pycryptodome==3.19.0
+
+# Financial Data and Analysis
+yfinance==0.2.18
+alpha-vantage==2.3.1
+pandas-ta==0.3.14b  # Technical analysis indicators
+
+# Machine Learning for Sentiment Analysis
+transformers==4.37.2
+torch>=2.0.0  # Already in gpu.txt but essential for sentiment
+scikit-learn==1.4.0
+textblob==0.17.1
+
+# Time Series and Market Data
+ta-lib==0.4.28  # Technical analysis library (requires manual install)
+backtrader==1.9.78.123  # Trading strategy backtesting
+zipline-reloaded==3.0.4  # Algorithmic trading library
+
+# WebSocket and Real-time Data
+websockets==12.0
+websocket-client==1.7.0
+python-socketio==5.10.0
+
+# Async HTTP and Rate Limiting
+aiolimiter==1.1.0
+aioredis==2.0.1  # For caching and rate limiting
+redis==5.0.1
+
+# Protocol-Specific Libraries
+solana-py==0.30.2  # Solana blockchain integration
+brownie-eth==1.20.0  # Ethereum development framework
+vyper==0.3.10  # Smart contract language support
+
+# Cross-Chain and Bridge Integration
+# thorchain-py  # Would need specific THORChain integration
+# layerzero-py  # Would need specific LayerZero integration
+
+# Advanced Analytics and Optimization
+scipy>=1.11.0
+cvxpy==1.4.1  # Convex optimization
+gekko==1.0.7  # Optimization suite
+
+# Data Validation and Processing
+marshmallow==3.20.2
+marshmallow-dataclass==8.6.0
+jsonschema==4.20.0
+
+# Specialized Crypto Libraries
+base58==2.1.1
+bech32==1.2.0
+mnemonic==0.20
+
+# Development and Testing for DeFi
+pytest-asyncio==0.23.2  # For async testing
+hypothesis==6.92.1  # Property-based testing
+factory-boy==3.3.0  # Test data generation
+
+# Performance and Monitoring
+memory-profiler==0.61.0
+py-spy==0.3.14  # Performance profiling
+psutil>=5.9.0  # System monitoring
+
+# Encryption and Security
+keyring==24.3.0
+cryptography>=42.0.0
+passlib==1.7.4 

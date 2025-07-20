@@ -1,0 +1,22 @@
+{
+  "session_duration": 1802.822773218155,
+  "decisions_made": 0,
+  "trades_executed": 0,
+  "final_balances": {
+    "BNB": 0.00365494,
+    "USDT": 33.4129241,
+    "TRX": 143.20105,
+    "ADA": 415.9,
+    "EON": 1.0,
+    "ADD": 0.5,
+    "MEETONE": 0.5,
+    "ATD": 1.0,
+    "EOP": 1.0,
+    "IQ": 5.1,
+    "NFT": 200931.922043
+  },
+  "final_confidence": 0.5,
+  "final_risk_appetite": 0.3,
+  "decisions": [],
+  "positions": {}
+}

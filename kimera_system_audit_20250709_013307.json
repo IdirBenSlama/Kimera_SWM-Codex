@@ -1,0 +1,235 @@
+{
+  "timestamp": "2025-07-09T01:32:47.408022",
+  "system_info": {
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python_version": "3.13.3",
+    "cpu_count": 48,
+    "memory_total": 68603768832,
+    "memory_available": 34377760768,
+    "disk_usage": 29425754112,
+    "gpu_available": true,
+    "gpu_count": 1,
+    "cuda_version": "11.8",
+    "gpu_details": [
+      {
+        "name": "NVIDIA GeForce RTX 2080 Ti",
+        "memory": 11810701312,
+        "compute_capability": "7.5"
+      }
+    ]
+  },
+  "components": {
+    "kimera_system": {
+      "status": "PASS",
+      "details": {
+        "state": "running",
+        "device": "cuda",
+        "components": {
+          "vault_manager": true,
+          "gpu_foundation": true,
+          "contradiction_engine": true,
+          "thermodynamics_engine": true,
+          "embedding_model": true
+        }
+      },
+      "error": null
+    },
+    "embedding_utils": {
+      "status": "PASS",
+      "details": {
+        "embedding_shape": [
+          1024
+        ],
+        "embedding_type": "<class 'numpy.ndarray'>",
+        "performance_stats": {
+          "total_embeddings": 1,
+          "total_time": 7.878636121749878,
+          "avg_time_per_embedding": 7.878636121749878,
+          "model_load_time": 7.56430721282959
+        }
+      },
+      "error": null
+    },
+    "vault_manager": {
+      "status": "PASS",
+      "details": {
+        "available": true,
+        "type": "<class 'backend.vault.vault_manager.VaultManager'>"
+      },
+      "error": null
+    },
+    "gpu_foundation": {
+      "status": "PASS",
+      "details": {
+        "available": true,
+        "type": "<class 'backend.utils.gpu_foundation.GPUFoundation'>"
+      },
+      "error": null
+    },
+    "configuration": {
+      "status": "FAIL",
+      "details": null,
+      "error": "cannot import name 'get_config' from 'backend.config.config_loader' (D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\backend\\config\\config_loader.py)",
+      "traceback": "Traceback (most recent call last):\n  File \"D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\kimera_system_audit.py\", line 42, in test_component\n    result = test_func()\n  File \"D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\kimera_system_audit.py\", line 154, in test_configuration\n    from backend.config.config_loader import get_config\nImportError: cannot import name 'get_config' from 'backend.config.config_loader' (D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\backend\\config\\config_loader.py)\n"
+    }
+  },
+  "security": {
+    "issues": [
+      "Potential credential in backend\\api\\cognitive_field_routes.py",
+      "Potential credential in backend\\api\\pharmaceutical_routes.py",
+      "Potential credential in backend\\api\\progressive_main.py",
+      "Potential credential in backend\\api\\unsupervised_learning_routes.py",
+      "Potential credential in backend\\config\\config_loader.py",
+      "Potential credential in backend\\config\\config_migration.py",
+      "Potential credential in backend\\config\\settings.py",
+      "Potential credential in backend\\core\\async_performance_monitor.py",
+      "Potential credential in backend\\core\\context_supremacy.py",
+      "Potential credential in backend\\core\\database_optimization.py",
+      "Potential credential in backend\\core\\gyroscopic_security.py",
+      "Potential credential in backend\\core\\parallel_initialization.py",
+      "Potential credential in backend\\core\\relevance_assessment.py",
+      "Potential credential in backend\\core\\startup_progress.py",
+      "Potential credential in backend\\engines\\advanced_barenholtz_alignment_engine.py",
+      "Potential credential in backend\\engines\\advanced_thermodynamic_applications.py",
+      "Potential credential in backend\\engines\\axiom_of_understanding.py",
+      "Potential credential in backend\\engines\\cognitive_cycle_engine.py",
+      "Potential credential in backend\\engines\\cognitive_field_dynamics_gpu.py",
+      "Potential credential in backend\\engines\\complexity_analysis_engine.py",
+      "Potential credential in backend\\engines\\enhanced_vortex_system.py",
+      "Potential credential in backend\\engines\\ethical_reasoning_engine.py",
+      "Potential credential in backend\\engines\\gpu_thermodynamic_integrator.py",
+      "Potential credential in backend\\engines\\gyroscopic_universal_translator.py",
+      "Potential credential in backend\\engines\\human_interface.py",
+      "Potential credential in backend\\engines\\large_scale_testing_framework.py",
+      "Potential credential in backend\\engines\\meta_insight_engine.py",
+      "Potential credential in backend\\engines\\proactive_detector.py",
+      "Potential credential in backend\\engines\\pruning.py",
+      "Potential credential in backend\\engines\\quantum_classical_interface.py",
+      "Potential credential in backend\\engines\\revolutionary_intelligence_engine.py",
+      "Potential credential in backend\\engines\\rhetorical_barenholtz_core.py",
+      "Potential credential in backend\\engines\\signal_consciousness_analyzer.py",
+      "Potential credential in backend\\engines\\unsupervised_cognitive_learning_engine.py",
+      "Potential credential in backend\\governance\\governance_engine.py",
+      "Potential credential in backend\\layer_2_governance\\monitoring\\cognitive_field_metrics.py",
+      "Potential credential in backend\\layer_2_governance\\monitoring\\forecasting_and_control_monitor.py",
+      "Potential credential in backend\\layer_2_governance\\monitoring\\kimera_monitoring_core.py",
+      "Potential credential in backend\\layer_2_governance\\security\\enhanced_security_hardening.py",
+      "Potential credential in backend\\layer_2_governance\\security\\security_dashboard.py",
+      "Potential credential in backend\\linguistic\\entropy_formulas.py",
+      "Potential credential in backend\\monitoring\\metrics_collector.py",
+      "Potential credential in backend\\monitoring\\system_profiler.py",
+      "Potential credential in backend\\optimization\\performance_monitor.py",
+      "Potential credential in backend\\pharmaceutical\\analysis\\dissolution_analyzer.py",
+      "Potential credential in backend\\pharmaceutical\\core\\kcl_testing_engine.py",
+      "Potential credential in backend\\pharmaceutical\\protocols\\usp_protocols.py",
+      "Potential credential in backend\\pharmaceutical\\validation\\pharmaceutical_validator.py",
+      "Potential credential in backend\\security\\authentication.py",
+      "Potential credential in backend\\semantic_grounding\\causal_reasoning_engine.py",
+      "Potential credential in backend\\semantic_grounding\\embodied_semantic_engine.py",
+      "Potential credential in backend\\semantic_grounding\\intentional_processor.py",
+      "Potential credential in backend\\semantic_grounding\\temporal_dynamics_engine.py",
+      "Potential credential in backend\\trading\\config.py",
+      "Potential credential in backend\\trading\\connectors\\cryptopanic_connector.py",
+      "Potential credential in backend\\trading\\connectors\\exchange_aggregator.py",
+      "Potential credential in backend\\trading\\connectors\\premium_data_connectors.py",
+      "Potential credential in backend\\trading\\core\\advanced_autonomous_engine.py",
+      "Potential credential in backend\\trading\\core\\integrated_trading_engine.py",
+      "Potential credential in backend\\trading\\core\\multi_exchange_orchestrator.py",
+      "Potential credential in backend\\trading\\core\\semantic_trading_reactor.py",
+      "Potential credential in backend\\trading\\core\\trading_orchestrator.py",
+      "Potential credential in backend\\trading\\core\\ultra_low_latency_engine.py",
+      "Potential credential in backend\\trading\\examples\\aggressive_kimera_demo.py",
+      "Potential credential in backend\\trading\\examples\\kimera_24h_simulation.py",
+      "Potential credential in backend\\trading\\examples\\premium_kimera_demo.py",
+      "Potential credential in backend\\trading\\examples\\simple_kimera_demo.py",
+      "Potential credential in backend\\trading\\examples\\strategic_profiler_demo.py",
+      "Potential credential in backend\\trading\\execution\\kimera_action_interface.py",
+      "Potential credential in backend\\trading\\intelligence\\advanced_financial_processor.py",
+      "Potential credential in backend\\trading\\intelligence\\advanced_rules_engine.py",
+      "Potential credential in backend\\trading\\intelligence\\enhanced_anomaly_detector.py",
+      "Potential credential in backend\\trading\\intelligence\\live_data_collector.py",
+      "Potential credential in backend\\trading\\intelligence\\market_manipulation_detector.py",
+      "Potential credential in backend\\trading\\intelligence\\news_feed_processor.py",
+      "Potential credential in backend\\trading\\intelligence\\sentiment_analyzer.py",
+      "Potential credential in backend\\trading\\intelligence\\strategic_profiler_system.py",
+      "Potential credential in backend\\trading\\monitoring\\performance_tracker.py",
+      "Potential credential in backend\\trading\\monitoring\\semantic_trading_dashboard.py",
+      "Potential credential in backend\\vault\\database.py",
+      "Potential credential in backend\\vault\\enhanced_database_schema.py",
+      "Potential credential in backend\\vault\\vault_genesis_security.py"
+    ],
+    "issue_count": 82
+  },
+  "performance": {},
+  "codebase": {
+    "file_counts": {
+      ".py": 391,
+      ".pyc": 165,
+      ".json": 6,
+      ".bak": 2,
+      ".log": 5,
+      ".md": 7,
+      ".txt": 1,
+      ".backup": 1
+    },
+    "total_python_lines": 145441,
+    "important_files": {
+      "requirements.txt": true,
+      "README.md": true,
+      ".gitignore": true,
+      "backend/__init__.py": true,
+      "backend/main.py": true
+    },
+    "import_issues": []
+  },
+  "infrastructure": {
+    "config_files": {
+      "config/development.yaml": true,
+      "config/production.yaml": true,
+      "docker-compose.yml": true,
+      "Dockerfile": true
+    },
+    "database_config": {
+      "error": "cannot import name 'get_config' from 'backend.config.config_loader' (D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\backend\\config\\config_loader.py)"
+    },
+    "logging": {
+      "log_dir_exists": true,
+      "log_files": [
+        "kimera.log",
+        "kimera_database.log",
+        "kimera_monitoring_2025-07-01.log",
+        "kimera_monitoring_2025-07-02.log",
+        "kimera_system.log"
+      ]
+    }
+  },
+  "recommendations": [
+    "Fix failed components: configuration",
+    "Address security issues found in the security audit",
+    "Install missing critical dependencies: sqlalchemy"
+  ],
+  "dependencies": {
+    "total_packages": 524,
+    "critical_present": {
+      "fastapi": "0.115.13",
+      "uvicorn": "0.34.3",
+      "torch": "2.7.1+cu118",
+      "transformers": "4.53.0",
+      "numpy": "2.2.6",
+      "pandas": "2.3.0",
+      "psycopg2-binary": "2.9.10"
+    },
+    "critical_missing": [
+      "sqlalchemy"
+    ]
+  },
+  "summary": {
+    "component_success_rate": 80.0,
+    "components_passed": 4,
+    "components_total": 5,
+    "security_issues": 82,
+    "recommendations_count": 3,
+    "audit_time_seconds": 20.080443382263184,
+    "health_status": "GOOD"
+  }
+}

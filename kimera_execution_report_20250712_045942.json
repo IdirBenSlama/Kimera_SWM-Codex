@@ -1,0 +1,13 @@
+{
+  "performance": {
+    "runtime_seconds": 604.982274,
+    "total_executions": 73,
+    "successful_executions": 0,
+    "success_rate": 0.0,
+    "average_latency_ms": 282.25365438863014,
+    "total_trades": 0,
+    "total_pnl": "0",
+    "trades_per_minute": 0.0
+  },
+  "execution_history": []
+}

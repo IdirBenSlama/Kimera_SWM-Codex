@@ -1,0 +1,1664 @@
+{
+  "timestamp": "2025-07-09T16:09:50.575714",
+  "issues": [],
+  "warnings": [
+    {
+      "component": "backend.utils.config",
+      "warning": "Missing items: ['get_config']",
+      "timestamp": "2025-07-09T16:10:10.936101"
+    },
+    {
+      "component": "Configuration",
+      "warning": "OpenAI API key not configured",
+      "timestamp": "2025-07-09T16:10:10.951090"
+    },
+    {
+      "component": "KimeraSystem",
+      "warning": "System not initialized",
+      "timestamp": "2025-07-09T16:10:11.000558"
+    },
+    {
+      "component": "API",
+      "warning": "Critical endpoint missing: /kimera/scars",
+      "timestamp": "2025-07-09T16:10:11.155942"
+    },
+    {
+      "component": "API",
+      "warning": "Critical endpoint missing: /kimera/contradictions/detect",
+      "timestamp": "2025-07-09T16:10:11.156324"
+    },
+    {
+      "component": "Performance",
+      "warning": "High disk usage: 95.1%",
+      "timestamp": "2025-07-09T16:10:21.706609"
+    }
+  ],
+  "successes": [
+    {
+      "component": "backend.core.kimera_system",
+      "message": "Import successful",
+      "timestamp": "2025-07-09T16:09:53.848749"
+    },
+    {
+      "component": "backend.core.geoid",
+      "message": "Import successful",
+      "timestamp": "2025-07-09T16:09:53.850667"
+    },
+    {
+      "component": "backend.core.scar",
+      "message": "Import successful",
+      "timestamp": "2025-07-09T16:09:53.852278"
+    },
+    {
+      "component": "backend.core.insight",
+      "message": "Import successful",
+      "timestamp": "2025-07-09T16:09:53.853989"
+    },
+    {
+      "component": "backend.core.ethical_governor",
+      "message": "Import successful",
+      "timestamp": "2025-07-09T16:09:55.013547"
+    },
+    {
+      "component": "backend.engines.contradiction_engine",
+      "message": "Import successful",
+      "timestamp": "2025-07-09T16:09:56.204566"
+    },
+    {
+      "component": "backend.engines.foundational_thermodynamic_engine",
+      "message": "Import successful",
+      "timestamp": "2025-07-09T16:09:56.208160"
+    },
+    {
+      "component": "backend.engines.spde_engine",
+      "message": "Import successful",
+      "timestamp": "2025-07-09T16:09:56.211566"
+    },
+    {
+      "component": "backend.engines.cognitive_cycle_engine",
+      "message": "Import successful",
+      "timestamp": "2025-07-09T16:09:56.215515"
+    },
+    {
+      "component": "backend.engines.meta_insight_engine",
+      "message": "Import successful",
+      "timestamp": "2025-07-09T16:09:56.634414"
+    },
+    {
+      "component": "backend.engines.proactive_detector",
+      "message": "Import successful",
+      "timestamp": "2025-07-09T16:09:56.638716"
+    },
+    {
+      "component": "backend.engines.revolutionary_intelligence_engine",
+      "message": "Import successful",
+      "timestamp": "2025-07-09T16:09:56.644603"
+    },
+    {
+      "component": "backend.engines.universal_translator_hub",
+      "message": "Import successful",
+      "timestamp": "2025-07-09T16:10:03.186156"
+    },
+    {
+      "component": "backend.vault.vault_manager",
+      "message": "Import successful",
+      "timestamp": "2025-07-09T16:10:03.186754"
+    },
+    {
+      "component": "backend.vault.database",
+      "message": "Import successful",
+      "timestamp": "2025-07-09T16:10:03.187152"
+    },
+    {
+      "component": "backend.api.main",
+      "message": "Import successful",
+      "timestamp": "2025-07-09T16:10:10.934694"
+    },
+    {
+      "component": "backend.api.routers.geoid_scar_router",
+      "message": "Import successful",
+      "timestamp": "2025-07-09T16:10:10.934984"
+    },
+    {
+      "component": "backend.api.routers.system_router",
+      "message": "Import successful",
+      "timestamp": "2025-07-09T16:10:10.935267"
+    },
+    {
+      "component": "backend.api.routers.contradiction_router",
+      "message": "Import successful",
+      "timestamp": "2025-07-09T16:10:10.935553"
+    },
+    {
+      "component": "backend.utils.gpu_foundation",
+      "message": "Import successful",
+      "timestamp": "2025-07-09T16:10:10.935828"
+    },
+    {
+      "component": "backend.utils.kimera_logger",
+      "message": "Import successful",
+      "timestamp": "2025-07-09T16:10:10.936377"
+    },
+    {
+      "component": "backend.config.settings",
+      "message": "Import successful",
+      "timestamp": "2025-07-09T16:10:10.936776"
+    },
+    {
+      "component": "Configuration",
+      "message": "Database URL: sqlite+aiosqlite:///:memory:",
+      "timestamp": "2025-07-09T16:10:10.950569"
+    },
+    {
+      "component": "Configuration",
+      "message": "data_dir exists: D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\data",
+      "timestamp": "2025-07-09T16:10:10.951483"
+    },
+    {
+      "component": "Configuration",
+      "message": "logs_dir exists: D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\logs",
+      "timestamp": "2025-07-09T16:10:10.951899"
+    },
+    {
+      "component": "Configuration",
+      "message": "models_dir exists: D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\models",
+      "timestamp": "2025-07-09T16:10:10.952252"
+    },
+    {
+      "component": "Configuration",
+      "message": "temp_dir exists: D:\\DEV\\Kimera_SWM_Alpha_Prototype V0.1 140625\\temp",
+      "timestamp": "2025-07-09T16:10:10.952598"
+    },
+    {
+      "component": "Database",
+      "message": "Connected to PostgreSQL PostgreSQL 15.12 (Debian 15.12-1.pgdg120+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit",
+      "timestamp": "2025-07-09T16:10:10.978029"
+    },
+    {
+      "component": "Database",
+      "message": "Geoids: 18759, Scars: 7",
+      "timestamp": "2025-07-09T16:10:10.998701"
+    },
+    {
+      "component": "KimeraSystem",
+      "message": "Status: stopped",
+      "timestamp": "2025-07-09T16:10:11.000298"
+    },
+    {
+      "component": "KimeraSystem",
+      "message": "System initialized successfully",
+      "timestamp": "2025-07-09T16:10:11.063922"
+    },
+    {
+      "component": "KimeraSystem",
+      "message": "Component ready: vault_manager",
+      "timestamp": "2025-07-09T16:10:11.064196"
+    },
+    {
+      "component": "KimeraSystem",
+      "message": "Component ready: gpu_foundation",
+      "timestamp": "2025-07-09T16:10:11.064466"
+    },
+    {
+      "component": "KimeraSystem",
+      "message": "Component ready: contradiction_engine",
+      "timestamp": "2025-07-09T16:10:11.064753"
+    },
+    {
+      "component": "KimeraSystem",
+      "message": "Component ready: thermodynamics_engine",
+      "timestamp": "2025-07-09T16:10:11.065051"
+    },
+    {
+      "component": "KimeraSystem",
+      "message": "Component ready: embedding_model",
+      "timestamp": "2025-07-09T16:10:11.065369"
+    },
+    {
+      "component": "KimeraSystem",
+      "message": "Component ready: spde_engine",
+      "timestamp": "2025-07-09T16:10:11.065849"
+    },
+    {
+      "component": "KimeraSystem",
+      "message": "Component ready: cognitive_cycle_engine",
+      "timestamp": "2025-07-09T16:10:11.066223"
+    },
+    {
+      "component": "KimeraSystem",
+      "message": "Component ready: meta_insight_engine",
+      "timestamp": "2025-07-09T16:10:11.066516"
+    },
+    {
+      "component": "KimeraSystem",
+      "message": "Component ready: proactive_detector",
+      "timestamp": "2025-07-09T16:10:11.066840"
+    },
+    {
+      "component": "KimeraSystem",
+      "message": "Component ready: revolutionary_intelligence_engine",
+      "timestamp": "2025-07-09T16:10:11.067120"
+    },
+    {
+      "component": "API",
+      "message": "Found 184 endpoints",
+      "timestamp": "2025-07-09T16:10:11.154226"
+    },
+    {
+      "component": "API",
+      "message": "Critical endpoint found: /",
+      "timestamp": "2025-07-09T16:10:11.154757"
+    },
+    {
+      "component": "API",
+      "message": "Critical endpoint found: /health",
+      "timestamp": "2025-07-09T16:10:11.155008"
+    },
+    {
+      "component": "API",
+      "message": "Critical endpoint found: /kimera/status",
+      "timestamp": "2025-07-09T16:10:11.155299"
+    },
+    {
+      "component": "API",
+      "message": "Critical endpoint found: /kimera/geoids",
+      "timestamp": "2025-07-09T16:10:11.155653"
+    },
+    {
+      "component": "ContradictionEngine",
+      "message": "Engine module loaded",
+      "timestamp": "2025-07-09T16:10:11.156901"
+    },
+    {
+      "component": "ContradictionEngine",
+      "message": "Engine instantiated successfully",
+      "timestamp": "2025-07-09T16:10:11.157793"
+    },
+    {
+      "component": "ThermodynamicEngine",
+      "message": "Engine module loaded",
+      "timestamp": "2025-07-09T16:10:11.158061"
+    },
+    {
+      "component": "ThermodynamicEngine",
+      "message": "Engine instantiated successfully",
+      "timestamp": "2025-07-09T16:10:11.158633"
+    },
+    {
+      "component": "UniversalTranslatorHub",
+      "message": "Engine module loaded",
+      "timestamp": "2025-07-09T16:10:11.158896"
+    },
+    {
+      "component": "UniversalTranslatorHub",
+      "message": "Factory function available",
+      "timestamp": "2025-07-09T16:10:11.159152"
+    },
+    {
+      "component": "Integration",
+      "message": "Vault manager can retrieve geoids: 18759",
+      "timestamp": "2025-07-09T16:10:20.657370"
+    },
+    {
+      "component": "Integration",
+      "message": "Contradiction engine detected 2 tensions",
+      "timestamp": "2025-07-09T16:10:20.659354"
+    },
+    {
+      "component": "Performance",
+      "message": "CPU usage: 7.4%",
+      "timestamp": "2025-07-09T16:10:21.690345"
+    },
+    {
+      "component": "Performance",
+      "message": "Memory usage: 48.0%",
+      "timestamp": "2025-07-09T16:10:21.705832"
+    }
+  ],
+  "component_status": {
+    "backend.core.kimera_system": "imported",
+    "backend.core.geoid": "imported",
+    "backend.core.scar": "imported",
+    "backend.core.insight": "imported",
+    "backend.core.ethical_governor": "imported",
+    "backend.engines.contradiction_engine": "imported",
+    "backend.engines.foundational_thermodynamic_engine": "imported",
+    "backend.engines.spde_engine": "imported",
+    "backend.engines.cognitive_cycle_engine": "imported",
+    "backend.engines.meta_insight_engine": "imported",
+    "backend.engines.proactive_detector": "imported",
+    "backend.engines.revolutionary_intelligence_engine": "imported",
+    "backend.engines.universal_translator_hub": "imported",
+    "backend.vault.vault_manager": "imported",
+    "backend.vault.database": "imported",
+    "backend.api.main": "imported",
+    "backend.api.routers.geoid_scar_router": "imported",
+    "backend.api.routers.system_router": "imported",
+    "backend.api.routers.contradiction_router": "imported",
+    "backend.utils.gpu_foundation": "imported",
+    "backend.utils.config": "imported",
+    "backend.utils.kimera_logger": "imported",
+    "backend.config.settings": "imported",
+    "configuration": "ok",
+    "database": "connected",
+    "kimera.vault_manager": "ready",
+    "kimera.gpu_foundation": "ready",
+    "kimera.contradiction_engine": "ready",
+    "kimera.thermodynamics_engine": "ready",
+    "kimera.embedding_model": "ready",
+    "kimera.spde_engine": "ready",
+    "kimera.cognitive_cycle_engine": "ready",
+    "kimera.meta_insight_engine": "ready",
+    "kimera.proactive_detector": "ready",
+    "kimera.revolutionary_intelligence_engine": "ready"
+  },
+  "api_endpoints": {
+    "total": 184,
+    "routes": [
+      {
+        "path": "/openapi.json",
+        "methods": [
+          "GET",
+          "HEAD"
+        ],
+        "name": "openapi"
+      },
+      {
+        "path": "/docs",
+        "methods": [
+          "GET",
+          "HEAD"
+        ],
+        "name": "swagger_ui_html"
+      },
+      {
+        "path": "/docs/oauth2-redirect",
+        "methods": [
+          "GET",
+          "HEAD"
+        ],
+        "name": "swagger_ui_redirect"
+      },
+      {
+        "path": "/redoc",
+        "methods": [
+          "GET",
+          "HEAD"
+        ],
+        "name": "redoc_html"
+      },
+      {
+        "path": "/kimera/geoids",
+        "methods": [
+          "POST"
+        ],
+        "name": "create_geoid"
+      },
+      {
+        "path": "/kimera/geoids/from_image",
+        "methods": [
+          "POST"
+        ],
+        "name": "create_geoid_from_image"
+      },
+      {
+        "path": "/kimera/geoids/search",
+        "methods": [
+          "GET"
+        ],
+        "name": "search_geoids"
+      },
+      {
+        "path": "/kimera/scars/search",
+        "methods": [
+          "GET"
+        ],
+        "name": "search_scars"
+      },
+      {
+        "path": "/kimera/status",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_system_status"
+      },
+      {
+        "path": "/kimera/contradiction_engine",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_contradiction_engine_status"
+      },
+      {
+        "path": "/kimera/thermodynamic_engine",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_thermodynamic_engine_status"
+      },
+      {
+        "path": "/kimera/system/health",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_system_health_simple"
+      },
+      {
+        "path": "/kimera/system-metrics",
+        "methods": [
+          "GET"
+        ],
+        "name": "prometheus_metrics"
+      },
+      {
+        "path": "/kimera/system/health/detailed",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_system_health_detailed"
+      },
+      {
+        "path": "/kimera/system/stability",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_system_stability"
+      },
+      {
+        "path": "/kimera/system/gpu_foundation",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_gpu_foundation_status"
+      },
+      {
+        "path": "/kimera/system/utilization_stats",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_utilization_statistics"
+      },
+      {
+        "path": "/kimera/run_zetetic_audit",
+        "methods": [
+          "POST"
+        ],
+        "name": "run_zetetic_audit"
+      },
+      {
+        "path": "/kimera/test-metrics-redirect",
+        "methods": [
+          "GET"
+        ],
+        "name": "test_metrics_redirect"
+      },
+      {
+        "path": "/kimera/metrics",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_prometheus_metrics"
+      },
+      {
+        "path": "/kimera/system/state",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_system_state"
+      },
+      {
+        "path": "/kimera/system/shutdown",
+        "methods": [
+          "POST"
+        ],
+        "name": "shutdown_kimera_system"
+      },
+      {
+        "path": "/kimera/system/threads",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_system_threads"
+      },
+      {
+        "path": "/kimera/contradiction/process/contradictions",
+        "methods": [
+          "POST"
+        ],
+        "name": "process_contradictions"
+      },
+      {
+        "path": "/kimera/contradiction/process/contradictions/sync",
+        "methods": [
+          "POST"
+        ],
+        "name": "process_contradictions_sync"
+      },
+      {
+        "path": "/kimera/contradiction/detect",
+        "methods": [
+          "POST"
+        ],
+        "name": "detect_contradictions"
+      },
+      {
+        "path": "/kimera/contradiction/detect_tension",
+        "methods": [
+          "POST"
+        ],
+        "name": "detect_tension_gradients"
+      },
+      {
+        "path": "/kimera/vault/status",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_vault_status"
+      },
+      {
+        "path": "/kimera/vault/geoids/count",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_geoid_count"
+      },
+      {
+        "path": "/kimera/vault/scars/count",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_scar_count"
+      },
+      {
+        "path": "/kimera/vault/query",
+        "methods": [
+          "POST"
+        ],
+        "name": "query_vault"
+      },
+      {
+        "path": "/kimera/vault/vaults/{vault_id}",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_vault_contents"
+      },
+      {
+        "path": "/kimera/vault/stats",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_vault_stats"
+      },
+      {
+        "path": "/kimera/vault/geoids/recent",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_recent_geoids"
+      },
+      {
+        "path": "/kimera/vault/scars/recent",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_recent_scars"
+      },
+      {
+        "path": "/kimera/vault/vaults/rebalance",
+        "methods": [
+          "POST"
+        ],
+        "name": "rebalance_vaults"
+      },
+      {
+        "path": "/kimera/vault/geoids/{geoid_id}/speak",
+        "methods": [
+          "GET"
+        ],
+        "name": "speak_geoid"
+      },
+      {
+        "path": "/kimera/insights/generate",
+        "methods": [
+          "POST"
+        ],
+        "name": "generate_insight"
+      },
+      {
+        "path": "/kimera/insights/status",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_insight_engine_status"
+      },
+      {
+        "path": "/kimera/insights/auto_generate",
+        "methods": [
+          "POST"
+        ],
+        "name": "auto_generate_insights"
+      },
+      {
+        "path": "/kimera/insights/generate_simple",
+        "methods": [
+          "POST"
+        ],
+        "name": "generate_insight_simple"
+      },
+      {
+        "path": "/kimera/insights/{insight_id}",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_insight"
+      },
+      {
+        "path": "/kimera/insights",
+        "methods": [
+          "GET"
+        ],
+        "name": "list_insights"
+      },
+      {
+        "path": "/kimera/insights/{insight_id}/feedback",
+        "methods": [
+          "POST"
+        ],
+        "name": "feedback_insight"
+      },
+      {
+        "path": "/kimera/insights/{insight_id}/lineage",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_insight_lineage"
+      },
+      {
+        "path": "/kimera/statistics/capabilities",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_statistical_capabilities"
+      },
+      {
+        "path": "/kimera/statistics/analyze/entropy_series",
+        "methods": [
+          "POST"
+        ],
+        "name": "analyze_entropy_series_endpoint"
+      },
+      {
+        "path": "/kimera/statistics/analyze/contradiction_factors",
+        "methods": [
+          "POST"
+        ],
+        "name": "analyze_contradiction_factors_endpoint"
+      },
+      {
+        "path": "/kimera/statistics/analyze/semantic_market",
+        "methods": [
+          "POST"
+        ],
+        "name": "analyze_semantic_market_endpoint"
+      },
+      {
+        "path": "/kimera/statistics/analyze/comprehensive",
+        "methods": [
+          "POST"
+        ],
+        "name": "comprehensive_statistical_analysis"
+      },
+      {
+        "path": "/kimera/statistics/monitoring/status",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_statistical_monitoring_status"
+      },
+      {
+        "path": "/kimera/statistics/monitoring/start",
+        "methods": [
+          "POST"
+        ],
+        "name": "start_statistical_monitoring"
+      },
+      {
+        "path": "/kimera/statistics/monitoring/stop",
+        "methods": [
+          "POST"
+        ],
+        "name": "stop_statistical_monitoring"
+      },
+      {
+        "path": "/kimera/statistics/monitoring/alerts",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_statistical_alerts"
+      },
+      {
+        "path": "/kimera/statistics/monitoring/forecast/{metric_name}",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_metric_forecast"
+      },
+      {
+        "path": "/kimera/statistics/system/entropy_analysis",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_system_entropy_analysis"
+      },
+      {
+        "path": "/kimera/statistics/analyze",
+        "methods": [
+          "POST"
+        ],
+        "name": "analyze_data"
+      },
+      {
+        "path": "/kimera/output/comprehend",
+        "methods": [
+          "POST"
+        ],
+        "name": "comprehend_output"
+      },
+      {
+        "path": "/kimera/output/intelligence",
+        "methods": [
+          "POST"
+        ],
+        "name": "analyze_output_intelligence"
+      },
+      {
+        "path": "/kimera/output/comprehension/history",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_comprehension_history"
+      },
+      {
+        "path": "/kimera/output/self_analysis",
+        "methods": [
+          "POST"
+        ],
+        "name": "kimera_self_analysis"
+      },
+      {
+        "path": "/kimera/output/analyze",
+        "methods": [
+          "POST"
+        ],
+        "name": "analyze_output"
+      },
+      {
+        "path": "/kimera/system/cycle",
+        "methods": [
+          "POST"
+        ],
+        "name": "trigger_cycle"
+      },
+      {
+        "path": "/kimera/system/proactive_scan",
+        "methods": [
+          "POST"
+        ],
+        "name": "run_proactive_contradiction_scan"
+      },
+      {
+        "path": "/kimera/test/metrics",
+        "methods": [
+          "POST"
+        ],
+        "name": "test_metrics"
+      },
+      {
+        "path": "/kimera/embed",
+        "methods": [
+          "POST"
+        ],
+        "name": "embed_text"
+      },
+      {
+        "path": "/kimera/semantic_features",
+        "methods": [
+          "POST"
+        ],
+        "name": "extract_semantic_features"
+      },
+      {
+        "path": "/kimera/action/execute",
+        "methods": [
+          "POST"
+        ],
+        "name": "execute_action"
+      },
+      {
+        "path": "/kimera/thermodynamics/calculate_epistemic_temperature",
+        "methods": [
+          "POST"
+        ],
+        "name": "calculate_epistemic_temperature"
+      },
+      {
+        "path": "/kimera/thermodynamics/analyze",
+        "methods": [
+          "POST"
+        ],
+        "name": "analyze_thermodynamic"
+      },
+      {
+        "path": "/kimera/cognitive-control/context/configure",
+        "methods": [
+          "POST"
+        ],
+        "name": "configure_context_selector"
+      },
+      {
+        "path": "/kimera/cognitive-control/context/presets/{preset_name}",
+        "methods": [
+          "GET"
+        ],
+        "name": "load_context_preset"
+      },
+      {
+        "path": "/kimera/cognitive-control/context/status",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_context_selector_status"
+      },
+      {
+        "path": "/kimera/cognitive-control/profiler/configure",
+        "methods": [
+          "POST"
+        ],
+        "name": "configure_profiler"
+      },
+      {
+        "path": "/kimera/cognitive-control/profiler/presets/{preset_name}",
+        "methods": [
+          "GET"
+        ],
+        "name": "load_profiler_preset"
+      },
+      {
+        "path": "/kimera/cognitive-control/profiler/analyze",
+        "methods": [
+          "POST"
+        ],
+        "name": "analyze_message"
+      },
+      {
+        "path": "/kimera/cognitive-control/profiler/status",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_profiler_status"
+      },
+      {
+        "path": "/kimera/cognitive-control/profiler/drift/trend",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_drift_trend"
+      },
+      {
+        "path": "/kimera/cognitive-control/coherence/assess",
+        "methods": [
+          "POST"
+        ],
+        "name": "assess_coherence"
+      },
+      {
+        "path": "/kimera/cognitive-control/security/configure",
+        "methods": [
+          "POST"
+        ],
+        "name": "configure_gyroscopic_security"
+      },
+      {
+        "path": "/kimera/cognitive-control/security/presets/{preset_name}",
+        "methods": [
+          "GET"
+        ],
+        "name": "load_security_preset"
+      },
+      {
+        "path": "/kimera/cognitive-control/security/analyze",
+        "methods": [
+          "POST"
+        ],
+        "name": "analyze_input_security"
+      },
+      {
+        "path": "/kimera/cognitive-control/security/status",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_security_status"
+      },
+      {
+        "path": "/kimera/cognitive-control/security/threats",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_threat_analysis"
+      },
+      {
+        "path": "/kimera/cognitive-control/process/secure",
+        "methods": [
+          "POST"
+        ],
+        "name": "secure_enhanced_processing"
+      },
+      {
+        "path": "/kimera/cognitive-control/system/status",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_enhanced_system_status"
+      },
+      {
+        "path": "/kimera/cognitive-control/system/reset",
+        "methods": [
+          "POST"
+        ],
+        "name": "reset_enhanced_components"
+      },
+      {
+        "path": "/kimera/cognitive-control/health",
+        "methods": [
+          "GET"
+        ],
+        "name": "enhanced_health_check"
+      },
+      {
+        "path": "/kimera/monitoring/health",
+        "methods": [
+          "GET"
+        ],
+        "name": "health_check"
+      },
+      {
+        "path": "/kimera/monitoring/status",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_system_status"
+      },
+      {
+        "path": "/kimera/monitoring/metrics/summary",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_metrics_summary"
+      },
+      {
+        "path": "/kimera/monitoring/metrics/system",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_system_metrics"
+      },
+      {
+        "path": "/kimera/monitoring/metrics/kimera",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_kimera_metrics"
+      },
+      {
+        "path": "/kimera/monitoring/metrics/gpu",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_gpu_metrics"
+      },
+      {
+        "path": "/kimera/monitoring/alerts",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_alerts"
+      },
+      {
+        "path": "/kimera/monitoring/alerts/summary",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_alerts_summary"
+      },
+      {
+        "path": "/kimera/monitoring/performance",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_performance_metrics"
+      },
+      {
+        "path": "/kimera/monitoring/anomalies",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_anomaly_detection_results"
+      },
+      {
+        "path": "/kimera/monitoring/integration/status",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_integration_status"
+      },
+      {
+        "path": "/kimera/monitoring/monitoring/start",
+        "methods": [
+          "POST"
+        ],
+        "name": "start_monitoring"
+      },
+      {
+        "path": "/kimera/monitoring/monitoring/stop",
+        "methods": [
+          "POST"
+        ],
+        "name": "stop_monitoring"
+      },
+      {
+        "path": "/kimera/monitoring/export/prometheus",
+        "methods": [
+          "GET"
+        ],
+        "name": "export_prometheus_metrics"
+      },
+      {
+        "path": "/kimera/monitoring/metrics",
+        "methods": [
+          "GET"
+        ],
+        "name": "prometheus_metrics"
+      },
+      {
+        "path": "/kimera/monitoring/dashboard/data",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_dashboard_data"
+      },
+      {
+        "path": "/kimera/monitoring/config",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_monitoring_config"
+      },
+      {
+        "path": "/kimera/monitoring/entropy/current",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_current_entropy"
+      },
+      {
+        "path": "/kimera/monitoring/entropy/trends",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_entropy_trends"
+      },
+      {
+        "path": "/kimera/monitoring/entropy/anomalies",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_entropy_anomalies"
+      },
+      {
+        "path": "/kimera/monitoring/engines/status",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_engines_status"
+      },
+      {
+        "path": "/kimera/monitoring/engines/contradiction",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_contradiction_engine_metrics"
+      },
+      {
+        "path": "/kimera/monitoring/engines/thermodynamics",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_thermodynamics_engine_metrics"
+      },
+      {
+        "path": "/kimera/monitoring/engines/revolutionary",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_revolutionary_intelligence_metrics"
+      },
+      {
+        "path": "/kimera/monitoring/engines/spde",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_spde_engine_metrics"
+      },
+      {
+        "path": "/kimera/monitoring/engines/cognitive_cycle",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_cognitive_cycle_metrics"
+      },
+      {
+        "path": "/kimera/monitoring/engines/meta_insight",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_meta_insight_engine_metrics"
+      },
+      {
+        "path": "/kimera/monitoring/engines/proactive_detector",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_proactive_detector_metrics"
+      },
+      {
+        "path": "/kimera/monitoring/engines/revolutionary_thermodynamics",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_revolutionary_thermodynamics_metrics"
+      },
+      {
+        "path": "/kimera/monitoring/prometheus",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_prometheus_metrics_endpoint"
+      },
+      {
+        "path": "/kimera/monitoring/system/report",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_system_report"
+      },
+      {
+        "path": "/kimera/monitoring/threads",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_threads_endpoint"
+      },
+      {
+        "path": "/kimera/monitoring/shutdown",
+        "methods": [
+          "POST"
+        ],
+        "name": "shutdown_system_endpoint"
+      },
+      {
+        "path": "/kimera/monitoring/test/metrics",
+        "methods": [
+          "GET"
+        ],
+        "name": "test_metrics_usage"
+      },
+      {
+        "path": "/kimera/revolutionary/intelligence/complete",
+        "methods": [
+          "POST"
+        ],
+        "name": "complete_revolutionary_intelligence"
+      },
+      {
+        "path": "/kimera/revolutionary/context/analyze",
+        "methods": [
+          "POST"
+        ],
+        "name": "analyze_context_supremacy"
+      },
+      {
+        "path": "/kimera/revolutionary/neutrality/orchestrate",
+        "methods": [
+          "POST"
+        ],
+        "name": "orchestrate_living_neutrality"
+      },
+      {
+        "path": "/kimera/revolutionary/drift/assess",
+        "methods": [
+          "POST"
+        ],
+        "name": "assess_genius_drift"
+      },
+      {
+        "path": "/kimera/revolutionary/drift/execute/{authorization_id}",
+        "methods": [
+          "POST"
+        ],
+        "name": "execute_genius_drift"
+      },
+      {
+        "path": "/kimera/revolutionary/status",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_revolutionary_status_simple"
+      },
+      {
+        "path": "/kimera/revolutionary/status/complete",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_revolutionary_status"
+      },
+      {
+        "path": "/kimera/revolutionary/principles",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_revolutionary_principles"
+      },
+      {
+        "path": "/kimera/revolutionary/test/simple",
+        "methods": [
+          "POST"
+        ],
+        "name": "test_revolutionary_intelligence"
+      },
+      {
+        "path": "/kimera/revolutionary/health",
+        "methods": [
+          "GET"
+        ],
+        "name": "revolutionary_health_check"
+      },
+      {
+        "path": "/kimera/law_enforcement/assess_compliance",
+        "methods": [
+          "POST"
+        ],
+        "name": "assess_compliance"
+      },
+      {
+        "path": "/kimera/law_enforcement/assess_context",
+        "methods": [
+          "POST"
+        ],
+        "name": "assess_context"
+      },
+      {
+        "path": "/kimera/law_enforcement/apply_stabilization",
+        "methods": [
+          "POST"
+        ],
+        "name": "apply_stabilization"
+      },
+      {
+        "path": "/kimera/law_enforcement/system_status",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_system_status"
+      },
+      {
+        "path": "/kimera/law_enforcement/laws",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_all_laws"
+      },
+      {
+        "path": "/kimera/law_enforcement/laws/{law_id}",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_law_details"
+      },
+      {
+        "path": "/kimera/law_enforcement/deviations",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_active_deviations"
+      },
+      {
+        "path": "/kimera/law_enforcement/enforcement_history",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_enforcement_history"
+      },
+      {
+        "path": "/kimera/law_enforcement/assessment_history",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_assessment_history"
+      },
+      {
+        "path": "/kimera/law_enforcement/authorization_history",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_authorization_history"
+      },
+      {
+        "path": "/kimera/law_enforcement/verify_integrity",
+        "methods": [
+          "POST"
+        ],
+        "name": "verify_law_integrity_endpoint"
+      },
+      {
+        "path": "/kimera/law_enforcement/stability_metrics",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_stability_metrics"
+      },
+      {
+        "path": "/kimera/law_enforcement/test_enforcement",
+        "methods": [
+          "POST"
+        ],
+        "name": "test_enforcement"
+      },
+      {
+        "path": "/kimera/cognitive-pharmaceutical/dissolution/analyze",
+        "methods": [
+          "POST"
+        ],
+        "name": "analyze_cognitive_dissolution"
+      },
+      {
+        "path": "/kimera/cognitive-pharmaceutical/bioavailability/test",
+        "methods": [
+          "POST"
+        ],
+        "name": "test_cognitive_bioavailability"
+      },
+      {
+        "path": "/kimera/cognitive-pharmaceutical/quality-control/test",
+        "methods": [
+          "POST"
+        ],
+        "name": "perform_cognitive_quality_control"
+      },
+      {
+        "path": "/kimera/cognitive-pharmaceutical/formulation/optimize",
+        "methods": [
+          "POST"
+        ],
+        "name": "optimize_cognitive_formulation"
+      },
+      {
+        "path": "/kimera/cognitive-pharmaceutical/stability/test",
+        "methods": [
+          "POST"
+        ],
+        "name": "perform_cognitive_stability_test"
+      },
+      {
+        "path": "/kimera/cognitive-pharmaceutical/system/status",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_cognitive_pharmaceutical_status"
+      },
+      {
+        "path": "/kimera/cognitive-pharmaceutical/standards/cognitive-usp",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_cognitive_usp_standards"
+      },
+      {
+        "path": "/kimera/cognitive-pharmaceutical/system/optimize-kimera",
+        "methods": [
+          "POST"
+        ],
+        "name": "optimize_kimera_system"
+      },
+      {
+        "path": "/kimera/cognitive-pharmaceutical/reports/comprehensive",
+        "methods": [
+          "GET"
+        ],
+        "name": "generate_comprehensive_report"
+      },
+      {
+        "path": "/kimera/thermodynamics/temperature/epistemic",
+        "methods": [
+          "POST"
+        ],
+        "name": "calculate_epistemic_temperature"
+      },
+      {
+        "path": "/kimera/thermodynamics/carnot/zetetic",
+        "methods": [
+          "POST"
+        ],
+        "name": "run_zetetic_carnot_engine"
+      },
+      {
+        "path": "/kimera/thermodynamics/consciousness/detect",
+        "methods": [
+          "POST"
+        ],
+        "name": "detect_thermodynamic_consciousness"
+      },
+      {
+        "path": "/kimera/thermodynamics/optimize/comprehensive",
+        "methods": [
+          "POST"
+        ],
+        "name": "run_comprehensive_thermodynamic_optimization"
+      },
+      {
+        "path": "/kimera/thermodynamics/status/system",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_thermodynamic_system_status"
+      },
+      {
+        "path": "/kimera/thermodynamics/validate/physics",
+        "methods": [
+          "POST"
+        ],
+        "name": "validate_physics_compliance"
+      },
+      {
+        "path": "/kimera/thermodynamics/health",
+        "methods": [
+          "GET"
+        ],
+        "name": "thermodynamic_health_check"
+      },
+      {
+        "path": "/kimera/thermodynamics/demo/consciousness_emergence",
+        "methods": [
+          "GET"
+        ],
+        "name": "demo_consciousness_emergence"
+      },
+      {
+        "path": "/kimera/foundational-thermodynamics/status",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_foundational_thermodynamics_status"
+      },
+      {
+        "path": "/kimera/chat/",
+        "methods": [
+          "POST"
+        ],
+        "name": "handle_chat"
+      },
+      {
+        "path": "/kimera/chat/history/{session_id}",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_conversation_history"
+      },
+      {
+        "path": "/kimera/chat/history/{session_id}",
+        "methods": [
+          "DELETE"
+        ],
+        "name": "clear_conversation_history"
+      },
+      {
+        "path": "/kimera/chat/modes/test",
+        "methods": [
+          "POST"
+        ],
+        "name": "test_cognitive_modes"
+      },
+      {
+        "path": "/kimera/chat/integration/status",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_integration_status"
+      },
+      {
+        "path": "/kimera/chat/capabilities",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_chat_capabilities"
+      },
+      {
+        "path": "/system-metrics/",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_system_metrics"
+      },
+      {
+        "path": "/system-metrics/health",
+        "methods": [
+          "GET"
+        ],
+        "name": "health_check"
+      },
+      {
+        "path": "/system-metrics/cognitive",
+        "methods": [
+          "GET"
+        ],
+        "name": "cognitive_metrics"
+      },
+      {
+        "path": "/system-metrics/health-status",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_health_status"
+      },
+      {
+        "path": "/system-metrics/history",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_metrics_history"
+      },
+      {
+        "path": "/system-metrics/optimize",
+        "methods": [
+          "POST"
+        ],
+        "name": "optimize_system"
+      },
+      {
+        "path": "/system-metrics/start-monitoring",
+        "methods": [
+          "POST"
+        ],
+        "name": "start_monitoring"
+      },
+      {
+        "path": "/system-metrics/stop-monitoring",
+        "methods": [
+          "POST"
+        ],
+        "name": "stop_monitoring"
+      },
+      {
+        "path": "/security/status",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_security_status"
+      },
+      {
+        "path": "/security/threats",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_recent_threats"
+      },
+      {
+        "path": "/security/scan",
+        "methods": [
+          "POST"
+        ],
+        "name": "trigger_security_scan"
+      },
+      {
+        "path": "/security/audit-log",
+        "methods": [
+          "GET"
+        ],
+        "name": "get_audit_log"
+      },
+      {
+        "path": "/",
+        "methods": [
+          "GET"
+        ],
+        "name": "read_root"
+      },
+      {
+        "path": "/health",
+        "methods": [
+          "GET"
+        ],
+        "name": "health_check"
+      },
+      {
+        "path": "/metrics",
+        "methods": [
+          "GET"
+        ],
+        "name": "prometheus_metrics"
+      }
+    ]
+  },
+  "performance_metrics": {
+    "cpu_percent": 7.4,
+    "memory_percent": 48.0,
+    "disk_percent": 95.1
+  },
+  "summary": {
+    "total_issues": 0,
+    "total_warnings": 6,
+    "total_successes": 56,
+    "critical_issues": 0,
+    "audit_duration": 31.131569
+  }
+}

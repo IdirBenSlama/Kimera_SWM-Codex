@@ -1,0 +1,8 @@
+{
+  "error": "CDP initialization failed",
+  "partial_results": {
+    "trades": 0,
+    "profit": 0.0,
+    "duration": 0.0033867359161376953
+  }
+}

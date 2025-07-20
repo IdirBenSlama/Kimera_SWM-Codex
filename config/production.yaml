@@ -1,0 +1,47 @@
+# KIMERA Production Configuration
+# This file provides production-specific overrides
+
+environment: production
+
+database:
+  echo: false  # Disable SQL logging
+  pool_size: 20  # Production pool size
+  pool_timeout: 30.0
+
+server:
+  reload: false  # Never reload in production
+  host: "0.0.0.0"  # Listen on all interfaces
+  port: 8000
+  workers: 4  # Multiple workers for production
+
+logging:
+  level: INFO
+  structured: true  # JSON logs for log aggregation
+  file_enabled: true
+  file_rotation: "1 day"
+  file_retention: "90 days"
+
+performance:
+  max_threads: 32
+  max_processes: 8
+  gpu_memory_fraction: 0.8
+  batch_size: 200
+  cache_size: 5000
+
+monitoring:
+  enabled: true
+  performance_tracking: true
+  memory_tracking: true
+  health_check_interval: 30.0
+
+security:
+  rate_limit_enabled: true
+  rate_limit_requests: 100
+  rate_limit_period: 60
+  jwt_expiration: "12h"  # Shorter expiration in production
+
+features:
+  debug_mode: false
+  experimental_features: false
+  advanced_monitoring: true
+  error_reporting: true

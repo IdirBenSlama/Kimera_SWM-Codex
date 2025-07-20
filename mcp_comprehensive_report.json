@@ -1,0 +1,48 @@
+{
+  "timestamp": "2025-06-29 21:50:36",
+  "total_servers": 10,
+  "server_status": {
+    "kimera-simple": "\u274c Issues",
+    "fetch": "\u274c Issues",
+    "sqlite-kimera": "\u274c Issues",
+    "everything-local": "\u2705 Working",
+    "filesystem-local": "\u2705 Working",
+    "git-local": "\u2705 Working",
+    "memory-local": "\u2705 Working",
+    "sequential-thinking-local": "\u2705 Working",
+    "time-local": "\u2705 Working",
+    "qdrant": "\u274c Issues"
+  },
+  "capabilities": {
+    "cognitive_memory": [
+      "memory-local",
+      "qdrant"
+    ],
+    "file_operations": [
+      "filesystem-local",
+      "git-local"
+    ],
+    "data_access": [
+      "sqlite-kimera",
+      "fetch"
+    ],
+    "reasoning": [
+      "sequential-thinking-local",
+      "everything-local"
+    ],
+    "utilities": [
+      "time-local",
+      "kimera-simple"
+    ]
+  },
+  "missing_critical_servers": [
+    "GitHub integration (requires token)",
+    "Pinecone vector database",
+    "OpenAI API integration",
+    "Slack/Discord communication",
+    "Scientific data (arXiv, PubChem)",
+    "Cloud services (AWS, Azure)"
+  ],
+  "working_servers": 6,
+  "success_rate": "60.0%"
+}

@@ -1,0 +1,234 @@
+{
+  "test_suite": "GPU_PEAK_PERFORMANCE_COMPREHENSIVE",
+  "timestamp": "2025-07-02T01:31:36.848099",
+  "total_duration": 66.18386554718018,
+  "total_operations": 32,
+  "overall_success_rate": 0.25,
+  "gpu_model": "NVIDIA GeForce RTX 4090",
+  "test_results": [
+    {
+      "test": "gpu_foundation_stress",
+      "duration": 41.093979835510254,
+      "concurrent_calls": 20,
+      "results": [
+        {
+          "status_code": 200,
+          "response_time": 2.054521,
+          "success": true
+        },
+        {
+          "status_code": 200,
+          "response_time": 2.052834,
+          "success": true
+        },
+        {
+          "status_code": 200,
+          "response_time": 2.05616,
+          "success": true
+        },
+        {
+          "status_code": 200,
+          "response_time": 2.069289,
+          "success": true
+        },
+        {
+          "status_code": 200,
+          "response_time": 2.056009,
+          "success": true
+        },
+        {
+          "status_code": 200,
+          "response_time": 2.031081,
+          "success": true
+        },
+        {
+          "status_code": 200,
+          "response_time": 2.041564,
+          "success": true
+        },
+        {
+          "status_code": 200,
+          "response_time": 2.051455,
+          "success": true
+        },
+        {
+          "status_code": 200,
+          "response_time": 2.071956,
+          "success": true
+        },
+        {
+          "status_code": 200,
+          "response_time": 2.041962,
+          "success": true
+        },
+        {
+          "status_code": 200,
+          "response_time": 2.046759,
+          "success": true
+        },
+        {
+          "status_code": 200,
+          "response_time": 2.067312,
+          "success": true
+        },
+        {
+          "status_code": 200,
+          "response_time": 2.027319,
+          "success": true
+        },
+        {
+          "status_code": 200,
+          "response_time": 2.046832,
+          "success": true
+        },
+        {
+          "status_code": 200,
+          "response_time": 2.043357,
+          "success": true
+        },
+        {
+          "status_code": 200,
+          "response_time": 2.085708,
+          "success": true
+        },
+        {
+          "status_code": 200,
+          "response_time": 2.055116,
+          "success": true
+        },
+        {
+          "status_code": 200,
+          "response_time": 2.070605,
+          "success": true
+        },
+        {
+          "status_code": 200,
+          "response_time": 2.068883,
+          "success": true
+        },
+        {
+          "status_code": 200,
+          "response_time": 2.034164,
+          "success": true
+        }
+      ],
+      "success_rate": 1.0
+    },
+    {
+      "test": "embedding_performance_peak",
+      "duration": 10.652487754821777,
+      "total_texts": 5,
+      "results": [
+        {
+          "text_length": 351,
+          "response_time": 2.299135684967041,
+          "status_code": 500,
+          "success": false,
+          "iteration": 1
+        },
+        {
+          "text_length": 302,
+          "response_time": 2.0882294178009033,
+          "status_code": 500,
+          "success": false,
+          "iteration": 2
+        },
+        {
+          "text_length": 260,
+          "response_time": 2.0875847339630127,
+          "status_code": 500,
+          "success": false,
+          "iteration": 3
+        },
+        {
+          "text_length": 248,
+          "response_time": 2.0793375968933105,
+          "status_code": 500,
+          "success": false,
+          "iteration": 4
+        },
+        {
+          "text_length": 243,
+          "response_time": 2.096860647201538,
+          "status_code": 500,
+          "success": false,
+          "iteration": 5
+        }
+      ],
+      "avg_response_time": NaN,
+      "success_rate": 0.0
+    },
+    {
+      "test": "diffusion_engine_peak",
+      "duration": 8.22591519355774,
+      "total_queries": 4,
+      "results": [
+        {
+          "query_length": 99,
+          "response_time": 2.052320957183838,
+          "status_code": 500,
+          "success": false,
+          "iteration": 1
+        },
+        {
+          "query_length": 83,
+          "response_time": 2.041135311126709,
+          "status_code": 500,
+          "success": false,
+          "iteration": 2
+        },
+        {
+          "query_length": 90,
+          "response_time": 2.0652544498443604,
+          "status_code": 500,
+          "success": false,
+          "iteration": 3
+        },
+        {
+          "query_length": 84,
+          "response_time": 2.0660789012908936,
+          "status_code": 500,
+          "success": false,
+          "iteration": 4
+        }
+      ],
+      "avg_response_time": NaN,
+      "success_rate": 0.0
+    },
+    {
+      "test": "thermodynamic_gpu_computation",
+      "duration": 6.165377616882324,
+      "total_tests": 3,
+      "results": [
+        {
+          "endpoint": "/kimera/thermodynamics/temperature/epistemic",
+          "response_time": 2.048996686935425,
+          "status_code": 503,
+          "success": false,
+          "iteration": 1
+        },
+        {
+          "endpoint": "/kimera/thermodynamics/carnot/zetetic",
+          "response_time": 2.0590176582336426,
+          "status_code": 503,
+          "success": false,
+          "iteration": 2
+        },
+        {
+          "endpoint": "/kimera/thermodynamics/consciousness/detect",
+          "response_time": 2.0562937259674072,
+          "status_code": 503,
+          "success": false,
+          "iteration": 3
+        }
+      ],
+      "avg_response_time": NaN,
+      "success_rate": 0.0
+    }
+  ],
+  "performance_summary": {
+    "operations_per_second": 0.4835015261716364,
+    "avg_response_time": NaN,
+    "peak_performance_achieved": "False"
+  }
+}

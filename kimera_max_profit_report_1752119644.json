@@ -1,0 +1,260 @@
+{
+  "session_summary": {
+    "duration_seconds": 300.9169807434082,
+    "duration_minutes": 5.015283012390137,
+    "total_trades": 107,
+    "profitable_trades": 70,
+    "win_rate": 0.6542056074766355,
+    "trades_per_minute": 21.334788034027003
+  },
+  "profit_performance": {
+    "starting_balance": 1035.546551467547,
+    "ending_balance": 979.2928315090298,
+    "total_profit": 26.579566947162117,
+    "profit_percentage": 2.5667186964694455,
+    "max_drawdown": 0.0,
+    "circuit_breaker_triggered": false
+  },
+  "cognitive_performance": {
+    "final_state": {
+      "confidence": 0.7,
+      "market_momentum": 0.7885743992022246,
+      "volatility_score": 1.0,
+      "profit_opportunity": 0.5,
+      "risk_appetite": 0.8
+    },
+    "winning_trades": 70,
+    "losing_trades": 37,
+    "avg_confidence": 0.8122395792915514
+  },
+  "system_info": {
+    "network": "base-sepolia",
+    "api_key": "9268de76-b5f4-4683-b593-327fb2c19503",
+    "live_trading": true,
+    "real_money": true,
+    "aggressive_mode": true,
+    "max_profit_mission": true
+  },
+  "trade_history": [
+    {
+      "timestamp": "2025-07-10T04:53:01.079559",
+      "asset": "ETH",
+      "action": "buy",
+      "size": 48.855256587195804,
+      "confidence": 0.7260025125356512,
+      "expected_profit": 0.022600251253565126,
+      "actual_profit": 0.02676409105686334,
+      "success": true,
+      "execution_time": 0.014245033264160156
+    },
+    {
+      "timestamp": "2025-07-10T04:53:04.084998",
+      "asset": "ETH",
+      "action": "buy",
+      "size": 49.11680327245895,
+      "confidence": 0.8301903549436751,
+      "expected_profit": 0.033019035494367514,
+      "actual_profit": -0.03,
+      "success": false,
+      "execution_time": 0.015017986297607422
+    },
+    {
+      "timestamp": "2025-07-10T04:53:07.099659",
+      "asset": "ETH",
+      "action": "buy",
+      "size": 48.541633667178836,
+      "confidence": 0.7464682491716309,
+      "expected_profit": 0.024646824917163093,
+      "actual_profit": -0.03,
+      "success": false,
+      "execution_time": 0.01948261260986328
+    },
+    {
+      "timestamp": "2025-07-10T04:53:10.107547",
+      "asset": "ETH",
+      "action": "buy",
+      "size": 50.70191390448806,
+      "confidence": 0.8345783603062602,
+      "expected_profit": 0.03345783603062603,
+      "actual_profit": 0.03457904850592782,
+      "success": true,
+      "execution_time": 0.017190933227539062
+    },
+    {
+      "timestamp": "2025-07-10T04:53:13.114436",
+      "asset": "ETH",
+      "action": "buy",
+      "size": 77.21998640483103,
+      "confidence": 0.8066264013830193,
+      "expected_profit": 0.8493960207452886,
+      "actual_profit": 0.5925089608868636,
+      "success": true,
+      "execution_time": 0.013059377670288086
+    },
+    {
+      "timestamp": "2025-07-10T04:53:13.639866",
+      "asset": "ETH",
+      "action": "buy",
+      "size": 49.563281799984225,
+      "confidence": 0.7829034837685585,
+      "expected_profit": 0.028290348376855852,
+      "actual_profit": 0.015186449482896358,
+      "success": true,
+      "execution_time": 0.014473915100097656
+    },
+    {
+      "timestamp": "2025-07-10T04:53:19.130862",
+      "asset": "ETH",
+      "action": "buy",
+      "size": 74.80942667557662,
+      "confidence": 0.8298521218679598,
+      "expected_profit": 1.197781828019396,
+      "actual_profit": 0.6157448987645123,
+      "success": true,
+      "execution_time": 0.013681650161743164
+    },
+    {
+      "timestamp": "2025-07-10T04:53:19.644856",
+      "asset": "ETH",
+      "action": "buy",
+      "size": 49.821604330949405,
+      "confidence": 0.8499452744627204,
+      "expected_profit": 0.034994527446272045,
+      "actual_profit": -0.03,
+      "success": false,
+      "execution_time": 0.013758420944213867
+    },
+    {
+      "timestamp": "2025-07-10T04:53:25.157725",
+      "asset": "ETH",
+      "action": "buy",
+      "size": 48.702443488011575,
+      "confidence": 0.7191602623867949,
+      "expected_profit": 0.021916026238679488,
+      "actual_profit": -0.03,
+      "success": false,
+      "execution_time": 0.014958381652832031
+    },
+    {
+      "timestamp": "2025-07-10T04:53:28.170264",
+      "asset": "ETH",
+      "action": "sell",
+      "size": 77.85145389187544,
+      "confidence": 0.8419647143335087,
+      "expected_profit": 1.3794707150026302,
+      "actual_profit": 1.6121765360323923,
+      "success": true,
+      "execution_time": 0.013526439666748047
+    },
+    {
+      "timestamp": "2025-07-10T04:53:28.698885",
+      "asset": "ETH",
+      "action": "buy",
+      "size": 49.81512489099494,
+      "confidence": 0.7774279092027492,
+      "expected_profit": 0.027742790920274922,
+      "actual_profit": 0.027192214829135995,
+      "success": true,
+      "execution_time": 0.01537013053894043
+    },
+    {
+      "timestamp": "2025-07-10T04:53:34.193565",
+      "asset": "ETH",
+      "action": "buy",
+      "size": 76.83243169622962,
+      "confidence": 0.8469867001799135,
+      "expected_profit": 1.454800502698702,
+      "actual_profit": 1.2131758018450634,
+      "success": true,
+      "execution_time": 0.017916440963745117
+    },
+    {
+      "timestamp": "2025-07-10T04:53:34.724658",
+      "asset": "ETH",
+      "action": "buy",
+      "size": 48.91493311643654,
+      "confidence": 0.768456512603017,
+      "expected_profit": 0.026845651260301702,
+      "actual_profit": 0.02585891188733348,
+      "success": true,
+      "execution_time": 0.017772436141967773
+    },
+    {
+      "timestamp": "2025-07-10T04:53:49.239420",
+      "asset": "ETH",
+      "action": "sell",
+      "size": 78.04433996152191,
+      "confidence": 0.8040626341483099,
+      "expected_profit": 0.8109395122246471,
+      "actual_profit": -0.05,
+      "success": false,
+      "execution_time": 0.013625621795654297
+    },
+    {
+      "timestamp": "2025-07-10T04:53:49.765516",
+      "asset": "ETH",
+      "action": "buy",
+      "size": 48.907653255540275,
+      "confidence": 0.7407360026810526,
+      "expected_profit": 0.024073600268105264,
+      "actual_profit": -0.03,
+      "success": false,
+      "execution_time": 0.013289451599121094
+    },
+    {
+      "timestamp": "2025-07-10T04:53:55.253802",
+      "asset": "ETH",
+      "action": "sell",
+      "size": 78.55545383236031,
+      "confidence": 0.8568096995670502,
+      "expected_profit": 1.6021454935057522,
+      "actual_profit": 1.6858192756755568,
+      "success": true,
+      "execution_time": 0.017201662063598633
+    },
+    {
+      "timestamp": "2025-07-10T04:53:55.779107",
+      "asset": "ETH",
+      "action": "buy",
+      "size": 53.374106886402785,
+      "confidence": 0.887347100484962,
+      "expected_profit": 0.038734710048496206,
+      "actual_profit": 0.03222977916674597,
+      "success": true,
+      "execution_time": 0.01718735694885254
+    },
+    {
+      "timestamp": "2025-07-10T04:53:58.266145",
+      "asset": "ETH",
+      "action": "sell",
+      "size": 75.45747818611721,
+      "confidence": 0.8696523951375669,
+      "expected_profit": 1.7947859270635018,
+      "actual_profit": -0.05,
+      "success": false,
+      "execution_time": 0.015787363052368164
+    },
+    {
+      "timestamp": "2025-07-10T04:54:01.285507",
+      "asset": "ETH",
+      "action": "sell",
+      "size": 78.29613563832042,
+      "confidence": 0.8442871996011123,
+      "expected_profit": 1.4143079940166845,
+      "actual_profit": -0.05,
+      "success": false,
+      "execution_time": 0.029741525650024414
+    },
+    {
+      "timestamp": "2025-07-10T04:54:01.813715",
+      "asset": "ETH",
+      "action": "buy",
+      "size": 52.434857640925784,
+      "confidence": 0.8602754931447527,
+      "expected_profit": 0.03602754931447528,
+      "actual_profit": -0.03,
+      "success": false,
+      "execution_time": 0.013689994812011719
+    }
+  ]
+}

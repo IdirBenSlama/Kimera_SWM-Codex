@@ -1,0 +1,105 @@
+{
+  "audit_timestamp": "2025-07-01T16:18:35.376054",
+  "overall_status": "NEEDS_ATTENTION",
+  "tests_passed": 6,
+  "tests_failed": 7,
+  "critical_issues": [
+    "/health returned 404"
+  ],
+  "warnings": [
+    "/monitoring/health returned 404",
+    "/monitoring/status returned 404",
+    "/monitoring/metrics/summary returned 404",
+    "/vault/health returned 404",
+    "/contradiction/health returned 404",
+    "/thermodynamic/health returned 404",
+    "Slow response times: 2402.5ms average"
+  ],
+  "performance_metrics": {
+    "cpu_percent": 3.2,
+    "memory_percent": 42.8,
+    "disk_percent": 94.4,
+    "timestamp": "2025-07-01T15:18:46.654896",
+    "gpu": {
+      "device": "NVIDIA GeForce RTX 4090",
+      "memory_total_gb": 25.756565504,
+      "memory_allocated_gb": 5.362242048,
+      "utilization_percent": 20.818932738401177
+    },
+    "avg_response_time_ms": 2402.496894200643
+  },
+  "endpoint_status": {
+    "/": {
+      "status": "operational",
+      "response_time": 2.043789,
+      "description": "Main API Status"
+    },
+    "/docs": {
+      "status": "operational",
+      "response_time": 2.041421,
+      "description": "API Documentation"
+    },
+    "/health": {
+      "status": "error",
+      "error": "/health returned 404",
+      "description": "System Health Check"
+    },
+    "/system-metrics/": {
+      "status": "operational",
+      "response_time": 3.099228,
+      "description": "System Performance Metrics"
+    },
+    "/system-metrics/health": {
+      "status": "operational",
+      "response_time": 2.068725,
+      "description": "Health Check"
+    },
+    "/system-metrics/cognitive": {
+      "status": "operational",
+      "response_time": 2.052617,
+      "description": "Cognitive Engine Status"
+    },
+    "/system-metrics/health-status": {
+      "status": "operational",
+      "response_time": 2.082223,
+      "description": "Detailed Health Status"
+    },
+    "/monitoring/health": {
+      "status": "error",
+      "error": "/monitoring/health returned 404",
+      "description": "Monitoring Health"
+    },
+    "/monitoring/status": {
+      "status": "error",
+      "error": "/monitoring/status returned 404",
+      "description": "Monitoring Status"
+    },
+    "/monitoring/metrics/summary": {
+      "status": "error",
+      "error": "/monitoring/metrics/summary returned 404",
+      "description": "Metrics Summary"
+    },
+    "/vault/health": {
+      "status": "error",
+      "error": "/vault/health returned 404",
+      "description": "Vault System Health"
+    },
+    "/contradiction/health": {
+      "status": "error",
+      "error": "/contradiction/health returned 404",
+      "description": "Contradiction Engine Health"
+    },
+    "/thermodynamic/health": {
+      "status": "error",
+      "error": "/thermodynamic/health returned 404",
+      "description": "Thermodynamic Engine Health"
+    }
+  },
+  "cognitive_engines": {
+    "contradiction_engine": "active",
+    "thermodynamic_engine": "active",
+    "diffusion_engine": "active",
+    "vault_manager": "active"
+  },
+  "system_health": {}
+}

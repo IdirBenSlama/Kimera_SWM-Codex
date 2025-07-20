@@ -1,0 +1,66 @@
+{
+  "timestamp": "2025-07-12T16:28:14.102796",
+  "analysis": {
+    "dust_assets": [
+      {
+        "asset": "BNB",
+        "amount": 0.00365494,
+        "price": 682.15,
+        "value": 2.493217321,
+        "symbol": "BNB/USDT"
+      },
+      {
+        "asset": "IQ",
+        "amount": 5.1,
+        "price": 0.003883,
+        "value": 0.0198033,
+        "symbol": "IQ/USDT"
+      }
+    ],
+    "tradeable_assets": [
+      {
+        "asset": "USDT",
+        "amount": 33.4129241,
+        "price": 1.0,
+        "value": 33.4129241,
+        "symbol": null
+      },
+      {
+        "asset": "TRX",
+        "amount": 143.20105,
+        "price": 0.2985,
+        "value": 42.745513425,
+        "symbol": "TRX/USDT"
+      },
+      {
+        "asset": "ADA",
+        "amount": 415.9,
+        "price": 0.697,
+        "value": 289.8823,
+        "symbol": "ADA/USDT"
+      }
+    ],
+    "total_dust_value": 2.513020621,
+    "total_portfolio_value": 368.55375814599995,
+    "dust_percentage": 0.6818599906948947
+  },
+  "optimization": {
+    "recommendations": [
+      {
+        "type": "USDT_ALLOCATION",
+        "priority": "MEDIUM",
+        "action": "Increase USDT allocation",
+        "reason": "Only 9.1% in USDT, need more for trading flexibility"
+      },
+      {
+        "type": "DIVERSIFICATION",
+        "priority": "MEDIUM",
+        "action": "Reduce ADA concentration",
+        "reason": "ADA represents 78.7% of portfolio"
+      }
+    ],
+    "usdt_percentage": 9.065956691930872,
+    "dust_percentage": 0.6818599906948947
+  },
+  "dust_managed": true
+}

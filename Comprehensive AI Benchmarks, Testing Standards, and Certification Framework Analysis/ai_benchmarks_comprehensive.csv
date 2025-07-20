@@ -1,0 +1,23 @@
+Benchmark Suite,Domain,Organization,Primary Metric,Certification Available,Industry Adoption
+MLPerf Training,Hardware Performance,MLCommons,Training Time to Target,No,High
+MLPerf Inference,Hardware Performance,MLCommons,Inference Speed/Throughput,Yes (MLPerf Certified),Very High
+MLPerf Mobile,Mobile Hardware,MLCommons,Mobile Inference Speed,Yes (MLPerf Certified),High
+SuperGLUE,Language Understanding,NYU/Facebook,Average Score,No,Medium
+GLUE,Language Understanding,NYU/Facebook,Average Score,No,Low
+HELM,Holistic LLM Evaluation,Stanford CRFM,Aggregate Score,No,Medium
+BIG-bench,Advanced Reasoning,Google/Academic Consortium,Task-specific Accuracy,No,Medium
+HealthBench,Healthcare AI,OpenAI,Physician-graded Score,No,Early Stage
+MedPerf,Healthcare AI,MLCommons,Federated Performance,No,Early Stage
+FinBen,Financial AI,The Fin AI,Financial Task Accuracy,No,Early Stage
+ADBench,Autonomous Driving,Academic,Safety & Performance,No,Early Stage
+DriveAction,Autonomous Driving,Academic,Action Prediction Accuracy,No,Early Stage
+AILuminate,AI Safety,MLCommons,Safety Assessment,No,Early Stage
+GPQA Diamond,Scientific Reasoning,Academic,Accuracy %,No,High
+MATH,Mathematics,Academic,Accuracy %,No,High
+HumanEval,Code Generation,OpenAI,Pass Rate %,No,Very High
+MMLU,Multitask Language,Academic,Accuracy %,No,Very High
+BoolQ,Reading Comprehension,Google,Accuracy %,No,Medium
+ReCoRD,Reading Comprehension,Stanford,F1 Score,No,Medium
+WiC,Word Sense,Princeton,Accuracy %,No,Medium
+BFCL,Function Calling,Berkeley,Function Call Accuracy,No,High
+MGSM,Multilingual Math,Academic,Accuracy %,No,Medium

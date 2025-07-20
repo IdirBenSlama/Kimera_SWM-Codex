@@ -1,0 +1,1377 @@
+{
+  "start_time": "2025-07-09T21:31:49.318197",
+  "total_engines": 96,
+  "processed_engines": 96,
+  "successful_fixes": 89,
+  "failed_fixes": 0,
+  "already_compliant": 7,
+  "engine_details": {
+    "activation_manager.py": {
+      "file": "activation_manager.py",
+      "size_lines": 97,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 66.66666666666666
+    },
+    "activation_synthesis.py": {
+      "file": "activation_synthesis.py",
+      "size_lines": 96,
+      "has_logging_import": false,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management",
+        "logging_import"
+      ],
+      "compliance_score": 66.66666666666666
+    },
+    "advanced_barenholtz_alignment_engine.py": {
+      "file": "advanced_barenholtz_alignment_engine.py",
+      "size_lines": 979,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": true,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "advanced_tensor_processor.py": {
+      "file": "advanced_tensor_processor.py",
+      "size_lines": 431,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "advanced_thermodynamic_applications.py": {
+      "file": "advanced_thermodynamic_applications.py",
+      "size_lines": 623,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "asm.py": {
+      "file": "asm.py",
+      "size_lines": 70,
+      "has_logging_import": false,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management",
+        "logging_import"
+      ],
+      "compliance_score": 66.66666666666666
+    },
+    "axiom_mathematical_proof.py": {
+      "file": "axiom_mathematical_proof.py",
+      "size_lines": 516,
+      "has_logging_import": false,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management",
+        "logging_import"
+      ],
+      "compliance_score": 66.66666666666666
+    },
+    "axiom_of_understanding.py": {
+      "file": "axiom_of_understanding.py",
+      "size_lines": 649,
+      "has_logging_import": false,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management",
+        "logging_import"
+      ],
+      "compliance_score": 66.66666666666666
+    },
+    "axiom_verification.py": {
+      "file": "axiom_verification.py",
+      "size_lines": 131,
+      "has_logging_import": false,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management",
+        "logging_import"
+      ],
+      "compliance_score": 66.66666666666666
+    },
+    "background_jobs.py": {
+      "file": "background_jobs.py",
+      "size_lines": 88,
+      "has_logging_import": false,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management",
+        "logging_import"
+      ],
+      "compliance_score": 33.33333333333333
+    },
+    "clip_service.py": {
+      "file": "clip_service.py",
+      "size_lines": 48,
+      "has_logging_import": false,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": true,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management",
+        "device_logging",
+        "logging_import"
+      ],
+      "compliance_score": 50.0
+    },
+    "cognitive_cycle_engine.py": {
+      "file": "cognitive_cycle_engine.py",
+      "size_lines": 742,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "cognitive_field_dynamics.py": {
+      "file": "cognitive_field_dynamics.py",
+      "size_lines": 595,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": true,
+      "has_settings_import": true,
+      "has_torch_cuda_check": true,
+      "has_device_logging": true,
+      "needs_fixes": [],
+      "compliance_score": 100.0
+    },
+    "cognitive_field_dynamics_gpu.py": {
+      "file": "cognitive_field_dynamics_gpu.py",
+      "size_lines": 906,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": true,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "cognitive_gpu_kernels.py": {
+      "file": "cognitive_gpu_kernels.py",
+      "size_lines": 210,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "cognitive_graph_processor.py": {
+      "file": "cognitive_graph_processor.py",
+      "size_lines": 602,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "cognitive_pharmaceutical_optimizer.py": {
+      "file": "cognitive_pharmaceutical_optimizer.py",
+      "size_lines": 844,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": true,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "cognitive_security_orchestrator.py": {
+      "file": "cognitive_security_orchestrator.py",
+      "size_lines": 615,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "cognitive_validation_framework.py": {
+      "file": "cognitive_validation_framework.py",
+      "size_lines": 1006,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "coherence.py": {
+      "file": "coherence.py",
+      "size_lines": 122,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 66.66666666666666
+    },
+    "complexity_analysis_engine.py": {
+      "file": "complexity_analysis_engine.py",
+      "size_lines": 565,
+      "has_logging_import": false,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management",
+        "logging_import"
+      ],
+      "compliance_score": 66.66666666666666
+    },
+    "contradiction_engine.py": {
+      "file": "contradiction_engine.py",
+      "size_lines": 599,
+      "has_logging_import": false,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management",
+        "logging_import"
+      ],
+      "compliance_score": 66.66666666666666
+    },
+    "differential_privacy_engine.py": {
+      "file": "differential_privacy_engine.py",
+      "size_lines": 608,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "diffusion_response_fix.py": {
+      "file": "diffusion_response_fix.py",
+      "size_lines": 308,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 50.0
+    },
+    "emergent_signal_intelligence.py": {
+      "file": "emergent_signal_intelligence.py",
+      "size_lines": 236,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "enhanced_vortex_system.py": {
+      "file": "enhanced_vortex_system.py",
+      "size_lines": 447,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "ethical_reasoning_engine.py": {
+      "file": "ethical_reasoning_engine.py",
+      "size_lines": 733,
+      "has_logging_import": false,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management",
+        "logging_import"
+      ],
+      "compliance_score": 66.66666666666666
+    },
+    "foundational_thermodynamic_engine.py": {
+      "file": "foundational_thermodynamic_engine.py",
+      "size_lines": 746,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "foundational_thermodynamic_engine_fixed.py": {
+      "file": "foundational_thermodynamic_engine_fixed.py",
+      "size_lines": 47,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "geoid_mirror_portal_engine.py": {
+      "file": "geoid_mirror_portal_engine.py",
+      "size_lines": 830,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "geoid_scar_manager.py": {
+      "file": "geoid_scar_manager.py",
+      "size_lines": 76,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "golden_ratio_optimizer.py": {
+      "file": "golden_ratio_optimizer.py",
+      "size_lines": 268,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "gpu_cryptographic_engine.py": {
+      "file": "gpu_cryptographic_engine.py",
+      "size_lines": 629,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": true,
+      "has_settings_import": true,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [],
+      "compliance_score": 100.0
+    },
+    "gpu_memory_pool.py": {
+      "file": "gpu_memory_pool.py",
+      "size_lines": 149,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": true,
+      "has_settings_import": true,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [],
+      "compliance_score": 100.0
+    },
+    "gpu_signal_memory.py": {
+      "file": "gpu_signal_memory.py",
+      "size_lines": 114,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "gpu_thermodynamic_integrator.py": {
+      "file": "gpu_thermodynamic_integrator.py",
+      "size_lines": 494,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "gyroscopic_universal_translator.py": {
+      "file": "gyroscopic_universal_translator.py",
+      "size_lines": 1892,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": true,
+      "has_settings_import": true,
+      "has_torch_cuda_check": true,
+      "has_device_logging": true,
+      "needs_fixes": [],
+      "compliance_score": 100.0
+    },
+    "homomorphic_cognitive_processor.py": {
+      "file": "homomorphic_cognitive_processor.py",
+      "size_lines": 690,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "human_interface.py": {
+      "file": "human_interface.py",
+      "size_lines": 398,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "information_integration_analyzer.py": {
+      "file": "information_integration_analyzer.py",
+      "size_lines": 541,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "insight_entropy.py": {
+      "file": "insight_entropy.py",
+      "size_lines": 96,
+      "has_logging_import": false,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management",
+        "logging_import"
+      ],
+      "compliance_score": 33.33333333333333
+    },
+    "insight_feedback.py": {
+      "file": "insight_feedback.py",
+      "size_lines": 166,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 66.66666666666666
+    },
+    "insight_lifecycle.py": {
+      "file": "insight_lifecycle.py",
+      "size_lines": 62,
+      "has_logging_import": false,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management",
+        "logging_import"
+      ],
+      "compliance_score": 33.33333333333333
+    },
+    "kccl.py": {
+      "file": "kccl.py",
+      "size_lines": 217,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 66.66666666666666
+    },
+    "kimera_advanced_integration_fix.py": {
+      "file": "kimera_advanced_integration_fix.py",
+      "size_lines": 574,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "kimera_barenholtz_core.py": {
+      "file": "kimera_barenholtz_core.py",
+      "size_lines": 629,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "kimera_barenholtz_ultimate_optimization.py": {
+      "file": "kimera_barenholtz_ultimate_optimization.py",
+      "size_lines": 1116,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "kimera_barenholtz_unified_engine.py": {
+      "file": "kimera_barenholtz_unified_engine.py",
+      "size_lines": 1012,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "kimera_cognitive_response_system.py": {
+      "file": "kimera_cognitive_response_system.py",
+      "size_lines": 274,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "kimera_full_integration_bridge.py": {
+      "file": "kimera_full_integration_bridge.py",
+      "size_lines": 314,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "kimera_optimization_engine.py": {
+      "file": "kimera_optimization_engine.py",
+      "size_lines": 817,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": true,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "kimera_quantum_edge_security_architecture.py": {
+      "file": "kimera_quantum_edge_security_architecture.py",
+      "size_lines": 34,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "kimera_text_diffusion_engine.py": {
+      "file": "kimera_text_diffusion_engine.py",
+      "size_lines": 1298,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": true,
+      "has_settings_import": true,
+      "has_torch_cuda_check": true,
+      "has_device_logging": true,
+      "needs_fixes": [],
+      "compliance_score": 100.0
+    },
+    "large_scale_testing_framework.py": {
+      "file": "large_scale_testing_framework.py",
+      "size_lines": 610,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "meta_commentary_eliminator.py": {
+      "file": "meta_commentary_eliminator.py",
+      "size_lines": 383,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "meta_insight.py": {
+      "file": "meta_insight.py",
+      "size_lines": 92,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 66.66666666666666
+    },
+    "meta_insight_engine.py": {
+      "file": "meta_insight_engine.py",
+      "size_lines": 1127,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "output_generator.py": {
+      "file": "output_generator.py",
+      "size_lines": 71,
+      "has_logging_import": false,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management",
+        "logging_import"
+      ],
+      "compliance_score": 66.66666666666666
+    },
+    "portal_manager.py": {
+      "file": "portal_manager.py",
+      "size_lines": 419,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "proactive_contradiction_detector.py": {
+      "file": "proactive_contradiction_detector.py",
+      "size_lines": 338,
+      "has_logging_import": false,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management",
+        "logging_import"
+      ],
+      "compliance_score": 66.66666666666666
+    },
+    "proactive_detector.py": {
+      "file": "proactive_detector.py",
+      "size_lines": 881,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "pruning.py": {
+      "file": "pruning.py",
+      "size_lines": 72,
+      "has_logging_import": false,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management",
+        "logging_import"
+      ],
+      "compliance_score": 66.66666666666666
+    },
+    "quantum_classical_interface.py": {
+      "file": "quantum_classical_interface.py",
+      "size_lines": 453,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": true,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "quantum_cognitive_engine.py": {
+      "file": "quantum_cognitive_engine.py",
+      "size_lines": 525,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": true,
+      "has_settings_import": true,
+      "has_torch_cuda_check": true,
+      "has_device_logging": true,
+      "needs_fixes": [],
+      "compliance_score": 100.0
+    },
+    "quantum_enhanced_universal_translator.py": {
+      "file": "quantum_enhanced_universal_translator.py",
+      "size_lines": 626,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "quantum_field_engine.py": {
+      "file": "quantum_field_engine.py",
+      "size_lines": 380,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "quantum_resistant_crypto.py": {
+      "file": "quantum_resistant_crypto.py",
+      "size_lines": 751,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "quantum_thermodynamic_complexity_analyzer.py": {
+      "file": "quantum_thermodynamic_complexity_analyzer.py",
+      "size_lines": 690,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "quantum_thermodynamic_signal_processor.py": {
+      "file": "quantum_thermodynamic_signal_processor.py",
+      "size_lines": 165,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "quantum_truth_monitor.py": {
+      "file": "quantum_truth_monitor.py",
+      "size_lines": 517,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "real_time_signal_evolution.py": {
+      "file": "real_time_signal_evolution.py",
+      "size_lines": 120,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "revolutionary_epistemic_validator.py": {
+      "file": "revolutionary_epistemic_validator.py",
+      "size_lines": 627,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "revolutionary_intelligence_engine.py": {
+      "file": "revolutionary_intelligence_engine.py",
+      "size_lines": 993,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "rhetorical_barenholtz_core.py": {
+      "file": "rhetorical_barenholtz_core.py",
+      "size_lines": 1368,
+      "has_logging_import": false,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management",
+        "logging_import"
+      ],
+      "compliance_score": 66.66666666666666
+    },
+    "rigorous_universal_translator.py": {
+      "file": "rigorous_universal_translator.py",
+      "size_lines": 779,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "signal_consciousness_analyzer.py": {
+      "file": "signal_consciousness_analyzer.py",
+      "size_lines": 224,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "spde.py": {
+      "file": "spde.py",
+      "size_lines": 32,
+      "has_logging_import": false,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management",
+        "logging_import"
+      ],
+      "compliance_score": 50.0
+    },
+    "spde_engine.py": {
+      "file": "spde_engine.py",
+      "size_lines": 653,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "symbolic_polyglot_barenholtz_core.py": {
+      "file": "symbolic_polyglot_barenholtz_core.py",
+      "size_lines": 746,
+      "has_logging_import": false,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management",
+        "logging_import"
+      ],
+      "compliance_score": 66.66666666666666
+    },
+    "symbolic_processor.py": {
+      "file": "symbolic_processor.py",
+      "size_lines": 68,
+      "has_logging_import": false,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management",
+        "logging_import"
+      ],
+      "compliance_score": 66.66666666666666
+    },
+    "tcse_system_integration.py": {
+      "file": "tcse_system_integration.py",
+      "size_lines": 149,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "thermodynamics.py": {
+      "file": "thermodynamics.py",
+      "size_lines": 104,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 66.66666666666666
+    },
+    "thermodynamic_engine.py": {
+      "file": "thermodynamic_engine.py",
+      "size_lines": 134,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": true,
+      "has_settings_import": true,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [],
+      "compliance_score": 100.0
+    },
+    "thermodynamic_scheduler.py": {
+      "file": "thermodynamic_scheduler.py",
+      "size_lines": 551,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "thermodynamic_signal_evolution.py": {
+      "file": "thermodynamic_signal_evolution.py",
+      "size_lines": 263,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "thermodynamic_signal_optimizer.py": {
+      "file": "thermodynamic_signal_optimizer.py",
+      "size_lines": 197,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "thermodynamic_signal_validation.py": {
+      "file": "thermodynamic_signal_validation.py",
+      "size_lines": 99,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "triton_cognitive_kernels.py": {
+      "file": "triton_cognitive_kernels.py",
+      "size_lines": 675,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": true,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "understanding_engine.py": {
+      "file": "understanding_engine.py",
+      "size_lines": 662,
+      "has_logging_import": false,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management",
+        "logging_import"
+      ],
+      "compliance_score": 66.66666666666666
+    },
+    "understanding_engine_fixed.py": {
+      "file": "understanding_engine_fixed.py",
+      "size_lines": 658,
+      "has_logging_import": false,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management",
+        "logging_import"
+      ],
+      "compliance_score": 66.66666666666666
+    },
+    "universal_translator_hub.py": {
+      "file": "universal_translator_hub.py",
+      "size_lines": 548,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "unsupervised_cognitive_learning_engine.py": {
+      "file": "unsupervised_cognitive_learning_engine.py",
+      "size_lines": 869,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": true,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "unsupervised_test_optimization.py": {
+      "file": "unsupervised_test_optimization.py",
+      "size_lines": 817,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": true,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "vortex_dynamics.py": {
+      "file": "vortex_dynamics.py",
+      "size_lines": 499,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "vortex_energy_storage.py": {
+      "file": "vortex_energy_storage.py",
+      "size_lines": 953,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": false,
+      "has_device_logging": false,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    },
+    "zetetic_revolutionary_integration_engine.py": {
+      "file": "zetetic_revolutionary_integration_engine.py",
+      "size_lines": 930,
+      "has_logging_import": true,
+      "has_print_statements": 0,
+      "has_config_import": false,
+      "has_settings_import": false,
+      "has_torch_cuda_check": true,
+      "has_device_logging": true,
+      "needs_fixes": [
+        "configuration_management"
+      ],
+      "compliance_score": 83.33333333333334
+    }
+  },
+  "compliance_improvement": {
+    "initial_compliant_engines": 7,
+    "final_compliant_engines": 96,
+    "engines_fixed": 89,
+    "improvement_percentage": 92.70833333333334,
+    "final_compliance_rate": 100.0
+  },
+  "summary": {
+    "total_engines_processed": 96,
+    "successful_fixes": 89,
+    "failed_fixes": 0,
+    "already_compliant": 7,
+    "success_rate": 92.70833333333334,
+    "final_compliance": 100.0
+  }
+}

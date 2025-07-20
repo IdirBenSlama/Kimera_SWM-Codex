@@ -1,0 +1,57 @@
+{
+  "timestamp": "2025-07-09T16:15:08.189707",
+  "tests_passed": [
+    "Import backend.core.kimera_system",
+    "Import backend.core.geoid",
+    "Import backend.core.scar",
+    "Import backend.vault.vault_manager",
+    "Kimera initialization",
+    "Component vault_manager",
+    "Component thermodynamics_engine",
+    "Component gpu_foundation",
+    "Component embedding_model",
+    "Performance measurement"
+  ],
+  "tests_failed": [
+    "Import backend.engines.contradiction_engine: (psycopg2.OperationalError) connection to server at \"localhost\" (::1), port 5432 failed: FATAL:  password authentication failed for user \"postgres\"\n\n(Background on this error at: https://sqlalche.me/e/20/e3q8)",
+    "Import backend.api.main: (psycopg2.OperationalError) connection to server at \"localhost\" (::1), port 5432 failed: FATAL:  password authentication failed for user \"postgres\"\n\n(Background on this error at: https://sqlalche.me/e/20/e3q8)",
+    "Component contradiction_engine not initialized",
+    "Add geoid to database",
+    "Retrieve geoids from database",
+    "Add scar to database",
+    "Contradiction engine: (psycopg2.OperationalError) connection to server at \"localhost\" (::1), port 5432 failed: FATAL:  password authentication failed for user \"postgres\"\n\n(Background on this error at: https://sqlalche.me/e/20/e3q8)",
+    "API GET /: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000020C83F1DD10>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))",
+    "API GET /health: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /health (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000020C83F88190>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))",
+    "API GET /kimera/status: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /kimera/status (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000020C84410D60>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))",
+    "API GET /kimera/geoids: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /kimera/geoids (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000020C84410FC0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))",
+    "API GET /kimera/scars: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /kimera/scars (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000020C1EB5D010>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))",
+    "API GET /kimera/contradiction_engine: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /kimera/contradiction_engine (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000020C83F028B0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))",
+    "API GET /kimera/thermodynamic_engine: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /kimera/thermodynamic_engine (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000020C83F03350>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))",
+    "Integration test: missing components"
+  ],
+  "api_tests": {
+    "/": "error: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000020C83F1DD10>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))",
+    "/health": "error: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /health (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000020C83F88190>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))",
+    "/kimera/status": "error: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /kimera/status (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000020C84410D60>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))",
+    "/kimera/geoids": "error: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /kimera/geoids (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000020C84410FC0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))",
+    "/kimera/scars": "error: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /kimera/scars (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000020C1EB5D010>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))",
+    "/kimera/contradiction_engine": "error: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /kimera/contradiction_engine (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000020C83F028B0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))",
+    "/kimera/thermodynamic_engine": "error: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /kimera/thermodynamic_engine (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000020C83F03350>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))"
+  },
+  "integration_tests": {},
+  "performance_metrics": {
+    "cpu_percent": 16.8,
+    "memory_percent": 48.2,
+    "memory_available_gb": 33.09374237060547,
+    "disk_percent": 95.1,
+    "disk_free_gb": 181.29083633422852,
+    "geoid_creation_ops_per_sec": 22.841904199261947
+  },
+  "summary": {
+    "total_tests": 25,
+    "passed": 10,
+    "failed": 15,
+    "success_rate": 40.0,
+    "duration": 60.598047
+  }
+}

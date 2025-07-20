@@ -1,0 +1,51 @@
+{
+  "timestamp": "2025-06-29 21:09:42",
+  "servers": {
+    "kimera-simple": {
+      "status": "failed",
+      "exit_code": 2,
+      "error": "python: can't open file 'D:\\\\DEV\\\\Kimera_SWM_Alpha_Prototype V0.1 140625\\\\\"D:\\\\DEV\\\\MCP servers\\\\kimera_simple.py\"': [Errno 22] Invalid argument\n"
+    },
+    "fetch": {
+      "status": "success",
+      "message": "Server started and responded correctly"
+    },
+    "sqlite-kimera": {
+      "status": "failed",
+      "exit_code": 1,
+      "error": "Traceback (most recent call last):\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"C:\\Users\\Loomine\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\mcp-server-sqlite.exe\\__main__.py\", line 7, in <module>\n    sys.exit(main())\n             ~~~~^^\n  File \"C:\\Users\\Loomine\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\mcp_server_sqlite\\__init__.py\", line 14, in main\n    asyncio.run(server.main(args.db_path))\n    ~~~~~~~~~~~"
+    }
+  },
+  "databases": {
+    "test_db": {
+      "status": "success",
+      "tables": [
+        "test"
+      ],
+      "table_count": 1
+    },
+    "kimera_db": {
+      "status": "success",
+      "tables": [
+        "scars",
+        "geoids",
+        "insights",
+        "multimodal_groundings",
+        "causal_relationships",
+        "self_models",
+        "introspection_logs",
+        "compositional_semantics",
+        "conceptual_abstractions",
+        "value_systems",
+        "genuine_opinions",
+        "ethical_reasoning",
+        "enhanced_scars",
+        "enhanced_geoids",
+        "understanding_tests",
+        "complexity_indicators",
+        "cognitive_sessions"
+      ],
+      "table_count": 17
+    }
+  }
+}

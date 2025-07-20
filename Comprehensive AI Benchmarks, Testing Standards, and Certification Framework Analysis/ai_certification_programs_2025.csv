@@ -1,0 +1,16 @@
+Certification,Provider,Level,Cost (USD),Duration (minutes),Prerequisites,Target Audience,Industry Recognition,Salary Impact (%)
+AWS Certified AI Practitioner,Amazon Web Services,Foundational,100,90,None,Business professionals,Very High,15
+AWS Certified Machine Learning - Specialty,Amazon Web Services,Specialty,300,180,2+ years ML experience,ML specialists,Very High,25
+AWS Certified Machine Learning Engineer - Associate,Amazon Web Services,Associate,300,170,1+ year ML experience,ML engineers,High,20
+Google Cloud Generative AI Leader,Google Cloud,Leadership,99,90,Business/Leadership role,Business leaders,High,18
+Google Cloud Professional ML Engineer,Google Cloud,Professional,200,120,Cloud experience,ML engineers,Very High,22
+Google Cloud Associate Cloud Engineer,Google Cloud,Associate,125,130,Basic cloud knowledge,Cloud professionals,Very High,15
+Microsoft Azure AI Fundamentals,Microsoft Azure,Fundamental,99,60,None,IT professionals,Very High,12
+Microsoft Azure AI Engineer Associate,Microsoft Azure,Associate,165,100,AI fundamentals,AI engineers,High,18
+Microsoft Azure Data Scientist Associate,Microsoft Azure,Associate,165,100,Data science background,Data scientists,High,20
+CompTIA AI Essentials,CompTIA,Foundational,370,90,None,Multi-role professionals,High,15
+CompTIA AI Expansion Series,CompTIA,Specialized,450,120,AI Essentials,Specialized roles,Medium,20
+IEEE AI Standards Professional,IEEE,Professional,500,0,Professional experience,Standards professionals,Medium,12
+MLCommons MLPerf Certification,MLCommons,Industry Standard,0,0,Technical background,Hardware/software vendors,Very High,10
+NIST AI RMF Practitioner,NIST,Framework,0,0,Risk management experience,Risk managers,Very High,15
+ISO/IEC 25059 Implementation,ISO/IEC,Standard,0,0,Quality management experience,Quality assurance professionals,High,8

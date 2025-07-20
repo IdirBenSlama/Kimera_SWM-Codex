@@ -1,0 +1,22 @@
+{
+  "session_summary": {
+    "duration_seconds": 291.09272050857544,
+    "duration_minutes": 4.851545341809591,
+    "start_trx_balance": 1240.00105,
+    "start_usdt_balance": 0.0,
+    "total_profit_usdt": 0.0,
+    "return_percentage": 0.0,
+    "trades_executed": 0,
+    "max_position_value": 10.0,
+    "trading_pair": "TRXUSDT"
+  },
+  "trade_history": [],
+  "performance_metrics": {
+    "profit_per_minute": 0.0,
+    "trades_per_minute": 0.0,
+    "win_rate": 0.0,
+    "avg_profit_per_trade": 0.0,
+    "best_trade": null,
+    "worst_trade": null
+  }
+}

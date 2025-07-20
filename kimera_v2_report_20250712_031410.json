@@ -1,0 +1,29 @@
+{
+  "session_summary": {
+    "version": "Kimera Profit Maximizer V2",
+    "duration_minutes": 4.833456615606944,
+    "start_balance": {
+      "TRX": 1240.00105,
+      "USDT": 0.0
+    },
+    "total_profit": 0.0,
+    "return_percentage": 0.0,
+    "trades_executed": 0,
+    "trades_attempted": 0,
+    "success_rate": 0.0
+  },
+  "advanced_metrics": {
+    "win_rate": 0,
+    "average_profit": 0,
+    "average_profit_pct": 0,
+    "average_duration_seconds": 0,
+    "sharpe_ratio": 0,
+    "max_drawdown": 0,
+    "peak_profit": 0,
+    "profit_factor": 0.0
+  },
+  "regime_analysis": {},
+  "trade_history": [],
+  "best_trade": null,
+  "worst_trade": null
+}

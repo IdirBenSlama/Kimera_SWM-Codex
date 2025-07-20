@@ -1,0 +1,13 @@
+{
+  "session_start": "2025-07-12T16:35:46.462267",
+  "session_duration_minutes": 1.1004172563552856,
+  "starting_value": 365.511647,
+  "final_value": 364.66552689499997,
+  "total_profit": -0.8461201050000113,
+  "profit_percentage": -0.2314892321338289,
+  "total_trades": 0,
+  "successful_trades": 0,
+  "failed_trades": 0,
+  "bulletproof_mode": true,
+  "trade_history": []
+}

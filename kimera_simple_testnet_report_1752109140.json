@@ -1,0 +1,166 @@
+{
+  "kimera_simple_testnet_report": {
+    "simulation_metadata": {
+      "start_time": "2025-07-10T01:53:59.620667",
+      "end_time": "2025-07-10T01:59:00.263798",
+      "duration_minutes": 5.010718566666667,
+      "configuration": {
+        "duration_minutes": 5,
+        "update_interval": 10,
+        "starting_capital": 1000.0,
+        "constitutional": true,
+        "risk_management": true,
+        "max_iterations": 100
+      }
+    },
+    "performance_metrics": {
+      "total_iterations": 29,
+      "successful_decisions": 29,
+      "failed_decisions": 0,
+      "constitutional_violations": 0,
+      "risk_violations": 0,
+      "success_rate_percent": 100.0,
+      "portfolio_return_percent": -129.8064287285786,
+      "final_portfolio_value": -298.0642872857859
+    },
+    "system_validation": {
+      "real_data_collection": true,
+      "cognitive_analysis": true,
+      "constitutional_compliance": true,
+      "risk_management": true,
+      "decision_generation": true
+    },
+    "market_data_summary": {
+      "total_collections": 29,
+      "data_sources": [
+        "CoinGecko",
+        "Binance"
+      ],
+      "last_collection": {
+        "timestamp": "2025-07-10T01:58:50.234804",
+        "sources": [
+          {
+            "source": "binance",
+            "data": [
+              {
+                "symbol": "BTCUSDT",
+                "priceChange": "2021.35000000",
+                "priceChangePercent": "1.856",
+                "weightedAvgPrice": "110092.12522179",
+                "prevClosePrice": "108909.99000000",
+                "lastPrice": "110931.34000000",
+                "lastQty": "0.00549000",
+                "bidPrice": "110931.34000000",
+                "bidQty": "0.02591000",
+                "askPrice": "110931.35000000",
+                "askQty": "10.83071000",
+                "openPrice": "108909.99000000",
+                "highPrice": "111999.79000000",
+                "lowPrice": "108324.53000000",
+                "volume": "17538.64011000",
+                "quoteVolume": "1930866163.21005450",
+                "openTime": 1752022729978,
+                "closeTime": 1752109129978,
+                "firstId": 5070168922,
+                "lastId": 5072531010,
+                "count": 2362089
+              },
+              {
+                "symbol": "ETHUSDT",
+                "priceChange": "146.24000000",
+                "priceChangePercent": "5.599",
+                "weightedAvgPrice": "2691.47589396",
+                "prevClosePrice": "2611.67000000",
+                "lastPrice": "2757.91000000",
+                "lastQty": "2.60890000",
+                "bidPrice": "2757.91000000",
+                "bidQty": "43.33670000",
+                "askPrice": "2757.92000000",
+                "askQty": "72.03070000",
+                "openPrice": "2611.67000000",
+                "highPrice": "2795.74000000",
+                "lowPrice": "2589.78000000",
+                "volume": "702324.84800000",
+                "quoteVolume": "1890290398.12174300",
+                "openTime": 1752022730012,
+                "closeTime": 1752109130012,
+                "firstId": 2593924362,
+                "lastId": 2596968194,
+                "count": 3043833
+              },
+              {
+                "symbol": "BNBUSDT",
+                "priceChange": "8.41000000",
+                "priceChangePercent": "1.271",
+                "weightedAvgPrice": "664.62470630",
+                "prevClosePrice": "661.48000000",
+                "lastPrice": "669.90000000",
+                "lastQty": "0.21500000",
+                "bidPrice": "669.89000000",
+                "bidQty": "11.15200000",
+                "askPrice": "669.90000000",
+                "askQty": "20.78900000",
+                "openPrice": "661.49000000",
+                "highPrice": "671.50000000",
+                "lowPrice": "659.05000000",
+                "volume": "125407.41400000",
+                "quoteVolume": "83348865.69716000",
+                "openTime": 1752022729737,
+                "closeTime": 1752109129737,
+                "firstId": 1088704992,
+                "lastId": 1089135794,
+                "count": 430803
+              },
+              {
+                "symbol": "ADAUSDT",
+                "priceChange": "0.03200000",
+                "priceChangePercent": "5.463",
+                "weightedAvgPrice": "0.61011893",
+                "prevClosePrice": "0.58580000",
+                "lastPrice": "0.61780000",
+                "lastQty": "20.50000000",
+                "bidPrice": "0.61770000",
+                "bidQty": "30201.90000000",
+                "askPrice": "0.61780000",
+                "askQty": "16556.60000000",
+                "openPrice": "0.58580000",
+                "highPrice": "0.62810000",
+                "lowPrice": "0.58400000",
+                "volume": "150513325.90000000",
+                "quoteVolume": "91831029.33233000",
+                "openTime": 1752022729306,
+                "closeTime": 1752109129306,
+                "firstId": 675585877,
+                "lastId": 675880643,
+                "count": 294767
+              },
+              {
+                "symbol": "SOLUSDT",
+                "priceChange": "4.40000000",
+                "priceChangePercent": "2.902",
+                "weightedAvgPrice": "154.34989037",
+                "prevClosePrice": "151.60000000",
+                "lastPrice": "156.00000000",
+                "lastQty": "9.60200000",
+                "bidPrice": "156.00000000",
+                "bidQty": "127.08400000",
+                "askPrice": "156.01000000",
+                "askQty": "282.71100000",
+                "openPrice": "151.60000000",
+                "highPrice": "157.93000000",
+                "lowPrice": "150.53000000",
+                "volume": "2931811.83500000",
+                "quoteVolume": "452524835.30787000",
+                "openTime": 1752022729730,
+                "closeTime": 1752109129730,
+                "firstId": 1380178932,
+                "lastId": 1381805415,
+                "count": 1626484
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

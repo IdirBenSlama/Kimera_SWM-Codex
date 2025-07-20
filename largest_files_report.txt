@@ -1,0 +1,22 @@
+Top Largest Files in Project:
+
+2040.47 MB	d:\DEV\Kimera_SWM_Alpha_Prototype V0.1 140625\tests\.outputs\crash_test_55c60b3d.db
+1084.75 MB	d:\DEV\Kimera_SWM_Alpha_Prototype V0.1 140625\tests\.outputs\crash_test_76fe2f8a.db
+1058.25 MB	d:\DEV\Kimera_SWM_Alpha_Prototype V0.1 140625\.venv-kimera-clean\Lib\site-packages\torch\lib\torch_cuda.dll
+675.84 MB	d:\DEV\Kimera_SWM_Alpha_Prototype V0.1 140625\venv_py313\Lib\site-packages\torch\lib\dnnl.lib
+574.48 MB	d:\DEV\Kimera_SWM_Alpha_Prototype V0.1 140625\.venv-kimera-clean\Lib\site-packages\torch\lib\cudnn_cnn_infer64_8.dll
+518.87 MB	d:\DEV\Kimera_SWM_Alpha_Prototype V0.1 140625\.venv-kimera-clean\Lib\site-packages\torch\lib\cublasLt64_11.dll
+386.01 MB	d:\DEV\Kimera_SWM_Alpha_Prototype V0.1 140625\.venv-kimera-clean\Lib\site-packages\torch\lib\dnnl.lib
+296.91 MB	d:\DEV\Kimera_SWM_Alpha_Prototype V0.1 140625\venv_py313\Lib\site-packages\xformers\flash_attn_3\pyd
+284.62 MB	d:\DEV\Kimera_SWM_Alpha_Prototype V0.1 140625\.venv-kimera-clean\Lib\site-packages\torch\lib\cusolver64_11.dll
+266.91 MB	d:\DEV\Kimera_SWM_Alpha_Prototype V0.1 140625\.venv-kimera-clean\Lib\site-packages\torch\lib\cufft64_10.dll
+264.59 MB	d:\DEV\Kimera_SWM_Alpha_Prototype V0.1 140625\.venv-kimera-clean\Lib\site-packages\torch\lib\cusparse64_11.dll
+240.50 MB	d:\DEV\Kimera_SWM_Alpha_Prototype V0.1 140625\venv_py313\Lib\site-packages\torch\lib\torch_cpu.dll
+237.10 MB	d:\DEV\Kimera_SWM_Alpha_Prototype V0.1 140625\.venv-kimera-clean\Lib\site-packages\torch\lib\torch_cpu.dll
+179.14 MB	d:\DEV\Kimera_SWM_Alpha_Prototype V0.1 140625\.testing_artifacts\tyrannic_crash_test_146caaf5.db
+179.05 MB	d:\DEV\Kimera_SWM_Alpha_Prototype V0.1 140625\.testing_artifacts\tyrannic_crash_test_10bcd8c7.db
+179.04 MB	d:\DEV\Kimera_SWM_Alpha_Prototype V0.1 140625\.testing_artifacts\tyrannic_crash_test_51e3cb29.db
+178.94 MB	d:\DEV\Kimera_SWM_Alpha_Prototype V0.1 140625\.testing_artifacts\tyrannic_crash_test_9df0fa09.db
+178.94 MB	d:\DEV\Kimera_SWM_Alpha_Prototype V0.1 140625\.testing_artifacts\tyrannic_crash_test_c036acbe.db
+178.84 MB	d:\DEV\Kimera_SWM_Alpha_Prototype V0.1 140625\.testing_artifacts\tyrannic_crash_test_be7bd880.db
+178.75 MB	d:\DEV\Kimera_SWM_Alpha_Prototype V0.1 140625\.testing_artifacts\tyrannic_crash_test_c52f589a.db
