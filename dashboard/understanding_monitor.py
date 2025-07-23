@@ -7,13 +7,13 @@ import sys
 import os
 
 # Initialize structured logger
-from backend.utils.kimera_logger import get_system_logger
+from src.utils.kimera_logger import get_system_logger
 logger = get_system_logger(__name__)
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from backend.vault.understanding_vault_manager import UnderstandingVaultManager
-from backend.semantic_grounding import EmbodiedSemanticEngine
+from src.vault.understanding_vault_manager import UnderstandingVaultManager
+from src.semantic_grounding import EmbodiedSemanticEngine
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from datetime import datetime, timedelta

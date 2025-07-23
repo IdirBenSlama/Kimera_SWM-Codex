@@ -165,7 +165,7 @@ def main():
             
             if args.fix:
                 print("  Suggestion: Use environment variables instead:")
-                print("    from backend.config.config_manager import ConfigManager")
+                print("    from src.config.config_manager import ConfigManager")
                 print("    api_key = ConfigManager.get_api_key('service_name')")
     
     print("\nRecommendation:")

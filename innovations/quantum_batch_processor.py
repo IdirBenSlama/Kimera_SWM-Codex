@@ -29,8 +29,8 @@ from queue import Queue, PriorityQueue
 import psutil
 import random
 
-from backend.core.geoid import GeoidState
-from backend.core.embedding_utils import encode_batch, encode_text
+from src.core.geoid import GeoidState
+from src.core.embedding_utils import encode_batch, encode_text
 
 logger = logging.getLogger(__name__)
 

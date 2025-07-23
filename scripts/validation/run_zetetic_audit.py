@@ -28,8 +28,8 @@ import statistics
 # Add backend to path
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
-from backend.core.kimera_system import kimera_singleton
-from backend.utils.kimera_logger import get_logger, LogCategory
+from src.core.kimera_system import kimera_singleton
+from src.utils.kimera_logger import get_logger, LogCategory
 
 logger = get_logger("ZeteticAudit", LogCategory.SYSTEM)
 

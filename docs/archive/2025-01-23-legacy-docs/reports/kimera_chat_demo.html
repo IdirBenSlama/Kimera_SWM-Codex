@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KIMERA Enhanced Chat Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .chat-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .chat-header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .chat-header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .cognitive-mode-selector {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .cognitive-mode-selector select {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            color: white;
+            padding: 8px 12px;
+            font-size: 12px;
+        }
+
+        .cognitive-mode-selector option {
+            background: #333;
+            color: white;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            word-wrap: break-word;
+            animation: messageSlide 0.3s ease-out;
+        }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .message.assistant {
+            align-self: flex-start;
+            background: #f1f3f5;
+            color: #333;
+            border: 1px solid #e9ecef;
+        }
+
+        .message-meta {
+            font-size: 11px;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+
+        .chat-input-container {
+            padding: 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            font-size: 14px;
+            resize: none;
+            min-height: 20px;
+            max-height: 100px;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .send-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease;
+        }
+
+        .send-button:hover {
+            transform: scale(1.05);
+        }
+
+        .send-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .typing-indicator {
+            display: none;
+            align-self: flex-start;
+            background: #f1f3f5;
+            border: 1px solid #e9ecef;
+            border-radius: 18px;
+            padding: 12px 16px;
+            max-width: 80px;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #999;
+            border-radius: 50%;
+            animation: typingPulse 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typingPulse {
+            0%, 80%, 100% {
+                transform: scale(0);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .status-bar {
+            background: #f8f9fa;
+            padding: 8px 20px;
+            border-top: 1px solid #e9ecef;
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .metrics {
+            display: flex;
+            gap: 15px;
+        }
+
+        .metric {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .metric-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 20px;
+            border: 1px solid #fcc;
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .chat-container {
+                height: 100vh;
+                border-radius: 0;
+            }
+            
+            .cognitive-mode-selector {
+                position: static;
+                margin-top: 10px;
+            }
+            
+            .chat-header {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>🧠 KIMERA Enhanced Chat</h1>
+            <p>Advanced Text Diffusion Engine with Cognitive Modes</p>
+            <div class="cognitive-mode-selector">
+                <select id="cognitiveMode">
+                    <option value="standard">Standard Mode</option>
+                    <option value="cognitive_enhanced">Cognitive Enhanced</option>
+                    <option value="persona_aware">Persona Aware</option>
+                    <option value="neurodivergent">Neurodivergent</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+
+        <div class="chat-messages" id="chatMessages">
+            <div class="message assistant">
+                <div>Hello! I'm KIMERA, your advanced AI companion with enhanced text diffusion capabilities. I can adapt my communication style based on different cognitive modes. Try selecting different modes from the dropdown above!</div>
+                <div class="message-meta">Confidence: 0.95 | Coherence: 0.92 | Mode: Standard</div>
+            </div>
+        </div>
+
+        <div class="typing-indicator" id="typingIndicator">
+            <div class="typing-dots">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
+        </div>
+
+        <div class="chat-input-container">
+            <div class="chat-input-wrapper">
+                <textarea 
+                    id="chatInput" 
+                    class="chat-input" 
+                    placeholder="Type your message here..." 
+                    rows="1"
+                ></textarea>
+                <button id="sendButton" class="send-button">
+                    ➤
+                </button>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <div class="metrics">
+                <div class="metric">
+                    <span>Confidence:</span>
+                    <span class="metric-value" id="confidenceMetric">0.00</span>
+                </div>
+                <div class="metric">
+                    <span>Coherence:</span>
+                    <span class="metric-value" id="coherenceMetric">0.00</span>
+                </div>
+                <div class="metric">
+                    <span>Resonance:</span>
+                    <span class="metric-value" id="resonanceMetric">0.00</span>
+                </div>
+            </div>
+            <div class="connection-status">
+                <span id="connectionStatus">🟢 Connected</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class KimeraChatDemo {
+            constructor() {
+                this.apiUrl = 'http://localhost:8000/api/chat';
+                this.sessionId = 'demo_' + Date.now();
+                this.conversationHistory = [];
+                
+                this.initializeElements();
+                this.attachEventListeners();
+                this.checkConnection();
+            }
+
+            initializeElements() {
+                this.chatMessages = document.getElementById('chatMessages');
+                this.chatInput = document.getElementById('chatInput');
+                this.sendButton = document.getElementById('sendButton');
+                this.typingIndicator = document.getElementById('typingIndicator');
+                this.cognitiveMode = document.getElementById('cognitiveMode');
+                this.errorMessage = document.getElementById('errorMessage');
+                this.connectionStatus = document.getElementById('connectionStatus');
+                
+                // Metrics
+                this.confidenceMetric = document.getElementById('confidenceMetric');
+                this.coherenceMetric = document.getElementById('coherenceMetric');
+                this.resonanceMetric = document.getElementById('resonanceMetric');
+            }
+
+            attachEventListeners() {
+                this.sendButton.addEventListener('click', () => this.sendMessage());
+                this.chatInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage();
+                    }
+                });
+                
+                this.chatInput.addEventListener('input', () => {
+                    this.autoResize();
+                });
+
+                this.cognitiveMode.addEventListener('change', () => {
+                    this.addSystemMessage(`Switched to ${this.cognitiveMode.value} mode`);
+                });
+            }
+
+            autoResize() {
+                this.chatInput.style.height = 'auto';
+                this.chatInput.style.height = Math.min(this.chatInput.scrollHeight, 100) + 'px';
+            }
+
+            async checkConnection() {
+                try {
+                    const response = await fetch(`${this.apiUrl}/capabilities`);
+                    if (response.ok) {
+                        this.connectionStatus.textContent = '🟢 Connected';
+                        this.hideError();
+                    } else {
+                        throw new Error('Server not responding');
+                    }
+                } catch (error) {
+                    this.connectionStatus.textContent = '🔴 Disconnected';
+                    this.showError('Cannot connect to KIMERA server. Please ensure the server is running on localhost:8000');
+                }
+            }
+
+            async sendMessage() {
+                const message = this.chatInput.value.trim();
+                if (!message) return;
+
+                this.addMessage('user', message);
+                this.chatInput.value = '';
+                this.autoResize();
+                this.showTyping();
+                this.sendButton.disabled = true;
+
+                try {
+                    const response = await fetch(this.apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            message: message,
+                            session_id: this.sessionId,
+                            cognitive_mode: this.cognitiveMode.value,
+                            conversation_history: this.conversationHistory.slice(-10)
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+
+                    const result = await response.json();
+                    
+                    this.hideTyping();
+                    this.addMessage('assistant', result.response, {
+                        confidence: result.confidence,
+                        coherence: result.semantic_coherence,
+                        resonance: result.cognitive_resonance,
+                        mode: result.cognitive_mode,
+                        time: result.generation_time
+                    });
+
+                    this.updateMetrics(result);
+                    this.hideError();
+
+                } catch (error) {
+                    this.hideTyping();
+                    this.showError(`Error: ${error.message}`);
+                    console.error('Chat error:', error);
+                } finally {
+                    this.sendButton.disabled = false;
+                }
+            }
+
+            addMessage(role, content, meta = null) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${role}`;
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.textContent = content;
+                messageDiv.appendChild(contentDiv);
+
+                if (meta) {
+                    const metaDiv = document.createElement('div');
+                    metaDiv.className = 'message-meta';
+                    metaDiv.textContent = `Confidence: ${meta.confidence?.toFixed(2) || '0.00'} | Coherence: ${meta.coherence?.toFixed(2) || '0.00'} | Mode: ${meta.mode || 'Standard'} | Time: ${meta.time?.toFixed(2) || '0.00'}s`;
+                    messageDiv.appendChild(metaDiv);
+                }
+
+                this.chatMessages.appendChild(messageDiv);
+                this.scrollToBottom();
+
+                // Update conversation history
+                this.conversationHistory.push({
+                    role: role,
+                    content: content,
+                    timestamp: Date.now() / 1000
+                });
+            }
+
+            addSystemMessage(content) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message assistant';
+                messageDiv.style.opacity = '0.7';
+                messageDiv.style.fontStyle = 'italic';
+                messageDiv.textContent = `System: ${content}`;
+                
+                this.chatMessages.appendChild(messageDiv);
+                this.scrollToBottom();
+            }
+
+            showTyping() {
+                this.typingIndicator.style.display = 'block';
+                this.scrollToBottom();
+            }
+
+            hideTyping() {
+                this.typingIndicator.style.display = 'none';
+            }
+
+            updateMetrics(result) {
+                this.confidenceMetric.textContent = result.confidence?.toFixed(2) || '0.00';
+                this.coherenceMetric.textContent = result.semantic_coherence?.toFixed(2) || '0.00';
+                this.resonanceMetric.textContent = result.cognitive_resonance?.toFixed(2) || '0.00';
+            }
+
+            showError(message) {
+                this.errorMessage.textContent = message;
+                this.errorMessage.style.display = 'block';
+            }
+
+            hideError() {
+                this.errorMessage.style.display = 'none';
+            }
+
+            scrollToBottom() {
+                setTimeout(() => {
+                    this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+                }, 100);
+            }
+        }
+
+        // Initialize the chat demo when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new KimeraChatDemo();
+        });
+    </script>
+</body>
+</html> 

@@ -257,12 +257,12 @@ class KimeraCodeRepairEngine:
             import_fixes = [
                 # Fix gpu_foundation imports
                 (r'from backend\.utils import gpu_foundation', 
-                 'from backend.utils.gpu_foundation import GPUFoundation'),
+                 'from src.utils.gpu_foundation import GPUFoundation'),
                 
                 # Standardize relative imports
-                (r'from \.\.utils import', 'from backend.utils import'),
-                (r'from \.\.core import', 'from backend.core import'),
-                (r'from \.\.engines import', 'from backend.engines import'),
+                (r'from \.\.utils import', 'from src.utils import'),
+                (r'from \.\.core import', 'from src.core import'),
+                (r'from \.\.engines import', 'from src.engines import'),
             ]
             
             modified = False

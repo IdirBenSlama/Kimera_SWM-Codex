@@ -468,7 +468,7 @@ import sys
 sys.path.append(".")
 
 try:
-    from backend.engines.cuda_quantum_engine import create_cuda_quantum_engine, QuantumBackendType
+    from src.engines.cuda_quantum_engine import create_cuda_quantum_engine, QuantumBackendType
     
     # Create engine
     engine = create_cuda_quantum_engine(
