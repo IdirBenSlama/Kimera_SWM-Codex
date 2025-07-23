@@ -1,0 +1,115 @@
+{
+  "timestamp": "2025-07-23T14:58:19.402452",
+  "protocol_version": "3.0",
+  "metrics": {
+    "total_files": 2175,
+    "total_size_mb": 195.26927757263184,
+    "duplicate_count": 59,
+    "undocumented_functions": 1647,
+    "complex_functions": 160,
+    "python_files": 1334,
+    "total_dependencies": 577,
+    "source_files": 1112,
+    "test_files": 222,
+    "test_coverage_estimate": 19.964028776978417
+  },
+  "file_distribution": {
+    "": 5,
+    ".tmp": 1,
+    ".md": 509,
+    ".py": 1334,
+    ".json": 197,
+    ".txt": 30,
+    ".html": 5,
+    ".yml": 4,
+    ".bat": 19,
+    ".sql": 3,
+    ".mmap": 2,
+    ".dump": 1,
+    ".lock": 1,
+    ".toml": 1,
+    ".ini": 1,
+    ".secure": 4,
+    ".csv": 7,
+    ".png": 9,
+    ".yaml": 3,
+    ".js": 1,
+    ".old": 2,
+    ".sh": 8,
+    ".pkl": 3,
+    ".bak": 2,
+    ".pdf": 21,
+    ".mermaid": 1,
+    ".mdc": 1
+  },
+  "duplicates": [
+    {
+      "file1": "api_docs_check.html",
+      "file2": "api_docs.html"
+    },
+    {
+      "file1": "ENGINE_AUDIT_FIXES_SUMMARY.md",
+      "file2": "api"
+    },
+    {
+      "file1": "kimera_instant_results_20250712_045134.json",
+      "file2": "kimera_instant_results_20250712_045054.json"
+    },
+    {
+      "file1": "kimera_instant_results_20250712_045217.json",
+      "file2": "kimera_instant_results_20250712_045054.json"
+    },
+    {
+      "file1": "kimera_instant_results_20250712_045253.json",
+      "file2": "kimera_instant_results_20250712_045054.json"
+    },
+    {
+      "file1": "kimera_swm_backup_20250716_195735.dump",
+      "file2": "api"
+    },
+    {
+      "file1": "scientific\\__init__.py",
+      "file2": "api"
+    },
+    {
+      "file1": "cache\\lazy_init\\embedding_model.pkl",
+      "file2": "api"
+    },
+    {
+      "file1": "cache\\lazy_init\\gpu_foundation.pkl",
+      "file2": "api"
+    },
+    {
+      "file1": "cache\\lazy_init\\vault_manager.pkl",
+      "file2": "api"
+    }
+  ],
+  "issues": [
+    "Parse error in kimera_aerospace_startup.py: '(' was never closed (kimera_aerospace_startup.py, line 730)",
+    "Parse error in kimera_ultra_aggressive_trader.py: expected 'except' or 'finally' block (kimera_ultra_aggressive_trader.py, line 461)",
+    "Parse error in test_kimera_live_trading.py: expected an indented block after 'if' statement on line 114 (test_kimera_live_trading.py, line 115)",
+    "Parse error in dashboard\\understanding_monitor.py: unterminated string literal (detected at line 335) (understanding_monitor.py, line 335)",
+    "Parse error in backend\\engines\\activation_synthesis.py: unexpected indent (activation_synthesis.py, line 22)",
+    "Parse error in backend\\engines\\advanced_thermodynamic_applications.py: unexpected indent (advanced_thermodynamic_applications.py, line 93)",
+    "Parse error in backend\\engines\\axiom_mathematical_proof.py: unexpected indent (axiom_mathematical_proof.py, line 68)",
+    "Parse error in backend\\engines\\axiom_of_understanding.py: unexpected indent (axiom_of_understanding.py, line 104)",
+    "Parse error in backend\\engines\\axiom_verification.py: unexpected indent (axiom_verification.py, line 53)",
+    "Parse error in backend\\engines\\cognitive_field_dynamics_gpu.py: invalid syntax (cognitive_field_dynamics_gpu.py, line 37)",
+    "Parse error in backend\\engines\\cognitive_gpu_kernels.py: unexpected indent (cognitive_gpu_kernels.py, line 50)",
+    "Parse error in backend\\engines\\cognitive_graph_processor.py: unexpected indent (cognitive_graph_processor.py, line 65)",
+    "Parse error in backend\\engines\\cognitive_security_orchestrator.py: unexpected indent (cognitive_security_orchestrator.py, line 104)",
+    "Parse error in backend\\engines\\cognitive_validation_framework.py: unexpected indent (cognitive_validation_framework.py, line 122)",
+    "Parse error in backend\\engines\\differential_privacy_engine.py: unexpected indent (differential_privacy_engine.py, line 106)",
+    "Parse error in backend\\engines\\diffusion_response_fix.py: unexpected indent (diffusion_response_fix.py, line 298)",
+    "Parse error in backend\\engines\\emergent_signal_intelligence.py: unexpected indent (emergent_signal_intelligence.py, line 32)",
+    "Parse error in backend\\engines\\ethical_reasoning_engine.py: invalid syntax (ethical_reasoning_engine.py, line 31)",
+    "Parse error in backend\\engines\\foundational_thermodynamic_engine_fixed.py: invalid syntax (foundational_thermodynamic_engine_fixed.py, line 10)",
+    "Parse error in backend\\engines\\golden_ratio_optimizer.py: unexpected indent (golden_ratio_optimizer.py, line 61)"
+  ],
+  "recommendations": [
+    "Found 59 duplicate files. Consider consolidating or removing duplicates.",
+    "Found 1647 undocumented functions. Add docstrings for better code maintainability.",
+    "Test coverage estimate is 20.0%. Consider adding more tests.",
+    "Found 160 complex functions. Consider refactoring for better maintainability."
+  ]
+}
