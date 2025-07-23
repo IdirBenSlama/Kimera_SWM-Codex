@@ -1,0 +1,172 @@
+{
+  "timestamp": "20250723_150929",
+  "dry_run": true,
+  "migrations": [
+    {
+      "timestamp": "2025-07-23T15:09:29.484224",
+      "action": "archive",
+      "source": "backend\\layer_2_governance\\governance\\self_tuning.py",
+      "destination": "archive\\2025-07-23_duplicate_cleanup\\backend\\layer_2_governance\\governance\\self_tuning.py",
+      "kept_file": "backend\\governance\\self_tuning.py",
+      "reason": "Consolidating to simpler path structure",
+      "file_hash": "e3d48c5360f5f75030240e2c1ff7afb31152abf808f4b6eab3aaee20d7d0121a"
+    },
+    {
+      "timestamp": "2025-07-23T15:09:29.484755",
+      "action": "archive",
+      "source": "backend\\layer_2_governance\\monitoring\\benchmarking_suite.py",
+      "destination": "archive\\2025-07-23_duplicate_cleanup\\backend\\layer_2_governance\\monitoring\\benchmarking_suite.py",
+      "kept_file": "backend\\monitoring\\benchmarking_suite.py",
+      "reason": "Consolidating monitoring modules",
+      "file_hash": "ac249a8c4c86b8c205795a110431715eb0e633165cf1395375a771eee27c3481"
+    },
+    {
+      "timestamp": "2025-07-23T15:09:29.485311",
+      "action": "archive",
+      "source": "backend\\layer_2_governance\\monitoring\\distributed_tracing.py.bak",
+      "destination": "archive\\2025-07-23_duplicate_cleanup\\backend\\layer_2_governance\\monitoring\\distributed_tracing.py.bak",
+      "kept_file": "backend\\monitoring\\distributed_tracing.py",
+      "reason": "Removing backup file duplicate",
+      "file_hash": "8b94003332dcb6c642c59c9b897a14b458c1627cdde5ceb1df78e4af0806eede"
+    },
+    {
+      "timestamp": "2025-07-23T15:09:29.485908",
+      "action": "archive",
+      "source": "backend\\layer_2_governance\\monitoring\\enhanced_entropy_monitor.py",
+      "destination": "archive\\2025-07-23_duplicate_cleanup\\backend\\layer_2_governance\\monitoring\\enhanced_entropy_monitor.py",
+      "kept_file": "backend\\monitoring\\enhanced_entropy_monitor.py",
+      "reason": "Consolidating monitoring modules",
+      "file_hash": "cd07feeaf4b59723570336f4cf62daa328fb3b9f3fe9422f26078804adc4ee0f"
+    },
+    {
+      "timestamp": "2025-07-23T15:09:29.487111",
+      "action": "archive",
+      "source": "backend\\layer_2_governance\\monitoring\\kimera_dashboard.py",
+      "destination": "archive\\2025-07-23_duplicate_cleanup\\backend\\layer_2_governance\\monitoring\\kimera_dashboard.py",
+      "kept_file": "backend\\monitoring\\kimera_dashboard.py",
+      "reason": "Consolidating monitoring modules",
+      "file_hash": "041038732c8cc2c88f7f4c3305f912ef95f7dfd6181856945164aaf8cf8d99f5"
+    },
+    {
+      "timestamp": "2025-07-23T15:09:29.488163",
+      "action": "archive",
+      "source": "backend\\layer_2_governance\\monitoring\\kimera_monitoring_core.py.bak",
+      "destination": "archive\\2025-07-23_duplicate_cleanup\\backend\\layer_2_governance\\monitoring\\kimera_monitoring_core.py.bak",
+      "kept_file": "backend\\monitoring\\kimera_monitoring_core.py",
+      "reason": "Removing backup file duplicate",
+      "file_hash": "2d171995013ccf71d9aa60379e6e0f1eaee3a772d2a668ac69490b6646cb3a90"
+    },
+    {
+      "timestamp": "2025-07-23T15:09:29.489125",
+      "action": "archive",
+      "source": "backend\\layer_2_governance\\monitoring\\metrics_and_alerting.py",
+      "destination": "archive\\2025-07-23_duplicate_cleanup\\backend\\layer_2_governance\\monitoring\\metrics_and_alerting.py",
+      "kept_file": "backend\\monitoring\\metrics_and_alerting.py",
+      "reason": "Consolidating monitoring modules",
+      "file_hash": "0eb9a08db53737872138f80a486984f29797d70f5fc89bd679b9912875988d8b"
+    },
+    {
+      "timestamp": "2025-07-23T15:09:29.490052",
+      "action": "archive",
+      "source": "backend\\layer_2_governance\\monitoring\\metrics_integration.py",
+      "destination": "archive\\2025-07-23_duplicate_cleanup\\backend\\layer_2_governance\\monitoring\\metrics_integration.py",
+      "kept_file": "backend\\monitoring\\metrics_integration.py",
+      "reason": "Consolidating monitoring modules",
+      "file_hash": "66651bf0ee215661f9cad6da8862dc5c1413a2048a284d8aa62cc162de857832"
+    },
+    {
+      "timestamp": "2025-07-23T15:09:29.491071",
+      "action": "archive",
+      "source": "backend\\layer_2_governance\\monitoring\\monitoring_integration.py",
+      "destination": "archive\\2025-07-23_duplicate_cleanup\\backend\\layer_2_governance\\monitoring\\monitoring_integration.py",
+      "kept_file": "backend\\monitoring\\monitoring_integration.py",
+      "reason": "Consolidating monitoring modules",
+      "file_hash": "9674fe571ee28e052da5c5b9c1a1c547efb59ffa5b3521ee449e4dfc1ae09545"
+    },
+    {
+      "timestamp": "2025-07-23T15:09:29.491918",
+      "action": "archive",
+      "source": "backend\\layer_2_governance\\monitoring\\psychiatric_stability_monitor.py",
+      "destination": "archive\\2025-07-23_duplicate_cleanup\\backend\\layer_2_governance\\monitoring\\psychiatric_stability_monitor.py",
+      "kept_file": "backend\\monitoring\\psychiatric_stability_monitor.py",
+      "reason": "Consolidating monitoring modules",
+      "file_hash": "191ea963edd6801c006e48199ab68238b022a458f6def0a45fe35f1a4680b5bd"
+    },
+    {
+      "timestamp": "2025-07-23T15:09:29.492712",
+      "action": "archive",
+      "source": "backend\\layer_2_governance\\monitoring\\revolutionary_thermodynamic_monitor.py",
+      "destination": "archive\\2025-07-23_duplicate_cleanup\\backend\\layer_2_governance\\monitoring\\revolutionary_thermodynamic_monitor.py",
+      "kept_file": "backend\\monitoring\\revolutionary_thermodynamic_monitor.py",
+      "reason": "Consolidating monitoring modules",
+      "file_hash": "a8067e3d5876ead07b5d7b6ad8fe44cddccb23697fbb75991296309edb41f523"
+    },
+    {
+      "timestamp": "2025-07-23T15:09:29.493543",
+      "action": "archive",
+      "source": "backend\\layer_2_governance\\monitoring\\semantic_metrics.py",
+      "destination": "archive\\2025-07-23_duplicate_cleanup\\backend\\layer_2_governance\\monitoring\\semantic_metrics.py",
+      "kept_file": "backend\\monitoring\\semantic_metrics.py",
+      "reason": "Consolidating monitoring modules",
+      "file_hash": "5128901d31d018cee175df4d587660a8126ff6927c7e908bd440a9941ecc0079"
+    },
+    {
+      "timestamp": "2025-07-23T15:09:29.494447",
+      "action": "archive",
+      "source": "backend\\layer_2_governance\\monitoring\\structured_logging.py",
+      "destination": "archive\\2025-07-23_duplicate_cleanup\\backend\\layer_2_governance\\monitoring\\structured_logging.py",
+      "kept_file": "backend\\monitoring\\structured_logging.py",
+      "reason": "Consolidating monitoring modules",
+      "file_hash": "6c96c150f6d64768097ad5baba2fa80d92dec49b593b72bb88ff3672e36a560e"
+    },
+    {
+      "timestamp": "2025-07-23T15:09:29.495222",
+      "action": "archive",
+      "source": "backend\\layer_2_governance\\monitoring\\system_observer.py",
+      "destination": "archive\\2025-07-23_duplicate_cleanup\\backend\\layer_2_governance\\monitoring\\system_observer.py",
+      "kept_file": "backend\\monitoring\\system_observer.py",
+      "reason": "Consolidating monitoring modules",
+      "file_hash": "a052393d1aa849daa4217d829d1d2d906eef565bb13698ced3d15e089426386d"
+    },
+    {
+      "timestamp": "2025-07-23T15:09:29.496013",
+      "action": "archive",
+      "source": "backend\\layer_2_governance\\monitoring\\telemetry.py",
+      "destination": "archive\\2025-07-23_duplicate_cleanup\\backend\\layer_2_governance\\monitoring\\telemetry.py",
+      "kept_file": "backend\\monitoring\\telemetry.py",
+      "reason": "Consolidating monitoring modules",
+      "file_hash": "77cf0ea2f26dc5f570aa48d0ab160571dac3522eadca490a5497e6cdf3d261d2"
+    },
+    {
+      "timestamp": "2025-07-23T15:09:29.496849",
+      "action": "archive",
+      "source": "backend\\layer_2_governance\\security\\cognitive_firewall.py",
+      "destination": "archive\\2025-07-23_duplicate_cleanup\\backend\\layer_2_governance\\security\\cognitive_firewall.py",
+      "kept_file": "backend\\security\\cognitive_firewall.py",
+      "reason": "Consolidating security modules",
+      "file_hash": "3af01587838804e3600d9a62ad1d85121e8cf060bc8b3b9d9ce4f0daf34b82f3"
+    },
+    {
+      "timestamp": "2025-07-23T15:09:29.497870",
+      "action": "archive",
+      "source": "backend\\layer_2_governance\\security\\security_integration.py",
+      "destination": "archive\\2025-07-23_duplicate_cleanup\\backend\\layer_2_governance\\security\\security_integration.py",
+      "kept_file": "backend\\security\\security_integration.py",
+      "reason": "Consolidating security modules",
+      "file_hash": "7e14f63620b620ac04cacd1be73520e2ad0e393df1cfda7107669fd4cc0144b2"
+    },
+    {
+      "timestamp": "2025-07-23T15:09:29.498944",
+      "action": "archive",
+      "source": "backend\\layer_2_governance\\security\\sql_injection_prevention.py",
+      "destination": "archive\\2025-07-23_duplicate_cleanup\\backend\\layer_2_governance\\security\\sql_injection_prevention.py",
+      "kept_file": "backend\\security\\sql_injection_prevention.py",
+      "reason": "Consolidating security modules",
+      "file_hash": "5865bca85391dbbbcac321161c69b586a7a75751d20b30b08774a1281a87fe02"
+    }
+  ],
+  "summary": {
+    "total_files_migrated": 18,
+    "archive_location": "archive\\2025-07-23_duplicate_cleanup"
+  }
+}

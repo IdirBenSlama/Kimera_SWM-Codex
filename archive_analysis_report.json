@@ -1,0 +1,49 @@
+{
+  "timestamp": "2025-07-23T15:12:42.062345",
+  "stats": {
+    "total_files": 1011,
+    "python_files": 577,
+    "broken_python": 227,
+    "documentation": 356,
+    "other": 78
+  },
+  "categories": {
+    "archived_code": 226,
+    "broken_other": 287,
+    "old_documentation": 224,
+    "broken_analysis": 14,
+    "broken_demos": 31,
+    "broken_development": 106,
+    "broken_tests": 115,
+    "broken_utilities": 8
+  },
+  "broken_files_by_category": {
+    "broken_other": 110,
+    "old_documentation": 10,
+    "broken_analysis": 10,
+    "broken_demos": 15,
+    "broken_development": 33,
+    "broken_tests": 46,
+    "broken_utilities": 3
+  },
+  "recommendations": [
+    {
+      "priority": "LOW",
+      "category": "Broken Tests",
+      "count": 46,
+      "action": "Review for potential recovery of test patterns"
+    },
+    {
+      "priority": "MEDIUM",
+      "category": "Broken Development Scripts",
+      "count": 33,
+      "action": "Check for valuable algorithms or approaches"
+    },
+    {
+      "priority": "HIGH",
+      "category": "Broken Utilities",
+      "count": 3,
+      "action": "Some utilities might be worth fixing and moving to scripts/"
+    }
+  ]
+}
