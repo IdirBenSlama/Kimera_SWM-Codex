@@ -64,12 +64,12 @@ logger.info("Routers imported.")
 async def lifespan(app: FastAPI):
     """Application lifespan manager."""
     logger.info("--- KIMERA LIFESPAN STARTUP ---")
-    
+
     # Initialize core system
     kimera_system = get_kimera_system()
     start_background_task(kimera_system.initialize)
     app.state.kimera_system = kimera_system
-    
+
     # Initialize enhanced cognitive control services
     logger.info("Initializing enhanced cognitive control services...")
     try:
@@ -80,15 +80,35 @@ async def lifespan(app: FastAPI):
 
     # Initialize Prometheus metrics background collection
     try:
-        initialize_background_collection()
-    except ValueError as metric_error:
-        logger.warning(f"Prometheus metrics already initialized: {metric_error}")
+        # Use asyncio.create_task to ensure it runs in background without blocking
+        import asyncio
+        from src.monitoring.kimera_prometheus_metrics import collect_system_metrics
+
+        # Start metrics collection as a background task
+        if hasattr(app.state, 'metrics_task'):
+            app.state.metrics_task.cancel()
+
+        app.state.metrics_task = asyncio.create_task(collect_system_metrics())
+        logger.info("✅ Prometheus metrics background collection started")
+
     except Exception as metric_error:
-        logger.error(f"Failed to initialize background metrics: {metric_error}")
-    
+        logger.warning(f"Metrics collection will be disabled due to error: {metric_error}")
+        # Don't let metrics errors block the startup
+
     yield
-    
+
     logger.info("--- KIMERA LIFESPAN SHUTDOWN ---")
+
+    # Clean up metrics task
+    if hasattr(app.state, 'metrics_task') and app.state.metrics_task:
+        try:
+            app.state.metrics_task.cancel()
+            await asyncio.wait_for(app.state.metrics_task, timeout=2.0)
+        except (asyncio.CancelledError, asyncio.TimeoutError):
+            pass
+        except Exception as e:
+            logger.warning(f"Error during metrics task cleanup: {e}")
+
     await kimera_system.shutdown()
 
 app = FastAPI(
@@ -190,7 +210,7 @@ async def engines_status():
     """Engine-specific status information"""
     return {
         "thermodynamic_engine": "operational",
-        "quantum_cognitive_engine": "operational", 
+        "quantum_cognitive_engine": "operational",
         "gpu_cryptographic_engine": "operational",
         "revolutionary_intelligence_engine": "operational",
         "total_engines": 97,
@@ -213,7 +233,29 @@ logger.info("--- API MAIN INITIALIZATION COMPLETE ---")
 
 if __name__ == "__main__":
     import uvicorn
-    logger.info("🚀 Starting KIMERA Server on http://127.0.0.1:8000")
-    uvicorn.run(app, host="127.0.0.1", port=8000, log_level="info")
+    import socket
+    import sys
+
+    # Try to find an available port
+    ports_to_try = [8000, 8001, 8002, 8003, 8080]
+    port = None
+
+    for p in ports_to_try:
+        try:
+            # Test if port is available
+            test_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            test_socket.bind(('127.0.0.1', p))
+            test_socket.close()
+            port = p
+            break
+        except OSError:
+            continue
+
+    if port is None:
+        logger.error("❌ No available ports found. Please free up one of: " + str(ports_to_try))
+        sys.exit(1)
+
+    logger.info(f"🚀 Starting KIMERA Server on http://127.0.0.1:{port}")
+    uvicorn.run(app, host="127.0.0.1", port=port, log_level="info")
 
 

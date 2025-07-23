@@ -10,14 +10,23 @@ import subprocess
 
 # Add the current directory to Python path to enable imports
 current_dir = os.path.dirname(os.path.abspath(__file__))
+src_dir = os.path.join(current_dir, 'src')
 sys.path.insert(0, current_dir)
+sys.path.insert(0, src_dir)
 
 if __name__ == "__main__":
+    # Set PYTHONPATH environment variable for subprocess
+    env = os.environ.copy()
+    if 'PYTHONPATH' in env:
+        env['PYTHONPATH'] = f"{current_dir}{os.pathsep}{src_dir}{os.pathsep}{env['PYTHONPATH']}"
+    else:
+        env['PYTHONPATH'] = f"{current_dir}{os.pathsep}{src_dir}"
+
     # Run the main module using python -m to handle imports correctly
     print("🚀 Starting KIMERA SWM System...")
-    print("🔍 Monitoring available at: http://127.0.0.1:8000/health")
-    print("📚 API Documentation at: http://127.0.0.1:8000/docs")
+    print("🔍 Server will start on an available port (8000-8003 or 8080)")
+    print("📚 API Documentation will be available at: http://127.0.0.1:{port}/docs")
     print("=" * 80)
-    
-    # Use subprocess to run with correct module path
-    subprocess.run([sys.executable, "-m", "src.main"], cwd=current_dir) 
+
+    # Use subprocess to run with correct module path and environment
+    subprocess.run([sys.executable, "-m", "src.main"], cwd=current_dir, env=env)

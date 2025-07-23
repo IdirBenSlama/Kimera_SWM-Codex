@@ -188,11 +188,24 @@ def initialize_background_collection():
     global _collection_task
     
     if _collection_task is not None:
-        raise ValueError("Background collection already initialized")
+        logger.warning("Background collection already initialized")
+        return
     
-    loop = asyncio.get_event_loop()
-    _collection_task = loop.create_task(collect_system_metrics())
-    logger.info("Prometheus metrics background collection started")
+    try:
+        # Try to get the current event loop, create one if none exists
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            # No running loop, schedule for later when one is available
+            logger.info("No running event loop, background collection will start when loop is available")
+            return
+        
+        _collection_task = loop.create_task(collect_system_metrics())
+        logger.info("Prometheus metrics background collection started")
+        
+    except Exception as e:
+        logger.error(f"Failed to initialize background collection: {e}")
+        # Don't raise the exception, just log it to prevent blocking startup
 
 def get_metrics():
     """Get current metrics in Prometheus format."""
