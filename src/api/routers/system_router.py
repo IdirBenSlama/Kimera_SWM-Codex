@@ -9,7 +9,7 @@ status, health, and performance metrics of the KIMERA system.
 import logging
 from fastapi import APIRouter, HTTPException, Request, Response
 from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Dict, Any
 import threading
 
@@ -43,7 +43,7 @@ async def get_system_status():
         
         return {
             "status": "operational",
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "system_state": kimera_system._state,
             "components": {
                 "vault_manager": vault_manager is not None,
@@ -70,7 +70,7 @@ async def get_system_status():
         return {
             "status": "error",
             "error": str(e),
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat()
         }
 
 @router.get("/contradiction_engine")
@@ -320,7 +320,7 @@ async def get_system_state(request: Request) -> Dict[str, Any]:
             errors['metrics_instance_id'] = str(e) + "\n" + format_exc()
             logger.error(f"metrics_instance_id error: {e}", exc_info=True)
         report = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "system_state": system_state,
             "is_operational": is_operational,
             "is_shutdown": is_shutdown,
@@ -339,7 +339,7 @@ async def get_system_state(request: Request) -> Dict[str, Any]:
             "status": "critical_error",
             "error": str(e),
             "trace": format_exc(),
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat()
         }
 
 @router.post("/system/shutdown", summary="Gracefully shut down the Kimera system", tags=["System"])
@@ -381,16 +381,16 @@ async def debug_singleton():
             "kimera_singleton_is_none": kimera_singleton is None,
             "has_attr_state": hasattr(kimera_singleton, '_state') if kimera_singleton else False,
             "has_attr_is_operational": hasattr(kimera_singleton, 'is_operational') if kimera_singleton else False,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat()
         }
     except Exception as e:
         return {
             "error": str(e),
             "trace": format_exc(),
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat()
         } 
 
 @router.get("/system/ping", tags=["System"])
 async def ping():
     """Minimal endpoint to confirm FastAPI app and router health."""
-    return {"status": "ok", "message": "Kimera API is alive", "timestamp": datetime.now().isoformat()} 
+    return {"status": "ok", "message": "Kimera API is alive", "timestamp": datetime.now(timezone.utc).isoformat()}
