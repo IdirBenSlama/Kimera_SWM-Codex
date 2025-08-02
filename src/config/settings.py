@@ -35,17 +35,10 @@ class LogLevel(str, Enum):
 class DatabaseSettings(BaseSettings):
     """Database configuration settings"""
     url: str = Field(
-        default="sqlite:///kimera_swm.db",
+        default="postgresql+psycopg2://kimera:kimera_secure_pass_2025@localhost:5432/kimera_swm",
         env="KIMERA_DATABASE_URL",
-        description="Database connection URL"
+        description="Database connection URL",
     )
-    
-    # Override for testing environment
-    def __init__(self, **data):
-        # Check if we're in a test environment
-        if "pytest" in sys.modules or os.getenv("KIMERA_ENV") == "testing":
-            data.setdefault("url", "sqlite+aiosqlite:///:memory:")
-        super().__init__(**data)
     
     pool_size: int = Field(
         default=20,

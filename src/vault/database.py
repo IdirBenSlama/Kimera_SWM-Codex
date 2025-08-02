@@ -9,11 +9,11 @@ import os
 import logging
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker, scoped_session
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.exc import OperationalError
 from typing import Optional, Dict, Any
 
 from .database_connection_manager import DatabaseConnectionManager
+# Import the declarative base for potential schema extension
 from .enhanced_database_schema import Base, create_tables
 
 logger = logging.getLogger(__name__)
@@ -54,8 +54,6 @@ def initialize_database():
         # Log database information
         if engine.dialect.name == 'postgresql':
             logger.info("Using PostgreSQL with optimized connection settings")
-        elif engine.dialect.name == 'sqlite':
-            logger.info("Using SQLite database (development/fallback mode)")
         
         # Create session factory
         SessionLocal = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
@@ -63,14 +61,7 @@ def initialize_database():
         # Create tables using the dynamic schema
         from .dynamic_schema import create_tables_safely
         if not create_tables_safely(engine):
-            logger.warning("Failed to create dynamic schema, attempting basic schema")
-            # Fallback to simple table creation
-            try:
-                from .sqlite_schema import create_sqlite_tables
-                create_sqlite_tables(engine)
-            except Exception as fallback_error:
-                logger.error(f"Fallback schema creation failed: {fallback_error}")
-                raise
+            raise RuntimeError("Failed to create dynamic schema")
         
         logger.info("Database engine created successfully")
         logger.info("Database session factory created successfully")
@@ -247,11 +238,5 @@ def create_tables(engine):
         return create_tables_safely(engine)
     except Exception as e:
         logger.error(f"Failed to create tables: {e}")
-        # Try fallback to simple SQLite schema
-        try:
-            from .sqlite_schema import create_sqlite_tables  
-            return create_sqlite_tables(engine)
-        except Exception as fallback_error:
-            logger.error(f"Fallback schema creation failed: {fallback_error}")
-            return False
+        return False
 
