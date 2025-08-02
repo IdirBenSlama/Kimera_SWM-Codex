@@ -82,6 +82,37 @@ src/
 - **📊 Real-time Monitoring**: Comprehensive system telemetry
 - **🔬 Scientific Methodology**: Reproducible experiments
 
+### System Topology & Data Flow
+
+```mermaid
+graph LR
+    A[Client Apps] --> B[API Layer]
+    B --> C[Integration Layer]
+    C --> D[Engine Layer]
+    D --> E[Core Layer]
+    C --> F[Persistence]
+    C --> G[Monitoring]
+```
+
+### Processing Pipeline
+
+1. **Client Request** → API layer validates and forwards input.
+2. **Integration Layer** orchestrates engine selection and execution.
+3. **Engine Layer** performs cognitive computations.
+4. **Core Layer** provides memory, vector, entropy and ethics services.
+5. **Persistence** stores results while **Monitoring** captures metrics.
+
+### Engine & Core Modules
+
+- **Thermodynamic Engine** – entropy-driven cognitive dynamics.
+- **Quantum Field Engine** – superposition and entanglement modeling.
+- **SPDE Engine** – stochastic diffusion and field evolution.
+- **Portal/Vortex Engine** – interdimensional state transitions.
+- **Memory Manager** – adaptive allocation and pooling.
+- **Vector Operations** – GPU-accelerated high-dimensional math.
+- **Entropy Calculator** – thermodynamic measurements.
+- **Ethical Governor** – ensures bounded, safe behavior.
+
 ## 📚 Documentation
 
 - [**Architecture Guide**](docs/architecture/) - System design principles

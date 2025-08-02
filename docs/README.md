@@ -40,6 +40,26 @@ The system implements a multi-layered architecture:
    - Logging framework
    - Health checks
 
+### Topology & Data Flow
+
+```mermaid
+graph LR
+    Client[Client Apps] --> API
+    API --> Integration
+    Integration --> Engine
+    Engine --> Core
+    Integration --> Persistence
+    Integration --> Monitoring
+```
+
+### Processing Pipeline
+
+1. **Client Request** is sent to the API layer.
+2. The **Integration Layer** validates input and selects engines.
+3. **Engines** compute results and interact with **Core** services.
+4. Outcomes are persisted while metrics feed the monitoring stack.
+5. The API layer formats and returns the final response.
+
 ## Key Scientific Components
 
 ### Thermodynamic Engine

@@ -25,6 +25,18 @@ The Kimera SWM system is organized into the following layers:
 5. **Persistence Layer**: Database and storage components for persistent data.
 6. **Monitoring Layer**: Components for system monitoring, metrics collection, and health checks.
 
+### Topology Diagram
+
+```mermaid
+graph TD
+    Client[Client Applications] --> API
+    API --> Integration
+    Integration --> Engine
+    Engine --> Core
+    Integration --> Persistence
+    Integration --> Monitoring
+```
+
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                        Client Applications                       │
@@ -556,36 +568,35 @@ class KimeraPrometheusMetrics:
 
 The following diagram illustrates the data flow through the Kimera SWM system:
 
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant API as API Layer
+    participant K as Kimera System
+    participant E as Engine Layer
+    participant DB as Database
+    participant M as Monitoring
+
+    C->>API: Request
+    API->>K: Validate & forward
+    K->>E: Invoke engines
+    E->>K: Return results
+    K->>DB: Persist state
+    K->>M: Emit metrics
+    K->>API: Response
+    API->>C: Result
 ```
-┌──────────┐     ┌───────────┐     ┌──────────────┐     ┌────────────┐
-│  Client  │────▶│  API      │────▶│  Kimera      │────▶│  Database  │
-│          │◀────│  Layer    │◀────│  System      │◀────│            │
-└──────────┘     └───────────┘     └──────────────┘     └────────────┘
-                                          │
-                                          │
-                                          ▼
-                      ┌─────────────────────────────────────┐
-                      │            Engine Layer             │
-                      │                                     │
-                      │  ┌───────────┐     ┌───────────┐   │
-                      │  │Thermodynamic    │  Quantum  │   │
-                      │  │  Engine   │◀───▶│   Field   │   │
-                      │  └───────────┘     └───────────┘   │
-                      │                                     │
-                      │  ┌───────────┐     ┌───────────┐   │
-                      │  │  SPDE     │◀───▶│  Portal   │   │
-                      │  │  Engine   │     │  Engine   │   │
-                      │  └───────────┘     └───────────┘   │
-                      └─────────────────────────────────────┘
-```
+
+### Processing Pipeline
 
 1. The client sends a request to the API Layer.
 2. The API Layer validates the request and forwards it to the Kimera System.
 3. The Kimera System orchestrates the appropriate engines to process the request.
 4. The engines interact with each other as needed to fulfill the request.
 5. The Kimera System stores the results in the database.
-6. The results are returned to the API Layer, which formats them for the client.
-7. The API Layer sends the response to the client.
+6. The Kimera System emits metrics to the monitoring layer.
+7. The results are returned to the API Layer, which formats them for the client.
+8. The API Layer sends the response to the client.
 
 ## Deployment Architecture
 
