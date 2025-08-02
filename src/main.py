@@ -31,6 +31,9 @@ from pathlib import Path
 from typing import Dict, Any, Optional, List
 import socket
 
+# Configure application-level logging
+logging.basicConfig(level=logging.INFO)
+
 # Environment setup
 from dotenv import load_dotenv
 load_dotenv()
