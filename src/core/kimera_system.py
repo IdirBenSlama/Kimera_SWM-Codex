@@ -1250,81 +1250,125 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
     # ------------------------------------------------------------------
     # GPU System Initialization Methods
     # ------------------------------------------------------------------
-    
+
     def _initialize_gpu_system(self) -> None:
         """Initialize the comprehensive GPU acceleration system."""
         logger.info("🚀 Initializing GPU acceleration system...")
-        
+
         if not GPU_SYSTEM_AVAILABLE:
             logger.warning("⚠️ GPU system components not available - GPU acceleration disabled")
             self._device = "cpu"
             self._gpu_acceleration_enabled = False
             return
-        
+
+        if not is_gpu_available():
+            logger.warning("⚠️ GPU hardware not available - falling back to CPU")
+            self._device = "cpu"
+            self._gpu_acceleration_enabled = False
+            for component in ["gpu_manager", "gpu_integration_system", "gpu_geoid_processor", "gpu_thermodynamic_engine"]:
+                self._set_component(component, None)
+            return
+
         try:
-            # Initialize GPU Manager
-            if is_gpu_available():
-                gpu_manager = get_gpu_manager()
-                self._gpu_manager = gpu_manager
-                self._set_component("gpu_manager", gpu_manager)
-                
-                # Set device based on GPU availability
-                device_info = gpu_manager.get_device_info()
-                self._device = f"cuda:{device_info.get('device_id', 0)}"
-                self._gpu_acceleration_enabled = True
-                
-                logger.info(f"✅ GPU Manager initialized - Device: {device_info.get('name', 'Unknown')}")
-                logger.info(f"🔥 GPU Memory: {device_info.get('total_memory_gb', 0):.1f}GB")
-                logger.info(f"⚡ Compute Capability: {device_info.get('compute_capability', (0, 0))}")
-                
-                # Initialize GPU Integration System
-                try:
-                    integration_system = get_gpu_integration_system()
-                    self._gpu_integration_system = integration_system
-                    self._set_component("gpu_integration_system", integration_system)
-                    logger.info("✅ GPU Integration System initialized")
-                except Exception as exc:
-                    logger.error(f"❌ Failed to initialize GPU Integration System: {exc}")
-                    self._set_component("gpu_integration_system", None)
-                
-                # Initialize GPU Geoid Processor
-                try:
-                    gpu_geoid_processor = get_gpu_geoid_processor()
-                    self._gpu_geoid_processor = gpu_geoid_processor
-                    self._set_component("gpu_geoid_processor", gpu_geoid_processor)
-                    logger.info("✅ GPU Geoid Processor initialized")
-                except Exception as exc:
-                    logger.error(f"❌ Failed to initialize GPU Geoid Processor: {exc}")
-                    self._set_component("gpu_geoid_processor", None)
-                
-                # Initialize GPU Thermodynamic Engine
-                try:
-                    gpu_thermo_engine = get_gpu_thermodynamic_engine()
-                    self._gpu_thermodynamic_engine = gpu_thermo_engine
-                    self._set_component("gpu_thermodynamic_engine", gpu_thermo_engine)
-                    logger.info("✅ GPU Thermodynamic Engine initialized")
-                except Exception as exc:
-                    logger.error(f"❌ Failed to initialize GPU Thermodynamic Engine: {exc}")
-                    self._set_component("gpu_thermodynamic_engine", None)
-                
+            gpu_manager = self._create_gpu_manager()
+            self._gpu_manager = gpu_manager
+            self._set_component("gpu_manager", gpu_manager)
+
+            if not gpu_manager:
+                return
+
+            integration_system = self._setup_gpu_integration()
+            self._gpu_integration_system = integration_system
+            self._set_component("gpu_integration_system", integration_system)
+
+            gpu_geoid_processor = self._initialize_gpu_geoid_processor()
+            self._gpu_geoid_processor = gpu_geoid_processor
+            self._set_component("gpu_geoid_processor", gpu_geoid_processor)
+
+            gpu_thermo_engine = self._initialize_gpu_thermodynamic_engine()
+            self._gpu_thermodynamic_engine = gpu_thermo_engine
+            self._set_component("gpu_thermodynamic_engine", gpu_thermo_engine)
+
+            if all([integration_system, gpu_geoid_processor, gpu_thermo_engine]):
                 logger.info("🎉 GPU acceleration system fully operational!")
-                
             else:
-                logger.warning("⚠️ GPU hardware not available - falling back to CPU")
-                self._device = "cpu"
-                self._gpu_acceleration_enabled = False
-                self._set_component("gpu_manager", None)
-                self._set_component("gpu_integration_system", None)
-                self._set_component("gpu_geoid_processor", None)
-                self._set_component("gpu_thermodynamic_engine", None)
-                
-        except Exception as exc:
+                logger.warning("⚠️ GPU acceleration system initialized with partial capabilities")
+        except Exception as exc:  # pragma: no cover - defensive catch
             logger.error(f"❌ GPU system initialization failed: {exc}", exc_info=True)
             self._device = "cpu"
             self._gpu_acceleration_enabled = False
-            # Set all GPU components to None
             for component in ["gpu_manager", "gpu_integration_system", "gpu_geoid_processor", "gpu_thermodynamic_engine"]:
                 self._set_component(component, None)
+
+    def _create_gpu_manager(self) -> Optional[Any]:
+        """Create and configure the GPU manager."""
+        try:
+            gpu_manager = get_gpu_manager()
+            device_info = gpu_manager.get_device_info()
+            self._device = f"cuda:{device_info.get('device_id', 0)}"
+            self._gpu_acceleration_enabled = True
+            logger.info(
+                f"✅ GPU Manager initialized - Device: {device_info.get('name', 'Unknown')}"
+            )
+            logger.info(
+                f"🔥 GPU Memory: {device_info.get('total_memory_gb', 0):.1f}GB"
+            )
+            logger.info(
+                f"⚡ Compute Capability: {device_info.get('compute_capability', (0, 0))}"
+            )
+            return gpu_manager
+        except (RuntimeError, ImportError, AttributeError) as exc:
+            logger.error(f"❌ Failed to initialize GPU Manager: {exc}")
+        except Exception as exc:  # pragma: no cover - unexpected
+            logger.error(f"❌ Unexpected error initializing GPU Manager: {exc}", exc_info=True)
+        self._device = "cpu"
+        self._gpu_acceleration_enabled = False
+        return None
+
+    def _setup_gpu_integration(self) -> Optional[Any]:
+        """Set up the GPU integration system."""
+        try:
+            integration_system = get_gpu_integration_system()
+            logger.info("✅ GPU Integration System initialized")
+            return integration_system
+        except (RuntimeError, ImportError, AttributeError) as exc:
+            logger.error(f"❌ Failed to initialize GPU Integration System: {exc}")
+        except Exception as exc:  # pragma: no cover - unexpected
+            logger.error(
+                f"❌ Unexpected error initializing GPU Integration System: {exc}",
+                exc_info=True,
+            )
+        return None
+
+    def _initialize_gpu_geoid_processor(self) -> Optional[Any]:
+        """Initialize the GPU geoid processor."""
+        try:
+            gpu_geoid_processor = get_gpu_geoid_processor()
+            logger.info("✅ GPU Geoid Processor initialized")
+            return gpu_geoid_processor
+        except (RuntimeError, ImportError, AttributeError) as exc:
+            logger.error(f"❌ Failed to initialize GPU Geoid Processor: {exc}")
+        except Exception as exc:  # pragma: no cover - unexpected
+            logger.error(
+                f"❌ Unexpected error initializing GPU Geoid Processor: {exc}",
+                exc_info=True,
+            )
+        return None
+
+    def _initialize_gpu_thermodynamic_engine(self) -> Optional[Any]:
+        """Initialize the GPU thermodynamic engine."""
+        try:
+            gpu_thermo_engine = get_gpu_thermodynamic_engine()
+            logger.info("✅ GPU Thermodynamic Engine initialized")
+            return gpu_thermo_engine
+        except (RuntimeError, ImportError, AttributeError) as exc:
+            logger.error(f"❌ Failed to initialize GPU Thermodynamic Engine: {exc}")
+        except Exception as exc:  # pragma: no cover - unexpected
+            logger.error(
+                f"❌ Unexpected error initializing GPU Thermodynamic Engine: {exc}",
+                exc_info=True,
+            )
+        return None
 
     def _initialize_legacy_gpu_foundation(self) -> None:
         """Initialize legacy GPU Foundation for backward compatibility."""
