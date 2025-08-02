@@ -82,12 +82,6 @@ line-profiler>=4.1.0
 pympler>=1.0.1
 locust>=2.21.0
 
-# ===== TRADING & FINANCIAL =====
-ccxt>=4.4.90
-web3>=7.12.0
-ta>=0.11.0
-yfinance>=0.2.59
-
 # ===== GPU & PERFORMANCE =====
 cupy-cuda12x>=13.0.0
 gputil>=1.4.0
