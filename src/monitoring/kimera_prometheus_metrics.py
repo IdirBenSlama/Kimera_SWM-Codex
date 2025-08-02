@@ -141,10 +141,10 @@ async def collect_system_metrics():
     while True:
         try:
             # CPU and Memory
-            cpu_usage.set(psutil.cpu_percent(interval=1))
+            cpu_usage.set(psutil.cpu_percent(interval=None))
             memory = psutil.virtual_memory()
             memory_usage.set(memory.used)
-            
+
             # Component health checks
             try:
                 from src.core.kimera_system import get_kimera_system
@@ -155,9 +155,8 @@ async def collect_system_metrics():
                 )
             except Exception as e:
                 logger.error(f"Error in kimera_prometheus_metrics.py: {e}", exc_info=True)
-                raise  # Re-raise for proper error handling
                 component_health.labels(component='kimera_system').set(0)
-            
+
             # Database metrics
             try:
                 from src.vault.vault_manager import VaultManager
@@ -168,8 +167,10 @@ async def collect_system_metrics():
                 insight_count.set(stats.get('total_insights', 0))
             except Exception as e:
                 logger.error(f"Error in kimera_prometheus_metrics.py: {e}", exc_info=True)
-                raise  # Re-raise for proper error handling
-            
+                geoid_count.set(0)
+                scar_count.set(0)
+                insight_count.set(0)
+
             # Cognitive field metrics
             try:
                 from src.monitoring.cognitive_field_metrics import get_cognitive_field_metrics
@@ -179,12 +180,13 @@ async def collect_system_metrics():
                     cognitive_field_coherence.set(summary['coherence'])
             except Exception as e:
                 logger.error(f"Error in kimera_prometheus_metrics.py: {e}", exc_info=True)
-                raise  # Re-raise for proper error handling
+                cognitive_field_coherence.set(0)
             
             await asyncio.sleep(15)  # Collect every 15 seconds
             
         except Exception as e:
             logger.error(f"Error collecting metrics: {e}")
+            component_health.labels(component='kimera_system').set(0)
             await asyncio.sleep(30)
 
 def initialize_background_collection():
