@@ -11,7 +11,7 @@ from fastapi.responses import JSONResponse
 from typing import Dict, List, Any, Optional
 import asyncio
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 
 # GPU system imports
 from src.core.gpu.gpu_manager import get_gpu_manager, is_gpu_available
@@ -31,7 +31,7 @@ async def get_gpu_status() -> Dict[str, Any]:
         
         return {
             "success": True,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "gpu_system": system_status,
             "gpu_available": is_gpu_available()
         }
@@ -48,7 +48,7 @@ async def get_gpu_performance() -> Dict[str, Any]:
         
         return {
             "success": True,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "performance": performance
         }
     except Exception as e:
@@ -64,7 +64,7 @@ async def optimize_gpu_performance() -> Dict[str, Any]:
         
         return {
             "success": True,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "optimization": optimization_result
         }
     except Exception as e:
@@ -80,7 +80,7 @@ async def clear_gpu_cache() -> Dict[str, Any]:
         
         return {
             "success": True,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "message": "GPU cache cleared successfully"
         }
     except Exception as e:
@@ -99,7 +99,7 @@ async def list_gpu_devices() -> Dict[str, Any]:
         
         return {
             "success": True,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "device_count": len(devices),
             "devices": devices,
             "current_device": gpu_manager.get_device_info()
@@ -118,7 +118,7 @@ async def switch_gpu_device(device_id: int) -> Dict[str, Any]:
         if success:
             return {
                 "success": True,
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "message": f"Switched to GPU device {device_id}",
                 "current_device": gpu_manager.get_device_info()
             }
@@ -150,7 +150,7 @@ async def submit_gpu_processing_task(
         
         return {
             "success": True,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "task_id": task_id,
             "workload_type": workload_type,
             "priority": priority
@@ -169,7 +169,7 @@ async def get_gpu_workload_types() -> Dict[str, Any]:
         
         return {
             "success": True,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "workload_types": workload_types,
             "descriptions": {
                 "geoid_processing": "Process batches of geoids with GPU acceleration",
@@ -235,7 +235,7 @@ async def run_gpu_benchmarks() -> Dict[str, Any]:
         
         return {
             "success": True,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "benchmarks": results,
             "gpu_info": get_gpu_manager().get_device_info()
         }
@@ -295,7 +295,7 @@ async def gpu_health_check() -> Dict[str, Any]:
         
         return {
             "success": True,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "overall_health": overall_health,
             "details": health_status
         }
@@ -306,4 +306,4 @@ async def gpu_health_check() -> Dict[str, Any]:
 
 # Add router description
 router.tags = ["GPU Acceleration"]
-router.prefix = "/gpu" 
+router.prefix = "/gpu"
