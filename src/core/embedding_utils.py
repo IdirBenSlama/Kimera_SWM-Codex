@@ -32,7 +32,6 @@ except Exception:
     BGEM3FlagModel = None  # type: ignore
 
 # --- Setup Logging ---
-logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
 
 class _DummyTransformer:
