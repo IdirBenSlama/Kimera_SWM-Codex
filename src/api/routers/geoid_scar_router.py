@@ -12,42 +12,18 @@ import uuid
 from typing import Dict, Any
 
 import numpy as np
-from fastapi import APIRouter, HTTPException, BackgroundTasks, UploadFile, File, Request
-from pydantic import BaseModel, ValidationError
-from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter, HTTPException, UploadFile, File
+from pydantic import BaseModel
 
 from ...core.kimera_system import kimera_singleton
 from ...core.geoid import GeoidState
-from ...core.scar import ScarRecord
-from ...core.embedding_utils import encode_text, extract_semantic_features
+from ...core.embedding_utils import encode_text
 from ...vault.database import GeoidDB
 from ...linguistic.echoform import parse_echoform
 from ...engines.clip_service import clip_service
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
-
-# Custom validation exception handler function (not used on router level)
-async def validation_exception_handler(request: Request, exc: RequestValidationError):
-    """Handle Pydantic validation errors with detailed error messages."""
-    logger.error(f"Validation error in /geoids: {exc}")
-    errors = []
-    for error in exc.errors():
-        errors.append({
-            "field": " -> ".join(str(loc) for loc in error["loc"]),
-            "message": error["msg"],
-            "type": error["type"]
-        })
-    return JSONResponse(
-        status_code=400,
-        content={
-            "status": "error",
-            "message": "Validation error",
-            "errors": errors,
-            "detail": "Request validation failed. Check the 'errors' field for details."
-        }
-    )
 
 # --- Pydantic Models for Request/Response ---
 
@@ -296,4 +272,4 @@ async def search_scars(query: str, limit: int = 3):
         }
     except Exception as e:
         logger.error(f"Error searching scars: {e}", exc_info=True)
-        raise HTTPException(status_code=503, detail=f"Failed to search scars: {str(e)}") 
+        raise HTTPException(status_code=503, detail=f"Failed to search scars: {str(e)}")
