@@ -1190,8 +1190,9 @@ class KimeraAutonomousTraderScientific:
                                     if symbol in symbols:
                                         ticker = self.exchange.fetch_ticker(symbol)
                                         self.portfolio_value_usd += free_amount * ticker['last']
-                                except:
-                                    pass
+                                except Exception as e:
+                                    logger.error(f"Error in autonomous_kimera_trader_fixed.py: {e}", exc_info=True)
+                                    raise  # Re-raise for proper error handling
                     
                     logger.info(f"💰 Current Portfolio: ${self.portfolio_value_usd:.2f}")
                     

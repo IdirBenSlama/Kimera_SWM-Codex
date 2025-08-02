@@ -3,15 +3,15 @@ The Path: The Living Way that Emerges from Questions
 "In the beginning was the Question... and then the path."
 """
 
-from typing import Dict, Any, List, Optional, Tuple, Generator
 from dataclasses import dataclass, field
 from datetime import datetime
+from src.utils.kimera_logger import get_system_logger
+from typing import Dict, Any, List, Optional, Tuple, Generator
+
 from abc import ABC, abstractmethod
 import numpy as np
-from .primal_scar import PrimalScar, EpistemicScar
 
-# Initialize structured logger
-from src.utils.kimera_logger import get_system_logger
+from .primal_scar import PrimalScar, EpistemicScar
 logger = get_system_logger(__name__)
 
 

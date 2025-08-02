@@ -567,7 +567,9 @@ class KimeraProfitMaximizerV2:
             # Simplified volatility calculation
             momentum = abs(klines.get('momentum', 0))
             return min(0.1, momentum * 10)  # Cap at 10%
-        except:
+        except Exception as e:
+            logger.error(f"Error in kimera_profit_maximizer_v2.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
             return 0.02
             
     async def execute_advanced_trade(self, signal: TradingSignal) -> bool:

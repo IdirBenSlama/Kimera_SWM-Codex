@@ -58,8 +58,9 @@ class KimeraForceSetup:
             try:
                 subprocess.run(['cmd', '/c', 'rmdir', '/s', '/q', str(path)], 
                              capture_output=True, shell=True)
-            except:
-                pass
+            except Exception as e:
+                logger.error(f"Error in kimera_force_setup.py: {e}", exc_info=True)
+                raise  # Re-raise for proper error handling
             
             # If still exists, try to rename it
             if path.exists():
@@ -67,8 +68,9 @@ class KimeraForceSetup:
                     temp_name = f"{path}_old_{int(time.time())}"
                     path.rename(temp_name)
                     self.print_colored(f"  Renamed to: {temp_name}", 'yellow')
-                except:
-                    pass
+                except Exception as e:
+                    logger.error(f"Error in kimera_force_setup.py: {e}", exc_info=True)
+                    raise  # Re-raise for proper error handling
     
     def clean_all_venvs(self):
         """Clean all virtual environments"""

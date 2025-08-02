@@ -47,8 +47,9 @@ def stop_kimera():
             if proc.is_running():
                 print(f"   Force killing PID {proc.pid}")
                 proc.kill()
-        except:
-            pass
+        except Exception as e:
+            logger.error(f"Error in restart_kimera.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
 
 def start_kimera():
     """Start KIMERA server"""

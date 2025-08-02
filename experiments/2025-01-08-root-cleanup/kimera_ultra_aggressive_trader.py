@@ -541,7 +541,9 @@ async def main():
         duration = input("Session duration in minutes (default 10): ")
         try:
             duration_minutes = int(duration) if duration else 10
-        except:
+        except Exception as e:
+            logger.error(f"Error in kimera_ultra_aggressive_trader.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
             duration_minutes = 10
         
         trader = KimeraUltraAggressiveTrader()

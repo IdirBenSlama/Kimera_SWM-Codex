@@ -209,8 +209,9 @@ class ComputationalVerifier:
                     is_upper_bound = all(divides(c, lcm_val) for c in chain)
                     if is_upper_bound:
                         results["upper_bound_verifications"] += 1
-                except:
-                    pass
+                except Exception as e:
+                    logger.error(f"Error in computational_verification.py: {e}", exc_info=True)
+                    raise  # Re-raise for proper error handling
             
             results["poset_tests"] += 1
         

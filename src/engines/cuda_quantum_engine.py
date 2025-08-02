@@ -488,7 +488,9 @@ class CUDAQuantumEngine:
             if self.gpu_foundation and self.gpu_foundation.is_gpu_available and TORCH_AVAILABLE:
                 try:
                     gpu_utilization = torch.cuda.utilization() if hasattr(torch.cuda, 'utilization') else 0.0
-                except:
+                except Exception as e:
+                    logger.error(f"Error in cuda_quantum_engine.py: {e}", exc_info=True)
+                    raise  # Re-raise for proper error handling
                     gpu_utilization = 0.0
             
             # Cognitive coherence assessment

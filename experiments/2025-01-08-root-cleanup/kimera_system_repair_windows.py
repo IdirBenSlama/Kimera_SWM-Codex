@@ -491,7 +491,9 @@ class KimeraSystemRepair:
             from src.config.kimera_config import get_config
             config = get_config()
             return not config.security.secret_key.startswith("CHANGE_THIS")
-        except:
+        except Exception as e:
+            logger.error(f"Error in kimera_system_repair_windows.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
             return False
     
     async def _check_cors(self) -> bool:
@@ -500,7 +502,9 @@ class KimeraSystemRepair:
             from src.config.kimera_config import get_config
             config = get_config()
             return len(config.security.cors_origins) > 0
-        except:
+        except Exception as e:
+            logger.error(f"Error in kimera_system_repair_windows.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
             return False
     
     async def _check_ssl(self) -> bool:

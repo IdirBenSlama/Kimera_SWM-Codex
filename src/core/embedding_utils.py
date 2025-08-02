@@ -1,19 +1,17 @@
 from __future__ import annotations
-
-import hashlib
+from pathlib import Path
+from threading import Lock
+from typing import List, Dict, Optional, Union
+import logging
 import os
 import time
-from typing import List, Dict, Optional, Union
-from threading import Lock
-import logging
-from pathlib import Path
-import functools
 
+import functools
+import hashlib
 import numpy as np
 import torch
 
 from .constants import EMBEDDING_DIM
-
 try:
     import onnxruntime as ort
 except Exception:

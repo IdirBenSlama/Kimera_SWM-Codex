@@ -94,7 +94,9 @@ class CognitiveActivityTrigger:
                 try:
                     error_detail = response.json()
                     print(f"      Error: {error_detail}")
-                except:
+                except Exception as e:
+                    logger.error(f"Error in trigger_cognitive_activity.py: {e}", exc_info=True)
+                    raise  # Re-raise for proper error handling
                     print(f"      Response: {response.text[:200]}")
         except Exception as e:
             print(f"   ❌ Insight generation error: {e}")
@@ -129,7 +131,9 @@ class CognitiveActivityTrigger:
                 try:
                     error_detail = response.json()
                     print(f"      Error: {error_detail}")
-                except:
+                except Exception as e:
+                    logger.error(f"Error in trigger_cognitive_activity.py: {e}", exc_info=True)
+                    raise  # Re-raise for proper error handling
                     print(f"      Response: {response.text[:200]}")
         except Exception as e:
             print(f"   ❌ Contradiction processing error: {e}")

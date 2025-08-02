@@ -1,0 +1,10 @@
+# KIMERA SWM Testing Requirements
+# Testing frameworks and tools
+# Generated on: 2025-07-31T22:28:35.087160
+
+confluent-kafka==2.10.1
+cupy-cuda12x==13.5.1
+pytest==8.4.1
+pytest-asyncio==1.0.0
+pytest-mock==3.14.1
+qiskit==1.2.4

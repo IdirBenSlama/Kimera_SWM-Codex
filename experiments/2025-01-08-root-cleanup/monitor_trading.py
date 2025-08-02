@@ -22,8 +22,9 @@ def load_trading_state():
         if os.path.exists('data/trading_state.json'):
             with open('data/trading_state.json', 'r') as f:
                 return json.load(f)
-    except:
-        pass
+    except Exception as e:
+        logger.error(f"Error in monitor_trading.py: {e}", exc_info=True)
+        raise  # Re-raise for proper error handling
     return {}
 
 def load_micro_trades():
@@ -34,8 +35,9 @@ def load_micro_trades():
             with open('data/micro_trades.jsonl', 'r') as f:
                 for line in f:
                     trades.append(json.loads(line.strip()))
-    except:
-        pass
+    except Exception as e:
+        logger.error(f"Error in monitor_trading.py: {e}", exc_info=True)
+        raise  # Re-raise for proper error handling
     return trades
 
 def get_latest_log_entries():
@@ -45,8 +47,9 @@ def get_latest_log_entries():
             with open('logs/micro_trading.log', 'r') as f:
                 lines = f.readlines()
                 return lines[-10:]  # Last 10 lines
-    except:
-        pass
+    except Exception as e:
+        logger.error(f"Error in monitor_trading.py: {e}", exc_info=True)
+        raise  # Re-raise for proper error handling
     return []
 
 def display_dashboard():
@@ -123,7 +126,9 @@ def display_dashboard():
                         print(f"   {color} {timestamp} - {message[:60]}...")
                     else:
                         print(f"   📝 {log.strip()[:70]}...")
-                except:
+                except Exception as e:
+                    logger.error(f"Error in monitor_trading.py: {e}", exc_info=True)
+                    raise  # Re-raise for proper error handling
                     print(f"   📝 {log.strip()[:70]}...")
     else:
         print("   System starting up...")

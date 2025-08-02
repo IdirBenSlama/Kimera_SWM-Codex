@@ -26,8 +26,9 @@ class ExtremeGPUStressTester:
                 if response.status_code == 200:
                     print("✅ System ready!")
                     return True
-            except:
-                pass
+            except Exception as e:
+                logger.error(f"Error in gpu_extreme_stress_test.py: {e}", exc_info=True)
+                raise  # Re-raise for proper error handling
             time.sleep(1)
         return False
     

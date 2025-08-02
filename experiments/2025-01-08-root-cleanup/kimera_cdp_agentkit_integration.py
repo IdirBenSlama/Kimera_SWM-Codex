@@ -583,7 +583,7 @@ async def main():
     logger.info("=" * 60)
     
     # Configuration (would be loaded from environment in production)
-    CDP_API_KEY_NAME = "9268de76-b5f4-4683-b593-327fb2c19503"  # Your provided key ID
+    CDP_API_KEY_NAME = os.getenv("CDP_API_KEY_NAME", "")  # Your provided key ID
     CDP_API_KEY_PRIVATE_KEY = None  # You would provide the private key
     
     # Create trader instance

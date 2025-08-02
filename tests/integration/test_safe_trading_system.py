@@ -38,7 +38,7 @@ class SafeTradingValidator:
     
     def __init__(self):
         self.test_results = {}
-        self.api_key = "9268de76-b5f4-4683-b593-327fb2c19503"
+        self.api_key = os.getenv("CDP_API_KEY_NAME", "")
         
     async def run_all_tests(self):
         """Run complete validation suite"""

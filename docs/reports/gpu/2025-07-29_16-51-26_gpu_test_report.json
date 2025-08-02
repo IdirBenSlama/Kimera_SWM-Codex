@@ -1,0 +1,137 @@
+{
+  "total_tests": 5,
+  "successful_tests": 3,
+  "failed_tests": 2,
+  "success_rate": 0.6,
+  "total_duration": 6.124537229537964,
+  "gpu_available": true,
+  "torch_available": false,
+  "cupy_available": false,
+  "results": [
+    {
+      "test_name": "GPU Detection",
+      "success": true,
+      "duration": 0.26962780952453613,
+      "details": {
+        "gpu_count": 1,
+        "gpus": [
+          {
+            "name": "NVIDIA GeForce RTX 3070 Laptop GPU",
+            "memory_mb": 8192,
+            "driver_version": "576.80",
+            "compute_capability": "8.6"
+          }
+        ]
+      },
+      "error_message": null
+    },
+    {
+      "test_name": "PyTorch CUDA",
+      "success": false,
+      "duration": 2.359940767288208,
+      "details": {},
+      "error_message": "CUDA not available in PyTorch"
+    },
+    {
+      "test_name": "CuPy Functionality",
+      "success": false,
+      "duration": 3.4374520778656006,
+      "details": {},
+      "error_message": "Import failed: DLL load failed while importing curand: The specified module could not be found."
+    },
+    {
+      "test_name": "Kimera GPU Engines",
+      "success": true,
+      "duration": 0.053910017013549805,
+      "details": {
+        "engine_results": {
+          "gpu_manager": {
+            "success": true,
+            "status": {
+              "status": "offline",
+              "cuda_available": false,
+              "torch_available": true,
+              "cupy_available": true,
+              "device_count": 0,
+              "current_device": null,
+              "all_devices": [],
+              "capabilities": {
+                "cuda_available": false,
+                "torch_available": true,
+                "cupy_available": true,
+                "device_count": 0,
+                "mixed_precision_supported": false,
+                "tensor_cores_available": false,
+                "multi_gpu_supported": false
+              },
+              "configuration": {
+                "optimization_level": "balanced",
+                "max_batch_size": 32,
+                "memory_fraction": 0.8,
+                "mixed_precision": true
+              }
+            }
+          },
+          "geoid_processor": {
+            "success": false,
+            "error": "ProcessingResult.__init__() got an unexpected keyword argument 'geoid_id'"
+          },
+          "thermodynamic_engine": {
+            "success": true,
+            "evolution_data": {
+              "processing_mode": "cpu",
+              "regime": "equilibrium",
+              "phase_transition_detected": false,
+              "evolution_time": 0.0
+            }
+          },
+          "integration_system": {
+            "success": true,
+            "performance": {
+              "gpu_status": {
+                "available": false,
+                "current_device": null,
+                "average_utilization": 0,
+                "average_memory_utilization": 0,
+                "average_temperature": 0
+              },
+              "task_statistics": {
+                "total_submitted": 0,
+                "total_completed": 0,
+                "active_tasks": 0,
+                "queue_length": 0,
+                "completion_rate": 0
+              },
+              "performance_stats": {
+                "total_gpu_time": 0.0,
+                "peak_gpu_utilization": 0.0,
+                "peak_memory_usage": 0.0,
+                "average_task_time": 0
+              },
+              "engines_status": {
+                "geoid_processor": false,
+                "thermodynamic_engine": false,
+                "cryptographic_engine": false
+              }
+            }
+          }
+        },
+        "successful_engines": 3,
+        "total_engines": 4
+      },
+      "error_message": null
+    },
+    {
+      "test_name": "Integration Testing",
+      "success": true,
+      "duration": 0.0,
+      "details": {
+        "import_results": [
+          "All GPU modules imported successfully"
+        ],
+        "workflow_success": true
+      },
+      "error_message": null
+    }
+  ]
+}

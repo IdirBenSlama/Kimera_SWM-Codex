@@ -230,7 +230,9 @@ class KimeraDustAwareTrader:
                     try:
                         market = self.exchange.market(symbol)
                         min_amount = market.get('limits', {}).get('amount', {}).get('min', 0)
-                    except:
+                    except Exception as e:
+                        logger.error(f"Error in kimera_dust_aware_trader.py: {e}", exc_info=True)
+                        raise  # Re-raise for proper error handling
                         continue
                     
                     # Take profits on gains >2% or cut losses >1.5%
@@ -688,7 +690,9 @@ async def main():
         duration = input("Session duration in minutes (default 5): ")
         try:
             duration_minutes = int(duration) if duration else 5
-        except:
+        except Exception as e:
+            logger.error(f"Error in kimera_dust_aware_trader.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
             duration_minutes = 5
         
         trader = KimeraDustAwareTrader()

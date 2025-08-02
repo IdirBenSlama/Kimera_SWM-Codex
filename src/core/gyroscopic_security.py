@@ -10,15 +10,15 @@ Like a gyroscope, this system resists all attempts at manipulation through
 self-stabilizing mechanisms that are immune to external influence.
 """
 
-from typing import Dict, List, Any, Optional, Tuple, Set
-from dataclasses import dataclass, field
-from enum import Enum
-import numpy as np
-import logging
-from datetime import datetime, timedelta
 from collections import deque
-import math
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from enum import Enum
+from typing import Dict, List, Any, Optional, Tuple, Set
+import logging
 
+import math
+import numpy as np
 logger = logging.getLogger(__name__)
 
 

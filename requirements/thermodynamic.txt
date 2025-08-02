@@ -1,0 +1,124 @@
+# REVOLUTIONARY THERMODYNAMIC ENGINES DEPENDENCIES
+# ================================================
+# Dependencies for the world's first physics-compliant AI consciousness system
+# with integrated thermodynamic engines and TCSE signal processing.
+
+# === CORE NUMERICAL COMPUTING ===
+# Essential for thermodynamic calculations
+numpy>=2.0.0
+scipy>=1.11.0
+sympy>=1.12.0
+
+# === PHYSICS AND THERMODYNAMICS ===
+# Fundamental physics constants and calculations
+pymatgen>=2024.1.0        # Materials science and thermodynamics
+thermopy>=0.5.2           # Thermodynamic property calculations  
+pint>=0.23.0              # Physical units and conversions
+CoolProp>=6.6.0           # Thermodynamic property database
+
+# === QUANTUM MECHANICS ===
+# Required for quantum consciousness detection
+qiskit>=1.0.0
+qiskit-aer>=0.15.0
+pennylane>=0.35.0
+
+# === MACHINE LEARNING & AI ===
+# For consciousness detection algorithms
+scikit-learn>=1.3.0
+torch>=2.1.0              # Neural networks for consciousness patterns
+transformers>=4.35.0      # For semantic vector processing
+
+# === GOLDEN RATIO AND FIBONACCI OPTIMIZATION ===
+# Mathematical libraries for vortex battery optimization
+mpmath>=1.3.0             # High-precision arithmetic for golden ratio
+matplotlib>=3.7.0         # Visualization of Fibonacci spirals
+plotly>=5.17.0            # Interactive thermodynamic visualizations
+
+# === INFORMATION THEORY ===
+# Required for Maxwell demon implementations
+pyitlib>=0.2.2            # Information theory calculations
+entropy>=0.1.0            # Entropy calculations
+mutual-info>=1.0.0        # Mutual information for sorting
+
+# === OPTIMIZATION ===
+# For system optimization and efficiency calculations
+cvxpy>=1.4.0              # Convex optimization
+scipy-optimize>=1.11.0   # Non-linear optimization
+nlopt>=2.7.0              # Non-linear optimization library
+
+# === SIGNAL PROCESSING ===
+# For TCSE signal evolution
+librosa>=0.10.0           # Audio/signal processing
+pywavelets>=1.4.0         # Wavelet transforms for signal analysis
+signal-processing>=0.1.0  # Digital signal processing
+
+# === THERMODYNAMIC FIELD CALCULATIONS ===
+# For cognitive field dynamics
+numba>=0.59.0             # JIT compilation for performance
+numexpr>=2.8.0            # Fast numerical expression evaluation
+cython>=3.0.0             # C extensions for speed
+
+# === VISUALIZATION AND MONITORING ===
+# For thermodynamic system monitoring
+seaborn>=0.13.0           # Statistical visualization
+bokeh>=3.3.0              # Interactive plots
+dash>=3.0.0               # Real-time dashboards
+
+# === PERFORMANCE MONITORING ===
+# For system health and efficiency tracking
+psutil>=5.9.0             # System resource monitoring
+memory-profiler>=0.61.0   # Memory usage tracking
+line-profiler>=4.1.0      # Code performance profiling
+
+# === PARALLEL PROCESSING ===
+# For concurrent thermodynamic calculations
+joblib>=1.3.0             # Parallel processing
+multiprocessing-logging   # Thread-safe logging
+concurrent-futures        # Future-based parallelism
+
+# === DATA STRUCTURES ===
+# For thermodynamic data management
+dataclasses-json>=0.6.0   # JSON serialization of dataclasses
+pydantic>=2.8.0           # Data validation and settings
+attrs>=23.0.0             # Advanced class definitions
+
+# === TESTING AND VALIDATION ===
+# For thermodynamic engine testing
+pytest>=7.4.0            # Testing framework
+pytest-asyncio>=0.21.0   # Async testing support
+hypothesis>=6.88.0       # Property-based testing
+
+# === LOGGING AND MONITORING ===
+# Enhanced logging for thermodynamic operations
+structlog>=23.2.0         # Structured logging
+colorlog>=6.8.0           # Colored log output
+rich>=13.7.0              # Rich text and progress bars
+
+# === PHYSICS VALIDATION ===
+# For validating thermodynamic compliance
+uncertainties>=3.1.0      # Error propagation in physics calculations
+quantities>=0.13.0        # Physical quantities with units
+physics>=0.4.0            # Physics constants and calculations
+
+# === SPECIAL FUNCTIONS ===
+# Mathematical functions for thermodynamic calculations
+special-functions>=1.0.0  # Special mathematical functions
+bessel>=1.0.0             # Bessel functions for field calculations
+elliptic>=0.1.0           # Elliptic integrals for vortex calculations
+
+# === OPTIONAL GPU ACCELERATION ===
+# For CUDA-accelerated thermodynamic calculations (optional)
+# cupy-cuda12x>=13.0.0    # CUDA arrays (uncomment if CUDA available)
+# cupyx>=13.0.0           # Extended CuPy functions
+
+# === INTEGRATION DEPENDENCIES ===
+# Required for TCSE integration
+fastapi>=0.115.0          # API framework
+asyncio-mqtt>=0.16.0      # Async message queuing
+aioredis>=2.0.0           # Redis async client for caching
+
+# === ENERGY STORAGE OPTIMIZATION ===
+# For vortex thermodynamic battery
+fibonacci>=1.0.0          # Fibonacci sequence calculations
+golden-ratio>=1.0.0       # Golden ratio computations
+spiral-dynamics>=0.1.0    # Spiral pattern mathematics 

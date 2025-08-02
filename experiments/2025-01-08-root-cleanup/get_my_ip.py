@@ -28,7 +28,9 @@ def get_my_ip():
                     print(f"📋 For Coinbase whitelist, use: {ip}")
                     print(f"🔒 Or for IP range, use: {ip}/32")
                     return ip
-            except:
+            except Exception as e:
+                logger.error(f"Error in get_my_ip.py: {e}", exc_info=True)
+                raise  # Re-raise for proper error handling
                 continue
         
         print("❌ Could not determine IP address")

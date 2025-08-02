@@ -212,7 +212,9 @@ async def main():
                 else:
                     print("❌ Kimera is not responding. Please start it first.")
                     return
-    except:
+    except Exception as e:
+        logger.error(f"Error in test_kimera_communication.py: {e}", exc_info=True)
+        raise  # Re-raise for proper error handling
         print("❌ Cannot connect to Kimera. Please ensure it's running.")
         return
     

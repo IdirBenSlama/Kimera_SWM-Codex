@@ -84,8 +84,9 @@ class AggressiveTrader:
                         try:
                             price = await self.get_price(f"{asset}USDT")
                             total_usdt += free * price
-                        except:
-                            pass
+                        except Exception as e:
+                            logger.error(f"Error in execute_aggressive_now.py: {e}", exc_info=True)
+                            raise  # Re-raise for proper error handling
                 
                 return total_usdt
                 

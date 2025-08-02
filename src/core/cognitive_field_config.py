@@ -7,7 +7,6 @@ of the initial prototype.
 """
 
 from dataclasses import dataclass, field
-
 @dataclass
 class FieldParams:
     """Parameters for individual semantic fields."""

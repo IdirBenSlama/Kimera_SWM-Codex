@@ -4,11 +4,10 @@ High-performance, dependency-free implementations of common mathematical operati
 """
 
 from __future__ import annotations
-import math
 from typing import List, Union, Optional, Tuple
+
+import math
 import numpy as np
-
-
 class NativeMath:
     """Native mathematical operations without external dependencies."""
     

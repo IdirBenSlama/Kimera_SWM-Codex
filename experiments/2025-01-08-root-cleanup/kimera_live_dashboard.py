@@ -75,7 +75,9 @@ class KimeraLiveDashboard:
                             ticker = self.client.get_avg_price(symbol=f"{asset}USDT")
                             price = float(ticker['price'])
                             value = total * price
-                        except:
+                        except Exception as e:
+                            logger.error(f"Error in kimera_live_dashboard.py: {e}", exc_info=True)
+                            raise  # Re-raise for proper error handling
                             value = 0.0
                     
                     portfolio['assets'][asset] = {
@@ -103,7 +105,9 @@ class KimeraLiveDashboard:
                 status['kimera_server'] = 'ONLINE'
             else:
                 status['kimera_server'] = 'ERROR'
-        except:
+        except Exception as e:
+            logger.error(f"Error in kimera_live_dashboard.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
             status['kimera_server'] = 'OFFLINE'
         
         # Check for log files to infer system status
@@ -138,7 +142,9 @@ class KimeraLiveDashboard:
                             'time': datetime.fromtimestamp(trade['time'] / 1000),
                             'commission': float(trade['commission'])
                         })
-                except:
+                except Exception as e:
+                    logger.error(f"Error in kimera_live_dashboard.py: {e}", exc_info=True)
+                    raise  # Re-raise for proper error handling
                     continue
             
             # Sort by time
@@ -278,7 +284,7 @@ async def main():
 if __name__ == "__main__":
     # Set environment variables if not already set
     if not os.environ.get('BINANCE_API_KEY'):
-        os.environ['BINANCE_API_KEY'] = 'Y9WyflPyK1tVXnET3CTMvSdCbPia3Nhtd89VYWjS9RaAbQ0KEhHezkcGSCySQ8cL'
+        os.environ['BINANCE_API_KEY'] = os.getenv("BINANCE_API_KEY", "")
         os.environ['BINANCE_API_SECRET'] = 'qUn5JqSpYz1GDxFj2X3UF23TYgtxKrTsCbDZEoBMYCPbYZgP4siVLyspkB5HAPl7'
     
     asyncio.run(main()) 

@@ -103,7 +103,9 @@ def check_dependencies(python_exe):
         ], capture_output=True, text=True, timeout=10)
         
         return result.returncode == 0
-    except:
+    except Exception as e:
+        logger.error(f"Error in launch_kimera.py: {e}", exc_info=True)
+        raise  # Re-raise for proper error handling
         return False
 
 def start_kimera(project_root, python_exe):

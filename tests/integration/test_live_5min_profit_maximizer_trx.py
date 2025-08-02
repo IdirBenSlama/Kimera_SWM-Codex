@@ -355,7 +355,9 @@ class TRXProfitMaximizer:
         try:
             ticker = await self.connector.get_ticker_price(self.symbol)
             return float(ticker['price'])
-        except:
+        except Exception as e:
+            logger.error(f"Error in test_live_5min_profit_maximizer_trx.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
             return 0.0
             
     async def check_positions(self):

@@ -13,12 +13,11 @@ minimal (``KNOWLEDGE_BASE_DIR``, ``list_vaults``, ``get_vault_metadata``).
 """
 
 from __future__ import annotations
-
-import json
-import logging
 from pathlib import Path
 from typing import Dict, List, Any
+import logging
 
+import json
 logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------

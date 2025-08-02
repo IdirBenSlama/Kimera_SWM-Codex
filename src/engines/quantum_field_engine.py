@@ -59,7 +59,7 @@ class QuantumFieldEngine:
     def __init__(self, dimension: int = 10, device: str = "cpu"):
         self.settings = get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
-self.dimension = dimension
+        self.dimension = dimension
         self.device = device
         self.hbar = 1.0  # Natural units
         

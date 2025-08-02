@@ -50,8 +50,9 @@ def main():
             print(f"  Removing {venv}...")
             try:
                 shutil.rmtree(venv_path)
-            except:
-                pass
+            except Exception as e:
+                logger.error(f"Error in install_kimera_py313.py: {e}", exc_info=True)
+                raise  # Re-raise for proper error handling
     
     # Step 2: Create new virtual environment
     venv_name = "venv_py313"

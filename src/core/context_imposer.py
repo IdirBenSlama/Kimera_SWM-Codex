@@ -16,10 +16,9 @@ Methodology:
 The ContextImposer class analyzes a given context (e.g., the module initiating a request) and constructs a "persona prompt". This prompt is a piece of text prepended to the user's actual query, framing the AI's response in a way that is consistent with the module's function. This ensures "Cognitive Fidelity" is maintained across all interactions.
 """
 
-import logging
 from typing import Dict, Any
+import logging
 import threading
-
 logger = logging.getLogger(__name__)
 
 class ContextImposer:

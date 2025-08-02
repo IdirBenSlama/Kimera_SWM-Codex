@@ -255,7 +255,9 @@ class KimeraWalletManager:
             try:
                 ticker = self.exchange.fetch_ticker(symbol)
                 trading_symbol = symbol
-            except:
+            except Exception as e:
+                logger.error(f"Error in kimera_wallet_manager.py: {e}", exc_info=True)
+                raise  # Re-raise for proper error handling
                 # Use USDT as intermediate
                 if opportunity.to_asset != 'USDT':
                     print(f"   Using USDT as intermediate currency")

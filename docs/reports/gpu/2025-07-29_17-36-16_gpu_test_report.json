@@ -1,0 +1,198 @@
+{
+  "total_tests": 7,
+  "successful_tests": 7,
+  "failed_tests": 0,
+  "success_rate": 1.0,
+  "total_duration": 9.950155019760132,
+  "gpu_available": true,
+  "torch_available": true,
+  "cupy_available": true,
+  "results": [
+    {
+      "test_name": "GPU Detection",
+      "success": true,
+      "duration": 0.13160228729248047,
+      "details": {
+        "gpu_count": 1,
+        "gpus": [
+          {
+            "name": "NVIDIA GeForce RTX 3070 Laptop GPU",
+            "memory_mb": 8192,
+            "driver_version": "576.80",
+            "compute_capability": "8.6"
+          }
+        ]
+      },
+      "error_message": null
+    },
+    {
+      "test_name": "PyTorch CUDA",
+      "success": true,
+      "duration": 4.121619701385498,
+      "details": {
+        "pytorch_version": "2.5.1+cu121",
+        "cuda_version": "12.1",
+        "device_count": 1,
+        "device_name": "NVIDIA GeForce RTX 3070 Laptop GPU",
+        "gpu_time": 0.03433728218078613
+      },
+      "error_message": null
+    },
+    {
+      "test_name": "CuPy Functionality",
+      "success": true,
+      "duration": 1.284379005432129,
+      "details": {
+        "cupy_version": "13.5.1",
+        "cupy_time": 0.03653693199157715,
+        "memory_used_mb": 15.2587890625
+      },
+      "error_message": null
+    },
+    {
+      "test_name": "GPU Memory Management",
+      "success": true,
+      "duration": 0.0475306510925293,
+      "details": {
+        "total_memory_gb": 7.99951171875,
+        "memory_tests": {
+          "Small allocation": 8.16357421875,
+          "Medium allocation": 12.40869140625,
+          "Large allocation": 1034.78466796875,
+          "After cleanup": 1030.5009765625
+        }
+      },
+      "error_message": null
+    },
+    {
+      "test_name": "Performance Benchmarks",
+      "success": true,
+      "duration": 0.17384934425354004,
+      "details": {
+        "matrix_500": {
+          "gpu_time": 0.00020003318786621094,
+          "cpu_time": 0.003496885299682617,
+          "speedup": 17.481525625744933,
+          "gflops": 1249.7926102502981
+        },
+        "matrix_1000": {
+          "gpu_time": 0.00030193328857421877,
+          "cpu_time": 0.0074024200439453125,
+          "speedup": 24.516740366392924,
+          "gflops": 6623.979785217941
+        },
+        "matrix_2000": {
+          "gpu_time": 0.0021653175354003906,
+          "cpu_time": 0.05126047134399414,
+          "speedup": 23.67341995155252,
+          "gflops": 7389.2164721427
+        },
+        "elementwise": {
+          "time": 0.013740062713623047,
+          "bandwidth_gb_s": 8.733584591358667
+        }
+      },
+      "error_message": null
+    },
+    {
+      "test_name": "Kimera GPU Engines",
+      "success": true,
+      "duration": 4.188621997833252,
+      "details": {
+        "engine_results": {
+          "gpu_manager": {
+            "success": true,
+            "status": {
+              "status": "available",
+              "cuda_available": true,
+              "torch_available": true,
+              "cupy_available": true,
+              "device_count": 1,
+              "current_device": {
+                "device_id": 0,
+                "name": "NVIDIA GeForce RTX 3070 Laptop GPU",
+                "compute_capability": [
+                  8,
+                  6
+                ],
+                "total_memory_gb": 7.99951171875,
+                "available_memory_gb": 5.873046875,
+                "utilization_percent": 0.0,
+                "temperature_celsius": 0.0,
+                "power_limit_watts": 0.0,
+                "driver_version": "12.1",
+                "is_available": true,
+                "capability_level": "standard"
+              },
+              "all_devices": [
+                {
+                  "device_id": 0,
+                  "name": "NVIDIA GeForce RTX 3070 Laptop GPU",
+                  "compute_capability": [
+                    8,
+                    6
+                  ],
+                  "total_memory_gb": 7.99951171875,
+                  "available_memory_gb": 5.873046875,
+                  "utilization_percent": 0.0,
+                  "temperature_celsius": 0.0,
+                  "power_limit_watts": 0.0,
+                  "driver_version": "12.1",
+                  "is_available": true,
+                  "capability_level": "standard"
+                }
+              ],
+              "capabilities": {
+                "cuda_available": true,
+                "torch_available": true,
+                "cupy_available": true,
+                "device_count": 1,
+                "mixed_precision_supported": true,
+                "tensor_cores_available": true,
+                "multi_gpu_supported": false
+              },
+              "configuration": {
+                "optimization_level": "balanced",
+                "max_batch_size": 16,
+                "memory_fraction": 0.8,
+                "mixed_precision": true
+              }
+            }
+          },
+          "geoid_processor": {
+            "success": false,
+            "error": "ProcessingResult.__init__() got an unexpected keyword argument 'execution_time'"
+          },
+          "thermodynamic_engine": {
+            "success": true,
+            "evolution_data": {
+              "processing_mode": "cpu",
+              "regime": "equilibrium",
+              "phase_transition_detected": false,
+              "evolution_time": 0.0
+            }
+          },
+          "integration_system": {
+            "success": false,
+            "error": "no running event loop"
+          }
+        },
+        "successful_engines": 2,
+        "total_engines": 4
+      },
+      "error_message": null
+    },
+    {
+      "test_name": "Integration Testing",
+      "success": true,
+      "duration": 0.0,
+      "details": {
+        "import_results": [
+          "All GPU modules imported successfully"
+        ],
+        "workflow_success": true
+      },
+      "error_message": null
+    }
+  ]
+}

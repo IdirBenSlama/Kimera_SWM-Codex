@@ -1,3 +1,4 @@
+import os
 """
 KIMERA PAPER TRADING SYSTEM
 ===========================
@@ -50,7 +51,7 @@ class PaperTradingSession:
             duration_hours: How long to run paper trading (default 24 hours)
         """
         self.duration_hours = duration_hours
-        self.api_key = "9268de76-b5f4-4683-b593-327fb2c19503"
+        self.api_key = os.getenv("CDP_API_KEY_NAME", "")
         self.trader = None
         self.session_start = None
         self.session_end = None

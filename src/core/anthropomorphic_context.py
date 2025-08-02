@@ -1,6 +1,6 @@
-import torch
-from src.utils.kimera_logger import get_cognitive_logger
 from src.utils.kimera_exceptions import (
+from src.utils.kimera_logger import get_cognitive_logger
+import torch
     KimeraCognitiveError, 
     KimeraResourceError,
     KimeraGPUError,

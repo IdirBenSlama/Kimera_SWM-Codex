@@ -39,8 +39,16 @@ router = APIRouter()
 security = HTTPBearer()
 logger = get_cognitive_logger(__name__)
 
-# Global trading engine instance
-trading_engine: Optional[KimeraIntegratedTradingEngine] = None
+# Global trading engine instance (optional addon module)
+try:
+    from src.trading.core.kimera_integrated_trading_engine import KimeraIntegratedTradingEngine
+    trading_engine: Optional[KimeraIntegratedTradingEngine] = None
+    TRADING_ENGINE_AVAILABLE = True
+except ImportError:
+    # Trading module is an optional addon
+    KimeraIntegratedTradingEngine = None
+    trading_engine = None
+    TRADING_ENGINE_AVAILABLE = False
 
 # ===================== PYDANTIC MODELS =====================
 

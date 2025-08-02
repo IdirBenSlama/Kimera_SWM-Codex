@@ -153,7 +153,9 @@ async def collect_system_metrics():
                 component_health.labels(component='kimera_system').set(
                     1 if status == 'running' else 0
                 )
-            except:
+            except Exception as e:
+                logger.error(f"Error in kimera_prometheus_metrics.py: {e}", exc_info=True)
+                raise  # Re-raise for proper error handling
                 component_health.labels(component='kimera_system').set(0)
             
             # Database metrics
@@ -164,8 +166,9 @@ async def collect_system_metrics():
                 geoid_count.set(stats.get('total_geoids', 0))
                 scar_count.set(stats.get('total_scars', 0))
                 insight_count.set(stats.get('total_insights', 0))
-            except:
-                pass
+            except Exception as e:
+                logger.error(f"Error in kimera_prometheus_metrics.py: {e}", exc_info=True)
+                raise  # Re-raise for proper error handling
             
             # Cognitive field metrics
             try:
@@ -174,8 +177,9 @@ async def collect_system_metrics():
                 summary = field_metrics.get_field_summary()
                 if 'coherence' in summary:
                     cognitive_field_coherence.set(summary['coherence'])
-            except:
-                pass
+            except Exception as e:
+                logger.error(f"Error in kimera_prometheus_metrics.py: {e}", exc_info=True)
+                raise  # Re-raise for proper error handling
             
             await asyncio.sleep(15)  # Collect every 15 seconds
             

@@ -227,7 +227,7 @@ async def main():
     print("⚠️  PURE RISK MODE")
     print("=" * 40)
     
-    API_KEY = "9268de76-b5f4-4683-b593-327fb2c19503"
+    API_KEY = os.getenv("CDP_API_KEY_NAME", "")
     
     # Create aggressive trader
     aggressive_trader = AggressiveKimeraTrader(API_KEY, target_eur=100.0)

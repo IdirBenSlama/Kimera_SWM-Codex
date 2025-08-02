@@ -7,7 +7,7 @@ import os
 from binance.client import Client
 
 # Set credentials
-os.environ['BINANCE_API_KEY'] = 'Y9WyflPyK1tVXnET3CTMvSdCbPia3Nhtd89VYWjS9RaAbQ0KEhHezkcGSCySQ8cL'
+os.environ['BINANCE_API_KEY'] = os.getenv("BINANCE_API_KEY", "")
 os.environ['BINANCE_API_SECRET'] = 'qUn5JqSpYz1GDxFj2X3UF23TYgtxKrTsCbDZEoBMYCPbYZgP4siVLyspkB5HAPl7'
 
 def check_balances():

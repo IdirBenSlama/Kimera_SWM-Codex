@@ -1,0 +1,41 @@
+# =============================================================================
+# KIMERA SWM DATABASE CONFIGURATION
+# Copy this to .env file in the project root
+# =============================================================================
+
+# Core System Configuration
+KIMERA_ENV=development
+KIMERA_LOG_LEVEL=INFO
+DEBUG=true
+
+# =============================================================================
+# DATABASE CONFIGURATION
+# =============================================================================
+
+# PostgreSQL (Primary Database)
+DATABASE_URL=postgresql://kimera:kimera_secure_pass_2025@localhost:5432/kimera_swm
+KIMERA_DATABASE_URL=postgresql://kimera:kimera_secure_pass_2025@localhost:5432/kimera_swm
+
+# Neo4j (Graph Database)
+NEO4J_URI=bolt://localhost:7687
+NEO4J_USER=neo4j
+NEO4J_PASS=kimera_graph_pass_2025
+NEO4J_PASSWORD=kimera_graph_pass_2025
+
+# Redis (Caching & Message Queue)
+REDIS_URL=redis://:kimera_cache_pass_2025@localhost:6379/0
+
+# SQLite Fallback
+SQLITE_DATABASE_URL=sqlite:///./data/database/kimera_swm.db
+
+# =============================================================================
+# GPU CONFIGURATION
+# =============================================================================
+GPU_ENABLED=true
+KIMERA_GPU_ENABLED=true
+
+# =============================================================================
+# API CONFIGURATION
+# =============================================================================
+API_HOST=localhost
+API_PORT=8000 

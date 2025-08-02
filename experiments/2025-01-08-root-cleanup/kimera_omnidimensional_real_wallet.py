@@ -58,7 +58,9 @@ class CoinbaseAdvancedTrader:
         # Decode the base64 secret key
         try:
             secret = base64.b64decode(self.api_secret)
-        except:
+        except Exception as e:
+            logger.error(f"Error in kimera_omnidimensional_real_wallet.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
             # If it's not base64, use as-is
             secret = self.api_secret.encode('utf-8')
             

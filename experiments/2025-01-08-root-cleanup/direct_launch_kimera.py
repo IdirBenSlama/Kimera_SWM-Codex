@@ -71,7 +71,7 @@ async def main():
         return
     
     # Configuration
-    API_KEY = "9268de76-b5f4-4683-b593-327fb2c19503"
+    API_KEY = os.getenv("CDP_API_KEY_NAME", "")
     TARGET_EUR = 100.0
     CYCLE_INTERVAL_MINUTES = 15
     

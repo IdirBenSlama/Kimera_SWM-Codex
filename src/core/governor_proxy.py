@@ -19,14 +19,13 @@ Key features
 """
 
 from __future__ import annotations
-
-import importlib
-import logging
 from typing import Optional
+import logging
 
-from src.core.ethical_governor import EthicalGovernor, ActionProposal, Verdict
 from src.utils.kimera_exceptions import KimeraCognitiveError, ErrorSeverity
+import importlib
 
+from .ethical_governor import EthicalGovernor, ActionProposal, Verdict
 logger = logging.getLogger(__name__)
 
 __all__ = [

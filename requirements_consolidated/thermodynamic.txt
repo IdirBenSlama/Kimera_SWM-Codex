@@ -1,0 +1,60 @@
+# KIMERA SWM Thermodynamic Requirements
+# Scientific computing and physics libraries
+# Generated on: 2025-07-31T22:28:35.081892
+
+aioredis==2.0.1  # For caching and rate limiting
+asyncio-mqtt>=0.16.0      # Async message queuing
+attrs==25.3.0
+bessel>=1.0.0             # Bessel functions for field calculations
+bokeh>=3.3.0              # Interactive plots
+colorlog==6.9.0
+coolprop>=6.6.0           # Thermodynamic property database
+cvxpy==1.6.6
+cython==3.1.2
+dash==3.0.4
+dataclasses-json>=0.6.0   # JSON serialization of dataclasses
+elliptic>=0.1.0           # Elliptic integrals for vortex calculations
+entropy>=0.1.0            # Entropy calculations
+fastapi==0.115.13
+fibonacci>=1.0.0          # Fibonacci sequence calculations
+golden-ratio>=1.0.0       # Golden ratio computations
+hypothesis==6.92.1  # Property-based testing
+joblib==1.5.1
+librosa>=0.10.0           # Audio/signal processing
+line-profiler==4.2.0
+matplotlib==3.10.3
+memory-profiler==0.61.0
+mpmath==1.3.0
+mutual-info>=1.0.0        # Mutual information for sorting
+nlopt>=2.7.0              # Non-linear optimization library
+numba==0.61.2
+numexpr>=2.8.0            # Fast numerical expression evaluation
+numpy==2.2.6
+pennylane==0.41.1
+physics>=0.4.0            # Physics constants and calculations
+pint>=0.23.0              # Physical units and conversions
+plotly==6.1.2
+psutil==7.0.0
+pydantic==2.8.2 # Newer versions available, using one from a similar project
+pyitlib>=0.2.2            # Information theory calculations
+pymatgen>=2024.1.0        # Materials science and thermodynamics
+pytest==8.4.1
+pytest-asyncio==1.0.0
+pywavelets==1.8.0
+qiskit==1.2.4
+qiskit-aer==0.16.0
+quantities>=0.13.0        # Physical quantities with units
+rich==14.0.0
+scikit-learn==1.6.1
+scipy==1.16.0
+scipy-optimize>=1.11.0   # Non-linear optimization
+seaborn==0.13.2
+signal-processing>=0.1.0  # Digital signal processing
+special-functions>=1.0.0  # Special mathematical functions
+spiral-dynamics>=0.1.0    # Spiral pattern mathematics
+structlog==25.4.0
+sympy==1.14.0
+thermopy>=0.5.2           # Thermodynamic property calculations
+torch==2.5.1+cu121
+transformers==4.53.0
+uncertainties>=3.1.0      # Error propagation in physics calculations

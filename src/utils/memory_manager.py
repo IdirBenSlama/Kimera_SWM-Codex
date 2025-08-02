@@ -7,6 +7,8 @@ Handles memory leaks, optimizes allocation, and provides monitoring.
 """
 
 import gc
+from src.utils.memory_optimizer import memory_optimizer
+
 import logging
 import time
 import threading
@@ -496,10 +498,17 @@ class MemoryLeakDetector:
         """Get current object counts by type"""
         counts = {}
         
+        # Exclude common system types that are expected to grow
+        excluded_types = {
+            'frame', 'traceback', 'code', 'module', 'method', 'builtin_function_or_method',
+            'wrapper_descriptor', 'getset_descriptor', 'method_descriptor'
+        }
+        
         # Count objects in gc
         for obj in gc.get_objects():
             obj_type = type(obj).__name__
-            counts[obj_type] = counts.get(obj_type, 0) + 1
+            if obj_type not in excluded_types:
+                counts[obj_type] = counts.get(obj_type, 0) + 1
         
         return counts
     
@@ -514,9 +523,11 @@ class MemoryLeakDetector:
         
         # Check if object count is consistently growing
         positive_growth = sum(1 for _, growth in history[-5:] if growth > 0)
+        total_growth = sum(growth for _, growth in history[-5:])
         
-        # If 80% of recent checks show growth, it's likely a leak
-        return positive_growth >= 4
+        # Enhanced leak detection: 80% positive growth AND significant total growth
+        significant_growth = total_growth > 100  # More than 100 objects created
+        return positive_growth >= 4 and significant_growth
     
     def _record_leak(self, obj_type: str, count: int, current_time: float):
         """Record a detected memory leak"""

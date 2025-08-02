@@ -17,8 +17,9 @@ def wait_for_server(max_attempts=30):
             if response.status_code == 200:
                 print("✅ Server is ready!")
                 return True
-        except:
-            pass
+        except Exception as e:
+            logger.error(f"Error in test_chat_after_restart.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
         
         print(f"   Attempt {i+1}/{max_attempts}...")
         time.sleep(1)

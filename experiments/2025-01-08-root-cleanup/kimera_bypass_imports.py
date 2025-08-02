@@ -83,8 +83,9 @@ def install_critical_missing():
         try:
             subprocess.run([str(venv_pip), "install", package], 
                          capture_output=True, check=False)
-        except:
-            pass
+        except Exception as e:
+            logger.error(f"Error in kimera_bypass_imports.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
 
 def main():
     print("""

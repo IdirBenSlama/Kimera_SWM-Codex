@@ -71,7 +71,7 @@ class ComplexityAnalysisEngine:
     def __init__(self):
         self.settings = get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
-        self.session = SessionLocal()
+        self.session = SessionLocal() if SessionLocal else None
         self.current_state = None
         self.attention_state = None
         self.global_workspace = None
@@ -152,7 +152,7 @@ class ComplexityAnalysisEngine:
             complexity_level=0.0,
             processing_integration=0.0,
             binding_strength=0.0,
-            timestamp=datetime.now(timezone.utc)
+            timestamp=datetime.now()
         )
         
         logger.info("    ✅ Initial complexity state created")

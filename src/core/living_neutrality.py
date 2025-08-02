@@ -9,14 +9,14 @@ while maintaining the cognitive tension that enables genius drift.
 in productive tension." - The KIMERA Principle
 """
 
-from typing import Dict, Any, List, Optional, Tuple
 from dataclasses import dataclass, field
-from enum import Enum
 from datetime import datetime
+from enum import Enum
+from typing import Dict, Any, List, Optional, Tuple
 import logging
-import math
 import threading
 
+import math
 logger = logging.getLogger(__name__)
 
 

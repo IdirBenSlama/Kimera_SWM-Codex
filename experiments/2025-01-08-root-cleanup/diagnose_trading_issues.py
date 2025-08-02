@@ -57,7 +57,9 @@ def diagnose_trading_issues():
                             ticker = exchange.fetch_ticker(f"{asset}/USDT")
                             price = ticker['last']
                             value = free * price
-                        except:
+                        except Exception as e:
+                            logger.error(f"Error in diagnose_trading_issues.py: {e}", exc_info=True)
+                            raise  # Re-raise for proper error handling
                             continue
                     
                     total_value += value

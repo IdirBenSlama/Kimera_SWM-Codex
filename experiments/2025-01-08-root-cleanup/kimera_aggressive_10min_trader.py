@@ -526,7 +526,9 @@ class KimeraAggressive10MinTrader:
                         'volume': volume,
                         'score': score
                     })
-                except:
+                except Exception as e:
+                    logger.error(f"Error in kimera_aggressive_10min_trader.py: {e}", exc_info=True)
+                    raise  # Re-raise for proper error handling
                     continue
             
             # Select highest scoring symbol
@@ -633,7 +635,9 @@ class KimeraAggressive10MinTrader:
                         ticker = await self.trader.get_ticker(symbol)
                         price = float(ticker['lastPrice'])
                         total_usdt += balance_info['free'] * price
-                    except:
+                    except Exception as e:
+                        logger.error(f"Error in kimera_aggressive_10min_trader.py: {e}", exc_info=True)
+                        raise  # Re-raise for proper error handling
                         continue
             
             return total_usdt

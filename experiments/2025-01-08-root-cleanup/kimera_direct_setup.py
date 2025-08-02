@@ -75,7 +75,9 @@ class KimeraDirectSetup:
                                     i += 1
                                 except WindowsError:
                                     break
-                    except:
+                    except Exception as e:
+                        logger.error(f"Error in kimera_direct_setup.py: {e}", exc_info=True)
+                        raise  # Re-raise for proper error handling
                         continue
         except Exception as e:
             self.print_colored(f"  Registry search error: {e}", 'yellow')
@@ -134,7 +136,9 @@ class KimeraDirectSetup:
                     if result.returncode == 0 and "3.11" in result.stdout:
                         self.print_colored(f"  ✓ Found Python 3.11: {python_exe}", 'green')
                         return str(python_exe)
-                except:
+                except Exception as e:
+                    logger.error(f"Error in kimera_direct_setup.py: {e}", exc_info=True)
+                    raise  # Re-raise for proper error handling
                     continue
         
         return None
@@ -161,8 +165,9 @@ class KimeraDirectSetup:
                 if result.returncode == 0:
                     self.print_colored("  ✓ Python 3.11 available via py launcher", 'green')
                     return "py -3.11"
-            except:
-                pass
+            except Exception as e:
+                logger.error(f"Error in kimera_direct_setup.py: {e}", exc_info=True)
+                raise  # Re-raise for proper error handling
             
             if attempt < max_attempts - 1:
                 self.print_colored(f"  Attempt {attempt + 1}/{max_attempts} - waiting 2 seconds...", 'white')

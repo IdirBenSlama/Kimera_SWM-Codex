@@ -14,17 +14,17 @@ Scientific Principles:
 - Security-conscious error exposure
 """
 
-import logging
-import traceback
-from typing import Any, Callable, Dict, Optional, Type, Union
-from functools import wraps
-import asyncio
 from datetime import datetime
+from fastapi.responses import JSONResponse
+from typing import Any, Callable, Dict, Optional, Type, Union
+import asyncio
+import logging
 
 from fastapi import HTTPException, Request, Response
-from fastapi.responses import JSONResponse
+from functools import wraps
 from pydantic import ValidationError
 from sqlalchemy.exc import SQLAlchemyError
+import traceback
 
 from .exception_handling import (
     ErrorContext, ErrorSeverity, RecoveryStrategy,
@@ -355,7 +355,7 @@ def handle_cognitive_operation(
 # Example usage in routers
 """
 from fastapi import APIRouter, Request
-from src.core.router_exception_handler import handle_router_errors, validate_required_component
+from .router_exception_handler import handle_router_errors, validate_required_component
 
 router = APIRouter()
 

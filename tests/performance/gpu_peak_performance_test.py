@@ -277,8 +277,9 @@ class KimeraGPUPeakTester:
                 if response.status_code == 200:
                     logger.info("✅ Kimera system is ready!")
                     return True
-            except:
-                pass
+            except Exception as e:
+                logger.error(f"Error in gpu_peak_performance_test.py: {e}", exc_info=True)
+                raise  # Re-raise for proper error handling
             
             if i % 10 == 0 and i > 0:
                 logger.info(f"   Still waiting... ({i}/{max_wait}s)")

@@ -1,3 +1,4 @@
+import os
 #!/usr/bin/env python3
 """
 KIMERA UNIFIED TRADING SYSTEM
@@ -1041,7 +1042,7 @@ def main():
     parser.add_argument('--runtime', type=int, default=15,
                        help='Runtime in minutes (default: 15)')
     parser.add_argument('--api-key', type=str, 
-                       default="Y9WyflPyK1tVXnET3CTMvSdCbPia3Nhtd89VYWjS9RaAbQ0KEhHezkcGSCySQ8cL",
+                       default=os.getenv("BINANCE_API_KEY", ""),
                        help='Binance API key')
     parser.add_argument('--api-secret', type=str,
                        default="qUn5JqSpYz1GDxFj2X3UF23TYgtxKrTsCbDZEoBMYCPbYZgP4siVLyspkB5HAPl7",

@@ -261,7 +261,9 @@ logger.info("🔬 Initializing Advanced KIMERA Integration System")
         # Parse using echoform parser for structure
         try:
             parsed_structure = parse_echoform(f"(analyze {text})")
-        except:
+        except Exception as e:
+            logger.error(f"Error in kimera_advanced_integration_fix.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
             # Fallback for non-echoform text
             parsed_structure = ["analyze", text]
             

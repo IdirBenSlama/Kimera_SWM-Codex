@@ -6,13 +6,13 @@ This module defines the layered architecture and provides validation
 to ensure dependencies only flow in the correct direction.
 """
 
-from enum import Enum, auto
-from typing import Dict, List, Set, Optional, Tuple, Any
-from pathlib import Path
-import ast
-import logging
 from dataclasses import dataclass
+from enum import Enum, auto
+from pathlib import Path
+from typing import Dict, List, Set, Optional, Tuple, Any
+import logging
 
+import ast
 logger = logging.getLogger(__name__)
 
 

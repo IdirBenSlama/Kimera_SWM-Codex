@@ -1,7 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
 from typing import List
-
 @dataclass
 class ScarRecord:
     """Structured record of a resolved contradiction (DOC-201)."""

@@ -1,0 +1,16 @@
+# KIMERA SWM Api Requirements
+# FastAPI and web server dependencies
+# Generated on: 2025-07-31T22:28:35.068301
+
+alembic==1.16.2
+asyncpg==0.30.0
+fastapi==0.115.13
+httpx==0.28.1
+prometheus-client==0.22.1
+pydantic==2.8.2 # Newer versions available, using one from a similar project
+pytest==8.4.1
+pytest-asyncio==1.0.0
+python-multipart==0.0.20
+redis==6.2.0
+requests==2.32.3
+sqlalchemy==2.0.31 # From your provided list, but newer versions exist

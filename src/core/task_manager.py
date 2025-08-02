@@ -4,15 +4,15 @@ Implements proper async/await patterns with lifecycle management
 Phase 2, Week 5: Async/Await Patterns Implementation
 """
 
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
+from typing import Dict, Any, Optional, Callable, Coroutine, Set
 import asyncio
 import logging
-from typing import Dict, Any, Optional, Callable, Coroutine, Set
-from datetime import datetime
-import traceback
-from enum import Enum
-from dataclasses import dataclass, field
 import weakref
 
+import traceback
 logger = logging.getLogger(__name__)
 
 

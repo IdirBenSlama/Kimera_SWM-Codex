@@ -28,6 +28,9 @@ from pathlib import Path
 from .cognitive_field_dynamics import CognitiveFieldDynamics
 from ..monitoring.thermodynamic_analyzer import ThermodynamicAnalyzer
 from ..monitoring.entropy_monitor import EntropyMonitor
+from ..utils.config import get_api_settings
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -86,7 +89,7 @@ class ThermodynamicCognitiveScheduler:
     def __init__(self, monitoring_interval: float = 1.0):
         self.settings = get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
-self.monitoring_interval = monitoring_interval
+        self.monitoring_interval = monitoring_interval
         self.field_engine = CognitiveFieldDynamics(dimension=1024)
         self.thermo_analyzer = ThermodynamicAnalyzer()
         self.entropy_monitor = EntropyMonitor()
@@ -120,8 +123,6 @@ self.monitoring_interval = monitoring_interval
         """Collect real-time GPU metrics for thermodynamic analysis"""
         try:
             import pynvml
-from ..utils.config import get_api_settings
-from ..config.settings import get_settings
             pynvml.nvmlInit()
             handle = pynvml.nvmlDeviceGetHandleByIndex(0)
             
@@ -552,4 +553,57 @@ from ..config.settings import get_settings
             json.dump(session_data, f, indent=2)
         
         self.logger.info(f"💾 Thermodynamic session saved to: {filename}")
-        return filename 
+        return filename
+
+
+# Factory functions for easy instantiation
+def create_thermodynamic_scheduler(monitoring_interval: float = 1.0) -> ThermodynamicCognitiveScheduler:
+    """Create a standard thermodynamic cognitive scheduler"""
+    return ThermodynamicCognitiveScheduler(monitoring_interval=monitoring_interval)
+
+
+def create_high_performance_scheduler() -> ThermodynamicCognitiveScheduler:
+    """Create a high-performance thermodynamic scheduler with aggressive optimization"""
+    scheduler = ThermodynamicCognitiveScheduler(monitoring_interval=0.5)
+    # Enhanced parameters for high performance
+    scheduler.target_reversibility = 0.85  # Higher target for maximum efficiency
+    scheduler.free_energy_threshold = 12.0  # Lower threshold for more aggressive optimization
+    scheduler.optimal_temp_range = (42.0, 46.0)  # Slightly wider temperature range
+    return scheduler
+
+
+def create_conservative_scheduler() -> ThermodynamicCognitiveScheduler:
+    """Create a conservative thermodynamic scheduler with safe optimization"""
+    scheduler = ThermodynamicCognitiveScheduler(monitoring_interval=2.0)
+    # Conservative parameters for stability
+    scheduler.target_reversibility = 0.75  # Lower target for stability
+    scheduler.free_energy_threshold = 18.0  # Higher threshold for conservative optimization
+    scheduler.optimal_temp_range = (43.0, 45.0)  # Narrow temperature range for safety
+    return scheduler
+
+
+# Global instance for easy access
+_global_thermodynamic_scheduler: Optional[ThermodynamicCognitiveScheduler] = None
+_scheduler_lock = threading.Lock()
+
+
+def get_thermodynamic_scheduler() -> ThermodynamicCognitiveScheduler:
+    """Get the global thermodynamic scheduler instance"""
+    global _global_thermodynamic_scheduler
+    
+    if _global_thermodynamic_scheduler is None:
+        with _scheduler_lock:
+            if _global_thermodynamic_scheduler is None:
+                _global_thermodynamic_scheduler = create_thermodynamic_scheduler()
+    
+    return _global_thermodynamic_scheduler
+
+
+async def get_enhanced_thermodynamic_scheduler() -> ThermodynamicCognitiveScheduler:
+    """Get an enhanced thermodynamic scheduler with async initialization"""
+    scheduler = get_thermodynamic_scheduler()
+    # Start monitoring if not already running
+    if not hasattr(scheduler, '_monitoring_started'):
+        scheduler.start_continuous_monitoring()
+        scheduler._monitoring_started = True
+    return scheduler 

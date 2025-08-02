@@ -170,8 +170,9 @@ class HorizontalProfitScanner:
             if rate1 and rate2 and rate3:
                 profit = (1 / rate1) * (1 / rate2) * (1 / rate3) - 1
                 return profit
-        except:
-            pass
+        except Exception as e:
+            logger.error(f"Error in kimera_omnidimensional_profit_engine.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
         return 0
     
     def _calculate_momentum_score(self, asset_data):

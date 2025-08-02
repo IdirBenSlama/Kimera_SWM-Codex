@@ -707,8 +707,9 @@ class KimeraLiveTradingSystem:
                     pynvml.nvmlInit()
                     handle = pynvml.nvmlDeviceGetHandleByIndex(0)
                     gpu_usage = pynvml.nvmlDeviceGetUtilizationRates(handle).gpu
-                except:
-                    pass
+                except Exception as e:
+                    logger.error(f"Error in kimera_live_trading_launcher.py: {e}", exc_info=True)
+                    raise  # Re-raise for proper error handling
                     
             # Component health
             component_health = {

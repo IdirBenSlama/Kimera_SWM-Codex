@@ -4,16 +4,16 @@ Provides real-time feedback during system initialization
 Phase 3, Week 8: Performance Optimization
 """
 
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
+from typing import Dict, List, Optional, Callable, Any
 import asyncio
 import logging
-import time
-from typing import Dict, List, Optional, Callable, Any
-from dataclasses import dataclass, field
-from enum import Enum
-import json
-from datetime import datetime
 import threading
+import time
 
+import json
 logger = logging.getLogger(__name__)
 
 

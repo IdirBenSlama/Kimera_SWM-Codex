@@ -18,7 +18,6 @@ from typing import Dict, Any
 
 from .action_proposal import ActionProposal
 from .vault_interface import vault_interface, GeoidMetrics
-
 @dataclass
 class HarmAssessment:
     """Provides a detailed breakdown of potential harm (Canon 36)."""

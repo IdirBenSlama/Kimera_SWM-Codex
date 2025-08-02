@@ -1,24 +1,3 @@
-# KIMERA SWM Requirements
-# This file provides a convenient entry point for dependency installation.
-# For detailed requirements, see the requirements/ directory.
-
-# Install base requirements
--r requirements/base.txt
-
-# Development dependencies (uncomment if needed)
-# -r requirements/dev.txt
-
-# Data science dependencies (uncomment if needed)  
-# -r requirements/data.txt
-
-# GPU acceleration dependencies (uncomment if needed)
-# -r requirements/gpu.txt
-
-# Trading system dependencies (uncomment if needed)
-# -r requirements/trading.txt
-
-# Note: For production deployment, use poetry:
-# poetry install --only main
-#
-# For development with all dependencies:
-# poetry install --with dev,data,gpu,trading 
+# KIMERA SWM Main Requirements File
+# Use independent production requirements for optimal dependency resolution
+-r requirements/independent_production.txt

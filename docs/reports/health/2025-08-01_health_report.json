@@ -1,0 +1,127 @@
+{
+  "timestamp": "2025-08-01T01:34:46.957090",
+  "system_info": {},
+  "requirements": {
+    "python": {
+      "required": "3.10+",
+      "current": "3.11.9",
+      "meets_requirement": true,
+      "details": {
+        "version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+        "version_info": [
+          3,
+          11,
+          9,
+          "final",
+          0
+        ],
+        "executable": "C:\\Users\\bensl\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "platform": "win32"
+      }
+    },
+    "gpu": {
+      "cuda_available": true,
+      "device_count": 1,
+      "current_device": 0,
+      "device_name": "NVIDIA GeForce RTX 3070 Laptop GPU",
+      "memory_total": 8589410304,
+      "memory_allocated": 0,
+      "memory_cached": 0
+    },
+    "environment": {
+      "virtual_env_active": false,
+      "virtual_env_path": null,
+      "conda_env": null,
+      "python_path": "C:\\Users\\bensl\\AppData\\Local\\Programs\\Python\\Python311\\python.exe"
+    }
+  },
+  "directory_structure": {
+    "status": {
+      "src": true,
+      "tests": true,
+      "docs": true,
+      "scripts": true,
+      "configs": true,
+      "requirements": true,
+      "scripts/health_check": true,
+      "scripts/migration": true,
+      "scripts/utils": true,
+      "scripts/analysis": true,
+      "docs/reports/health": true,
+      "docs/reports/analysis": true,
+      "docs/reports/debt": true,
+      "docs/reports/performance": true,
+      "experiments": true,
+      "archive": true,
+      "cache": true,
+      "tmp": true
+    },
+    "missing_directories": [],
+    "compliance": true
+  },
+  "dependencies": {
+    "status": {
+      "fastapi": {
+        "installed": true,
+        "version": "0.115.13"
+      },
+      "uvicorn": {
+        "installed": true,
+        "version": "0.34.3"
+      },
+      "torch": {
+        "installed": true,
+        "version": "2.5.1+cu121"
+      },
+      "sqlalchemy": {
+        "installed": true,
+        "version": "2.0.31"
+      },
+      "pydantic": {
+        "installed": true,
+        "version": "2.8.2"
+      },
+      "aiohttp": {
+        "installed": true,
+        "version": "3.12.13"
+      },
+      "python-dotenv": {
+        "installed": false,
+        "version": null
+      },
+      "rich": {
+        "installed": true,
+        "version": "Unknown"
+      },
+      "loguru": {
+        "installed": true,
+        "version": "0.7.3"
+      }
+    },
+    "missing_dependencies": [
+      "python-dotenv"
+    ],
+    "compliance": false
+  },
+  "configuration": {
+    "files": {
+      ".env": true,
+      "pyproject.toml": true,
+      "requirements.txt": true,
+      "src/main.py": true,
+      "docs/kimera_ai_reference.md": true
+    },
+    "missing_files": [],
+    "compliance": true
+  },
+  "performance": {},
+  "security": {},
+  "recommendations": [
+    "Use a virtual environment for dependency isolation",
+    "Install missing dependencies: ['python-dotenv']"
+  ],
+  "overall_health": {
+    "score": 75.0,
+    "status": "Good"
+  }
+}

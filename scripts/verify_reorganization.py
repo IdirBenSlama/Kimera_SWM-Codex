@@ -26,7 +26,9 @@ def count_files(directory: str, extension: str = "*.py") -> int:
             text=True
         )
         return int(result.stdout.strip())
-    except:
+    except Exception as e:
+        logger.error(f"Error in verify_reorganization.py: {e}", exc_info=True)
+        raise  # Re-raise for proper error handling
         return 0
 
 def check_imports():
@@ -94,7 +96,9 @@ def check_backend_imports():
             text=True
         )
         return int(result.stdout.strip())
-    except:
+    except Exception as e:
+        logger.error(f"Error in verify_reorganization.py: {e}", exc_info=True)
+        raise  # Re-raise for proper error handling
         return -1
 
 def main():

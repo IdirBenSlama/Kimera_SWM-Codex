@@ -290,7 +290,9 @@ class KimeraPerformanceMonitor:
             uptime_seconds = time.time() - psutil.boot_time()
             uptime_delta = timedelta(seconds=uptime_seconds)
             return str(uptime_delta).split('.')[0]  # Remove microseconds
-        except:
+        except Exception as e:
+            logger.error(f"Error in realtime_performance_monitor.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
             return "unknown"
     
     def monitoring_loop(self):

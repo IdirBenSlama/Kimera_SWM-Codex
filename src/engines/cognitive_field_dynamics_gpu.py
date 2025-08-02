@@ -496,7 +496,9 @@ self.dimension = dimension
             try:
                 # Try to get GPU utilization (not always available)
                 return torch.cuda.utilization() if hasattr(torch.cuda, 'utilization') else 85.0
-            except:
+            except Exception as e:
+                logger.error(f"Error in cognitive_field_dynamics_gpu.py: {e}", exc_info=True)
+                raise  # Re-raise for proper error handling
                 return 85.0  # Default estimate
         return 0.0
 

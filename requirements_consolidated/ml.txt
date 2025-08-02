@@ -1,0 +1,38 @@
+# KIMERA SWM Ml Requirements
+# Machine learning and AI libraries
+# Generated on: 2025-07-31T22:28:35.086110
+
+accelerate==0.34.2
+bitsandbytes==0.46.0
+catalogue==2.0.10
+chromadb==1.0.13
+confection==0.1.5
+cupy-cuda11x==13.4.1 # Explicit CUDA version
+cymem==2.0.11
+datasets==3.6.0
+evaluate==0.4.3
+faiss-cpu==1.11.0 # CPU version, faiss-gpu should be in a separate gpu.txt if needed
+gymnasium==1.1.1
+hnswlib==0.8.0
+huggingface-hub==0.30.2
+langchain==0.3.25
+langchain-core==0.3.65
+langchain-text-splitters==0.3.8
+langcodes==3.5.0
+langsmith==0.3.45
+llvmlite==0.44.0
+murmurhash==1.0.13
+nltk==3.9.1
+safetensors==0.5.3
+scikit-learn==1.6.1
+sentence-transformers==3.4.1
+spacy==3.8.7
+spacy-legacy==3.0.12
+spacy-loggers==1.0.5
+srsly==2.5.1
+timm
+tokenizers==0.21.2
+torch==2.5.1+cu121
+torchaudio==2.5.1+cu121
+torchvision==0.20.1+cu121
+transformers==4.53.0

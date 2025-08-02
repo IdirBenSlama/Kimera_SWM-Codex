@@ -1,3 +1,4 @@
+import os
 #!/usr/bin/env python3
 """
 KIMERA INSTANT TRADER - BYPASS API BAN
@@ -95,8 +96,9 @@ class KimeraInstantTrader:
             data = self.make_request('GET', '/api/v3/ticker/price', {'symbol': symbol})
             if data:
                 return Decimal(data['price'])
-        except:
-            pass
+        except Exception as e:
+            logger.error(f"Error in kimera_instant_trader.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
         return None
     
     def get_orderbook_snapshot(self, symbol):
@@ -109,8 +111,9 @@ class KimeraInstantTrader:
                     'ask': Decimal(data['asks'][0][0]),
                     'spread': (Decimal(data['asks'][0][0]) - Decimal(data['bids'][0][0])) / Decimal(data['bids'][0][0])
                 }
-        except:
-            pass
+        except Exception as e:
+            logger.error(f"Error in kimera_instant_trader.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
         return None
     
     def execute_instant_buy(self, symbol, usdt_amount):
@@ -361,7 +364,7 @@ class KimeraInstantTrader:
 
 def main():
     """Main execution"""
-    api_key = "Y9WyflPyK1tVXnET3CTMvSdCbPia3Nhtd89VYWjS9RaAbQ0KEhHezkcGSCySQ8cL"
+    api_key = os.getenv("BINANCE_API_KEY", "")
     api_secret = "qUn5JqSpYz1GDxFj2X3UF23TYgtxKrTsCbDZEoBMYCPbYZgP4siVLyspkB5HAPl7"
     
     trader = KimeraInstantTrader(

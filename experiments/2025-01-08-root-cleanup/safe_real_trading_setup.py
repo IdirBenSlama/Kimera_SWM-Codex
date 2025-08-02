@@ -35,7 +35,9 @@ class SafeRealTradingSetup:
                     error_count = sum(1 for line in recent_logs if "ERROR" in line)
                     if error_count > 5:
                         issues.append(f"❌ System has {error_count} recent errors")
-            except:
+            except Exception as e:
+                logger.error(f"Error in safe_real_trading_setup.py: {e}", exc_info=True)
+                raise  # Re-raise for proper error handling
                 issues.append("❌ Cannot read system logs - permission issues")
         
         if issues:

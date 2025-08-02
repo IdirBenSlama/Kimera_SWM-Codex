@@ -4,27 +4,26 @@ Implements connection pooling, query optimization, and caching
 Phase 3, Week 8: Performance Optimization
 """
 
+from datetime import datetime, timedelta
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, AsyncEngine
+from typing import Dict, Any, Optional, List, Callable, TypeVar, Union
 import asyncio
 import logging
-from typing import Dict, Any, Optional, List, Callable, TypeVar, Union
-from datetime import datetime, timedelta
-import hashlib
-import json
-from functools import wraps
-from contextlib import asynccontextmanager
+import redis.asyncio as aioredis
 import time
 
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, AsyncEngine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.pool import NullPool, QueuePool, StaticPool
+from cachetools import TTLCache, LRUCache
+from contextlib import asynccontextmanager
+from functools import wraps
 from sqlalchemy import event, text
 from sqlalchemy.engine import Engine
-import redis.asyncio as aioredis
-from cachetools import TTLCache, LRUCache
-
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.pool import NullPool, QueuePool, StaticPool
 from src.config import get_settings
-from src.core.async_performance_monitor import get_performance_monitor
+import hashlib
+import json
 
+from .async_performance_monitor import get_performance_monitor
 logger = logging.getLogger(__name__)
 
 T = TypeVar('T')

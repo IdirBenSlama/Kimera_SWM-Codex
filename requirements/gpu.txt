@@ -1,0 +1,121 @@
+# KIMERA SWM - GPU ACCELERATION REQUIREMENTS
+# ==========================================
+# Comprehensive GPU and CUDA dependencies for high-performance computing
+
+# === PYTORCH WITH CUDA SUPPORT ===
+# PyTorch with CUDA 12.x support (recommended)
+torch>=2.1.0
+torchvision>=0.16.0
+torchaudio>=2.1.0
+
+# Alternative installations:
+# CPU-only: pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+# CUDA 11.8: pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+# CUDA 12.1: pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+# === CUPY FOR NUMPY-LIKE GPU COMPUTING ===
+# CuPy with CUDA 12.x (adjust version for your CUDA installation)
+cupy-cuda12x>=13.0.0
+# Alternative versions:
+# cupy-cuda11x>=13.0.0  # For CUDA 11.x
+# cupy-cuda118>=13.0.0  # For CUDA 11.8 specifically
+
+# === CUDA PYTHON BINDINGS ===
+cuda-python>=12.0.0
+pynvml>=11.5.0  # NVIDIA Management Library for GPU monitoring
+
+# === GPU MONITORING AND UTILITIES ===
+GPUtil>=1.4.0
+nvidia-ml-py>=7.352.0
+py3nvml>=0.2.7
+
+# === NUMBA WITH CUDA SUPPORT ===
+numba>=0.58.0
+# Note: CUDA support in Numba requires CUDA toolkit installation
+
+# === CUDF FOR GPU DATAFRAMES (OPTIONAL) ===
+# Uncomment if you need GPU-accelerated DataFrames
+# cudf-cu12>=23.12.0  # For CUDA 12.x
+# cuml-cu12>=23.12.0  # GPU-accelerated machine learning
+# cugraph-cu12>=23.12.0  # GPU graph analytics
+
+# === TENSORRT FOR INFERENCE OPTIMIZATION (OPTIONAL) ===
+# Uncomment for production inference optimization
+# tensorrt>=8.6.0
+# torch-tensorrt>=1.4.0
+
+# === APEX FOR MIXED PRECISION TRAINING (OPTIONAL) ===
+# Note: Apex needs to be installed from source
+# Instructions: https://github.com/NVIDIA/apex
+
+# === GPU-ACCELERATED SCIENTIFIC COMPUTING ===
+rapids-dependency-file-generator>=1.8.0  # For RAPIDS ecosystem
+pyopengl>=3.1.0  # OpenGL for GPU visualization
+moderngl>=5.8.0  # Modern OpenGL context
+
+# === MEMORY PROFILING AND OPTIMIZATION ===
+memory-profiler>=0.61.0
+pympler>=0.9
+psutil>=5.9.0
+
+# === CUDA RUNTIME REQUIREMENTS ===
+# Note: These are automatically included with conda/pip CUDA packages
+# but may need manual installation in some environments:
+#
+# CUDA Toolkit 12.x components:
+# - libcublas
+# - libcurand
+# - libcusparse
+# - libcufft
+# - libcudnn
+#
+# Installation notes:
+# 1. Install NVIDIA drivers (>=525.60.11 for CUDA 12.0)
+# 2. Install CUDA Toolkit from NVIDIA developer website
+# 3. Set environment variables:
+#    - CUDA_PATH=/usr/local/cuda (Linux) or C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.x (Windows)
+#    - Add CUDA bin directory to PATH
+#    - Set LD_LIBRARY_PATH (Linux) or add CUDA lib to PATH (Windows)
+
+# === COMPATIBILITY NOTES ===
+# GPU Compute Capability Requirements:
+# - Minimum: 6.0 (Pascal architecture: GTX 10 series, Tesla P40/P100)
+# - Recommended: 7.0+ (Volta/Turing: RTX 20/30 series, Tesla V100/T4)
+# - Optimal: 8.0+ (Ampere/Ada: RTX 40 series, A100/H100)
+#
+# Memory Requirements:
+# - Minimum: 4GB GPU memory
+# - Recommended: 8GB+ GPU memory
+# - Optimal: 16GB+ GPU memory for large-scale operations
+#
+# Driver Requirements:
+# - NVIDIA Driver 525.60.11+ (for CUDA 12.0)
+# - NVIDIA Driver 520.61.05+ (for CUDA 11.8)
+
+# === INSTALLATION VERIFICATION ===
+# After installation, verify with:
+# python -c "import torch; print(f'PyTorch: {torch.__version__}'); print(f'CUDA Available: {torch.cuda.is_available()}'); print(f'CUDA Version: {torch.version.cuda}'); print(f'GPU Count: {torch.cuda.device_count()}')"
+# python -c "import cupy; print(f'CuPy: {cupy.__version__}'); print(f'CUDA Runtime: {cupy.cuda.runtime.runtimeGetVersion()}')"
+
+# === TROUBLESHOOTING ===
+# Common issues and solutions:
+#
+# 1. "CUDA out of memory":
+#    - Reduce batch sizes
+#    - Enable gradient checkpointing
+#    - Use mixed precision training
+#    - Clear cache: torch.cuda.empty_cache()
+#
+# 2. "CUDA driver version is insufficient":
+#    - Update NVIDIA drivers
+#    - Use compatible CUDA version
+#
+# 3. "No module named 'cupy'":
+#    - Install correct CuPy version for your CUDA installation
+#    - Verify CUDA_PATH environment variable
+#
+# 4. Performance issues:
+#    - Enable Tensor Cores with mixed precision
+#    - Optimize memory access patterns
+#    - Use appropriate batch sizes
+#    - Profile with nvidia-smi and torch.profiler 

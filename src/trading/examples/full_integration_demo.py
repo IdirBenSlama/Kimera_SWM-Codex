@@ -34,7 +34,7 @@ async def test_full_integration():
     logger.info("="*80)
     
     # API Keys (use environment variables or the provided testnet keys)
-    cryptopanic_key = os.getenv('CRYPTOPANIC_API_KEY', '23675a49e161477a7b2b3c8c4a25743ba6777e8e')
+    cryptopanic_key = os.getenv('CRYPTOPANIC_API_KEY', os.getenv("CRYPTOPANIC_API_KEY", ""))
     taapi_key = os.getenv('TAAPI_API_KEY', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbHVlIjoiNjg1NjAxODg4MDZmZjE2NTFlYTE1ZDk5IiwiaWF0IjoxNzUwNDY2OTcwLCJleHAiOjMzMjU0OTMwOTcwfQ.vNLwdY6pKkmcT-Hm1pSjaKnJuw3B0daeDoPvvY4TGfQ')
     
     logger.info(f"CryptoPanic API: {cryptopanic_key[:10]}...")

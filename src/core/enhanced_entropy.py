@@ -14,12 +14,12 @@ Key enhancements:
 """
 
 from __future__ import annotations
+from typing import List, Union, Optional, Tuple, Dict, Any
+
 import math
 import numpy as np
-from typing import List, Union, Optional, Tuple, Dict, Any
-from ..core.native_math import NativeStats, NativeMath
 
-# SciPy imports with fallback to native implementations
+from ..core.native_math import NativeStats, NativeMath
 try:
     import scipy.stats as stats
     import scipy.optimize as optimize

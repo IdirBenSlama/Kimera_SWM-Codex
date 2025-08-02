@@ -1,0 +1,9 @@
+{
+  "src_engines": 25,
+  "trading_engines": 12,
+  "pharmaceutical_engines": 1,
+  "semantic_grounding_engines": 3,
+  "governance_engines": 1,
+  "core_engines": 0,
+  "total_engines": 42
+}

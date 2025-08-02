@@ -28,7 +28,7 @@ from binance.exceptions import BinanceAPIException
 import logging
 
 # Set API credentials
-os.environ['BINANCE_API_KEY'] = 'Y9WyflPyK1tVXnET3CTMvSdCbPia3Nhtd89VYWjS9RaAbQ0KEhHezkcGSCySQ8cL'
+os.environ['BINANCE_API_KEY'] = os.getenv("BINANCE_API_KEY", "")
 os.environ['BINANCE_API_SECRET'] = 'qUn5JqSpYz1GDxFj2X3UF23TYgtxKrTsCbDZEoBMYCPbYZgP4siVLyspkB5HAPl7'
 
 # Configure logging
@@ -95,7 +95,9 @@ class KimeraPortfolioAwareTrader:
                         ticker = self.client.get_avg_price(symbol=f"{asset}USDT")
                         price = float(ticker['price'])
                         value = amount * price
-                    except:
+                    except Exception as e:
+                        logger.error(f"Error in kimera_portfolio_aware_trader.py: {e}", exc_info=True)
+                        raise  # Re-raise for proper error handling
                         value = 0.0
                 
                 total_value += value
@@ -330,8 +332,9 @@ class KimeraPortfolioAwareTrader:
                         ticker = self.client.get_avg_price(symbol=f"{asset}USDT")
                         price = float(ticker['price'])
                         current_balance += amount * price
-                    except:
-                        pass
+                    except Exception as e:
+                        logger.error(f"Error in kimera_portfolio_aware_trader.py: {e}", exc_info=True)
+                        raise  # Re-raise for proper error handling
             
             profit = current_balance - self.start_balance
             profit_pct = (profit / self.start_balance * 100) if self.start_balance > 0 else 0

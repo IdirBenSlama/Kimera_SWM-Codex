@@ -25,8 +25,9 @@ class SimpleGPUTester:
                 if response.status_code == 200:
                     print("✅ System ready!")
                     return True
-            except:
-                pass
+            except Exception as e:
+                logger.error(f"Error in gpu_peak_performance_simple.py: {e}", exc_info=True)
+                raise  # Re-raise for proper error handling
             time.sleep(1)
         print("❌ System not ready")
         return False

@@ -10,16 +10,16 @@ This engine manages the delicate dance between evidence and intuition,
 between what is known and what might be possible.
 """
 
-from typing import Dict, Any, List, Optional, Tuple
 from dataclasses import dataclass, field
-from enum import Enum
 from datetime import datetime
+from enum import Enum
+from typing import Dict, Any, List, Optional, Tuple
 import logging
+
 import math
 
-from .living_neutrality import get_living_neutrality_engine, TensionType
 from .context_supremacy import get_context_supremacy_engine
-
+from .living_neutrality import get_living_neutrality_engine, TensionType
 logger = logging.getLogger(__name__)
 
 

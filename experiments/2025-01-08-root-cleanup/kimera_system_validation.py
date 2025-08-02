@@ -73,8 +73,9 @@ def wait_for_server(max_wait: int = 30) -> bool:
             if response.status_code == 200:
                 print_success("Server is ready!")
                 return True
-        except:
-            pass
+        except Exception as e:
+            logger.error(f"Error in kimera_system_validation.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
         time.sleep(1)
         print(".", end="", flush=True)
     

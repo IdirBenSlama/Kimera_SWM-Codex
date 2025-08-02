@@ -50,7 +50,7 @@ import threading
 from concurrent.futures import ThreadPoolExecutor
 
 # Core Kimera imports
-from .cognitive_field_dynamics import CognitiveFieldDynamics, SemanticField, SemanticWave
+from .cognitive_field_dynamics import CognitiveFieldDynamics
 from ..core.cognitive_field_config import CognitiveFieldConfig
 from ..monitoring.cognitive_field_metrics import get_metrics_collector
 from ..utils.kimera_logger import get_logger
@@ -139,7 +139,7 @@ class UnsupervisedCognitiveLearningEngine:
         self.settings = get_api_settings()
         
         logger.debug(f"   Environment: {self.settings.environment}")
-self.cognitive_field = cognitive_field_engine
+        self.cognitive_field = cognitive_field_engine
         self.learning_sensitivity = learning_sensitivity
         self.emergence_threshold = emergence_threshold
         self.insight_threshold = insight_threshold

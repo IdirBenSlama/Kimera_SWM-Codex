@@ -6,15 +6,14 @@ Determines contextual rule flexibility based on relevance analysis.
 "Relevance is king" - but balanced with safety and guaranteed stabilization.
 """
 
-from typing import Dict, Any, List, Optional, Tuple
-from enum import Enum
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
+from enum import Enum
+from typing import Dict, Any, List, Optional, Tuple
 import logging
 import re
 
 from .immutable_laws import ImmutableLaw, get_law_registry
-
 logger = logging.getLogger(__name__)
 
 

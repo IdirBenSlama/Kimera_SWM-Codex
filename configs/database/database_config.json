@@ -1,0 +1,10 @@
+{
+  "sqlite": {
+    "path": "C:\\Users\\bensl\\Documents\\KIMERA\\Kimera-SWM\\data\\database\\kimera.db",
+    "timeout": 30,
+    "check_same_thread": false
+  },
+  "connection_string": "sqlite:///C:\\Users\\bensl\\Documents\\KIMERA\\Kimera-SWM\\data\\database\\kimera.db",
+  "pool_size": 10,
+  "max_overflow": 20
+}

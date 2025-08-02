@@ -1,0 +1,122 @@
+# KIMERA SWM Independent Production Requirements
+# Generated: 2025-08-01
+# Status: Dependency-conflict-free, tested and verified
+# Python: 3.11.9+
+
+# ===== CORE WEB FRAMEWORK =====
+fastapi==0.115.13
+uvicorn>=0.27.0
+starlette>=0.46.2
+pydantic==2.8.2
+pydantic-core==2.20.1
+
+# ===== ASYNC & HTTP =====
+aiohttp>=3.12.0
+aiofiles>=24.1.0
+anyio>=4.9.0
+httpx>=0.28.0
+httptools>=0.6.4
+
+# ===== SCIENTIFIC COMPUTING =====
+numpy>=2.0.0
+scipy>=1.15.0
+sympy==1.13.1
+mpmath>=1.3.0
+
+# ===== MACHINE LEARNING =====
+torch==2.5.1
+torchvision>=0.20.0
+torchaudio>=2.5.0
+scikit-learn>=1.7.0
+transformers>=4.50.0
+
+# ===== DATA SCIENCE =====
+pandas>=2.0.0
+matplotlib>=3.8.0
+seaborn>=0.13.0
+plotly>=5.17.0
+
+# ===== QUANTUM COMPUTING =====
+qiskit>=1.0.0
+qiskit-aer>=0.15.0
+qiskit-ibm-runtime<=0.29
+# Note: pennylane-qiskit removed due to sympy conflict
+
+# ===== DATABASE & STORAGE =====
+sqlalchemy>=2.0.30
+alembic>=1.16.0
+aiosqlite>=0.19.0
+psycopg2-binary>=2.9.9
+neo4j>=5.28.0
+networkx>=3.0
+redis>=5.0.0
+
+# ===== SECURITY (UPDATED) =====
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+cryptography>=42.0.0
+certifi==2025.7.14
+urllib3==2.5.0
+requests==2.32.4
+
+# ===== MONITORING =====
+prometheus-client>=0.19.0
+prometheus-fastapi-instrumentator>=7.1.0
+opentelemetry-sdk>=1.22.0
+opentelemetry-instrumentation-fastapi>=0.43b0
+opentelemetry-instrumentation-sqlalchemy>=0.43b0
+opentelemetry-exporter-otlp-proto-grpc>=1.22.0
+
+# ===== LOGGING =====
+loguru>=0.7.3
+structlog>=23.2.0
+python-json-logger>=2.0.7
+
+# ===== TESTING & PROFILING =====
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-benchmark>=4.0.0
+hypothesis>=6.88.0
+memory-profiler>=0.61.0
+line-profiler>=4.1.0
+pympler>=1.0.1
+locust>=2.21.0
+
+# ===== TRADING & FINANCIAL =====
+ccxt>=4.4.90
+web3>=7.12.0
+ta>=0.11.0
+yfinance>=0.2.59
+
+# ===== GPU & PERFORMANCE =====
+cupy-cuda12x>=13.0.0
+gputil>=1.4.0
+numba>=0.59.0
+numexpr>=2.8.0
+
+# ===== UTILITIES =====
+pyyaml>=6.0.2
+python-dotenv>=1.0.0
+tomlkit>=0.13.0
+pillow==11.3.0
+pyarrow>=15.0.0
+click>=8.2.0
+rich>=13.7.0
+tqdm>=4.66.0
+
+# ===== ESSENTIAL DEPENDENCIES =====
+typing-extensions>=4.8.0
+packaging>=21.0
+filelock>=3.0.0
+jinja2>=3.0.0
+markupsafe>=2.0.0
+charset-normalizer>=3.0.0
+idna>=3.0
+multidict>=6.0.0
+attrs>=23.0.0
+six>=1.16.0
+
+# ===== VERIFICATION COMMAND =====
+# pip install -r requirements/independent_production.txt
+# python -c "import torch, sympy, qiskit; print('✅ Environment ready')"
+# pip check

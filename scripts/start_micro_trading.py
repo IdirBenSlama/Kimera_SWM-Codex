@@ -48,7 +48,7 @@ class MicroTradingSystem:
     
     def __init__(self):
         """Initialize micro-trading system with maximum safety"""
-        self.api_key = "9268de76-b5f4-4683-b593-327fb2c19503"
+        self.api_key = os.getenv("CDP_API_KEY_NAME", "")
         self.private_key = None  # Will be set after validation
         self.trader = None
         

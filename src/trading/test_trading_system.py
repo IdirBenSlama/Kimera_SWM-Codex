@@ -193,8 +193,9 @@ MC4CAQAwBQYDK2VwBCIEIDummykeyholderdummykeyholderdummykey
                 # Clean up temporary file
                 try:
                     os.unlink(test_key_path)
-                except:
-                    pass
+                except Exception as e:
+                    logger.error(f"Error in test_trading_system.py: {e}", exc_info=True)
+                    raise  # Re-raise for proper error handling
                     
         except Exception as e:
             log_test("APIConnectors", "initialization", "FAIL", str(e))

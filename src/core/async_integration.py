@@ -4,14 +4,15 @@ Integrates new async patterns into existing KIMERA components
 Phase 2, Week 5: Async/Await Patterns Implementation
 """
 
+from pathlib import Path
+from typing import Optional, Dict, Any, List
 import asyncio
 import logging
-from typing import Optional, Dict, Any, List
-from pathlib import Path
+
 import functools
 
-from .task_manager import TaskManager, get_task_manager
 from .async_context_managers import (
+from .task_manager import TaskManager, get_task_manager
     AsyncResourcePool, AsyncOperationTracker, AsyncFileManager,
     AsyncBatchProcessor, AsyncRateLimiter, get_operation_tracker
 )

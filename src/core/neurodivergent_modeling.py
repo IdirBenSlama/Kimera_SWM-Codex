@@ -1,9 +1,8 @@
-import torch
-from typing import Any, List, Dict
 from enum import Enum
-
-# Initialize structured logger
 from src.utils.kimera_logger import get_system_logger
+from typing import Any, List, Dict
+
+import torch
 logger = get_system_logger(__name__)
 
 

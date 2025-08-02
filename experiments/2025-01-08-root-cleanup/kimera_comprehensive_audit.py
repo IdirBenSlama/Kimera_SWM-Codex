@@ -347,8 +347,9 @@ class KimeraAuditor:
                         if print_count == 1:  # Only log first occurrence
                             self.log_issue("fluidity_issues", 
                                          f"Using print() instead of logging in {py_file.relative_to(self.project_root)}")
-            except:
-                pass
+            except Exception as e:
+                logger.error(f"Error in kimera_comprehensive_audit.py: {e}", exc_info=True)
+                raise  # Re-raise for proper error handling
                 
         if print_count == 0:
             self.log_success("No print statements found (good - using logging)")

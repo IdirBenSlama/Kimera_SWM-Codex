@@ -40,9 +40,13 @@ class CompleteSignalProcessingPipeline:
                  quantum_processor: QuantumThermodynamicSignalProcessor,
                  consciousness_analyzer: SignalConsciousnessAnalyzer,
                  global_workspace: SignalGlobalWorkspace):
-        self.settings = get_api_settings()
+        try:
+            self.settings = get_api_settings()
+        except Exception as e:
+            logger.warning(f"Failed to load API settings: {e}. Using direct settings.")
+            self.settings = get_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
-self.evolution_engine = evolution_engine
+        self.evolution_engine = evolution_engine
         self.quantum_processor = quantum_processor
         self.consciousness_analyzer = consciousness_analyzer
         self.global_workspace = global_workspace
@@ -88,9 +92,13 @@ class TCSignalIntegrationValidator:
     Runs a comprehensive validation suite on the fully integrated TCSE system.
     """
     def __init__(self, pipeline: CompleteSignalProcessingPipeline):
-        self.settings = get_api_settings()
+        try:
+            self.settings = get_api_settings()
+        except Exception as e:
+            logger.warning(f"Failed to load API settings: {e}. Using direct settings.")
+            self.settings = get_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
-self.pipeline = pipeline
+        self.pipeline = pipeline
         self.baseline_metrics = {
             "fields_per_sec": 100.91,
             "memory_per_1000_fields_gb": 22.6

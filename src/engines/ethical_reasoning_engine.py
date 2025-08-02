@@ -28,10 +28,10 @@ logger = get_system_logger(__name__)
 
 from ..vault.database import SessionLocal
 from ..vault.enhanced_database_schema import (
-from ..utils.config import get_api_settings
-from ..config.settings import get_settings
     EthicalReasoningDB, ValueSystemDB, GenuineOpinionDB
 )
+from ..utils.config import get_api_settings
+from ..config.settings import get_settings
 
 class EthicalFramework(Enum):
     DEONTOLOGICAL = "deontological"
@@ -77,7 +77,7 @@ class EthicalReasoningEngine:
     def __init__(self):
         self.settings = get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
-self.session = SessionLocal()
+        self.session = SessionLocal()
         self.value_hierarchy = {}
         self.ethical_principles = {}
         self.decision_history = []
@@ -102,7 +102,11 @@ self.session = SessionLocal()
         """Load value system from database"""
         logger.info("  📋 Loading value system...")
         
-        values = self.session.query(ValueSystemDB).all()
+        try:
+            values = self.session.query(ValueSystemDB).all()
+        except Exception as e:
+            logger.warning(f"Database table not available, using default values: {e}")
+            values = []
         
         for value in values:
             self.value_hierarchy[value.value_name] = {
@@ -113,7 +117,11 @@ self.session = SessionLocal()
                 "stability": value.stability_score
             }
         
-        logger.info(f"    ✅ Loaded {len(values)
+        # Initialize default values if database is empty
+        if not self.value_hierarchy:
+            self._initialize_default_values()
+            
+        logger.info(f"    ✅ Loaded {len(self.value_hierarchy)} value systems")
     
     async def _initialize_ethical_principles(self):
         """Initialize core ethical principles"""
@@ -148,7 +156,11 @@ self.session = SessionLocal()
         """Load previous ethical decisions"""
         logger.info("  📚 Loading decision history...")
         
-        decisions = self.session.query(EthicalReasoningDB).all()
+        try:
+            decisions = self.session.query(EthicalReasoningDB).all()
+        except Exception as e:
+            logger.warning(f"Database table not available, starting with empty history: {e}")
+            decisions = []
         
         for decision in decisions:
             self.decision_history.append({
@@ -159,7 +171,37 @@ self.session = SessionLocal()
                 "outcome": json.loads(decision.decision_outcome or "{}")
             })
         
-        logger.info(f"    ✅ Loaded {len(decisions)
+        logger.info(f"    ✅ Loaded {len(self.decision_history)} decision records")
+    
+    def _initialize_default_values(self):
+        """Initialize default ethical value system"""
+        self.value_hierarchy = {
+            "respect_for_persons": {
+                "description": "Treat all individuals with dignity and respect",
+                "priority": 1.0,
+                "strength": 0.9
+            },
+            "beneficence": {
+                "description": "Act in ways that promote well-being",
+                "priority": 0.9,
+                "strength": 0.8
+            },
+            "non_maleficence": {
+                "description": "Do no harm",
+                "priority": 0.95,
+                "strength": 0.9
+            },
+            "justice": {
+                "description": "Fair distribution of benefits and burdens",
+                "priority": 0.8,
+                "strength": 0.8
+            },
+            "autonomy": {
+                "description": "Respect individual self-determination",
+                "priority": 0.85,
+                "strength": 0.8
+            }
+        }
     
     async def analyze_ethical_dilemma(self, dilemma: EthicalDilemma) -> EthicalAnalysis:
         """Analyze an ethical dilemma using multiple frameworks"""

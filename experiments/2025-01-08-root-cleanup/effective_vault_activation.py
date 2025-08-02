@@ -65,7 +65,9 @@ class EffectiveVaultActivation:
                 try:
                     error_detail = response.json()
                     print(f"      Error: {error_detail}")
-                except:
+                except Exception as e:
+                    logger.error(f"Error in effective_vault_activation.py: {e}", exc_info=True)
+                    raise  # Re-raise for proper error handling
                     print(f"      Response: {response.text}")
                 return False
                 

@@ -24,7 +24,7 @@ async def test_cryptopanic():
     logger.info("Testing CryptoPanic API")
     logger.info("="*50)
     
-    api_key = os.getenv('CRYPTOPANIC_API_KEY', '23675a49e161477a7b2b3c8c4a25743ba6777e8e')
+    api_key = os.getenv('CRYPTOPANIC_API_KEY', os.getenv("CRYPTOPANIC_API_KEY", ""))
     connector = create_cryptopanic_connector(api_key, testnet=True)
     
     async with connector:

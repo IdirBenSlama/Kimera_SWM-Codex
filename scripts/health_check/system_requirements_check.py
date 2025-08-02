@@ -192,7 +192,9 @@ class KimeraHealthChecker:
                         module = importlib.import_module(dep)
                         version = getattr(module, '__version__', 'Unknown')
                         dep_status[dep] = {"installed": True, "version": version}
-                    except:
+                    except Exception as e:
+                        logger.error(f"Error in system_requirements_check.py: {e}", exc_info=True)
+                        raise  # Re-raise for proper error handling
                         dep_status[dep] = {"installed": True, "version": "Unknown"}
             except Exception as e:
                 dep_status[dep] = {"installed": False, "error": str(e)}

@@ -216,7 +216,9 @@ class KimeraSystemAnalyzer:
                         times.append(time.time() - start)
                     else:
                         errors += 1
-                except:
+                except Exception as e:
+                    logger.error(f"Error in kimera_comprehensive_analysis.py: {e}", exc_info=True)
+                    raise  # Re-raise for proper error handling
                     errors += 1
             
             if times:

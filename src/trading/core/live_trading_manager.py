@@ -552,7 +552,9 @@ class LiveTradingManager:
                 total_energy = sum(np.linalg.norm(geoid.embedding) for geoid in self.cognitive_field.geoids.values())
                 return min(total_energy / len(self.cognitive_field.geoids), 1.0)
             return 0.5  # Default neutral temperature
-        except:
+        except Exception as e:
+            logger.error(f"Error in live_trading_manager.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
             return 0.5
 
     async def _check_circuit_breakers(self) -> bool:

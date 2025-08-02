@@ -1,0 +1,111 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database with pgvector extension
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: kimera_postgres
+    environment:
+      POSTGRES_USER: kimera
+      POSTGRES_PASSWORD: kimera_secure_pass_2025
+      POSTGRES_DB: kimera_swm
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
+      POSTGRES_HOST_AUTH_METHOD: md5
+    ports:
+      - "5432:5432"
+    volumes:
+      - kimera_postgres_data:/var/lib/postgresql/data
+      - ./init_db_fixed.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kimera -d kimera_swm"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - kimera_network
+    restart: unless-stopped
+
+  # Neo4j Graph Database for semantic relationships
+  neo4j:
+    image: neo4j:5.15-community
+    container_name: kimera_neo4j
+    environment:
+      NEO4J_AUTH: neo4j/kimera_graph_pass_2025
+      NEO4J_dbms_default__database: kimera_graph
+      NEO4J_dbms_security_procedures_unrestricted: gds.*,apoc.*
+      NEO4J_dbms_security_procedures_allowlist: gds.*,apoc.*
+      NEO4J_PLUGINS: '["apoc", "graph-data-science"]'
+      NEO4J_dbms_memory_heap_initial__size: 512M
+      NEO4J_dbms_memory_heap_max__size: 2G
+      NEO4J_dbms_memory_pagecache_size: 1G
+      NEO4J_dbms_jvm_additional: "-XX:+ExitOnOutOfMemoryError"
+    ports:
+      - "7474:7474"   # HTTP
+      - "7687:7687"   # Bolt
+    volumes:
+      - kimera_neo4j_data:/data
+      - kimera_neo4j_logs:/logs
+      - kimera_neo4j_import:/var/lib/neo4j/import
+      - kimera_neo4j_plugins:/plugins
+    healthcheck:
+      test: ["CMD", "cypher-shell", "-u", "neo4j", "-p", "kimera_graph_pass_2025", "RETURN 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+      - kimera_network
+    restart: unless-stopped
+
+  # Redis for caching and message queuing
+  redis:
+    image: redis:7-alpine
+    container_name: kimera_redis
+    environment:
+      REDIS_PASSWORD: kimera_cache_pass_2025
+    ports:
+      - "6379:6379"
+    volumes:
+      - kimera_redis_data:/data
+    command: redis-server --appendonly yes --requirepass kimera_cache_pass_2025
+    healthcheck:
+      test: ["CMD", "redis-cli", "--no-auth-warning", "-a", "kimera_cache_pass_2025", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - kimera_network
+    restart: unless-stopped
+
+  # Database Administration Tool (Optional)
+  adminer:
+    image: adminer
+    container_name: kimera_adminer
+    ports:
+      - "8080:8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
+    networks:
+      - kimera_network
+    restart: unless-stopped
+    depends_on:
+      - postgres
+
+volumes:
+  kimera_postgres_data:
+    name: kimera_postgres_data
+  kimera_neo4j_data:
+    name: kimera_neo4j_data
+  kimera_neo4j_logs:
+    name: kimera_neo4j_logs
+  kimera_neo4j_import:
+    name: kimera_neo4j_import
+  kimera_neo4j_plugins:
+    name: kimera_neo4j_plugins
+  kimera_redis_data:
+    name: kimera_redis_data
+
+networks:
+  kimera_network:
+    name: kimera_network
+    driver: bridge 

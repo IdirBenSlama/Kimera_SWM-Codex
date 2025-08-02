@@ -24,7 +24,7 @@ class KimeraQuantumEdgeSecurityArchitecture:
     def __init__(self):
         self.settings = get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
-logger.info("Initializing KIMERA Quantum Edge Security Architecture")
+        logger.info("Initializing KIMERA Quantum Edge Security Architecture")
 
     async def process_with_quantum_protection(self, data: Dict[str, Any]) -> Dict[str, Any]:
         """Process data with quantum-level security protection."""

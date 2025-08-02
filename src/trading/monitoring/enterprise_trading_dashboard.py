@@ -420,7 +420,9 @@ class EnterpriseTradingDashboard:
                 for websocket in self.websocket_connections:
                     try:
                         await websocket.send_json(update_data)
-                    except:
+                    except Exception as e:
+                        logger.error(f"Error in enterprise_trading_dashboard.py: {e}", exc_info=True)
+                        raise  # Re-raise for proper error handling
                         disconnected.append(websocket)
                 
                 # Remove disconnected clients

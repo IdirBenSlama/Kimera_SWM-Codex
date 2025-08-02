@@ -4,20 +4,20 @@ Optimizes startup time through parallel component initialization
 Phase 3, Week 8: Performance Optimization
 """
 
-import asyncio
-import time
-import logging
-from typing import Dict, List, Any, Optional, Callable, Set, Tuple
+from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
-import traceback
-from collections import defaultdict
-import networkx as nx
+from typing import Dict, List, Any, Optional, Callable, Set, Tuple
+import asyncio
+import logging
+import time
 
 from src.config import get_settings
-from src.core.task_manager import get_task_manager, initialize_task_manager
-from src.core.async_performance_monitor import get_performance_monitor
+import networkx as nx
+import traceback
 
+from .async_performance_monitor import get_performance_monitor
+from .task_manager import get_task_manager, initialize_task_manager
 logger = logging.getLogger(__name__)
 
 

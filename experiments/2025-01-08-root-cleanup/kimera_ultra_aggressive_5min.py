@@ -1,3 +1,4 @@
+import os
 #!/usr/bin/env python3
 """
 KIMERA ULTRA-AGGRESSIVE 5-MINUTE PROFIT MAXIMIZER
@@ -121,7 +122,9 @@ class KimeraUltraAggressive:
                         asset_value = balance_info['free'] * price
                         total_usdt_equivalent += asset_value
                         logger.info(f"💰 {asset}: {balance_info['free']} (~${asset_value:.2f})")
-                except:
+                except Exception as e:
+                    logger.error(f"Error in kimera_ultra_aggressive_5min.py: {e}", exc_info=True)
+                    raise  # Re-raise for proper error handling
                     continue
         
         return total_usdt_equivalent
@@ -431,10 +434,12 @@ class KimeraUltraAggressive:
                 try:
                     self.client.cancel_order(symbol=order['symbol'], orderId=order['orderId'])
                     logger.info(f"❌ Cancelled order {order['orderId']}")
-                except:
-                    pass
-        except:
-            pass
+                except Exception as e:
+                    logger.error(f"Error in kimera_ultra_aggressive_5min.py: {e}", exc_info=True)
+                    raise  # Re-raise for proper error handling
+        except Exception as e:
+            logger.error(f"Error in kimera_ultra_aggressive_5min.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
     
     def run_ultra_aggressive_session(self):
         """Run the complete ultra-aggressive trading session"""
@@ -537,7 +542,7 @@ def main():
     """Main execution function"""
     
     # API credentials
-    api_key = "Y9WyflPyK1tVXnET3CTMvSdCbPia3Nhtd89VYWjS9RaAbQ0KEhHezkcGSCySQ8cL"
+    api_key = os.getenv("BINANCE_API_KEY", "")
     api_secret = "qUn5JqSpYz1GDxFj2X3UF23TYgtxKrTsCbDZEoBMYCPbYZgP4siVLyspkB5HAPl7"
     
     # Initialize ultra-aggressive trader

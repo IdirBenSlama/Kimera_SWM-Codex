@@ -100,7 +100,9 @@ k+1M3dZ5l6SjNp2naYaa7oXuQQUm8UsFFA==
                         data = response.json()
                         print(f"      Data preview: {json.dumps(data, indent=2)[:150]}...")
                         successful_endpoints.append((path, description, data))
-                    except:
+                    except Exception as e:
+                        logger.error(f"Error in test_alt_coinbase_apis.py: {e}", exc_info=True)
+                        raise  # Re-raise for proper error handling
                         print(f"      Data: {response.text[:100]}...")
                         successful_endpoints.append((path, description, response.text))
                 elif response.status_code == 401:

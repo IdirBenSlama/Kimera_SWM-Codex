@@ -151,7 +151,9 @@ class EmergencyStopProtocol:
                             'current_price': float(ticker['price'])
                         })
                         
-                except:
+                except Exception as e:
+                    logger.error(f"Error in emergency_stop.py: {e}", exc_info=True)
+                    raise  # Re-raise for proper error handling
                     # Symbol doesn't exist or not tradeable
                     continue
                     

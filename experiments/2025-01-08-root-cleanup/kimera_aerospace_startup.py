@@ -712,8 +712,9 @@ class AerospaceStartupSequence:
                 "StartupSequence",
                 severity=5  # Critical
             )
-        except:
-            pass
+        except Exception as e:
+            logger.error(f"Error in kimera_aerospace_startup.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
         
         # Exit with error code
         sys.exit(1)

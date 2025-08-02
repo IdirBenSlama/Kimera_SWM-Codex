@@ -249,7 +249,7 @@ async def test_kimera_binance_integration():
     print("=" * 60)
     
     # Use working credentials
-    api_key = 'Y9WyflPyK1tVXnET3CTMvSdCbPia3Nhtd89VYWjS9RaAbQ0KEhHezkcGSCySQ8cL'
+    api_key = os.getenv("BINANCE_API_KEY", "")
     secret_key = 'qUn5JqSpYz1GDxFj2X3UF23TYgtxKrTsCbDZEoBMYCPbYZgP4siVLyspkB5HAPl7'
     
     try:

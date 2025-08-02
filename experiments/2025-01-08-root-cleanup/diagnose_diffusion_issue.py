@@ -161,7 +161,9 @@ def check_model_loading():
             data = response.json()
             print("System Status:")
             print(json.dumps(data, indent=2))
-    except:
+    except Exception as e:
+        logger.error(f"Error in diagnose_diffusion_issue.py: {e}", exc_info=True)
+        raise  # Re-raise for proper error handling
         print("Could not get system status")
     
     # Check if we can get any info about loaded models
@@ -173,8 +175,9 @@ def check_model_loading():
         if response.status_code == 200:
             print("Engine Status:")
             print(json.dumps(response.json(), indent=2))
-    except:
-        pass
+    except Exception as e:
+        logger.error(f"Error in diagnose_diffusion_issue.py: {e}", exc_info=True)
+        raise  # Re-raise for proper error handling
 
 def main():
     print("""

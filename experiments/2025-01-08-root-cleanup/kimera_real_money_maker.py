@@ -1,3 +1,4 @@
+import os
 #!/usr/bin/env python3
 """
 KIMERA REAL MONEY MAKER - NO BULLSHIT VERSION
@@ -85,7 +86,9 @@ class KimeraRealMoneyMaker:
                             value = free_amount * price
                             total_usdt_value += value
                             logger.info(f"BALANCE {asset}: {free_amount} @ ${price} = ${value:.2f}")
-                        except:
+                        except Exception as e:
+                            logger.error(f"Error in kimera_real_money_maker.py: {e}", exc_info=True)
+                            raise  # Re-raise for proper error handling
                             # Skip assets we can't price
                             continue
             
@@ -439,7 +442,7 @@ class KimeraRealMoneyMaker:
 def main():
     """Main execution function"""
     # Load API credentials
-    api_key = "Y9WyflPyK1tVXnET3CTMvSdCbPia3Nhtd89VYWjS9RaAbQ0KEhHezkcGSCySQ8cL"
+    api_key = os.getenv("BINANCE_API_KEY", "")
     api_secret = "qUn5JqSpYz1GDxFj2X3UF23TYgtxKrTsCbDZEoBMYCPbYZgP4siVLyspkB5HAPl7"
     
     # Create and run REAL money maker

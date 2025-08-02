@@ -16,20 +16,20 @@ The vault is Kimera's BRAIN - without it, we're just pattern matching.
 With it, we achieve true cognitive evolution and learning.
 """
 
-import asyncio
-import uuid
-import numpy as np
+from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Dict, List, Optional, Any, Tuple
-from dataclasses import dataclass, field
+import asyncio
 
-from ..vault.understanding_vault_manager import UnderstandingVaultManager
-from ..vault.database import SessionLocal
-from ..core.scar import ScarRecord
+import numpy as np
+import uuid
+
 from ..core.geoid import GeoidState
 from ..core.primal_scar import PrimalScar, EpistemicScar, PrimalScarManager
+from ..core.scar import ScarRecord
 from ..utils.kimera_logger import get_system_logger
-
+from ..vault.database import SessionLocal
+from ..vault.understanding_vault_manager import UnderstandingVaultManager
 logger = get_system_logger(__name__)
 
 @dataclass

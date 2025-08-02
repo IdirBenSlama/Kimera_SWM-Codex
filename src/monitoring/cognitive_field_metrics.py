@@ -22,6 +22,35 @@ import math
 
 logger = logging.getLogger(__name__)
 
+# Global metrics collector instance
+_metrics_collector = None
+
+def get_metrics_collector():
+    """Get or create the global metrics collector instance"""
+    global _metrics_collector
+    if _metrics_collector is None:
+        # Import the actual metrics collector from the right module
+        try:
+            from .metrics_collector import MetricsCollector
+            _metrics_collector = MetricsCollector()
+        except ImportError:
+            # Fallback: create a simple metrics collector
+            _metrics_collector = SimpleMetricsCollector()
+    return _metrics_collector
+
+class SimpleMetricsCollector:
+    """Simple fallback metrics collector"""
+    def __init__(self):
+        self.metrics = {}
+        
+    def record_metric(self, name, value):
+        """Record a metric"""
+        self.metrics[name] = value
+        
+    def get_metrics(self):
+        """Get all metrics"""
+        return self.metrics.copy()
+
 @dataclass
 class CognitiveFieldState:
     """Represents the state of the cognitive field at a moment in time."""

@@ -1,3 +1,4 @@
+import os
 #!/usr/bin/env python3
 """
 KIMERA LIVE SESSION ANALYZER
@@ -120,7 +121,7 @@ def analyze_log_file(log_file: str) -> Dict[str, Any]:
             },
             'system_info': {
                 'network': 'base-sepolia',
-                'api_key': '9268de76-b5f4-4683-b593-327fb2c19503',
+                'api_key': os.getenv("CDP_API_KEY_NAME", ""),
                 'live_trading': True,
                 'testnet': True,
                 'cdp_integration': 'active',

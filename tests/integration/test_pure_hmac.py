@@ -1,3 +1,4 @@
+import os
 #!/usr/bin/env python3
 """
 Pure HMAC Connector Test
@@ -67,7 +68,7 @@ async def test_pure_hmac():
     print("=" * 40)
     
     # Use the working credentials
-    api_key = 'Y9WyflPyK1tVXnET3CTMvSdCbPia3Nhtd89VYWjS9RaAbQ0KEhHezkcGSCySQ8cL'
+    api_key = os.getenv("BINANCE_API_KEY", "")
     secret_key = 'qUn5JqSpYz1GDxFj2X3UF23TYgtxKrTsCbDZEoBMYCPbYZgP4siVLyspkB5HAPl7'
     
     print(f"📋 API Key: {api_key[:8]}...{api_key[-8:]}")

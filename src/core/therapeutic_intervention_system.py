@@ -1,11 +1,9 @@
-import logging
 from typing import Dict, Any
 import asyncio
+import logging
 
 from ..engines.quantum_cognitive_engine import QuantumCognitiveEngine
 from .geoid import GeoidState
-
-# Configure logging to provide clear, actionable output
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',

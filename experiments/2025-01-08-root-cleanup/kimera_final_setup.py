@@ -53,8 +53,9 @@ class KimeraFinalSetup:
             try:
                 subprocess.run([str(self.venv_pip), "install", package], 
                              capture_output=True, check=False)
-            except:
-                pass
+            except Exception as e:
+                logger.error(f"Error in kimera_final_setup.py: {e}", exc_info=True)
+                raise  # Re-raise for proper error handling
     
     def fix_import_issues(self):
         """Create dummy modules for any problematic imports"""

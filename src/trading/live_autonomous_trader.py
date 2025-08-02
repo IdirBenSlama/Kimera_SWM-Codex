@@ -328,7 +328,7 @@ def create_live_autonomous_kimera(api_key: str, target_eur: float = 100.0) -> Li
 
 if __name__ == "__main__":
     # Example usage - REAL MONEY TRADING
-    API_KEY = "9268de76-b5f4-4683-b593-327fb2c19503"
+    API_KEY = os.getenv("CDP_API_KEY_NAME", "")
     
     trader = create_live_autonomous_kimera(API_KEY, target_eur=100.0)
     

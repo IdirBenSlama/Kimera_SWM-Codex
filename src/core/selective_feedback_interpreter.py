@@ -9,18 +9,18 @@ The interpreter profiler learns "HOW TO ANALYZE" while behavior profiles
 remain static to maintain ethical consistency and prevent manipulation.
 """
 
-from typing import Dict, List, Any, Optional, Tuple
-from dataclasses import dataclass, field
-from enum import Enum
-import logging
-from datetime import datetime, timedelta
 from collections import deque
-import numpy as np
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from enum import Enum
+from typing import Dict, List, Any, Optional, Tuple
+import logging
+
 import json
+import numpy as np
 
 from .anthropomorphic_profiler import AnthropomorphicProfiler, InteractionAnalysis
 from .context_field_selector import ContextFieldSelector
-
 logger = logging.getLogger(__name__)
 
 

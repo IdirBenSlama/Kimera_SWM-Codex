@@ -13,24 +13,21 @@ Scientific Principles:
 - Circuit breaker pattern: Prevents cascade failures
 """
 
-import asyncio
-import functools
-import logging
-import time
-import traceback
-from typing import TypeVar, Callable, Optional, Any, Dict, Union, Type
-from enum import Enum
+from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from collections import defaultdict
+from enum import Enum
+from typing import TypeVar, Callable, Optional, Any, Dict, Union, Type
+import asyncio
+import logging
 import threading
-from functools import wraps
+import time
 
 from fastapi import HTTPException
-
+from functools import wraps
 from src.utils.kimera_logger import get_logger, LogCategory
-
-# Get a dedicated logger for exception handling
+import functools
+import traceback
 logger = get_logger("exception_handler", category=LogCategory.SYSTEM)
 
 T = TypeVar('T')

@@ -1,0 +1,20 @@
+# KIMERA SWM Gpu Requirements
+# GPU acceleration and CUDA libraries
+# Generated on: 2025-07-31T22:28:35.080838
+
+cuda-python>=12.8.0
+cupy-cuda12x==13.5.1
+gputil==1.4.0
+memory-profiler==0.61.0
+moderngl>=5.8.0  # Modern OpenGL context
+numba==0.61.2
+nvidia-ml-py==12.575.51
+psutil==7.0.0
+py3nvml>=0.2.7
+pympler==1.1
+pynvml==12.0.0
+pyopengl>=3.1.0  # OpenGL for GPU visualization
+rapids-dependency-file-generator>=1.8.0  # For RAPIDS ecosystem
+torch==2.5.1+cu121
+torchaudio==2.5.1+cu121
+torchvision==0.20.1+cu121

@@ -46,7 +46,12 @@ class SignalGlobalWorkspace:
     throughout the system, representing a moment of consciousness.
     """
     def __init__(self, broadcast_threshold: float = 0.8, num_competitors: int = 5):
-        self.settings = get_api_settings()
+        try:
+            self.settings = get_api_settings()
+        except Exception as e:
+            logger.warning(f"Failed to load API settings: {e}. Using direct settings.")
+            from ..config.settings import get_settings
+            self.settings = get_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
         self.broadcast_threshold = broadcast_threshold
         self.num_competitors = num_competitors
@@ -125,7 +130,12 @@ class SignalConsciousnessAnalyzer:
     thermodynamic, informational, and structural metrics.
     """
     def __init__(self, foundational_engine: FoundationalThermodynamicEngine):
-        self.settings = get_api_settings()
+        try:
+            self.settings = get_api_settings()
+        except Exception as e:
+            logger.warning(f"Failed to load API settings: {e}. Using direct settings.")
+            from ..config.settings import get_settings
+            self.settings = get_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
         self.foundational_engine = foundational_engine
         logger.info("👁️ Signal Consciousness Analyzer initialized.")

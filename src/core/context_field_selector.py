@@ -7,12 +7,11 @@ in outputs during ingestion and processing phases. This optimizes performance
 and allows users to focus on specific aspects of semantic analysis.
 """
 
-from typing import Dict, List, Set, Any, Optional, Union
 from dataclasses import dataclass, field
-from enum import Enum
-import logging
 from datetime import datetime
-
+from enum import Enum
+from typing import Dict, List, Set, Any, Optional, Union
+import logging
 logger = logging.getLogger(__name__)
 
 

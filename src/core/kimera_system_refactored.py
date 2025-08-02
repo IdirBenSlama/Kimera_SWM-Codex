@@ -7,18 +7,17 @@ to break circular dependencies and improve testability.
 """
 
 from __future__ import annotations
-
-import logging
-import threading
 from enum import Enum, auto
 from typing import Optional, Dict, Any, Type
+import logging
+import threading
 
-from src.core.dependency_injection import container, injectable
-from src.core.interfaces import (
+from .dependency_injection import container, injectable
+from .interfaces import (
     IKimeraSystem, IGPUService, IVaultService, IEmbeddingService,
     IContradictionEngine, IThermodynamicEngine, IInitializable
 )
-from src.core.layers import layer_boundary, Layer
+from .layers import layer_boundary, Layer
 
 logger = logging.getLogger(__name__)
 
@@ -312,7 +311,7 @@ def migrate_to_refactored_system():
     2. Initializes the refactored system
     3. Updates references
     """
-    from src.core.kimera_system import kimera_singleton
+    from .kimera_system import kimera_singleton
     
     # Check if we should use the refactored version
     import os

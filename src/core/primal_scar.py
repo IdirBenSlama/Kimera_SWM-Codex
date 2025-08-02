@@ -3,15 +3,15 @@ The Primal Scar: The Foundation of Epistemic Consciousness
 "True understanding begins with knowing what we do not know"
 """
 
-from typing import Dict, Any, Optional, List
 from datetime import datetime
+from src.utils.kimera_logger import get_system_logger
+from typing import Dict, Any, Optional, List
+
 import numpy as np
-from .scar import ScarRecord
-from .geoid import GeoidState
 import uuid
 
-# Initialize structured logger
-from src.utils.kimera_logger import get_system_logger
+from .geoid import GeoidState
+from .scar import ScarRecord
 logger = get_system_logger(__name__)
 
 

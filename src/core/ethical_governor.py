@@ -15,19 +15,18 @@ ENHANCEMENTS:
 - Real-time monitoring and alerting integration
 """
 
-import logging
-import json
-import time
-from enum import Enum
-from typing import Dict, List, Any, Optional
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+from enum import Enum
+from typing import Dict, List, Any, Optional
+import logging
+import time
 
+import json
+
+from .action_proposal import ActionProposal
 from .heart import Heart, HeartAnalysis
 from .vault_interface import vault_interface
-from .action_proposal import ActionProposal
-
-# Setup logger for the Ethical Governor
 logger = logging.getLogger(__name__)
 
 # Enhanced Constitutional Analysis Thresholds

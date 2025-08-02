@@ -64,7 +64,9 @@ class UnderstandingEngine:
     def __init__(self):
         self.settings = get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
-self.session = SessionLocal()
+        self.session = SessionLocal() if SessionLocal else None
+        if self.session is None:
+            logger.warning("Database session not available - using in-memory mode")
         self.understanding_history = []
         self.active_insights = {}
         self.causal_models = {}
@@ -93,8 +95,12 @@ self.session = SessionLocal()
         """Initialize self-awareness capabilities"""
         logger.debug("  🔍 Initializing self-model...")
         
-        # Check if self-model exists
-        existing_model = self.session.query(SelfModelDB).first()
+        # Check if self-model exists (with graceful fallback for missing database tables)
+        try:
+            existing_model = self.session.query(SelfModelDB).first()
+        except Exception as e:
+            logger.warning(f"Database table not available, creating default self-model: {e}")
+            existing_model = None
         
         if not existing_model:
             # Create initial self-model
@@ -138,10 +144,26 @@ self.session = SessionLocal()
                 validation_score=0.0
             )
             
-            self.session.add(self_model)
-            self.session.commit()
-            self.self_model = self_model
-            logger.info("    ✅ Created initial self-model")
+            try:
+                self.session.add(self_model)
+                self.session.commit()
+                self.self_model = self_model
+                logger.info("    ✅ Created initial self-model")
+            except Exception as e:
+                logger.warning(f"Could not save to database, using in-memory self-model: {e}")
+                # Create a simple in-memory self-model object
+                self.self_model = type('SelfModel', (), {
+                    'model_id': f"SELF_MODEL_{uuid.uuid4().hex[:8]}",
+                    'model_version': 1,
+                    'processing_capabilities': {
+                        "semantic_processing": True,
+                        "causal_reasoning": True,
+                        "multimodal_integration": True,
+                        "self_reflection": True,
+                        "ethical_reasoning": True
+                    }
+                })()
+                logger.info("    ✅ Created in-memory self-model")
         else:
             self.self_model = existing_model
             logger.info("    ✅ Loaded existing self-model")

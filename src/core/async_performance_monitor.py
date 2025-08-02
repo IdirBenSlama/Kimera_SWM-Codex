@@ -4,19 +4,19 @@ Monitors and tracks async operation performance
 Phase 2, Week 5: Async/Await Patterns Implementation
 """
 
+from collections import defaultdict, deque
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from enum import Enum
+from typing import Dict, List, Optional, Any, Callable, Tuple
 import asyncio
 import logging
 import time
-from typing import Dict, List, Optional, Any, Callable, Tuple
-from dataclasses import dataclass, field
-from datetime import datetime, timedelta
-from collections import defaultdict, deque
-import statistics
-from enum import Enum
-import psutil
 import weakref
-from contextlib import asynccontextmanager
 
+from contextlib import asynccontextmanager
+import psutil
+import statistics
 logger = logging.getLogger(__name__)
 
 

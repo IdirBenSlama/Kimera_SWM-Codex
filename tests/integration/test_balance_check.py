@@ -82,7 +82,9 @@ async def check_balance():
         try:
             btc_price = await connector.get_ticker_price("BTCUSDT")
             print(f"\n📊 Current BTC price: ${float(btc_price['price']):,.2f}")
-        except:
+        except Exception as e:
+            logger.error(f"Error in test_balance_check.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
             print("\n⚠️ Could not get BTC price")
             
         await connector.close()

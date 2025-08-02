@@ -246,7 +246,9 @@ class KimeraBulletproofTrader:
                         market = self.exchange.market(symbol)
                         min_amount = market.get('limits', {}).get('amount', {}).get('min', 0)
                         min_notional = market.get('limits', {}).get('cost', {}).get('min', self.min_trade_size)
-                    except:
+                    except Exception as e:
+                        logger.error(f"Error in kimera_bulletproof_trader.py: {e}", exc_info=True)
+                        raise  # Re-raise for proper error handling
                         continue
                     
                     # ULTRA-CONSERVATIVE SELL VALIDATION
@@ -635,7 +637,9 @@ async def main():
         duration = input("Duration in minutes (default 5): ")
         try:
             duration_minutes = int(duration) if duration else 5
-        except:
+        except Exception as e:
+            logger.error(f"Error in kimera_bulletproof_trader.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
             duration_minutes = 5
         
         trader = KimeraBulletproofTrader()

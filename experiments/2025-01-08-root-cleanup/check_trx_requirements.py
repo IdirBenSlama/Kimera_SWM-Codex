@@ -1,3 +1,4 @@
+import os
 #!/usr/bin/env python3
 """
 Check exact TRX trading requirements and fix precision
@@ -8,7 +9,7 @@ import json
 
 def main():
     # API credentials
-    api_key = "Y9WyflPyK1tVXnET3CTMvSdCbPia3Nhtd89VYWjS9RaAbQ0KEhHezkcGSCySQ8cL"
+    api_key = os.getenv("BINANCE_API_KEY", "")
     api_secret = "qUn5JqSpYz1GDxFj2X3UF23TYgtxKrTsCbDZEoBMYCPbYZgP4siVLyspkB5HAPl7"
     
     client = Client(api_key, api_secret)

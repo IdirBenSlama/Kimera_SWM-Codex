@@ -140,7 +140,7 @@ class GPUFoundation:
                 compute_capability=(device_props.major, device_props.minor),
                 multiprocessor_count=device_props.multi_processor_count,
                 max_threads_per_block=getattr(device_props, 'max_threads_per_block', device_props.max_threads_per_multi_processor),
-                max_shared_memory_per_block=getattr(device_props, 'max_shared_memory_per_block', device_props.shared_memory_per_block),
+                max_shared_memory_per_block=getattr(device_props, 'max_shared_memory_per_block', getattr(device_props, 'shared_memory_per_block', 0)),
                 validation_timestamp=datetime.now(),
                 validation_level=self.validation_level
             )

@@ -40,7 +40,9 @@ def test_auth_v3():
     try:
         secret = base64.b64decode(api_secret)
         print("✅ Secret is base64 encoded")
-    except:
+    except Exception as e:
+        logger.error(f"Error in test_coinbase_connection.py: {e}", exc_info=True)
+        raise  # Re-raise for proper error handling
         secret = api_secret.encode('utf-8')
         print("ℹ️ Secret is plain text")
     
@@ -88,7 +90,9 @@ def test_auth_v2():
     # For v2, secret should be base64
     try:
         secret = base64.b64decode(api_secret)
-    except:
+    except Exception as e:
+        logger.error(f"Error in test_coinbase_connection.py: {e}", exc_info=True)
+        raise  # Re-raise for proper error handling
         print("❌ V2 API requires base64 encoded secret")
         return
     

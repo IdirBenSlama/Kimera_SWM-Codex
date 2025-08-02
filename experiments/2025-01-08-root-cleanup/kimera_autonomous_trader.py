@@ -321,8 +321,9 @@ class KimeraAutonomousTrader:
                         try:
                             ticker = self.exchange.fetch_ticker(f"{asset}/USDT")
                             total_value += free_balance * ticker['last']
-                        except:
-                            pass
+                        except Exception as e:
+                            logger.error(f"Error in kimera_autonomous_trader.py: {e}", exc_info=True)
+                            raise  # Re-raise for proper error handling
             
             return total_value
             

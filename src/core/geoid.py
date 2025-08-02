@@ -1,9 +1,9 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
-from typing import Dict, Any, List, TYPE_CHECKING
-import numpy as np
 from datetime import datetime
+from typing import Dict, Any, List, TYPE_CHECKING
 
+import numpy as np
 if TYPE_CHECKING:
     from ..engines.enhanced_vortex_system import EnhancedVortexBattery
 

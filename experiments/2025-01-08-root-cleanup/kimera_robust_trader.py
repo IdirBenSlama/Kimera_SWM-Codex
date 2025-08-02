@@ -1,3 +1,4 @@
+import os
 #!/usr/bin/env python3
 """
 KIMERA ROBUST TRADER - PRODUCTION READY
@@ -390,7 +391,7 @@ class KimeraRobustTrader:
 
 def main():
     """Main execution"""
-    api_key = "Y9WyflPyK1tVXnET3CTMvSdCbPia3Nhtd89VYWjS9RaAbQ0KEhHezkcGSCySQ8cL"
+    api_key = os.getenv("BINANCE_API_KEY", "")
     api_secret = "qUn5JqSpYz1GDxFj2X3UF23TYgtxKrTsCbDZEoBMYCPbYZgP4siVLyspkB5HAPl7"
     
     # Create robust trader

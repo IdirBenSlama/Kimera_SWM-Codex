@@ -1,8 +1,8 @@
-import numpy as np
-from typing import Dict, List, Any
 from datetime import datetime
-from src.engines.thermodynamic_engine import ThermodynamicEngine
+from typing import Dict, List, Any
 
+from src.engines.thermodynamic_engine import ThermodynamicEngine
+import numpy as np
 class QualityControlSystem:
     """
     A general-purpose quality control system implementing Statistical Process Control (SPC)

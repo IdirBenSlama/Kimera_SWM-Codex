@@ -4,13 +4,14 @@ Integrates all performance optimization components
 Phase 3, Week 8: Performance Optimization
 """
 
+from src.config import get_settings, get_feature_flag
+from typing import Dict, Any, Optional, List, Callable
 import asyncio
 import logging
-import json
-from typing import Dict, Any, Optional, List, Callable
 import threading
 
-from src.config import get_settings, get_feature_flag
+import json
+
 from .parallel_initialization import (
     ParallelInitializer, get_parallel_initializer, initialization_component
 )

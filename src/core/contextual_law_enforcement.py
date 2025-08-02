@@ -6,18 +6,18 @@ Main engine that integrates relevance assessment, rule flexibility, and stabiliz
 Implements "relevance is king" with guaranteed return to equilibrium.
 """
 
-from typing import Dict, Any, List, Optional, Tuple
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
+from typing import Dict, Any, List, Optional, Tuple
 import logging
-import json
 import threading
 
+import json
+
+from .gyroscopic_security import GyroscopicSecurityCore
 from .immutable_laws import get_law_registry, ImmutableLaw, FlexibilityTier
 from .relevance_assessment import RelevanceAssessmentEngine, ContextAssessment, FlexibilityAuthorization
-from .gyroscopic_security import GyroscopicSecurityCore
-
 logger = logging.getLogger(__name__)
 
 

@@ -34,7 +34,7 @@ def check_session_files():
 def check_current_balances():
     """Check current account balances"""
     try:
-        api_key = "Y9WyflPyK1tVXnET3CTMvSdCbPia3Nhtd89VYWjS9RaAbQ0KEhHezkcGSCySQ8cL"
+        api_key = os.getenv("BINANCE_API_KEY", "")
         api_secret = "qUn5JqSpYz1GDxFj2X3UF23TYgtxKrTsCbDZEoBMYCPbYZgP4siVLyspkB5HAPl7"
         
         client = Client(api_key, api_secret)
@@ -59,7 +59,9 @@ def check_current_balances():
                         value = free * price
                         print(f"   {asset}: {free:.2f} @ ${price:.6f} = ${value:.2f}")
                         total_value += value
-                    except:
+                    except Exception as e:
+                        logger.error(f"Error in check_kimera_status.py: {e}", exc_info=True)
+                        raise  # Re-raise for proper error handling
                         print(f"   {asset}: {free:.6f}")
         
         print(f"\n💰 TOTAL PORTFOLIO VALUE: ${total_value:.2f}")

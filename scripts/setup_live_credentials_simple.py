@@ -15,7 +15,7 @@ def create_live_config():
     print("=" * 50)
     
     # Use your provided API key
-    api_key_name = "9268de76-b5f4-4683-b593-327fb2c19503"
+    api_key_name = os.getenv("CDP_API_KEY_NAME", "")
     
     print(f"✅ Using your API Key: {api_key_name}")
     print()

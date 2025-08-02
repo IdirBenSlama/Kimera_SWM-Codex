@@ -6,8 +6,6 @@ representing a generated insight (e.g., analogy, hypothesis).
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import List, Dict, Any, Literal
-
-# Type definition for the insight lifecycle status
 InsightStatus = Literal['provisional', 'active', 'strengthened', 'deprecated']
 
 @dataclass

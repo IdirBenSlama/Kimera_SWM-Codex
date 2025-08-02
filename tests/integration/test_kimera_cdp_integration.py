@@ -1,3 +1,4 @@
+import os
 #!/usr/bin/env python3
 """
 KIMERA CDP AGENTKIT INTEGRATION TEST
@@ -57,7 +58,7 @@ async def test_cdp_trader():
     
     # Initialize trader with test credentials
     trader = KimeraCDPTrader(
-        api_key_name="9268de76-b5f4-4683-b593-327fb2c19503",
+        api_key_name=os.getenv("CDP_API_KEY_NAME", ""),
         api_key_private_key=None  # Will run in simulation mode
     )
     
@@ -91,7 +92,7 @@ async def test_full_trading_cycle():
     print("📊 Testing Full Trading Cycle...")
     
     trader = KimeraCDPTrader(
-        api_key_name="9268de76-b5f4-4683-b593-327fb2c19503",
+        api_key_name=os.getenv("CDP_API_KEY_NAME", ""),
         api_key_private_key=None  # Simulation mode
     )
     

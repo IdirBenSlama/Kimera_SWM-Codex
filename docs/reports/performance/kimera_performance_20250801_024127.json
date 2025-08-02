@@ -1,0 +1,139 @@
+{
+  "timestamp": "2025-08-01T02:41:16.772863",
+  "system_info": {
+    "cpu_count": 16,
+    "cpu_freq": {
+      "current": 3201.0,
+      "min": 0.0,
+      "max": 3201.0
+    },
+    "memory_total_gb": 31.34665298461914,
+    "platform": {
+      "system": "python.exe",
+      "python_version": "55708"
+    },
+    "gpu": "Error reading GPU info"
+  },
+  "api_tests": {
+    "/health": {
+      "mean_ms": 7.175039999674482,
+      "median_ms": 3.230599998460093,
+      "min_ms": 2.3538999994343612,
+      "max_ms": 23.93830000073649,
+      "stdev_ms": 8.678061819132832,
+      "success_rate": 1.0,
+      "errors": 0
+    },
+    "/api/v1/system/status": {
+      "error": "All requests failed",
+      "errors": 10
+    },
+    "/api/v1/system/components": {
+      "error": "All requests failed",
+      "errors": 10
+    },
+    "/api/v1/metrics": {
+      "error": "All requests failed",
+      "errors": 10
+    },
+    "/api/v1/linguistic/analyze": {
+      "error": "All requests failed",
+      "errors": 10
+    },
+    "/api/v1/cognitive/process": {
+      "error": "All requests failed",
+      "errors": 10
+    },
+    "/api/v1/contradiction/detect": {
+      "error": "All requests failed",
+      "errors": 10
+    }
+  },
+  "cognitive_tests": {
+    "understanding_simple": {
+      "error": "All requests failed",
+      "errors": 5
+    },
+    "understanding_medium": {
+      "error": "All requests failed",
+      "errors": 5
+    },
+    "understanding_complex": {
+      "error": "All requests failed",
+      "errors": 5
+    },
+    "quantum_exploration": {
+      "error": "All requests failed",
+      "errors": 3
+    }
+  },
+  "resource_usage": {
+    "cpu": {
+      "mean_percent": 21.595,
+      "max_percent": 55.9,
+      "min_percent": 8.2,
+      "stdev_percent": 11.822123551340423
+    },
+    "memory": {
+      "mean_percent": 63.25,
+      "max_percent": 63.5,
+      "min_percent": 62.7
+    },
+    "gpu": {
+      "mean_percent": 0,
+      "max_percent": 0,
+      "mean_memory_mb": 268.90234375,
+      "max_memory_mb": 268.90234375
+    }
+  },
+  "parallel_tests": {
+    "concurrency_1": {
+      "total_requests": 5,
+      "successful_requests": 0,
+      "total_time_s": 0.03197350000118604,
+      "requests_per_second": 156.37950176910653,
+      "mean_response_time_ms": 0,
+      "success_rate": 0.0
+    },
+    "concurrency_5": {
+      "total_requests": 25,
+      "successful_requests": 0,
+      "total_time_s": 0.03622420000101556,
+      "requests_per_second": 690.146366222004,
+      "mean_response_time_ms": 0,
+      "success_rate": 0.0
+    },
+    "concurrency_10": {
+      "total_requests": 50,
+      "successful_requests": 0,
+      "total_time_s": 0.07235020000007353,
+      "requests_per_second": 691.0830930660757,
+      "mean_response_time_ms": 0,
+      "success_rate": 0.0
+    },
+    "concurrency_20": {
+      "total_requests": 100,
+      "successful_requests": 0,
+      "total_time_s": 0.1608775999993668,
+      "requests_per_second": 621.5905756947741,
+      "mean_response_time_ms": 0,
+      "success_rate": 0.0
+    }
+  },
+  "summary": {
+    "api_performance": {
+      "mean_response_time_ms": 7.175039999674482,
+      "fastest_endpoint_ms": 7.175039999674482,
+      "slowest_endpoint_ms": 7.175039999674482
+    },
+    "parallel_performance": {
+      "max_requests_per_second": 691.0830930660757,
+      "optimal_concurrency": "concurrency_10"
+    },
+    "resource_efficiency": {
+      "cpu_utilization": 21.595,
+      "memory_utilization": 63.25,
+      "gpu_utilization": 0
+    }
+  }
+}

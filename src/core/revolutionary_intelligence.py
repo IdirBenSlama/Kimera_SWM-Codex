@@ -10,18 +10,17 @@ of all forces - emotional, logical, creative, and intuitive - in service
 of truth and wisdom." - The KIMERA Revolution
 """
 
-from typing import Dict, Any, List, Optional, Tuple
 from dataclasses import dataclass, field
 from datetime import datetime
-import logging
+from typing import Dict, Any, List, Optional, Tuple
 import asyncio
+import logging
 import threading
 
-from .living_neutrality import get_living_neutrality_engine, NeutralityExpression
 from .context_supremacy import get_context_supremacy_engine, ContextAuthority
 from .genius_drift import get_genius_drift_engine, DriftType
+from .living_neutrality import get_living_neutrality_engine, NeutralityExpression
 from .universal_compassion import get_universal_compassion_engine
-
 logger = logging.getLogger(__name__)
 
 

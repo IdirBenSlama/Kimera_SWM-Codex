@@ -615,7 +615,9 @@ class ExtremeNoMercyTests:
             probs = data / np.sum(data)
             probs = probs[probs > 0]
             return -np.sum(probs * np.log(probs))
-        except:
+        except Exception as e:
+            logger.error(f"Error in run_extreme_no_mercy_tests.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
             return 0.0
     
     def _calculate_coherence(self, psi: np.ndarray) -> float:
@@ -626,7 +628,9 @@ class ExtremeNoMercyTests:
             off_diagonal_sum = np.sum(np.abs(rho)) - np.sum(np.abs(np.diag(rho)))
             max_coherence = n * (n - 1)
             return min(1.0, off_diagonal_sum / max_coherence) if max_coherence > 0 else 0
-        except:
+        except Exception as e:
+            logger.error(f"Error in run_extreme_no_mercy_tests.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
             return 0.0
     
     def _analyze_breaking_points(self, tests: List[Dict]) -> Dict[str, bool]:

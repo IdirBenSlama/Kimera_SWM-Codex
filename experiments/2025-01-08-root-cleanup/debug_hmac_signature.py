@@ -108,7 +108,9 @@ def test_hmac_signature():
                 elif error_code == -2015:
                     print("💡 Invalid API key or permissions")
                     
-            except:
+            except Exception as e:
+                logger.error(f"Error in debug_hmac_signature.py: {e}", exc_info=True)
+                raise  # Re-raise for proper error handling
                 print(f"❌ HTTP Error: {response.status_code}")
                 print(f"Response Text: {response.text}")
         

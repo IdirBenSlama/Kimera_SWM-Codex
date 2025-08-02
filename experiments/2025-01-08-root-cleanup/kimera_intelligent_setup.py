@@ -95,8 +95,9 @@ class KimeraIntelligentSetup:
                             if match:
                                 version = match.group(1)
                                 python_commands.append((f"py -{version}", version))
-            except:
-                pass
+            except Exception as e:
+                logger.error(f"Error in kimera_intelligent_setup.py: {e}", exc_info=True)
+                raise  # Re-raise for proper error handling
             
             # Check common Windows paths
             common_paths = [
@@ -119,8 +120,9 @@ class KimeraIntelligentSetup:
                                     if version_match:
                                         version = version_match.group(1)
                                         python_commands.append((str(python_exe), version))
-                            except:
-                                pass
+                            except Exception as e:
+                                logger.error(f"Error in kimera_intelligent_setup.py: {e}", exc_info=True)
+                                raise  # Re-raise for proper error handling
         
         # Check PATH
         for cmd in ['python', 'python3', 'python3.11', 'python3.10', 'python3.9']:
@@ -131,8 +133,9 @@ class KimeraIntelligentSetup:
                     if version_match:
                         version = version_match.group(1)
                         python_commands.append((cmd, version))
-            except:
-                pass
+            except Exception as e:
+                logger.error(f"Error in kimera_intelligent_setup.py: {e}", exc_info=True)
+                raise  # Re-raise for proper error handling
         
         # Remove duplicates
         seen = set()
@@ -168,7 +171,9 @@ class KimeraIntelligentSetup:
                 if result.returncode != 0 or "Could not find a version" in result.stderr:
                     self.print_colored(f"  ✗ No pre-compiled wheel for {package}", 'red')
                     return False
-            except:
+            except Exception as e:
+                logger.error(f"Error in kimera_intelligent_setup.py: {e}", exc_info=True)
+                raise  # Re-raise for proper error handling
                 return False
         
         self.print_colored("  ✓ Pre-compiled wheels available", 'green')

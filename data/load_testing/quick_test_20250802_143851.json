@@ -1,0 +1,57 @@
+{
+  "timestamp": "2025-08-02T14:38:51.749124",
+  "baseline_metrics": {
+    "timestamp": "2025-08-02T14:38:50.561204",
+    "cpu_percent": 42.6,
+    "memory_percent": 64.9,
+    "memory_used_gb": 20.335769653320312,
+    "gpu_id": 0,
+    "gpu_name": "NVIDIA GeForce RTX 3070 Laptop GPU",
+    "gpu_utilization": 3,
+    "gpu_memory_percent": 3.893566131591797,
+    "gpu_temperature": 48
+  },
+  "final_metrics": {
+    "timestamp": "2025-08-02T14:38:51.746869",
+    "cpu_percent": 24.4,
+    "memory_percent": 65.1,
+    "memory_used_gb": 20.394073486328125,
+    "gpu_id": 0,
+    "gpu_name": "NVIDIA GeForce RTX 3070 Laptop GPU",
+    "gpu_utilization": 0,
+    "gpu_memory_percent": 4.063701629638672,
+    "gpu_temperature": 48
+  },
+  "endpoint_results": [
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "avg_response_time_ms": 1.6002178192138672,
+      "success_rate": 1.0,
+      "iterations": 5
+    },
+    {
+      "endpoint": "/api/v1/system/status",
+      "method": "GET",
+      "avg_response_time_ms": 1.6174793243408203,
+      "success_rate": 0.0,
+      "iterations": 5
+    },
+    {
+      "endpoint": "/api/v1/linguistic/analyze",
+      "method": "POST",
+      "avg_response_time_ms": 1.8395582834879558,
+      "success_rate": 0.0,
+      "iterations": 3
+    },
+    {
+      "endpoint": "/api/v1/cognitive/process",
+      "method": "POST",
+      "avg_response_time_ms": 1.5302499135335286,
+      "success_rate": 0.0,
+      "iterations": 3
+    }
+  ],
+  "average_response_time_ms": 1.646876335144043,
+  "average_success_rate": 0.25
+}

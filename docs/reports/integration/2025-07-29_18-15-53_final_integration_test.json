@@ -1,0 +1,78 @@
+{
+  "core_system": {
+    "status": "passed",
+    "system_state": "RUNNING",
+    "device": "cuda:0",
+    "gpu_enabled": true,
+    "component_count": 27
+  },
+  "gpu_acceleration": {
+    "status": "passed",
+    "device_name": "NVIDIA GeForce RTX 3070 Laptop GPU",
+    "memory_gb": 8.6,
+    "performance_gflops": 48.0,
+    "gpu_manager": "available",
+    "device_info": {
+      "device_id": 0,
+      "name": "NVIDIA GeForce RTX 3070 Laptop GPU",
+      "compute_capability": [
+        8,
+        6
+      ],
+      "total_memory_gb": 7.99951171875,
+      "available_memory_gb": 6.951171875,
+      "utilization_percent": 0.0,
+      "temperature_celsius": 0.0,
+      "power_limit_watts": 0.0,
+      "driver_version": "12.1",
+      "is_available": true,
+      "capability_level": "standard"
+    }
+  },
+  "database_operations": {
+    "status": "passed",
+    "sqlite_tables": 11,
+    "required_tables_present": 3,
+    "vault_manager": {
+      "db_initialized": false,
+      "neo4j_available": true
+    }
+  },
+  "vault_systems": {},
+  "orchestration": {
+    "status": "passed",
+    "total_engines": 4,
+    "gpu_engines": 0,
+    "available_engines": 4,
+    "failed_engines": 0,
+    "total_capabilities": 22,
+    "gpu_available": false
+  },
+  "api_endpoints": {
+    "status": "failed",
+    "error": "No module named 'src.api.core_actions_routes'"
+  },
+  "performance": {
+    "status": "passed",
+    "cpu_time_ms": 2.31,
+    "gpu_time_ms": 0.93,
+    "speedup": 2.5,
+    "cpu_gflops": 108.4,
+    "gpu_gflops": 269.5,
+    "gpu_available": true
+  },
+  "integration_workflows": {
+    "status": "failed",
+    "error": "ProcessingResult.__init__() got an unexpected keyword argument 'updated_geoid'"
+  },
+  "overall_status": "acceptable",
+  "summary": {
+    "total_tests": 7,
+    "passed_tests": 5,
+    "failed_tests": 2,
+    "success_rate": 0.7142857142857143,
+    "test_duration": 16.583168029785156,
+    "overall_status": "acceptable",
+    "timestamp": "2025-07-29T18:15:53.496557"
+  }
+}

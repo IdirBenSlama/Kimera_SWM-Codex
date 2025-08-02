@@ -5,17 +5,16 @@ Phase 3, Week 8: Performance Optimization
 """
 
 from __future__ import annotations
-
-import asyncio
-import json
-import logging
-import pickle
-import time
-import hashlib
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, Optional, Callable, Coroutine, TypeVar, Tuple
+import asyncio
+import logging
+import time
 
+import hashlib
+import json
+import pickle
 try:
     import redis.asyncio as aioredis  # Use the new async redis client
 except ImportError:  # Optional dependency

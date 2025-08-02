@@ -116,7 +116,11 @@ class FoundationalThermodynamicEngine:
     """
     
     def __init__(self, temperature_scale=100, entropy_scale=10):
-        self.settings = get_api_settings()
+        try:
+            self.settings = get_api_settings()
+        except Exception as e:
+            logger.warning(f"Failed to load API settings: {e}. Using direct settings.")
+            self.settings = get_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
         self.temperature_scale = temperature_scale
         self.entropy_scale = entropy_scale

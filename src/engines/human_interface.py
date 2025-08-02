@@ -53,7 +53,7 @@ class KimeraHumanInterface:
     def __init__(self, default_mode: ResponseMode = ResponseMode.HYBRID):
         self.settings = get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
-self.mode = default_mode
+        self.mode = default_mode
         self.personality_traits = {
             "curiosity": 0.8,
             "empathy": 0.9,
@@ -400,3 +400,6 @@ def humanize_kimera_output(
         confidence=cognitive_data.get('confidence', 0.0),
         cognitive_metrics=cognitive_data
     )
+
+# Backward compatibility alias
+HumanInterface = KimeraHumanInterface

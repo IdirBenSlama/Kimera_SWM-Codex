@@ -95,14 +95,14 @@ class DifferentialPrivacyEngine:
     """GPU-accelerated differential privacy for cognitive data"""
     
     def __init__(self, config: Optional[CognitivePrivacyConfig] = None, device_id: int = 0):
-        self.settings = get_api_settings()
-        logger.debug(f"   Environment: {self.settings.environment}")
-"""Initialize differential privacy engine
+        """Initialize differential privacy engine
         
         Args:
             config: Privacy configuration
             device_id: CUDA device ID
         """
+        self.settings = get_api_settings()
+        logger.debug(f"   Environment: {self.settings.environment}")
         self.config = config or CognitivePrivacyConfig()
         self.device_id = device_id
         cuda.select_device(device_id)

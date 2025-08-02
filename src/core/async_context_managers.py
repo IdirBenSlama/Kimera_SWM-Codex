@@ -4,17 +4,17 @@ Implements proper async resource management patterns
 Phase 2, Week 5: Async/Await Patterns Implementation
 """
 
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+from pathlib import Path
+from typing import Optional, Any, Dict, List, TypeVar, Generic, Callable
 import asyncio
 import logging
-from typing import Optional, Any, Dict, List, TypeVar, Generic, Callable
-from contextlib import asynccontextmanager
-from datetime import datetime, timedelta
-import aiofiles
-from pathlib import Path
-import weakref
-from dataclasses import dataclass
 import time
+import weakref
 
+from contextlib import asynccontextmanager
+import aiofiles
 logger = logging.getLogger(__name__)
 
 T = TypeVar('T')

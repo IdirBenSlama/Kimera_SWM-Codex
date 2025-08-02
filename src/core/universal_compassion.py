@@ -21,13 +21,12 @@ Core Principles:
 - Epistemological humility is crucial for true balance
 """
 
-from typing import Dict, Any, List, Optional, Tuple
 from dataclasses import dataclass, field
-from enum import Enum
 from datetime import datetime
+from enum import Enum
+from typing import Dict, Any, List, Optional, Tuple
 import logging
 import threading
-
 logger = logging.getLogger(__name__)
 
 

@@ -399,7 +399,9 @@ class UltimateKimeraSystem:
                     pynvml.nvmlInit()
                     handle = pynvml.nvmlDeviceGetHandleByIndex(0)
                     self.system_health['gpu_usage'] = pynvml.nvmlDeviceGetUtilizationRates(handle).gpu
-                except:
+                except Exception as e:
+                    logger.error(f"Error in run_kimera_existing_testnet.py: {e}", exc_info=True)
+                    raise  # Re-raise for proper error handling
                     self.system_health['gpu_usage'] = 0.0
                     
                 await asyncio.sleep(10)  # Health check every 10 seconds

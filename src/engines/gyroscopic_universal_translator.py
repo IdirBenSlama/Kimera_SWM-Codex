@@ -1871,6 +1871,40 @@ class GyroscopicUniversalTranslator:
             'device': str(self.device),
             'diffusion_model_loaded': True
         }
+    
+    async def shutdown(self):
+        """Shutdown the translator gracefully"""
+        try:
+            logger.info("🌊 Gyroscopic Universal Translator shutting down...")
+            
+            # Clear conversation memory
+            if hasattr(self, 'conversation_memory'):
+                self.conversation_memory.conversations.clear()
+                
+            # Clear translation history
+            if hasattr(self, 'translation_history'):
+                self.translation_history.clear()
+                
+            # Clear modality bridges
+            if hasattr(self, 'modality_bridges'):
+                self.modality_bridges.clear()
+                
+            # Clear heavy components
+            self._quantum_security = None
+            self._diffusion_model = None
+            self._dolphin_processor = None
+            self._modality_handlers = None
+            
+            # Clear KIMERA cognitive systems
+            self.complexity_engine = None
+            self.understanding_engine = None
+            self.quantum_cognitive_engine = None
+            
+            logger.info("✅ Gyroscopic Universal Translator shutdown complete")
+            
+        except Exception as e:
+            logger.error(f"❌ Error during translator shutdown: {e}")
+            # Don't re-raise - this is a shutdown method
 
 
 # Factory functions

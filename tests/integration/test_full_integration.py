@@ -30,8 +30,9 @@ def wait_for_server(max_wait: int = 30) -> bool:
             if response.status_code == 200:
                 print("✅ Server is ready!")
                 return True
-        except:
-            pass
+        except Exception as e:
+            logger.error(f"Error in test_full_integration.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
         time.sleep(1)
     
     print("❌ Server failed to start")

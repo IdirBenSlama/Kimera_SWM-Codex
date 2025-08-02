@@ -41,7 +41,7 @@ def setup_live_cdp_credentials():
     # Get API Key Name
     api_key_name = input("Enter your CDP API Key Name [9268de76-b5f4-4683-b593-327fb2c19503]: ").strip()
     if not api_key_name:
-        api_key_name = "9268de76-b5f4-4683-b593-327fb2c19503"
+        api_key_name = os.getenv("CDP_API_KEY_NAME", "")
     
     # Get Private Key securely
     print("\n🔑 Enter your CDP API Private Key:")
@@ -145,7 +145,9 @@ KIMERA_CDP_SIMULATION_MODE=false
         # Set secure permissions (Unix/Linux)
         try:
             os.chmod(config_file, 0o600)  # Read/write for owner only
-        except:
+        except Exception as e:
+            logger.error(f"Error in setup_live_cdp_credentials.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
             pass  # Windows doesn't support chmod
         
         print(f"\n✅ Configuration saved to: {config_file}")
@@ -163,8 +165,9 @@ KIMERA_CDP_SIMULATION_MODE=false
         with open(backup_file, 'w') as f:
             f.write(backup_content)
         print(f"✅ Backup configuration saved to: {backup_file}")
-    except:
-        pass
+    except Exception as e:
+        logger.error(f"Error in setup_live_cdp_credentials.py: {e}", exc_info=True)
+        raise  # Re-raise for proper error handling
     
     # Display summary
     print("\n" + "=" * 50)

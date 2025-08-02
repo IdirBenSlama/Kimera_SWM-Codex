@@ -18,16 +18,15 @@ Components:
 - Progressive Quantum Cognitive Engine
 """
 
-import asyncio
-import time
-import logging
-import numpy as np
-from typing import Dict, Any, List, Optional, Callable
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
+from typing import Dict, Any, List, Optional, Callable
+import asyncio
+import logging
+import time
 
-# Configure logging
+import numpy as np
 logger = logging.getLogger(__name__)
 
 class MockValidationResult:
@@ -91,7 +90,7 @@ class ProgressiveUniversalOutputComprehension:
         try:
             from src.engines.rigorous_universal_translator import RigorousUniversalTranslator
             from src.security.cognitive_firewall import CognitiveSeparationFirewall
-            from src.core.gyroscopic_security import GyroscopicSecurityCore
+            from .gyroscopic_security import GyroscopicSecurityCore
             
             self.universal_translator = RigorousUniversalTranslator(dimension=512)
             self.cognitive_firewall = CognitiveSeparationFirewall()

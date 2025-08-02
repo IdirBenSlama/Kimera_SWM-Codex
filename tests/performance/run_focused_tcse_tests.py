@@ -325,7 +325,9 @@ class FocusedTCSETests:
             
             entropy = -np.sum(probs * np.log(probs))
             return entropy
-        except:
+        except Exception as e:
+            logger.error(f"Error in run_focused_tcse_tests.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
             return 0.0
     
     def _calculate_coherence(self, psi: np.ndarray) -> float:
@@ -343,7 +345,9 @@ class FocusedTCSETests:
             coherence = off_diagonal_sum / max_coherence if max_coherence > 0 else 0
             
             return min(1.0, coherence)
-        except:
+        except Exception as e:
+            logger.error(f"Error in run_focused_tcse_tests.py: {e}", exc_info=True)
+            raise  # Re-raise for proper error handling
             return 0.0
     
     async def _save_results(self, results: Dict[str, Any]):

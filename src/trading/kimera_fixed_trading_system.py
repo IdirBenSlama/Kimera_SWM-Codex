@@ -372,7 +372,7 @@ async def validate_simplified_kimera_integration() -> Dict[str, bool]:
         
         kimera_system = get_kimera_system()
         if not kimera_system:
-            return {'kimera_available': True, 'kimera_system': False}
+            return {'kimera_available': False, 'kimera_system': False}
         
         return validate_kimera_compatibility(kimera_system)
         

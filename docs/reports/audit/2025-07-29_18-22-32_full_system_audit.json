@@ -1,0 +1,640 @@
+{
+  "summary": {
+    "total_checks": 46,
+    "passed_checks": 33,
+    "warning_checks": 6,
+    "failed_checks": 5,
+    "critical_issues": 0,
+    "high_issues": 5,
+    "medium_issues": 5,
+    "low_issues": 1,
+    "audit_duration": 22.711719751358032,
+    "overall_score": 0,
+    "readiness_status": "significant_issues"
+  },
+  "results": [
+    {
+      "category": "Architecture",
+      "component": "Core System Singleton",
+      "status": "PASS",
+      "message": "Singleton pattern correctly implemented",
+      "details": {
+        "memory_address": "0x16b520b4550"
+      },
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:14.138793"
+    },
+    {
+      "category": "Architecture",
+      "component": "System Initialization",
+      "status": "PASS",
+      "message": "System initializes correctly",
+      "details": {
+        "state": "RUNNING",
+        "device": "cuda:0",
+        "gpu_acceleration_enabled": true,
+        "components": [
+          "gpu_manager",
+          "gpu_integration_system",
+          "gpu_geoid_processor",
+          "gpu_thermodynamic_engine",
+          "gpu_foundation",
+          "exception_handling",
+          "error_recovery",
+          "performance_manager",
+          "database_optimization",
+          "context_supremacy",
+          "statistical_modeling",
+          "universal_compassion",
+          "cache_layer",
+          "dependency_injection",
+          "task_manager",
+          "vault_manager",
+          "embedding_model",
+          "contradiction_engine",
+          "thermodynamics_engine",
+          "spde_engine",
+          "cognitive_cycle_engine",
+          "meta_insight_engine",
+          "proactive_detector",
+          "revolutionary_intelligence_engine",
+          "geoid_scar_manager",
+          "system_monitor",
+          "ethical_governor"
+        ],
+        "gpu_components": {
+          "gpu_manager": true,
+          "gpu_integration_system": false,
+          "gpu_geoid_processor": true,
+          "gpu_thermodynamic_engine": true
+        }
+      },
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:24.957265"
+    },
+    {
+      "category": "Architecture",
+      "component": "GPU Integration",
+      "status": "PASS",
+      "message": "GPU architecture fully integrated",
+      "details": {
+        "device_id": 0,
+        "name": "NVIDIA GeForce RTX 3070 Laptop GPU",
+        "compute_capability": [
+          8,
+          6
+        ],
+        "total_memory_gb": 7.99951171875,
+        "available_memory_gb": 6.951171875,
+        "utilization_percent": 0.0,
+        "temperature_celsius": 0.0,
+        "power_limit_watts": 0.0,
+        "driver_version": "12.1",
+        "is_available": true,
+        "capability_level": "standard"
+      },
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:24.957265"
+    },
+    {
+      "category": "Architecture",
+      "component": "Orchestration System",
+      "status": "PASS",
+      "message": "Orchestration properly configured",
+      "details": {
+        "total_engines": 4,
+        "gpu_engines": 0,
+        "gpu_available": false
+      },
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:24.997059"
+    },
+    {
+      "category": "Component Health",
+      "component": "src.core.kimera_system",
+      "status": "PASS",
+      "message": "Component imports successfully",
+      "details": {},
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:24.998123"
+    },
+    {
+      "category": "Component Health",
+      "component": "src.core.data_structures.geoid_state",
+      "status": "PASS",
+      "message": "Component imports successfully",
+      "details": {},
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:24.998123"
+    },
+    {
+      "category": "Component Health",
+      "component": "src.core.processing.geoid_processor",
+      "status": "PASS",
+      "message": "Component imports successfully",
+      "details": {},
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:24.998123"
+    },
+    {
+      "category": "Component Health",
+      "component": "src.orchestration.kimera_orchestrator",
+      "status": "PASS",
+      "message": "Component imports successfully",
+      "details": {},
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:24.998123"
+    },
+    {
+      "category": "Component Health",
+      "component": "src.vault.vault_manager",
+      "status": "PASS",
+      "message": "Component imports successfully",
+      "details": {},
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:24.998123"
+    },
+    {
+      "category": "Component Health",
+      "component": "src.core.gpu.gpu_manager",
+      "status": "PASS",
+      "message": "GPU component healthy",
+      "details": {},
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:24.998123"
+    },
+    {
+      "category": "Component Health",
+      "component": "src.core.gpu.gpu_integration",
+      "status": "PASS",
+      "message": "GPU component healthy",
+      "details": {},
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:24.998123"
+    },
+    {
+      "category": "Component Health",
+      "component": "src.engines.gpu.gpu_geoid_processor",
+      "status": "PASS",
+      "message": "GPU component healthy",
+      "details": {},
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:24.998123"
+    },
+    {
+      "category": "Component Health",
+      "component": "src.engines.gpu.gpu_thermodynamic_engine",
+      "status": "PASS",
+      "message": "GPU component healthy",
+      "details": {},
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:24.998123"
+    },
+    {
+      "category": "Component Health",
+      "component": "GPU Components Overall",
+      "status": "PASS",
+      "message": "GPU component health: 100%",
+      "details": {
+        "healthy_components": 4,
+        "total_components": 4
+      },
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:24.998123"
+    },
+    {
+      "category": "Component Health",
+      "component": "Vault Database",
+      "status": "WARN",
+      "message": "Vault database limited functionality",
+      "details": {
+        "db_initialized": false,
+        "neo4j_available": true
+      },
+      "recommendations": [],
+      "severity": "medium",
+      "timestamp": "2025-07-29T18:22:25.430590"
+    },
+    {
+      "category": "Performance",
+      "component": "CPU Usage",
+      "status": "PASS",
+      "message": "CPU usage healthy: 23.7%",
+      "details": {
+        "cpu_percent": 23.7
+      },
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:26.444096"
+    },
+    {
+      "category": "Performance",
+      "component": "Memory Usage",
+      "status": "PASS",
+      "message": "Memory usage healthy: 56.8%",
+      "details": {
+        "memory_percent": 56.8,
+        "available_gb": 13.550498962402344,
+        "total_gb": 31.34665298461914
+      },
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:26.444096"
+    },
+    {
+      "category": "Performance",
+      "component": "GPU Performance",
+      "status": "WARN",
+      "message": "GPU performance below optimal: 43 GFLOPS",
+      "details": {
+        "gflops": 43.103161594310876
+      },
+      "recommendations": [],
+      "severity": "medium",
+      "timestamp": "2025-07-29T18:22:26.490496"
+    },
+    {
+      "category": "Performance",
+      "component": "Startup Time",
+      "status": "PASS",
+      "message": "Startup time excellent: 0.00s",
+      "details": {
+        "startup_time": 0.0
+      },
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:26.490496"
+    },
+    {
+      "category": "Security",
+      "component": "File Permissions: src/core/kimera_system.py",
+      "status": "FAIL",
+      "message": "File is world-writable (security risk)",
+      "details": {
+        "permissions": "666"
+      },
+      "recommendations": [
+        "Fix file permissions"
+      ],
+      "severity": "high",
+      "timestamp": "2025-07-29T18:22:26.491515"
+    },
+    {
+      "category": "Security",
+      "component": "File Permissions: src/core/gpu/gpu_manager.py",
+      "status": "FAIL",
+      "message": "File is world-writable (security risk)",
+      "details": {
+        "permissions": "666"
+      },
+      "recommendations": [
+        "Fix file permissions"
+      ],
+      "severity": "high",
+      "timestamp": "2025-07-29T18:22:26.491515"
+    },
+    {
+      "category": "Security",
+      "component": "File Permissions: src/vault/vault_manager.py",
+      "status": "FAIL",
+      "message": "File is world-writable (security risk)",
+      "details": {
+        "permissions": "666"
+      },
+      "recommendations": [
+        "Fix file permissions"
+      ],
+      "severity": "high",
+      "timestamp": "2025-07-29T18:22:26.492516"
+    },
+    {
+      "category": "Security",
+      "component": "File Permissions: config/development.yaml",
+      "status": "FAIL",
+      "message": "File is world-writable (security risk)",
+      "details": {
+        "permissions": "666"
+      },
+      "recommendations": [
+        "Fix file permissions"
+      ],
+      "severity": "high",
+      "timestamp": "2025-07-29T18:22:26.492516"
+    },
+    {
+      "category": "Security",
+      "component": "Configuration Security",
+      "status": "PASS",
+      "message": "No obvious secrets in configuration",
+      "details": {},
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:26.492516"
+    },
+    {
+      "category": "Security",
+      "component": "Database Security",
+      "status": "WARN",
+      "message": "Database file has broad read permissions",
+      "details": {},
+      "recommendations": [
+        "Restrict database file permissions"
+      ],
+      "severity": "medium",
+      "timestamp": "2025-07-29T18:22:26.492516"
+    },
+    {
+      "category": "Security",
+      "component": "Code Security",
+      "status": "WARN",
+      "message": "Potentially dangerous code patterns found",
+      "details": {
+        "files_with_issues": [
+          "innovations\\adaptive_neural_optimizer.py",
+          "scripts\\full_system_audit.py",
+          "src\\pharmaceutical\\analysis\\dissolution_analyzer.py",
+          "src\\trading\\enterprise\\ml_trading_engine.py",
+          "src\\trading\\intelligence\\market_manipulation_detector.py",
+          "src\\utils\\gpu_optimizer.py"
+        ]
+      },
+      "recommendations": [
+        "Review dynamic code execution",
+        "Consider safer alternatives"
+      ],
+      "severity": "medium",
+      "timestamp": "2025-07-29T18:22:26.838739"
+    },
+    {
+      "category": "Data Flow",
+      "component": "Database Integrity",
+      "status": "PASS",
+      "message": "Database integrity check passed",
+      "details": {},
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:26.840265"
+    },
+    {
+      "category": "Data Flow",
+      "component": "Database Schema",
+      "status": "PASS",
+      "message": "All expected tables present",
+      "details": {
+        "tables": [
+          "geoids",
+          "scars",
+          "geoid_relations",
+          "sqlite_sequence",
+          "scar_geoids",
+          "system_metrics",
+          "geoid_states",
+          "cognitive_transitions",
+          "semantic_embeddings",
+          "scar_records",
+          "vault_entries"
+        ]
+      },
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:26.840265"
+    },
+    {
+      "category": "Data Flow",
+      "component": "Database Operations",
+      "status": "PASS",
+      "message": "Database read/write operations functional",
+      "details": {},
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:26.881793"
+    },
+    {
+      "category": "Data Flow",
+      "component": "Vault System",
+      "status": "WARN",
+      "message": "Vault system connectivity checked",
+      "details": {
+        "initialized": false,
+        "neo4j": true
+      },
+      "recommendations": [],
+      "severity": "medium",
+      "timestamp": "2025-07-29T18:22:27.453575"
+    },
+    {
+      "category": "Data Flow",
+      "component": "Directory Access: data",
+      "status": "PASS",
+      "message": "Directory accessible for read/write",
+      "details": {},
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:27.453575"
+    },
+    {
+      "category": "Data Flow",
+      "component": "Directory Access: data/database",
+      "status": "PASS",
+      "message": "Directory accessible for read/write",
+      "details": {},
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:27.453575"
+    },
+    {
+      "category": "Data Flow",
+      "component": "Directory Access: data/logs",
+      "status": "PASS",
+      "message": "Directory accessible for read/write",
+      "details": {},
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:27.453575"
+    },
+    {
+      "category": "Data Flow",
+      "component": "Directory Access: data/exports",
+      "status": "PASS",
+      "message": "Directory accessible for read/write",
+      "details": {},
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:27.454824"
+    },
+    {
+      "category": "Error Handling",
+      "component": "Logging System",
+      "status": "PASS",
+      "message": "Logging directory accessible",
+      "details": {},
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:27.454824"
+    },
+    {
+      "category": "Configuration",
+      "component": "Config File: config/development.yaml",
+      "status": "PASS",
+      "message": "Configuration file complete",
+      "details": {
+        "sections": [
+          "environment",
+          "database",
+          "server",
+          "logging",
+          "performance",
+          "gpu",
+          "monitoring",
+          "security",
+          "features"
+        ]
+      },
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:27.461828"
+    },
+    {
+      "category": "Configuration",
+      "component": "Config File: config/production.yaml",
+      "status": "WARN",
+      "message": "Missing configuration sections: ['gpu']",
+      "details": {
+        "missing_sections": [
+          "gpu"
+        ]
+      },
+      "recommendations": [],
+      "severity": "low",
+      "timestamp": "2025-07-29T18:22:27.465744"
+    },
+    {
+      "category": "Configuration",
+      "component": "Environment: PYTHONPATH",
+      "status": "INFO",
+      "message": "Environment variable not set",
+      "details": {},
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:27.465744"
+    },
+    {
+      "category": "Configuration",
+      "component": "Environment: CUDA_PATH",
+      "status": "INFO",
+      "message": "Environment variable not set",
+      "details": {},
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:27.465744"
+    },
+    {
+      "category": "Integration",
+      "component": "FastAPI Application",
+      "status": "FAIL",
+      "message": "FastAPI audit failed: Due to a serious vulnerability issue in `torch.load`, even with `weights_only=True`, we now require users to upgrade torch to at least v2.6 in order to use the function. This version restriction does not apply when loading files with safetensors.\nSee the vulnerability report here https://nvd.nist.gov/vuln/detail/CVE-2025-32434",
+      "details": {},
+      "recommendations": [],
+      "severity": "high",
+      "timestamp": "2025-07-29T18:22:32.146273"
+    },
+    {
+      "category": "Integration",
+      "component": "GPU Integration Points",
+      "status": "PASS",
+      "message": "GPU integration active: 3 components",
+      "details": {
+        "gpu_manager": true,
+        "gpu_integration_system": false,
+        "gpu_geoid_processor": true,
+        "gpu_thermodynamic_engine": true
+      },
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:32.147294"
+    },
+    {
+      "category": "Monitoring",
+      "component": "System Monitor",
+      "status": "PASS",
+      "message": "System monitoring available",
+      "details": {},
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:32.148317"
+    },
+    {
+      "category": "Monitoring",
+      "component": "Performance Metrics",
+      "status": "PASS",
+      "message": "Performance metrics collection available",
+      "details": {
+        "cpu_count": 16,
+        "memory_total": 31.34665298461914,
+        "disk_usage": 77.7,
+        "python_version": "3.11.9",
+        "platform": "win32"
+      },
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:32.158971"
+    },
+    {
+      "category": "Production Readiness",
+      "component": "Deployment Files",
+      "status": "PASS",
+      "message": "All required deployment files present",
+      "details": {},
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:32.160391"
+    },
+    {
+      "category": "Production Readiness",
+      "component": "Concurrency Safety",
+      "status": "PASS",
+      "message": "System appears to have concurrency protections",
+      "details": {},
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:32.160391"
+    },
+    {
+      "category": "Production Readiness",
+      "component": "Documentation",
+      "status": "PASS",
+      "message": "Adequate documentation present",
+      "details": {
+        "existing_docs": [
+          "README.md",
+          "CONTRIBUTING.md",
+          "docs/"
+        ]
+      },
+      "recommendations": [],
+      "severity": "info",
+      "timestamp": "2025-07-29T18:22:32.160391"
+    }
+  ],
+  "system_info": {
+    "cpu_count": 16,
+    "memory_total": 31.34665298461914,
+    "disk_usage": 77.7,
+    "python_version": "3.11.9",
+    "platform": "win32"
+  }
+}

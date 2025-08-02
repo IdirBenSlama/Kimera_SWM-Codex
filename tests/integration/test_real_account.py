@@ -25,7 +25,7 @@ async def test_real_account():
     print("🔥 TESTING REAL COINBASE ACCOUNT CONNECTION")
     print("=" * 50)
     
-    API_KEY = "9268de76-b5f4-4683-b593-327fb2c19503"
+    API_KEY = os.getenv("CDP_API_KEY_NAME", "")
     
     try:
         # Create live trader

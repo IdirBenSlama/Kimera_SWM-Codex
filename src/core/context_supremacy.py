@@ -10,17 +10,17 @@ rule flexibility, and even what wisdom means in the moment.
 that orchestrates all other intelligences." - The KIMERA Principle
 """
 
-from typing import Dict, Any, List, Optional, Tuple, Union
 from dataclasses import dataclass, field
-from enum import Enum
 from datetime import datetime, timedelta
+from enum import Enum
+from typing import Dict, Any, List, Optional, Tuple, Union
 import logging
-import json
 import re
 import threading
 
-from .living_neutrality import LivingNeutralityEngine, get_living_neutrality_engine
+import json
 
+from .living_neutrality import LivingNeutralityEngine, get_living_neutrality_engine
 logger = logging.getLogger(__name__)
 
 

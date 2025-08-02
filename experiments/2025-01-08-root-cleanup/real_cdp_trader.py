@@ -261,7 +261,7 @@ async def main():
     print("⚠️  ORDERS WILL APPEAR IN YOUR COINBASE ACCOUNT")
     print("=" * 30)
     
-    API_KEY = "9268de76-b5f4-4683-b593-327fb2c19503"
+    API_KEY = os.getenv("CDP_API_KEY_NAME", "")
     
     # Create real trader
     trader = RealCDPTrader(API_KEY)

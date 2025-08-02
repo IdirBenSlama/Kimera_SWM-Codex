@@ -118,7 +118,9 @@ k+1M3dZ5l6SjNp2naYaa7oXuQQUm8UsFFA==
                         data = response.json()
                         print(f"      Data: {json.dumps(data, indent=2)[:200]}...")
                         successful_endpoints.append((base_url, path, description, data))
-                    except:
+                    except Exception as e:
+                        logger.error(f"Error in test_cdp_sdk.py: {e}", exc_info=True)
+                        raise  # Re-raise for proper error handling
                         print(f"      Data: {response.text[:100]}...")
                         successful_endpoints.append((base_url, path, description, response.text))
                         
