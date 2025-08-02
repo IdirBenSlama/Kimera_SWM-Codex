@@ -1,10 +1,15 @@
 {
-  "sqlite": {
-    "path": "C:\\Users\\bensl\\Documents\\KIMERA\\Kimera-SWM\\data\\database\\kimera.db",
-    "timeout": 30,
-    "check_same_thread": false
+  "postgresql": {
+    "connection_string": "postgresql://kimera:kimera_secure_pass_2025@localhost:5432/kimera_swm",
+    "pool_size": 10,
+    "max_overflow": 20
   },
-  "connection_string": "sqlite:///C:\\Users\\bensl\\Documents\\KIMERA\\Kimera-SWM\\data\\database\\kimera.db",
-  "pool_size": 10,
-  "max_overflow": 20
+  "redis": {
+    "url": "redis://:kimera_cache_pass_2025@localhost:6379/0"
+  },
+  "neo4j": {
+    "uri": "bolt://localhost:7687",
+    "user": "neo4j",
+    "password": "kimera_graph_pass_2025"
+  }
 }

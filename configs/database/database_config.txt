@@ -25,9 +25,6 @@ NEO4J_PASSWORD=kimera_graph_pass_2025
 # Redis (Caching & Message Queue)
 REDIS_URL=redis://:kimera_cache_pass_2025@localhost:6379/0
 
-# SQLite Fallback
-SQLITE_DATABASE_URL=sqlite:///./data/database/kimera_swm.db
-
 # =============================================================================
 # GPU CONFIGURATION
 # =============================================================================

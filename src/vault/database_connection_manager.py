@@ -18,10 +18,9 @@ class DatabaseConnectionManager:
     """
     Database connection manager with multiple authentication strategies.
     
-    This class implements a sophisticated connection strategy pattern:
+    This class implements a two-stage connection strategy pattern:
     1. Primary Strategy: Attempts connection using Kimera-specific credentials
     2. Secondary Strategy: Falls back to environment variable configuration
-    3. Tertiary Strategy: Creates SQLite connection for development environments
     
     Attributes:
         pool_size (int): Connection pool size
@@ -83,17 +82,8 @@ class DatabaseConnectionManager:
         except Exception as e:
             logger.warning(f"Secondary connection strategy failed: {e}")
         
-        # Try tertiary strategy (SQLite fallback)
-        try:
-            logger.info("Attempting connection with SQLite fallback...")
-            self.engine = self._connect_with_sqlite_fallback()
-            self._verify_connection()
-            logger.info("Database connection successful using SQLite fallback")
-            self._initialize_session_factory()
-            return self.engine
-        except Exception as e:
-            logger.error(f"All connection strategies failed. Last error: {e}")
-            raise RuntimeError("Failed to establish database connection using any strategy") from e
+        logger.error("All connection strategies failed")
+        raise RuntimeError("Failed to establish database connection using any strategy")
     
     def _connect_with_kimera_credentials(self) -> Engine:
         """
@@ -120,54 +110,23 @@ class DatabaseConnectionManager:
             raise ValueError("DATABASE_URL environment variable not set")
         return self._create_engine(url)
     
-    def _connect_with_sqlite_fallback(self) -> Engine:
-        """
-        Connect using SQLite as fallback.
-        
-        Returns:
-            Engine: SQLAlchemy engine instance
-        """
-        url = "sqlite:///kimera_development.db"
-        return self._create_engine(url, sqlite_fallback=True)
-    
-    def _create_engine(self, url: str, sqlite_fallback: bool = False) -> Engine:
-        """
-        Create SQLAlchemy engine with optimized parameters.
-        
-        Args:
-            url (str): Database connection URL
-            sqlite_fallback (bool): Whether this is a SQLite fallback connection
-            
-        Returns:
-            Engine: SQLAlchemy engine instance
-        """
-        connect_args = {}
+    def _create_engine(self, url: str) -> Engine:
+        """Create SQLAlchemy engine with optimized parameters."""
+        connect_args = {
+            "keepalives": 1,
+            "keepalives_idle": 30,
+            "keepalives_interval": 10,
+            "keepalives_count": 5,
+            "application_name": "Kimera SWM",
+        }
         engine_args = {
             "pool_pre_ping": True,
             "pool_recycle": 3600,
             "pool_size": self.pool_size,
             "max_overflow": self.max_overflow,
-            "pool_timeout": self.pool_timeout
+            "pool_timeout": self.pool_timeout,
         }
-        
-        if sqlite_fallback:
-            connect_args["check_same_thread"] = False
-            # Remove PostgreSQL-specific parameters
-            engine_args.pop("pool_size", None)
-            engine_args.pop("max_overflow", None)
-        else:
-            # PostgreSQL-specific optimizations
-            connect_args["keepalives"] = 1
-            connect_args["keepalives_idle"] = 30
-            connect_args["keepalives_interval"] = 10
-            connect_args["keepalives_count"] = 5
-            connect_args["application_name"] = "Kimera SWM"
-        
-        return create_engine(
-            url,
-            connect_args=connect_args,
-            **engine_args
-        )
+        return create_engine(url, connect_args=connect_args, **engine_args)
     
     def _verify_connection(self) -> None:
         """
