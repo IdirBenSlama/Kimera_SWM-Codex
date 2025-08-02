@@ -45,8 +45,8 @@ qiskit-ibm-runtime<=0.29
 # ===== DATABASE & STORAGE =====
 sqlalchemy>=2.0.30
 alembic>=1.16.0
-aiosqlite>=0.19.0
 psycopg2-binary>=2.9.9
+asyncpg>=0.30.0
 neo4j>=5.28.0
 networkx>=3.0
 redis>=5.0.0
