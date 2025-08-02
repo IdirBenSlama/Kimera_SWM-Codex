@@ -51,8 +51,10 @@ from src.utils.threading_utils import start_background_task
 # Import the new unified cognitive architecture
 try:
     from src.core.unified_master_cognitive_architecture_fix import patch_unified_architecture
-except:
-    pass
+except ImportError as e:
+    logging.getLogger(__name__).error(
+        f"Failed to import patch_unified_architecture: {e}", exc_info=e
+    )
 
 try:
     from src.core.unified_master_cognitive_architecture import (
