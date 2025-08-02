@@ -1,22 +1,27 @@
-"""
-Layer 2 Governance Module
-Provides monitoring and security capabilities for Kimera SWM
+"""Compatibility layer for the legacy ``layer_2_governance`` package.
+
+Historically, many parts of the codebase imported monitoring, security and core
+functionality from ``src.layer_2_governance``.  The real implementations now
+live in the top‑level ``src.monitoring``, ``src.security`` and ``src.core``
+packages.  This module provides shims that map the old import paths to the new
+locations by inserting the appropriate modules into ``sys.modules``.
 """
 
-# Re-export monitoring and security modules from their actual locations
 import sys
 from pathlib import Path
 
-# Add parent directory to path to allow imports
+# Ensure the project root is on the path so absolute imports keep working.
 parent_dir = Path(__file__).parent.parent
 if str(parent_dir) not in sys.path:
     sys.path.insert(0, str(parent_dir))
 
-# Import and re-export modules
-from src import monitoring, security
+# Import the real modules that should appear under ``layer_2_governance``.
+from src import monitoring, security, core, utils
 
-# Make monitoring and security available as submodules
+# Expose them under the legacy package namespace for backwards compatibility.
 sys.modules['src.layer_2_governance.monitoring'] = monitoring
 sys.modules['src.layer_2_governance.security'] = security
+sys.modules['src.layer_2_governance.core'] = core
+sys.modules['src.layer_2_governance.utils'] = utils
 
-__all__ = ['monitoring', 'security'] 
+__all__ = ['monitoring', 'security', 'core', 'utils']
