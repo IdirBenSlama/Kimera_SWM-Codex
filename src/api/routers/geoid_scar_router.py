@@ -11,6 +11,7 @@ import logging
 import uuid
 from typing import Dict, Any
 
+import numpy as np
 from fastapi import APIRouter, HTTPException, BackgroundTasks, UploadFile, File, Request
 from pydantic import BaseModel, ValidationError
 from fastapi.exceptions import RequestValidationError
@@ -112,9 +113,8 @@ async def create_geoid(request: CreateGeoidRequest):
             # Create a text representation for embedding
             text_to_embed = " ".join([f"{k}:{v}" for k,v in semantic_features.items()])
             embedding_raw = encode_text(text_to_embed)
-            
+
             # Convert to CPU numpy array safely first
-            import numpy as np
             if hasattr(embedding_raw, 'cpu'):  # PyTorch tensor on GPU
                 embedding_array = embedding_raw.cpu().numpy()
             elif hasattr(embedding_raw, 'detach'):  # PyTorch tensor on CPU
