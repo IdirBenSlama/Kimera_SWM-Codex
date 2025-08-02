@@ -1,8 +1,20 @@
-# Python
+# KIMERA SWM - COMPREHENSIVE .GITIGNORE
+# Built with maximum scientific rigor following best practices
+# Version: 2025-02-03-v2.0 (Emergency Cleanup)
+
+# =============================================================================
+# PYTHON RUNTIME & CACHE FILES
+# =============================================================================
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
+
+# C extensions
+*.so
+
+# Distribution / packaging
 .Python
 build/
 develop-eggs/
@@ -16,12 +28,22 @@ parts/
 sdist/
 var/
 wheels/
+pip-wheel-metadata/
+share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
 MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
+
+# Unit test / coverage reports
 htmlcov/
 .tox/
 .nox/
@@ -31,154 +53,409 @@ htmlcov/
 nosetests.xml
 coverage.xml
 *.cover
+*.py,cover
 .hypothesis/
 .pytest_cache/
-*.mo
-*.pot
-*.log
-db.sqlite3
-db.sqlite3-journal
-.scrapy
-docs/_build/
-target/
-.ipynb_checkpoints
-profile_default/
-ipython_config.py
-__pypackages__/
-*.sage.py
-.mypy_cache/
-.dmypy.json
-dmypy.json
-.pyre/
 .pytype/
 cython_debug/
 
-# Virtual Environments
+# =============================================================================
+# VIRTUAL ENVIRONMENTS & DEPENDENCIES  
+# =============================================================================
+# Virtual environments (CRITICAL - prevent massive repo bloat)
 .env
 .venv/
-.venv-*
+.venv-*/
 env/
 venv/
 ENV/
+env.bak/
+venv.bak/
 virtualenv/
 .testing_artifacts/
 
-# IDEs
+# Old environments (project-specific)
+.venv-kimera_old_*/
+
+# Pip
+Pipfile.lock
+poetry.lock
+
+# =============================================================================
+# DEVELOPMENT TOOLS & IDEs
+# =============================================================================
+# VS Code
 .vscode/
-.idea/
 .cursor/
 .qodo/
 .roo/
+
+# JetBrains IDEs
+.idea/
+
+# Vim/Neovim
 *.swp
 *.swo
 *~
+.netrwhist
 
-# OS Files
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# =============================================================================
+# OPERATING SYSTEM FILES
+# =============================================================================
+# macOS
 .DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
 Thumbs.db
-desktop.ini
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
 *.lnk
 
-# Security and Secrets
+# Linux
+*~
+.directory
+.Trash-*
+
+# =============================================================================
+# SECURITY & CREDENTIALS (CRITICAL)
+# =============================================================================
+# Environment files
+*.env
+.env.*
+!.env.template
+!.env.example
+
+# API Keys & Credentials
 *.key
 *.pem
 *.cert
 *.crt
+*.p12
+*.pfx
 secrets.json
 credentials.json
 *.secret
 *.backup
 *_api_key.json
-*.env
-config/secrets/
+*api_key*
+*secret*
+*password*
+*token*
 
-# Database
+# Project-specific sensitive files
+/aip/cdp_api_key.json
+config/secrets/
+config/*_api_key*
+config/*secret*
+config/*password*
+config/*credential*
+
+# SSH keys
+id_rsa
+id_dsa
+id_ecdsa
+id_ed25519
+*.pub
+
+# =============================================================================
+# DATABASES & DATA FILES
+# =============================================================================
+# Database files
 *.db
 *.sqlite
 *.sqlite3
+*.db-journal
 *.dump
 *.sql
 
-# KIMERA Specific
+# Large data files
+*.mmap
+*.pickle
+*.pkl
+*.hdf5
+*.h5
+
+# Project-specific data patterns
 /data/vault_*.secure
 /data/sessions/
 /data/logs/
 /data/exports/*.mmap
-/logs/
-/cache/
-/tmp/
-/temp/
-*.mmap
-*.pickle
-*.pkl
+/vault_data/
 *_session_*.json
 *_report_*.json
 *_results_*.json
-/aip/cdp_api_key.json
 
-# Temporary Files
+# =============================================================================
+# LOGS & TEMPORARY FILES
+# =============================================================================
+# Log files
+*.log
+logs/
+*.log.*
+log/
+
+# Temporary files
 *.tmp
 *.temp
 .port.tmp
+*.cache
+temp/
+tmp/
+cache/
 
-# MCP
-~/.cursor/mcp.json
+# =============================================================================
+# MACHINE LEARNING & AI
+# =============================================================================
+# Model files
+*.model
+*.bin
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.weights
+*.h5
 
-# Root cleanup - ignore test/demo/setup files
-test_*.py
-demo_*.py
-check_*.py
-debug_*.py
-verify_*.py
-launch_*.py
-run_*.py
-start_*.py
-setup_*.py
-install_*.py
-deploy_*.py
-migrate_*.py
-analyze_*.py
-audit_*.py
-diagnose_*.py
-monitor_*.py
-comprehensive_*.py
-kimera_*.py
-!kimera.py
+# Training artifacts
+wandb/
+lightning_logs/
+tensorboard/
+mlruns/
 
-# Root cleanup - ignore config/data files
+# Hugging Face cache
+.cache/huggingface/
+
+# =============================================================================
+# BINARY & LARGE FILES
+# =============================================================================
+# Compiled libraries (should use Git LFS)
+*.lib
+*.dll
+*.dylib
+*.a
+*.exe
+
+# Archive files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Media files
+*.mp4
+*.avi
+*.mov
+*.mp3
+*.wav
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.ico
+
+# =============================================================================
+# DOCUMENTATION & GENERATED FILES
+# =============================================================================
+# Sphinx documentation
+docs/_build/
+.readthedocs.yml
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# IPython
+profile_default/
+ipython_config.py
+
+# =============================================================================
+# WEB & FRONTEND FILES
+# =============================================================================
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+
+# Next.js
+.next/
+out/
+
+# React
+build/
+
+# =============================================================================
+# DOCKER & CONTAINERS
+# =============================================================================
+# Docker
+Dockerfile.local
+docker-compose.override.yml
+.dockerignore
+
+# =============================================================================
+# CLOUD & DEPLOYMENT
+# =============================================================================
+# Terraform
+*.tfstate
+*.tfstate.*
+*.tfvars
+.terraform/
+
+# AWS
+.aws/
+
+# Google Cloud
+.gcloud/
+
+# Azure
+.azure/
+
+# =============================================================================
+# KIMERA-SPECIFIC EXCLUSIONS
+# =============================================================================
+# Root cleanup - ignore test/demo/setup files in root only
+/test_*.py
+/demo_*.py
+/check_*.py
+/debug_*.py
+/verify_*.py
+/launch_*.py
+/run_*.py
+/start_*.py
+/setup_*.py
+/install_*.py
+/deploy_*.py
+/migrate_*.py
+/analyze_*.py
+/audit_*.py
+/diagnose_*.py
+/monitor_*.py
+/comprehensive_*.py
+/kimera_*.py
+!/kimera.py
+
+# Root configuration/data files (keep organized in subdirectories)
 /*.json
 /*.txt
-/*.md
-/*.env
-/*.bat
-/*.sh
-/*.html
 /*.yaml
 /*.yml
 /*.ini
 /*.old
 /*.secure
 /*.dump
+/*.bat
+/*.sh
+/*.html
 
-# Keep essential files
+# Essential files to keep in root
 !README.md
 !CHANGELOG.md
 !CONTRIBUTING.md
 !LICENSE
-!AGENT_INSTRUCTIONS.md
-!requirements.txt
-!pytest.ini
-!pyproject.toml
-!poetry.lock
 !.gitignore
 !.gitattributes
 !.editorconfig
 !.cursorrules
-!.roomodes
 !Makefile
-
-# Old environments
-.venv-kimera_old_*/
+!pyproject.toml
+!requirements.txt
 
 # Backend (moved to archive)
 backend/
+
+# MCP configurations
+~/.cursor/mcp.json
+
+# =============================================================================
+# PROJECT TOOLING
+# =============================================================================
+# Coverage
+.coverage
+.nyc_output
+
+# Linting
+.eslintcache
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+
+# Profiling
+.prof
+
+# =============================================================================
+# EXPERIMENTAL & DEVELOPMENT FILES
+# =============================================================================
+# Experimental directories that shouldn't be committed
+/experiments/tmp/
+/experiments/scratch/
+/experiments/debug/
+
+# Development utilities
+.vscode/settings.json
+.idea/workspace.xml
+
+# =============================================================================
+# SCIENTIFIC COMPUTING
+# =============================================================================
+# Jupyter Lab
+.jupyter/
+.local/
+
+# NumPy
+*.npy
+*.npz
+
+# Matplotlib
+*.pdf
+
+# =============================================================================
+# PERFORMANCE & MONITORING
+# =============================================================================
+# Profiling results
+*.prof
+*.cprof
+
+# Benchmarking
+benchmark_results/
+perf_data/
+
+# =============================================================================
+# BACKUP & RECOVERY
+# =============================================================================
+# Backup files
+*.bak
+*.backup
+*.old
+*~
+
+# Recovery files
+.#*
+#*#
+
+# =============================================================================
+# END OF KIMERA SWM .GITIGNORE
+# =============================================================================
+# Last updated: 2025-02-03
+# Applied during: Emergency Repository Cleanup Protocol
+# Total patterns: 200+ comprehensive exclusions
+# Purpose: Prevent repository bloat and security vulnerabilities
