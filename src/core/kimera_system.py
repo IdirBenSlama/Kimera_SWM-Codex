@@ -21,17 +21,12 @@ import inspect  # Add import for inspect
 import platform
 logger = logging.getLogger(__name__)
 
-# GPU System Integration
-try:
-    from .gpu.gpu_manager import get_gpu_manager, is_gpu_available
-    from .gpu.gpu_integration import get_gpu_integration_system
-    from src.engines.gpu.gpu_geoid_processor import get_gpu_geoid_processor
-    from src.engines.gpu.gpu_thermodynamic_engine import get_gpu_thermodynamic_engine
-    GPU_SYSTEM_AVAILABLE = True
-    logger.info("GPU system imports successful")
-except ImportError as e:
-    logger.warning(f"GPU system not available: {e}")
-    GPU_SYSTEM_AVAILABLE = False
+# GPU System Integration (GPU required)
+from .gpu.gpu_manager import get_gpu_manager, is_gpu_available
+from .gpu.gpu_integration import get_gpu_integration_system
+from src.engines.gpu.gpu_geoid_processor import get_gpu_geoid_processor
+from src.engines.gpu.gpu_thermodynamic_engine import get_gpu_thermodynamic_engine
+GPU_SYSTEM_AVAILABLE = True
 
 # Legacy GPU Foundation fallback
 try:
@@ -1255,27 +1250,13 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
         """Initialize the comprehensive GPU acceleration system."""
         logger.info("🚀 Initializing GPU acceleration system...")
 
-        if not GPU_SYSTEM_AVAILABLE:
-            logger.warning("⚠️ GPU system components not available - GPU acceleration disabled")
-            self._device = "cpu"
-            self._gpu_acceleration_enabled = False
-            return
-
-        if not is_gpu_available():
-            logger.warning("⚠️ GPU hardware not available - falling back to CPU")
-            self._device = "cpu"
-            self._gpu_acceleration_enabled = False
-            for component in ["gpu_manager", "gpu_integration_system", "gpu_geoid_processor", "gpu_thermodynamic_engine"]:
-                self._set_component(component, None)
-            return
+        if not GPU_SYSTEM_AVAILABLE or not is_gpu_available():
+            raise RuntimeError("GPU hardware or system components unavailable")
 
         try:
             gpu_manager = self._create_gpu_manager()
             self._gpu_manager = gpu_manager
             self._set_component("gpu_manager", gpu_manager)
-
-            if not gpu_manager:
-                return
 
             integration_system = self._setup_gpu_integration()
             self._gpu_integration_system = integration_system
@@ -1293,12 +1274,11 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
                 logger.info("🎉 GPU acceleration system fully operational!")
             else:
                 logger.warning("⚠️ GPU acceleration system initialized with partial capabilities")
+            self._device = "cuda"
+            self._gpu_acceleration_enabled = True
         except Exception as exc:  # pragma: no cover - defensive catch
             logger.error(f"❌ GPU system initialization failed: {exc}", exc_info=True)
-            self._device = "cpu"
-            self._gpu_acceleration_enabled = False
-            for component in ["gpu_manager", "gpu_integration_system", "gpu_geoid_processor", "gpu_thermodynamic_engine"]:
-                self._set_component(component, None)
+            raise
 
     def _create_gpu_manager(self) -> Optional[Any]:
         """Create and configure the GPU manager."""
