@@ -1,0 +1,14 @@
+[tool.black]
+line-length = 88
+target-version = ['py311']
+skip-string-normalization = False
+extend-exclude = """
+            # Exclude backup directories and virtual environments
+            /(
+                backup_.*
+                | \.venv
+                | \.mypy_cache
+                | \.pytest_cache
+                | __pycache__
+            )/
+            """
