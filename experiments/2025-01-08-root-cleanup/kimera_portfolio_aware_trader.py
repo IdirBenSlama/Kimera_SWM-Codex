@@ -371,12 +371,12 @@ class KimeraPortfolioAwareTrader:
 async def main():
     """Main execution"""
     try:
-        print("🎯 KIMERA PORTFOLIO-AWARE TRADER")
-        print("=" * 50)
-        print("✅ Fixes invalid sell amount problem")
-        print("💰 Only trades assets you actually own")
-        print("🔥 Calculates proper amounts based on real balances")
-        print("=" * 50)
+        logger.info("🎯 KIMERA PORTFOLIO-AWARE TRADER")
+        logger.info("=" * 50)
+        logger.info("✅ Fixes invalid sell amount problem")
+        logger.info("💰 Only trades assets you actually own")
+        logger.info("🔥 Calculates proper amounts based on real balances")
+        logger.info("=" * 50)
         
         trader = KimeraPortfolioAwareTrader()
         

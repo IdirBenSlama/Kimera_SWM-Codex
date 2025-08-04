@@ -8,6 +8,8 @@ Addresses the remaining division by zero issues in the cognitive cycle core.
 
 import sys
 from pathlib import Path
+import logging
+logger = logging.getLogger(__name__)
 
 # Add project root to path
 project_root = Path(__file__).parent
@@ -106,7 +108,7 @@ def fix_integration_success_calculation():
     with open(file_path, 'w', encoding='utf-8') as f:
         f.write(content)
     
-    print("✅ Fixed division by zero in cognitive cycle core")
+    logger.info("✅ Fixed division by zero in cognitive cycle core")
 
 def fix_spde_processing():
     """Fix SPDE processing issues"""
@@ -168,23 +170,23 @@ def fix_spde_processing():
     with open(file_path, 'w', encoding='utf-8') as f:
         f.write(content)
     
-    print("✅ Fixed SPDE processing issues")
+    logger.info("✅ Fixed SPDE processing issues")
 
 def main():
     """Apply final fixes"""
-    print("🔧 Applying final fixes for division by zero issues...")
-    print()
+    logger.info("🔧 Applying final fixes for division by zero issues...")
+    logger.info()
     
     try:
         fix_integration_success_calculation()
         fix_spde_processing()
         
-        print()
-        print("🎉 Final fixes applied successfully!")
-        print("✅ All division by zero issues should now be resolved")
+        logger.info()
+        logger.info("🎉 Final fixes applied successfully!")
+        logger.info("✅ All division by zero issues should now be resolved")
         
     except Exception as e:
-        print(f"❌ Error applying final fixes: {e}")
+        logger.info(f"❌ Error applying final fixes: {e}")
         return False
     
     return True

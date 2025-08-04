@@ -63,23 +63,23 @@ from orchestration.kimera_orchestrator import (
 
 def print_separator(title: str, char: str = "="):
     """Print a visual separator with title"""
-    print(f"\n{char * 70}")
-    print(f" {title.upper()}")
-    print(f"{char * 70}")
+    logger.info(f"\n{char * 70}")
+    logger.info(f" {title.upper()}")
+    logger.info(f"{char * 70}")
 
 
 def print_geoid_summary(geoid: GeoidState, title: str = "Geoid"):
     """Print a summary of a geoid's state"""
-    print(f"\n{title}:")
-    print(f"  ID: {geoid.geoid_id[:8]}...")
-    print(f"  Type: {geoid.geoid_type.value}")
-    print(f"  State: {geoid.processing_state.value}")
-    print(f"  Coherence: {geoid.coherence_score:.3f}")
-    print(f"  Energy: {geoid.cognitive_energy:.3f}")
-    print(f"  Has Semantic: {geoid.semantic_state is not None}")
-    print(f"  Has Symbolic: {geoid.symbolic_state is not None}")
-    print(f"  Has Thermodynamic: {geoid.thermodynamic is not None}")
-    print(f"  Processing Depth: {geoid.metadata.processing_depth}")
+    logger.info(f"\n{title}:")
+    logger.info(f"  ID: {geoid.geoid_id[:8]}...")
+    logger.info(f"  Type: {geoid.geoid_type.value}")
+    logger.info(f"  State: {geoid.processing_state.value}")
+    logger.info(f"  Coherence: {geoid.coherence_score:.3f}")
+    logger.info(f"  Energy: {geoid.cognitive_energy:.3f}")
+    logger.info(f"  Has Semantic: {geoid.semantic_state is not None}")
+    logger.info(f"  Has Symbolic: {geoid.symbolic_state is not None}")
+    logger.info(f"  Has Thermodynamic: {geoid.thermodynamic is not None}")
+    logger.info(f"  Processing Depth: {geoid.metadata.processing_depth}")
 
 
 def demonstrate_scar_system():
@@ -89,12 +89,12 @@ def demonstrate_scar_system():
     # Initialize SCAR manager
     scar_manager = get_global_scar_manager()
     
-    print("SCAR System Features:")
-    print("  - Automated anomaly detection")
-    print("  - Structured evidence collection")
-    print("  - Intelligent root cause analysis")
-    print("  - Automated resolution actions")
-    print("  - System health monitoring")
+    logger.info("SCAR System Features:")
+    logger.info("  - Automated anomaly detection")
+    logger.info("  - Structured evidence collection")
+    logger.info("  - Intelligent root cause analysis")
+    logger.info("  - Automated resolution actions")
+    logger.info("  - System health monitoring")
     
     # Create test geoids with issues
     problematic_geoid = create_concept_geoid("problematic_concept")
@@ -104,22 +104,22 @@ def demonstrate_scar_system():
     if energy_geoid.thermodynamic:
         energy_geoid.thermodynamic.free_energy = -5.0  # Negative energy (violation)
     
-    print(f"\nCreated test geoids with intentional issues:")
+    logger.info(f"\nCreated test geoids with intentional issues:")
     print_geoid_summary(problematic_geoid, "Low Coherence Geoid")
     print_geoid_summary(energy_geoid, "Energy Violation Geoid")
     
     # Create SCARs for various issues
-    print(f"\nCreating SCARs for detected issues...")
+    logger.info(f"\nCreating SCARs for detected issues...")
     
     # Coherence breakdown SCAR
     coherence_scar = create_coherence_breakdown_scar(problematic_geoid, 0.8, 0.2)
     scar_id1 = scar_manager.report_anomaly(coherence_scar)
-    print(f"  Created coherence breakdown SCAR: {scar_id1[:8]}...")
+    logger.info(f"  Created coherence breakdown SCAR: {scar_id1[:8]}...")
     
     # Energy violation SCAR
     energy_scar = create_energy_violation_scar(energy_geoid, 5.0, -5.0)
     scar_id2 = scar_manager.report_anomaly(energy_scar)
-    print(f"  Created energy violation SCAR: {scar_id2[:8]}...")
+    logger.info(f"  Created energy violation SCAR: {scar_id2[:8]}...")
     
     # Processing error SCAR
     error_scar = create_processing_error_scar(
@@ -128,23 +128,23 @@ def demonstrate_scar_system():
         {"error_type": "test", "severity": "medium"}
     )
     scar_id3 = scar_manager.report_anomaly(error_scar)
-    print(f"  Created processing error SCAR: {scar_id3[:8]}...")
+    logger.info(f"  Created processing error SCAR: {scar_id3[:8]}...")
     
     # Get SCAR statistics
-    print(f"\nSCAR System Statistics:")
+    logger.info(f"\nSCAR System Statistics:")
     stats = scar_manager.get_statistics()
-    print(f"  Total SCARs: {stats.total_scars}")
-    print(f"  Active SCARs: {len(scar_manager.get_active_scars())}")
-    print(f"  System Health Score: {stats.system_health_score:.3f}")
-    print(f"  Average Resolution Time: {stats.average_resolution_time:.2f}s")
+    logger.info(f"  Total SCARs: {stats.total_scars}")
+    logger.info(f"  Active SCARs: {len(scar_manager.get_active_scars())}")
+    logger.info(f"  System Health Score: {stats.system_health_score:.3f}")
+    logger.info(f"  Average Resolution Time: {stats.average_resolution_time:.2f}s")
     
     # Demonstrate SCAR resolution
-    print(f"\nResolving SCARs...")
+    logger.info(f"\nResolving SCARs...")
     scar_manager.resolve_scar(scar_id3, "Test resolution completed", effectiveness=0.9)
-    print(f"  Resolved SCAR {scar_id3[:8]} with 90% effectiveness")
+    logger.info(f"  Resolved SCAR {scar_id3[:8]} with 90% effectiveness")
     
     updated_stats = scar_manager.get_statistics()
-    print(f"  Updated System Health Score: {updated_stats.system_health_score:.3f}")
+    logger.info(f"  Updated System Health Score: {updated_stats.system_health_score:.3f}")
     
     return [problematic_geoid, energy_geoid]
 
@@ -156,12 +156,12 @@ def demonstrate_vault_system():
     # Initialize vault system
     vault = get_global_vault()
     
-    print("Vault System Features:")
-    print("  - Multi-backend storage (SQLite, JSON, Memory)")
-    print("  - Automatic compression and backup")
-    print("  - Performance optimization with caching")
-    print("  - Data lifecycle management")
-    print("  - Integrity verification")
+    logger.info("Vault System Features:")
+    logger.info("  - Multi-backend storage (SQLite, JSON, Memory)")
+    logger.info("  - Automatic compression and backup")
+    logger.info("  - Performance optimization with caching")
+    logger.info("  - Data lifecycle management")
+    logger.info("  - Integrity verification")
     
     # Create test geoids for storage
     test_geoids = []
@@ -172,7 +172,7 @@ def demonstrate_vault_system():
             geoid = create_hypothesis_geoid(f"vault_hypothesis_{i}", confidence=0.7 + i*0.05)
         test_geoids.append(geoid)
     
-    print(f"\nStoring {len(test_geoids)} geoids in vault...")
+    logger.info(f"\nStoring {len(test_geoids)} geoids in vault...")
     
     # Store geoids
     storage_times = []
@@ -183,12 +183,12 @@ def demonstrate_vault_system():
         storage_times.append(storage_time)
         
         if success:
-            print(f"  ✓ Stored {geoid.geoid_id[:8]} ({geoid.geoid_type.value}) in {storage_time:.3f}s")
+            logger.info(f"  ✓ Stored {geoid.geoid_id[:8]} ({geoid.geoid_type.value}) in {storage_time:.3f}s")
         else:
-            print(f"  ✗ Failed to store {geoid.geoid_id[:8]}")
+            logger.info(f"  ✗ Failed to store {geoid.geoid_id[:8]}")
     
     # Retrieve geoids
-    print(f"\nRetrieving geoids from vault...")
+    logger.info(f"\nRetrieving geoids from vault...")
     retrieval_times = []
     retrieved_geoids = []
     
@@ -200,23 +200,23 @@ def demonstrate_vault_system():
         
         if retrieved:
             retrieved_geoids.append(retrieved)
-            print(f"  ✓ Retrieved {retrieved.geoid_id[:8]} in {retrieval_time:.3f}s")
+            logger.info(f"  ✓ Retrieved {retrieved.geoid_id[:8]} in {retrieval_time:.3f}s")
         else:
-            print(f"  ✗ Failed to retrieve {geoid.geoid_id[:8]}")
+            logger.info(f"  ✗ Failed to retrieve {geoid.geoid_id[:8]}")
     
     # List stored geoids
     all_geoid_ids = vault.list_geoids()
-    print(f"\nTotal geoids in vault: {len(all_geoid_ids)}")
+    logger.info(f"\nTotal geoids in vault: {len(all_geoid_ids)}")
     
     # Storage metrics
-    print(f"\nVault Performance Metrics:")
+    logger.info(f"\nVault Performance Metrics:")
     metrics = vault.get_storage_metrics()
-    print(f"  Total items stored: {metrics.total_items_stored}")
-    print(f"  Total items retrieved: {metrics.total_items_retrieved}")
-    print(f"  Average storage time: {np.mean(storage_times):.3f}s")
-    print(f"  Average retrieval time: {np.mean(retrieval_times):.3f}s")
-    print(f"  Storage size: {metrics.storage_size_bytes / 1024:.1f} KB")
-    print(f"  Cache hit rate: {metrics.cache_hit_rate:.2%}")
+    logger.info(f"  Total items stored: {metrics.total_items_stored}")
+    logger.info(f"  Total items retrieved: {metrics.total_items_retrieved}")
+    logger.info(f"  Average storage time: {np.mean(storage_times):.3f}s")
+    logger.info(f"  Average retrieval time: {np.mean(retrieval_times):.3f}s")
+    logger.info(f"  Storage size: {metrics.storage_size_bytes / 1024:.1f} KB")
+    logger.info(f"  Cache hit rate: {metrics.cache_hit_rate:.2%}")
     
     return retrieved_geoids
 
@@ -228,12 +228,12 @@ def demonstrate_database_system():
     # Initialize database manager
     database = get_global_database_manager()
     
-    print("Database System Features:")
-    print("  - Structured queries and analytics")
-    print("  - Multi-database backend support")
-    print("  - Real-time performance monitoring")
-    print("  - Complex aggregations and reporting")
-    print("  - Schema management and migrations")
+    logger.info("Database System Features:")
+    logger.info("  - Structured queries and analytics")
+    logger.info("  - Multi-database backend support")
+    logger.info("  - Real-time performance monitoring")
+    logger.info("  - Complex aggregations and reporting")
+    logger.info("  - Schema management and migrations")
     
     # Store some test data
     test_geoids = [
@@ -243,41 +243,41 @@ def demonstrate_database_system():
         create_relation_geoid("concept_1", "relates_to", "concept_2")
     ]
     
-    print(f"\nStoring metadata for {len(test_geoids)} geoids...")
+    logger.info(f"\nStoring metadata for {len(test_geoids)} geoids...")
     for geoid in test_geoids:
         success = database.store_geoid_metadata(geoid)
         if success:
-            print(f"  ✓ Stored metadata for {geoid.geoid_id[:8]} ({geoid.geoid_type.value})")
+            logger.info(f"  ✓ Stored metadata for {geoid.geoid_id[:8]} ({geoid.geoid_type.value})")
     
     # Query geoids by type
-    print(f"\nQuerying geoids by type...")
+    logger.info(f"\nQuerying geoids by type...")
     concept_geoids = database.query_geoids({'geoid_type': 'concept'})
     hypothesis_geoids = database.query_geoids({'geoid_type': 'hypothesis'})
     relation_geoids = database.query_geoids({'geoid_type': 'relation'})
     
-    print(f"  Found {len(concept_geoids)} concept geoids")
-    print(f"  Found {len(hypothesis_geoids)} hypothesis geoids")
-    print(f"  Found {len(relation_geoids)} relation geoids")
+    logger.info(f"  Found {len(concept_geoids)} concept geoids")
+    logger.info(f"  Found {len(hypothesis_geoids)} hypothesis geoids")
+    logger.info(f"  Found {len(relation_geoids)} relation geoids")
     
     # Query by coherence
     high_coherence = database.query_geoids({'min_coherence': 0.7})
-    print(f"  Found {len(high_coherence)} high-coherence geoids (>0.7)")
+    logger.info(f"  Found {len(high_coherence)} high-coherence geoids (>0.7)")
     
     # Get system analytics
-    print(f"\nSystem Analytics:")
+    logger.info(f"\nSystem Analytics:")
     analytics = database.get_system_analytics()
     
     if 'geoids' in analytics:
         geoid_stats = analytics['geoids']
         if isinstance(geoid_stats, dict):
-            print(f"  Total geoids in database: {geoid_stats.get('total_geoids', 0)}")
-            print(f"  Average coherence: {geoid_stats.get('avg_coherence', 0):.3f}")
-            print(f"  Average energy: {geoid_stats.get('avg_energy', 0):.3f}")
+            logger.info(f"  Total geoids in database: {geoid_stats.get('total_geoids', 0)}")
+            logger.info(f"  Average coherence: {geoid_stats.get('avg_coherence', 0):.3f}")
+            logger.info(f"  Average energy: {geoid_stats.get('avg_energy', 0):.3f}")
     
     if 'geoid_type_distribution' in analytics:
-        print(f"  Geoid type distribution:")
+        logger.info(f"  Geoid type distribution:")
         for geoid_type, count in analytics['geoid_type_distribution'].items():
-            print(f"    {geoid_type}: {count}")
+            logger.info(f"    {geoid_type}: {count}")
     
     return test_geoids
 
@@ -305,15 +305,15 @@ def demonstrate_memory_integrated_orchestrator():
     from orchestration.memory_integrated_orchestrator import initialize_memory_orchestrator
     orchestrator = initialize_memory_orchestrator(orchestration_params, memory_params)
     
-    print("Memory-Integrated Orchestrator Features:")
-    print("  - Complete cognitive processing with persistent memory")
-    print("  - Automatic anomaly detection and resolution")
-    print("  - Real-time system health monitoring")
-    print("  - Self-healing cognitive behaviors")
-    print("  - Advanced analytics and reporting")
+    logger.info("Memory-Integrated Orchestrator Features:")
+    logger.info("  - Complete cognitive processing with persistent memory")
+    logger.info("  - Automatic anomaly detection and resolution")
+    logger.info("  - Real-time system health monitoring")
+    logger.info("  - Self-healing cognitive behaviors")
+    logger.info("  - Advanced analytics and reporting")
     
     # Create complex test scenario
-    print(f"\nCreating complex cognitive scenario...")
+    logger.info(f"\nCreating complex cognitive scenario...")
     test_geoids = [
         create_concept_geoid("complex_ai_system"),
         create_hypothesis_geoid("ai_consciousness_hypothesis", confidence=0.6),
@@ -333,24 +333,24 @@ def demonstrate_memory_integrated_orchestrator():
     ]
     
     for strategy in strategies_to_test:
-        print(f"\nTesting {strategy.value} strategy...")
+        logger.info(f"\nTesting {strategy.value} strategy...")
         
         result = orchestrator.orchestrate(test_geoids, strategy=strategy)
         
-        print(f"  Session ID: {result.session_id[:8]}...")
-        print(f"  Pipeline used: {result.pipeline_used}")
-        print(f"  Engines executed: {len(result.engines_executed)}")
-        print(f"  Processing duration: {result.processing_duration:.3f}s")
-        print(f"  Energy consumed: {result.energy_consumed:.3f}")
-        print(f"  Emergent phenomena: {len(result.emergent_phenomena)}")
-        print(f"  Success rate: {result.performance_metrics.get('success_rate', 0):.2%}")
-        print(f"  Errors: {len(result.errors)}")
+        logger.info(f"  Session ID: {result.session_id[:8]}...")
+        logger.info(f"  Pipeline used: {result.pipeline_used}")
+        logger.info(f"  Engines executed: {len(result.engines_executed)}")
+        logger.info(f"  Processing duration: {result.processing_duration:.3f}s")
+        logger.info(f"  Energy consumed: {result.energy_consumed:.3f}")
+        logger.info(f"  Emergent phenomena: {len(result.emergent_phenomena)}")
+        logger.info(f"  Success rate: {result.performance_metrics.get('success_rate', 0):.2%}")
+        logger.info(f"  Errors: {len(result.errors)}")
         
         if result.errors:
-            print(f"    Error details: {result.errors[:2]}")  # Show first 2 errors
+            logger.info(f"    Error details: {result.errors[:2]}")  # Show first 2 errors
     
     # Query processed knowledge
-    print(f"\nQuerying processed knowledge...")
+    logger.info(f"\nQuerying processed knowledge...")
     
     # Query by different criteria
     queries = [
@@ -361,30 +361,30 @@ def demonstrate_memory_integrated_orchestrator():
     
     for query in queries:
         results = orchestrator.query_geoids_by_criteria(query)
-        print(f"  Query {query}: Found {len(results)} geoids")
+        logger.info(f"  Query {query}: Found {len(results)} geoids")
     
     # Get comprehensive system status
-    print(f"\nComprehensive System Status:")
+    logger.info(f"\nComprehensive System Status:")
     status = orchestrator.get_comprehensive_status()
     
     # Memory metrics
     if 'memory_metrics' in status:
         memory_metrics = status['memory_metrics']
-        print(f"  Memory Metrics:")
-        print(f"    Total geoids stored: {memory_metrics['total_geoids_stored']}")
-        print(f"    Total SCARs created: {memory_metrics['total_scars_created']}")
-        print(f"    Vault storage: {memory_metrics['vault_storage_size_mb']:.1f} MB")
-        print(f"    Database size: {memory_metrics['database_size_mb']:.1f} MB")
-        print(f"    Cache hit rate: {memory_metrics['cache_hit_rate']}")
-        print(f"    System health: {memory_metrics['system_health_score']:.3f}")
+        logger.info(f"  Memory Metrics:")
+        logger.info(f"    Total geoids stored: {memory_metrics['total_geoids_stored']}")
+        logger.info(f"    Total SCARs created: {memory_metrics['total_scars_created']}")
+        logger.info(f"    Vault storage: {memory_metrics['vault_storage_size_mb']:.1f} MB")
+        logger.info(f"    Database size: {memory_metrics['database_size_mb']:.1f} MB")
+        logger.info(f"    Cache hit rate: {memory_metrics['cache_hit_rate']}")
+        logger.info(f"    System health: {memory_metrics['system_health_score']:.3f}")
     
     # System health
     if 'scar_status' in status and status['scar_status']:
         scar_status = status['scar_status']
-        print(f"  SCAR System:")
-        print(f"    Total SCARs: {scar_status.total_scars}")
-        print(f"    Resolution success rate: {scar_status.resolution_success_rate:.2%}")
-        print(f"    System health score: {scar_status.system_health_score:.3f}")
+        logger.info(f"  SCAR System:")
+        logger.info(f"    Total SCARs: {scar_status.total_scars}")
+        logger.info(f"    Resolution success rate: {scar_status.resolution_success_rate:.2%}")
+        logger.info(f"    System health score: {scar_status.system_health_score:.3f}")
     
     return result
 
@@ -393,11 +393,11 @@ def demonstrate_system_recovery():
     """Demonstrate system self-healing and recovery capabilities"""
     print_separator("SYSTEM RECOVERY DEMONSTRATION")
     
-    print("System Recovery Features:")
-    print("  - Automatic anomaly detection")
-    print("  - Self-healing mechanisms")
-    print("  - Error recovery and isolation")
-    print("  - System health restoration")
+    logger.info("System Recovery Features:")
+    logger.info("  - Automatic anomaly detection")
+    logger.info("  - Self-healing mechanisms")
+    logger.info("  - Error recovery and isolation")
+    logger.info("  - System health restoration")
     
     orchestrator = get_global_memory_orchestrator()
     
@@ -407,50 +407,50 @@ def demonstrate_system_recovery():
     if problematic_geoid.thermodynamic:
         problematic_geoid.thermodynamic.free_energy = -10.0  # Severe energy violation
     
-    print(f"\nCreated problematic geoid:")
+    logger.info(f"\nCreated problematic geoid:")
     print_geoid_summary(problematic_geoid, "Problematic Geoid")
     
     # Process with orchestrator (will trigger SCAR detection)
-    print(f"\nProcessing problematic geoid (will trigger anomaly detection)...")
+    logger.info(f"\nProcessing problematic geoid (will trigger anomaly detection)...")
     
     try:
         result = orchestrator.orchestrate([problematic_geoid], strategy=ProcessingStrategy.SCIENTIFIC)
-        print(f"  Processing completed with {len(result.errors)} errors")
+        logger.info(f"  Processing completed with {len(result.errors)} errors")
         
         if result.errors:
-            print(f"  Detected errors: {result.errors[:2]}")
+            logger.info(f"  Detected errors: {result.errors[:2]}")
     
     except Exception as e:
-        print(f"  Processing failed with exception: {str(e)}")
+        logger.info(f"  Processing failed with exception: {str(e)}")
     
     # Check system health after processing
-    print(f"\nSystem health after processing problematic geoid:")
+    logger.info(f"\nSystem health after processing problematic geoid:")
     system_health = get_system_health()
-    print(f"  System health score: {system_health:.3f}")
+    logger.info(f"  System health score: {system_health:.3f}")
     
     # Show active SCARs
     scar_manager = get_global_scar_manager()
     active_scars = scar_manager.get_active_scars()
-    print(f"  Active SCARs: {len(active_scars)}")
+    logger.info(f"  Active SCARs: {len(active_scars)}")
     
     for scar in active_scars[:3]:  # Show first 3
-        print(f"    - {scar.title} (severity: {scar.severity.value}, type: {scar.scar_type.value})")
+        logger.info(f"    - {scar.title} (severity: {scar.severity.value}, type: {scar.scar_type.value})")
     
     # Demonstrate recovery
-    print(f"\nInitiating recovery procedures...")
+    logger.info(f"\nInitiating recovery procedures...")
     for scar in active_scars[:2]:  # Resolve first 2 SCARs
         scar_manager.resolve_scar(
             scar.scar_id, 
             f"Automatic recovery applied for {scar.scar_type.value}",
             effectiveness=0.8
         )
-        print(f"  ✓ Resolved SCAR: {scar.title}")
+        logger.info(f"  ✓ Resolved SCAR: {scar.title}")
     
     # Check improved system health
     updated_health = get_system_health()
-    print(f"\nSystem health after recovery:")
-    print(f"  Updated system health score: {updated_health:.3f}")
-    print(f"  Health improvement: {updated_health - system_health:+.3f}")
+    logger.info(f"\nSystem health after recovery:")
+    logger.info(f"  Updated system health score: {updated_health:.3f}")
+    logger.info(f"  Health improvement: {updated_health - system_health:+.3f}")
     
     return updated_health
 
@@ -458,8 +458,8 @@ def demonstrate_system_recovery():
 def main():
     """Main demonstration function"""
     print_separator("KIMERA SWM MEMORY-INTEGRATED SYSTEM DEMONSTRATION", "=")
-    print("Complete Cognitive Architecture with Persistent Memory")
-    print(f"Started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    logger.info("Complete Cognitive Architecture with Persistent Memory")
+    logger.info(f"Started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     
     try:
         # Step 1: Demonstrate SCAR system
@@ -478,32 +478,32 @@ def main():
         final_health = demonstrate_system_recovery()
         
         print_separator("MEMORY-INTEGRATED DEMONSTRATION COMPLETE", "=")
-        print("✅ All memory system components demonstrated successfully!")
-        print(f"✅ SCAR System: Anomaly detection and resolution operational")
-        print(f"✅ Vault System: Persistent storage and retrieval operational")
-        print(f"✅ Database System: Advanced analytics and querying operational")
-        print(f"✅ Memory-Integrated Orchestrator: Complete cognitive processing operational")
-        print(f"✅ System Recovery: Self-healing capabilities operational")
-        print(f"✅ Final System Health Score: {final_health:.3f}")
-        print(f"✅ System Architecture: COMPLETE WITH MEMORY INTEGRATION")
+        logger.info("✅ All memory system components demonstrated successfully!")
+        logger.info(f"✅ SCAR System: Anomaly detection and resolution operational")
+        logger.info(f"✅ Vault System: Persistent storage and retrieval operational")
+        logger.info(f"✅ Database System: Advanced analytics and querying operational")
+        logger.info(f"✅ Memory-Integrated Orchestrator: Complete cognitive processing operational")
+        logger.info(f"✅ System Recovery: Self-healing capabilities operational")
+        logger.info(f"✅ Final System Health Score: {final_health:.3f}")
+        logger.info(f"✅ System Architecture: COMPLETE WITH MEMORY INTEGRATION")
         
         # Final system status
-        print(f"\nFinal System Status:")
+        logger.info(f"\nFinal System Status:")
         final_status = get_complete_system_status()
         
         if 'memory_metrics' in final_status:
             memory_metrics = final_status['memory_metrics']
-            print(f"  Total geoids in system: {memory_metrics['total_geoids_stored']}")
-            print(f"  Total SCARs managed: {memory_metrics['total_scars_created']}")
-            print(f"  Storage utilization: {memory_metrics['vault_storage_size_mb']:.1f} MB")
-            print(f"  System health: {memory_metrics['system_health_score']:.3f}")
+            logger.info(f"  Total geoids in system: {memory_metrics['total_geoids_stored']}")
+            logger.info(f"  Total SCARs managed: {memory_metrics['total_scars_created']}")
+            logger.info(f"  Storage utilization: {memory_metrics['vault_storage_size_mb']:.1f} MB")
+            logger.info(f"  System health: {memory_metrics['system_health_score']:.3f}")
         
-        print(f"\n🎉 KIMERA SWM MEMORY-INTEGRATED SYSTEM: FULLY OPERATIONAL! 🎉")
+        logger.info(f"\n🎉 KIMERA SWM MEMORY-INTEGRATED SYSTEM: FULLY OPERATIONAL! 🎉")
         
     except Exception as e:
         print_separator("DEMONSTRATION ERROR", "!")
-        print(f"❌ Error during demonstration: {str(e)}")
-        print(f"❌ This indicates an issue in the memory-integrated system")
+        logger.info(f"❌ Error during demonstration: {str(e)}")
+        logger.info(f"❌ This indicates an issue in the memory-integrated system")
         import traceback
         traceback.print_exc()
         return False

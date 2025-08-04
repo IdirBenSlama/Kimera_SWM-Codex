@@ -18,7 +18,7 @@ try:
     from kimera_cognitive_trading_intelligence import KimeraCognitiveTrader
     COGNITIVE_TRADING_AVAILABLE = True
 except ImportError as e:
-    print(f"⚠️ Cognitive trading not available: {e}")
+    logger.info(f"⚠️ Cognitive trading not available: {e}")
     COGNITIVE_TRADING_AVAILABLE = False
 
 try:
@@ -550,20 +550,20 @@ async def launch_auto_trading(duration_minutes: int = 10):
 async def main():
     """Main integration bridge function"""
     
-    print("🌉" * 80)
-    print("🚨 KIMERA ULTIMATE INTEGRATION BRIDGE")
-    print("🔗 UNIFYING ALL TRADING CAPABILITIES")
-    print("🌉" * 80)
+    logger.info("🌉" * 80)
+    logger.info("🚨 KIMERA ULTIMATE INTEGRATION BRIDGE")
+    logger.info("🔗 UNIFYING ALL TRADING CAPABILITIES")
+    logger.info("🌉" * 80)
     
     bridge = KimeraUltimateIntegrationBridge()
     
-    print("\nSelect trading mode:")
-    print("1. Cognitive Trading Intelligence (10 min)")
-    print("2. Bulletproof Trading System (10 min)")
-    print("3. Autonomous Trading System (10 min)")
-    print("4. Auto-Select Best System (10 min)")
-    print("5. System Status Check")
-    print("6. Integrity Validation")
+    logger.info("\nSelect trading mode:")
+    logger.info("1. Cognitive Trading Intelligence (10 min)")
+    logger.info("2. Bulletproof Trading System (10 min)")
+    logger.info("3. Autonomous Trading System (10 min)")
+    logger.info("4. Auto-Select Best System (10 min)")
+    logger.info("5. System Status Check")
+    logger.info("6. Integrity Validation")
     
     try:
         choice = input("\nEnter choice (1-6): ").strip()
@@ -578,19 +578,19 @@ async def main():
             await bridge.run_ultimate_trading_session(10, 'auto')
         elif choice == "5":
             status = bridge.get_system_status()
-            print("\n📊 SYSTEM STATUS:")
-            print(json.dumps(status, indent=2, default=str))
+            logger.info("\n📊 SYSTEM STATUS:")
+            logger.info(json.dumps(status, indent=2, default=str))
         elif choice == "6":
             validation = bridge.validate_system_integrity()
-            print("\n🔍 INTEGRITY VALIDATION:")
-            print(json.dumps(validation, indent=2))
+            logger.info("\n🔍 INTEGRITY VALIDATION:")
+            logger.info(json.dumps(validation, indent=2))
         else:
-            print("❌ Invalid choice")
+            logger.info("❌ Invalid choice")
             
     except KeyboardInterrupt:
-        print("\n🛑 Operation cancelled")
+        logger.info("\n🛑 Operation cancelled")
     except Exception as e:
-        print(f"\n❌ Error: {e}")
+        logger.info(f"\n❌ Error: {e}")
 
 if __name__ == "__main__":
     import json

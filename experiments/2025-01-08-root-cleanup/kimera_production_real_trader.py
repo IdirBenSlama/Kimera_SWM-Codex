@@ -72,9 +72,9 @@ try:
     from src.core.geoid import GeoidState
     from src.core.scar import ScarRecord
     KIMERA_FULL_STACK = True
-    print("✅ Full Kimera cognitive stack loaded successfully")
+    logger.info("✅ Full Kimera cognitive stack loaded successfully")
 except ImportError as e:
-    print(f"⚠️ Kimera components not available: {e}")
+    logger.info(f"⚠️ Kimera components not available: {e}")
     KIMERA_FULL_STACK = False
 
 # Technical analysis with fallback
@@ -824,22 +824,22 @@ class KimeraProductionRealTrader:
     def _get_user_confirmation(self, signal: TradingSignal) -> bool:
         """Get user confirmation for trade execution"""
         try:
-            print("\n" + "="*60)
-            print("🚨 TRADE CONFIRMATION REQUIRED 🚨")
-            print("="*60)
-            print(f"Symbol: {signal.symbol}")
-            print(f"Action: {signal.action.upper()}")
-            print(f"Position Size: ${signal.kelly_position_size:.2f}")
-            print(f"Entry Price: ${signal.entry_price:.6f}")
-            print(f"Stop Loss: ${signal.stop_loss:.6f}" if signal.stop_loss else "Stop Loss: None")
-            print(f"Take Profit: ${signal.take_profit:.6f}" if signal.take_profit else "Take Profit: None")
-            print(f"Confidence: {signal.confidence:.2f}")
-            print(f"Statistical Significance: {signal.statistical_significance:.3f}")
-            print(f"Market Regime: {signal.market_regime.value}")
-            print("\nReasoning:")
+            logger.info("\n" + "="*60)
+            logger.info("🚨 TRADE CONFIRMATION REQUIRED 🚨")
+            logger.info("="*60)
+            logger.info(f"Symbol: {signal.symbol}")
+            logger.info(f"Action: {signal.action.upper()}")
+            logger.info(f"Position Size: ${signal.kelly_position_size:.2f}")
+            logger.info(f"Entry Price: ${signal.entry_price:.6f}")
+            logger.info(f"Stop Loss: ${signal.stop_loss:.6f}" if signal.stop_loss else "Stop Loss: None")
+            logger.info(f"Take Profit: ${signal.take_profit:.6f}" if signal.take_profit else "Take Profit: None")
+            logger.info(f"Confidence: {signal.confidence:.2f}")
+            logger.info(f"Statistical Significance: {signal.statistical_significance:.3f}")
+            logger.info(f"Market Regime: {signal.market_regime.value}")
+            logger.info("\nReasoning:")
             for reason in signal.reasoning:
-                print(f"  • {reason}")
-            print("="*60)
+                logger.info(f"  • {reason}")
+            logger.info("="*60)
             
             response = input("Execute this trade? (yes/no): ").lower().strip()
             return response in ['yes', 'y', '1', 'true']
@@ -1196,16 +1196,16 @@ async def main():
         
     except Exception as e:
         logger.error(f"❌ Main execution failed: {e}")
-        print(f"❌ Error: {e}")
+        logger.info(f"❌ Error: {e}")
 
 if __name__ == "__main__":
-    print("🚀 Kimera Production Real Trader - Scientific Grade")
-    print("="*60)
-    print("⚠️  REAL MONEY TRADING SYSTEM")
-    print("📊 Comprehensive Risk Management Active")
-    print("🧠 Cognitive Enhancement Enabled")
-    print("🔒 Vault Integration Active")
-    print("="*60)
+    logger.info("🚀 Kimera Production Real Trader - Scientific Grade")
+    logger.info("="*60)
+    logger.info("⚠️  REAL MONEY TRADING SYSTEM")
+    logger.info("📊 Comprehensive Risk Management Active")
+    logger.info("🧠 Cognitive Enhancement Enabled")
+    logger.info("🔒 Vault Integration Active")
+    logger.info("="*60)
     
     # Run the trader
     asyncio.run(main()) 

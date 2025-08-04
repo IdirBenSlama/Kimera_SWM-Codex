@@ -15,6 +15,8 @@ import json
 import sys
 from datetime import datetime
 from typing import Dict, Any
+import logging
+logger = logging.getLogger(__name__)
 
 class EffectiveVaultActivation:
     """Effective vault activation using real APIs"""
@@ -38,7 +40,7 @@ class EffectiveVaultActivation:
                 return response.json()
             return {}
         except Exception as e:
-            print(f"❌ Error getting vault status: {e}")
+            logger.info(f"❌ Error getting vault status: {e}")
             return {}
     
     def store_cognitive_structure(self, key: str, structure_data: Dict[str, Any], metadata: Dict[str, Any] = None) -> bool:
@@ -58,26 +60,26 @@ class EffectiveVaultActivation:
             
             if response.status_code == 200:
                 result = response.json()
-                print(f"   ✅ Stored '{key}': {result.get('message', 'Success')}")
+                logger.info(f"   ✅ Stored '{key}': {result.get('message', 'Success')}")
                 return True
             else:
-                print(f"   ⚠️ Failed to store '{key}': Status {response.status_code}")
+                logger.info(f"   ⚠️ Failed to store '{key}': Status {response.status_code}")
                 try:
                     error_detail = response.json()
-                    print(f"      Error: {error_detail}")
+                    logger.info(f"      Error: {error_detail}")
                 except Exception as e:
                     logger.error(f"Error in effective_vault_activation.py: {e}", exc_info=True)
                     raise  # Re-raise for proper error handling
-                    print(f"      Response: {response.text}")
+                    logger.info(f"      Response: {response.text}")
                 return False
                 
         except Exception as e:
-            print(f"   ❌ Exception storing '{key}': {e}")
+            logger.info(f"   ❌ Exception storing '{key}': {e}")
             return False
     
     def create_foundational_memories(self):
         """Create foundational memory structures"""
-        print("🧠 Creating foundational memory structures...")
+        logger.info("🧠 Creating foundational memory structures...")
         
         memories = [
             {
@@ -127,12 +129,12 @@ class EffectiveVaultActivation:
                 success_count += 1
             time.sleep(1)
         
-        print(f"   📊 Created {success_count}/{len(memories)} foundational memories")
+        logger.info(f"   📊 Created {success_count}/{len(memories)} foundational memories")
         return success_count > 0
     
     def create_experience_records(self):
         """Create experience records that could become scars"""
-        print("⚡ Creating experience records...")
+        logger.info("⚡ Creating experience records...")
         
         experiences = [
             {
@@ -171,12 +173,12 @@ class EffectiveVaultActivation:
                 success_count += 1
             time.sleep(1)
         
-        print(f"   📊 Created {success_count}/{len(experiences)} experience records")
+        logger.info(f"   📊 Created {success_count}/{len(experiences)} experience records")
         return success_count > 0
     
     def create_insight_seeds(self):
         """Create insight seeds that could develop into full insights"""
-        print("💡 Creating insight seeds...")
+        logger.info("💡 Creating insight seeds...")
         
         seeds = [
             {
@@ -215,7 +217,7 @@ class EffectiveVaultActivation:
                 success_count += 1
             time.sleep(1)
         
-        print(f"   📊 Created {success_count}/{len(seeds)} insight seeds")
+        logger.info(f"   📊 Created {success_count}/{len(seeds)} insight seeds")
         return success_count > 0
     
     def check_vault_changes(self, initial_status: Dict[str, Any]) -> Dict[str, Any]:
@@ -240,77 +242,77 @@ class EffectiveVaultActivation:
     
     def run_comprehensive_activation(self):
         """Run comprehensive vault activation"""
-        print("=" * 80)
-        print("🌟 KIMERA VAULT COMPREHENSIVE ACTIVATION")
-        print("=" * 80)
+        logger.info("=" * 80)
+        logger.info("🌟 KIMERA VAULT COMPREHENSIVE ACTIVATION")
+        logger.info("=" * 80)
         
         # Check system readiness
         if not self.check_system_ready():
-            print("❌ System not ready")
+            logger.info("❌ System not ready")
             return False
         
-        print("✅ System ready. Beginning comprehensive activation...\n")
+        logger.info("✅ System ready. Beginning comprehensive activation...\n")
         
         # Get initial state
         initial_status = self.get_initial_vault_status()
-        print(f"📊 Initial vault status: {initial_status}")
-        print()
+        logger.info(f"📊 Initial vault status: {initial_status}")
+        logger.info()
         
         # Phase 1: Create foundational memories
-        print("🧠 PHASE 1: Foundational Memory Creation")
+        logger.info("🧠 PHASE 1: Foundational Memory Creation")
         memory_success = self.create_foundational_memories()
         time.sleep(2)
         
         # Phase 2: Create experience records  
-        print("\n⚡ PHASE 2: Experience Record Creation")
+        logger.info("\n⚡ PHASE 2: Experience Record Creation")
         experience_success = self.create_experience_records()
         time.sleep(2)
         
         # Phase 3: Create insight seeds
-        print("\n💡 PHASE 3: Insight Seed Creation")
+        logger.info("\n💡 PHASE 3: Insight Seed Creation")
         insight_success = self.create_insight_seeds()
         time.sleep(2)
         
         # Phase 4: Check results
-        print("\n📊 PHASE 4: Activation Results Analysis")
+        logger.info("\n📊 PHASE 4: Activation Results Analysis")
         
         # Check vault statistics
         vault_stats = self.check_vault_changes(initial_status)
-        print(f"   Vault statistics: {vault_stats}")
+        logger.info(f"   Vault statistics: {vault_stats}")
         
         # Check vault health
         vault_health = self.monitor_vault_health()
         if vault_health.get('status') == 'health_data_available':
             metrics = vault_health.get('health_metrics', {})
-            print("   📈 Vault Health After Activation:")
-            print(f"      Cognitive State: {metrics.get('cognitive_state', 'unknown')}")
-            print(f"      Total Geoids: {metrics.get('total_geoids', 0)}")
-            print(f"      Total Scars: {metrics.get('total_scars', 0)}")
-            print(f"      Total Insights: {metrics.get('total_insights', 0)}")
-            print(f"      Activity Rate: {metrics.get('recent_activity_rate', 0):.2f}/min")
-            print(f"      Database Connected: {'✅' if metrics.get('database_connected') else '❌'}")
+            logger.info("   📈 Vault Health After Activation:")
+            logger.info(f"      Cognitive State: {metrics.get('cognitive_state', 'unknown')}")
+            logger.info(f"      Total Geoids: {metrics.get('total_geoids', 0)}")
+            logger.info(f"      Total Scars: {metrics.get('total_scars', 0)}")
+            logger.info(f"      Total Insights: {metrics.get('total_insights', 0)}")
+            logger.info(f"      Activity Rate: {metrics.get('recent_activity_rate', 0):.2f}/min")
+            logger.info(f"      Database Connected: {'✅' if metrics.get('database_connected') else '❌'}")
         else:
-            print(f"   ⚠️ Vault health status: {vault_health.get('status', 'unavailable')}")
+            logger.info(f"   ⚠️ Vault health status: {vault_health.get('status', 'unavailable')}")
         
         # Summary
-        print("\n" + "=" * 80)
+        logger.info("\n" + "=" * 80)
         total_success = sum([memory_success, experience_success, insight_success])
         if total_success >= 2:
-            print("🎉 VAULT ACTIVATION SUCCESSFUL!")
-            print("   Multiple cognitive structures successfully stored")
-            print("   Monitor should show processing activity")
+            logger.info("🎉 VAULT ACTIVATION SUCCESSFUL!")
+            logger.info("   Multiple cognitive structures successfully stored")
+            logger.info("   Monitor should show processing activity")
         elif total_success == 1:
-            print("⚠️ PARTIAL VAULT ACTIVATION")
-            print("   Some structures stored but full activation incomplete")
+            logger.info("⚠️ PARTIAL VAULT ACTIVATION")
+            logger.info("   Some structures stored but full activation incomplete")
         else:
-            print("❌ VAULT ACTIVATION FAILED")
-            print("   No structures successfully stored")
+            logger.info("❌ VAULT ACTIVATION FAILED")
+            logger.info("   No structures successfully stored")
         
-        print("\n💡 The real-time monitor should now show:")
-        print("   - Vault processing the stored structures")
-        print("   - Potential cognitive state changes")
-        print("   - Database activity increases")
-        print("=" * 80)
+        logger.info("\n💡 The real-time monitor should now show:")
+        logger.info("   - Vault processing the stored structures")
+        logger.info("   - Potential cognitive state changes")
+        logger.info("   - Database activity increases")
+        logger.info("=" * 80)
         
         return total_success > 0
 

@@ -33,34 +33,34 @@ class DirectBinanceTradingDemo:
     async def check_connection(self):
         """Test Binance connection"""
         try:
-            print("Testing Binance connection...")
+            logger.info("Testing Binance connection...")
             # Use sync method for balance check
             account = self.exchange.fetch_balance()
             usdt_balance = account.get('USDT', {}).get('free', 0)
-            print(f"SUCCESS: Connected to Binance")
-            print(f"USDT Balance: ${usdt_balance:.2f}")
+            logger.info(f"SUCCESS: Connected to Binance")
+            logger.info(f"USDT Balance: ${usdt_balance:.2f}")
             return True
         except Exception as e:
-            print(f"ERROR: Failed to connect to Binance: {e}")
+            logger.info(f"ERROR: Failed to connect to Binance: {e}")
             return False
     
     async def get_market_data(self, symbol='BTCUSDT'):
         """Get current market data"""
         try:
             ticker = self.exchange.fetch_ticker(symbol)
-            print(f"\n{symbol} Market Data:")
-            print(f"  Price: ${ticker['last']:.2f}")
-            print(f"  24h Change: {ticker['percentage']:.2f}%")
-            print(f"  Volume: {ticker['baseVolume']:.2f}")
+            logger.info(f"\n{symbol} Market Data:")
+            logger.info(f"  Price: ${ticker['last']:.2f}")
+            logger.info(f"  24h Change: {ticker['percentage']:.2f}%")
+            logger.info(f"  Volume: {ticker['baseVolume']:.2f}")
             return ticker
         except Exception as e:
-            print(f"ERROR: Failed to get market data: {e}")
+            logger.info(f"ERROR: Failed to get market data: {e}")
             return None
     
     async def place_small_order(self, symbol='BTCUSDT', side='buy', amount_usd=10):
         """Place a small test order"""
         try:
-            print(f"\nPlacing {side.upper()} order for ${amount_usd} of {symbol}...")
+            logger.info(f"\nPlacing {side.upper()} order for ${amount_usd} of {symbol}...")
             
             # Get current price
             ticker = self.exchange.fetch_ticker(symbol)
@@ -76,26 +76,26 @@ class DirectBinanceTradingDemo:
                 amount=quantity
             )
             
-            print(f"SUCCESS: Order placed!")
-            print(f"  Order ID: {order['id']}")
-            print(f"  Side: {order['side'].upper()}")
-            print(f"  Amount: {order['amount']:.6f} {symbol[:3]}")
-            print(f"  Price: ${order['price']:.2f}")
-            print(f"  Status: {order['status']}")
+            logger.info(f"SUCCESS: Order placed!")
+            logger.info(f"  Order ID: {order['id']}")
+            logger.info(f"  Side: {order['side'].upper()}")
+            logger.info(f"  Amount: {order['amount']:.6f} {symbol[:3]}")
+            logger.info(f"  Price: ${order['price']:.2f}")
+            logger.info(f"  Status: {order['status']}")
             
             return order
             
         except Exception as e:
-            print(f"ERROR: Failed to place order: {e}")
+            logger.info(f"ERROR: Failed to place order: {e}")
             return None
     
     async def run_demo(self):
         """Run the live trading demonstration"""
-        print("=" * 60)
-        print("DIRECT BINANCE LIVE TRADING DEMONSTRATION")
-        print("=" * 60)
-        print(f"Start Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        print()
+        logger.info("=" * 60)
+        logger.info("DIRECT BINANCE LIVE TRADING DEMONSTRATION")
+        logger.info("=" * 60)
+        logger.info(f"Start Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        logger.info()
         
         # Step 1: Test connection
         if not await self.check_connection():
@@ -106,22 +106,22 @@ class DirectBinanceTradingDemo:
         eth_data = await self.get_market_data('ETHUSDT')
         
         if not btc_data:
-            print("Cannot proceed without market data")
+            logger.info("Cannot proceed without market data")
             return
         
         # Step 3: Ask user for confirmation before live trading
-        print("\n" + "!" * 60)
-        print("WARNING: This will place REAL ORDERS with REAL MONEY")
-        print("!" * 60)
+        logger.info("\n" + "!" * 60)
+        logger.info("WARNING: This will place REAL ORDERS with REAL MONEY")
+        logger.info("!" * 60)
         
         response = input("Do you want to proceed with live trading? (yes/no): ")
         
         if response.lower() != 'yes':
-            print("Demo cancelled by user")
+            logger.info("Demo cancelled by user")
             return
         
         # Step 4: Place small test orders
-        print("\nProceeding with live trading demonstration...")
+        logger.info("\nProceeding with live trading demonstration...")
         
         # Small BTC buy order
         btc_order = await self.place_small_order('BTCUSDT', 'buy', 10)
@@ -132,27 +132,29 @@ class DirectBinanceTradingDemo:
         eth_order = await self.place_small_order('ETHUSDT', 'buy', 10)
         
         # Step 5: Show final status
-        print("\n" + "=" * 60)
-        print("LIVE TRADING DEMONSTRATION COMPLETED")
-        print("=" * 60)
-        print(f"End Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        print()
-        print("Orders placed:")
+        logger.info("\n" + "=" * 60)
+        logger.info("LIVE TRADING DEMONSTRATION COMPLETED")
+        logger.info("=" * 60)
+        logger.info(f"End Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        logger.info()
+        logger.info("Orders placed:")
         if btc_order:
-            print(f"  BTC Order: {btc_order['id']} - {btc_order['status']}")
+            logger.info(f"  BTC Order: {btc_order['id']} - {btc_order['status']}")
         if eth_order:
-            print(f"  ETH Order: {eth_order['id']} - {eth_order['status']}")
+            logger.info(f"  ETH Order: {eth_order['id']} - {eth_order['status']}")
         
-        print("\nNOTE: This was REAL TRADING with REAL MONEY")
-        print("Check your Binance account for order details")
+        logger.info("\nNOTE: This was REAL TRADING with REAL MONEY")
+        logger.info("Check your Binance account for order details")
 
 async def main():
     try:
         demo = DirectBinanceTradingDemo()
         await demo.run_demo()
     except Exception as e:
-        print(f"CRITICAL ERROR: {e}")
+        logger.info(f"CRITICAL ERROR: {e}")
         import traceback
+import logging
+logger = logging.getLogger(__name__)
         traceback.print_exc()
 
 if __name__ == "__main__":

@@ -11,25 +11,25 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
 def start_server():
-    print("🌟 KIMERA REVOLUTIONARY THERMODYNAMIC SYSTEM")
-    print("=" * 50)
-    print("🚀 Starting the world's first physics-compliant AI server...")
-    print("")
+    logger.info("🌟 KIMERA REVOLUTIONARY THERMODYNAMIC SYSTEM")
+    logger.info("=" * 50)
+    logger.info("🚀 Starting the world's first physics-compliant AI server...")
+    logger.info("")
     
     try:
         # Import the FastAPI app
         from src.main import app
-        print("✅ Revolutionary thermodynamic app loaded successfully!")
+        logger.info("✅ Revolutionary thermodynamic app loaded successfully!")
         
         # Start with uvicorn
         import uvicorn
-        print("🌐 Starting API server...")
-        print("📡 Server will be available at:")
-        print("   • API Documentation: http://localhost:8001/docs")
-        print("   • Revolutionary Endpoints: http://localhost:8001/kimera/unified-thermodynamic/")
-        print("   • System Status: http://localhost:8001/kimera/unified-thermodynamic/status")
-        print("")
-        print("🔥 Starting revolutionary thermodynamic server...")
+        logger.info("🌐 Starting API server...")
+        logger.info("📡 Server will be available at:")
+        logger.info("   • API Documentation: http://localhost:8001/docs")
+        logger.info("   • Revolutionary Endpoints: http://localhost:8001/kimera/unified-thermodynamic/")
+        logger.info("   • System Status: http://localhost:8001/kimera/unified-thermodynamic/status")
+        logger.info("")
+        logger.info("🔥 Starting revolutionary thermodynamic server...")
         
         # Configure and run server
         config = uvicorn.Config(
@@ -44,8 +44,10 @@ def start_server():
         server.run()
         
     except Exception as e:
-        print(f"❌ Server startup failed: {e}")
+        logger.info(f"❌ Server startup failed: {e}")
         import traceback
+import logging
+logger = logging.getLogger(__name__)
         traceback.print_exc()
         return 1
     

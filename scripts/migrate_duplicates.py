@@ -310,16 +310,16 @@ To rollback this migration:
         logger.info(f"Migration log saved to: {log_path}")
         
         # Print summary
-        print(f"\n{'='*60}")
-        print(f"MIGRATION SUMMARY {'(DRY RUN)' if self.dry_run else ''}")
-        print(f"{'='*60}")
-        print(f"Total files to migrate: {len(self.migration_log)}")
-        print(f"Archive location: {self.archive_dir}")
-        print(f"Migration log: {log_path}")
+        logger.info(f"\n{'='*60}")
+        logger.info(f"MIGRATION SUMMARY {'(DRY RUN)' if self.dry_run else ''}")
+        logger.info(f"{'='*60}")
+        logger.info(f"Total files to migrate: {len(self.migration_log)}")
+        logger.info(f"Archive location: {self.archive_dir}")
+        logger.info(f"Migration log: {log_path}")
         
         if self.dry_run:
-            print("\n⚠️  This was a DRY RUN. No files were actually moved.")
-            print("Run with --execute to perform the actual migration.")
+            logger.info("\n⚠️  This was a DRY RUN. No files were actually moved.")
+            logger.info("Run with --execute to perform the actual migration.")
         
         return True
 

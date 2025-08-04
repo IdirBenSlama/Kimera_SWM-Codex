@@ -561,15 +561,15 @@ async def quick_cognitive_processing(input_data: Any,
 if __name__ == "__main__":
     # Example usage
     async def main():
-        print("🧠 Kimera SWM Master Cognitive Architecture Demo")
+        logger.info("🧠 Kimera SWM Master Cognitive Architecture Demo")
         
         # Create and initialize architecture
         architecture = await create_master_architecture()
         
         # Get system status
         status = architecture.get_system_status()
-        print(f"System Status: {status['state']}")
-        print(f"Components: {status['components']['total']}")
+        logger.info(f"System Status: {status['state']}")
+        logger.info(f"Components: {status['components']['total']}")
         
         # Process a sample request
         request = CognitiveRequest(
@@ -579,8 +579,8 @@ if __name__ == "__main__":
         )
         
         response = await architecture.process_cognitive_request(request)
-        print(f"Processing Result: {response.success}")
-        print(f"Quality Score: {response.quality_score:.3f}")
+        logger.info(f"Processing Result: {response.success}")
+        logger.info(f"Quality Score: {response.quality_score:.3f}")
         
         await architecture.shutdown()
     

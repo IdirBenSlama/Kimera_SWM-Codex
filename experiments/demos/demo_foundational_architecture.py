@@ -27,35 +27,35 @@ logger = logging.getLogger(__name__)
 async def demonstrate_foundational_architecture():
     """Demonstrate the complete foundational architecture in action"""
     
-    print("🚀 KIMERA SWM FOUNDATIONAL ARCHITECTURE DEMONSTRATION")
-    print("=" * 65)
-    print("Showcasing the integrated cognitive processing pipeline!")
-    print()
+    logger.info("🚀 KIMERA SWM FOUNDATIONAL ARCHITECTURE DEMONSTRATION")
+    logger.info("=" * 65)
+    logger.info("Showcasing the integrated cognitive processing pipeline!")
+    logger.info()
     
     try:
         # Import all foundational systems
-        print("📦 Loading foundational systems...")
+        logger.info("📦 Loading foundational systems...")
         from src.core.foundational_systems.spde_core import SPDECore, DiffusionMode
         from src.core.foundational_systems.barenholtz_core import BarenholtzCore, DualSystemMode, AlignmentMethod
         from src.core.foundational_systems.cognitive_cycle_core import CognitiveCycleCore
         from src.core.integration.interoperability_bus import CognitiveInteroperabilityBus, MessagePriority
         
-        print("✅ All foundational systems loaded successfully!")
-        print()
+        logger.info("✅ All foundational systems loaded successfully!")
+        logger.info()
         
         # Initialize the complete system
-        print("🏗️  Initializing integrated cognitive architecture...")
+        logger.info("🏗️  Initializing integrated cognitive architecture...")
         
         # 1. Initialize SPDE Core
         spde_core = SPDECore(default_mode=DiffusionMode.ADAPTIVE, device="cpu")
-        print("   ✅ SPDE Core (Semantic Pressure Diffusion Engine)")
+        logger.info("   ✅ SPDE Core (Semantic Pressure Diffusion Engine)")
         
         # 2. Initialize Barenholtz Core  
         barenholtz_core = BarenholtzCore(
             processing_mode=DualSystemMode.ADAPTIVE,
             alignment_method=AlignmentMethod.ENSEMBLE_ALIGNMENT
         )
-        print("   ✅ Barenholtz Core (Dual-System Architecture)")
+        logger.info("   ✅ Barenholtz Core (Dual-System Architecture)")
         
         # 3. Initialize Cognitive Cycle Core
         cognitive_cycle = CognitiveCycleCore(
@@ -64,28 +64,28 @@ async def demonstrate_foundational_architecture():
             working_memory_capacity=7,
             device="cpu"
         )
-        print("   ✅ Cognitive Cycle Core (Cycle Management)")
+        logger.info("   ✅ Cognitive Cycle Core (Cycle Management)")
         
         # 4. Initialize Interoperability Bus
         bus = CognitiveInteroperabilityBus(max_queue_size=1000, max_workers=2)
         await bus.start()
-        print("   ✅ Interoperability Bus (Communication)")
+        logger.info("   ✅ Interoperability Bus (Communication)")
         
         # 5. Register foundational systems integration
         cognitive_cycle.register_foundational_systems(
             spde_core=spde_core,
             barenholtz_core=barenholtz_core
         )
-        print("   ✅ Foundational Systems Integration")
-        print()
+        logger.info("   ✅ Foundational Systems Integration")
+        logger.info()
         
         # Demonstrate cognitive processing capabilities
-        print("🧠 COGNITIVE PROCESSING DEMONSTRATION")
-        print("-" * 45)
-        print()
+        logger.info("🧠 COGNITIVE PROCESSING DEMONSTRATION")
+        logger.info("-" * 45)
+        logger.info()
         
         # Test 1: Simple Semantic Diffusion
-        print("1️⃣  Semantic Pressure Diffusion Processing")
+        logger.info("1️⃣  Semantic Pressure Diffusion Processing")
         semantic_concepts = {
             'understanding': 0.9,
             'reasoning': 0.8, 
@@ -94,16 +94,16 @@ async def demonstrate_foundational_architecture():
             'cognition': 0.75
         }
         
-        print(f"   Input concepts: {semantic_concepts}")
+        logger.info(f"   Input concepts: {semantic_concepts}")
         diffusion_result = await spde_core.process_semantic_diffusion(semantic_concepts)
-        print(f"   Processing time: {diffusion_result.processing_time:.3f}s")
-        print(f"   Method used: {diffusion_result.method_used.value}")
-        print(f"   Entropy change: {diffusion_result.entropy_change:.4f}")
-        print("   ✅ Semantic diffusion completed successfully!")
-        print()
+        logger.info(f"   Processing time: {diffusion_result.processing_time:.3f}s")
+        logger.info(f"   Method used: {diffusion_result.method_used.value}")
+        logger.info(f"   Entropy change: {diffusion_result.entropy_change:.4f}")
+        logger.info("   ✅ Semantic diffusion completed successfully!")
+        logger.info()
         
         # Test 2: Dual-System Processing
-        print("2️⃣  Dual-System Cognitive Processing")
+        logger.info("2️⃣  Dual-System Cognitive Processing")
         test_content = "Analyze the relationship between consciousness and intelligent reasoning in cognitive systems."
         context = {
             "domain": "cognitive_science",
@@ -111,17 +111,17 @@ async def demonstrate_foundational_architecture():
             "requires_dual_processing": True
         }
         
-        print(f"   Input: '{test_content[:50]}...'")
+        logger.info(f"   Input: '{test_content[:50]}...'")
         dual_result = await barenholtz_core.process_with_integration(test_content, context)
-        print(f"   Processing time: {dual_result.processing_time:.3f}s")
-        print(f"   Embedding alignment: {dual_result.embedding_alignment:.3f}")
-        print(f"   Confidence score: {dual_result.confidence_score:.3f}")
-        print(f"   System weights: L={dual_result.system_weights.get('linguistic', 0):.2f}, P={dual_result.system_weights.get('perceptual', 0):.2f}")
-        print("   ✅ Dual-system processing completed successfully!")
-        print()
+        logger.info(f"   Processing time: {dual_result.processing_time:.3f}s")
+        logger.info(f"   Embedding alignment: {dual_result.embedding_alignment:.3f}")
+        logger.info(f"   Confidence score: {dual_result.confidence_score:.3f}")
+        logger.info(f"   System weights: L={dual_result.system_weights.get('linguistic', 0):.2f}, P={dual_result.system_weights.get('perceptual', 0):.2f}")
+        logger.info("   ✅ Dual-system processing completed successfully!")
+        logger.info()
         
         # Test 3: Complete Cognitive Cycle
-        print("3️⃣  Complete Cognitive Cycle Processing")
+        logger.info("3️⃣  Complete Cognitive Cycle Processing")
         cognitive_input = torch.randn(128)  # Simulated cognitive input
         cycle_context = {
             "cognitive_task": "integrated_reasoning",
@@ -129,22 +129,22 @@ async def demonstrate_foundational_architecture():
             "use_all_systems": True
         }
         
-        print(f"   Input tensor shape: {cognitive_input.shape}")
-        print("   Executing 8-phase cognitive cycle...")
+        logger.info(f"   Input tensor shape: {cognitive_input.shape}")
+        logger.info("   Executing 8-phase cognitive cycle...")
         
         cycle_result = await cognitive_cycle.execute_integrated_cycle(cognitive_input, cycle_context)
         
-        print(f"   Cycle success: {cycle_result.success}")
-        print(f"   Total duration: {cycle_result.metrics.total_duration:.3f}s")
-        print(f"   Phases completed: {len(cycle_result.metrics.phase_durations)}/8")
-        print(f"   Content processed: {len(cycle_result.processed_content)}")
-        print(f"   Integration score: {cycle_result.metrics.integration_score:.3f}")
-        print(f"   Coherence score: {cycle_result.metrics.coherence_score:.3f}")
-        print("   ✅ Complete cognitive cycle completed successfully!")
-        print()
+        logger.info(f"   Cycle success: {cycle_result.success}")
+        logger.info(f"   Total duration: {cycle_result.metrics.total_duration:.3f}s")
+        logger.info(f"   Phases completed: {len(cycle_result.metrics.phase_durations)}/8")
+        logger.info(f"   Content processed: {len(cycle_result.processed_content)}")
+        logger.info(f"   Integration score: {cycle_result.metrics.integration_score:.3f}")
+        logger.info(f"   Coherence score: {cycle_result.metrics.coherence_score:.3f}")
+        logger.info("   ✅ Complete cognitive cycle completed successfully!")
+        logger.info()
         
         # Test 4: Inter-Component Communication
-        print("4️⃣  Inter-Component Communication")
+        logger.info("4️⃣  Inter-Component Communication")
         
         # Register components with the bus
         await bus.register_component(
@@ -174,46 +174,46 @@ async def demonstrate_foundational_architecture():
             priority=MessagePriority.HIGH
         )
         
-        print(f"   Message published: {message_id}")
-        print(f"   Components registered: 2")
-        print("   ✅ Inter-component communication working!")
-        print()
+        logger.info(f"   Message published: {message_id}")
+        logger.info(f"   Components registered: 2")
+        logger.info("   ✅ Inter-component communication working!")
+        logger.info()
         
         # System Status Report
-        print("📊 SYSTEM STATUS REPORT")
-        print("-" * 30)
+        logger.info("📊 SYSTEM STATUS REPORT")
+        logger.info("-" * 30)
         
         spde_status = spde_core.get_system_status()
         barenholtz_status = barenholtz_core.get_system_status()
         cycle_status = cognitive_cycle.get_system_status()
         bus_status = bus.get_system_status()
         
-        print(f"🌊 SPDE Core:")
-        print(f"   Operations: {spde_status['total_operations']}")
-        print(f"   Mode usage: {spde_status['mode_usage_stats']}")
-        print(f"   Performance: {spde_status['recent_performance']['avg_processing_time']:.4f}s avg")
+        logger.info(f"🌊 SPDE Core:")
+        logger.info(f"   Operations: {spde_status['total_operations']}")
+        logger.info(f"   Mode usage: {spde_status['mode_usage_stats']}")
+        logger.info(f"   Performance: {spde_status['recent_performance']['avg_processing_time']:.4f}s avg")
         
-        print(f"🧠 Barenholtz Core:")
-        print(f"   Total integrations: {barenholtz_status['total_integrations']}")
-        print(f"   Success rate: {barenholtz_status['recent_performance']['avg_confidence']:.1%}")
-        print(f"   Alignment score: {barenholtz_status['recent_performance']['avg_alignment_score']:.3f}")
+        logger.info(f"🧠 Barenholtz Core:")
+        logger.info(f"   Total integrations: {barenholtz_status['total_integrations']}")
+        logger.info(f"   Success rate: {barenholtz_status['recent_performance']['avg_confidence']:.1%}")
+        logger.info(f"   Alignment score: {barenholtz_status['recent_performance']['avg_alignment_score']:.3f}")
         
-        print(f"🔄 Cognitive Cycle Core:")
-        print(f"   Total cycles: {cycle_status['total_cycles']}")
-        print(f"   Success rate: {cycle_status['success_rate']:.1%}")
-        print(f"   Integration score: {cycle_status['integration_score']:.3f}")
+        logger.info(f"🔄 Cognitive Cycle Core:")
+        logger.info(f"   Total cycles: {cycle_status['total_cycles']}")
+        logger.info(f"   Success rate: {cycle_status['success_rate']:.1%}")
+        logger.info(f"   Integration score: {cycle_status['integration_score']:.3f}")
         
-        print(f"🚌 Interoperability Bus:")
-        print(f"   Components: {bus_status['registry_stats']['active_components']}")
-        print(f"   Messages processed: {bus_status['performance_metrics']['messages_processed']}")
-        print(f"   Throughput: {bus_status['performance_metrics']['throughput']:.1f} msg/sec")
-        print()
+        logger.info(f"🚌 Interoperability Bus:")
+        logger.info(f"   Components: {bus_status['registry_stats']['active_components']}")
+        logger.info(f"   Messages processed: {bus_status['performance_metrics']['messages_processed']}")
+        logger.info(f"   Throughput: {bus_status['performance_metrics']['throughput']:.1f} msg/sec")
+        logger.info()
         
         # Performance Benchmark
-        print("⚡ PERFORMANCE BENCHMARK")
-        print("-" * 28)
+        logger.info("⚡ PERFORMANCE BENCHMARK")
+        logger.info("-" * 28)
         
-        print("Running performance benchmark...")
+        logger.info("Running performance benchmark...")
         benchmark_start = time.time()
         
         # Run multiple cognitive cycles
@@ -224,21 +224,21 @@ async def demonstrate_foundational_architecture():
         benchmark_time = time.time() - benchmark_start
         cycles_per_second = 5 / benchmark_time
         
-        print(f"   5 cycles completed in {benchmark_time:.3f}s")
-        print(f"   Throughput: {cycles_per_second:.1f} cycles/second")
-        print(f"   Average cycle time: {benchmark_time/5:.3f}s")
+        logger.info(f"   5 cycles completed in {benchmark_time:.3f}s")
+        logger.info(f"   Throughput: {cycles_per_second:.1f} cycles/second")
+        logger.info(f"   Average cycle time: {benchmark_time/5:.3f}s")
         
         if cycles_per_second > 1.0:
-            print("   ✅ Performance: EXCELLENT")
+            logger.info("   ✅ Performance: EXCELLENT")
         elif cycles_per_second > 0.5:
-            print("   ✅ Performance: GOOD")
+            logger.info("   ✅ Performance: GOOD")
         else:
-            print("   ⚠️  Performance: ACCEPTABLE")
-        print()
+            logger.info("   ⚠️  Performance: ACCEPTABLE")
+        logger.info()
         
         # Final Integration Test
-        print("🔗 FINAL INTEGRATION TEST")
-        print("-" * 27)
+        logger.info("🔗 FINAL INTEGRATION TEST")
+        logger.info("-" * 27)
         
         integration_start = time.time()
         
@@ -255,41 +255,41 @@ async def demonstrate_foundational_architecture():
         
         integration_time = time.time() - integration_start
         
-        print(f"   Integration success: {final_result.success}")
-        print(f"   Processing time: {integration_time:.3f}s")
-        print(f"   All phases executed: {len(final_result.metrics.phase_durations) == 8}")
-        print(f"   Integration score: {final_result.metrics.integration_score:.3f}")
-        print(f"   System coherence: {final_result.metrics.coherence_score:.3f}")
+        logger.info(f"   Integration success: {final_result.success}")
+        logger.info(f"   Processing time: {integration_time:.3f}s")
+        logger.info(f"   All phases executed: {len(final_result.metrics.phase_durations) == 8}")
+        logger.info(f"   Integration score: {final_result.metrics.integration_score:.3f}")
+        logger.info(f"   System coherence: {final_result.metrics.coherence_score:.3f}")
         
         if final_result.success and final_result.metrics.integration_score > 0.5:
-            print("   🎉 FOUNDATIONAL ARCHITECTURE FULLY OPERATIONAL!")
+            logger.info("   🎉 FOUNDATIONAL ARCHITECTURE FULLY OPERATIONAL!")
         else:
-            print("   ⚠️  Some systems need attention")
-        print()
+            logger.info("   ⚠️  Some systems need attention")
+        logger.info()
         
         # Cleanup
         await bus.stop()
         
         # Final Summary
-        print("🎯 DEMONSTRATION SUMMARY")
-        print("=" * 32)
-        print("✅ Semantic Pressure Diffusion Engine: Working")
-        print("✅ Barenholtz Dual-System Architecture: Working") 
-        print("✅ Cognitive Cycle Management: Working")
-        print("✅ Interoperability Bus Communication: Working")
-        print("✅ Complete System Integration: Working")
-        print()
-        print("🏆 KIMERA SWM FOUNDATIONAL ARCHITECTURE")
-        print("    Status: FULLY OPERATIONAL")
-        print("    Performance: HIGH")
-        print("    Integration: SUCCESSFUL")
-        print()
-        print("The foundational cognitive architecture is ready for")
-        print("enhanced capabilities and production deployment! 🚀")
+        logger.info("🎯 DEMONSTRATION SUMMARY")
+        logger.info("=" * 32)
+        logger.info("✅ Semantic Pressure Diffusion Engine: Working")
+        logger.info("✅ Barenholtz Dual-System Architecture: Working") 
+        logger.info("✅ Cognitive Cycle Management: Working")
+        logger.info("✅ Interoperability Bus Communication: Working")
+        logger.info("✅ Complete System Integration: Working")
+        logger.info()
+        logger.info("🏆 KIMERA SWM FOUNDATIONAL ARCHITECTURE")
+        logger.info("    Status: FULLY OPERATIONAL")
+        logger.info("    Performance: HIGH")
+        logger.info("    Integration: SUCCESSFUL")
+        logger.info()
+        logger.info("The foundational cognitive architecture is ready for")
+        logger.info("enhanced capabilities and production deployment! 🚀")
         
     except Exception as e:
         logger.error(f"Demonstration failed: {e}")
-        print(f"❌ Demo failed: {e}")
+        logger.info(f"❌ Demo failed: {e}")
         return False
     
     return True
@@ -298,9 +298,9 @@ async def main():
     """Run the foundational architecture demonstration"""
     success = await demonstrate_foundational_architecture()
     if success:
-        print("\n🎉 Demonstration completed successfully!")
+        logger.info("\n🎉 Demonstration completed successfully!")
     else:
-        print("\n❌ Demonstration encountered issues.")
+        logger.info("\n❌ Demonstration encountered issues.")
 
 if __name__ == "__main__":
     asyncio.run(main())

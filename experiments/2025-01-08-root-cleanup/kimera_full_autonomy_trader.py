@@ -23,8 +23,8 @@ try:
     from coinbase.rest import RESTClient
     SDK_AVAILABLE = True
 except ImportError:
-    print("❌ Coinbase Advanced Trade SDK not installed!")
-    print("Install with: pip install coinbase-advanced-py")
+    logger.info("❌ Coinbase Advanced Trade SDK not installed!")
+    logger.info("Install with: pip install coinbase-advanced-py")
     SDK_AVAILABLE = False
 
 # Configure logging
@@ -593,9 +593,9 @@ class AutonomousOmnidimensionalTrader:
 
 async def main():
     """Main execution"""
-    print("\n🤖 KIMERA FULL AUTONOMY TRADING ENGINE")
-    print("⚡ UNRESTRICTED WALLET ACCESS ENABLED")
-    print("="*50)
+    logger.info("\n🤖 KIMERA FULL AUTONOMY TRADING ENGINE")
+    logger.info("⚡ UNRESTRICTED WALLET ACCESS ENABLED")
+    logger.info("="*50)
     
     try:
         # Initialize autonomous trader

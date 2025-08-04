@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+# Fix import paths
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+
+
 """
 Database Setup Verification Script for Kimera SWM
 
@@ -379,16 +385,16 @@ def main():
     results = verifier.run_full_verification()
     report_path = verifier.save_report()
     
-    print("\n" + "=" * 60)
-    print("KIMERA SWM DATABASE SETUP VERIFICATION COMPLETE")
-    print("=" * 60)
-    print(f"Overall Status: {results['overall_status'].upper()}")
-    print(f"Report saved to: {report_path}")
+    logger.info("\n" + "=" * 60)
+    logger.info("KIMERA SWM DATABASE SETUP VERIFICATION COMPLETE")
+    logger.info("=" * 60)
+    logger.info(f"Overall Status: {results['overall_status'].upper()}")
+    logger.info(f"Report saved to: {report_path}")
     
     if results["recommendations"]:
-        print("\nRecommendations:")
+        logger.info("\nRecommendations:")
         for i, rec in enumerate(results["recommendations"], 1):
-            print(f"  {i}. {rec}")
+            logger.info(f"  {i}. {rec}")
     
     # Exit with appropriate code
     if results["overall_status"] == "healthy":

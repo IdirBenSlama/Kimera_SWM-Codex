@@ -17,6 +17,8 @@ Usage:
 from cryptography.hazmat.primitives.asymmetric import ed25519
 from cryptography.hazmat.primitives import serialization
 import os
+import logging
+logger = logging.getLogger(__name__)
 
 # --- Configuration ---
 PRIVATE_KEY_FILENAME = "binance_private_key.pem"
@@ -28,7 +30,7 @@ def generate_and_save_keys():
     """
     Generates an Ed25519 key pair and saves them.
     """
-    print("Generating new Ed25519 key pair...")
+    logger.info("Generating new Ed25519 key pair...")
 
     # 1. Generate a private key
     private_key = ed25519.Ed25519PrivateKey.generate()
@@ -44,10 +46,10 @@ def generate_and_save_keys():
     try:
         with open(KEY_FILE_PATH, 'wb') as f:
             f.write(private_pem)
-        print(f"✅ Private key securely saved to: {KEY_FILE_PATH}")
-        print("   *** IMPORTANT: Treat this file as a secret. Do not share it. ***")
+        logger.info(f"✅ Private key securely saved to: {KEY_FILE_PATH}")
+        logger.info("   *** IMPORTANT: Treat this file as a secret. Do not share it. ***")
     except IOError as e:
-        print(f"❌ Error saving private key file: {e}")
+        logger.info(f"❌ Error saving private key file: {e}")
         return
 
     # 4. Get the corresponding public key
@@ -60,18 +62,18 @@ def generate_and_save_keys():
     )
 
     # 6. Print the public key for the user
-    print("\n" + "="*80)
-    print("📋 Your Binance Public Key (copy the text below and paste it on Binance):")
-    print("="*80)
-    print(public_pem.decode('utf-8'))
-    print("="*80)
+    logger.info("\n" + "="*80)
+    logger.info("📋 Your Binance Public Key (copy the text below and paste it on Binance):")
+    logger.info("="*80)
+    logger.info(public_pem.decode('utf-8'))
+    logger.info("="*80)
 
 
 if __name__ == "__main__":
     if os.path.exists(KEY_FILE_PATH):
         overwrite = input(f"⚠️ Warning: Key file '{KEY_FILE_PATH}' already exists. Overwrite? (y/n): ").lower()
         if overwrite != 'y':
-            print("Aborted.")
+            logger.info("Aborted.")
         else:
             generate_and_save_keys()
     else:

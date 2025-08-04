@@ -17,6 +17,8 @@ from typing import Dict, List, Any
 import json
 from collections import deque
 import curses
+import logging
+logger = logging.getLogger(__name__)
 
 class KimeraRealtimeMonitor:
     def __init__(self, base_url: str = "http://localhost:8001"):
@@ -281,23 +283,23 @@ async def main():
     monitor = KimeraRealtimeMonitor()
     
     # Check server availability
-    print("Checking Kimera server...")
+    logger.info("Checking Kimera server...")
     try:
         async with aiohttp.ClientSession() as session:
             async with session.get(f"{monitor.base_url}/health") as response:
                 if response.status == 200:
-                    print("✅ Kimera server is running")
+                    logger.info("✅ Kimera server is running")
                 else:
-                    print(f"⚠️ Kimera server returned status {response.status}")
+                    logger.info(f"⚠️ Kimera server returned status {response.status}")
     except Exception as e:
-        print(f"❌ Cannot connect to Kimera server: {e}")
+        logger.info(f"❌ Cannot connect to Kimera server: {e}")
         return
     
     # Run monitor with curses
     try:
         await asyncio.to_thread(curses.wrapper, lambda stdscr: asyncio.run(monitor.run_monitor(stdscr)))
     except KeyboardInterrupt:
-        print("\nMonitoring stopped.")
+        logger.info("\nMonitoring stopped.")
 
 if __name__ == "__main__":
     asyncio.run(main())

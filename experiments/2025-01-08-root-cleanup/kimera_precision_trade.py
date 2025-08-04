@@ -119,9 +119,9 @@ def calculate_precise_order_size(filters, current_price):
 def perform_precision_trade(client):
     """Perform trade with precise calculations"""
     
-    print("\n" + "="*80)
-    print("🎯 KIMERA PRECISION TRADING EXECUTION")
-    print("="*80)
+    logger.info("\n" + "="*80)
+    logger.info("🎯 KIMERA PRECISION TRADING EXECUTION")
+    logger.info("="*80)
     
     symbol = 'TRXUSDT'
     
@@ -142,9 +142,9 @@ def perform_precision_trade(client):
             elif balance['asset'] == 'USDT':
                 usdt_balance = float(balance['free'])
         
-        print(f"\n💰 CURRENT BALANCES:")
-        print(f"   TRX: {trx_balance:.2f} (~${trx_balance * current_price:.2f})")
-        print(f"   USDT: ${usdt_balance:.2f}")
+        logger.info(f"\n💰 CURRENT BALANCES:")
+        logger.info(f"   TRX: {trx_balance:.2f} (~${trx_balance * current_price:.2f})")
+        logger.info(f"   USDT: ${usdt_balance:.2f}")
         
         # Get precise exchange requirements
         filters = get_precise_exchange_info(client, symbol)
@@ -152,44 +152,44 @@ def perform_precision_trade(client):
             logger.error("Could not get symbol filters")
             return False
         
-        print(f"\n📊 EXCHANGE REQUIREMENTS:")
-        print(f"   Min Quantity: {filters['min_qty']} TRX")
-        print(f"   Step Size: {filters['step_size']} TRX")
-        print(f"   Min Notional: ${filters['min_notional']}")
+        logger.info(f"\n📊 EXCHANGE REQUIREMENTS:")
+        logger.info(f"   Min Quantity: {filters['min_qty']} TRX")
+        logger.info(f"   Step Size: {filters['step_size']} TRX")
+        logger.info(f"   Min Notional: ${filters['min_notional']}")
         
         # Calculate precise order size
         order_calc = calculate_precise_order_size(filters, current_price)
         
-        print(f"\n🔬 PRECISION CALCULATIONS:")
-        print(f"   Calculated Quantity: {order_calc['quantity']} TRX")
-        print(f"   Calculated Value: ${order_calc['notional_value']:.6f}")
-        print(f"   Steps Used: {order_calc['steps_used']}")
-        print(f"   All Requirements Met: {order_calc['all_requirements_met']}")
+        logger.info(f"\n🔬 PRECISION CALCULATIONS:")
+        logger.info(f"   Calculated Quantity: {order_calc['quantity']} TRX")
+        logger.info(f"   Calculated Value: ${order_calc['notional_value']:.6f}")
+        logger.info(f"   Steps Used: {order_calc['steps_used']}")
+        logger.info(f"   All Requirements Met: {order_calc['all_requirements_met']}")
         
         if not order_calc['all_requirements_met']:
-            print(f"\n❌ REQUIREMENTS NOT MET:")
+            logger.info(f"\n❌ REQUIREMENTS NOT MET:")
             for req, status in order_calc['validation'].items():
-                print(f"   {req}: {'✅' if status else '❌'}")
+                logger.info(f"   {req}: {'✅' if status else '❌'}")
             return False
         
         # Check if we have enough balance
         required_qty_float = float(order_calc['quantity'])
         if trx_balance < required_qty_float:
-            print(f"\n❌ INSUFFICIENT BALANCE:")
-            print(f"   Need: {required_qty_float:.1f} TRX")
-            print(f"   Have: {trx_balance:.2f} TRX")
+            logger.info(f"\n❌ INSUFFICIENT BALANCE:")
+            logger.info(f"   Need: {required_qty_float:.1f} TRX")
+            logger.info(f"   Have: {trx_balance:.2f} TRX")
             return False
         
         # Format quantity for API (remove trailing zeros)
         quantity_str = f"{order_calc['quantity']:.1f}".rstrip('0').rstrip('.')
         
-        print(f"\n🎯 EXECUTING PRECISION TRADE:")
-        print(f"   Strategy: SELL {quantity_str} TRX for USDT")
-        print(f"   Expected Proceeds: ~${order_calc['notional_value']:.2f}")
-        print(f"   Quantity String: '{quantity_str}'")
+        logger.info(f"\n🎯 EXECUTING PRECISION TRADE:")
+        logger.info(f"   Strategy: SELL {quantity_str} TRX for USDT")
+        logger.info(f"   Expected Proceeds: ~${order_calc['notional_value']:.2f}")
+        logger.info(f"   Quantity String: '{quantity_str}'")
         
         # Test order first
-        print(f"\n🧪 TESTING ORDER VALIDITY...")
+        logger.info(f"\n🧪 TESTING ORDER VALIDITY...")
         try:
             test_order = client.create_test_order(
                 symbol=symbol,
@@ -197,35 +197,35 @@ def perform_precision_trade(client):
                 type='MARKET',
                 quantity=quantity_str
             )
-            print(f"✅ Test order validation successful!")
+            logger.info(f"✅ Test order validation successful!")
         except Exception as e:
-            print(f"❌ Test order failed: {e}")
+            logger.info(f"❌ Test order failed: {e}")
             logger.error(f"Test order error: {e}")
             return False
         
         # Confirm execution
         confirm = input(f"\n⚠️  CONFIRM REAL TRADE? (type 'YES' to proceed): ")
         if confirm != 'YES':
-            print("❌ Trade cancelled by user")
+            logger.info("❌ Trade cancelled by user")
             return False
         
         # Execute real order
-        print(f"\n⚡ PLACING REAL ORDER...")
+        logger.info(f"\n⚡ PLACING REAL ORDER...")
         
         order = client.order_market_sell(
             symbol=symbol,
             quantity=quantity_str
         )
         
-        print(f"✅ ORDER EXECUTED SUCCESSFULLY!")
-        print(f"\n📋 ORDER DETAILS:")
-        print(f"   Order ID: {order['orderId']}")
-        print(f"   Symbol: {order['symbol']}")
-        print(f"   Side: {order['side']}")
-        print(f"   Quantity Requested: {quantity_str}")
-        print(f"   Quantity Executed: {order['executedQty']}")
-        print(f"   Status: {order['status']}")
-        print(f"   Transaction Time: {order['transactTime']}")
+        logger.info(f"✅ ORDER EXECUTED SUCCESSFULLY!")
+        logger.info(f"\n📋 ORDER DETAILS:")
+        logger.info(f"   Order ID: {order['orderId']}")
+        logger.info(f"   Symbol: {order['symbol']}")
+        logger.info(f"   Side: {order['side']}")
+        logger.info(f"   Quantity Requested: {quantity_str}")
+        logger.info(f"   Quantity Executed: {order['executedQty']}")
+        logger.info(f"   Status: {order['status']}")
+        logger.info(f"   Transaction Time: {order['transactTime']}")
         
         # Calculate fills and fees
         total_executed = Decimal('0')
@@ -233,7 +233,7 @@ def perform_precision_trade(client):
         total_fees = Decimal('0')
         
         if 'fills' in order:
-            print(f"\n💹 EXECUTION DETAILS:")
+            logger.info(f"\n💹 EXECUTION DETAILS:")
             for i, fill in enumerate(order['fills']):
                 qty = Decimal(fill['qty'])
                 price = Decimal(fill['price'])
@@ -243,14 +243,14 @@ def perform_precision_trade(client):
                 total_proceeds += qty * price
                 total_fees += commission
                 
-                print(f"   Fill {i+1}: {qty} TRX @ ${price} = ${qty * price:.6f}")
-                print(f"            Fee: {commission} {fill['commissionAsset']}")
+                logger.info(f"   Fill {i+1}: {qty} TRX @ ${price} = ${qty * price:.6f}")
+                logger.info(f"            Fee: {commission} {fill['commissionAsset']}")
         
-        print(f"\n📊 TRADE SUMMARY:")
-        print(f"   Total Executed: {total_executed} TRX")
-        print(f"   Total Proceeds: ${total_proceeds:.6f}")
-        print(f"   Total Fees: {total_fees}")
-        print(f"   Net Proceeds: ${total_proceeds - total_fees:.6f}")
+        logger.info(f"\n📊 TRADE SUMMARY:")
+        logger.info(f"   Total Executed: {total_executed} TRX")
+        logger.info(f"   Total Proceeds: ${total_proceeds:.6f}")
+        logger.info(f"   Total Fees: {total_fees}")
+        logger.info(f"   Net Proceeds: ${total_proceeds - total_fees:.6f}")
         
         # Save comprehensive order data
         order_data = {
@@ -275,10 +275,10 @@ def perform_precision_trade(client):
         with open('kimera_precision_trade_success.json', 'w') as f:
             json.dump(order_data, f, indent=2, default=str)
         
-        print(f"\n💾 Complete trade data saved to: kimera_precision_trade_success.json")
+        logger.info(f"\n💾 Complete trade data saved to: kimera_precision_trade_success.json")
         
         # Wait and check updated balances
-        print(f"\n⏳ Waiting 3 seconds for balance update...")
+        logger.info(f"\n⏳ Waiting 3 seconds for balance update...")
         time.sleep(3)
         
         # Get updated balances
@@ -292,26 +292,26 @@ def perform_precision_trade(client):
             elif balance['asset'] == 'USDT':
                 new_usdt_balance = float(balance['free'])
         
-        print(f"\n💰 UPDATED BALANCES:")
-        print(f"   TRX: {new_trx_balance:.2f} (was {trx_balance:.2f})")
-        print(f"   USDT: ${new_usdt_balance:.6f} (was ${usdt_balance:.6f})")
-        print(f"   Change: -{trx_balance - new_trx_balance:.1f} TRX, +${new_usdt_balance - usdt_balance:.6f} USDT")
+        logger.info(f"\n💰 UPDATED BALANCES:")
+        logger.info(f"   TRX: {new_trx_balance:.2f} (was {trx_balance:.2f})")
+        logger.info(f"   USDT: ${new_usdt_balance:.6f} (was ${usdt_balance:.6f})")
+        logger.info(f"   Change: -{trx_balance - new_trx_balance:.1f} TRX, +${new_usdt_balance - usdt_balance:.6f} USDT")
         
-        print(f"\n🎉 KIMERA PRECISION TRADE COMPLETED!")
-        print(f"🚀 KIMERA IS NOW FULLY OPERATIONAL!")
-        print(f"⚡ READY FOR AUTONOMOUS TRADING STRATEGIES!")
+        logger.info(f"\n🎉 KIMERA PRECISION TRADE COMPLETED!")
+        logger.info(f"🚀 KIMERA IS NOW FULLY OPERATIONAL!")
+        logger.info(f"⚡ READY FOR AUTONOMOUS TRADING STRATEGIES!")
         
         return True
         
     except BinanceAPIException as e:
         logger.error(f"Binance API Error: {e}")
-        print(f"\n❌ Trading Error: {e}")
-        print(f"   Error Code: {e.code}")
-        print(f"   Error Message: {e.message}")
+        logger.info(f"\n❌ Trading Error: {e}")
+        logger.info(f"   Error Code: {e.code}")
+        logger.info(f"   Error Message: {e.message}")
         return False
     except Exception as e:
         logger.error(f"Unexpected error: {e}")
-        print(f"\n❌ Unexpected Error: {e}")
+        logger.info(f"\n❌ Unexpected Error: {e}")
         return False
 
 def main():
@@ -334,12 +334,12 @@ def main():
     success = perform_precision_trade(client)
     
     if success:
-        print(f"\n✅ KIMERA PRECISION TRADING SYSTEM FULLY OPERATIONAL!")
-        print(f"🎯 All Binance requirements precisely calculated and met")
-        print(f"🚀 Ready for advanced autonomous trading strategies")
-        print(f"⚡ Maximum profit optimization algorithms ready to deploy")
+        logger.info(f"\n✅ KIMERA PRECISION TRADING SYSTEM FULLY OPERATIONAL!")
+        logger.info(f"🎯 All Binance requirements precisely calculated and met")
+        logger.info(f"🚀 Ready for advanced autonomous trading strategies")
+        logger.info(f"⚡ Maximum profit optimization algorithms ready to deploy")
     else:
-        print(f"\n⚠️  Precision trade analysis completed - review calculations above")
+        logger.info(f"\n⚠️  Precision trade analysis completed - review calculations above")
 
 if __name__ == "__main__":
     main() 

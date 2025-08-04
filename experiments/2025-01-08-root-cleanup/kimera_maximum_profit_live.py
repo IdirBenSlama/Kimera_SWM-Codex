@@ -548,31 +548,31 @@ async def main():
         logger.info(f"📊 Report saved: {report_file}")
         
         # Display final results
-        print("\n" + "=" * 60)
-        print("🏆 KIMERA MAXIMUM PROFIT RESULTS")
-        print("=" * 60)
+        logger.info("\n" + "=" * 60)
+        logger.info("🏆 KIMERA MAXIMUM PROFIT RESULTS")
+        logger.info("=" * 60)
         
         if 'profit_performance' in report:
             perf = report['profit_performance']
-            print(f"💰 Starting Balance: ${perf['starting_balance']:.2f}")
-            print(f"💰 Ending Balance: ${perf['ending_balance']:.2f}")
-            print(f"📈 Total Profit: ${perf['total_profit']:.2f}")
-            print(f"📊 Profit Percentage: {perf['profit_percentage']:.2f}%")
-            print(f"🚨 Circuit Breaker: {perf['circuit_breaker_triggered']}")
+            logger.info(f"💰 Starting Balance: ${perf['starting_balance']:.2f}")
+            logger.info(f"💰 Ending Balance: ${perf['ending_balance']:.2f}")
+            logger.info(f"📈 Total Profit: ${perf['total_profit']:.2f}")
+            logger.info(f"📊 Profit Percentage: {perf['profit_percentage']:.2f}%")
+            logger.info(f"🚨 Circuit Breaker: {perf['circuit_breaker_triggered']}")
         
         if 'session_summary' in report:
             summary = report['session_summary']
-            print(f"⏱️  Duration: {summary['duration_minutes']:.1f} minutes")
-            print(f"📈 Total Trades: {summary['total_trades']}")
-            print(f"🎯 Win Rate: {summary['win_rate']*100:.1f}%")
-            print(f"⚡ Trades/Min: {summary['trades_per_minute']:.1f}")
+            logger.info(f"⏱️  Duration: {summary['duration_minutes']:.1f} minutes")
+            logger.info(f"📈 Total Trades: {summary['total_trades']}")
+            logger.info(f"🎯 Win Rate: {summary['win_rate']*100:.1f}%")
+            logger.info(f"⚡ Trades/Min: {summary['trades_per_minute']:.1f}")
         
-        print("=" * 60)
-        print("🚀 MAXIMUM PROFIT MISSION COMPLETE")
+        logger.info("=" * 60)
+        logger.info("🚀 MAXIMUM PROFIT MISSION COMPLETE")
         
     except Exception as e:
         logger.error(f"Main execution error: {e}")
-        print(f"Error: {e}")
+        logger.info(f"Error: {e}")
 
 if __name__ == "__main__":
     asyncio.run(main()) 

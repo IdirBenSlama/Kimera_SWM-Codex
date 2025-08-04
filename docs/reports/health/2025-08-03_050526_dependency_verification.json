@@ -1,0 +1,267 @@
+{
+  "verification_timestamp": "2025-08-03T05:05:11.946008",
+  "python_dependencies": {
+    "fastapi": {
+      "status": "\u2705 AVAILABLE",
+      "description": "Web framework for API",
+      "import_successful": true
+    },
+    "uvicorn": {
+      "status": "\u2705 AVAILABLE",
+      "description": "ASGI server",
+      "import_successful": true
+    },
+    "pydantic": {
+      "status": "\u2705 AVAILABLE",
+      "description": "Data validation",
+      "import_successful": true
+    },
+    "sqlalchemy": {
+      "status": "\u2705 AVAILABLE",
+      "description": "ORM for database operations",
+      "import_successful": true
+    },
+    "alembic": {
+      "status": "\u2705 AVAILABLE",
+      "description": "Database migrations",
+      "import_successful": true
+    },
+    "psycopg2": {
+      "status": "\u2705 AVAILABLE",
+      "description": "PostgreSQL driver",
+      "import_successful": true
+    },
+    "neo4j": {
+      "status": "\u2705 AVAILABLE",
+      "description": "Neo4j graph database driver",
+      "import_successful": true
+    },
+    "redis": {
+      "status": "\u2705 AVAILABLE",
+      "description": "Redis in-memory database driver",
+      "import_successful": true
+    },
+    "aioredis": {
+      "status": "\u26a0\ufe0f COMPATIBILITY_ISSUE",
+      "description": "Async Redis driver (Python 3.13 compatibility issue)",
+      "import_successful": false,
+      "error": "Python 3.13 compatibility issue with TimeoutError"
+    },
+    "prometheus_client": {
+      "status": "\u2705 AVAILABLE",
+      "description": "Prometheus metrics collection",
+      "import_successful": true
+    },
+    "grafana_api": {
+      "status": "\u2705 AVAILABLE",
+      "description": "Grafana integration",
+      "import_successful": true
+    },
+    "torch": {
+      "status": "\u2705 AVAILABLE",
+      "description": "PyTorch deep learning",
+      "import_successful": true
+    },
+    "transformers": {
+      "status": "\u2705 AVAILABLE",
+      "description": "Hugging Face transformers",
+      "import_successful": true
+    },
+    "accelerate": {
+      "status": "\u2705 AVAILABLE",
+      "description": "Hardware acceleration",
+      "import_successful": true
+    },
+    "datasets": {
+      "status": "\u2705 AVAILABLE",
+      "description": "ML datasets",
+      "import_successful": true
+    },
+    "cupy": {
+      "status": "\u2705 AVAILABLE",
+      "description": "CUDA array processing",
+      "import_successful": true
+    },
+    "pynvml": {
+      "status": "\u2705 AVAILABLE",
+      "description": "NVIDIA GPU monitoring",
+      "import_successful": true
+    },
+    "psutil": {
+      "status": "\u2705 AVAILABLE",
+      "description": "System resource monitoring",
+      "import_successful": true
+    },
+    "memory_profiler": {
+      "status": "\u2705 AVAILABLE",
+      "description": "Memory profiling",
+      "import_successful": true
+    },
+    "line_profiler": {
+      "status": "\u2705 AVAILABLE",
+      "description": "Line-by-line profiling",
+      "import_successful": true
+    },
+    "py-spy": {
+      "status": "\u274c MISSING",
+      "description": "Performance profiling",
+      "import_successful": false,
+      "error": "No module named 'py_spy'"
+    },
+    "locust": {
+      "status": "\u2705 AVAILABLE",
+      "description": "Load testing framework",
+      "import_successful": true
+    },
+    "aiohttp": {
+      "status": "\u2705 AVAILABLE",
+      "description": "Async HTTP client",
+      "import_successful": true
+    },
+    "numpy": {
+      "status": "\u2705 AVAILABLE",
+      "description": "Numerical computing",
+      "import_successful": true
+    },
+    "pandas": {
+      "status": "\u2705 AVAILABLE",
+      "description": "Data manipulation",
+      "import_successful": true
+    },
+    "scipy": {
+      "status": "\u2705 AVAILABLE",
+      "description": "Scientific computing",
+      "import_successful": true
+    },
+    "scikit-learn": {
+      "status": "\u274c MISSING",
+      "description": "Machine learning",
+      "import_successful": false,
+      "error": "No module named 'scikit_learn'"
+    },
+    "matplotlib": {
+      "status": "\u2705 AVAILABLE",
+      "description": "Plotting library",
+      "import_successful": true
+    },
+    "seaborn": {
+      "status": "\u2705 AVAILABLE",
+      "description": "Statistical visualization",
+      "import_successful": true
+    },
+    "plotly": {
+      "status": "\u2705 AVAILABLE",
+      "description": "Interactive plots",
+      "import_successful": true
+    },
+    "pytest": {
+      "status": "\u2705 AVAILABLE",
+      "description": "Testing framework",
+      "import_successful": true
+    },
+    "black": {
+      "status": "\u2705 AVAILABLE",
+      "description": "Code formatting",
+      "import_successful": true
+    },
+    "ruff": {
+      "status": "\u2705 AVAILABLE",
+      "description": "Linting",
+      "import_successful": true
+    },
+    "mypy": {
+      "status": "\u2705 AVAILABLE",
+      "description": "Type checking",
+      "import_successful": true
+    }
+  },
+  "database_services": {
+    "postgresql": {
+      "status": "\u274c UNAVAILABLE",
+      "available": false,
+      "error": "Cannot connect to PostgreSQL"
+    },
+    "neo4j": {
+      "status": "\u2705 CONNECTED",
+      "config": {
+        "uri": "bolt://localhost:7687",
+        "auth": [
+          "neo4j",
+          "password"
+        ]
+      },
+      "available": true
+    },
+    "redis": {
+      "status": "\u2705 CONNECTED",
+      "available": true
+    }
+  },
+  "monitoring_services": {
+    "prometheus": {
+      "status": "\u2705 RUNNING",
+      "url": "http://localhost:9090/api/v1/query",
+      "available": true
+    },
+    "grafana": {
+      "status": "\u2705 RUNNING",
+      "url": "http://localhost:3000/api/health",
+      "available": true
+    }
+  },
+  "gpu_acceleration": {
+    "cuda_available": true,
+    "cuda_device_count": 1,
+    "cuda_version": "11.8",
+    "device_names": [
+      "NVIDIA GeForce RTX 2080 Ti"
+    ],
+    "nvidia_driver_available": true,
+    "nvidia_gpu_count": 1,
+    "nvidia_gpu_names": [
+      "NVIDIA GeForce RTX 2080 Ti"
+    ]
+  },
+  "system_requirements": {},
+  "configuration_files": {
+    ".env": {
+      "status": "\u2705 EXISTS",
+      "description": "Environment variables",
+      "exists": true
+    },
+    "configs/database/database_config.json": {
+      "status": "\u2705 EXISTS",
+      "description": "Database configuration",
+      "exists": true
+    },
+    "configs/gpu_config.json": {
+      "status": "\u2705 EXISTS",
+      "description": "GPU configuration",
+      "exists": true
+    },
+    "configs/initialization_config.json": {
+      "status": "\u2705 EXISTS",
+      "description": "Initialization settings",
+      "exists": true
+    },
+    "pyproject.toml": {
+      "status": "\u2705 EXISTS",
+      "description": "Project configuration",
+      "exists": true
+    },
+    "requirements.txt": {
+      "status": "\u2705 EXISTS",
+      "description": "Python dependencies",
+      "exists": true
+    }
+  },
+  "recommendations": [
+    "Install PostgreSQL: Run scripts/installation/install_postgresql.ps1"
+  ],
+  "critical_issues": [
+    "Missing package: py-spy",
+    "Missing package: scikit-learn",
+    "PostgreSQL service not available"
+  ],
+  "overall_status": "\u274c CRITICAL_ISSUES"
+}

@@ -28,7 +28,7 @@ try:
         MultimodalGroundingSystem
     )
 except ImportError as e:
-    print(f"Warning: Could not import understanding_core: {e}")
+    logger.info(f"Warning: Could not import understanding_core: {e}")
     UnderstandingCore = None
 
 try:
@@ -40,7 +40,7 @@ try:
         ConsciousnessSignature
     )
 except ImportError as e:
-    print(f"Warning: Could not import consciousness_core: {e}")
+    logger.info(f"Warning: Could not import consciousness_core: {e}")
     ConsciousnessCore = None
 
 try:
@@ -52,7 +52,7 @@ try:
         InsightGenerationEngine
     )
 except ImportError as e:
-    print(f"Warning: Could not import meta_insight_core: {e}")
+    logger.info(f"Warning: Could not import meta_insight_core: {e}")
     MetaInsightCore = None
 
 try:
@@ -64,7 +64,7 @@ try:
         EnergyFieldDynamics
     )
 except ImportError as e:
-    print(f"Warning: Could not import field_dynamics_core: {e}")
+    logger.info(f"Warning: Could not import field_dynamics_core: {e}")
     FieldDynamicsCore = None
 
 try:
@@ -76,11 +76,13 @@ try:
         ThermodynamicOrganization
     )
 except ImportError as e:
-    print(f"Warning: Could not import learning_core: {e}")
+    logger.info(f"Warning: Could not import learning_core: {e}")
     LearningCore = None
 
 try:
     from .linguistic_intelligence_core import (
+import logging
+logger = logging.getLogger(__name__)
         LinguisticIntelligenceCore,
         AdvancedLanguageProcessor,
         UniversalTranslationSystem,
@@ -88,7 +90,7 @@ try:
         GrammarSyntaxEngine
     )
 except ImportError as e:
-    print(f"Warning: Could not import linguistic_intelligence_core: {e}")
+    logger.info(f"Warning: Could not import linguistic_intelligence_core: {e}")
     LinguisticIntelligenceCore = None
 
 __all__ = [

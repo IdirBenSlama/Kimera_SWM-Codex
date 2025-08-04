@@ -290,15 +290,15 @@ class KimeraMicroTrader:
             start_time = datetime.now()
             end_time = start_time + timedelta(minutes=runtime_minutes)
             
-            print("=" * 80)
-            print("KIMERA MICRO TRADER - SMALL BALANCE OPTIMIZED")
-            print("=" * 80)
-            print(f"Runtime: {runtime_minutes} minutes")
-            print(f"Trading Pairs: {', '.join(self.trading_pairs)}")
-            print(f"Target Profit: {float(self.target_profit * 100):.2f}%")
+            logger.info("=" * 80)
+            logger.info("KIMERA MICRO TRADER - SMALL BALANCE OPTIMIZED")
+            logger.info("=" * 80)
+            logger.info(f"Runtime: {runtime_minutes} minutes")
+            logger.info(f"Trading Pairs: {', '.join(self.trading_pairs)}")
+            logger.info(f"Target Profit: {float(self.target_profit * 100):.2f}%")
             
             initial_balance = self.get_usdt_balance()
-            print(f"Starting Balance: ${initial_balance}")
+            logger.info(f"Starting Balance: ${initial_balance}")
             
             self.running = True
             logger.info("MICRO TRADING SESSION STARTED")
@@ -363,16 +363,16 @@ class KimeraMicroTrader:
         total_profit = final_balance - initial_balance
         profit_pct = (total_profit / initial_balance * 100) if initial_balance > 0 else 0
         
-        print("\n" + "=" * 80)
-        print("MICRO TRADER FINAL REPORT")
-        print("=" * 80)
-        print(f"Runtime: {runtime:.1f} seconds")
-        print(f"Initial Balance: ${initial_balance:.4f}")
-        print(f"Final Balance: ${final_balance:.4f}")
-        print(f"Total Profit: ${total_profit:.4f}")
-        print(f"Profit %: {profit_pct:.3f}%")
-        print(f"Successful Trades: {successful_trades}")
-        print(f"Total Executions: {len(self.execution_history)}")
+        logger.info("\n" + "=" * 80)
+        logger.info("MICRO TRADER FINAL REPORT")
+        logger.info("=" * 80)
+        logger.info(f"Runtime: {runtime:.1f} seconds")
+        logger.info(f"Initial Balance: ${initial_balance:.4f}")
+        logger.info(f"Final Balance: ${final_balance:.4f}")
+        logger.info(f"Total Profit: ${total_profit:.4f}")
+        logger.info(f"Profit %: {profit_pct:.3f}%")
+        logger.info(f"Successful Trades: {successful_trades}")
+        logger.info(f"Total Executions: {len(self.execution_history)}")
         
         # Save results
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

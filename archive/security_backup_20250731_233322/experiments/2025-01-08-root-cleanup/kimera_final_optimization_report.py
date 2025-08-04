@@ -262,41 +262,41 @@ class KimeraOptimizationReport:
     def print_executive_summary(self, report):
         """Print executive summary of the optimization."""
         
-        print("\n" + "="*80)
-        print("KIMERA SWM FINAL OPTIMIZATION REPORT")
-        print("="*80)
-        print(f"Timestamp: {report['timestamp']}")
-        print(f"System Version: {report['system_version']}")
-        print(f"Overall Success Rate: {report['success_rate']}")
+        logger.info("\n" + "="*80)
+        logger.info("KIMERA SWM FINAL OPTIMIZATION REPORT")
+        logger.info("="*80)
+        logger.info(f"Timestamp: {report['timestamp']}")
+        logger.info(f"System Version: {report['system_version']}")
+        logger.info(f"Overall Success Rate: {report['success_rate']}")
         
-        print(f"\nSystem Health Score: {report['system_health']['overall_score']}%")
-        print(f"Components Operational: {report['system_health']['components_operational']}/{report['system_health']['components_total']}")
-        print(f"GPU: {report['system_health']['gpu_utilization']}")
+        logger.info(f"\nSystem Health Score: {report['system_health']['overall_score']}%")
+        logger.info(f"Components Operational: {report['system_health']['components_operational']}/{report['system_health']['components_total']}")
+        logger.info(f"GPU: {report['system_health']['gpu_utilization']}")
         
-        print("\nScientific Validation:")
+        logger.info("\nScientific Validation:")
         for component, metrics in report['scientific_validation'].items():
             status = metrics.get('status', 'UNKNOWN')
-            print(f"  {component.upper()}: {status}")
+            logger.info(f"  {component.upper()}: {status}")
             
-        print(f"\nOptimizations Applied: {len(report['optimizations_applied'])}")
+        logger.info(f"\nOptimizations Applied: {len(report['optimizations_applied'])}")
         for opt in report['optimizations_applied']:
-            print(f"  âœ“ {opt['component']}: {opt['optimization']}")
+            logger.info(f"  âœ“ {opt['component']}: {opt['optimization']}")
             
-        print(f"\nRemaining Issues: {len(report['remaining_issues'])}")
+        logger.info(f"\nRemaining Issues: {len(report['remaining_issues'])}")
         for issue in report['remaining_issues']:
-            print(f"  â€¢ {issue['issue']} (Priority: {issue['priority']})")
+            logger.info(f"  â€¢ {issue['issue']} (Priority: {issue['priority']})")
             
-        print("\nKey Achievements:")
-        print("  âœ“ 100% Physics Compliance in Thermodynamics")
-        print("  âœ“ Perfect Quantum Coherence Implementation")
-        print("  âœ“ Real-time Field Dynamics with GPU Acceleration")
-        print("  âœ“ Portal/Vortex Mechanics Fully Operational")
-        print("  âœ“ 72% Semantic Coherence with BGE-M3 Model")
-        print("  âœ“ Complete Cognitive System Integration")
+        logger.info("\nKey Achievements:")
+        logger.info("  âœ“ 100% Physics Compliance in Thermodynamics")
+        logger.info("  âœ“ Perfect Quantum Coherence Implementation")
+        logger.info("  âœ“ Real-time Field Dynamics with GPU Acceleration")
+        logger.info("  âœ“ Portal/Vortex Mechanics Fully Operational")
+        logger.info("  âœ“ 72% Semantic Coherence with BGE-M3 Model")
+        logger.info("  âœ“ Complete Cognitive System Integration")
         
-        print("\nSystem Status: READY FOR DEPLOYMENT")
-        print("Next Step: Fix PostgreSQL connection for 100% operational status")
-        print("="*80)
+        logger.info("\nSystem Status: READY FOR DEPLOYMENT")
+        logger.info("Next Step: Fix PostgreSQL connection for 100% operational status")
+        logger.info("="*80)
 
 
 if __name__ == "__main__":
@@ -305,5 +305,5 @@ if __name__ == "__main__":
     filename = optimizer.save_report(report)
     optimizer.print_executive_summary(report)
     
-    print(f"\nDetailed report available at: {filename}")
-    print("Kimera SWM optimization phase complete.") 
+    logger.info(f"\nDetailed report available at: {filename}")
+    logger.info("Kimera SWM optimization phase complete.") 

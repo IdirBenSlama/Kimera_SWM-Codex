@@ -391,17 +391,17 @@ class KimeraAutonomousTradingDemo:
 
 async def main():
     """Main function to run the demonstration"""
-    print("🤖 KIMERA AUTONOMOUS TRADING DEMONSTRATION")
-    print("="*60)
-    print()
-    print("USER REQUEST:")
-    print("- Runtime: 5 minutes")
-    print("- Target: $2,000 profit")
-    print("- Full autonomy")
-    print()
-    print("⚠️  EXECUTING IN SIMULATION MODE ONLY")
-    print("⚠️  NO REAL MONEY AT RISK")
-    print()
+    logger.info("🤖 KIMERA AUTONOMOUS TRADING DEMONSTRATION")
+    logger.info("="*60)
+    logger.info()
+    logger.info("USER REQUEST:")
+    logger.info("- Runtime: 5 minutes")
+    logger.info("- Target: $2,000 profit")
+    logger.info("- Full autonomy")
+    logger.info()
+    logger.info("⚠️  EXECUTING IN SIMULATION MODE ONLY")
+    logger.info("⚠️  NO REAL MONEY AT RISK")
+    logger.info()
     
     # Create and run demo
     demo = KimeraAutonomousTradingDemo(
@@ -411,17 +411,17 @@ async def main():
     
     await demo.run_autonomous_demo()
     
-    print()
-    print("🚨 TO ENABLE REAL TRADING:")
-    print("1. Set up Binance API credentials")
-    print("2. Create Ed25519 private key file")
-    print("3. Fix logging permission issues")
-    print("4. Start with MUCH smaller amounts ($25-50)")
-    print("5. Test thoroughly before risking significant funds")
-    print("6. Monitor continuously")
-    print()
-    print("⚠️  REAL TRADING INVOLVES SIGNIFICANT RISK")
-    print("⚠️  ONLY TRADE WITH MONEY YOU CAN AFFORD TO LOSE")
+    logger.info()
+    logger.info("🚨 TO ENABLE REAL TRADING:")
+    logger.info("1. Set up Binance API credentials")
+    logger.info("2. Create Ed25519 private key file")
+    logger.info("3. Fix logging permission issues")
+    logger.info("4. Start with MUCH smaller amounts ($25-50)")
+    logger.info("5. Test thoroughly before risking significant funds")
+    logger.info("6. Monitor continuously")
+    logger.info()
+    logger.info("⚠️  REAL TRADING INVOLVES SIGNIFICANT RISK")
+    logger.info("⚠️  ONLY TRADE WITH MONEY YOU CAN AFFORD TO LOSE")
 
 
 if __name__ == "__main__":

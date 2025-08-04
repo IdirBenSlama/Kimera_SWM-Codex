@@ -31,13 +31,13 @@ class VaultActivationDemo:
             response = requests.get(f"{self.base_url}/health", timeout=5)
             return response.status_code == 200
         except Exception as e:
-            print(f"❌ System not ready: {e}")
+            logger.info(f"❌ System not ready: {e}")
             return False
     
     def create_foundational_geoid(self, name: str, concept: str, symbolic_rep: str) -> bool:
         """Create a foundational geoid in the vault"""
         try:
-            print(f"🧠 Creating foundational geoid: {name}")
+            logger.info(f"🧠 Creating foundational geoid: {name}")
             
             # This would interact with the vault manager to create geoids
             # For now, we'll simulate by calling endpoints that would trigger geoid creation
@@ -58,20 +58,20 @@ class VaultActivationDemo:
             )
             
             if response.status_code == 200:
-                print(f"   ✅ Geoid '{name}' created successfully")
+                logger.info(f"   ✅ Geoid '{name}' created successfully")
                 return True
             else:
-                print(f"   ⚠️ Geoid creation response: {response.status_code}")
+                logger.info(f"   ⚠️ Geoid creation response: {response.status_code}")
                 return False
                 
         except Exception as e:
-            print(f"   ❌ Failed to create geoid: {e}")
+            logger.info(f"   ❌ Failed to create geoid: {e}")
             return False
     
     def generate_cognitive_scar(self, scar_name: str, tension_description: str) -> bool:
         """Generate a cognitive scar to show experience formation"""
         try:
-            print(f"⚡ Generating cognitive scar: {scar_name}")
+            logger.info(f"⚡ Generating cognitive scar: {scar_name}")
             
             scar_data = {
                 "name": scar_name,
@@ -89,20 +89,20 @@ class VaultActivationDemo:
             )
             
             if response.status_code == 200:
-                print(f"   ✅ Scar '{scar_name}' generated successfully")
+                logger.info(f"   ✅ Scar '{scar_name}' generated successfully")
                 return True
             else:
-                print(f"   ⚠️ Scar generation response: {response.status_code}")
+                logger.info(f"   ⚠️ Scar generation response: {response.status_code}")
                 return False
                 
         except Exception as e:
-            print(f"   ❌ Failed to generate scar: {e}")
+            logger.info(f"   ❌ Failed to generate scar: {e}")
             return False
     
     def trigger_insight_generation(self, insight_topic: str) -> bool:
         """Trigger insight generation"""
         try:
-            print(f"💡 Generating insight: {insight_topic}")
+            logger.info(f"💡 Generating insight: {insight_topic}")
             
             insight_data = {
                 "topic": insight_topic,
@@ -119,39 +119,39 @@ class VaultActivationDemo:
             )
             
             if response.status_code == 200:
-                print(f"   ✅ Insight '{insight_topic}' generated successfully")
+                logger.info(f"   ✅ Insight '{insight_topic}' generated successfully")
                 return True
             else:
-                print(f"   ⚠️ Insight generation response: {response.status_code}")
+                logger.info(f"   ⚠️ Insight generation response: {response.status_code}")
                 return False
                 
         except Exception as e:
-            print(f"   ❌ Failed to generate insight: {e}")
+            logger.info(f"   ❌ Failed to generate insight: {e}")
             return False
     
     def test_contradiction_engine(self) -> bool:
         """Test the contradiction engine"""
         try:
-            print("🔍 Testing contradiction engine...")
+            logger.info("🔍 Testing contradiction engine...")
             
             response = requests.get(f"{self.base_url}/kimera/contradiction/status", timeout=10)
             
             if response.status_code == 200:
                 status = response.json()
-                print(f"   ✅ Contradiction engine status: {status.get('status', 'unknown')}")
+                logger.info(f"   ✅ Contradiction engine status: {status.get('status', 'unknown')}")
                 return True
             else:
-                print(f"   ⚠️ Contradiction engine response: {response.status_code}")
+                logger.info(f"   ⚠️ Contradiction engine response: {response.status_code}")
                 return False
                 
         except Exception as e:
-            print(f"   ❌ Failed to test contradiction engine: {e}")
+            logger.info(f"   ❌ Failed to test contradiction engine: {e}")
             return False
     
     def simulate_cognitive_processing(self) -> bool:
         """Simulate cognitive processing that should trigger vault activity"""
         try:
-            print("🎯 Simulating cognitive processing...")
+            logger.info("🎯 Simulating cognitive processing...")
             
             # Try to trigger some system processing
             test_data = {
@@ -171,24 +171,24 @@ class VaultActivationDemo:
                 try:
                     response = requests.post(f"{self.base_url}{endpoint}", json=test_data, timeout=10)
                     if response.status_code == 200:
-                        print(f"   ✅ Cognitive processing triggered via {endpoint}")
+                        logger.info(f"   ✅ Cognitive processing triggered via {endpoint}")
                         return True
                     else:
-                        print(f"   ⚠️ Endpoint {endpoint} returned {response.status_code}")
+                        logger.info(f"   ⚠️ Endpoint {endpoint} returned {response.status_code}")
                 except Exception:
                     continue
             
-            print("   ℹ️ No cognitive processing endpoints responded - this is normal for a fresh system")
+            logger.info("   ℹ️ No cognitive processing endpoints responded - this is normal for a fresh system")
             return True
             
         except Exception as e:
-            print(f"   ❌ Failed cognitive processing simulation: {e}")
+            logger.info(f"   ❌ Failed cognitive processing simulation: {e}")
             return False
     
     def check_vault_activation(self) -> Dict[str, Any]:
         """Check if vault activation was successful"""
         try:
-            print("📊 Checking vault activation status...")
+            logger.info("📊 Checking vault activation status...")
             
             response = requests.get(f"{self.base_url}/kimera/vault/monitoring/health", timeout=10)
             
@@ -197,40 +197,40 @@ class VaultActivationDemo:
                 if health_data.get('status') == 'health_data_available':
                     metrics = health_data.get('health_metrics', {})
                     
-                    print("   📈 Vault Health Metrics:")
-                    print(f"      Cognitive State: {metrics.get('cognitive_state', 'unknown')}")
-                    print(f"      Geoids: {metrics.get('total_geoids', 0)}")
-                    print(f"      Scars: {metrics.get('total_scars', 0)}")
-                    print(f"      Insights: {metrics.get('total_insights', 0)}")
-                    print(f"      Activity Rate: {metrics.get('recent_activity_rate', 0):.2f}/min")
+                    logger.info("   📈 Vault Health Metrics:")
+                    logger.info(f"      Cognitive State: {metrics.get('cognitive_state', 'unknown')}")
+                    logger.info(f"      Geoids: {metrics.get('total_geoids', 0)}")
+                    logger.info(f"      Scars: {metrics.get('total_scars', 0)}")
+                    logger.info(f"      Insights: {metrics.get('total_insights', 0)}")
+                    logger.info(f"      Activity Rate: {metrics.get('recent_activity_rate', 0):.2f}/min")
                     
                     return metrics
                 else:
-                    print("   ⚠️ Vault health data not available")
+                    logger.info("   ⚠️ Vault health data not available")
                     return {}
             else:
-                print(f"   ❌ Failed to get vault health: {response.status_code}")
+                logger.info(f"   ❌ Failed to get vault health: {response.status_code}")
                 return {}
                 
         except Exception as e:
-            print(f"   ❌ Error checking vault activation: {e}")
+            logger.info(f"   ❌ Error checking vault activation: {e}")
             return {}
     
     def run_activation_demo(self):
         """Run the complete vault activation demonstration"""
-        print("=" * 80)
-        print("🌟 KIMERA VAULT ACTIVATION DEMONSTRATION")
-        print("=" * 80)
+        logger.info("=" * 80)
+        logger.info("🌟 KIMERA VAULT ACTIVATION DEMONSTRATION")
+        logger.info("=" * 80)
         
         # Check system health
         if not self.check_system_health():
-            print("❌ System not ready. Please ensure Kimera is running.")
+            logger.info("❌ System not ready. Please ensure Kimera is running.")
             sys.exit(1)
         
-        print("✅ System is ready. Beginning vault activation...\n")
+        logger.info("✅ System is ready. Beginning vault activation...\n")
         
         # Step 1: Create foundational geoids
-        print("🧠 PHASE 1: Creating Foundational Memory Structures")
+        logger.info("🧠 PHASE 1: Creating Foundational Memory Structures")
         self.create_foundational_geoid(
             "self_awareness", 
             "Recognition of one's own existence and consciousness",
@@ -253,7 +253,7 @@ class VaultActivationDemo:
         time.sleep(2)
         
         # Step 2: Generate cognitive scars
-        print("\n⚡ PHASE 2: Generating Cognitive Experience Scars")
+        logger.info("\n⚡ PHASE 2: Generating Cognitive Experience Scars")
         self.generate_cognitive_scar(
             "certainty_uncertainty_tension",
             "The fundamental tension between the desire for certainty and the reality of uncertainty"
@@ -267,7 +267,7 @@ class VaultActivationDemo:
         time.sleep(2)
         
         # Step 3: Trigger insight generation
-        print("\n💡 PHASE 3: Generating Foundational Insights")
+        logger.info("\n💡 PHASE 3: Generating Foundational Insights")
         self.trigger_insight_generation("consciousness_emergence")
         time.sleep(2)
         
@@ -275,7 +275,7 @@ class VaultActivationDemo:
         time.sleep(2)
         
         # Step 4: Test systems
-        print("\n🔍 PHASE 4: Testing Cognitive Systems")
+        logger.info("\n🔍 PHASE 4: Testing Cognitive Systems")
         self.test_contradiction_engine()
         time.sleep(2)
         
@@ -283,28 +283,30 @@ class VaultActivationDemo:
         time.sleep(3)
         
         # Step 5: Check activation results
-        print("\n📊 PHASE 5: Activation Results")
+        logger.info("\n📊 PHASE 5: Activation Results")
         final_metrics = self.check_vault_activation()
         
-        print("\n" + "=" * 80)
+        logger.info("\n" + "=" * 80)
         if final_metrics.get('cognitive_state') != 'NASCENT':
-            print("🎉 VAULT ACTIVATION SUCCESSFUL!")
-            print(f"   Cognitive State: {final_metrics.get('cognitive_state', 'unknown')}")
-            print("   The vault should now show activity in the real-time monitor.")
+            logger.info("🎉 VAULT ACTIVATION SUCCESSFUL!")
+            logger.info(f"   Cognitive State: {final_metrics.get('cognitive_state', 'unknown')}")
+            logger.info("   The vault should now show activity in the real-time monitor.")
         else:
-            print("📝 VAULT ACTIVATION INITIATED")
-            print("   Structures created - monitor may show activity as system processes them.")
+            logger.info("📝 VAULT ACTIVATION INITIATED")
+            logger.info("   Structures created - monitor may show activity as system processes them.")
         
-        print("\n💡 Watch the real-time monitor to see:")
-        print("   - Geoid formations appearing")
-        print("   - Scar formations being detected")
-        print("   - Insight generation events")
-        print("   - Cognitive state transitions")
-        print("=" * 80)
+        logger.info("\n💡 Watch the real-time monitor to see:")
+        logger.info("   - Geoid formations appearing")
+        logger.info("   - Scar formations being detected")
+        logger.info("   - Insight generation events")
+        logger.info("   - Cognitive state transitions")
+        logger.info("=" * 80)
 
 def main():
     """Main entry point"""
     import argparse
+import logging
+logger = logging.getLogger(__name__)
     
     parser = argparse.ArgumentParser(description="Kimera Vault Activation Demo")
     parser.add_argument("--url", default="http://localhost:8000", help="Kimera system URL")

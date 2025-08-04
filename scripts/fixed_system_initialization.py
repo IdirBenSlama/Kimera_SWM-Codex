@@ -32,9 +32,9 @@ logger = logging.getLogger(__name__)
 
 def print_separator(title: str, char: str = "=", width: int = 70):
     """Print a visual separator with title"""
-    print(f"\n{char * width}")
-    print(f" {title.upper()}")
-    print(f"{char * width}")
+    logger.info(f"\n{char * width}")
+    logger.info(f" {title.upper()}")
+    logger.info(f"{char * width}")
 
 
 def check_python_version():
@@ -44,15 +44,15 @@ def check_python_version():
     required_version = (3, 8)
     current_version = sys.version_info[:2]
     
-    print(f"Current Python version: {sys.version}")
-    print(f"Required minimum version: {required_version[0]}.{required_version[1]}")
+    logger.info(f"Current Python version: {sys.version}")
+    logger.info(f"Required minimum version: {required_version[0]}.{required_version[1]}")
     
     if current_version >= required_version:
-        print("✅ Python version is compatible")
+        logger.info("✅ Python version is compatible")
         return True
     else:
-        print(f"❌ Python version {current_version[0]}.{current_version[1]} is too old")
-        print(f"   Please upgrade to Python {required_version[0]}.{required_version[1]} or higher")
+        logger.info(f"❌ Python version {current_version[0]}.{current_version[1]} is too old")
+        logger.info(f"   Please upgrade to Python {required_version[0]}.{required_version[1]} or higher")
         return False
 
 
@@ -81,17 +81,17 @@ def check_dependencies():
     for display_name, import_name in critical_imports:
         try:
             __import__(import_name)
-            print(f"✅ {display_name}")
+            logger.info(f"✅ {display_name}")
         except ImportError as e:
-            print(f"❌ {display_name} - {str(e)}")
+            logger.info(f"❌ {display_name} - {str(e)}")
             missing_deps.append(display_name)
     
     if missing_deps:
-        print(f"\n❌ Missing dependencies: {', '.join(missing_deps)}")
-        print("   Please install missing dependencies before continuing")
+        logger.info(f"\n❌ Missing dependencies: {', '.join(missing_deps)}")
+        logger.info("   Please install missing dependencies before continuing")
         return False
     else:
-        print("✅ All critical dependencies are available")
+        logger.info("✅ All critical dependencies are available")
         return True
 
 
@@ -117,9 +117,9 @@ def create_directory_structure():
     for directory in directories:
         dir_path = base_path / directory
         dir_path.mkdir(parents=True, exist_ok=True)
-        print(f"✅ Created/verified directory: {directory}")
+        logger.info(f"✅ Created/verified directory: {directory}")
     
-    print("✅ Directory structure ready")
+    logger.info("✅ Directory structure ready")
     return True
 
 
@@ -129,31 +129,31 @@ def test_basic_imports():
     
     try:
         # Test basic data structures
-        print("Testing basic data structure imports...")
+        logger.info("Testing basic data structure imports...")
         from core.data_structures.geoid_state import create_concept_geoid
         test_geoid = create_concept_geoid("test_concept")
-        print(f"  ✅ Created geoid: {test_geoid.geoid_id[:8]}...")
+        logger.info(f"  ✅ Created geoid: {test_geoid.geoid_id[:8]}...")
         
         # Test SCAR imports
-        print("Testing SCAR system imports...")
+        logger.info("Testing SCAR system imports...")
         from core.data_structures.scar_state import ScarState, ScarType
-        print("  ✅ SCAR imports successful")
+        logger.info("  ✅ SCAR imports successful")
         
         # Test vault imports  
-        print("Testing vault system imports...")
+        logger.info("Testing vault system imports...")
         from core.utilities.vault_system import StorageConfiguration, StorageBackend
-        print("  ✅ Vault imports successful")
+        logger.info("  ✅ Vault imports successful")
         
         # Test database imports
-        print("Testing database system imports...")
+        logger.info("Testing database system imports...")
         from core.utilities.database_manager import DatabaseConfiguration, DatabaseType
-        print("  ✅ Database imports successful")
+        logger.info("  ✅ Database imports successful")
         
-        print("✅ All basic imports successful")
+        logger.info("✅ All basic imports successful")
         return True
         
     except Exception as e:
-        print(f"❌ Import testing failed: {str(e)}")
+        logger.info(f"❌ Import testing failed: {str(e)}")
         import traceback
         traceback.print_exc()
         return False
@@ -167,7 +167,7 @@ def initialize_core_systems():
     
     # Initialize Vault System
     try:
-        print("Initializing Vault System...")
+        logger.info("Initializing Vault System...")
         from core.utilities.vault_system import (
             initialize_vault, StorageConfiguration, StorageBackend
         )
@@ -182,16 +182,16 @@ def initialize_core_systems():
         
         vault = initialize_vault(vault_config)
         metrics = vault.get_storage_metrics()
-        print(f"  ✅ Vault initialized - Storage: {metrics.storage_size_bytes} bytes")
+        logger.info(f"  ✅ Vault initialized - Storage: {metrics.storage_size_bytes} bytes")
         results['vault'] = True
         
     except Exception as e:
-        print(f"  ❌ Vault initialization failed: {str(e)}")
+        logger.info(f"  ❌ Vault initialization failed: {str(e)}")
         results['vault'] = False
     
     # Initialize Database System
     try:
-        print("Initializing Database System...")
+        logger.info("Initializing Database System...")
         from core.utilities.database_manager import (
             initialize_database_manager, DatabaseConfiguration, DatabaseType
         )
@@ -204,37 +204,37 @@ def initialize_core_systems():
         
         database = initialize_database_manager(db_config)
         schema_info = database.connection.get_schema_info()
-        print(f"  ✅ Database initialized - Tables: {len(schema_info.get('tables', []))}")
+        logger.info(f"  ✅ Database initialized - Tables: {len(schema_info.get('tables', []))}")
         results['database'] = True
         
     except Exception as e:
-        print(f"  ❌ Database initialization failed: {str(e)}")
+        logger.info(f"  ❌ Database initialization failed: {str(e)}")
         results['database'] = False
     
     # Initialize SCAR System
     try:
-        print("Initializing SCAR System...")
+        logger.info("Initializing SCAR System...")
         from core.utilities.scar_manager import (
             initialize_scar_manager, AnalysisMode
         )
         
         scar_manager = initialize_scar_manager(AnalysisMode.CONTINUOUS)
         stats = scar_manager.get_statistics()
-        print(f"  ✅ SCAR system initialized - Health: {stats.system_health_score:.3f}")
+        logger.info(f"  ✅ SCAR system initialized - Health: {stats.system_health_score:.3f}")
         results['scar'] = True
         
     except Exception as e:
-        print(f"  ❌ SCAR initialization failed: {str(e)}")
+        logger.info(f"  ❌ SCAR initialization failed: {str(e)}")
         results['scar'] = False
     
     success_count = sum(results.values())
     total_count = len(results)
     
     if success_count == total_count:
-        print(f"✅ All {total_count} core systems initialized successfully")
+        logger.info(f"✅ All {total_count} core systems initialized successfully")
         return True
     else:
-        print(f"⚠️ {success_count}/{total_count} core systems initialized")
+        logger.info(f"⚠️ {success_count}/{total_count} core systems initialized")
         return success_count >= 2  # At least 2 of 3 systems working
 
 
@@ -244,7 +244,7 @@ def test_basic_operations():
     
     try:
         # Test geoid creation and processing
-        print("Testing geoid operations...")
+        logger.info("Testing geoid operations...")
         from core.data_structures.geoid_state import create_concept_geoid
         from core.processing.geoid_processor import GeoidProcessor
         
@@ -253,12 +253,12 @@ def test_basic_operations():
         result = processor.process_geoid(test_geoid, 'state_validation')
         
         if result.success:
-            print(f"  ✅ Geoid processing successful")
+            logger.info(f"  ✅ Geoid processing successful")
         else:
-            print(f"  ⚠️ Geoid processing completed with warnings")
+            logger.info(f"  ⚠️ Geoid processing completed with warnings")
         
         # Test storage operations
-        print("Testing storage operations...")
+        logger.info("Testing storage operations...")
         from core.utilities.vault_system import get_global_vault
         
         vault = get_global_vault()
@@ -267,17 +267,17 @@ def test_basic_operations():
         if storage_success:
             retrieved_geoid = vault.retrieve_geoid(test_geoid.geoid_id)
             if retrieved_geoid and retrieved_geoid.geoid_id == test_geoid.geoid_id:
-                print(f"  ✅ Storage and retrieval successful")
+                logger.info(f"  ✅ Storage and retrieval successful")
             else:
-                print(f"  ⚠️ Storage successful but retrieval failed")
+                logger.info(f"  ⚠️ Storage successful but retrieval failed")
         else:
-            print(f"  ⚠️ Storage operation failed")
+            logger.info(f"  ⚠️ Storage operation failed")
         
-        print("✅ Basic operations testing completed")
+        logger.info("✅ Basic operations testing completed")
         return True
         
     except Exception as e:
-        print(f"❌ Basic operations testing failed: {str(e)}")
+        logger.info(f"❌ Basic operations testing failed: {str(e)}")
         return False
 
 
@@ -351,18 +351,18 @@ The Kimera SWM system is operational with all critical issues resolved!
     try:
         with open(report_path, 'w', encoding='utf-8') as f:
             f.write(report_content)
-        print(f"✅ Initialization report saved to: {report_path}")
+        logger.info(f"✅ Initialization report saved to: {report_path}")
         return True
     except Exception as e:
-        print(f"❌ Failed to save report: {str(e)}")
+        logger.info(f"❌ Failed to save report: {str(e)}")
         return False
 
 
 def main():
     """Main initialization function with improved error handling"""
     print_separator("KIMERA SWM FIXED SYSTEM INITIALIZATION", "=", 80)
-    print("Fixed initialization with proper import handling")
-    print(f"Started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    logger.info("Fixed initialization with proper import handling")
+    logger.info(f"Started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     
     initialization_steps = [
         ("Python Version Check", check_python_version),
@@ -385,36 +385,36 @@ def main():
             else:
                 failed_steps.append(step_name)
         except Exception as e:
-            print(f"❌ {step_name} failed with exception: {str(e)}")
+            logger.info(f"❌ {step_name} failed with exception: {str(e)}")
             failed_steps.append(step_name)
     
     print_separator("FIXED INITIALIZATION COMPLETE", "=", 80)
     
     success_rate = len(passed_steps) / (len(passed_steps) + len(failed_steps)) * 100
     
-    print(f"📊 INITIALIZATION RESULTS:")
-    print(f"   ✅ Passed: {len(passed_steps)}")
-    print(f"   ❌ Failed: {len(failed_steps)}")  
-    print(f"   📈 Success Rate: {success_rate:.1f}%")
+    logger.info(f"📊 INITIALIZATION RESULTS:")
+    logger.info(f"   ✅ Passed: {len(passed_steps)}")
+    logger.info(f"   ❌ Failed: {len(failed_steps)}")  
+    logger.info(f"   📈 Success Rate: {success_rate:.1f}%")
     
     if len(failed_steps) == 0:
-        print(f"\n🎉 KIMERA SWM SYSTEM INITIALIZATION SUCCESSFUL! 🎉")
-        print(f"✅ All components are ready and operational")
-        print(f"✅ Import issues have been resolved")
-        print(f"✅ System is ready for comprehensive audit and operation")
+        logger.info(f"\n🎉 KIMERA SWM SYSTEM INITIALIZATION SUCCESSFUL! 🎉")
+        logger.info(f"✅ All components are ready and operational")
+        logger.info(f"✅ Import issues have been resolved")
+        logger.info(f"✅ System is ready for comprehensive audit and operation")
         return True
     elif success_rate >= 75:
-        print(f"\n✅ INITIALIZATION MOSTLY SUCCESSFUL")
-        print(f"✅ Core systems are operational ({success_rate:.1f}% success)")
-        print(f"⚠️ Some non-critical components may need attention")
+        logger.info(f"\n✅ INITIALIZATION MOSTLY SUCCESSFUL")
+        logger.info(f"✅ Core systems are operational ({success_rate:.1f}% success)")
+        logger.info(f"⚠️ Some non-critical components may need attention")
         if failed_steps:
-            print(f"⚠️ Failed steps: {', '.join(failed_steps)}")
+            logger.info(f"⚠️ Failed steps: {', '.join(failed_steps)}")
         return True
     else:
-        print(f"\n❌ INITIALIZATION COMPLETED WITH SIGNIFICANT ISSUES")
-        print(f"❌ Success rate too low: {success_rate:.1f}%")
-        print(f"❌ Failed steps: {', '.join(failed_steps)}")
-        print(f"❌ Please review errors and fix critical issues")
+        logger.info(f"\n❌ INITIALIZATION COMPLETED WITH SIGNIFICANT ISSUES")
+        logger.info(f"❌ Success rate too low: {success_rate:.1f}%")
+        logger.info(f"❌ Failed steps: {', '.join(failed_steps)}")
+        logger.info(f"❌ Please review errors and fix critical issues")
         return False
 
 

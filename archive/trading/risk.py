@@ -7,6 +7,8 @@ sys.path.append(str(Path(__file__).parent.parent.parent))
 
 from .models import Order
 from .portfolio import Portfolio
+import logging
+logger = logging.getLogger(__name__)
 
 class RiskManager:
     """
@@ -23,7 +25,7 @@ class RiskManager:
         """
         self.portfolio = portfolio
         self.max_position_pct = max_position_pct
-        print(f"RiskManager initialized with max position risk of {self.max_position_pct:.0%}.")
+        logger.info(f"RiskManager initialized with max position risk of {self.max_position_pct:.0%}.")
 
     def check_order(self, order: Order, price: float) -> bool:
         """
@@ -40,7 +42,7 @@ class RiskManager:
         
         # Rule 1: Insufficient Funds
         if order.side == 'buy' and order_cost > self.portfolio.cash:
-            print(f"RISK CHECK FAILED: Insufficient funds for {order.ticker} buy order. "
+            logger.info(f"RISK CHECK FAILED: Insufficient funds for {order.ticker} buy order. "
                   f"Required: ${order_cost:,.2f}, Available: ${self.portfolio.cash:,.2f}")
             return False
 
@@ -62,9 +64,9 @@ class RiskManager:
         projected_position_value = current_position_value + order_cost
 
         if order.side == 'buy' and projected_position_value > max_position_value:
-            print(f"RISK CHECK FAILED: Order for {order.ticker} exceeds max position size of {self.max_position_pct:.0%}. "
+            logger.info(f"RISK CHECK FAILED: Order for {order.ticker} exceeds max position size of {self.max_position_pct:.0%}. "
                   f"Projected value: ${projected_position_value:,.2f}, Max allowed: ${max_position_value:,.2f}")
             return False
 
-        print("RISK CHECK PASSED: Order is within defined risk limits.")
+        logger.info("RISK CHECK PASSED: Order is within defined risk limits.")
         return True 

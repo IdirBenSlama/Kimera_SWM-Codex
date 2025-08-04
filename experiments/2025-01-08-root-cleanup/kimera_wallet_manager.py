@@ -66,12 +66,12 @@ class KimeraWalletManager:
         self.total_portfolio_value = 0.0
         self.tradeable_pairs = []
         
-        print("🚀 Kimera Wallet Manager initialized")
+        logger.info("🚀 Kimera Wallet Manager initialized")
     
     async def analyze_complete_portfolio(self) -> Dict[str, AssetInfo]:
         """Analyze the complete wallet portfolio"""
-        print("\n📊 ANALYZING COMPLETE PORTFOLIO...")
-        print("=" * 50)
+        logger.info("\n📊 ANALYZING COMPLETE PORTFOLIO...")
+        logger.info("=" * 50)
         
         try:
             # Get all balances
@@ -140,12 +140,12 @@ class KimeraWalletManager:
             portfolio = dict(sorted(portfolio.items(), key=lambda x: x[1].usd_value, reverse=True))
             
             # Display portfolio
-            print(f"💰 TOTAL PORTFOLIO VALUE: ${total_value:.2f}")
-            print("\n📈 ASSET BREAKDOWN:")
-            print("-" * 60)
+            logger.info(f"💰 TOTAL PORTFOLIO VALUE: ${total_value:.2f}")
+            logger.info("\n📈 ASSET BREAKDOWN:")
+            logger.info("-" * 60)
             
             for asset, info in portfolio.items():
-                print(f"{asset:8} | {info.balance:12.6f} | ${info.usd_value:8.2f} | {info.percentage:5.1f}%")
+                logger.info(f"{asset:8} | {info.balance:12.6f} | ${info.usd_value:8.2f} | {info.percentage:5.1f}%")
             
             self.portfolio = portfolio
             self.total_portfolio_value = total_value
@@ -153,13 +153,13 @@ class KimeraWalletManager:
             return portfolio
             
         except Exception as e:
-            print(f"❌ Error analyzing portfolio: {e}")
+            logger.info(f"❌ Error analyzing portfolio: {e}")
             return {}
     
     def identify_trading_opportunities(self) -> List[TradingOpportunity]:
         """Identify trading opportunities using Kimera's intelligence"""
-        print("\n🧠 KIMERA INTELLIGENCE: Identifying Trading Opportunities...")
-        print("=" * 60)
+        logger.info("\n🧠 KIMERA INTELLIGENCE: Identifying Trading Opportunities...")
+        logger.info("=" * 60)
         
         opportunities = []
         
@@ -228,24 +228,24 @@ class KimeraWalletManager:
         
         # Display opportunities
         if opportunities:
-            print(f"🎯 IDENTIFIED {len(opportunities)} TRADING OPPORTUNITIES:")
-            print("-" * 60)
+            logger.info(f"🎯 IDENTIFIED {len(opportunities)} TRADING OPPORTUNITIES:")
+            logger.info("-" * 60)
             
             for i, opp in enumerate(opportunities, 1):
-                print(f"{i}. {opp.strategy}")
-                print(f"   Trade: {opp.amount:.6f} {opp.from_asset} → {opp.to_asset}")
-                print(f"   Confidence: {opp.confidence:.1%}")
-                print(f"   Expected Profit: {opp.expected_profit:.1%}")
-                print()
+                logger.info(f"{i}. {opp.strategy}")
+                logger.info(f"   Trade: {opp.amount:.6f} {opp.from_asset} → {opp.to_asset}")
+                logger.info(f"   Confidence: {opp.confidence:.1%}")
+                logger.info(f"   Expected Profit: {opp.expected_profit:.1%}")
+                logger.info()
         else:
-            print("📊 Portfolio is well-balanced. No immediate opportunities identified.")
+            logger.info("📊 Portfolio is well-balanced. No immediate opportunities identified.")
         
         return opportunities
     
     async def execute_opportunity(self, opportunity: TradingOpportunity) -> bool:
         """Execute a trading opportunity"""
-        print(f"\n🚀 EXECUTING: {opportunity.strategy}")
-        print(f"Trading {opportunity.amount:.6f} {opportunity.from_asset} → {opportunity.to_asset}")
+        logger.info(f"\n🚀 EXECUTING: {opportunity.strategy}")
+        logger.info(f"Trading {opportunity.amount:.6f} {opportunity.from_asset} → {opportunity.to_asset}")
         
         try:
             # Determine trading pair
@@ -260,14 +260,14 @@ class KimeraWalletManager:
                 raise  # Re-raise for proper error handling
                 # Use USDT as intermediate
                 if opportunity.to_asset != 'USDT':
-                    print(f"   Using USDT as intermediate currency")
+                    logger.info(f"   Using USDT as intermediate currency")
                     # First convert from_asset to USDT, then USDT to to_asset
                     symbol1 = f"{opportunity.from_asset}/USDT"
                     symbol2 = f"{opportunity.to_asset}/USDT"
                     
                     # Execute first trade
                     order1 = self.exchange.create_market_sell_order(symbol1, opportunity.amount)
-                    print(f"   ✅ Step 1: Sold {opportunity.amount:.6f} {opportunity.from_asset}")
+                    logger.info(f"   ✅ Step 1: Sold {opportunity.amount:.6f} {opportunity.from_asset}")
                     
                     # Calculate amount for second trade
                     usdt_received = order1['cost']
@@ -276,7 +276,7 @@ class KimeraWalletManager:
                     
                     # Execute second trade
                     order2 = self.exchange.create_market_buy_order(symbol2, to_amount)
-                    print(f"   ✅ Step 2: Bought {to_amount:.6f} {opportunity.to_asset}")
+                    logger.info(f"   ✅ Step 2: Bought {to_amount:.6f} {opportunity.to_asset}")
                     
                     return True
                 else:
@@ -285,7 +285,7 @@ class KimeraWalletManager:
             # Execute direct trade
             if opportunity.to_asset == 'USDT':
                 order = self.exchange.create_market_sell_order(trading_symbol, opportunity.amount)
-                print(f"   ✅ Sold {opportunity.amount:.6f} {opportunity.from_asset} for USDT")
+                logger.info(f"   ✅ Sold {opportunity.amount:.6f} {opportunity.from_asset} for USDT")
             else:
                 # Calculate USDT needed
                 from_ticker = self.exchange.fetch_ticker(f"{opportunity.from_asset}/USDT")
@@ -295,53 +295,53 @@ class KimeraWalletManager:
                 to_amount = usdt_value / to_ticker['last']
                 
                 order = self.exchange.create_market_buy_order(f"{opportunity.to_asset}/USDT", to_amount)
-                print(f"   ✅ Bought {to_amount:.6f} {opportunity.to_asset}")
+                logger.info(f"   ✅ Bought {to_amount:.6f} {opportunity.to_asset}")
             
-            print(f"   📋 Order ID: {order['id']}")
-            print(f"   💰 Value: ${order.get('cost', 0):.2f}")
+            logger.info(f"   📋 Order ID: {order['id']}")
+            logger.info(f"   💰 Value: ${order.get('cost', 0):.2f}")
             
             return True
             
         except Exception as e:
-            print(f"   ❌ Execution failed: {e}")
+            logger.info(f"   ❌ Execution failed: {e}")
             return False
     
     async def run_intelligent_management(self):
         """Run the complete intelligent wallet management"""
-        print("🧠 KIMERA INTELLIGENT WALLET MANAGEMENT")
-        print("=" * 60)
-        print(f"⏰ Start Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        logger.info("🧠 KIMERA INTELLIGENT WALLET MANAGEMENT")
+        logger.info("=" * 60)
+        logger.info(f"⏰ Start Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         
         # Step 1: Analyze complete portfolio
         portfolio = await self.analyze_complete_portfolio()
         
         if not portfolio:
-            print("❌ Could not analyze portfolio")
+            logger.info("❌ Could not analyze portfolio")
             return
         
         # Step 2: Identify opportunities
         opportunities = self.identify_trading_opportunities()
         
         if not opportunities:
-            print("✅ Portfolio is optimally managed. No actions needed.")
+            logger.info("✅ Portfolio is optimally managed. No actions needed.")
             return
         
         # Step 3: Ask for permission to execute
-        print("\n" + "!" * 60)
-        print("🤖 KIMERA WANTS TO OPTIMIZE YOUR PORTFOLIO")
-        print("!" * 60)
+        logger.info("\n" + "!" * 60)
+        logger.info("🤖 KIMERA WANTS TO OPTIMIZE YOUR PORTFOLIO")
+        logger.info("!" * 60)
         
         for i, opp in enumerate(opportunities, 1):
-            print(f"{i}. {opp.strategy}: Trade {opp.amount:.6f} {opp.from_asset} → {opp.to_asset}")
+            logger.info(f"{i}. {opp.strategy}: Trade {opp.amount:.6f} {opp.from_asset} → {opp.to_asset}")
         
         response = input("\nExecute Kimera's recommendations? (yes/no): ")
         
         if response.lower() != 'yes':
-            print("🛑 Portfolio optimization cancelled by user")
+            logger.info("🛑 Portfolio optimization cancelled by user")
             return
         
         # Step 4: Execute opportunities
-        print("\n🚀 EXECUTING KIMERA'S PORTFOLIO OPTIMIZATION...")
+        logger.info("\n🚀 EXECUTING KIMERA'S PORTFOLIO OPTIMIZATION...")
         
         executed = 0
         for opp in opportunities:
@@ -350,20 +350,22 @@ class KimeraWalletManager:
                 await asyncio.sleep(1)  # Rate limiting
         
         # Step 5: Re-analyze portfolio
-        print(f"\n✅ EXECUTED {executed}/{len(opportunities)} OPTIMIZATIONS")
-        print("\n📊 UPDATED PORTFOLIO:")
+        logger.info(f"\n✅ EXECUTED {executed}/{len(opportunities)} OPTIMIZATIONS")
+        logger.info("\n📊 UPDATED PORTFOLIO:")
         await self.analyze_complete_portfolio()
         
-        print("\n🎯 KIMERA PORTFOLIO OPTIMIZATION COMPLETE!")
-        print(f"⏰ End Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        logger.info("\n🎯 KIMERA PORTFOLIO OPTIMIZATION COMPLETE!")
+        logger.info(f"⏰ End Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
 async def main():
     try:
         kimera = KimeraWalletManager()
         await kimera.run_intelligent_management()
     except Exception as e:
-        print(f"❌ CRITICAL ERROR: {e}")
+        logger.info(f"❌ CRITICAL ERROR: {e}")
         import traceback
+import logging
+logger = logging.getLogger(__name__)
         traceback.print_exc()
 
 if __name__ == "__main__":

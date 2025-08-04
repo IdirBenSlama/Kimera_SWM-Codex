@@ -30,6 +30,8 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 # Import hybrid app
 from src.api.main_hybrid import app
+import logging
+logger = logging.getLogger(__name__)
 
 
 def parse_arguments():
@@ -92,52 +94,52 @@ def configure_environment(args):
     debug_mode = os.getenv('KIMERA_DEBUG', 'false').lower() == 'true'
     performance_mode = os.getenv('KIMERA_PERFORMANCE', 'true').lower() == 'true'
     
-    print("=" * 60)
-    print("Kimera Hybrid API Configuration")
-    print("=" * 60)
-    print(f"Debug Mode:        {'ENABLED' if debug_mode else 'DISABLED'}")
-    print(f"Performance Mode:  {'ENABLED' if performance_mode else 'DISABLED'}")
-    print(f"Host:              {args.host}")
-    print(f"Port:              {args.port}")
-    print(f"Workers:           {args.workers}")
-    print(f"Auto-reload:       {'ENABLED' if args.reload else 'DISABLED'}")
-    print("=" * 60)
+    logger.info("=" * 60)
+    logger.info("Kimera Hybrid API Configuration")
+    logger.info("=" * 60)
+    logger.info(f"Debug Mode:        {'ENABLED' if debug_mode else 'DISABLED'}")
+    logger.info(f"Performance Mode:  {'ENABLED' if performance_mode else 'DISABLED'}")
+    logger.info(f"Host:              {args.host}")
+    logger.info(f"Port:              {args.port}")
+    logger.info(f"Workers:           {args.workers}")
+    logger.info(f"Auto-reload:       {'ENABLED' if args.reload else 'DISABLED'}")
+    logger.info("=" * 60)
     
     if debug_mode and performance_mode:
-        print("Mode: HIGH PERFORMANCE WITH DEBUG CAPABILITIES")
-        print("- Sub-millisecond response times")
-        print("- Request tracing enabled")
-        print("- Debug API endpoints available")
-        print("- Logs stored in ring buffer")
+        logger.info("Mode: HIGH PERFORMANCE WITH DEBUG CAPABILITIES")
+        logger.info("- Sub-millisecond response times")
+        logger.info("- Request tracing enabled")
+        logger.info("- Debug API endpoints available")
+        logger.info("- Logs stored in ring buffer")
     elif debug_mode and not performance_mode:
-        print("Mode: FULL DEBUG")
-        print("- Comprehensive logging to console and file")
-        print("- All debug features enabled")
-        print("- Performance may be impacted")
+        logger.info("Mode: FULL DEBUG")
+        logger.info("- Comprehensive logging to console and file")
+        logger.info("- All debug features enabled")
+        logger.info("- Performance may be impacted")
     elif not debug_mode and performance_mode:
-        print("Mode: PURE PERFORMANCE")
-        print("- Maximum speed")
-        print("- Minimal logging")
-        print("- Debug endpoints still available")
+        logger.info("Mode: PURE PERFORMANCE")
+        logger.info("- Maximum speed")
+        logger.info("- Minimal logging")
+        logger.info("- Debug endpoints still available")
     else:
-        print("Mode: BASIC")
-        print("- Standard logging")
-        print("- No performance optimizations")
+        logger.info("Mode: BASIC")
+        logger.info("- Standard logging")
+        logger.info("- No performance optimizations")
     
-    print("=" * 60)
-    print()
+    logger.info("=" * 60)
+    logger.info()
     
     # Show debug endpoints
     if debug_mode or True:  # Always show debug endpoints info
-        print("Debug Endpoints:")
-        print("- GET  /debug/info     - Comprehensive debug information")
-        print("- POST /debug/mode     - Toggle debug mode at runtime")
-        print("- POST /debug/profiling - Toggle performance profiling")
-        print("- GET  /debug/logs     - View recent logs from ring buffer")
-        print("- GET  /debug/traces   - View request traces")
-        print("- POST /debug/log-level - Change log level dynamically")
-        print("- GET  /performance/stats - Performance statistics")
-        print()
+        logger.info("Debug Endpoints:")
+        logger.info("- GET  /debug/info     - Comprehensive debug information")
+        logger.info("- POST /debug/mode     - Toggle debug mode at runtime")
+        logger.info("- POST /debug/profiling - Toggle performance profiling")
+        logger.info("- GET  /debug/logs     - View recent logs from ring buffer")
+        logger.info("- GET  /debug/traces   - View request traces")
+        logger.info("- POST /debug/log-level - Change log level dynamically")
+        logger.info("- GET  /performance/stats - Performance statistics")
+        logger.info()
 
 
 if __name__ == "__main__":

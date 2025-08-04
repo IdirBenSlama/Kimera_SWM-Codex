@@ -433,27 +433,27 @@ class KimeraDeepAnalyzer:
             json.dump(self.analysis_results, f, indent=2, default=str)
             
         # Print summary
-        print("\n" + "="*70)
-        print("KIMERA DEEP SYSTEM ANALYSIS SUMMARY")
-        print("="*70)
-        print(f"Overall Health Score: {overall_health:.1f}%")
+        logger.info("\n" + "="*70)
+        logger.info("KIMERA DEEP SYSTEM ANALYSIS SUMMARY")
+        logger.info("="*70)
+        logger.info(f"Overall Health Score: {overall_health:.1f}%")
         
-        print("\nResource Utilization:")
+        logger.info("\nResource Utilization:")
         res = self.analysis_results["resource_utilization"]
-        print(f"  CPU: {res.get('cpu_percent', 0):.1f}%")
-        print(f"  Memory: {res.get('memory_percent', 0):.1f}%")
+        logger.info(f"  CPU: {res.get('cpu_percent', 0):.1f}%")
+        logger.info(f"  Memory: {res.get('memory_percent', 0):.1f}%")
         if "gpu_memory_percent" in res:
-            print(f"  GPU: {res.get('gpu_memory_percent', 0):.1f}%")
+            logger.info(f"  GPU: {res.get('gpu_memory_percent', 0):.1f}%")
             
-        print("\nAPI Health:")
-        print(f"  Healthy endpoints: {api_healthy}/{api_total}")
+        logger.info("\nAPI Health:")
+        logger.info(f"  Healthy endpoints: {api_healthy}/{api_total}")
         
-        print("\nScientific Integrity:")
-        print(f"  Thermodynamics: {'✓' if thermo.get('physics_compliant', False) else '✗'}")
-        print(f"  Quantum: {'✓' if quantum.get('heisenberg_satisfied', False) else '✗'}")
-        print(f"  Conservation: {'✓' if diffusion.get('conservation_satisfied', False) else '✗'}")
+        logger.info("\nScientific Integrity:")
+        logger.info(f"  Thermodynamics: {'✓' if thermo.get('physics_compliant', False) else '✗'}")
+        logger.info(f"  Quantum: {'✓' if quantum.get('heisenberg_satisfied', False) else '✗'}")
+        logger.info(f"  Conservation: {'✓' if diffusion.get('conservation_satisfied', False) else '✗'}")
         
-        print(f"\nOptimization Opportunities: {len(self.analysis_results['optimization_opportunities'])}")
+        logger.info(f"\nOptimization Opportunities: {len(self.analysis_results['optimization_opportunities'])}")
         
         critical = sum(1 for o in self.analysis_results['optimization_opportunities'] 
                       if o['priority'] == 'critical')
@@ -461,12 +461,12 @@ class KimeraDeepAnalyzer:
                   if o['priority'] == 'high')
         
         if critical > 0:
-            print(f"  CRITICAL: {critical}")
+            logger.info(f"  CRITICAL: {critical}")
         if high > 0:
-            print(f"  HIGH: {high}")
+            logger.info(f"  HIGH: {high}")
             
-        print("="*70)
-        print(f"\nDetailed report saved to: {report_file}")
+        logger.info("="*70)
+        logger.info(f"\nDetailed report saved to: {report_file}")
         
         return self.analysis_results
 

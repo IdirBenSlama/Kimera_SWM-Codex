@@ -480,7 +480,7 @@ def create_sqlite_tables(engine):
         Base.metadata.create_all(engine)
         return True
     except Exception as e:
-        print(f"Failed to create tables: {e}")
+        logger.info(f"Failed to create tables: {e}")
         return False
 '''
             
@@ -705,19 +705,19 @@ def main():
         results = remediator.run_critical_remediation()
         
         if results['status'] == 'success':
-            print("\n🎉 CRITICAL ISSUES SUCCESSFULLY REMEDIATED!")
-            print("✅ System security improved")
-            print("✅ Integration issues resolved") 
-            print("✅ Performance optimized")
-            print("✅ Configuration complete")
+            logger.info("\n🎉 CRITICAL ISSUES SUCCESSFULLY REMEDIATED!")
+            logger.info("✅ System security improved")
+            logger.info("✅ Integration issues resolved") 
+            logger.info("✅ Performance optimized")
+            logger.info("✅ Configuration complete")
             return 0
         elif results['status'] == 'partial':
-            print("\n⚠️ PARTIAL REMEDIATION COMPLETED")
-            print("⚠️ Some issues may need manual attention")
+            logger.info("\n⚠️ PARTIAL REMEDIATION COMPLETED")
+            logger.info("⚠️ Some issues may need manual attention")
             return 1
         else:
-            print("\n❌ REMEDIATION FAILED")
-            print("❌ Critical issues require immediate attention")
+            logger.info("\n❌ REMEDIATION FAILED")
+            logger.info("❌ Critical issues require immediate attention")
             return 2
             
     except Exception as e:

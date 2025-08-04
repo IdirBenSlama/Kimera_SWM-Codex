@@ -14,8 +14,8 @@ import time
 
 async def complete_system_validation():
     """Complete validation of all operational systems"""
-    print('🎯 COMPLETE KIMERA SWM ENTERPRISE PLATFORM VALIDATION')
-    print('=' * 65)
+    logger.info('🎯 COMPLETE KIMERA SWM ENTERPRISE PLATFORM VALIDATION')
+    logger.info('=' * 65)
     
     validation_results = {}
     total_start = time.time()
@@ -25,11 +25,11 @@ async def complete_system_validation():
     # ======================================================================
     
     try:
-        print('🚀 PHASE 1: CORE PERFORMANCE SYSTEMS VALIDATION')
-        print('-' * 55)
+        logger.info('🚀 PHASE 1: CORE PERFORMANCE SYSTEMS VALIDATION')
+        logger.info('-' * 55)
         
         # Test 1: GPU Acceleration Framework
-        print('1️⃣  GPU Acceleration Framework...')
+        logger.info('1️⃣  GPU Acceleration Framework...')
         start = time.time()
         from src.core.performance.gpu_acceleration import (
             initialize_gpu_acceleration, get_gpu_metrics, move_to_gpu, 
@@ -55,13 +55,13 @@ async def complete_system_validation():
             large_result = torch.matmul(large_tensor, large_tensor.T)
         
         gpu_time = time.time() - start
-        print(f'   ✅ GPU Framework: {metrics.device_name} ({metrics.total_memory:.1f}GB)')
-        print(f'   ✅ Operations: 32x32→{small_result.shape}, 128x128→{medium_result.shape}, 256x256→{large_result.shape}')
-        print(f'   ✅ Processing Time: {gpu_time:.3f}s')
+        logger.info(f'   ✅ GPU Framework: {metrics.device_name} ({metrics.total_memory:.1f}GB)')
+        logger.info(f'   ✅ Operations: 32x32→{small_result.shape}, 128x128→{medium_result.shape}, 256x256→{large_result.shape}')
+        logger.info(f'   ✅ Processing Time: {gpu_time:.3f}s')
         validation_results['gpu_acceleration'] = 'FULLY_OPERATIONAL'
         
         # Test 2: Advanced Caching System
-        print('\n2️⃣  Advanced Caching System...')
+        logger.info('\n2️⃣  Advanced Caching System...')
         start = time.time()
         from src.core.performance.advanced_caching import (
             initialize_caching, put_cached, get_cached, 
@@ -96,14 +96,14 @@ async def complete_system_validation():
         stats = get_cache_stats()
         cache_time = time.time() - start
         
-        print(f'   ✅ Cache System: L1 + L2 + Semantic caching')
-        print(f'   ✅ Cache Entries: {stats.total_entries}, Hit Rate: {stats.hit_rate:.1%}')
-        print(f'   ✅ Data Integrity: GPU results preserved, metrics cached')
-        print(f'   ✅ Processing Time: {cache_time:.3f}s')
+        logger.info(f'   ✅ Cache System: L1 + L2 + Semantic caching')
+        logger.info(f'   ✅ Cache Entries: {stats.total_entries}, Hit Rate: {stats.hit_rate:.1%}')
+        logger.info(f'   ✅ Data Integrity: GPU results preserved, metrics cached')
+        logger.info(f'   ✅ Processing Time: {cache_time:.3f}s')
         validation_results['advanced_caching'] = 'FULLY_OPERATIONAL'
         
         # Test 3: Pipeline Optimization Engine
-        print('\n3️⃣  Pipeline Optimization Engine...')
+        logger.info('\n3️⃣  Pipeline Optimization Engine...')
         start = time.time()
         from src.core.performance.pipeline_optimization import (
             add_pipeline_task, get_pipeline_metrics, TaskPriority, initialize_pipeline
@@ -145,14 +145,14 @@ async def complete_system_validation():
         pipeline_metrics = get_pipeline_metrics()
         pipeline_time = time.time() - start
         
-        print(f'   ✅ Pipeline System: Multi-priority task scheduling')
-        print(f'   ✅ Tasks Added: 5 (CRITICAL→MEDIUM priorities)')
-        print(f'   ✅ Pipeline Metrics: {pipeline_metrics.total_tasks} tasks, score: {pipeline_metrics.performance_score:.3f}')
-        print(f'   ✅ Processing Time: {pipeline_time:.3f}s')
+        logger.info(f'   ✅ Pipeline System: Multi-priority task scheduling')
+        logger.info(f'   ✅ Tasks Added: 5 (CRITICAL→MEDIUM priorities)')
+        logger.info(f'   ✅ Pipeline Metrics: {pipeline_metrics.total_tasks} tasks, score: {pipeline_metrics.performance_score:.3f}')
+        logger.info(f'   ✅ Processing Time: {pipeline_time:.3f}s')
         validation_results['pipeline_optimization'] = 'FULLY_OPERATIONAL'
         
         # Test 4: Horizontal Scaling System
-        print('\n4️⃣  Horizontal Scaling System...')
+        logger.info('\n4️⃣  Horizontal Scaling System...')
         start = time.time()
         from src.core.scaling.horizontal_scaling import (
             initialize_horizontal_scaling, route_cognitive_request,
@@ -187,14 +187,14 @@ async def complete_system_validation():
         
         scaling_time = time.time() - start
         
-        print(f'   ✅ Scaling System: Enterprise cluster management')
-        print(f'   ✅ Node Routing: {len(routing_results)} requests routed optimally')
-        print(f'   ✅ Cluster Status: {cluster_status["cluster_metrics"].total_nodes} nodes, {cluster_status["cluster_metrics"].healthy_nodes} healthy')
-        print(f'   ✅ Processing Time: {scaling_time:.3f}s')
+        logger.info(f'   ✅ Scaling System: Enterprise cluster management')
+        logger.info(f'   ✅ Node Routing: {len(routing_results)} requests routed optimally')
+        logger.info(f'   ✅ Cluster Status: {cluster_status["cluster_metrics"].total_nodes} nodes, {cluster_status["cluster_metrics"].healthy_nodes} healthy')
+        logger.info(f'   ✅ Processing Time: {scaling_time:.3f}s')
         validation_results['horizontal_scaling'] = 'FULLY_OPERATIONAL'
         
         # Test 5: Integrated Performance Workflow
-        print('\n5️⃣  Integrated Performance Workflow...')
+        logger.info('\n5️⃣  Integrated Performance Workflow...')
         start = time.time()
         
         # Complex integrated workflow
@@ -237,42 +237,44 @@ async def complete_system_validation():
         
         workflow_time = time.time() - start
         
-        print(f'   ✅ Integrated Workflow: GPU→Cache→Pipeline→Scaling')
-        print(f'   ✅ Tensor Processing: {workflow_data["tensor_shape"]} on {workflow_data["processing_device"]}')
-        print(f'   ✅ Workflow Routing: Processed on node {workflow_node}')
-        print(f'   ✅ Processing Time: {workflow_time:.3f}s')
+        logger.info(f'   ✅ Integrated Workflow: GPU→Cache→Pipeline→Scaling')
+        logger.info(f'   ✅ Tensor Processing: {workflow_data["tensor_shape"]} on {workflow_data["processing_device"]}')
+        logger.info(f'   ✅ Workflow Routing: Processed on node {workflow_node}')
+        logger.info(f'   ✅ Processing Time: {workflow_time:.3f}s')
         validation_results['integrated_performance'] = 'FULLY_OPERATIONAL'
         
     except Exception as e:
-        print(f'❌ Core systems validation error: {e}')
+        logger.info(f'❌ Core systems validation error: {e}')
         validation_results['core_systems_error'] = str(e)
         import traceback
+import logging
+logger = logging.getLogger(__name__)
         traceback.print_exc()
     
     # ======================================================================
     # ENHANCED CAPABILITIES STATUS CHECK
     # ======================================================================
     
-    print('\n\n🧠 PHASE 2: ENHANCED CAPABILITIES STATUS CHECK')
-    print('-' * 55)
+    logger.info('\n\n🧠 PHASE 2: ENHANCED CAPABILITIES STATUS CHECK')
+    logger.info('-' * 55)
     
-    print('🔍 Cognitive Components Analysis:')
-    print('   ⚠️  Understanding Core: Import/initialization dependencies detected')
-    print('   ⚠️  Consciousness Core: Import/initialization dependencies detected')
-    print('   ⚠️  Learning Core: Import/initialization dependencies detected')
-    print('   ⚠️  Meta Insight Core: Import/initialization dependencies detected')
-    print('   ⚠️  Field Dynamics Core: Import/initialization dependencies detected')
-    print('   ⚠️  Linguistic Intelligence: Import/initialization dependencies detected')
-    print()
-    print('🔧 Issue Analysis:')
-    print('   • Configuration/logging utility dependencies missing')
-    print('   • Complex import chains causing initialization delays')
-    print('   • Components architecturally sound but need integration refinement')
-    print()
-    print('📊 Cognitive Capabilities Testing Results (from separate validation):')
-    print('   ✅ Individual component tests: 21/21 passed (100%)')
-    print('   ✅ Core cognitive logic: Fully implemented and validated')
-    print('   ✅ Enhanced capabilities: Architecturally complete')
+    logger.info('🔍 Cognitive Components Analysis:')
+    logger.info('   ⚠️  Understanding Core: Import/initialization dependencies detected')
+    logger.info('   ⚠️  Consciousness Core: Import/initialization dependencies detected')
+    logger.info('   ⚠️  Learning Core: Import/initialization dependencies detected')
+    logger.info('   ⚠️  Meta Insight Core: Import/initialization dependencies detected')
+    logger.info('   ⚠️  Field Dynamics Core: Import/initialization dependencies detected')
+    logger.info('   ⚠️  Linguistic Intelligence: Import/initialization dependencies detected')
+    logger.info()
+    logger.info('🔧 Issue Analysis:')
+    logger.info('   • Configuration/logging utility dependencies missing')
+    logger.info('   • Complex import chains causing initialization delays')
+    logger.info('   • Components architecturally sound but need integration refinement')
+    logger.info()
+    logger.info('📊 Cognitive Capabilities Testing Results (from separate validation):')
+    logger.info('   ✅ Individual component tests: 21/21 passed (100%)')
+    logger.info('   ✅ Core cognitive logic: Fully implemented and validated')
+    logger.info('   ✅ Enhanced capabilities: Architecturally complete')
     validation_results['cognitive_capabilities'] = 'ARCHITECTURALLY_COMPLETE_INTEGRATION_PENDING'
     
     # ======================================================================
@@ -281,21 +283,21 @@ async def complete_system_validation():
     
     total_time = time.time() - total_start
     
-    print('\n\n' + '=' * 65)
-    print('🎯 COMPLETE KIMERA SWM ENTERPRISE PLATFORM VALIDATION RESULTS')
-    print('=' * 65)
+    logger.info('\n\n' + '=' * 65)
+    logger.info('🎯 COMPLETE KIMERA SWM ENTERPRISE PLATFORM VALIDATION RESULTS')
+    logger.info('=' * 65)
     
     # Count operational systems
     fully_operational = sum(1 for result in validation_results.values() if result == 'FULLY_OPERATIONAL')
     total_systems = len(validation_results) - (1 if 'core_systems_error' in validation_results else 0)
     operational_rate = fully_operational / total_systems if total_systems > 0 else 0
     
-    print(f'🚀 ENTERPRISE PLATFORM STATUS:')
-    print(f'   Core Performance Systems: {fully_operational}/5 FULLY OPERATIONAL ({operational_rate:.1%})')
-    print(f'   Total Validation Time: {total_time:.3f}s')
-    print()
+    logger.info(f'🚀 ENTERPRISE PLATFORM STATUS:')
+    logger.info(f'   Core Performance Systems: {fully_operational}/5 FULLY OPERATIONAL ({operational_rate:.1%})')
+    logger.info(f'   Total Validation Time: {total_time:.3f}s')
+    logger.info()
     
-    print('✅ FULLY OPERATIONAL ENTERPRISE SYSTEMS:')
+    logger.info('✅ FULLY OPERATIONAL ENTERPRISE SYSTEMS:')
     for system, status in validation_results.items():
         if status == 'FULLY_OPERATIONAL':
             emoji = '✅'
@@ -307,55 +309,55 @@ async def complete_system_validation():
             emoji = '❌'
             status_text = status
             
-        print(f'   {emoji} {system.replace("_", " ").title()}: {status_text}')
+        logger.info(f'   {emoji} {system.replace("_", " ").title()}: {status_text}')
     
-    print()
-    print('📊 PLATFORM CAPABILITIES SUMMARY:')
-    print('   🚀 GPU-Accelerated Processing: PRODUCTION READY')
-    print('   💾 Advanced Multi-Level Caching: PRODUCTION READY')
-    print('   🔄 Pipeline Optimization: PRODUCTION READY')
-    print('   🌐 Horizontal Auto-Scaling: PRODUCTION READY')
-    print('   ⚡ Integrated Performance: PRODUCTION READY')
-    print('   🧠 Enhanced Cognitive Capabilities: ARCHITECTURALLY COMPLETE')
+    logger.info()
+    logger.info('📊 PLATFORM CAPABILITIES SUMMARY:')
+    logger.info('   🚀 GPU-Accelerated Processing: PRODUCTION READY')
+    logger.info('   💾 Advanced Multi-Level Caching: PRODUCTION READY')
+    logger.info('   🔄 Pipeline Optimization: PRODUCTION READY')
+    logger.info('   🌐 Horizontal Auto-Scaling: PRODUCTION READY')
+    logger.info('   ⚡ Integrated Performance: PRODUCTION READY')
+    logger.info('   🧠 Enhanced Cognitive Capabilities: ARCHITECTURALLY COMPLETE')
     
-    print()
+    logger.info()
     if operational_rate >= 0.8:
-        print('🎉 KIMERA SWM ENTERPRISE PLATFORM: PRODUCTION READY!')
-        print('🌟 HIGH-PERFORMANCE COGNITIVE COMPUTING PLATFORM OPERATIONAL!')
-        print('⚡ ENTERPRISE-GRADE PERFORMANCE SYSTEMS: 100% VALIDATED!')
-        print('🧠 ADVANCED COGNITIVE ARCHITECTURE: FULLY IMPLEMENTED!')
+        logger.info('🎉 KIMERA SWM ENTERPRISE PLATFORM: PRODUCTION READY!')
+        logger.info('🌟 HIGH-PERFORMANCE COGNITIVE COMPUTING PLATFORM OPERATIONAL!')
+        logger.info('⚡ ENTERPRISE-GRADE PERFORMANCE SYSTEMS: 100% VALIDATED!')
+        logger.info('🧠 ADVANCED COGNITIVE ARCHITECTURE: FULLY IMPLEMENTED!')
     else:
-        print('⚠️  Platform partially operational - core systems working')
+        logger.info('⚠️  Platform partially operational - core systems working')
     
-    print()
-    print('🏆 ACHIEVEMENTS:')
-    print('   • Enterprise GPU acceleration with NVIDIA RTX 3070 (8GB)')
-    print('   • Advanced semantic caching with 98%+ hit rates')
-    print('   • Multi-priority pipeline optimization with parallel processing')
-    print('   • Intelligent horizontal scaling with auto-cluster management')
-    print('   • Integrated performance workflows with sub-second processing')
-    print('   • Complete cognitive architecture implementation (21/21 components)')
-    print()
-    print('📋 NEXT STEPS FOR 100% INTEGRATION:')
-    print('   1. Resolve cognitive component import dependencies')
-    print('   2. Complete API service integration layer')
-    print('   3. Finalize monitoring dashboard configuration')
-    print('   4. End-to-end cognitive workflow testing')
+    logger.info()
+    logger.info('🏆 ACHIEVEMENTS:')
+    logger.info('   • Enterprise GPU acceleration with NVIDIA RTX 3070 (8GB)')
+    logger.info('   • Advanced semantic caching with 98%+ hit rates')
+    logger.info('   • Multi-priority pipeline optimization with parallel processing')
+    logger.info('   • Intelligent horizontal scaling with auto-cluster management')
+    logger.info('   • Integrated performance workflows with sub-second processing')
+    logger.info('   • Complete cognitive architecture implementation (21/21 components)')
+    logger.info()
+    logger.info('📋 NEXT STEPS FOR 100% INTEGRATION:')
+    logger.info('   1. Resolve cognitive component import dependencies')
+    logger.info('   2. Complete API service integration layer')
+    logger.info('   3. Finalize monitoring dashboard configuration')
+    logger.info('   4. End-to-end cognitive workflow testing')
     
     return operational_rate >= 0.8
 
 if __name__ == "__main__":
-    print('🎯 Starting Complete Kimera SWM Enterprise Platform Validation')
-    print('🔬 Comprehensive testing of all implemented systems...')
-    print()
+    logger.info('🎯 Starting Complete Kimera SWM Enterprise Platform Validation')
+    logger.info('🔬 Comprehensive testing of all implemented systems...')
+    logger.info()
     
     success = asyncio.run(complete_system_validation())
     
-    print()
-    print('=' * 65)
+    logger.info()
+    logger.info('=' * 65)
     if success:
-        print('🎉 VALIDATION COMPLETE: ENTERPRISE PLATFORM OPERATIONAL!')
-        print('🚀 Ready for high-performance cognitive computing workloads!')
+        logger.info('🎉 VALIDATION COMPLETE: ENTERPRISE PLATFORM OPERATIONAL!')
+        logger.info('🚀 Ready for high-performance cognitive computing workloads!')
     else:
-        print('📊 VALIDATION COMPLETE: Core systems operational, integration refinements identified')
-    print('=' * 65)
+        logger.info('📊 VALIDATION COMPLETE: Core systems operational, integration refinements identified')
+    logger.info('=' * 65)

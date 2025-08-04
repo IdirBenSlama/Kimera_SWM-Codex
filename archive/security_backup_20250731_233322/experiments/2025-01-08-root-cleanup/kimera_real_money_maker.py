@@ -372,12 +372,12 @@ class KimeraRealMoneyMaker:
             self.start_time = datetime.now()
             self.end_time = self.start_time + timedelta(minutes=self.runtime_minutes)
             
-            print("=" * 80)
-            print("KIMERA REAL MONEY MAKER - NO BULLSHIT VERSION")
-            print("=" * 80)
-            print(f"Runtime: {self.runtime_minutes} minutes")
-            print(f"Target: REAL PROFIT GENERATION")
-            print(f"Mode: ACTUAL AGGRESSIVE TRADING")
+            logger.info("=" * 80)
+            logger.info("KIMERA REAL MONEY MAKER - NO BULLSHIT VERSION")
+            logger.info("=" * 80)
+            logger.info(f"Runtime: {self.runtime_minutes} minutes")
+            logger.info(f"Target: REAL PROFIT GENERATION")
+            logger.info(f"Mode: ACTUAL AGGRESSIVE TRADING")
             
             # Get starting portfolio value
             self.starting_usdt_value = self.get_real_usdt_value()
@@ -396,15 +396,15 @@ class KimeraRealMoneyMaker:
             # Calculate final performance
             performance = self.calculate_real_performance()
             
-            print("\n" + "=" * 80)
-            print("FINAL REAL MONEY RESULTS")
-            print("=" * 80)
-            print(f"Starting Value: ${performance['starting_value']:.2f}")
-            print(f"Ending Value: ${performance['ending_value']:.2f}")
-            print(f"REAL PROFIT: ${performance['total_profit']:.2f}")
-            print(f"Profit %: {performance['profit_percentage']:.2f}%")
-            print(f"Total Trades: {performance['total_trades']}")
-            print(f"Runtime: {performance['runtime_minutes']} minutes")
+            logger.info("\n" + "=" * 80)
+            logger.info("FINAL REAL MONEY RESULTS")
+            logger.info("=" * 80)
+            logger.info(f"Starting Value: ${performance['starting_value']:.2f}")
+            logger.info(f"Ending Value: ${performance['ending_value']:.2f}")
+            logger.info(f"REAL PROFIT: ${performance['total_profit']:.2f}")
+            logger.info(f"Profit %: {performance['profit_percentage']:.2f}%")
+            logger.info(f"Total Trades: {performance['total_trades']}")
+            logger.info(f"Runtime: {performance['runtime_minutes']} minutes")
             
             # Save results
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

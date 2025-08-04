@@ -268,20 +268,20 @@ class Kimera30MinAgressiveTrader:
 async def main():
     """Main entry point for 30-minute aggressive trading"""
     try:
-        print("🚀 KIMERA 30-MINUTE AGGRESSIVE AUTONOMOUS TRADER")
-        print("=" * 60)
-        print("🧠 FULL AUTONOMY MODE - MAXIMUM PROFIT TARGETING")
-        print("💰 FULL WALLET CONTROL - AGGRESSIVE STRATEGY")
-        print("⏱️  DURATION: 30 MINUTES")
-        print("🔥 NO LIMITS - COMPLETE DECISION AUTHORITY")
-        print("=" * 60)
+        logger.info("🚀 KIMERA 30-MINUTE AGGRESSIVE AUTONOMOUS TRADER")
+        logger.info("=" * 60)
+        logger.info("🧠 FULL AUTONOMY MODE - MAXIMUM PROFIT TARGETING")
+        logger.info("💰 FULL WALLET CONTROL - AGGRESSIVE STRATEGY")
+        logger.info("⏱️  DURATION: 30 MINUTES")
+        logger.info("🔥 NO LIMITS - COMPLETE DECISION AUTHORITY")
+        logger.info("=" * 60)
         
         # Initialize and run
         trader = Kimera30MinAgressiveTrader()
         await trader.initialize_advanced_systems()
         await trader.execute_30_minute_session()
         
-        print("\n🏁 AGGRESSIVE TRADING SESSION COMPLETED")
+        logger.info("\n🏁 AGGRESSIVE TRADING SESSION COMPLETED")
         
     except Exception as e:
         logger.error(f"Main execution failed: {e}")
@@ -293,6 +293,6 @@ if __name__ == "__main__":
     try:
         import torch
     except ImportError:
-        print("⚠️  PyTorch not available - BGM engine will be disabled")
+        logger.info("⚠️  PyTorch not available - BGM engine will be disabled")
     
     asyncio.run(main()) 

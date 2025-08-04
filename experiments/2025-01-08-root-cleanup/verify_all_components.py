@@ -8,6 +8,8 @@ import requests
 import json
 from datetime import datetime
 from typing import Dict, List, Tuple
+import logging
+logger = logging.getLogger(__name__)
 
 BASE_URL = "http://localhost:8000"
 
@@ -41,13 +43,13 @@ class ComponentVerifier:
     
     def verify_component(self, name: str, checks: List[Tuple[str, str, dict, int]]):
         """Verify a component with multiple endpoint checks"""
-        print(f"\n{'='*60}")
-        print(f"🔍 {name}")
-        print(f"{'='*60}")
+        logger.info(f"\n{'='*60}")
+        logger.info(f"🔍 {name}")
+        logger.info(f"{'='*60}")
         
         for method, path, data, expected in checks:
             success, message = self.check_endpoint(method, path, data, expected)
-            print(message)
+            logger.info(message)
             self.results.append({
                 "component": name,
                 "endpoint": f"{method} {path}",
@@ -58,10 +60,10 @@ class ComponentVerifier:
 def main():
     verifier = ComponentVerifier()
     
-    print("=" * 80)
-    print("KIMERA COMPREHENSIVE SYSTEM VERIFICATION")
-    print(f"Time: {datetime.now().isoformat()}")
-    print("=" * 80)
+    logger.info("=" * 80)
+    logger.info("KIMERA COMPREHENSIVE SYSTEM VERIFICATION")
+    logger.info(f"Time: {datetime.now().isoformat()}")
+    logger.info("=" * 80)
     
     # Core System
     verifier.verify_component("CORE SYSTEM", [
@@ -155,9 +157,9 @@ def main():
     ])
     
     # Advanced Routes (if available)
-    print("\n" + "="*80)
-    print("🚀 CHECKING ADVANCED COMPONENTS")
-    print("="*80)
+    logger.info("\n" + "="*80)
+    logger.info("🚀 CHECKING ADVANCED COMPONENTS")
+    logger.info("="*80)
     
     # Monitoring Routes
     verifier.verify_component("MONITORING SYSTEM", [
@@ -213,13 +215,13 @@ def main():
     ])
     
     # Print Summary
-    print("\n" + "="*80)
-    print("📊 VERIFICATION SUMMARY")
-    print("="*80)
-    print(f"Total Checks: {verifier.passed + verifier.failed}")
-    print(f"✅ Passed: {verifier.passed}")
-    print(f"❌ Failed: {verifier.failed}")
-    print(f"Success Rate: {(verifier.passed / (verifier.passed + verifier.failed) * 100):.1f}%")
+    logger.info("\n" + "="*80)
+    logger.info("📊 VERIFICATION SUMMARY")
+    logger.info("="*80)
+    logger.info(f"Total Checks: {verifier.passed + verifier.failed}")
+    logger.info(f"✅ Passed: {verifier.passed}")
+    logger.info(f"❌ Failed: {verifier.failed}")
+    logger.info(f"Success Rate: {(verifier.passed / (verifier.passed + verifier.failed) * 100):.1f}%")
     
     # Component Summary
     component_summary = {}
@@ -232,22 +234,22 @@ def main():
         else:
             component_summary[component]["failed"] += 1
     
-    print("\n📋 COMPONENT BREAKDOWN:")
+    logger.info("\n📋 COMPONENT BREAKDOWN:")
     for component, stats in component_summary.items():
         total = stats["passed"] + stats["failed"]
         status = "✅" if stats["failed"] == 0 else "⚠️" if stats["passed"] > 0 else "❌"
-        print(f"{status} {component}: {stats['passed']}/{total} passed")
+        logger.info(f"{status} {component}: {stats['passed']}/{total} passed")
     
     # Failed Endpoints Detail
     failed_endpoints = [r for r in verifier.results if not r["success"]]
     if failed_endpoints:
-        print("\n⚠️ FAILED ENDPOINTS:")
+        logger.info("\n⚠️ FAILED ENDPOINTS:")
         for failure in failed_endpoints:
-            print(f"  - {failure['endpoint']} ({failure['component']})")
+            logger.info(f"  - {failure['endpoint']} ({failure['component']})")
     
-    print("\n" + "="*80)
-    print("VERIFICATION COMPLETE")
-    print("="*80)
+    logger.info("\n" + "="*80)
+    logger.info("VERIFICATION COMPLETE")
+    logger.info("="*80)
     
     # Save detailed report
     report = {
@@ -264,7 +266,7 @@ def main():
     
     with open("verification_report.json", "w") as f:
         json.dump(report, f, indent=2)
-    print("\n📄 Detailed report saved to verification_report.json")
+    logger.info("\n📄 Detailed report saved to verification_report.json")
 
 if __name__ == "__main__":
     main()

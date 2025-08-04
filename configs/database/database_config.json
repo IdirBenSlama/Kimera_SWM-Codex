@@ -1,15 +1,24 @@
 {
-  "postgresql": {
-    "connection_string": "postgresql://kimera:kimera_secure_pass_2025@localhost:5432/kimera_swm",
-    "pool_size": 10,
-    "max_overflow": 20
+  "database": {
+    "type": "postgresql",
+    "host": "localhost",
+    "port": 5432,
+    "database": "kimera_swm",
+    "username": "kimera_user",
+    "password": "kimera_secure_pass",
+    "pool_size": 20,
+    "max_overflow": 30,
+    "pool_timeout": 30,
+    "pool_recycle": 1800,
+    "echo": false,
+    "echo_pool": false
   },
-  "redis": {
-    "url": "redis://:kimera_cache_pass_2025@localhost:6379/0"
-  },
-  "neo4j": {
-    "uri": "bolt://localhost:7687",
-    "user": "neo4j",
-    "password": "kimera_graph_pass_2025"
+  "fallback": {
+    "type": "postgresql",
+    "host": "localhost",
+    "port": 5432,
+    "database": "postgres",
+    "username": "postgres",
+    "password": "postgres"
   }
 }

@@ -383,8 +383,8 @@ async def demonstrate_autonomous_mcp():
         research_context
     )
     
-    print(f"Autonomous MCP Result: {result}")
-    print(f"Security Status: {manager.get_security_status()}")
+    logger.info(f"Autonomous MCP Result: {result}")
+    logger.info(f"Security Status: {manager.get_security_status()}")
 
 if __name__ == "__main__":
     asyncio.run(demonstrate_autonomous_mcp())

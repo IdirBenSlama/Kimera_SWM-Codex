@@ -454,22 +454,22 @@ async def main():
     """Run the intelligent conversation system"""
     system = IntelligentConversationSystem()
     
-    print("=" * 80)
-    print("KIMERA INTELLIGENT CONVERSATION SYSTEM")
-    print("   Real understanding, real context, real conversation")
-    print("=" * 80)
+    logger.info("=" * 80)
+    logger.info("KIMERA INTELLIGENT CONVERSATION SYSTEM")
+    logger.info("   Real understanding, real context, real conversation")
+    logger.info("=" * 80)
     
     # Initialize system
     await system.initialize()
     
     if not system.initialized:
-        print("Running in enhanced fallback mode")
+        logger.info("Running in enhanced fallback mode")
     else:
-        print("Full cognitive engines active!")
+        logger.info("Full cognitive engines active!")
         
-    print("\nLet's have a real conversation!")
-    print("   (I'll remember what we talk about and build on it)")
-    print("\nType '/quit' to end\n")
+    logger.info("\nLet's have a real conversation!")
+    logger.info("   (I'll remember what we talk about and build on it)")
+    logger.info("\nType '/quit' to end\n")
     
     while True:
         try:
@@ -480,29 +480,29 @@ async def main():
                 continue
                 
             if user_input.lower() == '/quit':
-                print("\nIt was great talking with you! Take care!")
+                logger.info("\nIt was great talking with you! Take care!")
                 break
                 
             # Process message
-            print("Thinking... ", end="", flush=True)
+            logger.info("Thinking... ", end="", flush=True)
             result = await system.process_message(user_input)
-            print("\r  ", end="")  # Clear thinking indicator
+            logger.info("\r  ", end="")  # Clear thinking indicator
             
             # Show response
-            print(f"Claude: {result['response']}")
+            logger.info(f"Claude: {result['response']}")
             
             # Show conversation metrics (subtle)
             if result['conversation_turns'] > 3 and result['conversation_turns'] % 5 == 0:
-                print(f"\n  [Conversation depth: {result['relationship_depth']:.1%} | Topics: {', '.join(result['current_topics'][:3])}]")
+                logger.info(f"\n  [Conversation depth: {result['relationship_depth']:.1%} | Topics: {', '.join(result['current_topics'][:3])}]")
             
-            print()
+            logger.info()
             
         except KeyboardInterrupt:
-            print("\n\nConversation ended. Hope we can talk again soon!")
+            logger.info("\n\nConversation ended. Hope we can talk again soon!")
             break
         except Exception as e:
             logger.error(f"Error: {e}")
-            print("Sorry, I had a hiccup there. Let's continue...")
+            logger.info("Sorry, I had a hiccup there. Let's continue...")
 
 if __name__ == "__main__":
     asyncio.run(main()) 

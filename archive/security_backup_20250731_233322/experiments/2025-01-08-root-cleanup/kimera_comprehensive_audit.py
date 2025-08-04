@@ -346,7 +346,7 @@ class KimeraAuditor:
                         print_count += 1
                         if print_count == 1:  # Only log first occurrence
                             self.log_issue("fluidity_issues", 
-                                         f"Using print() instead of logging in {py_file.relative_to(self.project_root)}")
+                                         f"Using logger.info() instead of logging in {py_file.relative_to(self.project_root)}")
             except Exception as e:
                 logger.error(f"Error in kimera_comprehensive_audit.py: {e}", exc_info=True)
                 raise  # Re-raise for proper error handling
@@ -379,19 +379,19 @@ class KimeraAuditor:
         logger.info(f"\nAudit report saved to: {report_file}")
         
         # Print summary
-        print("\n" + "="*60)
-        print("KIMERA SYSTEM AUDIT SUMMARY")
-        print("="*60)
-        print(f"Total Issues Found: {self.results['statistics']['total_issues']}")
-        print(f"  - Critical Issues: {len(self.results['critical_issues'])}")
-        print(f"  - Holes: {len(self.results['holes'])}")
-        print(f"  - Misalignments: {len(self.results['misalignments'])}")
-        print(f"  - Disconnections: {len(self.results['disconnections'])}")
-        print(f"  - Mocks: {len(self.results['mocks'])}")
-        print(f"  - Fluidity Issues: {len(self.results['fluidity_issues'])}")
-        print(f"  - Coherence Issues: {len(self.results['coherence_issues'])}")
-        print(f"\nTotal Successes: {self.results['statistics']['total_successes']}")
-        print("="*60)
+        logger.info("\n" + "="*60)
+        logger.info("KIMERA SYSTEM AUDIT SUMMARY")
+        logger.info("="*60)
+        logger.info(f"Total Issues Found: {self.results['statistics']['total_issues']}")
+        logger.info(f"  - Critical Issues: {len(self.results['critical_issues'])}")
+        logger.info(f"  - Holes: {len(self.results['holes'])}")
+        logger.info(f"  - Misalignments: {len(self.results['misalignments'])}")
+        logger.info(f"  - Disconnections: {len(self.results['disconnections'])}")
+        logger.info(f"  - Mocks: {len(self.results['mocks'])}")
+        logger.info(f"  - Fluidity Issues: {len(self.results['fluidity_issues'])}")
+        logger.info(f"  - Coherence Issues: {len(self.results['coherence_issues'])}")
+        logger.info(f"\nTotal Successes: {self.results['statistics']['total_successes']}")
+        logger.info("="*60)
         
     def run_audit(self):
         """Run the complete system audit"""

@@ -85,8 +85,8 @@ def verify_fixes():
     
     verification_commands = [
         ("pip check", "Check for dependency conflicts"),
-        ("python -c \"import requests; print(f'requests: {requests.__version__}')\"", "Verify requests version"),
-        ("python -c \"import sympy; print(f'sympy: {sympy.__version__}')\"", "Verify sympy version"),
+        ("python -c \"import requests; logger.info(f'requests: {requests.__version__}')\"", "Verify requests version"),
+        ("python -c \"import sympy; logger.info(f'sympy: {sympy.__version__}')\"", "Verify sympy version"),
     ]
     
     success_count = 0

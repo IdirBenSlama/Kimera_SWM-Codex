@@ -9,6 +9,8 @@ import numpy as np
 import pandas as pd
 from typing import Tuple, Union, Optional
 import warnings
+import logging
+logger = logging.getLogger(__name__)
 
 # Suppress pandas warnings for cleaner output
 warnings.filterwarnings('ignore')
@@ -384,4 +386,4 @@ __version__ = "1.0.0"
 __author__ = "Kimera SWM"
 __description__ = "Pure Python TA-Lib fallback implementation"
 
-print(f"[OK] TA-Lib Fallback v{__version__} loaded - {len(get_available_functions())} functions available") 
+logger.info(f"[OK] TA-Lib Fallback v{__version__} loaded - {len(get_available_functions())} functions available") 

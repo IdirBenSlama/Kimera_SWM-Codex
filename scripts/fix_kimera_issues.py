@@ -42,8 +42,8 @@ class KimeraIssueFixer:
         
     def run_all_fixes(self):
         """Run all fixes in sequence"""
-        print("🔧 KIMERA SWM COMPREHENSIVE FIX TOOL")
-        print("=" * 60)
+        logger.info("🔧 KIMERA SWM COMPREHENSIVE FIX TOOL")
+        logger.info("=" * 60)
         
         # Fix 1: API Route Registration
         self.fix_api_routes()
@@ -65,8 +65,8 @@ class KimeraIssueFixer:
     
     def fix_api_routes(self):
         """Fix API route registration issues"""
-        print("\n📍 FIX 1: API Route Registration")
-        print("-" * 40)
+        logger.info("\n📍 FIX 1: API Route Registration")
+        logger.info("-" * 40)
         
         try:
             # Create a router configuration file
@@ -123,13 +123,13 @@ class KimeraIssueFixer:
             self._fix_router_loading()
             
             self.fixes_applied.append("API route registration fixed")
-            print("✅ API routes fixed and configured")
+            logger.info("✅ API routes fixed and configured")
             
         except Exception as e:
             error_msg = f"Failed to fix API routes: {e}"
             logger.error(error_msg)
             self.errors.append(error_msg)
-            print(f"❌ {error_msg}")
+            logger.info(f"❌ {error_msg}")
     
     def _create_missing_routers(self):
         """Create any missing router files"""
@@ -217,7 +217,7 @@ async def quantum_explore(request: QuantumExploreRequest) -> Dict[str, Any]:
 '''
             with open(cognitive_router_path, 'w') as f:
                 f.write(cognitive_router_content)
-            print(f"  Created {cognitive_router_path.name}")
+            logger.info(f"  Created {cognitive_router_path.name}")
     
     def _fix_router_loading(self):
         """Fix router loading in main.py"""
@@ -247,12 +247,12 @@ async def quantum_explore(request: QuantumExploreRequest) -> Dict[str, Any]:
             with open(main_path, 'w') as f:
                 f.write(content)
             
-            print("  Updated main.py router imports")
+            logger.info("  Updated main.py router imports")
     
     def fix_database_schema(self):
         """Create missing database tables"""
-        print("\n🗄️ FIX 2: Database Schema Completion")
-        print("-" * 40)
+        logger.info("\n🗄️ FIX 2: Database Schema Completion")
+        logger.info("-" * 40)
         
         try:
             # Create database directory
@@ -348,7 +348,7 @@ async def quantum_explore(request: QuantumExploreRequest) -> Dict[str, Any]:
             
             for table_sql in tables:
                 cursor.execute(table_sql)
-                print(f"  ✓ Created table: {table_sql.split()[5]}")
+                logger.info(f"  ✓ Created table: {table_sql.split()[5]}")
             
             # Insert default values
             self._insert_default_values(cursor)
@@ -360,13 +360,13 @@ async def quantum_explore(request: QuantumExploreRequest) -> Dict[str, Any]:
             self._update_database_config(db_path)
             
             self.fixes_applied.append("Database schema completed")
-            print("✅ Database schema fixed and populated")
+            logger.info("✅ Database schema fixed and populated")
             
         except Exception as e:
             error_msg = f"Failed to fix database schema: {e}"
             logger.error(error_msg)
             self.errors.append(error_msg)
-            print(f"❌ {error_msg}")
+            logger.info(f"❌ {error_msg}")
     
     def _insert_default_values(self, cursor):
         """Insert default values into database"""
@@ -428,12 +428,12 @@ async def quantum_explore(request: QuantumExploreRequest) -> Dict[str, Any]:
         with open(config_path, 'w') as f:
             json.dump(config, f, indent=2)
         
-        print("  Updated database configuration")
+        logger.info("  Updated database configuration")
     
     def fix_progressive_initialization(self):
         """Fix progressive initialization issues"""
-        print("\n🚀 FIX 3: Progressive Initialization")
-        print("-" * 40)
+        logger.info("\n🚀 FIX 3: Progressive Initialization")
+        logger.info("-" * 40)
         
         try:
             # Fix the unified architecture initialization
@@ -471,11 +471,11 @@ def patch_unified_architecture():
         # Apply patch
         UnifiedMasterCognitiveArchitecture.__init__ = patched_init
         
-        print("✓ Patched UnifiedMasterCognitiveArchitecture initialization")
+        logger.info("✓ Patched UnifiedMasterCognitiveArchitecture initialization")
         return True
         
     except Exception as e:
-        print(f"✗ Failed to patch architecture: {e}")
+        logger.info(f"✗ Failed to patch architecture: {e}")
         return False
 
 # Auto-patch on import
@@ -492,13 +492,13 @@ patch_unified_architecture()
             self._create_init_config()
             
             self.fixes_applied.append("Progressive initialization fixed")
-            print("✅ Progressive initialization patched")
+            logger.info("✅ Progressive initialization patched")
             
         except Exception as e:
             error_msg = f"Failed to fix progressive initialization: {e}"
             logger.error(error_msg)
             self.errors.append(error_msg)
-            print(f"❌ {error_msg}")
+            logger.info(f"❌ {error_msg}")
     
     def _apply_architecture_fix(self):
         """Apply the architecture fix to main.py"""
@@ -526,7 +526,7 @@ patch_unified_architecture()
             with open(main_path, 'w') as f:
                 f.write(content)
             
-            print("  Applied architecture fix to main.py")
+            logger.info("  Applied architecture fix to main.py")
     
     def _create_init_config(self):
         """Create initialization configuration"""
@@ -568,12 +568,12 @@ patch_unified_architecture()
         with open(config_path, 'w') as f:
             json.dump(config, f, indent=2)
         
-        print("  Created initialization configuration")
+        logger.info("  Created initialization configuration")
     
     def optimize_gpu_usage(self):
         """Optimize GPU usage for better performance"""
-        print("\n🎮 FIX 4: GPU Optimization")
-        print("-" * 40)
+        logger.info("\n🎮 FIX 4: GPU Optimization")
+        logger.info("-" * 40)
         
         try:
             # Create GPU optimization module
@@ -688,13 +688,13 @@ gpu_optimizer = GPUOptimizer()
             self._update_engines_for_gpu()
             
             self.fixes_applied.append("GPU optimization implemented")
-            print("✅ GPU optimization configured")
+            logger.info("✅ GPU optimization configured")
             
         except Exception as e:
             error_msg = f"Failed to optimize GPU usage: {e}"
             logger.error(error_msg)
             self.errors.append(error_msg)
-            print(f"❌ {error_msg}")
+            logger.info(f"❌ {error_msg}")
     
     def _create_gpu_config(self):
         """Create GPU optimization configuration"""
@@ -727,7 +727,7 @@ gpu_optimizer = GPUOptimizer()
         with open(config_path, 'w') as f:
             json.dump(config, f, indent=2)
         
-        print("  Created GPU optimization configuration")
+        logger.info("  Created GPU optimization configuration")
     
     def _update_engines_for_gpu(self):
         """Update engine initialization to use GPU optimization"""
@@ -804,12 +804,12 @@ auto_enable_gpu()
         with open(enabler_path, 'w') as f:
             f.write(enabler_content)
         
-        print("  Created GPU enabler for cognitive engines")
+        logger.info("  Created GPU enabler for cognitive engines")
     
     def fix_missing_configs(self):
         """Create any missing configuration files"""
-        print("\n📁 FIX 5: Missing Configurations")
-        print("-" * 40)
+        logger.info("\n📁 FIX 5: Missing Configurations")
+        logger.info("-" * 40)
         
         try:
             # Create .env file if missing
@@ -841,19 +841,19 @@ MAX_WORKERS=4
 """
                 with open(env_path, 'w') as f:
                     f.write(env_content)
-                print("  Created .env configuration")
+                logger.info("  Created .env configuration")
             
             # Create startup script
             self._create_startup_script()
             
             self.fixes_applied.append("Missing configurations created")
-            print("✅ Configuration files created")
+            logger.info("✅ Configuration files created")
             
         except Exception as e:
             error_msg = f"Failed to create configurations: {e}"
             logger.error(error_msg)
             self.errors.append(error_msg)
-            print(f"❌ {error_msg}")
+            logger.info(f"❌ {error_msg}")
     
     def _create_startup_script(self):
         """Create optimized startup script"""
@@ -882,21 +882,21 @@ sys.path.insert(0, str(project_root))
 
 # Import and run
 if __name__ == "__main__":
-    print("🚀 Starting Kimera SWM (Optimized)")
-    print("=" * 50)
+    logger.info("🚀 Starting Kimera SWM (Optimized)")
+    logger.info("=" * 50)
     
     # Import fixes
     try:
         from src.core.unified_master_cognitive_architecture_fix import patch_unified_architecture
-        print("✓ Architecture patches loaded")
+        logger.info("✓ Architecture patches loaded")
     except:
-        print("✗ Architecture patches not found")
+        logger.info("✗ Architecture patches not found")
     
     try:
         from src.core.gpu.gpu_optimizer import gpu_optimizer
-        print(f"✓ GPU optimizer loaded: {gpu_optimizer.device}")
+        logger.info(f"✓ GPU optimizer loaded: {gpu_optimizer.device}")
     except:
-        print("✗ GPU optimizer not found")
+        logger.info("✗ GPU optimizer not found")
     
     # Start Kimera
     from src.main import main
@@ -912,37 +912,37 @@ if __name__ == "__main__":
         except:
             pass
         
-        print("  Created optimized startup script")
+        logger.info("  Created optimized startup script")
     
     def print_summary(self):
         """Print summary of fixes applied"""
-        print("\n" + "=" * 60)
-        print("📊 FIX SUMMARY")
-        print("=" * 60)
+        logger.info("\n" + "=" * 60)
+        logger.info("📊 FIX SUMMARY")
+        logger.info("=" * 60)
         
         if self.fixes_applied:
-            print("\n✅ Fixes Applied:")
+            logger.info("\n✅ Fixes Applied:")
             for fix in self.fixes_applied:
-                print(f"  • {fix}")
+                logger.info(f"  • {fix}")
         
         if self.errors:
-            print("\n❌ Errors Encountered:")
+            logger.info("\n❌ Errors Encountered:")
             for error in self.errors:
-                print(f"  • {error}")
+                logger.info(f"  • {error}")
         
-        print("\n🎯 Next Steps:")
-        print("  1. Restart Kimera using: python scripts/start_kimera_optimized.py")
-        print("  2. Test API endpoints at: http://127.0.0.1:8000/docs")
-        print("  3. Monitor GPU usage with: nvidia-smi -l 1")
-        print("  4. Check logs in: logs/kimera_system.log")
+        logger.info("\n🎯 Next Steps:")
+        logger.info("  1. Restart Kimera using: python scripts/start_kimera_optimized.py")
+        logger.info("  2. Test API endpoints at: http://127.0.0.1:8000/docs")
+        logger.info("  3. Monitor GPU usage with: nvidia-smi -l 1")
+        logger.info("  4. Check logs in: logs/kimera_system.log")
         
-        print("\n💡 Performance Tips:")
-        print("  • Set KIMERA_MODE=full for maximum features")
-        print("  • Use CUDA_VISIBLE_DEVICES to select GPU")
-        print("  • Monitor memory with scripts/performance/kimera_performance_test.py")
+        logger.info("\n💡 Performance Tips:")
+        logger.info("  • Set KIMERA_MODE=full for maximum features")
+        logger.info("  • Use CUDA_VISIBLE_DEVICES to select GPU")
+        logger.info("  • Monitor memory with scripts/performance/kimera_performance_test.py")
         
         success_rate = len(self.fixes_applied) / (len(self.fixes_applied) + len(self.errors)) * 100
-        print(f"\n📈 Success Rate: {success_rate:.1f}%")
+        logger.info(f"\n📈 Success Rate: {success_rate:.1f}%")
 
 
 if __name__ == "__main__":

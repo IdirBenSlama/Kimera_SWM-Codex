@@ -596,7 +596,7 @@ def hypothetical_cognitive_manager():
         logical_analysis={"approved": True, "efficiency": 0.9}
     )
     verdict1 = governor.adjudicate(action1)
-    print(f"Verdict for Action 1: {verdict1.value}")
+    logger.info(f"Verdict for Action 1: {verdict1.value}")
 
     # Scenario 2: An unconstitutional action (violates unity)
     action2 = ActionProposal(
@@ -605,7 +605,7 @@ def hypothetical_cognitive_manager():
         logical_analysis={"approved": True, "efficiency": 0.99}
     )
     verdict2 = governor.adjudicate(action2)
-    print(f"Verdict for Action 2: {verdict2.value}")
+    logger.info(f"Verdict for Action 2: {verdict2.value}")
 
     # Scenario 3: A borderline action that gets conditional approval
     action3 = ActionProposal(
@@ -618,13 +618,13 @@ def hypothetical_cognitive_manager():
         }
     )
     verdict3 = governor.adjudicate(action3)
-    print(f"Verdict for Action 3: {verdict3.value}")
+    logger.info(f"Verdict for Action 3: {verdict3.value}")
     
     # Display performance summary
-    print("\nPerformance Summary:")
+    logger.info("\nPerformance Summary:")
     summary = governor.get_performance_summary()
     for key, value in summary.items():
-        print(f"  {key}: {value}")
+        logger.info(f"  {key}: {value}")
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)

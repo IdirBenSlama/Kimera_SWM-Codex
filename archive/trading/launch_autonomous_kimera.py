@@ -11,73 +11,75 @@ from datetime import datetime
 
 def display_mission_briefing():
     """Display the autonomous trading mission briefing"""
-    print("\n" + "="*60)
-    print("🧠 KIMERA AUTONOMOUS TRADER - FULL AUTONOMY MODE")
-    print("="*60)
-    print("🎯 MISSION: Maximum profit and growth")
-    print("💰 CAPITAL: $10 USD equivalent")
-    print("⏱️  DURATION: 10 minutes")
-    print("🚀 AUTONOMY LEVEL: MAXIMUM")
-    print("📊 STRATEGY: Self-determined by Kimera AI")
-    print("🔄 POSITION SIZING: Dynamic, self-calculated")
-    print("⚡ RISK MANAGEMENT: Adaptive, AI-controlled")
-    print("🎲 TRADING PAIRS: Auto-selected by opportunity")
-    print("="*60)
-    print("🔥 NO PRESET LIMITS - FULL DECISION AUTHORITY")
-    print("🧠 Kimera will autonomously:")
-    print("   • Select optimal trading pairs")
-    print("   • Determine position sizes")
-    print("   • Create strategies in real-time")
-    print("   • Manage risk dynamically")
-    print("   • Optimize performance continuously")
-    print("="*60)
+    logger.info("\n" + "="*60)
+    logger.info("🧠 KIMERA AUTONOMOUS TRADER - FULL AUTONOMY MODE")
+    logger.info("="*60)
+    logger.info("🎯 MISSION: Maximum profit and growth")
+    logger.info("💰 CAPITAL: $10 USD equivalent")
+    logger.info("⏱️  DURATION: 10 minutes")
+    logger.info("🚀 AUTONOMY LEVEL: MAXIMUM")
+    logger.info("📊 STRATEGY: Self-determined by Kimera AI")
+    logger.info("🔄 POSITION SIZING: Dynamic, self-calculated")
+    logger.info("⚡ RISK MANAGEMENT: Adaptive, AI-controlled")
+    logger.info("🎲 TRADING PAIRS: Auto-selected by opportunity")
+    logger.info("="*60)
+    logger.info("🔥 NO PRESET LIMITS - FULL DECISION AUTHORITY")
+    logger.info("🧠 Kimera will autonomously:")
+    logger.info("   • Select optimal trading pairs")
+    logger.info("   • Determine position sizes")
+    logger.info("   • Create strategies in real-time")
+    logger.info("   • Manage risk dynamically")
+    logger.info("   • Optimize performance continuously")
+    logger.info("="*60)
 
 async def launch_autonomous_trader():
     """Launch the autonomous trading system"""
     try:
         from autonomous_kimera_trader import KimeraAutonomousTrader
+import logging
+logger = logging.getLogger(__name__)
         
-        print("\n🚀 INITIALIZING KIMERA AUTONOMOUS TRADER...")
+        logger.info("\n🚀 INITIALIZING KIMERA AUTONOMOUS TRADER...")
         trader = KimeraAutonomousTrader()
         
-        print("🧠 Kimera AI systems online")
-        print("📡 Market data connections established")
-        print("🔐 Trading permissions verified")
-        print("⚡ Autonomous decision engine activated")
+        logger.info("🧠 Kimera AI systems online")
+        logger.info("📡 Market data connections established")
+        logger.info("🔐 Trading permissions verified")
+        logger.info("⚡ Autonomous decision engine activated")
         
-        print("\n🔥 LAUNCHING 10-MINUTE AUTONOMOUS TRADING SESSION...")
-        print("🎯 Kimera now has FULL CONTROL")
+        logger.info("\n🔥 LAUNCHING 10-MINUTE AUTONOMOUS TRADING SESSION...")
+        logger.info("🎯 Kimera now has FULL CONTROL")
         
         # Execute autonomous trading session
         await trader.autonomous_trading_session()
         
-        print("\n✅ AUTONOMOUS TRADING MISSION COMPLETED")
+        logger.info("\n✅ AUTONOMOUS TRADING MISSION COMPLETED")
         
     except Exception as e:
-        print(f"\n❌ MISSION FAILED: {e}")
-        print("🛡️  Emergency protocols activated")
+        logger.info(f"\n❌ MISSION FAILED: {e}")
+        logger.info("🛡️  Emergency protocols activated")
 
 def main():
     """Main launcher function"""
     display_mission_briefing()
     
-    print("\n🚨 WARNING: This will execute REAL TRADES with REAL MONEY")
-    print("🤖 Kimera will have COMPLETE AUTONOMY over trading decisions")
-    print("💸 Maximum potential loss: Entire trading balance")
-    print("⏰ Session cannot be paused once started")
+    logger.info("\n🚨 WARNING: This will execute REAL TRADES with REAL MONEY")
+    logger.info("🤖 Kimera will have COMPLETE AUTONOMY over trading decisions")
+    logger.info("💸 Maximum potential loss: Entire trading balance")
+    logger.info("⏰ Session cannot be paused once started")
     
     confirmation = input("\n🔥 CONFIRM LAUNCH AUTONOMOUS TRADER? (type 'LAUNCH' to proceed): ")
     
     if confirmation == 'LAUNCH':
-        print(f"\n🚀 MISSION AUTHORIZED at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        print("🧠 Transferring control to Kimera AI...")
+        logger.info(f"\n🚀 MISSION AUTHORIZED at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        logger.info("🧠 Transferring control to Kimera AI...")
         
         # Run the autonomous trader
         asyncio.run(launch_autonomous_trader())
         
     else:
-        print("\n❌ MISSION ABORTED")
-        print("🛡️  Autonomous trader not launched")
+        logger.info("\n❌ MISSION ABORTED")
+        logger.info("🛡️  Autonomous trader not launched")
 
 if __name__ == "__main__":
     main() 

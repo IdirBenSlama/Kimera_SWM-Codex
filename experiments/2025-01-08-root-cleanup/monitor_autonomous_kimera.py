@@ -14,6 +14,8 @@ import time
 import asyncio
 from datetime import datetime, timedelta
 from typing import Dict, Any
+import logging
+logger = logging.getLogger(__name__)
 
 # Add backend to path
 sys.path.append(os.path.join(os.path.dirname(__file__), 'backend'))
@@ -91,70 +93,70 @@ def display_banner():
 ║                🧠 REAL-TIME AI MONITORING 🧠                ║
 ╚══════════════════════════════════════════════════════════════╝
     """
-    print(banner)
+    logger.info(banner)
 
 def display_portfolio_overview(metrics: Dict[str, Any]):
     """Display portfolio overview"""
-    print("┌─────────────────────────────────────────────────────────────┐")
-    print("│                    PORTFOLIO OVERVIEW                       │")
-    print("├─────────────────────────────────────────────────────────────┤")
+    logger.info("┌─────────────────────────────────────────────────────────────┐")
+    logger.info("│                    PORTFOLIO OVERVIEW                       │")
+    logger.info("├─────────────────────────────────────────────────────────────┤")
     
     portfolio_value = metrics['portfolio_value']
     growth = metrics['total_growth_pct']
     progress = metrics['progress_to_target_pct']
     
-    print(f"│ Current Value:    {format_currency(portfolio_value):<20} │")
-    print(f"│ Total Growth:     {format_percentage(growth):<20} │")
-    print(f"│ Target Progress:  {format_percentage(progress):<20} │")
-    print(f"│ Remaining:        {format_currency(100 - portfolio_value):<20} │")
+    logger.info(f"│ Current Value:    {format_currency(portfolio_value):<20} │")
+    logger.info(f"│ Total Growth:     {format_percentage(growth):<20} │")
+    logger.info(f"│ Target Progress:  {format_percentage(progress):<20} │")
+    logger.info(f"│ Remaining:        {format_currency(100 - portfolio_value):<20} │")
     
     # Progress bar
     bar_length = 40
     filled = int((progress / 100) * bar_length)
     bar = "█" * filled + "░" * (bar_length - filled)
-    print(f"│ Progress Bar:     [{bar}] │")
+    logger.info(f"│ Progress Bar:     [{bar}] │")
     
-    print("└─────────────────────────────────────────────────────────────┘")
+    logger.info("└─────────────────────────────────────────────────────────────┘")
 
 def display_trading_stats(metrics: Dict[str, Any]):
     """Display trading statistics"""
-    print("┌─────────────────────────────────────────────────────────────┐")
-    print("│                    TRADING STATISTICS                       │")
-    print("├─────────────────────────────────────────────────────────────┤")
+    logger.info("┌─────────────────────────────────────────────────────────────┐")
+    logger.info("│                    TRADING STATISTICS                       │")
+    logger.info("├─────────────────────────────────────────────────────────────┤")
     
     total_trades = metrics['total_trades']
     wins = metrics['wins']
     losses = metrics['losses']
     win_rate = metrics['win_rate']
     
-    print(f"│ Total Trades:     {total_trades:<30} │")
-    print(f"│ Wins:             \033[92m{wins}\033[0m{'':<27} │")
-    print(f"│ Losses:           \033[91m{losses}\033[0m{'':<27} │")
-    print(f"│ Win Rate:         {format_percentage(win_rate):<20} │")
+    logger.info(f"│ Total Trades:     {total_trades:<30} │")
+    logger.info(f"│ Wins:             \033[92m{wins}\033[0m{'':<27} │")
+    logger.info(f"│ Losses:           \033[91m{losses}\033[0m{'':<27} │")
+    logger.info(f"│ Win Rate:         {format_percentage(win_rate):<20} │")
     
-    print("└─────────────────────────────────────────────────────────────┘")
+    logger.info("└─────────────────────────────────────────────────────────────┘")
 
 def display_ai_status(metrics: Dict[str, Any]):
     """Display AI decision-making status"""
-    print("┌─────────────────────────────────────────────────────────────┐")
-    print("│                      AI STATUS                              │")
-    print("├─────────────────────────────────────────────────────────────┤")
+    logger.info("┌─────────────────────────────────────────────────────────────┐")
+    logger.info("│                      AI STATUS                              │")
+    logger.info("├─────────────────────────────────────────────────────────────┤")
     
     strategy = metrics['current_strategy'].replace('_', ' ').title()
     regime = metrics['market_regime'].replace('_', ' ').title()
     
-    print(f"│ Current Strategy: {strategy:<30} │")
-    print(f"│ Market Regime:    {regime:<30} │")
-    print(f"│ AI Mode:          \033[93mFULLY AUTONOMOUS\033[0m{'':<18} │")
-    print(f"│ Safety Limits:    \033[91mNONE\033[0m{'':<26} │")
+    logger.info(f"│ Current Strategy: {strategy:<30} │")
+    logger.info(f"│ Market Regime:    {regime:<30} │")
+    logger.info(f"│ AI Mode:          \033[93mFULLY AUTONOMOUS\033[0m{'':<18} │")
+    logger.info(f"│ Safety Limits:    \033[91mNONE\033[0m{'':<26} │")
     
-    print("└─────────────────────────────────────────────────────────────┘")
+    logger.info("└─────────────────────────────────────────────────────────────┘")
 
 def display_strategy_performance(metrics: Dict[str, Any]):
     """Display strategy performance breakdown"""
-    print("┌─────────────────────────────────────────────────────────────┐")
-    print("│                  STRATEGY PERFORMANCE                       │")
-    print("├─────────────────────────────────────────────────────────────┤")
+    logger.info("┌─────────────────────────────────────────────────────────────┐")
+    logger.info("│                  STRATEGY PERFORMANCE                       │")
+    logger.info("├─────────────────────────────────────────────────────────────┤")
     
     strategy_perf = metrics['strategy_performance']
     
@@ -162,17 +164,17 @@ def display_strategy_performance(metrics: Dict[str, Any]):
         for strategy, performance in strategy_perf.items():
             strategy_name = strategy.replace('_', ' ').title()[:20]
             perf_str = format_percentage(performance * 100)
-            print(f"│ {strategy_name:<20}: {perf_str:<15} │")
+            logger.info(f"│ {strategy_name:<20}: {perf_str:<15} │")
     else:
-        print("│ No strategy performance data available yet              │")
+        logger.info("│ No strategy performance data available yet              │")
     
-    print("└─────────────────────────────────────────────────────────────┘")
+    logger.info("└─────────────────────────────────────────────────────────────┘")
 
 def display_recent_log_entries():
     """Display recent log entries"""
-    print("┌─────────────────────────────────────────────────────────────┐")
-    print("│                     RECENT ACTIVITY                         │")
-    print("├─────────────────────────────────────────────────────────────┤")
+    logger.info("┌─────────────────────────────────────────────────────────────┐")
+    logger.info("│                     RECENT ACTIVITY                         │")
+    logger.info("├─────────────────────────────────────────────────────────────┤")
     
     try:
         log_file = 'logs/autonomous_kimera.log'
@@ -207,25 +209,25 @@ def display_recent_log_entries():
                             message = message[:42] + "..."
                         
                         time_part = timestamp.split(' ')[1][:8]  # HH:MM:SS
-                        print(f"│ {time_part} {level_colored} {message:<35} │")
+                        logger.info(f"│ {time_part} {level_colored} {message:<35} │")
         else:
-            print("│ No log file found                                       │")
+            logger.info("│ No log file found                                       │")
     
     except Exception as e:
-        print(f"│ Error reading logs: {str(e):<35} │")
+        logger.info(f"│ Error reading logs: {str(e):<35} │")
     
-    print("└─────────────────────────────────────────────────────────────┘")
+    logger.info("└─────────────────────────────────────────────────────────────┘")
 
 def display_time_info():
     """Display current time and runtime info"""
     now = datetime.now()
-    print(f"\nLast Updated: {now.strftime('%Y-%m-%d %H:%M:%S')}")
-    print("Press Ctrl+C to exit monitoring")
+    logger.info(f"\nLast Updated: {now.strftime('%Y-%m-%d %H:%M:%S')}")
+    logger.info("Press Ctrl+C to exit monitoring")
 
 async def monitor_loop():
     """Main monitoring loop"""
-    print("🚀 Starting Kimera Autonomous Trader Monitor...")
-    print("   Monitoring autonomous trading activity...")
+    logger.info("🚀 Starting Kimera Autonomous Trader Monitor...")
+    logger.info("   Monitoring autonomous trading activity...")
     
     try:
         while True:
@@ -238,38 +240,38 @@ async def monitor_loop():
             # Display dashboard
             display_banner()
             display_portfolio_overview(metrics)
-            print()
+            logger.info()
             display_trading_stats(metrics)
-            print()
+            logger.info()
             display_ai_status(metrics)
-            print()
+            logger.info()
             display_strategy_performance(metrics)
-            print()
+            logger.info()
             display_recent_log_entries()
             
             display_time_info()
             
             # Check if target reached
             if metrics['portfolio_value'] >= 100.0:
-                print("\n🎉 TARGET REACHED! Kimera has achieved the €100 goal!")
+                logger.info("\n🎉 TARGET REACHED! Kimera has achieved the €100 goal!")
                 break
             
             # Wait 10 seconds before refresh
             await asyncio.sleep(10)
     
     except KeyboardInterrupt:
-        print("\n👋 Monitoring stopped by user")
+        logger.info("\n👋 Monitoring stopped by user")
     except Exception as e:
-        print(f"\n❌ Monitoring error: {e}")
+        logger.info(f"\n❌ Monitoring error: {e}")
 
 def main():
     """Main function"""
     try:
         asyncio.run(monitor_loop())
     except KeyboardInterrupt:
-        print("\n👋 Goodbye!")
+        logger.info("\n👋 Goodbye!")
     except Exception as e:
-        print(f"❌ Monitor failed: {e}")
+        logger.info(f"❌ Monitor failed: {e}")
 
 if __name__ == "__main__":
     main() 

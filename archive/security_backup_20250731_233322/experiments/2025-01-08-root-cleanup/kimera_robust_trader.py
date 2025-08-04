@@ -275,13 +275,13 @@ class KimeraRobustTrader:
             start_time = datetime.now()
             end_time = start_time + timedelta(minutes=runtime_minutes)
             
-            print("=" * 80)
-            print("KIMERA ROBUST TRADER - PRODUCTION READY")
-            print("=" * 80)
-            print(f"Runtime: {runtime_minutes} minutes")
-            print(f"Trading Pairs: {', '.join(self.trading_pairs)}")
-            print(f"Trade Size: ${self.min_trade_value} - ${self.max_trade_value}")
-            print(f"Target Profit: {float(self.target_profit * 100):.1f}%")
+            logger.info("=" * 80)
+            logger.info("KIMERA ROBUST TRADER - PRODUCTION READY")
+            logger.info("=" * 80)
+            logger.info(f"Runtime: {runtime_minutes} minutes")
+            logger.info(f"Trading Pairs: {', '.join(self.trading_pairs)}")
+            logger.info(f"Trade Size: ${self.min_trade_value} - ${self.max_trade_value}")
+            logger.info(f"Target Profit: {float(self.target_profit * 100):.1f}%")
             
             self.running = True
             logger.info("ROBUST TRADING SESSION STARTED")
@@ -349,15 +349,15 @@ class KimeraRobustTrader:
         
         final_balance = self.get_account_balance('USDT')
         
-        print("\n" + "=" * 80)
-        print("ROBUST TRADER FINAL REPORT")
-        print("=" * 80)
-        print(f"Runtime: {runtime:.1f} seconds")
-        print(f"Total Executions: {len(self.execution_history)}")
-        print(f"Successful Cycles: {successful_trades}")
-        print(f"Total P&L: ${total_pnl:.4f}")
-        print(f"Final USDT Balance: ${final_balance:.2f}")
-        print(f"Success Rate: {(successful_trades / max(1, len(buy_trades)) * 100):.1f}%")
+        logger.info("\n" + "=" * 80)
+        logger.info("ROBUST TRADER FINAL REPORT")
+        logger.info("=" * 80)
+        logger.info(f"Runtime: {runtime:.1f} seconds")
+        logger.info(f"Total Executions: {len(self.execution_history)}")
+        logger.info(f"Successful Cycles: {successful_trades}")
+        logger.info(f"Total P&L: ${total_pnl:.4f}")
+        logger.info(f"Final USDT Balance: ${final_balance:.2f}")
+        logger.info(f"Success Rate: {(successful_trades / max(1, len(buy_trades)) * 100):.1f}%")
         
         # Save detailed results
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

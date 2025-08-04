@@ -290,12 +290,12 @@ class KimeraInstantTrader:
             self.start_time = datetime.now()
             self.end_time = self.start_time + timedelta(minutes=self.runtime_minutes)
             
-            print("=" * 80)
-            print("KIMERA INSTANT TRADER - BYPASS API BAN")
-            print("=" * 80)
-            print(f"Runtime: {self.runtime_minutes} minutes")
-            print(f"Target: INSTANT PROFIT GENERATION")
-            print(f"Mode: DIRECT AGGRESSIVE TRADING")
+            logger.info("=" * 80)
+            logger.info("KIMERA INSTANT TRADER - BYPASS API BAN")
+            logger.info("=" * 80)
+            logger.info(f"Runtime: {self.runtime_minutes} minutes")
+            logger.info(f"Target: INSTANT PROFIT GENERATION")
+            logger.info(f"Mode: DIRECT AGGRESSIVE TRADING")
             
             # Start immediate trading
             self.running = True
@@ -311,15 +311,15 @@ class KimeraInstantTrader:
             total_received = sum([t['value'] for t in sell_trades])
             net_profit = total_received - total_spent
             
-            print("\n" + "=" * 80)
-            print("INSTANT TRADING RESULTS")
-            print("=" * 80)
-            print(f"Total Spent: ${total_spent:.2f}")
-            print(f"Total Received: ${total_received:.2f}")
-            print(f"NET PROFIT: ${net_profit:.2f}")
-            print(f"Total Trades: {self.trade_count}")
-            print(f"Buy Orders: {len(buy_trades)}")
-            print(f"Sell Orders: {len(sell_trades)}")
+            logger.info("\n" + "=" * 80)
+            logger.info("INSTANT TRADING RESULTS")
+            logger.info("=" * 80)
+            logger.info(f"Total Spent: ${total_spent:.2f}")
+            logger.info(f"Total Received: ${total_received:.2f}")
+            logger.info(f"NET PROFIT: ${net_profit:.2f}")
+            logger.info(f"Total Trades: {self.trade_count}")
+            logger.info(f"Buy Orders: {len(buy_trades)}")
+            logger.info(f"Sell Orders: {len(sell_trades)}")
             
             # Save results
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

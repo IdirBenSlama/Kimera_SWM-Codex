@@ -49,7 +49,7 @@ def setup_environment() -> Dict[str, Any]:
     # Print the database URL (with password masked)
     db_url = os.environ["DATABASE_URL"]
     masked_url = mask_password(db_url)
-    print(f"Database URL: {masked_url}")
+    logger.info(f"Database URL: {masked_url}")
     
     return {
         "database_url": os.environ["DATABASE_URL"],
@@ -160,7 +160,7 @@ def check_system_requirements() -> bool:
 
 def main():
     """Main entry point for Kimera SWM system startup."""
-    print("Starting Kimera SWM System...")
+    logger.info("Starting Kimera SWM System...")
     
     # Set up environment
     config = setup_environment()

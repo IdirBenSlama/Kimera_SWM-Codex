@@ -15,15 +15,15 @@ from datetime import datetime
 
 async def demonstrate_live_platform():
     """Demonstrate the live platform capabilities"""
-    print("🌟 LIVE KIMERA SWM ENTERPRISE PLATFORM DEMONSTRATION")
-    print("=" * 70)
-    print(f"🕐 Live Demo Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    print("🚀 Platform Status: RUNNING with Core Systems 100% Operational")
-    print("=" * 70)
+    logger.info("🌟 LIVE KIMERA SWM ENTERPRISE PLATFORM DEMONSTRATION")
+    logger.info("=" * 70)
+    logger.info(f"🕐 Live Demo Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    logger.info("🚀 Platform Status: RUNNING with Core Systems 100% Operational")
+    logger.info("=" * 70)
     
     # Real-time GPU processing demonstration
-    print("\n⚡ LIVE GPU-ACCELERATED PROCESSING")
-    print("-" * 45)
+    logger.info("\n⚡ LIVE GPU-ACCELERATED PROCESSING")
+    logger.info("-" * 45)
     
     from src.core.performance.gpu_acceleration import (
         get_gpu_metrics, move_to_gpu, optimized_context
@@ -32,46 +32,46 @@ async def demonstrate_live_platform():
     # Get GPU metrics
     metrics = get_gpu_metrics()
     
-    print(f"🎯 GPU Hardware: {metrics.device_name}")
-    print(f"💾 Total Memory: {metrics.total_memory:.1f}GB")
-    print(f"📊 Allocated Memory: {metrics.allocated_memory:.1f}GB")
-    print()
+    logger.info(f"🎯 GPU Hardware: {metrics.device_name}")
+    logger.info(f"💾 Total Memory: {metrics.total_memory:.1f}GB")
+    logger.info(f"📊 Allocated Memory: {metrics.allocated_memory:.1f}GB")
+    logger.info()
     
     # Live processing demonstration
-    print("🔄 Real-time Processing Demo:")
+    logger.info("🔄 Real-time Processing Demo:")
     
     with optimized_context():
         # Small cognitive task
-        print("   🧠 Processing cognitive task (64x64 neural matrix)...")
+        logger.info("   🧠 Processing cognitive task (64x64 neural matrix)...")
         start = time.time()
         small_tensor = move_to_gpu(torch.randn(64, 64))
         small_result = torch.matmul(small_tensor, small_tensor.T)
         small_time = time.time() - start
-        print(f"   ✅ Completed in {small_time:.4f}s - Result: {small_result.shape}")
+        logger.info(f"   ✅ Completed in {small_time:.4f}s - Result: {small_result.shape}")
         
         # Medium cognitive task
-        print("   🧠 Processing advanced task (128x128 semantic field)...")
+        logger.info("   🧠 Processing advanced task (128x128 semantic field)...")
         start = time.time()
         medium_tensor = move_to_gpu(torch.randn(128, 128))
         medium_result = torch.matmul(medium_tensor, medium_tensor.T)
         medium_time = time.time() - start
-        print(f"   ✅ Completed in {medium_time:.4f}s - Result: {medium_result.shape}")
+        logger.info(f"   ✅ Completed in {medium_time:.4f}s - Result: {medium_result.shape}")
         
         # Large cognitive task
-        print("   🧠 Processing complex task (256x256 consciousness field)...")
+        logger.info("   🧠 Processing complex task (256x256 consciousness field)...")
         start = time.time()
         large_tensor = move_to_gpu(torch.randn(256, 256))
         large_result = torch.matmul(large_tensor, large_tensor.T)
         large_time = time.time() - start
-        print(f"   ✅ Completed in {large_time:.4f}s - Result: {large_result.shape}")
+        logger.info(f"   ✅ Completed in {large_time:.4f}s - Result: {large_result.shape}")
     
     total_processing_time = small_time + medium_time + large_time
-    print(f"\n🎯 Total Processing Time: {total_processing_time:.4f}s")
-    print("⚡ Performance: EXCELLENT - Sub-second cognitive processing!")
+    logger.info(f"\n🎯 Total Processing Time: {total_processing_time:.4f}s")
+    logger.info("⚡ Performance: EXCELLENT - Sub-second cognitive processing!")
     
     # Live caching demonstration
-    print("\n💾 LIVE INTELLIGENT CACHING SYSTEM")
-    print("-" * 45)
+    logger.info("\n💾 LIVE INTELLIGENT CACHING SYSTEM")
+    logger.info("-" * 45)
     
     from src.core.performance.advanced_caching import (
         put_cached, get_cached, get_cache_stats, clear_cache
@@ -89,7 +89,7 @@ async def demonstrate_live_platform():
         "total_processing_time": total_processing_time
     }
     
-    print("🔄 Caching live processing results...")
+    logger.info("🔄 Caching live processing results...")
     await put_cached("live_demo_results", live_data)
     await put_cached("gpu_performance_metrics", {
         "device": metrics.device_name,
@@ -106,14 +106,14 @@ async def demonstrate_live_platform():
     cached_results = await get_cached("live_demo_results")
     stats = get_cache_stats()
     
-    print(f"✅ Cache Storage: 3 entries stored successfully")
-    print(f"📊 Cache Stats: {stats.total_entries} total entries, {stats.hit_rate:.1%} hit rate")
-    print(f"🧠 Semantic Caching: Context-aware storage and retrieval")
-    print(f"⚡ Cache Performance: {stats.avg_response_time:.3f}s average response time")
+    logger.info(f"✅ Cache Storage: 3 entries stored successfully")
+    logger.info(f"📊 Cache Stats: {stats.total_entries} total entries, {stats.hit_rate:.1%} hit rate")
+    logger.info(f"🧠 Semantic Caching: Context-aware storage and retrieval")
+    logger.info(f"⚡ Cache Performance: {stats.avg_response_time:.3f}s average response time")
     
     # Live pipeline demonstration
-    print("\n🔄 LIVE PIPELINE OPTIMIZATION ENGINE")
-    print("-" * 45)
+    logger.info("\n🔄 LIVE PIPELINE OPTIMIZATION ENGINE")
+    logger.info("-" * 45)
     
     from src.core.performance.pipeline_optimization import (
         add_pipeline_task, get_pipeline_metrics, TaskPriority
@@ -154,7 +154,7 @@ async def demonstrate_live_platform():
         }
     
     # Add tasks with different priorities
-    print("🔄 Adding live cognitive processing tasks...")
+    logger.info("🔄 Adding live cognitive processing tasks...")
     
     add_pipeline_task("analysis_1", cognitive_analysis_task, "visual_data", 5, priority=TaskPriority.HIGH)
     add_pipeline_task("semantic_1", semantic_processing_task, "Live Kimera SWM demonstration", "english", priority=TaskPriority.URGENT)
@@ -162,26 +162,28 @@ async def demonstrate_live_platform():
     add_pipeline_task("analysis_2", cognitive_analysis_task, "audio_data", 3, priority=TaskPriority.MEDIUM)
     add_pipeline_task("semantic_2", semantic_processing_task, "Traitement cognitif avancé", "french", priority=TaskPriority.HIGH)
     
-    print("✅ Added 5 cognitive tasks with priority scheduling")
+    logger.info("✅ Added 5 cognitive tasks with priority scheduling")
     
     # Allow some processing
     await asyncio.sleep(0.2)
     
     pipeline_metrics = get_pipeline_metrics()
-    print(f"📊 Pipeline Metrics: {pipeline_metrics.total_tasks} tasks queued")
-    print(f"⚡ Performance Score: {pipeline_metrics.performance_score:.3f}")
-    print("🔄 Multi-priority parallel processing: ACTIVE")
+    logger.info(f"📊 Pipeline Metrics: {pipeline_metrics.total_tasks} tasks queued")
+    logger.info(f"⚡ Performance Score: {pipeline_metrics.performance_score:.3f}")
+    logger.info("🔄 Multi-priority parallel processing: ACTIVE")
     
     # Live scaling demonstration
-    print("\n🌐 LIVE HORIZONTAL SCALING SYSTEM")
-    print("-" * 45)
+    logger.info("\n🌐 LIVE HORIZONTAL SCALING SYSTEM")
+    logger.info("-" * 45)
     
     from src.core.scaling.horizontal_scaling import (
+import logging
+logger = logging.getLogger(__name__)
         route_cognitive_request, get_cluster_status
     )
     
     # Test various request routing scenarios
-    print("🔄 Testing intelligent request routing...")
+    logger.info("🔄 Testing intelligent request routing...")
     
     requests = [
         ("gpu_intensive_analysis", {"gpu_required": True, "priority": "critical", "complexity": "high"}),
@@ -195,18 +197,18 @@ async def demonstrate_live_platform():
     for req_type, req_params in requests:
         node = await route_cognitive_request(req_type, req_params)
         routing_results.append((req_type, node))
-        print(f"   📍 {req_type}: Routed to {node if node else 'queue'}")
+        logger.info(f"   📍 {req_type}: Routed to {node if node else 'queue'}")
     
     cluster_status = get_cluster_status()
-    print(f"\n📊 Cluster Status: {cluster_status['cluster_metrics'].total_nodes} nodes available")
-    print(f"💚 Healthy Nodes: {cluster_status['cluster_metrics'].healthy_nodes}")
-    print("🔄 Auto-scaling: ACTIVE (Dynamic resource allocation)")
+    logger.info(f"\n📊 Cluster Status: {cluster_status['cluster_metrics'].total_nodes} nodes available")
+    logger.info(f"💚 Healthy Nodes: {cluster_status['cluster_metrics'].healthy_nodes}")
+    logger.info("🔄 Auto-scaling: ACTIVE (Dynamic resource allocation)")
     
     # Live integrated workflow demonstration
-    print("\n🚀 LIVE INTEGRATED COGNITIVE WORKFLOW")
-    print("-" * 45)
+    logger.info("\n🚀 LIVE INTEGRATED COGNITIVE WORKFLOW")
+    logger.info("-" * 45)
     
-    print("🧠 Executing end-to-end cognitive processing workflow...")
+    logger.info("🧠 Executing end-to-end cognitive processing workflow...")
     
     # Complex integrated processing
     with optimized_context():
@@ -243,45 +245,45 @@ async def demonstrate_live_platform():
             priority=TaskPriority.CRITICAL
         )
     
-    print("✅ Cognitive Pattern: Generated and processed")
-    print("✅ Cognitive Field: Computed and analyzed") 
-    print("✅ State Caching: Cognitive state preserved")
-    print(f"✅ Request Routing: Assigned to {processing_node if processing_node else 'primary processor'}")
-    print("✅ Pipeline Integration: Queued for consciousness analysis")
+    logger.info("✅ Cognitive Pattern: Generated and processed")
+    logger.info("✅ Cognitive Field: Computed and analyzed") 
+    logger.info("✅ State Caching: Cognitive state preserved")
+    logger.info(f"✅ Request Routing: Assigned to {processing_node if processing_node else 'primary processor'}")
+    logger.info("✅ Pipeline Integration: Queued for consciousness analysis")
     
     # Final status
     final_stats = get_cache_stats()
     final_metrics = get_pipeline_metrics()
     final_cluster = get_cluster_status()
     
-    print("\n" + "=" * 70)
-    print("🎉 LIVE PLATFORM DEMONSTRATION COMPLETE!")
-    print("=" * 70)
-    print("📊 LIVE PERFORMANCE METRICS:")
-    print(f"   ⚡ GPU Processing: {3} tasks completed in {total_processing_time:.4f}s")
-    print(f"   💾 Cache Operations: {final_stats.total_entries} entries, {final_stats.hit_rate:.1%} hit rate")
-    print(f"   🔄 Pipeline Tasks: {final_metrics.total_tasks} queued with {final_metrics.performance_score:.3f} score")
-    print(f"   🌐 Cluster Nodes: {final_cluster['cluster_metrics'].total_nodes} active")
-    print()
-    print("✅ KIMERA SWM ENTERPRISE PLATFORM: FULLY OPERATIONAL!")
-    print("🚀 Ready for high-performance cognitive computing workloads!")
-    print("🧠 Advanced AI processing capabilities: ACTIVE")
-    print("⚡ Enterprise-grade performance: CONFIRMED")
-    print()
-    print("🌐 PLATFORM ACCESS:")
-    print("   • Services API: http://localhost:8000 (starting)")
-    print("   • Monitoring: http://localhost:8001 (starting)")
-    print("   • Core Systems: 100% OPERATIONAL")
-    print("=" * 70)
+    logger.info("\n" + "=" * 70)
+    logger.info("🎉 LIVE PLATFORM DEMONSTRATION COMPLETE!")
+    logger.info("=" * 70)
+    logger.info("📊 LIVE PERFORMANCE METRICS:")
+    logger.info(f"   ⚡ GPU Processing: {3} tasks completed in {total_processing_time:.4f}s")
+    logger.info(f"   💾 Cache Operations: {final_stats.total_entries} entries, {final_stats.hit_rate:.1%} hit rate")
+    logger.info(f"   🔄 Pipeline Tasks: {final_metrics.total_tasks} queued with {final_metrics.performance_score:.3f} score")
+    logger.info(f"   🌐 Cluster Nodes: {final_cluster['cluster_metrics'].total_nodes} active")
+    logger.info()
+    logger.info("✅ KIMERA SWM ENTERPRISE PLATFORM: FULLY OPERATIONAL!")
+    logger.info("🚀 Ready for high-performance cognitive computing workloads!")
+    logger.info("🧠 Advanced AI processing capabilities: ACTIVE")
+    logger.info("⚡ Enterprise-grade performance: CONFIRMED")
+    logger.info()
+    logger.info("🌐 PLATFORM ACCESS:")
+    logger.info("   • Services API: http://localhost:8000 (starting)")
+    logger.info("   • Monitoring: http://localhost:8001 (starting)")
+    logger.info("   • Core Systems: 100% OPERATIONAL")
+    logger.info("=" * 70)
     
     return True
 
 if __name__ == "__main__":
-    print("🌟 Starting Live Kimera SWM Platform Demonstration...")
+    logger.info("🌟 Starting Live Kimera SWM Platform Demonstration...")
     success = asyncio.run(demonstrate_live_platform())
     
     if success:
-        print("\n🎉 Live demonstration completed successfully!")
-        print("🚀 Kimera SWM Enterprise Platform is running and ready!")
+        logger.info("\n🎉 Live demonstration completed successfully!")
+        logger.info("🚀 Kimera SWM Enterprise Platform is running and ready!")
     else:
-        print("\n❌ Demonstration encountered issues")
+        logger.info("\n❌ Demonstration encountered issues")

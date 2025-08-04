@@ -63,18 +63,18 @@ class KimeraUltimateLauncher:
         # Initialize all available systems
         self._initialize_systems()
         
-        print("🚀" * 100)
-        print("🌟 KIMERA ULTIMATE TRADING LAUNCHER")
-        print("🧬 THE PINNACLE OF FINTECH EVOLUTION")
-        print("🔬 SCIENTIFIC RIGOR + ENGINEERING EXCELLENCE")
-        print("🧠 COGNITIVE INTELLIGENCE + QUANTUM PROCESSING")
-        print("🚀" * 100)
+        logger.info("🚀" * 100)
+        logger.info("🌟 KIMERA ULTIMATE TRADING LAUNCHER")
+        logger.info("🧬 THE PINNACLE OF FINTECH EVOLUTION")
+        logger.info("🔬 SCIENTIFIC RIGOR + ENGINEERING EXCELLENCE")
+        logger.info("🧠 COGNITIVE INTELLIGENCE + QUANTUM PROCESSING")
+        logger.info("🚀" * 100)
     
     def _initialize_systems(self):
         """Initialize all available trading systems"""
         
-        print("\n🔧 INITIALIZING KIMERA TRADING SYSTEMS:")
-        print("-" * 80)
+        logger.info("\n🔧 INITIALIZING KIMERA TRADING SYSTEMS:")
+        logger.info("-" * 80)
         
         # 1. Cognitive Trading Intelligence
         try:
@@ -86,10 +86,10 @@ class KimeraUltimateLauncher:
                 'features': ['Quantum Processing', 'Cognitive Fields', 'Meta-Insights', 'Contradiction Detection']
             }
             self.system_status['cognitive'] = 'AVAILABLE'
-            print("✅ Cognitive Trading Intelligence: AVAILABLE")
+            logger.info("✅ Cognitive Trading Intelligence: AVAILABLE")
         except ImportError as e:
             self.system_status['cognitive'] = 'UNAVAILABLE'
-            print(f"❌ Cognitive Trading Intelligence: UNAVAILABLE ({e})")
+            logger.info(f"❌ Cognitive Trading Intelligence: UNAVAILABLE ({e})")
         
         # 2. Scientific Autonomous Trader
         try:
@@ -101,10 +101,10 @@ class KimeraUltimateLauncher:
                 'features': ['Statistical Validation', 'Kelly Criterion', 'VaR Management', 'Real Exchange Integration']
             }
             self.system_status['scientific'] = 'AVAILABLE'
-            print("✅ Scientific Autonomous Trader: AVAILABLE")
+            logger.info("✅ Scientific Autonomous Trader: AVAILABLE")
         except ImportError as e:
             self.system_status['scientific'] = 'UNAVAILABLE'
-            print(f"❌ Scientific Autonomous Trader: UNAVAILABLE ({e})")
+            logger.info(f"❌ Scientific Autonomous Trader: UNAVAILABLE ({e})")
         
         # 3. Ultimate Bulletproof Trader
         try:
@@ -116,10 +116,10 @@ class KimeraUltimateLauncher:
                 'features': ['5-Layer Validation', 'Zero Failures', 'Dust Management', 'Ultra-Conservative']
             }
             self.system_status['bulletproof'] = 'AVAILABLE'
-            print("✅ Ultimate Bulletproof Trader: AVAILABLE")
+            logger.info("✅ Ultimate Bulletproof Trader: AVAILABLE")
         except ImportError as e:
             self.system_status['bulletproof'] = 'UNAVAILABLE'
-            print(f"❌ Ultimate Bulletproof Trader: UNAVAILABLE ({e})")
+            logger.info(f"❌ Ultimate Bulletproof Trader: UNAVAILABLE ({e})")
         
         # 4. Integration Bridge
         try:
@@ -131,10 +131,10 @@ class KimeraUltimateLauncher:
                 'features': ['System Orchestration', 'Fallback Management', 'Performance Monitoring', 'Error Recovery']
             }
             self.system_status['integration'] = 'AVAILABLE'
-            print("✅ Ultimate Integration Bridge: AVAILABLE")
+            logger.info("✅ Ultimate Integration Bridge: AVAILABLE")
         except ImportError as e:
             self.system_status['integration'] = 'UNAVAILABLE'
-            print(f"❌ Ultimate Integration Bridge: UNAVAILABLE ({e})")
+            logger.info(f"❌ Ultimate Integration Bridge: UNAVAILABLE ({e})")
         
         # 5. Ultimate Dust Manager
         try:
@@ -146,36 +146,36 @@ class KimeraUltimateLauncher:
                 'features': ['Aggressive Dust Detection', 'Portfolio Optimization', 'Pre/Post Trading Cleanup']
             }
             self.system_status['dust_manager'] = 'AVAILABLE'
-            print("✅ Ultimate Dust Manager: AVAILABLE")
+            logger.info("✅ Ultimate Dust Manager: AVAILABLE")
         except ImportError as e:
             self.system_status['dust_manager'] = 'UNAVAILABLE'
-            print(f"❌ Ultimate Dust Manager: UNAVAILABLE ({e})")
+            logger.info(f"❌ Ultimate Dust Manager: UNAVAILABLE ({e})")
         
-        print("-" * 80)
+        logger.info("-" * 80)
         
         # Calculate system availability
         available_count = sum(1 for status in self.system_status.values() if status == 'AVAILABLE')
         total_count = len(self.system_status)
         availability_percentage = (available_count / total_count) * 100
         
-        print(f"📊 SYSTEM AVAILABILITY: {available_count}/{total_count} ({availability_percentage:.1f}%)")
+        logger.info(f"📊 SYSTEM AVAILABILITY: {available_count}/{total_count} ({availability_percentage:.1f}%)")
         
         if availability_percentage >= 80:
-            print("🏆 KIMERA STATUS: UNPARALLELED")
+            logger.info("🏆 KIMERA STATUS: UNPARALLELED")
         elif availability_percentage >= 60:
-            print("⭐ KIMERA STATUS: ADVANCED")
+            logger.info("⭐ KIMERA STATUS: ADVANCED")
         else:
-            print("⚠️ KIMERA STATUS: LIMITED")
+            logger.info("⚠️ KIMERA STATUS: LIMITED")
     
     def display_main_menu(self):
         """Display the main menu"""
         
-        print("\n" + "🚀" * 100)
-        print("🌟 KIMERA ULTIMATE TRADING SYSTEMS")
-        print("🚀" * 100)
+        logger.info("\n" + "🚀" * 100)
+        logger.info("🌟 KIMERA ULTIMATE TRADING SYSTEMS")
+        logger.info("🚀" * 100)
         
-        print("\n🧬 AVAILABLE TRADING SYSTEMS:")
-        print("-" * 80)
+        logger.info("\n🧬 AVAILABLE TRADING SYSTEMS:")
+        logger.info("-" * 80)
         
         menu_options = []
         option_num = 1
@@ -183,35 +183,35 @@ class KimeraUltimateLauncher:
         # Add available systems to menu
         for system_key, system_info in self.available_systems.items():
             if self.system_status[system_key] == 'AVAILABLE':
-                print(f"{option_num}. {system_info['name']}")
-                print(f"   📝 {system_info['description']}")
-                print(f"   🔧 Features: {', '.join(system_info['features'])}")
-                print()
+                logger.info(f"{option_num}. {system_info['name']}")
+                logger.info(f"   📝 {system_info['description']}")
+                logger.info(f"   🔧 Features: {', '.join(system_info['features'])}")
+                logger.info()
                 menu_options.append((option_num, system_key, system_info))
                 option_num += 1
         
         # Add utility options
-        print(f"{option_num}. System Status & Diagnostics")
+        logger.info(f"{option_num}. System Status & Diagnostics")
         menu_options.append((option_num, 'status', {'name': 'System Status'}))
         option_num += 1
         
-        print(f"{option_num}. Portfolio Analysis")
+        logger.info(f"{option_num}. Portfolio Analysis")
         menu_options.append((option_num, 'portfolio', {'name': 'Portfolio Analysis'}))
         option_num += 1
         
-        print(f"{option_num}. Exit")
+        logger.info(f"{option_num}. Exit")
         menu_options.append((option_num, 'exit', {'name': 'Exit'}))
         
-        print("-" * 80)
+        logger.info("-" * 80)
         
         return menu_options
     
     async def run_cognitive_trading(self, duration_minutes: int = 10):
         """Run cognitive trading intelligence"""
         try:
-            print("🧠" * 80)
-            print("🚀 LAUNCHING COGNITIVE TRADING INTELLIGENCE")
-            print("🧠" * 80)
+            logger.info("🧠" * 80)
+            logger.info("🚀 LAUNCHING COGNITIVE TRADING INTELLIGENCE")
+            logger.info("🧠" * 80)
             
             trader_class = self.available_systems['cognitive']['class']
             trader = trader_class()
@@ -219,14 +219,14 @@ class KimeraUltimateLauncher:
             await trader.run_cognitive_trading_session(duration_minutes)
             
         except Exception as e:
-            print(f"❌ Cognitive trading failed: {e}")
+            logger.info(f"❌ Cognitive trading failed: {e}")
     
     async def run_scientific_trading(self, duration_minutes: int = 30, target_usd: float = 500.0):
         """Run scientific autonomous trading"""
         try:
-            print("🧬" * 80)
-            print("🚀 LAUNCHING SCIENTIFIC AUTONOMOUS TRADER")
-            print("🧬" * 80)
+            logger.info("🧬" * 80)
+            logger.info("🚀 LAUNCHING SCIENTIFIC AUTONOMOUS TRADER")
+            logger.info("🧬" * 80)
             
             trader_class = self.available_systems['scientific']['class']
             trader = trader_class(target_usd=target_usd)
@@ -234,14 +234,14 @@ class KimeraUltimateLauncher:
             await trader.run_scientific_trading_session(duration_minutes)
             
         except Exception as e:
-            print(f"❌ Scientific trading failed: {e}")
+            logger.info(f"❌ Scientific trading failed: {e}")
     
     async def run_bulletproof_trading(self, duration_minutes: int = 5):
         """Run bulletproof trading"""
         try:
-            print("🛡️" * 80)
-            print("🚀 LAUNCHING BULLETPROOF TRADER")
-            print("🛡️" * 80)
+            logger.info("🛡️" * 80)
+            logger.info("🚀 LAUNCHING BULLETPROOF TRADER")
+            logger.info("🛡️" * 80)
             
             trader_class = self.available_systems['bulletproof']['class']
             trader = trader_class()
@@ -249,40 +249,40 @@ class KimeraUltimateLauncher:
             await trader.run_ultimate_bulletproof_session(duration_minutes)
             
         except Exception as e:
-            print(f"❌ Bulletproof trading failed: {e}")
+            logger.info(f"❌ Bulletproof trading failed: {e}")
     
     async def run_integration_bridge(self, duration_minutes: int = 10, preferred_system: str = 'auto'):
         """Run integration bridge"""
         try:
-            print("🌉" * 80)
-            print("🚀 LAUNCHING INTEGRATION BRIDGE")
-            print("🌉" * 80)
+            logger.info("🌉" * 80)
+            logger.info("🚀 LAUNCHING INTEGRATION BRIDGE")
+            logger.info("🌉" * 80)
             
             bridge_class = self.available_systems['integration']['class']
             bridge = bridge_class()
             
             result = await bridge.run_ultimate_trading_session(duration_minutes, preferred_system)
             
-            print("\n📊 INTEGRATION BRIDGE RESULTS:")
-            print(json.dumps(result, indent=2, default=str))
+            logger.info("\n📊 INTEGRATION BRIDGE RESULTS:")
+            logger.info(json.dumps(result, indent=2, default=str))
             
         except Exception as e:
-            print(f"❌ Integration bridge failed: {e}")
+            logger.info(f"❌ Integration bridge failed: {e}")
     
     def run_dust_management(self):
         """Run dust management"""
         try:
-            print("🧹" * 80)
-            print("🚀 LAUNCHING DUST MANAGER")
-            print("🧹" * 80)
+            logger.info("🧹" * 80)
+            logger.info("🚀 LAUNCHING DUST MANAGER")
+            logger.info("🧹" * 80)
             
             manager_class = self.available_systems['dust_manager']['class']
             manager = manager_class()
             
-            print("\nSelect dust management operation:")
-            print("1. Analyze portfolio dust")
-            print("2. Pre-trading cleanup")
-            print("3. Full portfolio optimization")
+            logger.info("\nSelect dust management operation:")
+            logger.info("1. Analyze portfolio dust")
+            logger.info("2. Pre-trading cleanup")
+            logger.info("3. Full portfolio optimization")
             
             choice = input("\nEnter choice (1-3): ").strip()
             
@@ -293,58 +293,58 @@ class KimeraUltimateLauncher:
             elif choice == "3":
                 manager.optimize_portfolio_for_trading()
             else:
-                print("❌ Invalid choice")
+                logger.info("❌ Invalid choice")
                 
         except Exception as e:
-            print(f"❌ Dust management failed: {e}")
+            logger.info(f"❌ Dust management failed: {e}")
     
     def show_system_status(self):
         """Show comprehensive system status"""
         try:
-            print("📊" * 80)
-            print("🔍 KIMERA SYSTEM STATUS & DIAGNOSTICS")
-            print("📊" * 80)
+            logger.info("📊" * 80)
+            logger.info("🔍 KIMERA SYSTEM STATUS & DIAGNOSTICS")
+            logger.info("📊" * 80)
             
-            print("\n🧬 SYSTEM AVAILABILITY:")
-            print("-" * 60)
+            logger.info("\n🧬 SYSTEM AVAILABILITY:")
+            logger.info("-" * 60)
             for system_key, status in self.system_status.items():
                 system_name = self.available_systems.get(system_key, {}).get('name', system_key)
                 status_icon = "✅" if status == 'AVAILABLE' else "❌"
-                print(f"{status_icon} {system_name}: {status}")
+                logger.info(f"{status_icon} {system_name}: {status}")
             
-            print("\n🔧 SYSTEM FEATURES:")
-            print("-" * 60)
+            logger.info("\n🔧 SYSTEM FEATURES:")
+            logger.info("-" * 60)
             for system_key, system_info in self.available_systems.items():
                 if self.system_status[system_key] == 'AVAILABLE':
-                    print(f"🚀 {system_info['name']}:")
+                    logger.info(f"🚀 {system_info['name']}:")
                     for feature in system_info['features']:
-                        print(f"   • {feature}")
-                    print()
+                        logger.info(f"   • {feature}")
+                    logger.info()
             
-            print("\n💡 RECOMMENDATIONS:")
-            print("-" * 60)
+            logger.info("\n💡 RECOMMENDATIONS:")
+            logger.info("-" * 60)
             
             available_count = sum(1 for status in self.system_status.values() if status == 'AVAILABLE')
             
             if available_count >= 4:
-                print("🏆 All major systems available - KIMERA is operating at peak performance!")
-                print("🎯 Recommended: Use Integration Bridge for optimal results")
+                logger.info("🏆 All major systems available - KIMERA is operating at peak performance!")
+                logger.info("🎯 Recommended: Use Integration Bridge for optimal results")
             elif available_count >= 3:
-                print("⭐ Most systems available - KIMERA is highly functional")
-                print("🎯 Recommended: Use available systems with manual coordination")
+                logger.info("⭐ Most systems available - KIMERA is highly functional")
+                logger.info("🎯 Recommended: Use available systems with manual coordination")
             else:
-                print("⚠️ Limited systems available - Basic functionality only")
-                print("🎯 Recommended: Check system dependencies and installation")
+                logger.info("⚠️ Limited systems available - Basic functionality only")
+                logger.info("🎯 Recommended: Check system dependencies and installation")
             
         except Exception as e:
-            print(f"❌ Status display failed: {e}")
+            logger.info(f"❌ Status display failed: {e}")
     
     def analyze_portfolio(self):
         """Analyze current portfolio"""
         try:
-            print("📈" * 80)
-            print("📊 PORTFOLIO ANALYSIS")
-            print("📈" * 80)
+            logger.info("📈" * 80)
+            logger.info("📊 PORTFOLIO ANALYSIS")
+            logger.info("📈" * 80)
             
             # Try to use dust manager for portfolio analysis
             if self.system_status.get('dust_manager') == 'AVAILABLE':
@@ -352,11 +352,11 @@ class KimeraUltimateLauncher:
                 manager = manager_class()
                 manager.analyze_portfolio_dust()
             else:
-                print("❌ Portfolio analysis requires Ultimate Dust Manager")
-                print("💡 Please ensure all dependencies are installed")
+                logger.info("❌ Portfolio analysis requires Ultimate Dust Manager")
+                logger.info("💡 Please ensure all dependencies are installed")
                 
         except Exception as e:
-            print(f"❌ Portfolio analysis failed: {e}")
+            logger.info(f"❌ Portfolio analysis failed: {e}")
     
     async def run_interactive_session(self):
         """Run interactive session"""
@@ -368,15 +368,15 @@ class KimeraUltimateLauncher:
                     choice = int(input(f"\nEnter your choice (1-{len(menu_options)}): "))
                     
                     if choice < 1 or choice > len(menu_options):
-                        print("❌ Invalid choice. Please try again.")
+                        logger.info("❌ Invalid choice. Please try again.")
                         continue
                     
                     selected_option = menu_options[choice - 1]
                     option_num, system_key, system_info = selected_option
                     
                     if system_key == 'exit':
-                        print("\n👋 Thank you for using Kimera Ultimate Trading Systems!")
-                        print("🏆 KIMERA: THE PINNACLE OF FINTECH")
+                        logger.info("\n👋 Thank you for using Kimera Ultimate Trading Systems!")
+                        logger.info("🏆 KIMERA: THE PINNACLE OF FINTECH")
                         break
                     
                     elif system_key == 'status':
@@ -405,7 +405,7 @@ class KimeraUltimateLauncher:
                     
                     elif system_key == 'integration':
                         duration = int(input("Enter duration in minutes (default 10): ") or "10")
-                        print("Preferred system: auto, cognitive, scientific, bulletproof")
+                        logger.info("Preferred system: auto, cognitive, scientific, bulletproof")
                         preferred = input("Enter preferred system (default auto): ") or "auto"
                         await self.run_integration_bridge(duration, preferred)
                         input("\nPress Enter to continue...")
@@ -415,16 +415,16 @@ class KimeraUltimateLauncher:
                         input("\nPress Enter to continue...")
                     
                 except ValueError:
-                    print("❌ Please enter a valid number.")
+                    logger.info("❌ Please enter a valid number.")
                 except KeyboardInterrupt:
-                    print("\n\n🛑 Operation cancelled by user")
+                    logger.info("\n\n🛑 Operation cancelled by user")
                     break
                 except Exception as e:
-                    print(f"❌ Error: {e}")
+                    logger.info(f"❌ Error: {e}")
                     input("\nPress Enter to continue...")
                     
         except Exception as e:
-            print(f"❌ Interactive session failed: {e}")
+            logger.info(f"❌ Interactive session failed: {e}")
 
 async def quick_launch_cognitive(duration: int = 10):
     """Quick launch cognitive trading"""
@@ -432,7 +432,7 @@ async def quick_launch_cognitive(duration: int = 10):
     if launcher.system_status.get('cognitive') == 'AVAILABLE':
         await launcher.run_cognitive_trading(duration)
     else:
-        print("❌ Cognitive trading not available")
+        logger.info("❌ Cognitive trading not available")
 
 async def quick_launch_scientific(duration: int = 30, target: float = 500.0):
     """Quick launch scientific trading"""
@@ -440,7 +440,7 @@ async def quick_launch_scientific(duration: int = 30, target: float = 500.0):
     if launcher.system_status.get('scientific') == 'AVAILABLE':
         await launcher.run_scientific_trading(duration, target)
     else:
-        print("❌ Scientific trading not available")
+        logger.info("❌ Scientific trading not available")
 
 async def quick_launch_bulletproof(duration: int = 5):
     """Quick launch bulletproof trading"""
@@ -448,7 +448,7 @@ async def quick_launch_bulletproof(duration: int = 5):
     if launcher.system_status.get('bulletproof') == 'AVAILABLE':
         await launcher.run_bulletproof_trading(duration)
     else:
-        print("❌ Bulletproof trading not available")
+        logger.info("❌ Bulletproof trading not available")
 
 async def quick_launch_integration(duration: int = 10):
     """Quick launch integration bridge"""
@@ -456,15 +456,15 @@ async def quick_launch_integration(duration: int = 10):
     if launcher.system_status.get('integration') == 'AVAILABLE':
         await launcher.run_integration_bridge(duration)
     else:
-        print("❌ Integration bridge not available")
+        logger.info("❌ Integration bridge not available")
 
 async def main():
     """Main launcher function"""
     
-    print("🚀" * 100)
-    print("🌟 WELCOME TO KIMERA ULTIMATE TRADING SYSTEMS")
-    print("🧬 THE PINNACLE OF FINTECH EVOLUTION")
-    print("🚀" * 100)
+    logger.info("🚀" * 100)
+    logger.info("🌟 WELCOME TO KIMERA ULTIMATE TRADING SYSTEMS")
+    logger.info("🧬 THE PINNACLE OF FINTECH EVOLUTION")
+    logger.info("🚀" * 100)
     
     launcher = KimeraUltimateLauncher()
     
@@ -472,12 +472,12 @@ async def main():
     available_systems = sum(1 for status in launcher.system_status.values() if status == 'AVAILABLE')
     
     if available_systems == 0:
-        print("\n❌ No trading systems available!")
-        print("💡 Please check system dependencies and installation")
+        logger.info("\n❌ No trading systems available!")
+        logger.info("💡 Please check system dependencies and installation")
         return
     
-    print(f"\n✅ {available_systems} trading systems available")
-    print("🎯 Ready for unparalleled trading performance!")
+    logger.info(f"\n✅ {available_systems} trading systems available")
+    logger.info("🎯 Ready for unparalleled trading performance!")
     
     # Check for command line arguments
     if len(sys.argv) > 1:
@@ -501,8 +501,8 @@ async def main():
         elif command == 'portfolio':
             launcher.analyze_portfolio()
         else:
-            print(f"❌ Unknown command: {command}")
-            print("Available commands: cognitive, scientific, bulletproof, integration, status, portfolio")
+            logger.info(f"❌ Unknown command: {command}")
+            logger.info("Available commands: cognitive, scientific, bulletproof, integration, status, portfolio")
     else:
         # Run interactive session
         await launcher.run_interactive_session()
@@ -511,8 +511,8 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
-        print("\n\n🛑 Kimera Ultimate Launcher terminated by user")
-        print("🏆 Thank you for using the pinnacle of fintech!")
+        logger.info("\n\n🛑 Kimera Ultimate Launcher terminated by user")
+        logger.info("🏆 Thank you for using the pinnacle of fintech!")
     except Exception as e:
-        print(f"\n❌ Launcher failed: {e}")
-        print("💡 Please check system requirements and try again") 
+        logger.info(f"\n❌ Launcher failed: {e}")
+        logger.info("💡 Please check system requirements and try again") 

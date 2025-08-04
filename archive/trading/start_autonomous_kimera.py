@@ -48,7 +48,7 @@ def display_banner():
                                                               
 ================================================================
     """
-    print(banner)
+    logger.info(banner)
 
 def check_prerequisites():
     """Check system prerequisites"""
@@ -117,44 +117,44 @@ async def main():
         logger.info(f"   Growth Required: {((status['target_eur']/status['portfolio_value_eur'])-1)*100:.0f}%")
         
         # Confirm autonomous trading
-        print("\n" + "="*60)
-        print("KIMERA AUTONOMOUS TRADING - FINAL CONFIRMATION")
-        print("="*60)
-        print(f"Portfolio: EUR {status['portfolio_value_eur']:.2f}")
-        print(f"Target: EUR {status['target_eur']}")
-        print(f"Mode: FULLY AUTONOMOUS")
-        print(f"Safety Limits: NONE")
-        print(f"Decision Making: AI-CONTROLLED")
-        print(f"Risk Level: USER ACCEPTED")
-        print("="*60)
+        logger.info("\n" + "="*60)
+        logger.info("KIMERA AUTONOMOUS TRADING - FINAL CONFIRMATION")
+        logger.info("="*60)
+        logger.info(f"Portfolio: EUR {status['portfolio_value_eur']:.2f}")
+        logger.info(f"Target: EUR {status['target_eur']}")
+        logger.info(f"Mode: FULLY AUTONOMOUS")
+        logger.info(f"Safety Limits: NONE")
+        logger.info(f"Decision Making: AI-CONTROLLED")
+        logger.info(f"Risk Level: USER ACCEPTED")
+        logger.info("="*60)
         
         confirm = input("\nType 'UNLEASH KIMERA' to start autonomous trading: ")
         
         if confirm.upper() == 'UNLEASH KIMERA':
             logger.info("USER CONFIRMED - UNLEASHING KIMERA")
-            print("\nKIMERA AUTONOMOUS TRADER ACTIVE")
-            print("   Monitor progress in logs/kimera_autonomous_launcher.log")
-            print("   Press Ctrl+C to stop (will complete current cycle)")
+            logger.info("\nKIMERA AUTONOMOUS TRADER ACTIVE")
+            logger.info("   Monitor progress in logs/kimera_autonomous_launcher.log")
+            logger.info("   Press Ctrl+C to stop (will complete current cycle)")
             
             # Start autonomous trading
             await trader.run_autonomous_trader(CYCLE_INTERVAL_MINUTES)
             
         else:
             logger.info("User cancelled autonomous trading")
-            print("Autonomous trading cancelled.")
+            logger.info("Autonomous trading cancelled.")
     
     except KeyboardInterrupt:
         logger.info("Autonomous trading stopped by user")
-        print("\nKimera autonomous trading stopped")
+        logger.info("\nKimera autonomous trading stopped")
     
     except Exception as e:
         logger.error(f"Autonomous trader failed: {e}")
-        print(f"\nError: {e}")
+        logger.info(f"\nError: {e}")
 
 if __name__ == "__main__":
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
-        print("\nGoodbye!")
+        logger.info("\nGoodbye!")
     except Exception as e:
-        print(f"Launch failed: {e}") 
+        logger.info(f"Launch failed: {e}") 

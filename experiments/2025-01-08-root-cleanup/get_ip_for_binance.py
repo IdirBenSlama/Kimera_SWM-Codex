@@ -61,29 +61,29 @@ def get_public_ip():
 def display_whitelisting_instructions(ips):
     """Display comprehensive IP whitelisting instructions"""
     
-    print("\n" + "="*80)
-    print("🔒 BINANCE API IP WHITELISTING INSTRUCTIONS")
-    print("="*80)
+    logger.info("\n" + "="*80)
+    logger.info("🔒 BINANCE API IP WHITELISTING INSTRUCTIONS")
+    logger.info("="*80)
     
     if ips:
         # Get most common IP (in case of multiple detections)
         most_common_ip = max(set(ips), key=ips.count)
         
-        print(f"\n📍 YOUR CURRENT PUBLIC IP ADDRESS: {most_common_ip}")
+        logger.info(f"\n📍 YOUR CURRENT PUBLIC IP ADDRESS: {most_common_ip}")
         
         if len(set(ips)) > 1:
-            print(f"⚠️  Multiple IPs detected: {list(set(ips))}")
-            print("   This might indicate IP rotation or different detection services")
-            print("   Use the most consistent IP or consider all IPs for whitelisting")
+            logger.info(f"⚠️  Multiple IPs detected: {list(set(ips))}")
+            logger.info("   This might indicate IP rotation or different detection services")
+            logger.info("   Use the most consistent IP or consider all IPs for whitelisting")
         
-        print(f"\n🎯 IP TO WHITELIST IN BINANCE: {most_common_ip}")
+        logger.info(f"\n🎯 IP TO WHITELIST IN BINANCE: {most_common_ip}")
     else:
-        print("\n❌ Could not detect public IP address")
-        print("   Please check your internet connection and try again")
+        logger.info("\n❌ Could not detect public IP address")
+        logger.info("   Please check your internet connection and try again")
         return
     
-    print("\n📋 STEP-BY-STEP WHITELISTING PROCESS:")
-    print("="*50)
+    logger.info("\n📋 STEP-BY-STEP WHITELISTING PROCESS:")
+    logger.info("="*50)
     
     steps = [
         "1. Login to Binance.com",
@@ -103,27 +103,27 @@ def display_whitelisting_instructions(ips):
     ]
     
     for step in steps:
-        print(f"   {step}")
+        logger.info(f"   {step}")
     
-    print("\n⚠️  IMPORTANT SECURITY NOTES:")
-    print("="*30)
-    print("• IP whitelisting significantly improves API security")
-    print("• Only add IPs you trust and control")
-    print("• If your IP changes frequently, consider using a VPN with static IP")
-    print("• Remove old/unused IPs from the whitelist regularly")
-    print("• Monitor API usage in Binance dashboard")
+    logger.info("\n⚠️  IMPORTANT SECURITY NOTES:")
+    logger.info("="*30)
+    logger.info("• IP whitelisting significantly improves API security")
+    logger.info("• Only add IPs you trust and control")
+    logger.info("• If your IP changes frequently, consider using a VPN with static IP")
+    logger.info("• Remove old/unused IPs from the whitelist regularly")
+    logger.info("• Monitor API usage in Binance dashboard")
     
-    print("\n🔄 IF YOUR IP CHANGES:")
-    print("="*25)
-    print("• Run this script again to detect new IP")
-    print("• Update the whitelist in Binance API settings")
-    print("• Trading will be blocked until new IP is whitelisted")
+    logger.info("\n🔄 IF YOUR IP CHANGES:")
+    logger.info("="*25)
+    logger.info("• Run this script again to detect new IP")
+    logger.info("• Update the whitelist in Binance API settings")
+    logger.info("• Trading will be blocked until new IP is whitelisted")
     
-    print("\n🚀 AFTER WHITELISTING:")
-    print("="*25)
-    print("• Run: python test_trading_permissions.py")
-    print("• Verify all permissions are working")
-    print("• Start trading with Kimera autonomous systems")
+    logger.info("\n🚀 AFTER WHITELISTING:")
+    logger.info("="*25)
+    logger.info("• Run: python test_trading_permissions.py")
+    logger.info("• Verify all permissions are working")
+    logger.info("• Start trading with Kimera autonomous systems")
     
     # Save IP information to file
     ip_info = {
@@ -136,8 +136,8 @@ def display_whitelisting_instructions(ips):
     with open('detected_ip_info.json', 'w') as f:
         json.dump(ip_info, f, indent=2)
     
-    print(f"\n💾 IP information saved to: detected_ip_info.json")
-    print("="*80)
+    logger.info(f"\n💾 IP information saved to: detected_ip_info.json")
+    logger.info("="*80)
 
 def main():
     """Main execution function"""
@@ -154,8 +154,8 @@ def main():
         
     except Exception as e:
         logger.error(f"❌ Error during IP detection: {e}")
-        print(f"\n❌ Error: {e}")
-        print("Please check your internet connection and try again")
+        logger.info(f"\n❌ Error: {e}")
+        logger.info("Please check your internet connection and try again")
 
 if __name__ == "__main__":
     main() 

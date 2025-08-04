@@ -484,13 +484,13 @@ try:
     )
     execution_time = time.time() - start_time
     
-    print(f"Benchmark Results:")
-    print(f"  4-qubit GHZ state: {execution_time:.3f}s")
-    print(f"  Simulation time: {metrics.simulation_time:.3f}s")
-    print(f"  Fidelity: {metrics.fidelity_estimate:.3f}")
+    logger.info(f"Benchmark Results:")
+    logger.info(f"  4-qubit GHZ state: {execution_time:.3f}s")
+    logger.info(f"  Simulation time: {metrics.simulation_time:.3f}s")
+    logger.info(f"  Fidelity: {metrics.fidelity_estimate:.3f}")
     
 except Exception as e:
-    print(f"Benchmark failed: {e}")
+    logger.info(f"Benchmark failed: {e}")
 '''
             
             # Run benchmark
@@ -568,26 +568,26 @@ def main():
     success = installer.run_installation()
     
     if success:
-        print("\n" + "=" * 70)
-        print("🎉 CUDA QUANTUM INSTALLATION COMPLETED SUCCESSFULLY!")
-        print("=" * 70)
-        print("\nNext steps:")
-        print("1. Restart your Python environment")
-        print("2. Run: python -c 'import cudaq; print(cudaq.get_targets())'")
-        print("3. Execute: python kimera.py --quantum-backend nvidia")
-        print("4. Check the installation report in the reports/ directory")
-        print("\nFor more information, see docs/CUDA_QUANTUM_INTEGRATION.md")
+        logger.info("\n" + "=" * 70)
+        logger.info("🎉 CUDA QUANTUM INSTALLATION COMPLETED SUCCESSFULLY!")
+        logger.info("=" * 70)
+        logger.info("\nNext steps:")
+        logger.info("1. Restart your Python environment")
+        logger.info("2. Run: python -c 'import cudaq; logger.info(cudaq.get_targets())'")
+        logger.info("3. Execute: python kimera.py --quantum-backend nvidia")
+        logger.info("4. Check the installation report in the reports/ directory")
+        logger.info("\nFor more information, see docs/CUDA_QUANTUM_INTEGRATION.md")
         sys.exit(0)
     else:
-        print("\n" + "=" * 70)
-        print("❌ CUDA QUANTUM INSTALLATION FAILED")
-        print("=" * 70)
-        print("\nPlease check the error messages above and:")
-        print("1. Ensure you have Python 3.10+")
-        print("2. Consider using a virtual environment")
-        print("3. Check your CUDA installation if using GPU")
-        print("4. Try running with --force-reinstall")
-        print("\nFor help, see docs/TROUBLESHOOTING.md")
+        logger.info("\n" + "=" * 70)
+        logger.info("❌ CUDA QUANTUM INSTALLATION FAILED")
+        logger.info("=" * 70)
+        logger.info("\nPlease check the error messages above and:")
+        logger.info("1. Ensure you have Python 3.10+")
+        logger.info("2. Consider using a virtual environment")
+        logger.info("3. Check your CUDA installation if using GPU")
+        logger.info("4. Try running with --force-reinstall")
+        logger.info("\nFor help, see docs/TROUBLESHOOTING.md")
         sys.exit(1)
 
 

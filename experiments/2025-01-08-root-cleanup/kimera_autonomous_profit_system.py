@@ -687,9 +687,9 @@ async def main():
             logger.error(f"System error: {e}")
             await system.stop()
     else:
-        print("Usage: python kimera_autonomous_profit_system.py --start")
-        print("Options:")
-        print("  --capital AMOUNT    Starting capital in USD (default: 50.0)")
+        logger.info("Usage: python kimera_autonomous_profit_system.py --start")
+        logger.info("Options:")
+        logger.info("  --capital AMOUNT    Starting capital in USD (default: 50.0)")
 
 if __name__ == "__main__":
     asyncio.run(main()) 

@@ -892,19 +892,19 @@ class KimeraUnifiedTrader:
             start_time = datetime.now()
             end_time = start_time + timedelta(minutes=runtime_minutes)
             
-            print("=" * 100)
-            print("KIMERA UNIFIED TRADING SYSTEM")
-            print(f"Mode: {self.mode.value.upper()}")
-            print("=" * 100)
-            print(f"Runtime: {runtime_minutes} minutes")
-            print(f"Trading Pairs: {', '.join(self.trading_pairs)}")
-            print(f"Target Profit: {self.target_profit_bps} bps")
-            print(f"Max Spread: {self.max_spread_bps} bps")
-            print(f"Risk Level: {self.risk_manager.risk_level.value}")
+            logger.info("=" * 100)
+            logger.info("KIMERA UNIFIED TRADING SYSTEM")
+            logger.info(f"Mode: {self.mode.value.upper()}")
+            logger.info("=" * 100)
+            logger.info(f"Runtime: {runtime_minutes} minutes")
+            logger.info(f"Trading Pairs: {', '.join(self.trading_pairs)}")
+            logger.info(f"Target Profit: {self.target_profit_bps} bps")
+            logger.info(f"Max Spread: {self.max_spread_bps} bps")
+            logger.info(f"Risk Level: {self.risk_manager.risk_level.value}")
             
             initial_balance = self.get_account_balance()
-            print(f"Starting Balance: ${initial_balance}")
-            print("=" * 100)
+            logger.info(f"Starting Balance: ${initial_balance}")
+            logger.info("=" * 100)
             
             self.running = True
             logger.info(f"TRADING SESSION STARTED - Mode: {self.mode.value}")
@@ -981,22 +981,22 @@ class KimeraUnifiedTrader:
         profit_pct = (total_profit / initial_balance * 100) if initial_balance > 0 else 0
         
         # Print summary report
-        print("\n" + "=" * 100)
-        print(f"KIMERA UNIFIED TRADING SYSTEM - FINAL REPORT")
-        print(f"Trading Mode: {self.mode.value.upper()}")
-        print("=" * 100)
-        print(f"Runtime: {runtime_seconds:.1f} seconds")
-        print(f"Initial Balance: ${initial_balance:.6f}")
-        print(f"Final Balance: ${final_balance:.6f}")
-        print(f"Total Profit: ${total_profit:.6f}")
-        print(f"Profit Percentage: {profit_pct:.4f}%")
-        print(f"Successful Trades: {self.successful_trades}")
-        print(f"Total Trade Attempts: {self.total_trades}")
-        print(f"Success Rate: {(self.successful_trades/max(self.total_trades,1)*100):.2f}%")
-        print(f"Final Risk Level: {self.risk_manager.risk_level.value}")
+        logger.info("\n" + "=" * 100)
+        logger.info(f"KIMERA UNIFIED TRADING SYSTEM - FINAL REPORT")
+        logger.info(f"Trading Mode: {self.mode.value.upper()}")
+        logger.info("=" * 100)
+        logger.info(f"Runtime: {runtime_seconds:.1f} seconds")
+        logger.info(f"Initial Balance: ${initial_balance:.6f}")
+        logger.info(f"Final Balance: ${final_balance:.6f}")
+        logger.info(f"Total Profit: ${total_profit:.6f}")
+        logger.info(f"Profit Percentage: {profit_pct:.4f}%")
+        logger.info(f"Successful Trades: {self.successful_trades}")
+        logger.info(f"Total Trade Attempts: {self.total_trades}")
+        logger.info(f"Success Rate: {(self.successful_trades/max(self.total_trades,1)*100):.2f}%")
+        logger.info(f"Final Risk Level: {self.risk_manager.risk_level.value}")
         
         # Print detailed performance report
-        print(self.performance_analyzer.generate_report())
+        logger.info(self.performance_analyzer.generate_report())
         
         # Save results to file
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -1030,7 +1030,7 @@ class KimeraUnifiedTrader:
             json.dump(results_data, f, indent=2, default=str)
         
         logger.info(f"RESULTS SAVED: {results_file}")
-        print("=" * 100)
+        logger.info("=" * 100)
 
 def main():
     """Main execution function"""

@@ -13,6 +13,8 @@ import shutil
 from pathlib import Path
 import time
 import stat
+import logging
+logger = logging.getLogger(__name__)
 
 class KimeraForceSetup:
     """Force setup with aggressive cleanup capabilities"""
@@ -33,7 +35,7 @@ class KimeraForceSetup:
             'cyan': '\033[96m',
             'end': '\033[0m'
         }
-        print(f"{colors.get(color, '')}{text}{colors['end']}")
+        logger.info(f"{colors.get(color, '')}{text}{colors['end']}")
     
     def force_remove_directory(self, path: Path):
         """Force remove a directory, handling permission issues"""

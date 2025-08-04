@@ -577,21 +577,21 @@ def move_to_gpu(tensor: torch.Tensor) -> torch.Tensor:
 
 if __name__ == "__main__":
     # Test GPU acceleration
-    print("🚀 Testing Kimera SWM GPU Acceleration Framework")
-    print("=" * 55)
+    logger.info("🚀 Testing Kimera SWM GPU Acceleration Framework")
+    logger.info("=" * 55)
     
     # Initialize
     success = initialize_gpu_acceleration()
     
     if success:
-        print("✅ GPU acceleration initialized successfully")
+        logger.info("✅ GPU acceleration initialized successfully")
         
         # Get metrics
         metrics = get_gpu_metrics()
-        print(f"Device: {metrics.device_name}")
-        print(f"Memory: {metrics.allocated_memory:.2f}GB / {metrics.total_memory:.2f}GB")
-        print(f"Utilization: {metrics.utilization:.1f}%")
+        logger.info(f"Device: {metrics.device_name}")
+        logger.info(f"Memory: {metrics.allocated_memory:.2f}GB / {metrics.total_memory:.2f}GB")
+        logger.info(f"Utilization: {metrics.utilization:.1f}%")
     else:
-        print("⚠️  GPU acceleration not available, using CPU mode")
+        logger.info("⚠️  GPU acceleration not available, using CPU mode")
     
-    print("\n🎯 GPU Acceleration Framework Ready!")
+    logger.info("\n🎯 GPU Acceleration Framework Ready!")

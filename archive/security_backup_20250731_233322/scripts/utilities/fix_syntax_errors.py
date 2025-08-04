@@ -1,6 +1,8 @@
 import argparse
 import os
 import re
+import logging
+logger = logging.getLogger(__name__)
 
 # This regex is designed to find logger calls that are likely to be broken.
 # It looks for lines starting with 'logger.' and ending with something that isn't a closing parenthesis,
@@ -17,7 +19,7 @@ def fix_file(file_path):
         with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
             lines = f.readlines()
     except Exception as e:
-        print(f"Error reading {file_path}: {e}")
+        logger.info(f"Error reading {file_path}: {e}")
         return
 
     original_lines = list(lines)
@@ -60,12 +62,12 @@ def fix_file(file_path):
             i += 1
 
     if lines_to_write != original_lines:
-        print(f"Fixing {file_path}...")
+        logger.info(f"Fixing {file_path}...")
         try:
             with open(file_path, 'w', encoding='utf-8') as f:
                 f.writelines(lines_to_write)
         except Exception as e:
-            print(f"Error writing to {file_path}: {e}")
+            logger.info(f"Error writing to {file_path}: {e}")
 
 
 def main():
@@ -75,7 +77,7 @@ def main():
     args = parser.parse_args()
 
     if not os.path.exists(args.file):
-        print(f"Error: File not found at {args.file}")
+        logger.info(f"Error: File not found at {args.file}")
         return
 
     fix_file(args.file)

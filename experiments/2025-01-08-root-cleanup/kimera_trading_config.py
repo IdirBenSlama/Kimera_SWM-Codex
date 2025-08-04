@@ -15,6 +15,8 @@ from typing import Dict, Any, List
 from dataclasses import dataclass, field
 from enum import Enum
 from dotenv import load_dotenv
+import logging
+logger = logging.getLogger(__name__)
 
 # Load environment variables
 load_dotenv()
@@ -330,7 +332,7 @@ def get_trading_config(environment: str = "development",
             if hasattr(config, key):
                 setattr(config, key, value)
             else:
-                print(f"Warning: Unknown configuration key: {key}")
+                logger.info(f"Warning: Unknown configuration key: {key}")
     
     return config
 
@@ -440,43 +442,43 @@ LOG_FILE=logs/kimera_trading.log
 
 if __name__ == "__main__":
     # Example usage
-    print("Kimera Trading System Configuration Examples")
-    print("=" * 50)
+    logger.info("Kimera Trading System Configuration Examples")
+    logger.info("=" * 50)
     
     # Development configuration
     dev_config = get_trading_config('development')
-    print(f"Development Config - Starting Capital: ${dev_config.starting_capital}")
-    print(f"Paper Trading: {dev_config.enable_paper_trading}")
-    print(f"Max Position Size: {dev_config.risk_management.max_position_size * 100}%")
-    print()
+    logger.info(f"Development Config - Starting Capital: ${dev_config.starting_capital}")
+    logger.info(f"Paper Trading: {dev_config.enable_paper_trading}")
+    logger.info(f"Max Position Size: {dev_config.risk_management.max_position_size * 100}%")
+    logger.info()
     
     # Production configuration
     prod_config = get_trading_config('production')
-    print(f"Production Config - Starting Capital: ${prod_config.starting_capital}")
-    print(f"Paper Trading: {prod_config.enable_paper_trading}")
-    print(f"Max Position Size: {prod_config.risk_management.max_position_size * 100}%")
-    print()
+    logger.info(f"Production Config - Starting Capital: ${prod_config.starting_capital}")
+    logger.info(f"Paper Trading: {prod_config.enable_paper_trading}")
+    logger.info(f"Max Position Size: {prod_config.risk_management.max_position_size * 100}%")
+    logger.info()
     
     # Custom configuration
     custom_config = get_trading_config('production', {
         'starting_capital': 50000.0,
         'trading_symbols': ['BTCUSDT', 'ETHUSDT', 'SOLUSDT']
     })
-    print(f"Custom Config - Starting Capital: ${custom_config.starting_capital}")
-    print(f"Trading Symbols: {custom_config.trading_symbols}")
-    print()
+    logger.info(f"Custom Config - Starting Capital: ${custom_config.starting_capital}")
+    logger.info(f"Trading Symbols: {custom_config.trading_symbols}")
+    logger.info()
     
     # Validate configuration
     issues = validate_config(dev_config)
     if issues:
-        print("Configuration Issues:")
+        logger.info("Configuration Issues:")
         for issue in issues:
-            print(f"  - {issue}")
+            logger.info(f"  - {issue}")
     else:
-        print("✅ Configuration is valid")
+        logger.info("✅ Configuration is valid")
     
     # Generate .env template
-    print("\n" + "=" * 50)
-    print("Environment Variables Template:")
-    print("=" * 50)
-    print(generate_env_template()) 
+    logger.info("\n" + "=" * 50)
+    logger.info("Environment Variables Template:")
+    logger.info("=" * 50)
+    logger.info(generate_env_template()) 

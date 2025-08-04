@@ -77,32 +77,32 @@ class PerformanceMonitor:
         """Print performance dashboard"""
         metrics = self.get_system_metrics()
         
-        print("\n" + "="*60)
-        print(f"KIMERA PERFORMANCE MONITOR - {metrics['timestamp']}")
-        print("="*60)
+        logger.info("\n" + "="*60)
+        logger.info(f"KIMERA PERFORMANCE MONITOR - {metrics['timestamp']}")
+        logger.info("="*60)
         
-        print(f"\n📊 SYSTEM METRICS (Uptime: {metrics['uptime_seconds']:.0f}s)")
-        print(f"  CPU:    {metrics['cpu']['percent']:5.1f}% ({metrics['cpu']['cores']} cores @ {metrics['cpu']['frequency']:.0f}MHz)")
-        print(f"  Memory: {metrics['memory']['percent']:5.1f}% ({metrics['memory']['used_gb']:.1f}GB used)")
-        print(f"  Disk:   {metrics['disk']['percent']:5.1f}% ({metrics['disk']['free_gb']:.1f}GB free)")
+        logger.info(f"\n📊 SYSTEM METRICS (Uptime: {metrics['uptime_seconds']:.0f}s)")
+        logger.info(f"  CPU:    {metrics['cpu']['percent']:5.1f}% ({metrics['cpu']['cores']} cores @ {metrics['cpu']['frequency']:.0f}MHz)")
+        logger.info(f"  Memory: {metrics['memory']['percent']:5.1f}% ({metrics['memory']['used_gb']:.1f}GB used)")
+        logger.info(f"  Disk:   {metrics['disk']['percent']:5.1f}% ({metrics['disk']['free_gb']:.1f}GB free)")
         
         if "gpu" in metrics:
-            print(f"\n🎮 GPU METRICS")
-            print(f"  Utilization: {metrics['gpu']['utilization']:5.1f}%")
-            print(f"  Memory:      {metrics['gpu']['memory_percent']:5.1f}% ({metrics['gpu']['memory_used_gb']:.1f}GB used)")
-            print(f"  Temperature: {metrics['gpu']['temperature']:5.1f}°C")
+            logger.info(f"\n🎮 GPU METRICS")
+            logger.info(f"  Utilization: {metrics['gpu']['utilization']:5.1f}%")
+            logger.info(f"  Memory:      {metrics['gpu']['memory_percent']:5.1f}% ({metrics['gpu']['memory_used_gb']:.1f}GB used)")
+            logger.info(f"  Temperature: {metrics['gpu']['temperature']:5.1f}°C")
             
         # Performance assessment
-        print(f"\n🎯 PERFORMANCE ASSESSMENT")
+        logger.info(f"\n🎯 PERFORMANCE ASSESSMENT")
         cpu_status = "🟢 Optimal" if metrics['cpu']['percent'] < 70 else "🟡 High" if metrics['cpu']['percent'] < 90 else "🔴 Critical"
         mem_status = "🟢 Optimal" if metrics['memory']['percent'] < 70 else "🟡 High" if metrics['memory']['percent'] < 85 else "🔴 Critical"
         
-        print(f"  CPU Status:    {cpu_status}")
-        print(f"  Memory Status: {mem_status}")
+        logger.info(f"  CPU Status:    {cpu_status}")
+        logger.info(f"  Memory Status: {mem_status}")
         
         if "gpu" in metrics:
             gpu_status = "🟢 Optimal" if metrics['gpu']['utilization'] > 60 else "🟡 Underutilized" if metrics['gpu']['utilization'] > 30 else "🔴 Idle"
-            print(f"  GPU Status:    {gpu_status}")
+            logger.info(f"  GPU Status:    {gpu_status}")
             
     def monitor_loop(self, interval: int = 5):
         """Run monitoring loop"""

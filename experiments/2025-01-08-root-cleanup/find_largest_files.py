@@ -54,7 +54,7 @@ def main() -> None:
         project_root = os.path.dirname(os.path.abspath(__file__))
         largest_files = find_largest_files(project_root, top_n=20)
         write_report(largest_files, os.path.join(project_root, 'largest_files_report.txt'))
-        print("Scan complete. See 'largest_files_report.txt' and 'find_largest_files.log' for details.")
+        logger.info("Scan complete. See 'largest_files_report.txt' and 'find_largest_files.log' for details.")
     except Exception as e:
         logging.error(f"Fatal error: {e}")
 

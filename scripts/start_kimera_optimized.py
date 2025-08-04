@@ -20,22 +20,24 @@ sys.path.insert(0, str(project_root))
 
 # Import and run
 if __name__ == "__main__":
-    print("Starting Kimera SWM (Optimized)")
-    print("=" * 50)
+    logger.info("Starting Kimera SWM (Optimized)")
+    logger.info("=" * 50)
     
     # Import fixes
     try:
         from src.core.unified_master_cognitive_architecture_fix import patch_unified_architecture
-        print("Architecture patches loaded")
+        logger.info("Architecture patches loaded")
     except Exception as e:
-        print(f"Architecture patches not found: {e}")
+        logger.info(f"Architecture patches not found: {e}")
     
     try:
         from src.core.gpu.gpu_optimizer import gpu_optimizer
-        print(f"GPU optimizer loaded: {gpu_optimizer.device}")
+        logger.info(f"GPU optimizer loaded: {gpu_optimizer.device}")
     except Exception as e:
-        print(f"GPU optimizer not found: {e}")
+        logger.info(f"GPU optimizer not found: {e}")
     
     # Start Kimera
     from src.main import main
+import logging
+logger = logging.getLogger(__name__)
     main()

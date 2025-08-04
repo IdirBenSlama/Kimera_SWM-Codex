@@ -234,28 +234,28 @@ class EmergencyStopProtocol:
             logger.info(f"📄 Emergency report saved: {filename}")
             
             # Print summary
-            print("\n" + "="*60)
-            print("🚨 EMERGENCY STOP PROTOCOL COMPLETE")
-            print("="*60)
-            print(f"⏰ Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-            print(f"🛑 Orders Cancelled: {len(self.stopped_orders)}")
-            print(f"🔄 Positions Closed: {len(self.closed_positions)}")
-            print(f"💰 Total Value Closed: ${total_value_closed:.2f}")
-            print("="*60)
+            logger.info("\n" + "="*60)
+            logger.info("🚨 EMERGENCY STOP PROTOCOL COMPLETE")
+            logger.info("="*60)
+            logger.info(f"⏰ Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+            logger.info(f"🛑 Orders Cancelled: {len(self.stopped_orders)}")
+            logger.info(f"🔄 Positions Closed: {len(self.closed_positions)}")
+            logger.info(f"💰 Total Value Closed: ${total_value_closed:.2f}")
+            logger.info("="*60)
             
             if self.closed_positions:
-                print("📊 CLOSED POSITIONS:")
+                logger.info("📊 CLOSED POSITIONS:")
                 for pos in self.closed_positions:
-                    print(f"   • {pos['quantity']:.4f} {pos['asset']} → ${pos['value_usd']:.2f}")
+                    logger.info(f"   • {pos['quantity']:.4f} {pos['asset']} → ${pos['value_usd']:.2f}")
                     
             if self.stopped_orders:
-                print("🛑 CANCELLED ORDERS:")
+                logger.info("🛑 CANCELLED ORDERS:")
                 for order in self.stopped_orders:
-                    print(f"   • {order['symbol']} {order['side']} {order['quantity']}")
+                    logger.info(f"   • {order['symbol']} {order['side']} {order['quantity']}")
                     
-            print("="*60)
-            print("✅ All trading activities have been stopped.")
-            print("📄 Detailed report saved to:", filename)
+            logger.info("="*60)
+            logger.info("✅ All trading activities have been stopped.")
+            logger.info("📄 Detailed report saved to:", filename)
             
             return report
             
@@ -265,43 +265,43 @@ class EmergencyStopProtocol:
             
     async def execute_emergency_stop(self):
         """Execute complete emergency stop protocol."""
-        print("\n" + "="*60)
-        print("🚨 KIMERA EMERGENCY STOP PROTOCOL ACTIVATED")
-        print("="*60)
-        print("⚠️  STOPPING ALL TRADING ACTIVITIES...")
-        print()
+        logger.info("\n" + "="*60)
+        logger.info("🚨 KIMERA EMERGENCY STOP PROTOCOL ACTIVATED")
+        logger.info("="*60)
+        logger.info("⚠️  STOPPING ALL TRADING ACTIVITIES...")
+        logger.info()
         
         success = True
         
         # Step 1: Cancel all open orders
-        print("🛑 Step 1: Cancelling all open orders...")
+        logger.info("🛑 Step 1: Cancelling all open orders...")
         if await self.cancel_all_open_orders():
-            print("✅ All orders cancelled successfully")
+            logger.info("✅ All orders cancelled successfully")
         else:
-            print("❌ Some orders may not have been cancelled")
+            logger.info("❌ Some orders may not have been cancelled")
             success = False
             
-        print()
+        logger.info()
         
         # Step 2: Close all positions
-        print("🔄 Step 2: Closing all open positions...")
+        logger.info("🔄 Step 2: Closing all open positions...")
         if await self.close_all_positions():
-            print("✅ All positions closed successfully")
+            logger.info("✅ All positions closed successfully")
         else:
-            print("❌ Some positions may not have been closed")
+            logger.info("❌ Some positions may not have been closed")
             success = False
             
-        print()
+        logger.info()
         
         # Step 3: Generate report
-        print("📄 Step 3: Generating emergency report...")
+        logger.info("📄 Step 3: Generating emergency report...")
         report = await self.generate_emergency_report()
         
         if success:
-            print("🎉 EMERGENCY STOP COMPLETED SUCCESSFULLY")
+            logger.info("🎉 EMERGENCY STOP COMPLETED SUCCESSFULLY")
         else:
-            print("⚠️  EMERGENCY STOP COMPLETED WITH WARNINGS")
-            print("   Please check the logs and verify manually")
+            logger.info("⚠️  EMERGENCY STOP COMPLETED WITH WARNINGS")
+            logger.info("   Please check the logs and verify manually")
             
         # Close connection
         if self.connector:
@@ -311,18 +311,18 @@ class EmergencyStopProtocol:
 
 async def main():
     """Main emergency stop execution."""
-    print("🚨 KIMERA EMERGENCY STOP PROTOCOL")
-    print("This will immediately stop all trading and close positions.")
-    print()
+    logger.info("🚨 KIMERA EMERGENCY STOP PROTOCOL")
+    logger.info("This will immediately stop all trading and close positions.")
+    logger.info()
     
     # Confirmation
     try:
         confirm = input("Type 'EMERGENCY' to confirm: ").strip()
         if confirm != 'EMERGENCY':
-            print("❌ Emergency stop cancelled.")
+            logger.info("❌ Emergency stop cancelled.")
             return
     except KeyboardInterrupt:
-        print("\n❌ Emergency stop cancelled.")
+        logger.info("\n❌ Emergency stop cancelled.")
         return
         
     # Execute emergency stop
@@ -331,7 +331,7 @@ async def main():
     if await protocol.initialize():
         await protocol.execute_emergency_stop()
     else:
-        print("❌ Failed to initialize emergency stop protocol")
+        logger.info("❌ Failed to initialize emergency stop protocol")
 
 if __name__ == "__main__":
     asyncio.run(main()) 

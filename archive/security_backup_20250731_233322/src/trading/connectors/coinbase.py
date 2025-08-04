@@ -7,6 +7,8 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
 from .base import BaseConnector
+import logging
+logger = logging.getLogger(__name__)
 
 class CoinbaseConnector(BaseConnector):
     """
@@ -39,10 +41,10 @@ class CoinbaseConnector(BaseConnector):
             data = response.json()
             return float(data["data"]["amount"])
         except requests.exceptions.HTTPError as http_err:
-            print(f"HTTP error occurred: {http_err} - Ticker '{ticker}' may be invalid.")
+            logger.info(f"HTTP error occurred: {http_err} - Ticker '{ticker}' may be invalid.")
             raise
         except Exception as err:
-            print(f"An error occurred: {err}")
+            logger.info(f"An error occurred: {err}")
             raise
 
     def get_historical_data(self, ticker: str, start_date: str, end_date: str) -> list:
@@ -51,6 +53,6 @@ class CoinbaseConnector(BaseConnector):
         
         Note: This is a placeholder for future implementation.
         """
-        print("Historical data fetching is not yet implemented.")
+        logger.info("Historical data fetching is not yet implemented.")
         # This will be implemented in a future step
         return super().get_historical_data(ticker, start_date, end_date) 

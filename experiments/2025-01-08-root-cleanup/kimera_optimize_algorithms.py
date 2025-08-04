@@ -338,24 +338,24 @@ class KimeraAlgorithmOptimizer:
             json.dump(report, f, indent=2)
             
         # Print summary
-        print("\n" + "="*60)
-        print("KIMERA ALGORITHM OPTIMIZATION SUMMARY")
-        print("="*60)
-        print(f"Components optimized: {len(self.optimizations_applied)}")
-        print(f"GPU: {report['summary']['device_name']}")
-        print("\nPerformance Metrics:")
+        logger.info("\n" + "="*60)
+        logger.info("KIMERA ALGORITHM OPTIMIZATION SUMMARY")
+        logger.info("="*60)
+        logger.info(f"Components optimized: {len(self.optimizations_applied)}")
+        logger.info(f"GPU: {report['summary']['device_name']}")
+        logger.info("\nPerformance Metrics:")
         
         for opt in self.optimizations_applied:
-            print(f"\n{opt['component'].upper()}:")
+            logger.info(f"\n{opt['component'].upper()}:")
             for key, value in opt.items():
                 if key != 'component':
                     if isinstance(value, float):
-                        print(f"  - {key}: {value:.4f}")
+                        logger.info(f"  - {key}: {value:.4f}")
                     else:
-                        print(f"  - {key}: {value}")
+                        logger.info(f"  - {key}: {value}")
                         
-        print("="*60)
-        print(f"\nDetailed report saved to: {report_file}")
+        logger.info("="*60)
+        logger.info(f"\nDetailed report saved to: {report_file}")
         
         return report
         

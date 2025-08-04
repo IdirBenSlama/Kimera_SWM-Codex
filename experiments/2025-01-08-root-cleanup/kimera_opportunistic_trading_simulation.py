@@ -33,7 +33,9 @@ initialize_database()
 # Import Kimera components
 from kimera_cognitive_trading_intelligence_vault_integrated import KimeraCognitiveTrading, TradingSession
 from src.core.geoid import GeoidState
-from src.utils.talib_fallback import *
+# TODO: Replace wildcard import from src.utils.talib_fallback
+import logging
+logger = logging.getLogger(__name__)
 
 @dataclass
 class OpportunisticTrade:
@@ -153,7 +155,7 @@ class OpportunisticPortfolio:
         self.active_trades.remove(trade)
         self.closed_trades.append(trade)
         
-        print(f"🔴 TRADE CLOSED: {trade.symbol} {trade.side} - PnL: ${trade.pnl:.2f}")
+        logger.info(f"🔴 TRADE CLOSED: {trade.symbol} {trade.side} - PnL: ${trade.pnl:.2f}")
 
 class KimeraOpportunisticTrader(KimeraCognitiveTrading):
     """
@@ -177,11 +179,11 @@ class KimeraOpportunisticTrader(KimeraCognitiveTrading):
         self.scalping_timeframe = 5  # 5-second intervals for scalping
         self.momentum_threshold = 0.02  # 2% momentum threshold
         
-        print("🚀 KIMERA OPPORTUNISTIC TRADER INITIALIZED")
-        print(f"💰 Initial Capital: ${self.portfolio.initial_capital:.2f}")
-        print(f"🎯 Target Profit: ${self.portfolio.target_profit:.2f}")
-        print(f"⚠️  Max Risk Per Trade: {self.portfolio.max_risk_per_trade*100:.1f}%")
-        print(f"📊 Max Position Size: {self.portfolio.max_position_size*100:.1f}%")
+        logger.info("🚀 KIMERA OPPORTUNISTIC TRADER INITIALIZED")
+        logger.info(f"💰 Initial Capital: ${self.portfolio.initial_capital:.2f}")
+        logger.info(f"🎯 Target Profit: ${self.portfolio.target_profit:.2f}")
+        logger.info(f"⚠️  Max Risk Per Trade: {self.portfolio.max_risk_per_trade*100:.1f}%")
+        logger.info(f"📊 Max Position Size: {self.portfolio.max_position_size*100:.1f}%")
     
     def generate_realistic_market_data(self, symbols: List[str], volatility: float = 0.03) -> Dict[str, Dict]:
         """Generate realistic high-volatility market data for opportunistic trading"""
@@ -327,7 +329,7 @@ class KimeraOpportunisticTrader(KimeraCognitiveTrading):
         
         # Check if we can open this position
         if not self.portfolio.can_open_position(position_value):
-            print(f"⚠️  Cannot open position for {symbol} - portfolio exposure limit reached")
+            logger.info(f"⚠️  Cannot open position for {symbol} - portfolio exposure limit reached")
             return None
         
         # Create trade
@@ -360,7 +362,7 @@ class KimeraOpportunisticTrader(KimeraCognitiveTrading):
             'market_data': market_data
         })
         
-        print(f"🚀 TRADE OPENED: {symbol} {side} - ${position_value:.2f} @ {current_price:.2f} (Conf: {signals['overall_confidence']:.2f})")
+        logger.info(f"🚀 TRADE OPENED: {symbol} {side} - ${position_value:.2f} @ {current_price:.2f} (Conf: {signals['overall_confidence']:.2f})")
         
         return trade
     
@@ -395,14 +397,14 @@ class KimeraOpportunisticTrader(KimeraCognitiveTrading):
     
     async def run_opportunistic_session(self, duration_minutes: int = 10) -> Dict[str, Any]:
         """Run an opportunistic trading session"""
-        print("\n" + "="*80)
-        print("🚀 KIMERA OPPORTUNISTIC TRADING SESSION STARTING")
-        print("="*80)
-        print(f"💰 Capital: ${self.portfolio.initial_capital:.2f}")
-        print(f"🎯 Target: ${self.portfolio.target_profit:.2f}")
-        print(f"⏱️  Duration: {duration_minutes} minutes")
-        print(f"🔥 High-frequency scalping every {self.scalping_timeframe} seconds")
-        print("="*80)
+        logger.info("\n" + "="*80)
+        logger.info("🚀 KIMERA OPPORTUNISTIC TRADING SESSION STARTING")
+        logger.info("="*80)
+        logger.info(f"💰 Capital: ${self.portfolio.initial_capital:.2f}")
+        logger.info(f"🎯 Target: ${self.portfolio.target_profit:.2f}")
+        logger.info(f"⏱️  Duration: {duration_minutes} minutes")
+        logger.info(f"🔥 High-frequency scalping every {self.scalping_timeframe} seconds")
+        logger.info("="*80)
         
         # Trading symbols for opportunistic trading
         symbols = ['BTCUSDT', 'ETHUSDT', 'ADAUSDT', 'SOLUSDT', 'AVAXUSDT']
@@ -442,20 +444,20 @@ class KimeraOpportunisticTrader(KimeraCognitiveTrading):
                 # Display status every 30 seconds
                 if cycle_count % 6 == 0:
                     profit_pct = ((self.portfolio.current_capital - self.portfolio.initial_capital) / self.portfolio.initial_capital) * 100
-                    print(f"📊 Cycle {cycle_count}: Capital: ${self.portfolio.current_capital:.2f} ({profit_pct:+.2f}%) | Active: {len(self.portfolio.active_trades)} | Total: {total_trades}")
+                    logger.info(f"📊 Cycle {cycle_count}: Capital: ${self.portfolio.current_capital:.2f} ({profit_pct:+.2f}%) | Active: {len(self.portfolio.active_trades)} | Total: {total_trades}")
                 
                 # Check if target reached
                 if self.portfolio.current_capital >= (self.portfolio.initial_capital + self.portfolio.target_profit):
-                    print(f"🎯 TARGET REACHED! Profit: ${self.portfolio.current_capital - self.portfolio.initial_capital:.2f}")
+                    logger.info(f"🎯 TARGET REACHED! Profit: ${self.portfolio.current_capital - self.portfolio.initial_capital:.2f}")
                     break
                 
                 # Wait for next cycle
                 await asyncio.sleep(self.scalping_timeframe)
                 
         except KeyboardInterrupt:
-            print("\n⚠️  Session interrupted by user")
+            logger.info("\n⚠️  Session interrupted by user")
         except Exception as e:
-            print(f"\n❌ Session error: {e}")
+            logger.info(f"\n❌ Session error: {e}")
         
         # Close all remaining trades
         final_prices = {symbol: data['price'] for symbol, data in market_data.items()}
@@ -485,12 +487,12 @@ class KimeraOpportunisticTrader(KimeraCognitiveTrading):
 
 async def main():
     """Main execution function"""
-    print("🌟 KIMERA OPPORTUNISTIC TRADING SIMULATION")
-    print("="*80)
-    print("⚠️  DISCLAIMER: This is a SIMULATION demonstrating advanced trading capabilities")
-    print("🔴 NOT REAL MONEY - This shows what a $2k opportunistic strategy would look like")
-    print("💡 For real trading, you need proper licenses, risk management, and compliance")
-    print("="*80)
+    logger.info("🌟 KIMERA OPPORTUNISTIC TRADING SIMULATION")
+    logger.info("="*80)
+    logger.info("⚠️  DISCLAIMER: This is a SIMULATION demonstrating advanced trading capabilities")
+    logger.info("🔴 NOT REAL MONEY - This shows what a $2k opportunistic strategy would look like")
+    logger.info("💡 For real trading, you need proper licenses, risk management, and compliance")
+    logger.info("="*80)
     
     # Initialize the opportunistic trader
     trader = KimeraOpportunisticTrader()
@@ -499,21 +501,21 @@ async def main():
     results = await trader.run_opportunistic_session(duration_minutes=10)
     
     # Display comprehensive results
-    print("\n" + "="*80)
-    print("📊 OPPORTUNISTIC TRADING SIMULATION RESULTS")
-    print("="*80)
-    print(f"⏱️  Duration: {results['session_duration']:.1f} seconds")
-    print(f"💰 Initial Capital: ${results['initial_capital']:.2f}")
-    print(f"💰 Final Capital: ${results['final_capital']:.2f}")
-    print(f"📈 Total Profit: ${results['total_profit']:.2f}")
-    print(f"📊 Profit Percentage: {results['profit_percentage']:.2f}%")
-    print(f"🎯 Target Reached: {'✅ YES' if results['target_reached'] else '❌ NO'}")
-    print(f"🔢 Total Trades: {results['total_trades']}")
-    print(f"✅ Successful Trades: {results['successful_trades']}")
-    print(f"📈 Success Rate: {(results['successful_trades'] / max(results['total_trades'], 1)) * 100:.1f}%")
-    print(f"⚡ Trades per Minute: {results['trades_per_minute']:.1f}")
-    print(f"🔄 Cycles Completed: {results['cycles_completed']}")
-    print("="*80)
+    logger.info("\n" + "="*80)
+    logger.info("📊 OPPORTUNISTIC TRADING SIMULATION RESULTS")
+    logger.info("="*80)
+    logger.info(f"⏱️  Duration: {results['session_duration']:.1f} seconds")
+    logger.info(f"💰 Initial Capital: ${results['initial_capital']:.2f}")
+    logger.info(f"💰 Final Capital: ${results['final_capital']:.2f}")
+    logger.info(f"📈 Total Profit: ${results['total_profit']:.2f}")
+    logger.info(f"📊 Profit Percentage: {results['profit_percentage']:.2f}%")
+    logger.info(f"🎯 Target Reached: {'✅ YES' if results['target_reached'] else '❌ NO'}")
+    logger.info(f"🔢 Total Trades: {results['total_trades']}")
+    logger.info(f"✅ Successful Trades: {results['successful_trades']}")
+    logger.info(f"📈 Success Rate: {(results['successful_trades'] / max(results['total_trades'], 1)) * 100:.1f}%")
+    logger.info(f"⚡ Trades per Minute: {results['trades_per_minute']:.1f}")
+    logger.info(f"🔄 Cycles Completed: {results['cycles_completed']}")
+    logger.info("="*80)
     
     # Save results
     timestamp = int(time.time())
@@ -522,17 +524,17 @@ async def main():
     with open(results_file, 'w') as f:
         json.dump(results, f, indent=2, default=str)
     
-    print(f"💾 Results saved to: {results_file}")
+    logger.info(f"💾 Results saved to: {results_file}")
     
     # Summary
     if results['target_reached']:
-        print("🎉 SIMULATION SUCCESS: Target profit achieved!")
+        logger.info("🎉 SIMULATION SUCCESS: Target profit achieved!")
     else:
-        print("📊 SIMULATION COMPLETE: Demonstrated advanced trading capabilities")
+        logger.info("📊 SIMULATION COMPLETE: Demonstrated advanced trading capabilities")
     
-    print("\n🚀 This simulation shows Kimera's cognitive trading power!")
-    print("🧠 Every decision was made using vault intelligence and quantum analysis")
-    print("⚡ Real-time adaptation and learning throughout the session")
+    logger.info("\n🚀 This simulation shows Kimera's cognitive trading power!")
+    logger.info("🧠 Every decision was made using vault intelligence and quantum analysis")
+    logger.info("⚡ Real-time adaptation and learning throughout the session")
 
 if __name__ == "__main__":
     asyncio.run(main()) 

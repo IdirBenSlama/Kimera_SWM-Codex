@@ -22,6 +22,8 @@ from dotenv import load_dotenv
 from typing import Dict, List, Any, Optional
 import json
 from decimal import Decimal, ROUND_DOWN
+import logging
+logger = logging.getLogger(__name__)
 
 load_dotenv()
 
@@ -47,13 +49,13 @@ class KimeraUltimateDustManager:
         self.consolidation_target = 20.0 # Try to create $20+ positions
         self.safety_buffer = 1.2        # 20% safety buffer
         
-        print("🧹" * 80)
-        print("🤖 KIMERA ULTIMATE DUST MANAGER")
-        print("🛡️ ZERO DUST TOLERANCE")
-        print("🔥 AGGRESSIVE PORTFOLIO OPTIMIZATION")
-        print(f"🧹 DUST THRESHOLD: ${self.dust_threshold}")
-        print(f"💰 MIN TRADE SIZE: ${self.min_trade_size}")
-        print("🧹" * 80)
+        logger.info("🧹" * 80)
+        logger.info("🤖 KIMERA ULTIMATE DUST MANAGER")
+        logger.info("🛡️ ZERO DUST TOLERANCE")
+        logger.info("🔥 AGGRESSIVE PORTFOLIO OPTIMIZATION")
+        logger.info(f"🧹 DUST THRESHOLD: ${self.dust_threshold}")
+        logger.info(f"💰 MIN TRADE SIZE: ${self.min_trade_size}")
+        logger.info("🧹" * 80)
     
     def analyze_portfolio_dust(self) -> Dict[str, Any]:
         """Comprehensive dust analysis with detailed breakdown"""
@@ -67,8 +69,8 @@ class KimeraUltimateDustManager:
             total_dust_value = 0
             total_portfolio_value = 0
             
-            print("\n🔍 ULTIMATE DUST ANALYSIS:")
-            print("-" * 80)
+            logger.info("\n🔍 ULTIMATE DUST ANALYSIS:")
+            logger.info("-" * 80)
             
             for asset, info in balance.items():
                 if asset not in ['free', 'used', 'total', 'info'] and isinstance(info, dict):
@@ -83,7 +85,7 @@ class KimeraUltimateDustManager:
                                 price = tickers[symbol]['last']
                                 value = free * price
                             else:
-                                print(f"   ❌ {asset}: No market data - PROBLEMATIC")
+                                logger.info(f"   ❌ {asset}: No market data - PROBLEMATIC")
                                 problematic_assets.append({
                                     'asset': asset,
                                     'amount': free,
@@ -105,7 +107,7 @@ class KimeraUltimateDustManager:
                         if value < self.dust_threshold and asset != 'USDT':
                             dust_assets.append(asset_data)
                             total_dust_value += value
-                            print(f"   🧹 {asset}: {free:.8f} = ${value:.2f} (DUST)")
+                            logger.info(f"   🧹 {asset}: {free:.8f} = ${value:.2f} (DUST)")
                         elif asset != 'USDT':
                             # Check if it's actually tradeable
                             try:
@@ -119,7 +121,7 @@ class KimeraUltimateDustManager:
                                 if (test_sell_amount >= min_amount * 2 and 
                                     test_sell_value >= self.min_trade_size * self.safety_buffer):
                                     tradeable_assets.append(asset_data)
-                                    print(f"   ✅ {asset}: {free:.8f} = ${value:.2f} (TRADEABLE)")
+                                    logger.info(f"   ✅ {asset}: {free:.8f} = ${value:.2f} (TRADEABLE)")
                                 else:
                                     # It's above dust threshold but not properly tradeable
                                     problematic_assets.append({
@@ -128,7 +130,7 @@ class KimeraUltimateDustManager:
                                         'value': value,
                                         'issue': 'Above dust threshold but not tradeable'
                                     })
-                                    print(f"   ⚠️ {asset}: {free:.8f} = ${value:.2f} (PROBLEMATIC)")
+                                    logger.info(f"   ⚠️ {asset}: {free:.8f} = ${value:.2f} (PROBLEMATIC)")
                                     
                             except Exception as e:
                                 problematic_assets.append({
@@ -137,19 +139,19 @@ class KimeraUltimateDustManager:
                                     'value': value,
                                     'issue': f'Market validation failed: {e}'
                                 })
-                                print(f"   ❌ {asset}: Market validation failed")
+                                logger.info(f"   ❌ {asset}: Market validation failed")
                         else:
                             tradeable_assets.append(asset_data)
-                            print(f"   ✅ {asset}: {free:.8f} = ${value:.2f} (USDT)")
+                            logger.info(f"   ✅ {asset}: {free:.8f} = ${value:.2f} (USDT)")
             
             dust_percentage = (total_dust_value / total_portfolio_value) * 100 if total_portfolio_value > 0 else 0
             
-            print("-" * 80)
-            print(f"💰 Total Portfolio: ${total_portfolio_value:.2f}")
-            print(f"🧹 Total Dust: ${total_dust_value:.2f} ({dust_percentage:.1f}%)")
-            print(f"✅ Tradeable Assets: {len(tradeable_assets)}")
-            print(f"⚠️ Problematic Assets: {len(problematic_assets)}")
-            print(f"🧹 Dust Assets: {len(dust_assets)}")
+            logger.info("-" * 80)
+            logger.info(f"💰 Total Portfolio: ${total_portfolio_value:.2f}")
+            logger.info(f"🧹 Total Dust: ${total_dust_value:.2f} ({dust_percentage:.1f}%)")
+            logger.info(f"✅ Tradeable Assets: {len(tradeable_assets)}")
+            logger.info(f"⚠️ Problematic Assets: {len(problematic_assets)}")
+            logger.info(f"🧹 Dust Assets: {len(dust_assets)}")
             
             return {
                 'dust_assets': dust_assets,
@@ -162,14 +164,14 @@ class KimeraUltimateDustManager:
             }
             
         except Exception as e:
-            print(f"❌ Dust analysis failed: {e}")
+            logger.info(f"❌ Dust analysis failed: {e}")
             return {}
     
     def eliminate_dust_by_conversion(self, dust_assets: List[Dict]) -> bool:
         """Eliminate dust by converting to USDT where possible"""
         try:
-            print(f"\n🔄 DUST ELIMINATION BY CONVERSION:")
-            print("-" * 80)
+            logger.info(f"\n🔄 DUST ELIMINATION BY CONVERSION:")
+            logger.info("-" * 80)
             
             total_converted = 0
             successful_conversions = 0
@@ -182,7 +184,7 @@ class KimeraUltimateDustManager:
                 amount = dust['amount']
                 value = dust['value']
                 
-                print(f"   🔄 Converting {dust['asset']}: {amount:.8f} = ${value:.2f}")
+                logger.info(f"   🔄 Converting {dust['asset']}: {amount:.8f} = ${value:.2f}")
                 
                 try:
                     # Check if conversion is possible
@@ -197,35 +199,35 @@ class KimeraUltimateDustManager:
                         total_converted += received_usdt
                         successful_conversions += 1
                         
-                        print(f"      ✅ Converted to ${received_usdt:.2f} USDT")
+                        logger.info(f"      ✅ Converted to ${received_usdt:.2f} USDT")
                         time.sleep(1)  # Brief pause between conversions
                         
                     else:
-                        print(f"      ⚠️ Too small to convert (min: {min_amount:.8f})")
+                        logger.info(f"      ⚠️ Too small to convert (min: {min_amount:.8f})")
                         
                 except Exception as e:
-                    print(f"      ❌ Conversion failed: {e}")
+                    logger.info(f"      ❌ Conversion failed: {e}")
             
-            print("-" * 80)
-            print(f"✅ Converted {successful_conversions} dust assets")
-            print(f"💰 Total USDT gained: ${total_converted:.2f}")
+            logger.info("-" * 80)
+            logger.info(f"✅ Converted {successful_conversions} dust assets")
+            logger.info(f"💰 Total USDT gained: ${total_converted:.2f}")
             
             return successful_conversions > 0
             
         except Exception as e:
-            print(f"❌ Dust conversion failed: {e}")
+            logger.info(f"❌ Dust conversion failed: {e}")
             return False
     
     def consolidate_small_positions(self, analysis: Dict) -> bool:
         """Consolidate small positions into larger, more tradeable ones"""
         try:
-            print(f"\n🔗 POSITION CONSOLIDATION:")
-            print("-" * 80)
+            logger.info(f"\n🔗 POSITION CONSOLIDATION:")
+            logger.info("-" * 80)
             
             problematic_assets = analysis.get('problematic_assets', [])
             
             if not problematic_assets:
-                print("   ✅ No problematic assets to consolidate")
+                logger.info("   ✅ No problematic assets to consolidate")
                 return True
             
             total_consolidated_value = 0
@@ -236,7 +238,7 @@ class KimeraUltimateDustManager:
                     amount = asset_info['amount']
                     value = asset_info['value']
                     
-                    print(f"   🔄 Consolidating {asset}: {amount:.8f} = ${value:.2f}")
+                    logger.info(f"   🔄 Consolidating {asset}: {amount:.8f} = ${value:.2f}")
                     
                     try:
                         symbol = f"{asset}/USDT"
@@ -245,38 +247,38 @@ class KimeraUltimateDustManager:
                         received_usdt = order.get('cost', 0)
                         total_consolidated_value += received_usdt
                         
-                        print(f"      ✅ Consolidated to ${received_usdt:.2f} USDT")
+                        logger.info(f"      ✅ Consolidated to ${received_usdt:.2f} USDT")
                         time.sleep(1)
                         
                     except Exception as e:
-                        print(f"      ❌ Consolidation failed: {e}")
+                        logger.info(f"      ❌ Consolidation failed: {e}")
             
-            print("-" * 80)
-            print(f"💰 Total consolidated value: ${total_consolidated_value:.2f}")
+            logger.info("-" * 80)
+            logger.info(f"💰 Total consolidated value: ${total_consolidated_value:.2f}")
             
             return total_consolidated_value > 0
             
         except Exception as e:
-            print(f"❌ Position consolidation failed: {e}")
+            logger.info(f"❌ Position consolidation failed: {e}")
             return False
     
     def optimize_portfolio_for_trading(self) -> Dict[str, Any]:
         """Optimize entire portfolio for maximum trading efficiency"""
         try:
-            print(f"\n⚡ PORTFOLIO OPTIMIZATION FOR TRADING:")
-            print("-" * 80)
+            logger.info(f"\n⚡ PORTFOLIO OPTIMIZATION FOR TRADING:")
+            logger.info("-" * 80)
             
             # Step 1: Analyze current state
             analysis = self.analyze_portfolio_dust()
             
             # Step 2: Eliminate dust
             if analysis.get('dust_assets'):
-                print(f"\n🧹 Eliminating {len(analysis['dust_assets'])} dust assets...")
+                logger.info(f"\n🧹 Eliminating {len(analysis['dust_assets'])} dust assets...")
                 self.eliminate_dust_by_conversion(analysis['dust_assets'])
             
             # Step 3: Consolidate problematic positions
             if analysis.get('problematic_assets'):
-                print(f"\n🔗 Consolidating {len(analysis['problematic_assets'])} problematic assets...")
+                logger.info(f"\n🔗 Consolidating {len(analysis['problematic_assets'])} problematic assets...")
                 self.consolidate_small_positions(analysis)
             
             # Step 4: Re-analyze after optimization
@@ -308,24 +310,24 @@ class KimeraUltimateDustManager:
             dust_reduction = optimization_report['before']['dust_percentage'] - optimization_report['after']['dust_percentage']
             tradeable_increase = optimization_report['after']['tradeable_assets'] - optimization_report['before']['tradeable_assets']
             
-            print(f"\n📊 OPTIMIZATION RESULTS:")
-            print("-" * 80)
-            print(f"🧹 Dust Reduction: {dust_reduction:.1f}% points")
-            print(f"✅ Tradeable Assets: {optimization_report['before']['tradeable_assets']} → {optimization_report['after']['tradeable_assets']}")
-            print(f"🧹 Dust Assets: {optimization_report['before']['dust_assets']} → {optimization_report['after']['dust_assets']}")
-            print(f"⚠️ Problematic Assets: {optimization_report['before']['problematic_assets']} → {optimization_report['after']['problematic_assets']}")
+            logger.info(f"\n📊 OPTIMIZATION RESULTS:")
+            logger.info("-" * 80)
+            logger.info(f"🧹 Dust Reduction: {dust_reduction:.1f}% points")
+            logger.info(f"✅ Tradeable Assets: {optimization_report['before']['tradeable_assets']} → {optimization_report['after']['tradeable_assets']}")
+            logger.info(f"🧹 Dust Assets: {optimization_report['before']['dust_assets']} → {optimization_report['after']['dust_assets']}")
+            logger.info(f"⚠️ Problematic Assets: {optimization_report['before']['problematic_assets']} → {optimization_report['after']['problematic_assets']}")
             
             return optimization_report
             
         except Exception as e:
-            print(f"❌ Portfolio optimization failed: {e}")
+            logger.info(f"❌ Portfolio optimization failed: {e}")
             return {}
     
     def pre_trading_cleanup(self) -> bool:
         """Complete pre-trading cleanup to ensure clean portfolio"""
         try:
-            print(f"\n🚀 PRE-TRADING CLEANUP:")
-            print("=" * 80)
+            logger.info(f"\n🚀 PRE-TRADING CLEANUP:")
+            logger.info("=" * 80)
             
             # Step 1: Full portfolio optimization
             optimization_report = self.optimize_portfolio_for_trading()
@@ -335,53 +337,53 @@ class KimeraUltimateDustManager:
             dust_percentage = final_analysis.get('dust_percentage', 0)
             
             if dust_percentage < 2.0:  # Less than 2% dust is acceptable
-                print(f"\n✅ PORTFOLIO CLEAN FOR TRADING!")
-                print(f"🧹 Dust: {dust_percentage:.1f}% (ACCEPTABLE)")
+                logger.info(f"\n✅ PORTFOLIO CLEAN FOR TRADING!")
+                logger.info(f"🧹 Dust: {dust_percentage:.1f}% (ACCEPTABLE)")
                 return True
             else:
-                print(f"\n⚠️ PORTFOLIO STILL HAS DUST!")
-                print(f"🧹 Dust: {dust_percentage:.1f}% (TOO HIGH)")
+                logger.info(f"\n⚠️ PORTFOLIO STILL HAS DUST!")
+                logger.info(f"🧹 Dust: {dust_percentage:.1f}% (TOO HIGH)")
                 return False
                 
         except Exception as e:
-            print(f"❌ Pre-trading cleanup failed: {e}")
+            logger.info(f"❌ Pre-trading cleanup failed: {e}")
             return False
     
     def post_trading_cleanup(self) -> bool:
         """Post-trading cleanup to maintain clean portfolio"""
         try:
-            print(f"\n🧹 POST-TRADING CLEANUP:")
-            print("=" * 80)
+            logger.info(f"\n🧹 POST-TRADING CLEANUP:")
+            logger.info("=" * 80)
             
             # Quick dust check and cleanup
             analysis = self.analyze_portfolio_dust()
             
             if analysis.get('dust_assets'):
-                print(f"🧹 Cleaning up {len(analysis['dust_assets'])} new dust assets...")
+                logger.info(f"🧹 Cleaning up {len(analysis['dust_assets'])} new dust assets...")
                 self.eliminate_dust_by_conversion(analysis['dust_assets'])
                 return True
             else:
-                print("✅ No post-trading dust detected")
+                logger.info("✅ No post-trading dust detected")
                 return True
                 
         except Exception as e:
-            print(f"❌ Post-trading cleanup failed: {e}")
+            logger.info(f"❌ Post-trading cleanup failed: {e}")
             return False
 
 def main():
     """Main function for dust manager"""
-    print("🧹" * 80)
-    print("🚨 KIMERA ULTIMATE DUST MANAGER")
-    print("🛡️ ZERO DUST TOLERANCE")
-    print("🧹" * 80)
+    logger.info("🧹" * 80)
+    logger.info("🚨 KIMERA ULTIMATE DUST MANAGER")
+    logger.info("🛡️ ZERO DUST TOLERANCE")
+    logger.info("🧹" * 80)
     
     manager = KimeraUltimateDustManager()
     
-    print("\nSelect operation:")
-    print("1. Analyze dust")
-    print("2. Pre-trading cleanup")
-    print("3. Post-trading cleanup")
-    print("4. Full portfolio optimization")
+    logger.info("\nSelect operation:")
+    logger.info("1. Analyze dust")
+    logger.info("2. Pre-trading cleanup")
+    logger.info("3. Post-trading cleanup")
+    logger.info("4. Full portfolio optimization")
     
     choice = input("\nEnter choice (1-4): ").strip()
     
@@ -394,7 +396,7 @@ def main():
     elif choice == "4":
         manager.optimize_portfolio_for_trading()
     else:
-        print("❌ Invalid choice")
+        logger.info("❌ Invalid choice")
 
 if __name__ == "__main__":
     main() 

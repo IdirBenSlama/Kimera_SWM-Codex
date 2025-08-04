@@ -20,6 +20,8 @@ from typing import Dict, List, Any
 import json
 import traceback
 from kimera_dust_manager import KimeraDustManager
+import logging
+logger = logging.getLogger(__name__)
 
 load_dotenv()
 
@@ -70,13 +72,13 @@ class KimeraWorkingUltraAggressiveTrader:
         self.peak_value = 0.0
         self.trades_per_minute = 0
         
-        print("🔥" * 60)
-        print("🤖 KIMERA WORKING ULTRA-AGGRESSIVE TRADER")
-        print("🎯 TARGET: 100% PROFIT")
-        print("⚡ MAXIMUM AGGRESSION MODE - WORKING")
-        print("💀 FULL WALLET CONTROL")
-        print(f"💰 MIN TRADE SIZE: ${self.min_trade_size}")
-        print("🔥" * 60)
+        logger.info("🔥" * 60)
+        logger.info("🤖 KIMERA WORKING ULTRA-AGGRESSIVE TRADER")
+        logger.info("🎯 TARGET: 100% PROFIT")
+        logger.info("⚡ MAXIMUM AGGRESSION MODE - WORKING")
+        logger.info("💀 FULL WALLET CONTROL")
+        logger.info(f"💰 MIN TRADE SIZE: ${self.min_trade_size}")
+        logger.info("🔥" * 60)
     
     def get_full_portfolio(self) -> Dict[str, Any]:
         """Get complete portfolio with values"""
@@ -114,7 +116,7 @@ class KimeraWorkingUltraAggressiveTrader:
             return {'assets': portfolio, 'total_value': total_value}
             
         except Exception as e:
-            print(f"❌ Portfolio error: {e}")
+            logger.info(f"❌ Portfolio error: {e}")
             return {'assets': {}, 'total_value': 0.0}
     
     def find_ultra_aggressive_opportunities(self) -> List[Dict]:
@@ -280,7 +282,7 @@ class KimeraWorkingUltraAggressiveTrader:
             return opportunities[:8]  # Return top 8 opportunities
             
         except Exception as e:
-            print(f"❌ Opportunity finding error: {e}")
+            logger.info(f"❌ Opportunity finding error: {e}")
             return []
     
     async def execute_ultra_aggressive_trade(self, opportunity: Dict) -> bool:
@@ -289,12 +291,12 @@ class KimeraWorkingUltraAggressiveTrader:
             symbol = opportunity['symbol']
             direction = opportunity['direction']
             
-            print(f"\n🔥 EXECUTING: {opportunity['type']}")
-            print(f"   Symbol: {symbol}")
-            print(f"   Direction: {direction}")
-            print(f"   Confidence: {opportunity['confidence']:.1%}")
-            print(f"   Urgency: {opportunity['urgency']:.1%}")
-            print(f"   Reason: {opportunity['reason']}")
+            logger.info(f"\n🔥 EXECUTING: {opportunity['type']}")
+            logger.info(f"   Symbol: {symbol}")
+            logger.info(f"   Direction: {direction}")
+            logger.info(f"   Confidence: {opportunity['confidence']:.1%}")
+            logger.info(f"   Urgency: {opportunity['urgency']:.1%}")
+            logger.info(f"   Reason: {opportunity['reason']}")
             
             if direction == 'BUY':
                 trade_size_usdt = opportunity.get('trade_size_usdt', 0)
@@ -315,9 +317,9 @@ class KimeraWorkingUltraAggressiveTrader:
                         actual_cost = order.get('cost', trade_size_usdt)
                         actual_quantity = order.get('amount', quantity)
                         
-                        print(f"   ✅ BOUGHT: {actual_quantity:.8f} {symbol.split('/')[0]}")
-                        print(f"   💰 Cost: ${actual_cost:.2f}")
-                        print(f"   📋 Order: {order['id']}")
+                        logger.info(f"   ✅ BOUGHT: {actual_quantity:.8f} {symbol.split('/')[0]}")
+                        logger.info(f"   💰 Cost: ${actual_cost:.2f}")
+                        logger.info(f"   📋 Order: {order['id']}")
                         
                         # Track position
                         self.active_positions[symbol] = {
@@ -334,9 +336,9 @@ class KimeraWorkingUltraAggressiveTrader:
                         self.trades_executed += 1
                         return True
                     else:
-                        print(f"   ❌ Quantity {quantity:.8f} below minimum {min_amount}")
+                        logger.info(f"   ❌ Quantity {quantity:.8f} below minimum {min_amount}")
                 else:
-                    print(f"   ❌ Invalid trade parameters: size=${trade_size_usdt:.2f}, price=${price:.2f}")
+                    logger.info(f"   ❌ Invalid trade parameters: size=${trade_size_usdt:.2f}, price=${price:.2f}")
             
             elif direction == 'SELL':
                 sell_amount = opportunity.get('sell_amount', 0)
@@ -351,29 +353,29 @@ class KimeraWorkingUltraAggressiveTrader:
                         
                         received_usdt = order.get('cost', 0)
                         
-                        print(f"   ✅ SOLD: {sell_amount:.8f} {symbol.split('/')[0]}")
-                        print(f"   💰 Received: ${received_usdt:.2f}")
-                        print(f"   📋 Order: {order['id']}")
+                        logger.info(f"   ✅ SOLD: {sell_amount:.8f} {symbol.split('/')[0]}")
+                        logger.info(f"   💰 Received: ${received_usdt:.2f}")
+                        logger.info(f"   📋 Order: {order['id']}")
                         
                         self.trades_executed += 1
                         self.total_profit += received_usdt * 0.01  # Conservative profit estimate
                         return True
                     else:
-                        print(f"   ❌ Sell amount {sell_amount:.8f} below minimum {min_amount}")
+                        logger.info(f"   ❌ Sell amount {sell_amount:.8f} below minimum {min_amount}")
                 else:
-                    print(f"   ❌ Invalid sell amount: {sell_amount} (must be > 0)")
+                    logger.info(f"   ❌ Invalid sell amount: {sell_amount} (must be > 0)")
             
         except ccxt.InsufficientFunds as e:
-            print(f"   ❌ Insufficient funds: {e}")
+            logger.info(f"   ❌ Insufficient funds: {e}")
             self.failed_trades += 1
         except ccxt.InvalidOrder as e:
-            print(f"   ❌ Invalid order: {e}")
+            logger.info(f"   ❌ Invalid order: {e}")
             self.failed_trades += 1
         except ccxt.NetworkError as e:
-            print(f"   ❌ Network error: {e}")
+            logger.info(f"   ❌ Network error: {e}")
             self.failed_trades += 1
         except Exception as e:
-            print(f"   ❌ Trade failed: {e}")
+            logger.info(f"   ❌ Trade failed: {e}")
             self.failed_trades += 1
         
         return False
@@ -437,8 +439,8 @@ class KimeraWorkingUltraAggressiveTrader:
                             if profit_usd > 0:
                                 self.successful_trades += 1
                             
-                            print(f"   🎯 EXITED {symbol}: {reason}")
-                            print(f"   💰 P&L: ${profit_usd:+.2f}")
+                            logger.info(f"   🎯 EXITED {symbol}: {reason}")
+                            logger.info(f"   💰 P&L: ${profit_usd:+.2f}")
                             
                             # Record trade
                             self.trade_history.append({
@@ -453,29 +455,29 @@ class KimeraWorkingUltraAggressiveTrader:
                             
                             del self.active_positions[symbol]
                         else:
-                            print(f"   ⚠️ Cannot exit {symbol}: amount {available:.8f} below minimum {min_amount}")
+                            logger.info(f"   ⚠️ Cannot exit {symbol}: amount {available:.8f} below minimum {min_amount}")
                 
             except Exception as e:
-                print(f"   ⚠️ Position monitoring error for {symbol}: {e}")
+                logger.info(f"   ⚠️ Position monitoring error for {symbol}: {e}")
     
     async def run_ultra_aggressive_session(self, duration_minutes: int = 5):
         """Run ULTRA-AGGRESSIVE autonomous session - WORKING"""
-        print(f"\n🔥 STARTING WORKING ULTRA-AGGRESSIVE SESSION 🔥")
-        print(f"⏱️ DURATION: {duration_minutes} MINUTES")
-        print(f"🎯 TARGET: 100% PROFIT ({self.profit_target:.0%})")
-        print(f"💀 FULL WALLET CONTROL ACTIVATED")
-        print(f"💰 MIN TRADE SIZE: ${self.min_trade_size}")
-        print("🔥" * 60)
+        logger.info(f"\n🔥 STARTING WORKING ULTRA-AGGRESSIVE SESSION 🔥")
+        logger.info(f"⏱️ DURATION: {duration_minutes} MINUTES")
+        logger.info(f"🎯 TARGET: 100% PROFIT ({self.profit_target:.0%})")
+        logger.info(f"💀 FULL WALLET CONTROL ACTIVATED")
+        logger.info(f"💰 MIN TRADE SIZE: ${self.min_trade_size}")
+        logger.info("🔥" * 60)
         
         # 🧹 AUTOMATIC DUST MANAGEMENT 🧹
-        print(f"\n🧹 PRE-SESSION DUST MANAGEMENT:")
-        print("-" * 50)
+        logger.info(f"\n🧹 PRE-SESSION DUST MANAGEMENT:")
+        logger.info("-" * 50)
         dust_managed = self.dust_manager.auto_dust_management()
         if dust_managed:
-            print("✅ Dust management completed")
+            logger.info("✅ Dust management completed")
             time.sleep(2)  # Allow time for balance updates
         else:
-            print("⚠️ Dust management skipped or failed")
+            logger.info("⚠️ Dust management skipped or failed")
         
         self.session_start = time.time()
         portfolio = self.get_full_portfolio()
@@ -483,8 +485,8 @@ class KimeraWorkingUltraAggressiveTrader:
         self.peak_value = self.starting_portfolio_value
         self.running = True
         
-        print(f"💰 Starting Portfolio: ${self.starting_portfolio_value:.2f}")
-        print(f"🎯 Target Value: ${self.starting_portfolio_value * (1 + self.profit_target):.2f}")
+        logger.info(f"💰 Starting Portfolio: ${self.starting_portfolio_value:.2f}")
+        logger.info(f"🎯 Target Value: ${self.starting_portfolio_value * (1 + self.profit_target):.2f}")
         
         session_duration = duration_minutes * 60
         last_trade_time = 0
@@ -517,13 +519,13 @@ class KimeraWorkingUltraAggressiveTrader:
                     # Calculate trades per minute
                     self.trades_per_minute = self.trades_executed / max(elapsed / 60, 0.1)
                     
-                    print(f"\n⚡ Time: {remaining:.0f}s | Portfolio: ${self.current_portfolio_value:.2f} | "
+                    logger.info(f"\n⚡ Time: {remaining:.0f}s | Portfolio: ${self.current_portfolio_value:.2f} | "
                           f"Profit: {current_profit_pct:+.2f}% | Trades: {self.trades_executed} | "
                           f"Active: {len(self.active_positions)} | Success: {self.successful_trades}")
                     
                     # Check if target achieved
                     if current_profit_pct >= self.profit_target * 100:
-                        print(f"\n🎯 TARGET ACHIEVED! {current_profit_pct:.2f}% PROFIT!")
+                        logger.info(f"\n🎯 TARGET ACHIEVED! {current_profit_pct:.2f}% PROFIT!")
                         break
                 
                 # Monitor existing positions
@@ -547,10 +549,10 @@ class KimeraWorkingUltraAggressiveTrader:
                 await asyncio.sleep(1.5)  # Main loop delay
                 
             except KeyboardInterrupt:
-                print("\n🛑 MANUAL STOP REQUESTED")
+                logger.info("\n🛑 MANUAL STOP REQUESTED")
                 break
             except Exception as e:
-                print(f"⚠️ Trading loop error: {e}")
+                logger.info(f"⚠️ Trading loop error: {e}")
                 await asyncio.sleep(3)
         
         # Session complete
@@ -558,7 +560,7 @@ class KimeraWorkingUltraAggressiveTrader:
     
     async def close_ultra_aggressive_session(self):
         """Close session and generate report"""
-        print(f"\n🔚 CLOSING ULTRA-AGGRESSIVE SESSION...")
+        logger.info(f"\n🔚 CLOSING ULTRA-AGGRESSIVE SESSION...")
         
         # Close all positions
         for symbol in list(self.active_positions.keys()):
@@ -573,10 +575,10 @@ class KimeraWorkingUltraAggressiveTrader:
                     
                     if available >= min_amount:
                         order = self.exchange.create_market_sell_order(symbol, available)
-                        print(f"   ✅ Closed {symbol}")
+                        logger.info(f"   ✅ Closed {symbol}")
                     
             except Exception as e:
-                print(f"   ⚠️ Error closing {symbol}: {e}")
+                logger.info(f"   ⚠️ Error closing {symbol}: {e}")
         
         # Final calculations
         final_portfolio = self.get_full_portfolio()
@@ -586,38 +588,38 @@ class KimeraWorkingUltraAggressiveTrader:
         session_time = (time.time() - self.session_start) / 60
         
         # Generate comprehensive report
-        print("\n" + "🔥" * 60)
-        print("📊 KIMERA WORKING ULTRA-AGGRESSIVE SESSION COMPLETE")
-        print("🔥" * 60)
-        print(f"⏱️ Session Duration: {session_time:.1f} minutes")
-        print(f"💰 Starting Value: ${self.starting_portfolio_value:.2f}")
-        print(f"💰 Final Value: ${final_value:.2f}")
-        print(f"📈 Total Profit: ${total_profit:+.2f}")
-        print(f"🎯 Profit Percentage: {total_profit_pct:+.2f}%")
-        print(f"📊 Peak Value: ${self.peak_value:.2f}")
-        print(f"📉 Max Drawdown: {self.max_drawdown:.2f}%")
-        print(f"🔄 Total Trades: {self.trades_executed}")
-        print(f"✅ Successful: {self.successful_trades}")
-        print(f"❌ Failed: {self.failed_trades}")
-        print(f"⚡ Trades/Minute: {self.trades_per_minute:.1f}")
+        logger.info("\n" + "🔥" * 60)
+        logger.info("📊 KIMERA WORKING ULTRA-AGGRESSIVE SESSION COMPLETE")
+        logger.info("🔥" * 60)
+        logger.info(f"⏱️ Session Duration: {session_time:.1f} minutes")
+        logger.info(f"💰 Starting Value: ${self.starting_portfolio_value:.2f}")
+        logger.info(f"💰 Final Value: ${final_value:.2f}")
+        logger.info(f"📈 Total Profit: ${total_profit:+.2f}")
+        logger.info(f"🎯 Profit Percentage: {total_profit_pct:+.2f}%")
+        logger.info(f"📊 Peak Value: ${self.peak_value:.2f}")
+        logger.info(f"📉 Max Drawdown: {self.max_drawdown:.2f}%")
+        logger.info(f"🔄 Total Trades: {self.trades_executed}")
+        logger.info(f"✅ Successful: {self.successful_trades}")
+        logger.info(f"❌ Failed: {self.failed_trades}")
+        logger.info(f"⚡ Trades/Minute: {self.trades_per_minute:.1f}")
         
         if self.trades_executed > 0:
             win_rate = (self.successful_trades / self.trades_executed) * 100
-            print(f"🎯 Win Rate: {win_rate:.1f}%")
+            logger.info(f"🎯 Win Rate: {win_rate:.1f}%")
         
-        print(f"\n🏆 PERFORMANCE RATING:")
+        logger.info(f"\n🏆 PERFORMANCE RATING:")
         if total_profit_pct >= 100:
-            print("🔥🔥🔥 LEGENDARY! TARGET ACHIEVED! 🔥🔥🔥")
+            logger.info("🔥🔥🔥 LEGENDARY! TARGET ACHIEVED! 🔥🔥🔥")
         elif total_profit_pct >= 50:
-            print("🔥🔥 EXCELLENT PERFORMANCE! 🔥🔥")
+            logger.info("🔥🔥 EXCELLENT PERFORMANCE! 🔥🔥")
         elif total_profit_pct >= 20:
-            print("🔥 GOOD PERFORMANCE! 🔥")
+            logger.info("🔥 GOOD PERFORMANCE! 🔥")
         elif total_profit_pct >= 5:
-            print("✅ SOLID GAINS!")
+            logger.info("✅ SOLID GAINS!")
         elif total_profit_pct >= 0:
-            print("📊 PROFITABLE SESSION")
+            logger.info("📊 PROFITABLE SESSION")
         else:
-            print("📚 LEARNING EXPERIENCE")
+            logger.info("📚 LEARNING EXPERIENCE")
         
         # Save detailed results
         results = {
@@ -643,20 +645,20 @@ class KimeraWorkingUltraAggressiveTrader:
         with open(filename, 'w') as f:
             json.dump(results, f, indent=2)
         
-        print(f"💾 Results saved to: {filename}")
-        print("🔥" * 60)
+        logger.info(f"💾 Results saved to: {filename}")
+        logger.info("🔥" * 60)
 
 async def main():
-    print("🔥 INITIALIZING KIMERA WORKING ULTRA-AGGRESSIVE TRADER 🔥")
+    logger.info("🔥 INITIALIZING KIMERA WORKING ULTRA-AGGRESSIVE TRADER 🔥")
     
-    print("\n" + "⚠️" * 60)
-    print("🚨 ULTRA-AGGRESSIVE TRADING MODE - WORKING VERSION")
-    print("🎯 TARGET: 100% PROFIT")
-    print("💀 FULL WALLET CONTROL")
-    print("⚡ MAXIMUM RISK - MAXIMUM REWARD")
-    print("🔥 REAL MONEY - REAL CONSEQUENCES")
-    print("✅ CONFIRMED WORKING WITH $6.00 MINIMUM")
-    print("⚠️" * 60)
+    logger.info("\n" + "⚠️" * 60)
+    logger.info("🚨 ULTRA-AGGRESSIVE TRADING MODE - WORKING VERSION")
+    logger.info("🎯 TARGET: 100% PROFIT")
+    logger.info("💀 FULL WALLET CONTROL")
+    logger.info("⚡ MAXIMUM RISK - MAXIMUM REWARD")
+    logger.info("🔥 REAL MONEY - REAL CONSEQUENCES")
+    logger.info("✅ CONFIRMED WORKING WITH $6.00 MINIMUM")
+    logger.info("⚠️" * 60)
     
     response = input("\nActivate WORKING ULTRA-AGGRESSIVE mode? (yes/no): ")
     
@@ -672,7 +674,7 @@ async def main():
         trader = KimeraWorkingUltraAggressiveTrader()
         await trader.run_ultra_aggressive_session(duration_minutes)
     else:
-        print("🛑 Ultra-aggressive mode cancelled")
+        logger.info("🛑 Ultra-aggressive mode cancelled")
 
 if __name__ == "__main__":
     asyncio.run(main()) 

@@ -1,5 +1,7 @@
 import subprocess
 import os
+import logging
+logger = logging.getLogger(__name__)
 
 # Define the log file paths
 stdout_log_path = "launcher_stdout.log"
@@ -8,9 +10,9 @@ stderr_log_path = "launcher_stderr.log"
 # The command to run
 command = ["python", "kimera.py"]
 
-print(f"Executing command: {' '.join(command)}")
-print(f"Redirecting stdout to: {stdout_log_path}")
-print(f"Redirecting stderr to: {stderr_log_path}")
+logger.info(f"Executing command: {' '.join(command)}")
+logger.info(f"Redirecting stdout to: {stdout_log_path}")
+logger.info(f"Redirecting stderr to: {stderr_log_path}")
 
 try:
     # Open log files
@@ -24,9 +26,9 @@ try:
             # This helps in managing the process group
             preexec_fn=os.setsid if hasattr(os, 'setsid') else None
         )
-        print(f"Process started with PID: {process.pid}")
+        logger.info(f"Process started with PID: {process.pid}")
         # The script will exit here, but the subprocess continues to run.
         # This is sufficient to capture startup errors.
 
 except Exception as e:
-    print(f"Failed to launch subprocess: {e}") 
+    logger.info(f"Failed to launch subprocess: {e}") 

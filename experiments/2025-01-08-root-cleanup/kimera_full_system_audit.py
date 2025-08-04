@@ -436,20 +436,20 @@ class KimeraSystemAuditor:
         logger.info(f"Audit report saved to: {report_path}")
         
         # Print summary
-        print("\n" + "="*60)
-        print("KIMERA SYSTEM AUDIT SUMMARY")
-        print("="*60)
-        print(f"✅ Successes: {len(self.successes)}")
-        print(f"⚠️  Warnings: {len(self.warnings)}")
-        print(f"❌ Issues: {len(self.issues)}")
-        print(f"🔴 Critical Issues: {self.audit_results['summary']['critical_issues']}")
-        print(f"⏱️  Audit Duration: {self.audit_results['summary']['audit_duration']:.2f}s")
-        print("="*60)
+        logger.info("\n" + "="*60)
+        logger.info("KIMERA SYSTEM AUDIT SUMMARY")
+        logger.info("="*60)
+        logger.info(f"✅ Successes: {len(self.successes)}")
+        logger.info(f"⚠️  Warnings: {len(self.warnings)}")
+        logger.info(f"❌ Issues: {len(self.issues)}")
+        logger.info(f"🔴 Critical Issues: {self.audit_results['summary']['critical_issues']}")
+        logger.info(f"⏱️  Audit Duration: {self.audit_results['summary']['audit_duration']:.2f}s")
+        logger.info("="*60)
         
         if self.issues:
-            print("\nCRITICAL ISSUES TO FIX:")
+            logger.info("\nCRITICAL ISSUES TO FIX:")
             for issue in self.issues[:10]:  # Show top 10 issues
-                print(f"  - [{issue['component']}] {issue['issue']}")
+                logger.info(f"  - [{issue['component']}] {issue['issue']}")
         
         return self.audit_results
 

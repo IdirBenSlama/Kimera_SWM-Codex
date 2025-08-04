@@ -128,7 +128,7 @@ class KimeraAuditor:
     
     def _signal_handler(self, signum, frame):
         """Handle shutdown signals gracefully"""
-        print(f"\n🛑 Received signal {signum}, shutting down gracefully...")
+        logger.info(f"\n🛑 Received signal {signum}, shutting down gracefully...")
         self.stop()
         sys.exit(0)
     
@@ -192,7 +192,7 @@ class KimeraAuditor:
     
     def monitor_engines(self):
         """Continuous monitoring of all engines"""
-        print(f"🔍 Starting continuous monitoring (interval: {MONITORING_INTERVAL}s)")
+        logger.info(f"🔍 Starting continuous monitoring (interval: {MONITORING_INTERVAL}s)")
         
         while self.running and datetime.now() < self.end_time:
             if self.paused:
@@ -244,7 +244,7 @@ class KimeraAuditor:
     
     def stress_test(self):
         """Periodic stress testing"""
-        print(f"💪 Starting stress testing (interval: {STRESS_TEST_INTERVAL}s)")
+        logger.info(f"💪 Starting stress testing (interval: {STRESS_TEST_INTERVAL}s)")
         
         while self.running and datetime.now() < self.end_time:
             if self.paused:
@@ -252,7 +252,7 @@ class KimeraAuditor:
                 continue
             
             # Perform burst requests to test system resilience
-            print("🔥 Executing stress test burst...")
+            logger.info("🔥 Executing stress test burst...")
             
             for _ in range(10):  # 10 rapid requests
                 if not self.running:
@@ -277,7 +277,7 @@ class KimeraAuditor:
                 continue
             
             # Clear screen and display stats
-            print("\033[2J\033[H")  # Clear screen
+            logger.info("\033[2J\033[H")  # Clear screen
             self._display_current_stats()
             
             time.sleep(10)  # Update every 10 seconds
@@ -288,20 +288,20 @@ class KimeraAuditor:
         elapsed = now - self.start_time
         remaining = self.end_time - now
         
-        print("=" * 80)
-        print(f"🔍 KIMERA SYSTEM AUDIT - REAL-TIME MONITORING")
-        print("=" * 80)
-        print(f"Started: {self.start_time.strftime('%Y-%m-%d %H:%M:%S')}")
-        print(f"Elapsed: {str(elapsed).split('.')[0]}")
-        print(f"Remaining: {str(remaining).split('.')[0]}")
-        print(f"Total Checks: {self.total_checks}")
-        print(f"Success Rate: {(self.successful_checks/self.total_checks*100):.1f}%" if self.total_checks > 0 else "0.0%")
-        print(f"Critical Failures: {self.critical_failures}")
-        print()
+        logger.info("=" * 80)
+        logger.info(f"🔍 KIMERA SYSTEM AUDIT - REAL-TIME MONITORING")
+        logger.info("=" * 80)
+        logger.info(f"Started: {self.start_time.strftime('%Y-%m-%d %H:%M:%S')}")
+        logger.info(f"Elapsed: {str(elapsed).split('.')[0]}")
+        logger.info(f"Remaining: {str(remaining).split('.')[0]}")
+        logger.info(f"Total Checks: {self.total_checks}")
+        logger.info(f"Success Rate: {(self.successful_checks/self.total_checks*100):.1f}%" if self.total_checks > 0 else "0.0%")
+        logger.info(f"Critical Failures: {self.critical_failures}")
+        logger.info()
         
         # Engine status summary
-        print("🔧 ENGINE STATUS SUMMARY")
-        print("-" * 50)
+        logger.info("🔧 ENGINE STATUS SUMMARY")
+        logger.info("-" * 50)
         
         operational_engines = []
         degraded_engines = []
@@ -318,24 +318,24 @@ class KimeraAuditor:
             else:
                 degraded_engines.append(name)
         
-        print(f"✅ Operational: {len(operational_engines)}")
-        print(f"⚠️ Degraded: {len(degraded_engines)}")
-        print(f"❌ Failed: {len(failed_engines)}")
-        print()
+        logger.info(f"✅ Operational: {len(operational_engines)}")
+        logger.info(f"⚠️ Degraded: {len(degraded_engines)}")
+        logger.info(f"❌ Failed: {len(failed_engines)}")
+        logger.info()
         
         # Performance metrics
-        print("📊 PERFORMANCE METRICS")
-        print("-" * 50)
+        logger.info("📊 PERFORMANCE METRICS")
+        logger.info("-" * 50)
         
         for name, metrics in self.engine_metrics.items():
             if metrics.total_requests > 0:
-                print(f"{name[:30]:30} | "
+                logger.info(f"{name[:30]:30} | "
                       f"Req: {metrics.total_requests:4d} | "
                       f"Success: {metrics.success_rate:5.1f}% | "
                       f"Avg: {metrics.avg_response_time*1000:6.1f}ms | "
                       f"Status: {metrics.last_status}")
         
-        print()
+        logger.info()
         
         # System health trend
         if len(self.system_snapshots) > 1:
@@ -343,41 +343,41 @@ class KimeraAuditor:
             avg_operational = statistics.mean(s.operational_engines for s in recent_snapshots)
             avg_response_time = statistics.mean(s.response_time for s in recent_snapshots)
             
-            print("📈 RECENT TRENDS (Last 10 checks)")
-            print("-" * 50)
-            print(f"Average Operational Engines: {avg_operational:.1f}/{len(self.engines)}")
-            print(f"Average Response Time: {avg_response_time*1000:.1f}ms")
+            logger.info("📈 RECENT TRENDS (Last 10 checks)")
+            logger.info("-" * 50)
+            logger.info(f"Average Operational Engines: {avg_operational:.1f}/{len(self.engines)}")
+            logger.info(f"Average Response Time: {avg_response_time*1000:.1f}ms")
             
             # Health trend
             healthy_count = sum(1 for s in recent_snapshots if s.system_health == "healthy")
             health_percentage = (healthy_count / len(recent_snapshots)) * 100
-            print(f"Health Stability: {health_percentage:.1f}%")
+            logger.info(f"Health Stability: {health_percentage:.1f}%")
         
-        print()
-        print("Press Ctrl+C to stop the audit gracefully")
-        print("=" * 80)
+        logger.info()
+        logger.info("Press Ctrl+C to stop the audit gracefully")
+        logger.info("=" * 80)
     
     def start(self):
         """Start the comprehensive audit"""
-        print("🚀 Starting Comprehensive Kimera System Audit")
-        print("=" * 60)
-        print(f"Runtime: {self.runtime_minutes} minutes")
-        print(f"Monitoring interval: {MONITORING_INTERVAL} seconds")
-        print(f"Stress test interval: {STRESS_TEST_INTERVAL} seconds")
-        print(f"Start time: {self.start_time.strftime('%Y-%m-%d %H:%M:%S')}")
-        print(f"End time: {self.end_time.strftime('%Y-%m-%d %H:%M:%S')}")
-        print()
+        logger.info("🚀 Starting Comprehensive Kimera System Audit")
+        logger.info("=" * 60)
+        logger.info(f"Runtime: {self.runtime_minutes} minutes")
+        logger.info(f"Monitoring interval: {MONITORING_INTERVAL} seconds")
+        logger.info(f"Stress test interval: {STRESS_TEST_INTERVAL} seconds")
+        logger.info(f"Start time: {self.start_time.strftime('%Y-%m-%d %H:%M:%S')}")
+        logger.info(f"End time: {self.end_time.strftime('%Y-%m-%d %H:%M:%S')}")
+        logger.info()
         
         # Initial system check
-        print("🔍 Performing initial system check...")
+        logger.info("🔍 Performing initial system check...")
         initial_operational = 0
         for name, url in self.engines.items():
             success, _, data = self.test_endpoint(name, url)
             if success and data.get("status") == "operational":
                 initial_operational += 1
         
-        print(f"Initial status: {initial_operational}/{len(self.engines)} engines operational")
-        print()
+        logger.info(f"Initial status: {initial_operational}/{len(self.engines)} engines operational")
+        logger.info()
         
         # Start monitoring threads
         self.running = True
@@ -395,7 +395,7 @@ class KimeraAuditor:
             while self.running and datetime.now() < self.end_time:
                 time.sleep(1)
         except KeyboardInterrupt:
-            print("\n🛑 Audit interrupted by user")
+            logger.info("\n🛑 Audit interrupted by user")
         
         self.stop()
     
@@ -528,56 +528,58 @@ class KimeraAuditor:
         """Print a formatted final report"""
         report = self.generate_final_report()
         
-        print("\n" + "=" * 80)
-        print("📋 FINAL AUDIT REPORT")
-        print("=" * 80)
+        logger.info("\n" + "=" * 80)
+        logger.info("📋 FINAL AUDIT REPORT")
+        logger.info("=" * 80)
         
         # Summary
         summary = report["audit_summary"]
-        print(f"Audit Duration: {summary['actual_runtime_minutes']:.1f} minutes")
-        print(f"Total System Checks: {summary['total_checks']}")
-        print(f"Overall Success Rate: {summary['success_rate']:.1f}%")
-        print(f"System Stability: {summary['system_stability_percentage']:.1f}%")
-        print(f"Critical Failures: {summary['critical_failures']}")
-        print()
+        logger.info(f"Audit Duration: {summary['actual_runtime_minutes']:.1f} minutes")
+        logger.info(f"Total System Checks: {summary['total_checks']}")
+        logger.info(f"Overall Success Rate: {summary['success_rate']:.1f}%")
+        logger.info(f"System Stability: {summary['system_stability_percentage']:.1f}%")
+        logger.info(f"Critical Failures: {summary['critical_failures']}")
+        logger.info()
         
         # Engine reliability ranking
-        print("🏆 ENGINE RELIABILITY RANKING")
-        print("-" * 60)
+        logger.info("🏆 ENGINE RELIABILITY RANKING")
+        logger.info("-" * 60)
         for i, engine in enumerate(report["engine_reliability_ranking"], 1):
-            print(f"{i:2d}. {engine['name'][:25]:25} | "
+            logger.info(f"{i:2d}. {engine['name'][:25]:25} | "
                   f"Success: {engine['success_rate']:5.1f}% | "
                   f"Uptime: {engine['uptime_percentage']:5.1f}% | "
                   f"Avg Response: {engine['avg_response_time']*1000:6.1f}ms")
-        print()
+        logger.info()
         
         # Performance statistics
         if report["performance_statistics"]:
             perf = report["performance_statistics"]
-            print("📊 PERFORMANCE STATISTICS")
-            print("-" * 60)
-            print(f"Average Response Time: {perf['average_response_time']*1000:.1f}ms")
-            print(f"Median Response Time: {perf['median_response_time']*1000:.1f}ms")
-            print(f"Min Response Time: {perf['min_response_time']*1000:.1f}ms")
-            print(f"Max Response Time: {perf['max_response_time']*1000:.1f}ms")
-            print(f"Response Time Std Dev: {perf['response_time_std']*1000:.1f}ms")
-            print()
+            logger.info("📊 PERFORMANCE STATISTICS")
+            logger.info("-" * 60)
+            logger.info(f"Average Response Time: {perf['average_response_time']*1000:.1f}ms")
+            logger.info(f"Median Response Time: {perf['median_response_time']*1000:.1f}ms")
+            logger.info(f"Min Response Time: {perf['min_response_time']*1000:.1f}ms")
+            logger.info(f"Max Response Time: {perf['max_response_time']*1000:.1f}ms")
+            logger.info(f"Response Time Std Dev: {perf['response_time_std']*1000:.1f}ms")
+            logger.info()
         
         # Recommendations
-        print("💡 RECOMMENDATIONS")
-        print("-" * 60)
+        logger.info("💡 RECOMMENDATIONS")
+        logger.info("-" * 60)
         for rec in report["recommendations"]:
-            print(rec)
-        print()
+            logger.info(rec)
+        logger.info()
         
         # Save report
         filename = self.save_report()
-        print(f"📄 Detailed report saved to: {filename}")
-        print("=" * 80)
+        logger.info(f"📄 Detailed report saved to: {filename}")
+        logger.info("=" * 80)
 
 def main():
     """Main function"""
     import argparse
+import logging
+logger = logging.getLogger(__name__)
     
     parser = argparse.ArgumentParser(description="Comprehensive Kimera System Audit")
     parser.add_argument("--runtime", "-r", type=int, default=DEFAULT_RUNTIME_MINUTES,
@@ -594,7 +596,7 @@ def main():
     try:
         auditor.start()
     except KeyboardInterrupt:
-        print("\n🛑 Audit interrupted by user")
+        logger.info("\n🛑 Audit interrupted by user")
     finally:
         auditor.print_final_report()
 

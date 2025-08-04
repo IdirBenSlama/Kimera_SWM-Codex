@@ -10,6 +10,8 @@ import subprocess
 import sys
 import os
 from pathlib import Path
+import logging
+logger = logging.getLogger(__name__)
 
 class KimeraFinalSetup:
     def __init__(self):
@@ -19,7 +21,7 @@ class KimeraFinalSetup:
         
     def install_missing_packages(self):
         """Install any remaining missing packages"""
-        print("🔧 Checking for missing packages...")
+        logger.info("🔧 Checking for missing packages...")
         
         # List of packages that might still be missing
         packages = [
@@ -59,7 +61,7 @@ class KimeraFinalSetup:
     
     def fix_import_issues(self):
         """Create dummy modules for any problematic imports"""
-        print("🔧 Creating compatibility fixes...")
+        logger.info("🔧 Creating compatibility fixes...")
         
         # Create a dummy module for any missing imports
         dummy_modules_dir = self.project_root / "backend" / "utils" / "dummy_modules"
@@ -73,8 +75,8 @@ class KimeraFinalSetup:
     
     def start_kimera(self):
         """Start the Kimera server"""
-        print("\n🚀 Starting Kimera SWM...")
-        print("=" * 60)
+        logger.info("\n🚀 Starting Kimera SWM...")
+        logger.info("=" * 60)
         
         # Change to project directory
         os.chdir(self.project_root)
@@ -83,13 +85,13 @@ class KimeraFinalSetup:
         try:
             subprocess.run([str(self.venv_python), "kimera.py"])
         except KeyboardInterrupt:
-            print("\n\n✅ Kimera server stopped.")
+            logger.info("\n\n✅ Kimera server stopped.")
         except Exception as e:
-            print(f"\n❌ Error: {str(e)}")
+            logger.info(f"\n❌ Error: {str(e)}")
     
     def run(self):
         """Run the final setup and launch"""
-        print("""
+        logger.info("""
 ╔══════════════════════════════════════════════════════════════════╗
 ║                 KIMERA SWM - FINAL SETUP & LAUNCH                 ║
 ╚══════════════════════════════════════════════════════════════════╝

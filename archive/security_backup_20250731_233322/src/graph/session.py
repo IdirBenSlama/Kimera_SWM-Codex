@@ -130,7 +130,7 @@ def get_session(**kwargs) -> Generator[Optional[Session], None, None]:
     ...     if s:
     ...         s.run("RETURN 1").single()
     ...     else:
-    ...         print("Neo4j not available")
+    ...         logger.info("Neo4j not available")
     """
     driver = get_driver()
     if driver is None:

@@ -4,6 +4,8 @@ Script to fix the route ordering in insight_router.py
 """
 
 import re
+import logging
+logger = logging.getLogger(__name__)
 
 # Read the file
 with open('backend/api/routers/insight_router.py', 'r') as f:
@@ -39,10 +41,10 @@ if get_insight_match:
             with open('backend/api/routers/insight_router.py', 'w') as f:
                 f.write(new_content)
             
-            print("Fixed route ordering in insight_router.py")
+            logger.info("Fixed route ordering in insight_router.py")
         else:
-            print("Could not find insertion point")
+            logger.info("Could not find insertion point")
     else:
-        print("Could not find status function")
+        logger.info("Could not find status function")
 else:
-    print("Could not find get_insight function")
+    logger.info("Could not find get_insight function")

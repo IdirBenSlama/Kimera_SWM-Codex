@@ -54,10 +54,10 @@ class BinanceSignatureDebugger:
             if not isinstance(private_key, ed25519.Ed25519PrivateKey):
                 raise TypeError("Not a valid Ed25519 private key")
                 
-            print(f"✅ Successfully loaded Ed25519 private key from {self.private_key_path}")
+            logger.info(f"✅ Successfully loaded Ed25519 private key from {self.private_key_path}")
             return private_key
         except Exception as e:
-            print(f"❌ Failed to load private key: {e}")
+            logger.info(f"❌ Failed to load private key: {e}")
             raise
     
     def _sign_ed25519_v1(self, query_string: str) -> str:
@@ -87,8 +87,8 @@ class BinanceSignatureDebugger:
     
     async def test_signature_formats(self):
         """Test different signature formats against Binance API."""
-        print("\n🔍 Testing Signature Formats")
-        print("=" * 50)
+        logger.info("\n🔍 Testing Signature Formats")
+        logger.info("=" * 50)
         
         # Test parameters
         params = {
@@ -97,10 +97,10 @@ class BinanceSignatureDebugger:
         }
         
         query_string = urlencode(params)
-        print(f"Query string: {query_string}")
-        print(f"Message to sign: '{query_string}'")
-        print(f"Message length: {len(query_string)} bytes")
-        print()
+        logger.info(f"Query string: {query_string}")
+        logger.info(f"Message to sign: '{query_string}'")
+        logger.info(f"Message length: {len(query_string)} bytes")
+        logger.info()
         
         # Test different signature formats
         signatures = {
@@ -111,21 +111,21 @@ class BinanceSignatureDebugger:
         }
         
         for sig_type, signature in signatures.items():
-            print(f"{sig_type}:")
-            print(f"  Signature: {signature[:50]}{'...' if len(signature) > 50 else ''}")
-            print(f"  Length: {len(signature)} chars")
-            print()
+            logger.info(f"{sig_type}:")
+            logger.info(f"  Signature: {signature[:50]}{'...' if len(signature) > 50 else ''}")
+            logger.info(f"  Length: {len(signature)} chars")
+            logger.info()
         
         # Test each signature format
         for sig_type, signature in signatures.items():
             if signature == "NO_SECRET_AVAILABLE":
-                print(f"⏭️  Skipping {sig_type} - no secret available")
+                logger.info(f"⏭️  Skipping {sig_type} - no secret available")
                 continue
                 
-            print(f"🧪 Testing {sig_type}")
+            logger.info(f"🧪 Testing {sig_type}")
             success = await self._test_account_request(params.copy(), signature)
-            print(f"{'✅' if success else '❌'} {sig_type}: {'SUCCESS' if success else 'FAILED'}")
-            print()
+            logger.info(f"{'✅' if success else '❌'} {sig_type}: {'SUCCESS' if success else 'FAILED'}")
+            logger.info()
     
     async def _test_account_request(self, params: Dict[str, Any], signature: str) -> bool:
         """Test account request with given signature."""
@@ -140,68 +140,68 @@ class BinanceSignatureDebugger:
                     data = await response.json()
                     
                     if response.status == 200:
-                        print(f"    ✅ Status: {response.status}")
-                        print(f"    ✅ Account balances found: {len(data.get('balances', []))}")
+                        logger.info(f"    ✅ Status: {response.status}")
+                        logger.info(f"    ✅ Account balances found: {len(data.get('balances', []))}")
                         return True
                     else:
-                        print(f"    ❌ Status: {response.status}")
-                        print(f"    ❌ Error: {data.get('msg', 'Unknown error')}")
-                        print(f"    ❌ Code: {data.get('code', 'No code')}")
+                        logger.info(f"    ❌ Status: {response.status}")
+                        logger.info(f"    ❌ Error: {data.get('msg', 'Unknown error')}")
+                        logger.info(f"    ❌ Code: {data.get('code', 'No code')}")
                         return False
                         
         except Exception as e:
-            print(f"    ❌ Exception: {e}")
+            logger.info(f"    ❌ Exception: {e}")
             return False
     
     async def debug_request_construction(self):
         """Debug the request construction process step by step."""
-        print("\n🔧 Request Construction Debug")
-        print("=" * 50)
+        logger.info("\n🔧 Request Construction Debug")
+        logger.info("=" * 50)
         
         # Step 1: Parameters
         params = {
             "timestamp": int(time.time() * 1000),
             "recvWindow": 5000
         }
-        print(f"1. Original params: {params}")
+        logger.info(f"1. Original params: {params}")
         
         # Step 2: Query string construction
         query_string = urlencode(params)
-        print(f"2. Query string: '{query_string}'")
+        logger.info(f"2. Query string: '{query_string}'")
         
         # Step 3: Message encoding
         message_bytes = query_string.encode('utf-8')
-        print(f"3. Message bytes: {message_bytes}")
-        print(f"   Length: {len(message_bytes)} bytes")
+        logger.info(f"3. Message bytes: {message_bytes}")
+        logger.info(f"   Length: {len(message_bytes)} bytes")
         
         # Step 4: Signature generation
         signature_bytes = self.private_key.sign(message_bytes)
-        print(f"4. Signature bytes: {signature_bytes}")
-        print(f"   Length: {len(signature_bytes)} bytes")
+        logger.info(f"4. Signature bytes: {signature_bytes}")
+        logger.info(f"   Length: {len(signature_bytes)} bytes")
         
         # Step 5: Signature encoding
         sig_base64 = base64.b64encode(signature_bytes).decode('utf-8')
         sig_hex = signature_bytes.hex()
-        print(f"5. Signature base64: {sig_base64}")
-        print(f"   Signature hex: {sig_hex}")
+        logger.info(f"5. Signature base64: {sig_base64}")
+        logger.info(f"   Signature hex: {sig_hex}")
         
         # Step 6: Final parameters
         params["signature"] = sig_base64
         final_query = urlencode(params)
-        print(f"6. Final query string: {final_query}")
+        logger.info(f"6. Final query string: {final_query}")
         
         # Step 7: Full URL
         url = f"{self.base_url}/api/v3/account?{final_query}"
-        print(f"7. Full URL: {url}")
+        logger.info(f"7. Full URL: {url}")
         
         # Step 8: Headers
         headers = {"X-MBX-APIKEY": self.api_key}
-        print(f"8. Headers: {headers}")
+        logger.info(f"8. Headers: {headers}")
         
     async def test_binance_documentation_example(self):
         """Test using exact format from Binance documentation."""
-        print("\n📖 Testing Binance Documentation Format")
-        print("=" * 50)
+        logger.info("\n📖 Testing Binance Documentation Format")
+        logger.info("=" * 50)
         
         # According to Binance API docs, Ed25519 signatures should be:
         # 1. Sign the query string with Ed25519
@@ -214,7 +214,7 @@ class BinanceSignatureDebugger:
         
         # Create query string (without signature)
         query_string = urlencode(params)
-        print(f"Query string (before signature): {query_string}")
+        logger.info(f"Query string (before signature): {query_string}")
         
         # Sign with Ed25519
         signature_bytes = self.private_key.sign(query_string.encode('utf-8'))
@@ -224,16 +224,16 @@ class BinanceSignatureDebugger:
         from urllib.parse import quote
         signature_url_encoded = quote(signature_base64)
         
-        print(f"Signature base64: {signature_base64}")
-        print(f"Signature URL encoded: {signature_url_encoded}")
+        logger.info(f"Signature base64: {signature_base64}")
+        logger.info(f"Signature URL encoded: {signature_url_encoded}")
         
         # Test both versions
-        print("\nTesting base64 signature:")
+        logger.info("\nTesting base64 signature:")
         params_v1 = params.copy()
         params_v1["signature"] = signature_base64
         success_v1 = await self._test_account_request(params_v1, signature_base64)
         
-        print("\nTesting URL-encoded signature:")
+        logger.info("\nTesting URL-encoded signature:")
         params_v2 = params.copy()
         params_v2["signature"] = signature_url_encoded
         success_v2 = await self._test_account_request(params_v2, signature_url_encoded)
@@ -242,8 +242,8 @@ class BinanceSignatureDebugger:
     
     async def test_parameter_ordering(self):
         """Test if parameter ordering affects signature validation."""
-        print("\n📋 Testing Parameter Ordering")
-        print("=" * 50)
+        logger.info("\n📋 Testing Parameter Ordering")
+        logger.info("=" * 50)
         
         timestamp = int(time.time() * 1000)
         
@@ -255,16 +255,16 @@ class BinanceSignatureDebugger:
         ]
         
         for i, params in enumerate(param_sets, 1):
-            print(f"\nTest {i}: {params}")
+            logger.info(f"\nTest {i}: {params}")
             query_string = urlencode(params)
             signature = self._sign_ed25519_v1(query_string)
             success = await self._test_account_request(params.copy(), signature)
-            print(f"Result: {'✅ SUCCESS' if success else '❌ FAILED'}")
+            logger.info(f"Result: {'✅ SUCCESS' if success else '❌ FAILED'}")
     
     async def generate_fixed_connector(self):
         """Generate a fixed version of the BinanceConnector."""
-        print("\n🔧 Generating Fixed BinanceConnector")
-        print("=" * 50)
+        logger.info("\n🔧 Generating Fixed BinanceConnector")
+        logger.info("=" * 50)
         
         # Test to find the working signature format
         working_format = None
@@ -282,15 +282,15 @@ class BinanceSignatureDebugger:
             formats_to_test.append(("hmac", self._sign_hmac(query_string)))
         
         for format_name, signature in formats_to_test:
-            print(f"Testing {format_name} format...")
+            logger.info(f"Testing {format_name} format...")
             success = await self._test_account_request(params.copy(), signature)
             if success:
                 working_format = format_name
-                print(f"✅ Found working format: {format_name}")
+                logger.info(f"✅ Found working format: {format_name}")
                 break
         
         if not working_format:
-            print("❌ No working signature format found!")
+            logger.info("❌ No working signature format found!")
             return
         
         # Generate fixed connector code
@@ -301,7 +301,7 @@ class BinanceSignatureDebugger:
         with open(output_path, 'w') as f:
             f.write(fixed_code)
         
-        print(f"✅ Fixed connector saved to: {output_path}")
+        logger.info(f"✅ Fixed connector saved to: {output_path}")
     
     def _generate_fixed_connector_code(self, working_format: str) -> str:
         """Generate the fixed connector code based on working format."""
@@ -429,8 +429,8 @@ class BinanceConnectorFixed:
 
 async def main():
     """Main debugging function."""
-    print("🚀 Kimera Binance Ed25519 Signature Debugger")
-    print("=" * 50)
+    logger.info("🚀 Kimera Binance Ed25519 Signature Debugger")
+    logger.info("=" * 50)
     
     try:
         debugger = BinanceSignatureDebugger()
@@ -442,11 +442,11 @@ async def main():
         await debugger.test_parameter_ordering()
         await debugger.generate_fixed_connector()
         
-        print("\n🎯 Debugging Complete!")
-        print("Check the generated 'binance_connector_fixed.py' for the working implementation.")
+        logger.info("\n🎯 Debugging Complete!")
+        logger.info("Check the generated 'binance_connector_fixed.py' for the working implementation.")
         
     except Exception as e:
-        print(f"❌ Debugging failed: {e}")
+        logger.info(f"❌ Debugging failed: {e}")
         import traceback
         traceback.print_exc()
 

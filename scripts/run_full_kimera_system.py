@@ -429,8 +429,8 @@ class KimeraSystemInstance:
 async def main():
     """Main entry point"""
     
-    print("🚀 KIMERA SWM FULL SYSTEM INSTANCE TEST")
-    print("=" * 60)
+    logger.info("🚀 KIMERA SWM FULL SYSTEM INSTANCE TEST")
+    logger.info("=" * 60)
     
     system = KimeraSystemInstance()
     results = await system.run_full_system_test()
@@ -440,25 +440,25 @@ async def main():
     with open(results_file, 'w') as f:
         json.dump(results, f, indent=2, default=str)
     
-    print("\n" + "=" * 60)
-    print("📋 FULL SYSTEM TEST RESULTS")
-    print("=" * 60)
+    logger.info("\n" + "=" * 60)
+    logger.info("📋 FULL SYSTEM TEST RESULTS")
+    logger.info("=" * 60)
     
     if results.get('status') == 'FAILED':
-        print(f"❌ System test failed: {results.get('error', 'Unknown error')}")
+        logger.info(f"❌ System test failed: {results.get('error', 'Unknown error')}")
     else:
-        print(f"🎯 System Status: {results.get('system_status', 'UNKNOWN')}")
-        print(f"📊 Overall Health: {results.get('overall_health', 0.0):.2f}")
-        print(f"⏱️ Test Duration: {results.get('test_duration', 0.0):.2f}s")
+        logger.info(f"🎯 System Status: {results.get('system_status', 'UNKNOWN')}")
+        logger.info(f"📊 Overall Health: {results.get('overall_health', 0.0):.2f}")
+        logger.info(f"⏱️ Test Duration: {results.get('test_duration', 0.0):.2f}s")
         
         health_breakdown = results.get('health_breakdown', {})
-        print("\n🩺 Health Breakdown:")
+        logger.info("\n🩺 Health Breakdown:")
         for component, health in health_breakdown.items():
             if component != 'overall_health':
                 status = "✅" if health > 0.7 else "⚠️" if health > 0.4 else "❌"
-                print(f"  {status} {component}: {health:.2f}")
+                logger.info(f"  {status} {component}: {health:.2f}")
     
-    print(f"\n📁 Detailed results saved to: {results_file}")
+    logger.info(f"\n📁 Detailed results saved to: {results_file}")
 
 if __name__ == "__main__":
     asyncio.run(main()) 

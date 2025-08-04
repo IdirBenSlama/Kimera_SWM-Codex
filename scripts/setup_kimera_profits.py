@@ -12,7 +12,7 @@ import subprocess
 
 def install_dependencies():
     """Install required dependencies"""
-    print("📦 Installing Dependencies...")
+    logger.info("📦 Installing Dependencies...")
     
     dependencies = [
         'aiohttp',
@@ -24,44 +24,44 @@ def install_dependencies():
     
     for dep in dependencies:
         try:
-            print(f"   Installing {dep}...")
+            logger.info(f"   Installing {dep}...")
             subprocess.run([sys.executable, '-m', 'pip', 'install', dep], 
                          check=True, capture_output=True)
-            print(f"   ✅ {dep} installed successfully")
+            logger.info(f"   ✅ {dep} installed successfully")
         except subprocess.CalledProcessError as e:
-            print(f"   ❌ Failed to install {dep}: {e}")
+            logger.info(f"   ❌ Failed to install {dep}: {e}")
             return False
     
     return True
 
 def setup_environment():
     """Setup environment variables"""
-    print("\n🔧 Setting Up Environment...")
+    logger.info("\n🔧 Setting Up Environment...")
     
     # Check if credentials are already set
     if os.getenv('BINANCE_API_KEY') and os.getenv('BINANCE_SECRET_KEY'):
-        print("   ✅ Binance credentials already configured")
+        logger.info("   ✅ Binance credentials already configured")
         return True
     
-    print("   🔑 Binance API credentials needed")
-    print("   Go to https://binance.com/en/my/settings/api-management")
-    print("   Create new API key with trading permissions")
-    print("   Then set these environment variables:")
-    print()
-    print("   Windows:")
-    print("     set BINANCE_API_KEY=your_api_key_here")
-    print("     set BINANCE_SECRET_KEY=your_secret_key_here")
-    print()
-    print("   Linux/Mac:")
-    print("     export BINANCE_API_KEY=your_api_key_here")
-    print("     export BINANCE_SECRET_KEY=your_secret_key_here")
-    print()
+    logger.info("   🔑 Binance API credentials needed")
+    logger.info("   Go to https://binance.com/en/my/settings/api-management")
+    logger.info("   Create new API key with trading permissions")
+    logger.info("   Then set these environment variables:")
+    logger.info()
+    logger.info("   Windows:")
+    logger.info("     set BINANCE_API_KEY=your_api_key_here")
+    logger.info("     set BINANCE_SECRET_KEY=your_secret_key_here")
+    logger.info()
+    logger.info("   Linux/Mac:")
+    logger.info("     export BINANCE_API_KEY=your_api_key_here")
+    logger.info("     export BINANCE_SECRET_KEY=your_secret_key_here")
+    logger.info()
     
     return False
 
 def create_startup_files():
     """Create startup configuration files"""
-    print("\n📝 Creating Configuration Files...")
+    logger.info("\n📝 Creating Configuration Files...")
     
     # Create a simple config file
     config = {
@@ -79,51 +79,53 @@ def create_startup_files():
     
     try:
         import json
+import logging
+logger = logging.getLogger(__name__)
         with open('kimera_config.json', 'w') as f:
             json.dump(config, f, indent=2)
-        print("   ✅ Configuration file created")
+        logger.info("   ✅ Configuration file created")
     except Exception as e:
-        print(f"   ❌ Failed to create config file: {e}")
+        logger.info(f"   ❌ Failed to create config file: {e}")
         return False
     
     return True
 
 def display_next_steps():
     """Display next steps for the user"""
-    print("\n" + "="*60)
-    print("🎉 KIMERA PROFIT SYSTEM SETUP COMPLETE!")
-    print("="*60)
-    print()
-    print("📋 Next Steps:")
-    print("   1. Set up your Binance API credentials (if not done already)")
-    print("   2. Fund your Binance account with trading capital")
-    print("   3. Run: python start_kimera_profits.py")
-    print("   4. Monitor profits with: python check_kimera_profits.py")
-    print()
-    print("⚠️  Important Reminders:")
-    print("   • Start with small amounts for testing")
-    print("   • Monitor the system regularly")
-    print("   • Keep your API keys secure")
-    print("   • This system trades with real money")
-    print()
-    print("📚 Files Created:")
-    print("   • kimera_autonomous_profit_system.py - Main system")
-    print("   • start_kimera_profits.py - Easy startup script")
-    print("   • check_kimera_profits.py - Profit checker")
-    print("   • kimera_config.json - Configuration file")
-    print("   • setup_kimera_profits.py - This setup script")
-    print()
-    print("🚀 Ready to start making autonomous profits!")
-    print("="*60)
+    logger.info("\n" + "="*60)
+    logger.info("🎉 KIMERA PROFIT SYSTEM SETUP COMPLETE!")
+    logger.info("="*60)
+    logger.info()
+    logger.info("📋 Next Steps:")
+    logger.info("   1. Set up your Binance API credentials (if not done already)")
+    logger.info("   2. Fund your Binance account with trading capital")
+    logger.info("   3. Run: python start_kimera_profits.py")
+    logger.info("   4. Monitor profits with: python check_kimera_profits.py")
+    logger.info()
+    logger.info("⚠️  Important Reminders:")
+    logger.info("   • Start with small amounts for testing")
+    logger.info("   • Monitor the system regularly")
+    logger.info("   • Keep your API keys secure")
+    logger.info("   • This system trades with real money")
+    logger.info()
+    logger.info("📚 Files Created:")
+    logger.info("   • kimera_autonomous_profit_system.py - Main system")
+    logger.info("   • start_kimera_profits.py - Easy startup script")
+    logger.info("   • check_kimera_profits.py - Profit checker")
+    logger.info("   • kimera_config.json - Configuration file")
+    logger.info("   • setup_kimera_profits.py - This setup script")
+    logger.info()
+    logger.info("🚀 Ready to start making autonomous profits!")
+    logger.info("="*60)
 
 def main():
     """Main setup function"""
-    print("🚀 Kimera Autonomous Profit System Setup")
-    print("=" * 50)
+    logger.info("🚀 Kimera Autonomous Profit System Setup")
+    logger.info("=" * 50)
     
     # Install dependencies
     if not install_dependencies():
-        print("❌ Failed to install dependencies")
+        logger.info("❌ Failed to install dependencies")
         sys.exit(1)
     
     # Setup environment
@@ -131,17 +133,17 @@ def main():
     
     # Create configuration files
     if not create_startup_files():
-        print("❌ Failed to create configuration files")
+        logger.info("❌ Failed to create configuration files")
         sys.exit(1)
     
     # Display next steps
     display_next_steps()
     
     if not credentials_ready:
-        print("\n⚠️  Please set up your Binance API credentials before running the system")
-        print("   Then run: python start_kimera_profits.py")
+        logger.info("\n⚠️  Please set up your Binance API credentials before running the system")
+        logger.info("   Then run: python start_kimera_profits.py")
     else:
-        print("\n🎯 Setup complete! You can now run: python start_kimera_profits.py")
+        logger.info("\n🎯 Setup complete! You can now run: python start_kimera_profits.py")
 
 if __name__ == "__main__":
     main() 

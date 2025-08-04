@@ -1,0 +1,5 @@
+{
+  "status": "FAILED",
+  "max_successful_dimension": 0,
+  "recommendation": "System cannot handle high-dimensional BGM"
+}

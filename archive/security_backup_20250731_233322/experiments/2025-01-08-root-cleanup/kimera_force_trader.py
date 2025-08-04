@@ -299,25 +299,25 @@ class KimeraForceTrader:
 
 async def main():
     """Launch Kimera Force Trader"""
-    print("KIMERA FORCE EXECUTION TRADER")
-    print("=" * 50)
-    print("GUARANTEED TRADE EXECUTION")
-    print("NO SAFETY BARRIERS")
-    print("$10 PER TRADE")
-    print("5-SECOND INTERVALS")
-    print("=" * 50)
+    logger.info("KIMERA FORCE EXECUTION TRADER")
+    logger.info("=" * 50)
+    logger.info("GUARANTEED TRADE EXECUTION")
+    logger.info("NO SAFETY BARRIERS")
+    logger.info("$10 PER TRADE")
+    logger.info("5-SECOND INTERVALS")
+    logger.info("=" * 50)
     
     confirmation = input("\nWARNING: This will execute REAL trades with REAL money.\nType 'FORCE' to proceed: ")
     
     if confirmation == 'FORCE':
-        print("\nLAUNCHING FORCE TRADER...")
+        logger.info("\nLAUNCHING FORCE TRADER...")
         
         trader = KimeraForceTrader()
         await trader.force_trading_session()
         
-        print("\nFORCE TRADING SESSION COMPLETED")
+        logger.info("\nFORCE TRADING SESSION COMPLETED")
     else:
-        print("Force trading aborted")
+        logger.info("Force trading aborted")
 
 if __name__ == "__main__":
     asyncio.run(main()) 

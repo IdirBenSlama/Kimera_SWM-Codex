@@ -683,35 +683,35 @@ class KimeraAggressive10MinTrader:
 
 async def main():
     """Main entry point for aggressive trading"""
-    print("🚨 KIMERA AGGRESSIVE 10-MINUTE TRADER 🚨")
-    print("=" * 50)
-    print("⚠️  EXTREME RISK WARNING:")
-    print("   • This attempts 500% return in 10 minutes")
-    print("   • You could lose ALL your money")
-    print("   • Only use money you can afford to lose")
-    print("   • This is experimental and very risky")
-    print("=" * 50)
+    logger.info("🚨 KIMERA AGGRESSIVE 10-MINUTE TRADER 🚨")
+    logger.info("=" * 50)
+    logger.info("⚠️  EXTREME RISK WARNING:")
+    logger.info("   • This attempts 500% return in 10 minutes")
+    logger.info("   • You could lose ALL your money")
+    logger.info("   • Only use money you can afford to lose")
+    logger.info("   • This is experimental and very risky")
+    logger.info("=" * 50)
     
     # Get user confirmation
-    print("\n🤔 Do you want to proceed with EXTREME RISK trading?")
-    print("   Type 'I UNDERSTAND THE RISKS' to continue")
-    print("   Type anything else to cancel")
+    logger.info("\n🤔 Do you want to proceed with EXTREME RISK trading?")
+    logger.info("   Type 'I UNDERSTAND THE RISKS' to continue")
+    logger.info("   Type anything else to cancel")
     
     response = input("\nYour response: ").strip()
     
     if response != "I UNDERSTAND THE RISKS":
-        print("\n👋 Trading cancelled. Stay safe!")
+        logger.info("\n👋 Trading cancelled. Stay safe!")
         return
     
     # Final confirmation
-    print("\n💰 Starting with $50 to target $300 in 10 minutes")
-    print("🔥 This is MAXIMUM RISK trading")
-    print("⚡ Press Enter to start, or Ctrl+C to cancel")
+    logger.info("\n💰 Starting with $50 to target $300 in 10 minutes")
+    logger.info("🔥 This is MAXIMUM RISK trading")
+    logger.info("⚡ Press Enter to start, or Ctrl+C to cancel")
     
     try:
         input()
     except KeyboardInterrupt:
-        print("\n🛑 Cancelled by user")
+        logger.info("\n🛑 Cancelled by user")
         return
     
     # Start aggressive trading
@@ -720,9 +720,9 @@ async def main():
     try:
         await trader.start_aggressive_trading()
     except KeyboardInterrupt:
-        print("\n🛑 Trading stopped by user")
+        logger.info("\n🛑 Trading stopped by user")
     except Exception as e:
-        print(f"\n❌ Trading error: {e}")
+        logger.info(f"\n❌ Trading error: {e}")
 
 if __name__ == "__main__":
     asyncio.run(main()) 

@@ -6,6 +6,8 @@ Check Binance API ban status
 import requests
 import time
 from datetime import datetime
+import logging
+logger = logging.getLogger(__name__)
 
 def check_api_status():
     """Check if Binance API is accessible"""
@@ -15,33 +17,33 @@ def check_api_status():
         
         if response.status_code == 200:
             server_time = response.json()
-            print(f"✅ API ACCESSIBLE - Server time: {datetime.fromtimestamp(server_time['serverTime']/1000)}")
+            logger.info(f"✅ API ACCESSIBLE - Server time: {datetime.fromtimestamp(server_time['serverTime']/1000)}")
             return True
         elif response.status_code == 418:
-            print(f"❌ API BANNED (418 - I'm a teapot)")
+            logger.info(f"❌ API BANNED (418 - I'm a teapot)")
             return False
         else:
-            print(f"⚠️ API Status: {response.status_code}")
+            logger.info(f"⚠️ API Status: {response.status_code}")
             return False
             
     except Exception as e:
-        print(f"❌ API Error: {e}")
+        logger.info(f"❌ API Error: {e}")
         return False
 
 def monitor_ban_status():
     """Monitor API ban status until lifted"""
-    print("🔍 Monitoring Binance API ban status...")
-    print("⏰ Checking every 30 seconds...")
+    logger.info("🔍 Monitoring Binance API ban status...")
+    logger.info("⏰ Checking every 30 seconds...")
     
     while True:
         timestamp = datetime.now().strftime("%H:%M:%S")
-        print(f"\n[{timestamp}] Checking API status...")
+        logger.info(f"\n[{timestamp}] Checking API status...")
         
         if check_api_status():
-            print("🎉 API BAN LIFTED! Ready to trade!")
+            logger.info("🎉 API BAN LIFTED! Ready to trade!")
             break
         else:
-            print("⏳ Still banned, waiting 30 seconds...")
+            logger.info("⏳ Still banned, waiting 30 seconds...")
             time.sleep(30)
 
 if __name__ == "__main__":

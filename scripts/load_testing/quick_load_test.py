@@ -20,13 +20,13 @@ try:
     pynvml.nvmlInit()
     # Check for multiple GPUs
     gpu_count = pynvml.nvmlDeviceGetCount()
-    print(f"🎮 Detected {gpu_count} GPU(s)")
+    logger.info(f"🎮 Detected {gpu_count} GPU(s)")
     for i in range(gpu_count):
         handle = pynvml.nvmlDeviceGetHandleByIndex(i)
         name = pynvml.nvmlDeviceGetName(handle)
         if isinstance(name, bytes):
             name = name.decode('utf-8')
-        print(f"   GPU {i}: {name}")
+        logger.info(f"   GPU {i}: {name}")
 except ImportError:
     NVML_AVAILABLE = False
     gpu_count = 0

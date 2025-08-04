@@ -606,32 +606,32 @@ async def main():
         logger.info(f"📄 Report saved: {report_file}")
         
         # Display summary
-        print("\n" + "=" * 60)
-        print("🎯 KIMERA CDP AGENTKIT INTEGRATION RESULTS")
-        print("=" * 60)
+        logger.info("\n" + "=" * 60)
+        logger.info("🎯 KIMERA CDP AGENTKIT INTEGRATION RESULTS")
+        logger.info("=" * 60)
         
         if 'cycle_summary' in report:
             summary = report['cycle_summary']
-            print(f"⏱️  Duration: {summary['duration_seconds']:.1f} seconds")
-            print(f"🔄 Operations: {summary['total_operations']}")
-            print(f"✅ Success Rate: {summary['success_rate']*100:.1f}%")
-            print(f"📈 Ops/Min: {summary['operations_per_minute']:.1f}")
+            logger.info(f"⏱️  Duration: {summary['duration_seconds']:.1f} seconds")
+            logger.info(f"🔄 Operations: {summary['total_operations']}")
+            logger.info(f"✅ Success Rate: {summary['success_rate']*100:.1f}%")
+            logger.info(f"📈 Ops/Min: {summary['operations_per_minute']:.1f}")
             
         if 'cognitive_performance' in report:
             cognitive = report['cognitive_performance']
-            print(f"🧠 Avg Confidence: {cognitive['avg_confidence']:.3f}")
+            logger.info(f"🧠 Avg Confidence: {cognitive['avg_confidence']:.3f}")
             
         if 'blockchain_performance' in report:
             blockchain = report['blockchain_performance']
-            print(f"⛽ Total Gas: {blockchain['total_gas_used']:.0f}")
-            print(f"⚡ Avg Exec Time: {blockchain['avg_execution_time']:.3f}s")
+            logger.info(f"⛽ Total Gas: {blockchain['total_gas_used']:.0f}")
+            logger.info(f"⚡ Avg Exec Time: {blockchain['avg_execution_time']:.3f}s")
             
-        print("=" * 60)
-        print("🎉 Kimera CDP AgentKit Integration: SUCCESSFUL")
+        logger.info("=" * 60)
+        logger.info("🎉 Kimera CDP AgentKit Integration: SUCCESSFUL")
         
     except Exception as e:
         logger.error(f"❌ Demo execution error: {e}")
-        print(f"❌ Demo failed: {e}")
+        logger.info(f"❌ Demo failed: {e}")
 
 if __name__ == "__main__":
     asyncio.run(main()) 

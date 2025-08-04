@@ -493,8 +493,8 @@ class OracleAggregator:
 
 async def main():
     """Test oracle integration"""
-    print("\n🔮 KIMERA DECENTRALIZED ORACLE INTEGRATION")
-    print("=" * 60)
+    logger.info("\n🔮 KIMERA DECENTRALIZED ORACLE INTEGRATION")
+    logger.info("=" * 60)
     
     aggregator = OracleAggregator()
     
@@ -503,20 +503,20 @@ async def main():
     # Test aggregated sentiment
     results = await aggregator.get_multi_asset_sentiment(test_assets)
     
-    print(f"\n📊 ORACLE SENTIMENT RESULTS")
-    print("=" * 60)
+    logger.info(f"\n📊 ORACLE SENTIMENT RESULTS")
+    logger.info("=" * 60)
     
     for asset, data in results.items():
-        print(f"\n{asset}:")
-        print(f"  Sentiment: {data['aggregated_sentiment']:.3f}")
-        print(f"  Confidence: {data['aggregated_confidence']:.3f}")
-        print(f"  Consensus: {data['consensus_score']:.3f}")
-        print(f"  Response Time: {data['total_response_time_ms']:.1f}ms")
-        print(f"  Oracle Sources: {data['oracle_count']}")
+        logger.info(f"\n{asset}:")
+        logger.info(f"  Sentiment: {data['aggregated_sentiment']:.3f}")
+        logger.info(f"  Confidence: {data['aggregated_confidence']:.3f}")
+        logger.info(f"  Consensus: {data['consensus_score']:.3f}")
+        logger.info(f"  Response Time: {data['total_response_time_ms']:.1f}ms")
+        logger.info(f"  Oracle Sources: {data['oracle_count']}")
         
-        print(f"  Breakdown:")
+        logger.info(f"  Breakdown:")
         for oracle, oracle_data in data['oracle_breakdown'].items():
-            print(f"    {oracle}: {oracle_data['sentiment']:.3f} "
+            logger.info(f"    {oracle}: {oracle_data['sentiment']:.3f} "
                   f"(conf: {oracle_data['confidence']:.2f}, "
                   f"time: {oracle_data['response_time']:.1f}ms)")
 

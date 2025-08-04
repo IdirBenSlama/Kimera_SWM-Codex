@@ -883,26 +883,26 @@ def get_cluster_status() -> Dict[str, Any]:
 if __name__ == "__main__":
     # Test horizontal scaling
     async def test_horizontal_scaling():
-        print("🔄 Testing Kimera SWM Horizontal Scaling System")
-        print("=" * 55)
+        logger.info("🔄 Testing Kimera SWM Horizontal Scaling System")
+        logger.info("=" * 55)
         
         # Initialize
         success = await initialize_horizontal_scaling()
         
         if success:
-            print("✅ Horizontal scaling system initialized")
+            logger.info("✅ Horizontal scaling system initialized")
             
             # Test request routing
             node = await route_cognitive_request("understanding", {"priority": "high"})
-            print(f"Routed request to node: {node}")
+            logger.info(f"Routed request to node: {node}")
             
             # Get cluster status
             status = get_cluster_status()
-            print(f"Cluster nodes: {status['cluster_metrics'].healthy_nodes}")
-            print(f"Load balance efficiency: {status['cluster_metrics'].load_balance_efficiency:.3f}")
+            logger.info(f"Cluster nodes: {status['cluster_metrics'].healthy_nodes}")
+            logger.info(f"Load balance efficiency: {status['cluster_metrics'].load_balance_efficiency:.3f}")
         else:
-            print("❌ Horizontal scaling initialization failed")
+            logger.info("❌ Horizontal scaling initialization failed")
         
-        print("\n🎯 Horizontal Scaling System Ready!")
+        logger.info("\n🎯 Horizontal Scaling System Ready!")
     
     asyncio.run(test_horizontal_scaling())

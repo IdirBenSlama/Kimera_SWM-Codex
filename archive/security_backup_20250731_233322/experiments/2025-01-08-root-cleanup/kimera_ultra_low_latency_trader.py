@@ -566,18 +566,18 @@ class KimeraUltraLowLatencyTrader:
             start_time = datetime.now()
             end_time = start_time + timedelta(minutes=runtime_minutes)
             
-            print("=" * 100)
-            print("KIMERA ULTRA-LOW LATENCY TRADING SYSTEM")
-            print("State-of-the-Art Implementation - Nanosecond Precision")
-            print("=" * 100)
-            print(f"Runtime: {runtime_minutes} minutes")
-            print(f"Trading Pairs: {', '.join(self.trading_pairs)}")
-            print(f"Target Profit: {self.target_profit_bps} bps")
-            print(f"Risk Level: {self.risk_manager.risk_level.value}")
+            logger.info("=" * 100)
+            logger.info("KIMERA ULTRA-LOW LATENCY TRADING SYSTEM")
+            logger.info("State-of-the-Art Implementation - Nanosecond Precision")
+            logger.info("=" * 100)
+            logger.info(f"Runtime: {runtime_minutes} minutes")
+            logger.info(f"Trading Pairs: {', '.join(self.trading_pairs)}")
+            logger.info(f"Target Profit: {self.target_profit_bps} bps")
+            logger.info(f"Risk Level: {self.risk_manager.risk_level.value}")
             
             initial_balance = self.get_account_balance()
-            print(f"Starting Balance: ${initial_balance}")
-            print("=" * 100)
+            logger.info(f"Starting Balance: ${initial_balance}")
+            logger.info("=" * 100)
             
             self.running = True
             logger.info("ULTRA-LOW LATENCY TRADING SESSION STARTED")
@@ -642,32 +642,32 @@ class KimeraUltraLowLatencyTrader:
         # Get detailed performance statistics
         perf_stats = self.performance_analyzer.calculate_performance_stats()
         
-        print("\n" + "=" * 100)
-        print("KIMERA ULTRA-LOW LATENCY PERFORMANCE REPORT")
-        print("=" * 100)
-        print(f"Runtime: {runtime_seconds:.1f} seconds")
-        print(f"Initial Balance: ${initial_balance:.6f}")
-        print(f"Final Balance: ${final_balance:.6f}")
-        print(f"Total Profit: ${total_profit:.6f}")
-        print(f"Profit Percentage: {profit_pct:.4f}%")
-        print(f"Successful Trades: {self.successful_trades}")
-        print(f"Total Trade Attempts: {self.total_trades}")
-        print(f"Success Rate: {(self.successful_trades/max(self.total_trades,1)*100):.2f}%")
-        print(f"Final Risk Level: {self.risk_manager.risk_level.value}")
+        logger.info("\n" + "=" * 100)
+        logger.info("KIMERA ULTRA-LOW LATENCY PERFORMANCE REPORT")
+        logger.info("=" * 100)
+        logger.info(f"Runtime: {runtime_seconds:.1f} seconds")
+        logger.info(f"Initial Balance: ${initial_balance:.6f}")
+        logger.info(f"Final Balance: ${final_balance:.6f}")
+        logger.info(f"Total Profit: ${total_profit:.6f}")
+        logger.info(f"Profit Percentage: {profit_pct:.4f}%")
+        logger.info(f"Successful Trades: {self.successful_trades}")
+        logger.info(f"Total Trade Attempts: {self.total_trades}")
+        logger.info(f"Success Rate: {(self.successful_trades/max(self.total_trades,1)*100):.2f}%")
+        logger.info(f"Final Risk Level: {self.risk_manager.risk_level.value}")
         
         if perf_stats:
-            print("\n" + "=" * 50)
-            print("LATENCY PERFORMANCE METRICS")
-            print("=" * 50)
+            logger.info("\n" + "=" * 50)
+            logger.info("LATENCY PERFORMANCE METRICS")
+            logger.info("=" * 50)
             total_lat = perf_stats.get('total_latency', {})
             if total_lat:
-                print(f"Total Latency Statistics:")
-                print(f"  Minimum: {total_lat.get('min_ns', 0):,} ns ({total_lat.get('min_ns', 0)/1_000_000:.2f} ms)")
-                print(f"  Maximum: {total_lat.get('max_ns', 0):,} ns ({total_lat.get('max_ns', 0)/1_000_000:.2f} ms)")
-                print(f"  Average: {total_lat.get('mean_ns', 0):,.0f} ns ({total_lat.get('mean_ns', 0)/1_000_000:.2f} ms)")
-                print(f"  Median:  {total_lat.get('median_ns', 0):,.0f} ns ({total_lat.get('median_ns', 0)/1_000_000:.2f} ms)")
-                print(f"  95th %:  {total_lat.get('p95_ns', 0):,.0f} ns ({total_lat.get('p95_ns', 0)/1_000_000:.2f} ms)")
-                print(f"  99th %:  {total_lat.get('p99_ns', 0):,.0f} ns ({total_lat.get('p99_ns', 0)/1_000_000:.2f} ms)")
+                logger.info(f"Total Latency Statistics:")
+                logger.info(f"  Minimum: {total_lat.get('min_ns', 0):,} ns ({total_lat.get('min_ns', 0)/1_000_000:.2f} ms)")
+                logger.info(f"  Maximum: {total_lat.get('max_ns', 0):,} ns ({total_lat.get('max_ns', 0)/1_000_000:.2f} ms)")
+                logger.info(f"  Average: {total_lat.get('mean_ns', 0):,.0f} ns ({total_lat.get('mean_ns', 0)/1_000_000:.2f} ms)")
+                logger.info(f"  Median:  {total_lat.get('median_ns', 0):,.0f} ns ({total_lat.get('median_ns', 0)/1_000_000:.2f} ms)")
+                logger.info(f"  95th %:  {total_lat.get('p95_ns', 0):,.0f} ns ({total_lat.get('p95_ns', 0)/1_000_000:.2f} ms)")
+                logger.info(f"  99th %:  {total_lat.get('p99_ns', 0):,.0f} ns ({total_lat.get('p99_ns', 0)/1_000_000:.2f} ms)")
         
         # Save detailed results
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -697,7 +697,7 @@ class KimeraUltraLowLatencyTrader:
             json.dump(results_data, f, indent=2, default=str)
         
         logger.info(f"ULTRA-LOW LATENCY RESULTS SAVED: {results_file}")
-        print("=" * 100)
+        logger.info("=" * 100)
 
 def main():
     """Main execution function"""

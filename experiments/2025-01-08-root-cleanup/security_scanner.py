@@ -70,7 +70,7 @@ class SecurityScanner:
                             'severity': 'HIGH' if any(x in line.lower() for x in ['production', 'prod', 'live']) else 'MEDIUM'
                         })
         except Exception as e:
-            print(f"Error scanning {file_path}: {e}")
+            logger.info(f"Error scanning {file_path}: {e}")
         
         return findings
     
@@ -134,7 +134,7 @@ Pattern: {finding['pattern']}
 if __name__ == "__main__":
     scanner = SecurityScanner(Path.cwd())
     report = scanner.generate_report()
-    print(report)
+    logger.info(report)
     
     # Save report
     with open("security_scan_report.md", "w") as f:

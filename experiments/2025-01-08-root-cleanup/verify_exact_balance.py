@@ -13,6 +13,8 @@ import hashlib
 import time
 import os
 from urllib.parse import urlencode
+import logging
+logger = logging.getLogger(__name__)
 
 class ExactBalanceChecker:
     def __init__(self):
@@ -51,8 +53,8 @@ class ExactBalanceChecker:
             async with self.session.get(url, params=params, headers=headers) as response:
                 data = await response.json()
                 
-                print("🔍 EXACT BALANCE VERIFICATION")
-                print("=" * 50)
+                logger.info("🔍 EXACT BALANCE VERIFICATION")
+                logger.info("=" * 50)
                 
                 total_value_usdt = 0
                 positions = []
@@ -67,7 +69,7 @@ class ExactBalanceChecker:
                         if asset == 'USDT':
                             value_usdt = total
                             total_value_usdt += value_usdt
-                            print(f"💰 {asset}: {total:.8f} = ${value_usdt:.2f}")
+                            logger.info(f"💰 {asset}: {total:.8f} = ${value_usdt:.2f}")
                         else:
                             # Get current price for non-USDT assets
                             try:
@@ -82,36 +84,36 @@ class ExactBalanceChecker:
                                     'value': value_usdt
                                 })
                                 
-                                print(f"🎯 {asset}: {total:.8f} @ ${price:.2f} = ${value_usdt:.2f}")
+                                logger.info(f"🎯 {asset}: {total:.8f} @ ${price:.2f} = ${value_usdt:.2f}")
                             except Exception as e:
-                                print(f"⚠️ Could not get price for {asset}: {e}")
+                                logger.info(f"⚠️ Could not get price for {asset}: {e}")
                 
-                print("=" * 50)
-                print(f"📈 TOTAL PORTFOLIO VALUE: ${total_value_usdt:.2f}")
-                print("=" * 50)
+                logger.info("=" * 50)
+                logger.info(f"📈 TOTAL PORTFOLIO VALUE: ${total_value_usdt:.2f}")
+                logger.info("=" * 50)
                 
                 # Target analysis
                 target_value = 300.0
                 starting_value = 50.0
                 
                 if total_value_usdt >= target_value:
-                    print(f"🎉 TARGET ACHIEVED! ${total_value_usdt:.2f} >= ${target_value:.2f}")
+                    logger.info(f"🎉 TARGET ACHIEVED! ${total_value_usdt:.2f} >= ${target_value:.2f}")
                     success_rate = (total_value_usdt / target_value) * 100
-                    print(f"🎯 Success Rate: {success_rate:.1f}%")
+                    logger.info(f"🎯 Success Rate: {success_rate:.1f}%")
                 else:
-                    print(f"⚠️ Target not reached: ${total_value_usdt:.2f} < ${target_value:.2f}")
+                    logger.info(f"⚠️ Target not reached: ${total_value_usdt:.2f} < ${target_value:.2f}")
                     progress = (total_value_usdt / target_value) * 100
-                    print(f"📊 Progress: {progress:.1f}% to target")
+                    logger.info(f"📊 Progress: {progress:.1f}% to target")
                 
                 # Profit calculation
                 profit = total_value_usdt - starting_value
                 profit_pct = (profit / starting_value) * 100
-                print(f"💰 Profit: ${profit:.2f} ({profit_pct:+.1f}%)")
+                logger.info(f"💰 Profit: ${profit:.2f} ({profit_pct:+.1f}%)")
                 
                 return total_value_usdt
                 
         except Exception as e:
-            print(f"❌ Error checking balance: {e}")
+            logger.info(f"❌ Error checking balance: {e}")
             return 0
     
     async def get_price(self, symbol: str) -> float:
@@ -124,12 +126,12 @@ class ExactBalanceChecker:
                 data = await response.json()
                 return float(data['price'])
         except Exception as e:
-            print(f"Error getting price for {symbol}: {e}")
+            logger.info(f"Error getting price for {symbol}: {e}")
             return 0
 
 async def main():
-    print("🔍 KIMERA EXACT BALANCE VERIFICATION")
-    print("====================================")
+    logger.info("🔍 KIMERA EXACT BALANCE VERIFICATION")
+    logger.info("====================================")
     
     async with ExactBalanceChecker() as checker:
         await checker.get_precise_balance()

@@ -36,8 +36,8 @@ class KimeraIssueFixer:
         
     def run_all_fixes(self):
         """Run all fixes in sequence"""
-        print("KIMERA SWM COMPREHENSIVE FIX TOOL v2")
-        print("=" * 60)
+        logger.info("KIMERA SWM COMPREHENSIVE FIX TOOL v2")
+        logger.info("=" * 60)
         
         # Fix 1: API Route Registration
         self.fix_api_routes()
@@ -56,8 +56,8 @@ class KimeraIssueFixer:
     
     def fix_api_routes(self):
         """Fix API route registration issues"""
-        print("\nFIX 1: API Route Registration")
-        print("-" * 40)
+        logger.info("\nFIX 1: API Route Registration")
+        logger.info("-" * 40)
         
         try:
             # Fix main.py router loading with proper encoding
@@ -87,21 +87,21 @@ class KimeraIssueFixer:
                 with open(main_path, 'w', encoding='utf-8') as f:
                     f.write(content)
                 
-                print("  Updated main.py router imports")
+                logger.info("  Updated main.py router imports")
             
             self.fixes_applied.append("API route registration updated")
-            print("OK - API routes configured")
+            logger.info("OK - API routes configured")
             
         except Exception as e:
             error_msg = f"Failed to fix API routes: {e}"
             logger.error(error_msg)
             self.errors.append(error_msg)
-            print(f"ERROR - {error_msg}")
+            logger.info(f"ERROR - {error_msg}")
     
     def fix_progressive_initialization(self):
         """Fix progressive initialization issues"""
-        print("\nFIX 2: Progressive Initialization")
-        print("-" * 40)
+        logger.info("\nFIX 2: Progressive Initialization")
+        logger.info("-" * 40)
         
         try:
             # Fix the unified architecture initialization
@@ -144,11 +144,11 @@ def patch_unified_architecture():
         # Apply patch
         UnifiedMasterCognitiveArchitecture.__init__ = patched_init
         
-        print("Patched UnifiedMasterCognitiveArchitecture initialization")
+        logger.info("Patched UnifiedMasterCognitiveArchitecture initialization")
         return True
         
     except Exception as e:
-        print(f"Failed to patch architecture: {e}")
+        logger.info(f"Failed to patch architecture: {e}")
         return False
 
 # Auto-patch on import
@@ -159,18 +159,18 @@ patch_unified_architecture()
                 f.write(arch_fix_content)
             
             self.fixes_applied.append("Progressive initialization fixed")
-            print("OK - Progressive initialization patched")
+            logger.info("OK - Progressive initialization patched")
             
         except Exception as e:
             error_msg = f"Failed to fix progressive initialization: {e}"
             logger.error(error_msg)
             self.errors.append(error_msg)
-            print(f"ERROR - {error_msg}")
+            logger.info(f"ERROR - {error_msg}")
     
     def fix_missing_configs(self):
         """Create any missing configuration files"""
-        print("\nFIX 3: Missing Configurations")
-        print("-" * 40)
+        logger.info("\nFIX 3: Missing Configurations")
+        logger.info("-" * 40)
         
         try:
             # Create .env file if missing
@@ -202,19 +202,19 @@ MAX_WORKERS=4
 """
                 with open(env_path, 'w', encoding='utf-8') as f:
                     f.write(env_content)
-                print("  Created .env configuration")
+                logger.info("  Created .env configuration")
             
             # Create startup script
             self._create_startup_script()
             
             self.fixes_applied.append("Missing configurations created")
-            print("OK - Configuration files created")
+            logger.info("OK - Configuration files created")
             
         except Exception as e:
             error_msg = f"Failed to create configurations: {e}"
             logger.error(error_msg)
             self.errors.append(error_msg)
-            print(f"ERROR - {error_msg}")
+            logger.info(f"ERROR - {error_msg}")
     
     def _create_startup_script(self):
         """Create optimized startup script"""
@@ -243,21 +243,21 @@ sys.path.insert(0, str(project_root))
 
 # Import and run
 if __name__ == "__main__":
-    print("Starting Kimera SWM (Optimized)")
-    print("=" * 50)
+    logger.info("Starting Kimera SWM (Optimized)")
+    logger.info("=" * 50)
     
     # Import fixes
     try:
         from src.core.unified_master_cognitive_architecture_fix import patch_unified_architecture
-        print("Architecture patches loaded")
+        logger.info("Architecture patches loaded")
     except:
-        print("Architecture patches not found")
+        logger.info("Architecture patches not found")
     
     try:
         from src.core.gpu.gpu_optimizer import gpu_optimizer
-        print(f"GPU optimizer loaded: {gpu_optimizer.device}")
+        logger.info(f"GPU optimizer loaded: {gpu_optimizer.device}")
     except:
-        print("GPU optimizer not found")
+        logger.info("GPU optimizer not found")
     
     # Start Kimera
     from src.main import main
@@ -273,12 +273,12 @@ if __name__ == "__main__":
         except:
             pass
         
-        print("  Created optimized startup script")
+        logger.info("  Created optimized startup script")
     
     def fix_main_py_loading(self):
         """Fix main.py loading issues"""
-        print("\nFIX 4: Main.py Loading")
-        print("-" * 40)
+        logger.info("\nFIX 4: Main.py Loading")
+        logger.info("-" * 40)
         
         try:
             main_path = self.project_root / "src" / "main.py"
@@ -306,46 +306,46 @@ if __name__ == "__main__":
                 with open(main_path, 'w', encoding='utf-8') as f:
                     f.write(content)
                 
-                print("  Updated main.py with fix imports")
+                logger.info("  Updated main.py with fix imports")
             
             self.fixes_applied.append("Main.py loading fixed")
-            print("OK - Main.py updated")
+            logger.info("OK - Main.py updated")
             
         except Exception as e:
             error_msg = f"Failed to fix main.py loading: {e}"
             logger.error(error_msg)
             self.errors.append(error_msg)
-            print(f"ERROR - {error_msg}")
+            logger.info(f"ERROR - {error_msg}")
     
     def print_summary(self):
         """Print summary of fixes applied"""
-        print("\n" + "=" * 60)
-        print("FIX SUMMARY")
-        print("=" * 60)
+        logger.info("\n" + "=" * 60)
+        logger.info("FIX SUMMARY")
+        logger.info("=" * 60)
         
         if self.fixes_applied:
-            print("\nFixes Applied:")
+            logger.info("\nFixes Applied:")
             for fix in self.fixes_applied:
-                print(f"  - {fix}")
+                logger.info(f"  - {fix}")
         
         if self.errors:
-            print("\nErrors Encountered:")
+            logger.info("\nErrors Encountered:")
             for error in self.errors:
-                print(f"  - {error}")
+                logger.info(f"  - {error}")
         
-        print("\nNext Steps:")
-        print("  1. Restart Kimera using: python scripts/start_kimera_optimized.py")
-        print("  2. Test API endpoints at: http://127.0.0.1:8000/docs")
-        print("  3. Monitor GPU usage with: nvidia-smi -l 1")
-        print("  4. Check logs in: logs/kimera_system.log")
+        logger.info("\nNext Steps:")
+        logger.info("  1. Restart Kimera using: python scripts/start_kimera_optimized.py")
+        logger.info("  2. Test API endpoints at: http://127.0.0.1:8000/docs")
+        logger.info("  3. Monitor GPU usage with: nvidia-smi -l 1")
+        logger.info("  4. Check logs in: logs/kimera_system.log")
         
-        print("\nPerformance Tips:")
-        print("  - Set KIMERA_MODE=full for maximum features")
-        print("  - Use CUDA_VISIBLE_DEVICES to select GPU")
-        print("  - Monitor memory with scripts/performance/kimera_performance_test.py")
+        logger.info("\nPerformance Tips:")
+        logger.info("  - Set KIMERA_MODE=full for maximum features")
+        logger.info("  - Use CUDA_VISIBLE_DEVICES to select GPU")
+        logger.info("  - Monitor memory with scripts/performance/kimera_performance_test.py")
         
         success_rate = len(self.fixes_applied) / max(1, len(self.fixes_applied) + len(self.errors)) * 100
-        print(f"\nSuccess Rate: {success_rate:.1f}%")
+        logger.info(f"\nSuccess Rate: {success_rate:.1f}%")
 
 
 if __name__ == "__main__":

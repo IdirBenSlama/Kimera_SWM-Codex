@@ -34,17 +34,17 @@ logger = logging.getLogger(__name__)
 
 def print_separator(title: str, char: str = "=", width: int = 70):
     """Print a visual separator with title"""
-    print(f"\n{char * width}")
-    print(f" {title.upper()}")
-    print(f"{char * width}")
+    logger.info(f"\n{char * width}")
+    logger.info(f" {title.upper()}")
+    logger.info(f"{char * width}")
 
 
 def print_test_result(test_name: str, success: bool, details: str = ""):
     """Print formatted test result"""
     status = "✅" if success else "❌"
-    print(f"{status} {test_name}")
+    logger.info(f"{status} {test_name}")
     if details:
-        print(f"   {details}")
+        logger.info(f"   {details}")
 
 
 class SystemAuditor:
@@ -392,7 +392,7 @@ class SystemAuditor:
     def run_comprehensive_audit(self):
         """Run complete system audit"""
         print_separator("KIMERA SWM COMPREHENSIVE SYSTEM AUDIT", "=", 80)
-        print(f"Audit started at: {self.start_time.strftime('%Y-%m-%d %H:%M:%S')}")
+        logger.info(f"Audit started at: {self.start_time.strftime('%Y-%m-%d %H:%M:%S')}")
         
         audit_phases = [
             ("Core Data Structures", self.audit_core_data_structures),
@@ -409,7 +409,7 @@ class SystemAuditor:
             try:
                 phase_function()
             except Exception as e:
-                print(f"❌ {phase_name} audit failed: {str(e)}")
+                logger.info(f"❌ {phase_name} audit failed: {str(e)}")
                 traceback.print_exc()
         
         return self.generate_audit_report()
@@ -534,7 +534,7 @@ The Kimera SWM system audit has been completed with **{success_rate:.1f}% succes
         try:
             with open(report_path, 'w', encoding='utf-8') as f:
                 f.write(report_content)
-            print(f"✅ Audit report saved to: {report_path}")
+            logger.info(f"✅ Audit report saved to: {report_path}")
             
             return {
                 'success_rate': success_rate,
@@ -546,7 +546,7 @@ The Kimera SWM system audit has been completed with **{success_rate:.1f}% succes
             }
         
         except Exception as e:
-            print(f"❌ Failed to save audit report: {str(e)}")
+            logger.info(f"❌ Failed to save audit report: {str(e)}")
             return None
 
 
@@ -560,28 +560,28 @@ def main():
         print_separator("AUDIT COMPLETE", "=", 80)
         
         if results:
-            print(f"🎯 AUDIT SUMMARY:")
-            print(f"   Total Tests: {results['total_tests']}")
-            print(f"   Passed: {results['passed_tests']} ✅")
-            print(f"   Failed: {results['failed_tests']} ❌")
-            print(f"   Success Rate: {results['success_rate']:.1f}%")
-            print(f"   Duration: {results['duration']:.2f} seconds")
-            print(f"   Report: {results['report_path']}")
+            logger.info(f"🎯 AUDIT SUMMARY:")
+            logger.info(f"   Total Tests: {results['total_tests']}")
+            logger.info(f"   Passed: {results['passed_tests']} ✅")
+            logger.info(f"   Failed: {results['failed_tests']} ❌")
+            logger.info(f"   Success Rate: {results['success_rate']:.1f}%")
+            logger.info(f"   Duration: {results['duration']:.2f} seconds")
+            logger.info(f"   Report: {results['report_path']}")
             
             if results['success_rate'] >= 80:
-                print(f"\n🎉 KIMERA SWM SYSTEM AUDIT SUCCESSFUL! 🎉")
-                print(f"✅ System is fully operational and ready for use")
+                logger.info(f"\n🎉 KIMERA SWM SYSTEM AUDIT SUCCESSFUL! 🎉")
+                logger.info(f"✅ System is fully operational and ready for use")
                 return True
             else:
-                print(f"\n⚠️ AUDIT COMPLETED WITH ISSUES")
-                print(f"⚠️ Please review failed tests and address issues")
+                logger.info(f"\n⚠️ AUDIT COMPLETED WITH ISSUES")
+                logger.info(f"⚠️ Please review failed tests and address issues")
                 return False
         else:
-            print(f"❌ Audit failed to complete properly")
+            logger.info(f"❌ Audit failed to complete properly")
             return False
     
     except Exception as e:
-        print(f"❌ Audit failed with exception: {str(e)}")
+        logger.info(f"❌ Audit failed with exception: {str(e)}")
         traceback.print_exc()
         return False
 

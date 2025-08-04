@@ -54,7 +54,7 @@ from src.monitoring.metrics_collector import MetricsCollector
 from src.utils.memory_manager import MemoryManager
 from src.utils.processing_optimizer import ProcessingOptimizer
 from src.utils.dependency_manager import DependencyManager
-from src.utils.talib_fallback import *
+# TODO: Replace wildcard import from src.utils.talib_fallback
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -654,22 +654,22 @@ async def main():
         session = await trader.run_vault_cognitive_trading_session(duration_minutes=10)
         
         # Display results
-        print(f"\n🎯 KIMERA VAULT-INTEGRATED COGNITIVE TRADING SESSION RESULTS:")
-        print(f"📊 Session ID: {session.session_id}")
-        print(f"⏱️ Duration: {(session.end_time - session.start_time).total_seconds():.1f} seconds")
-        print(f"🔢 Total Trades: {session.total_trades}")
-        print(f"✅ Success Rate: {(session.successful_trades / max(session.total_trades, 1)) * 100:.1f}%")
-        print(f"💰 Total PnL: {session.total_pnl:.4f}")
-        print(f"🧠 Vault Insights Generated: {session.vault_insights_generated}")
-        print(f"🔥 SCARs Created: {session.scars_created}")
-        print(f"🔄 Cognitive Evolutions: {session.cognitive_evolutions}")
-        print(f"🔍 Vault Queries: {session.vault_queries}")
+        logger.info(f"\n🎯 KIMERA VAULT-INTEGRATED COGNITIVE TRADING SESSION RESULTS:")
+        logger.info(f"📊 Session ID: {session.session_id}")
+        logger.info(f"⏱️ Duration: {(session.end_time - session.start_time).total_seconds():.1f} seconds")
+        logger.info(f"🔢 Total Trades: {session.total_trades}")
+        logger.info(f"✅ Success Rate: {(session.successful_trades / max(session.total_trades, 1)) * 100:.1f}%")
+        logger.info(f"💰 Total PnL: {session.total_pnl:.4f}")
+        logger.info(f"🧠 Vault Insights Generated: {session.vault_insights_generated}")
+        logger.info(f"🔥 SCARs Created: {session.scars_created}")
+        logger.info(f"🔄 Cognitive Evolutions: {session.cognitive_evolutions}")
+        logger.info(f"🔍 Vault Queries: {session.vault_queries}")
         
         # Save session data
         with open(f'vault_trading_session_{session.session_id}.json', 'w') as f:
             json.dump(session.to_dict(), f, indent=2)
         
-        print(f"\n💾 Session data saved to: vault_trading_session_{session.session_id}.json")
+        logger.info(f"\n💾 Session data saved to: vault_trading_session_{session.session_id}.json")
         
     except Exception as e:
         logger.error(f"❌ MAIN EXECUTION ERROR: {e}")

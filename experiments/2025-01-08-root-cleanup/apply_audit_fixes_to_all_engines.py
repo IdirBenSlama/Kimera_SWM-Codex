@@ -381,7 +381,7 @@ class KimeraEngineAuditFixer:
 
 The following fixes were systematically applied:
 
-1. **Logging Compliance**: Replaced print() statements with proper logging
+1. **Logging Compliance**: Replaced logger.info() statements with proper logging
 2. **Configuration Management**: Added get_api_settings() imports and usage
 3. **Device Logging**: Enhanced GPU detection with proper logging
 4. **Import Standardization**: Added missing logging and config imports
@@ -439,21 +439,21 @@ The KIMERA system now has **{self.results['summary']['final_compliance']:.1f}% e
 
 def main():
     """Main function to run comprehensive engine audit fixes"""
-    print("🔧 KIMERA Engine Audit Fix Application")
-    print("=" * 50)
+    logger.info("🔧 KIMERA Engine Audit Fix Application")
+    logger.info("=" * 50)
     
     fixer = KimeraEngineAuditFixer()
     fixer.run_comprehensive_fix_application()
     
     # Print final results
-    print("\n📊 FINAL RESULTS:")
-    print("=" * 30)
-    print(f"Total Engines: {fixer.results['total_engines']}")
-    print(f"Fixed: {fixer.results['successful_fixes']}")
-    print(f"Already Compliant: {fixer.results['already_compliant']}")
-    print(f"Failed: {fixer.results['failed_fixes']}")
-    print(f"Final Compliance: {fixer.results['summary']['final_compliance']:.1f}%")
-    print("=" * 30)
+    logger.info("\n📊 FINAL RESULTS:")
+    logger.info("=" * 30)
+    logger.info(f"Total Engines: {fixer.results['total_engines']}")
+    logger.info(f"Fixed: {fixer.results['successful_fixes']}")
+    logger.info(f"Already Compliant: {fixer.results['already_compliant']}")
+    logger.info(f"Failed: {fixer.results['failed_fixes']}")
+    logger.info(f"Final Compliance: {fixer.results['summary']['final_compliance']:.1f}%")
+    logger.info("=" * 30)
     
     return fixer.results['summary']['success_rate'] >= 90
 

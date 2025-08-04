@@ -423,12 +423,12 @@ class KimeraWebSocketTrader:
             self.start_time = datetime.now()
             self.end_time = self.start_time + timedelta(minutes=self.runtime_minutes)
             
-            print("=" * 80)
-            print("KIMERA WEBSOCKET TRADER - RATE LIMIT OPTIMIZED")
-            print("=" * 80)
-            print(f"Runtime: {self.runtime_minutes} minutes")
-            print(f"Target: REAL PROFIT WITH WEBSOCKET EFFICIENCY")
-            print(f"Mode: INTELLIGENT AGGRESSIVE TRADING")
+            logger.info("=" * 80)
+            logger.info("KIMERA WEBSOCKET TRADER - RATE LIMIT OPTIMIZED")
+            logger.info("=" * 80)
+            logger.info(f"Runtime: {self.runtime_minutes} minutes")
+            logger.info(f"Target: REAL PROFIT WITH WEBSOCKET EFFICIENCY")
+            logger.info(f"Mode: INTELLIGENT AGGRESSIVE TRADING")
             
             # Setup WebSocket streams
             logger.info("Setting up WebSocket streams...")
@@ -452,14 +452,14 @@ class KimeraWebSocketTrader:
             final_value = self.get_portfolio_value()
             total_profit = final_value - self.starting_usdt_value
             
-            print("\n" + "=" * 80)
-            print("WEBSOCKET TRADING RESULTS")
-            print("=" * 80)
-            print(f"Starting Value: ${self.starting_usdt_value:.2f}")
-            print(f"Final Value: ${final_value:.2f}")
-            print(f"TOTAL PROFIT: ${total_profit:.2f}")
-            print(f"Profit %: {(total_profit / self.starting_usdt_value * 100):.2f}%")
-            print(f"Total Trades: {self.trade_count}")
+            logger.info("\n" + "=" * 80)
+            logger.info("WEBSOCKET TRADING RESULTS")
+            logger.info("=" * 80)
+            logger.info(f"Starting Value: ${self.starting_usdt_value:.2f}")
+            logger.info(f"Final Value: ${final_value:.2f}")
+            logger.info(f"TOTAL PROFIT: ${total_profit:.2f}")
+            logger.info(f"Profit %: {(total_profit / self.starting_usdt_value * 100):.2f}%")
+            logger.info(f"Total Trades: {self.trade_count}")
             
             # Save results
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

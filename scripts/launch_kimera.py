@@ -23,6 +23,8 @@ import subprocess
 import platform
 from pathlib import Path
 import time
+import logging
+logger = logging.getLogger(__name__)
 
 def print_colored(text, color='white'):
     """Print colored text for better visibility"""
@@ -38,9 +40,9 @@ def print_colored(text, color='white'):
     }
     
     if color in colors:
-        print(f"{colors[color]}{text}{colors['end']}")
+        logger.info(f"{colors[color]}{text}{colors['end']}")
     else:
-        print(text)
+        logger.info(text)
 
 def print_banner():
     """Print the launcher banner"""
@@ -99,7 +101,7 @@ def check_dependencies(python_exe):
     try:
         result = subprocess.run([
             python_exe, "-c", 
-            "import fastapi, uvicorn; print('Dependencies OK')"
+            "import fastapi, uvicorn; logger.info('Dependencies OK')"
         ], capture_output=True, text=True, timeout=10)
         
         return result.returncode == 0

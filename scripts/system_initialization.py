@@ -32,9 +32,9 @@ logger = logging.getLogger(__name__)
 
 def print_separator(title: str, char: str = "=", width: int = 70):
     """Print a visual separator with title"""
-    print(f"\n{char * width}")
-    print(f" {title.upper()}")
-    print(f"{char * width}")
+    logger.info(f"\n{char * width}")
+    logger.info(f" {title.upper()}")
+    logger.info(f"{char * width}")
 
 
 def check_python_version():
@@ -44,15 +44,15 @@ def check_python_version():
     required_version = (3, 8)
     current_version = sys.version_info[:2]
     
-    print(f"Current Python version: {sys.version}")
-    print(f"Required minimum version: {required_version[0]}.{required_version[1]}")
+    logger.info(f"Current Python version: {sys.version}")
+    logger.info(f"Required minimum version: {required_version[0]}.{required_version[1]}")
     
     if current_version >= required_version:
-        print("✅ Python version is compatible")
+        logger.info("✅ Python version is compatible")
         return True
     else:
-        print(f"❌ Python version {current_version[0]}.{current_version[1]} is too old")
-        print(f"   Please upgrade to Python {required_version[0]}.{required_version[1]} or higher")
+        logger.info(f"❌ Python version {current_version[0]}.{current_version[1]} is too old")
+        logger.info(f"   Please upgrade to Python {required_version[0]}.{required_version[1]} or higher")
         return False
 
 
@@ -81,17 +81,17 @@ def check_dependencies():
     for display_name, import_name in critical_imports:
         try:
             __import__(import_name)
-            print(f"✅ {display_name}")
+            logger.info(f"✅ {display_name}")
         except ImportError as e:
-            print(f"❌ {display_name} - {str(e)}")
+            logger.info(f"❌ {display_name} - {str(e)}")
             missing_deps.append(display_name)
     
     if missing_deps:
-        print(f"\n❌ Missing dependencies: {', '.join(missing_deps)}")
-        print("   Please install missing dependencies before continuing")
+        logger.info(f"\n❌ Missing dependencies: {', '.join(missing_deps)}")
+        logger.info("   Please install missing dependencies before continuing")
         return False
     else:
-        print("✅ All critical dependencies are available")
+        logger.info("✅ All critical dependencies are available")
         return True
 
 
@@ -117,9 +117,9 @@ def create_directory_structure():
     for directory in directories:
         dir_path = base_path / directory
         dir_path.mkdir(parents=True, exist_ok=True)
-        print(f"✅ Created/verified directory: {directory}")
+        logger.info(f"✅ Created/verified directory: {directory}")
     
-    print("✅ Directory structure ready")
+    logger.info("✅ Directory structure ready")
     return True
 
 
@@ -145,18 +145,18 @@ def initialize_vault_system():
         vault = initialize_vault(vault_config)
         
         # Test vault operations
-        print("Testing vault operations...")
+        logger.info("Testing vault operations...")
         
         # Test storage metrics
         metrics = vault.get_storage_metrics()
-        print(f"  Storage size: {metrics.storage_size_bytes} bytes")
-        print(f"  Cache hit rate: {metrics.cache_hit_rate:.2%}")
+        logger.info(f"  Storage size: {metrics.storage_size_bytes} bytes")
+        logger.info(f"  Cache hit rate: {metrics.cache_hit_rate:.2%}")
         
-        print("✅ Vault system initialized successfully")
+        logger.info("✅ Vault system initialized successfully")
         return True
     
     except Exception as e:
-        print(f"❌ Vault system initialization failed: {str(e)}")
+        logger.info(f"❌ Vault system initialization failed: {str(e)}")
         return False
 
 
@@ -180,19 +180,19 @@ def initialize_database_system():
         database = initialize_database_manager(db_config)
         
         # Test database operations
-        print("Testing database operations...")
+        logger.info("Testing database operations...")
         
         # Get schema information
         schema_info = database.connection.get_schema_info()
-        print(f"  Database type: {schema_info.get('database_type', 'unknown')}")
-        print(f"  Tables: {len(schema_info.get('tables', []))}")
-        print(f"  Indexes: {len(schema_info.get('indexes', []))}")
+        logger.info(f"  Database type: {schema_info.get('database_type', 'unknown')}")
+        logger.info(f"  Tables: {len(schema_info.get('tables', []))}")
+        logger.info(f"  Indexes: {len(schema_info.get('indexes', []))}")
         
-        print("✅ Database system initialized successfully")
+        logger.info("✅ Database system initialized successfully")
         return True
     
     except Exception as e:
-        print(f"❌ Database system initialization failed: {str(e)}")
+        logger.info(f"❌ Database system initialization failed: {str(e)}")
         return False
 
 
@@ -209,19 +209,19 @@ def initialize_scar_system():
         scar_manager = initialize_scar_manager(AnalysisMode.CONTINUOUS)
         
         # Test SCAR operations
-        print("Testing SCAR operations...")
+        logger.info("Testing SCAR operations...")
         
         # Get statistics
         stats = scar_manager.get_statistics()
-        print(f"  Total SCARs: {stats.total_scars}")
-        print(f"  System health score: {stats.system_health_score:.3f}")
-        print(f"  Resolution success rate: {stats.resolution_success_rate:.2%}")
+        logger.info(f"  Total SCARs: {stats.total_scars}")
+        logger.info(f"  System health score: {stats.system_health_score:.3f}")
+        logger.info(f"  Resolution success rate: {stats.resolution_success_rate:.2%}")
         
-        print("✅ SCAR system initialized successfully")
+        logger.info("✅ SCAR system initialized successfully")
         return True
     
     except Exception as e:
-        print(f"❌ SCAR system initialization failed: {str(e)}")
+        logger.info(f"❌ SCAR system initialization failed: {str(e)}")
         return False
 
 
@@ -231,35 +231,35 @@ def test_core_components():
     
     try:
         # Test GeoidState creation
-        print("Testing GeoidState...")
+        logger.info("Testing GeoidState...")
         from core.data_structures.geoid_state import create_concept_geoid
         test_geoid = create_concept_geoid("test_concept")
-        print(f"  ✅ Created geoid: {test_geoid.geoid_id[:8]}...")
+        logger.info(f"  ✅ Created geoid: {test_geoid.geoid_id[:8]}...")
         
         # Test GeoidProcessor
-        print("Testing GeoidProcessor...")
+        logger.info("Testing GeoidProcessor...")
         from core.processing.geoid_processor import GeoidProcessor
         processor = GeoidProcessor()
         result = processor.process_geoid(test_geoid, 'state_validation')
-        print(f"  ✅ Processed geoid: success={result.success}")
+        logger.info(f"  ✅ Processed geoid: success={result.success}")
         
         # Test engine components
-        print("Testing engines...")
+        logger.info("Testing engines...")
         from engines.thermodynamic.thermodynamic_evolution_engine import ThermodynamicEvolutionEngine
         engine = ThermodynamicEvolutionEngine()
-        print(f"  ✅ Initialized ThermodynamicEvolutionEngine")
+        logger.info(f"  ✅ Initialized ThermodynamicEvolutionEngine")
         
         # Test orchestrator
-        print("Testing orchestrator...")
+        logger.info("Testing orchestrator...")
         from orchestration.kimera_orchestrator import KimeraOrchestrator
         orchestrator = KimeraOrchestrator()
-        print(f"  ✅ Initialized KimeraOrchestrator")
+        logger.info(f"  ✅ Initialized KimeraOrchestrator")
         
-        print("✅ All core components tested successfully")
+        logger.info("✅ All core components tested successfully")
         return True
     
     except Exception as e:
-        print(f"❌ Core components testing failed: {str(e)}")
+        logger.info(f"❌ Core components testing failed: {str(e)}")
         import traceback
         traceback.print_exc()
         return False
@@ -293,23 +293,23 @@ def test_memory_integration():
         orchestrator = initialize_memory_orchestrator(orchestration_params, memory_params)
         
         # Test orchestrator
-        print("Testing memory-integrated orchestrator...")
+        logger.info("Testing memory-integrated orchestrator...")
         status = orchestrator.get_comprehensive_status()
-        print(f"  ✅ Status retrieved with {len(status)} components")
+        logger.info(f"  ✅ Status retrieved with {len(status)} components")
         
         # Test with simple geoid
         from core.data_structures.geoid_state import create_concept_geoid
         test_geoid = create_concept_geoid("integration_test")
         
-        print("Testing orchestration with memory...")
+        logger.info("Testing orchestration with memory...")
         result = orchestrator.orchestrate([test_geoid])
-        print(f"  ✅ Orchestration completed: session={result.session_id[:8]}...")
+        logger.info(f"  ✅ Orchestration completed: session={result.session_id[:8]}...")
         
-        print("✅ Memory integration tested successfully")
+        logger.info("✅ Memory integration tested successfully")
         return True
     
     except Exception as e:
-        print(f"❌ Memory integration testing failed: {str(e)}")
+        logger.info(f"❌ Memory integration testing failed: {str(e)}")
         import traceback
         traceback.print_exc()
         return False
@@ -383,18 +383,18 @@ The system is ready for breakthrough cognitive AI operations!
     try:
         with open(report_path, 'w', encoding='utf-8') as f:
             f.write(report_content)
-        print(f"✅ Initialization report saved to: {report_path}")
+        logger.info(f"✅ Initialization report saved to: {report_path}")
         return True
     except Exception as e:
-        print(f"❌ Failed to save report: {str(e)}")
+        logger.info(f"❌ Failed to save report: {str(e)}")
         return False
 
 
 def main():
     """Main initialization function"""
     print_separator("KIMERA SWM SYSTEM INITIALIZATION", "=", 80)
-    print("Comprehensive system setup and verification")
-    print(f"Started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    logger.info("Comprehensive system setup and verification")
+    logger.info(f"Started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     
     initialization_steps = [
         ("Python Version Check", check_python_version),
@@ -416,23 +416,23 @@ def main():
             if not success:
                 failed_steps.append(step_name)
         except Exception as e:
-            print(f"❌ {step_name} failed with exception: {str(e)}")
+            logger.info(f"❌ {step_name} failed with exception: {str(e)}")
             failed_steps.append(step_name)
     
     print_separator("INITIALIZATION COMPLETE", "=", 80)
     
     if not failed_steps:
-        print("🎉 KIMERA SWM SYSTEM SUCCESSFULLY INITIALIZED! 🎉")
-        print("✅ All components are ready and operational")
-        print("✅ Databases are built and schemas are created")
-        print("✅ Memory systems are integrated and tested")
-        print("✅ System is ready for audit and operation")
-        print("\n🚀 You can now start Kimera with: python kimera.py")
+        logger.info("🎉 KIMERA SWM SYSTEM SUCCESSFULLY INITIALIZED! 🎉")
+        logger.info("✅ All components are ready and operational")
+        logger.info("✅ Databases are built and schemas are created")
+        logger.info("✅ Memory systems are integrated and tested")
+        logger.info("✅ System is ready for audit and operation")
+        logger.info("\n🚀 You can now start Kimera with: python kimera.py")
         return True
     else:
-        print("❌ INITIALIZATION COMPLETED WITH ERRORS")
-        print(f"❌ Failed steps: {', '.join(failed_steps)}")
-        print("❌ Please review the errors above and fix them before starting Kimera")
+        logger.info("❌ INITIALIZATION COMPLETED WITH ERRORS")
+        logger.info(f"❌ Failed steps: {', '.join(failed_steps)}")
+        logger.info("❌ Please review the errors above and fix them before starting Kimera")
         return False
 
 

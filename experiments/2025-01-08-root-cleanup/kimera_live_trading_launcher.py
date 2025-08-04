@@ -915,15 +915,15 @@ class CognitiveMonitor:
 
 async def main():
     """Main execution function"""
-    print("🚀 KIMERA LIVE TRADING SYSTEM - FULL INFRASTRUCTURE")
-    print("=" * 80)
-    print("🔥 This launches the complete Kimera enterprise trading system")
-    print("⚡ Full backend infrastructure with all engines")
-    print("💼 All 8 enterprise trading components")
-    print("🧠 Complete cognitive architecture with GPU acceleration")
-    print("📊 Real-time monitoring and performance analytics")
-    print("🛡️ Advanced risk management and safety systems")
-    print("=" * 80)
+    logger.info("🚀 KIMERA LIVE TRADING SYSTEM - FULL INFRASTRUCTURE")
+    logger.info("=" * 80)
+    logger.info("🔥 This launches the complete Kimera enterprise trading system")
+    logger.info("⚡ Full backend infrastructure with all engines")
+    logger.info("💼 All 8 enterprise trading components")
+    logger.info("🧠 Complete cognitive architecture with GPU acceleration")
+    logger.info("📊 Real-time monitoring and performance analytics")
+    logger.info("🛡️ Advanced risk management and safety systems")
+    logger.info("=" * 80)
     
     # Configuration
     config = KimeraLiveConfig(

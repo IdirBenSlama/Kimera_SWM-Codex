@@ -445,38 +445,38 @@ class KimeraUltraAggressive:
         """Run the complete ultra-aggressive trading session"""
         self.setup_signal_handlers()
         
-        print("\n" + "="*80)
-        print("🔥 KIMERA ULTRA-AGGRESSIVE 5-MINUTE PROFIT MAXIMIZER")
-        print("="*80)
-        print(f"💰 Allocation: ${self.allocation_usd}")
-        print(f"⏱️  Runtime: {self.runtime_minutes} minutes")
-        print(f"🎯 Target: MAXIMUM PROFIT EXTRACTION")
-        print(f"⚡ Mode: ULTRA-AGGRESSIVE PERFORMANCE")
+        logger.info("\n" + "="*80)
+        logger.info("🔥 KIMERA ULTRA-AGGRESSIVE 5-MINUTE PROFIT MAXIMIZER")
+        logger.info("="*80)
+        logger.info(f"💰 Allocation: ${self.allocation_usd}")
+        logger.info(f"⏱️  Runtime: {self.runtime_minutes} minutes")
+        logger.info(f"🎯 Target: MAXIMUM PROFIT EXTRACTION")
+        logger.info(f"⚡ Mode: ULTRA-AGGRESSIVE PERFORMANCE")
         
         # Get initial balances
         initial_balances = self.get_account_balances()
         initial_usdt = self.calculate_available_usdt(initial_balances)
         
-        print(f"\n💰 INITIAL PORTFOLIO VALUE: ${initial_usdt:.2f}")
+        logger.info(f"\n💰 INITIAL PORTFOLIO VALUE: ${initial_usdt:.2f}")
         
         if initial_usdt < self.allocation_usd:
-            print(f"⚠️ WARNING: Available funds (${initial_usdt:.2f}) less than allocation (${self.allocation_usd})")
+            logger.info(f"⚠️ WARNING: Available funds (${initial_usdt:.2f}) less than allocation (${self.allocation_usd})")
             self.allocation_usd = initial_usdt * Decimal('0.9')  # Use 90% of available
-            print(f"🔄 Adjusted allocation to: ${self.allocation_usd:.2f}")
+            logger.info(f"🔄 Adjusted allocation to: ${self.allocation_usd:.2f}")
         
         # Set runtime
         self.start_time = datetime.now()
         self.end_time = self.start_time + timedelta(minutes=self.runtime_minutes)
         
-        print(f"\n🚀 ULTRA-AGGRESSIVE TRADING STARTS: {self.start_time.strftime('%H:%M:%S')}")
-        print(f"🏁 SESSION ENDS: {self.end_time.strftime('%H:%M:%S')}")
+        logger.info(f"\n🚀 ULTRA-AGGRESSIVE TRADING STARTS: {self.start_time.strftime('%H:%M:%S')}")
+        logger.info(f"🏁 SESSION ENDS: {self.end_time.strftime('%H:%M:%S')}")
         
         confirm = input(f"\n⚠️ CONFIRM ULTRA-AGGRESSIVE TRADING? (type 'ULTRA' to proceed): ")
         if confirm != 'ULTRA':
-            print("❌ Session cancelled")
+            logger.info("❌ Session cancelled")
             return
         
-        print(f"\n⚡ KIMERA ULTRA-AGGRESSIVE MODE ACTIVATED!")
+        logger.info(f"\n⚡ KIMERA ULTRA-AGGRESSIVE MODE ACTIVATED!")
         
         # Start trading
         self.running = True
@@ -491,20 +491,20 @@ class KimeraUltraAggressive:
             self.running = False
         
         # Calculate final performance
-        print(f"\n🏁 ULTRA-AGGRESSIVE SESSION COMPLETED!")
+        logger.info(f"\n🏁 ULTRA-AGGRESSIVE SESSION COMPLETED!")
         performance = self.calculate_final_performance()
         
-        print(f"\n📊 FINAL PERFORMANCE REPORT:")
-        print("="*50)
-        print(f"💰 Initial Value: ${performance.get('initial_allocation', 0):.2f}")
-        print(f"💰 Final Value: ${performance.get('final_value', 0):.2f}")
-        print(f"📈 Profit: ${performance.get('profit', 0):.2f}")
-        print(f"📊 Profit %: {performance.get('profit_percentage', 0):.2f}%")
-        print(f"🔢 Total Trades: {performance.get('total_trades', 0)}")
-        print(f"✅ Successful: {performance.get('successful_trades', 0)}")
-        print(f"📈 Success Rate: {performance.get('success_rate', 0):.1f}%")
-        print(f"⚡ Trades/Min: {performance.get('trades_per_minute', 0):.1f}")
-        print(f"⏱️  Runtime: {performance.get('runtime_seconds', 0):.1f}s")
+        logger.info(f"\n📊 FINAL PERFORMANCE REPORT:")
+        logger.info("="*50)
+        logger.info(f"💰 Initial Value: ${performance.get('initial_allocation', 0):.2f}")
+        logger.info(f"💰 Final Value: ${performance.get('final_value', 0):.2f}")
+        logger.info(f"📈 Profit: ${performance.get('profit', 0):.2f}")
+        logger.info(f"📊 Profit %: {performance.get('profit_percentage', 0):.2f}%")
+        logger.info(f"🔢 Total Trades: {performance.get('total_trades', 0)}")
+        logger.info(f"✅ Successful: {performance.get('successful_trades', 0)}")
+        logger.info(f"📈 Success Rate: {performance.get('success_rate', 0):.1f}%")
+        logger.info(f"⚡ Trades/Min: {performance.get('trades_per_minute', 0):.1f}")
+        logger.info(f"⏱️  Runtime: {performance.get('runtime_seconds', 0):.1f}s")
         
         # Save detailed results
         session_data = {
@@ -528,13 +528,13 @@ class KimeraUltraAggressive:
         with open(filename, 'w') as f:
             json.dump(session_data, f, indent=2, default=str)
         
-        print(f"\n💾 Session data saved to: {filename}")
+        logger.info(f"\n💾 Session data saved to: {filename}")
         
         if performance.get('profit', 0) > 0:
-            print(f"\n🎉 PROFIT TARGET ACHIEVED!")
-            print(f"🚀 KIMERA ULTRA-AGGRESSIVE MODE: SUCCESS!")
+            logger.info(f"\n🎉 PROFIT TARGET ACHIEVED!")
+            logger.info(f"🚀 KIMERA ULTRA-AGGRESSIVE MODE: SUCCESS!")
         else:
-            print(f"\n📊 Session completed - Market conditions analyzed")
+            logger.info(f"\n📊 Session completed - Market conditions analyzed")
         
         return performance
 

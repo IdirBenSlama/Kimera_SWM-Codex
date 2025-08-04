@@ -11,38 +11,38 @@ from datetime import datetime
 
 def create_live_config():
     """Create live configuration file"""
-    print("🔐 KIMERA CDP LIVE CREDENTIALS SETUP")
-    print("=" * 50)
+    logger.info("🔐 KIMERA CDP LIVE CREDENTIALS SETUP")
+    logger.info("=" * 50)
     
     # Use your provided API key
     api_key_name = os.getenv("CDP_API_KEY_NAME", "")
     
-    print(f"✅ Using your API Key: {api_key_name}")
-    print()
-    print("📝 Enter your CDP Private Key:")
-    print("(Get this from your CDP dashboard)")
+    logger.info(f"✅ Using your API Key: {api_key_name}")
+    logger.info()
+    logger.info("📝 Enter your CDP Private Key:")
+    logger.info("(Get this from your CDP dashboard)")
     
     private_key = input("CDP Private Key: ").strip()
     
     if not private_key:
-        print("❌ Private key is required!")
+        logger.info("❌ Private key is required!")
         return False
     
-    print()
-    print("🌐 Network Selection:")
-    print("1. base-sepolia (Testnet - SAFE)")
-    print("2. base-mainnet (Mainnet - REAL MONEY)")
+    logger.info()
+    logger.info("🌐 Network Selection:")
+    logger.info("1. base-sepolia (Testnet - SAFE)")
+    logger.info("2. base-mainnet (Mainnet - REAL MONEY)")
     
     network_choice = input("Select network [1]: ").strip() or "1"
     
     if network_choice == "1":
         network_id = "base-sepolia"
         is_testnet = True
-        print("✅ Selected: Testnet (Safe)")
+        logger.info("✅ Selected: Testnet (Safe)")
     else:
         network_id = "base-mainnet"
         is_testnet = False
-        print("⚠️  Selected: Mainnet (REAL MONEY)")
+        logger.info("⚠️  Selected: Mainnet (REAL MONEY)")
     
     # Create configuration
     config_content = f"""# KIMERA CDP LIVE CONFIGURATION
@@ -78,30 +78,32 @@ KIMERA_CDP_ENABLE_LOGGING=true
         with open(config_file, 'w') as f:
             f.write(config_content)
         
-        print(f"\n✅ Configuration saved to: {config_file}")
+        logger.info(f"\n✅ Configuration saved to: {config_file}")
         
         # Test the configuration
-        print("\n🔍 Testing configuration...")
+        logger.info("\n🔍 Testing configuration...")
         
         from dotenv import load_dotenv
+import logging
+logger = logging.getLogger(__name__)
         load_dotenv(config_file)
         
         test_key = os.getenv('CDP_API_KEY_NAME')
         test_network = os.getenv('CDP_NETWORK_ID')
         
         if test_key and test_network:
-            print("✅ Configuration file valid")
-            print(f"✅ API Key: {test_key}")
-            print(f"✅ Network: {test_network}")
-            print(f"✅ Safety: {'Testnet' if is_testnet else 'MAINNET'}")
+            logger.info("✅ Configuration file valid")
+            logger.info(f"✅ API Key: {test_key}")
+            logger.info(f"✅ Network: {test_network}")
+            logger.info(f"✅ Safety: {'Testnet' if is_testnet else 'MAINNET'}")
         
-        print("\n🚀 READY FOR LIVE TRADING!")
-        print("Run: python kimera_cdp_live_integration.py")
+        logger.info("\n🚀 READY FOR LIVE TRADING!")
+        logger.info("Run: python kimera_cdp_live_integration.py")
         
         return True
         
     except Exception as e:
-        print(f"❌ Error saving configuration: {e}")
+        logger.info(f"❌ Error saving configuration: {e}")
         return False
 
 if __name__ == "__main__":

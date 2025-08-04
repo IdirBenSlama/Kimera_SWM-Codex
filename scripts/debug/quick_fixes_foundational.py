@@ -58,7 +58,7 @@ class DualSystemResult:
     with open(file_path, 'w', encoding='utf-8') as f:
         f.write(content)
     
-    print("✅ Fixed DualSystemResult success attribute")
+    logger.info("✅ Fixed DualSystemResult success attribute")
 
 def fix_cognitive_cycle_division():
     """Fix division by zero in cognitive cycle core"""
@@ -98,7 +98,7 @@ def fix_cognitive_cycle_division():
     with open(file_path, 'w', encoding='utf-8') as f:
         f.write(content)
     
-    print("✅ Fixed division by zero in cognitive cycle")
+    logger.info("✅ Fixed division by zero in cognitive cycle")
 
 def fix_spde_core_tensor():
     """Fix SPDE tensor processing issues"""
@@ -142,7 +142,7 @@ def fix_spde_core_tensor():
     with open(file_path, 'w', encoding='utf-8') as f:
         f.write(content)
     
-    print("✅ Fixed SPDE tensor processing")
+    logger.info("✅ Fixed SPDE tensor processing")
 
 def fix_scar_record_constructor():
     """Fix ScarRecord constructor call"""
@@ -187,7 +187,7 @@ def fix_scar_record_constructor():
     with open(file_path, 'w', encoding='utf-8') as f:
         f.write(content)
     
-    print("✅ Fixed ScarRecord constructor")
+    logger.info("✅ Fixed ScarRecord constructor")
 
 def create_missing_transparency_monitor():
     """Create minimal transparency monitor to fix import"""
@@ -253,7 +253,7 @@ class CognitiveTransparencyMonitor:
     with open(file_path, 'w', encoding='utf-8') as f:
         f.write(content)
     
-    print("✅ Created transparency monitor placeholder")
+    logger.info("✅ Created transparency monitor placeholder")
 
 def create_missing_modules():
     """Create missing module placeholders"""
@@ -319,6 +319,8 @@ This will be fully implemented in Phase 4.
 
 from typing import Dict, Any
 from dataclasses import dataclass
+import logging
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -356,12 +358,12 @@ class KimeraCoreArchitecture:
     with open(arch_orchestrator_path, 'w', encoding='utf-8') as f:
         f.write(arch_content)
     
-    print("✅ Created missing integration modules")
+    logger.info("✅ Created missing integration modules")
 
 def main():
     """Apply all fixes"""
-    print("🔧 Applying quick fixes to foundational architecture...")
-    print()
+    logger.info("🔧 Applying quick fixes to foundational architecture...")
+    logger.info()
     
     try:
         fix_barenholtz_core()
@@ -371,12 +373,12 @@ def main():
         create_missing_transparency_monitor()
         create_missing_modules()
         
-        print()
-        print("🎉 All fixes applied successfully!")
-        print("✅ Foundational architecture is now ready for re-testing")
+        logger.info()
+        logger.info("🎉 All fixes applied successfully!")
+        logger.info("✅ Foundational architecture is now ready for re-testing")
         
     except Exception as e:
-        print(f"❌ Error applying fixes: {e}")
+        logger.info(f"❌ Error applying fixes: {e}")
         return False
     
     return True

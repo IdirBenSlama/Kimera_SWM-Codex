@@ -143,17 +143,17 @@ async def test_sentiment_analysis():
         
         results = await engine.analyze_multiple_assets(test_assets)
         
-        print(f"\n🧠 SENTIMENT ANALYSIS TEST RESULTS")
-        print("=" * 60)
+        logger.info(f"\n🧠 SENTIMENT ANALYSIS TEST RESULTS")
+        logger.info("=" * 60)
         
         for asset, sentiment in results.items():
             signal = engine.get_sentiment_signal(sentiment)
-            print(f"\n{asset}:")
-            print(f"  Overall: {sentiment.aggregated_score:.3f} ({sentiment.trending_direction})")
-            print(f"  Signal: {signal['action']} (confidence: {signal['confidence']:.2f})")
-            print(f"  Oracle: {sentiment.oracle_sentiment:.3f}")
-            print(f"  Social: {sentiment.social_sentiment:.3f}")
-            print(f"  News: {sentiment.news_sentiment:.3f}")
+            logger.info(f"\n{asset}:")
+            logger.info(f"  Overall: {sentiment.aggregated_score:.3f} ({sentiment.trending_direction})")
+            logger.info(f"  Signal: {signal['action']} (confidence: {signal['confidence']:.2f})")
+            logger.info(f"  Oracle: {sentiment.oracle_sentiment:.3f}")
+            logger.info(f"  Social: {sentiment.social_sentiment:.3f}")
+            logger.info(f"  News: {sentiment.news_sentiment:.3f}")
         
     except ImportError as e:
         logger.error(f"❌ Sentiment analysis test failed: {e}")
@@ -170,16 +170,16 @@ async def test_oracle_integration():
         
         results = await aggregator.get_multi_asset_sentiment(test_assets)
         
-        print(f"\n🔮 ORACLE INTEGRATION TEST RESULTS")
-        print("=" * 60)
+        logger.info(f"\n🔮 ORACLE INTEGRATION TEST RESULTS")
+        logger.info("=" * 60)
         
         for asset, data in results.items():
-            print(f"\n{asset}:")
-            print(f"  Sentiment: {data['aggregated_sentiment']:.3f}")
-            print(f"  Confidence: {data['aggregated_confidence']:.3f}")
-            print(f"  Consensus: {data['consensus_score']:.3f}")
-            print(f"  Response Time: {data['total_response_time_ms']:.1f}ms")
-            print(f"  Oracle Sources: {data['oracle_count']}")
+            logger.info(f"\n{asset}:")
+            logger.info(f"  Sentiment: {data['aggregated_sentiment']:.3f}")
+            logger.info(f"  Confidence: {data['aggregated_confidence']:.3f}")
+            logger.info(f"  Consensus: {data['consensus_score']:.3f}")
+            logger.info(f"  Response Time: {data['total_response_time_ms']:.1f}ms")
+            logger.info(f"  Oracle Sources: {data['oracle_count']}")
         
     except ImportError as e:
         logger.error(f"❌ Oracle integration test failed: {e}")
@@ -188,67 +188,67 @@ async def show_system_capabilities():
     """Display all available system capabilities"""
     capabilities = check_credentials()
     
-    print("\n🚀 KIMERA SENTIMENT-ENHANCED TRADING SYSTEM")
-    print("=" * 70)
-    print("SYSTEM CAPABILITIES:")
-    print("=" * 70)
+    logger.info("\n🚀 KIMERA SENTIMENT-ENHANCED TRADING SYSTEM")
+    logger.info("=" * 70)
+    logger.info("SYSTEM CAPABILITIES:")
+    logger.info("=" * 70)
     
     # Trading Systems
-    print("\n📈 TRADING SYSTEMS:")
-    print(f"   ⚡ Parallel Omnidimensional Trading: ✅ Available")
-    print(f"   🔄 Triangular Arbitrage Engine: ✅ Available") 
-    print(f"   🧠 Sentiment-Enhanced Trading: {'✅ Available' if capabilities['sentiment_available'] else '⚠️ Limited'}")
+    logger.info("\n📈 TRADING SYSTEMS:")
+    logger.info(f"   ⚡ Parallel Omnidimensional Trading: ✅ Available")
+    logger.info(f"   🔄 Triangular Arbitrage Engine: ✅ Available") 
+    logger.info(f"   🧠 Sentiment-Enhanced Trading: {'✅ Available' if capabilities['sentiment_available'] else '⚠️ Limited'}")
     
     # Sentiment Analysis
-    print(f"\n🧠 SENTIMENT ANALYSIS FRAMEWORKS:")
+    logger.info(f"\n🧠 SENTIMENT ANALYSIS FRAMEWORKS:")
     if capabilities['sentiment_available']:
-        print(f"   📊 FinBERT (Financial BERT): ✅ 97.18% accuracy")
-        print(f"   🌐 spaCy (Multilingual): ✅ 30K+ GitHub stars")
-        print(f"   📱 VADER (Social Media): ✅ Valence-aware lexicon")
-        print(f"   📝 TextBlob (User-friendly): ✅ Simple APIs")
-        print(f"   🕷️ Pattern (Web scraping): ✅ Full-stack solution")
-        print(f"   🌍 NLP.js (40 languages): ✅ Real-time analysis")
+        logger.info(f"   📊 FinBERT (Financial BERT): ✅ 97.18% accuracy")
+        logger.info(f"   🌐 spaCy (Multilingual): ✅ 30K+ GitHub stars")
+        logger.info(f"   📱 VADER (Social Media): ✅ Valence-aware lexicon")
+        logger.info(f"   📝 TextBlob (User-friendly): ✅ Simple APIs")
+        logger.info(f"   🕷️ Pattern (Web scraping): ✅ Full-stack solution")
+        logger.info(f"   🌍 NLP.js (40 languages): ✅ Real-time analysis")
     else:
-        print(f"   ⚠️ Install requirements: pip install -r requirements_sentiment.txt")
+        logger.info(f"   ⚠️ Install requirements: pip install -r requirements_sentiment.txt")
     
     # Oracle Integration
-    print(f"\n🔮 DECENTRALIZED ORACLE PROTOCOLS:")
+    logger.info(f"\n🔮 DECENTRALIZED ORACLE PROTOCOLS:")
     if capabilities['oracles_available']:
-        print(f"   🔗 Chainlink: ✅ Dominant oracle network")
-        print(f"   🚀 Pyth Network: ✅ 23.5% faster response")
-        print(f"   🌐 Band Protocol: ✅ Cross-chain, low latency")
-        print(f"   🔌 API3: ✅ Direct API providers")
+        logger.info(f"   🔗 Chainlink: ✅ Dominant oracle network")
+        logger.info(f"   🚀 Pyth Network: ✅ 23.5% faster response")
+        logger.info(f"   🌐 Band Protocol: ✅ Cross-chain, low latency")
+        logger.info(f"   🔌 API3: ✅ Direct API providers")
     else:
-        print(f"   ⚠️ Install requirements: pip install web3 aiohttp")
+        logger.info(f"   ⚠️ Install requirements: pip install web3 aiohttp")
     
     # Credentials
-    print(f"\n🔑 CREDENTIALS STATUS:")
-    print(f"   CDP Trading: {'✅ Available' if capabilities['cdp_available'] else '❌ Missing'}")
-    print(f"   Advanced Trade: {'✅ Available' if capabilities['advanced_trade_available'] else '❌ Missing'}")
+    logger.info(f"\n🔑 CREDENTIALS STATUS:")
+    logger.info(f"   CDP Trading: {'✅ Available' if capabilities['cdp_available'] else '❌ Missing'}")
+    logger.info(f"   Advanced Trade: {'✅ Available' if capabilities['advanced_trade_available'] else '❌ Missing'}")
     
     # Performance Features
-    print(f"\n⚡ PERFORMANCE FEATURES:")
-    print(f"   🔄 Parallel Processing: ✅ Up to 50 concurrent trades")
-    print(f"   🧠 Real-time Sentiment: ✅ Multi-framework aggregation")
-    print(f"   🔮 Oracle Aggregation: ✅ 4 decentralized protocols")
-    print(f"   💱 Inter-coin Trading: ✅ BTC-ETH, ETH-SOL cycles")
-    print(f"   📊 Multi-dimensional: ✅ Horizontal + Vertical strategies")
+    logger.info(f"\n⚡ PERFORMANCE FEATURES:")
+    logger.info(f"   🔄 Parallel Processing: ✅ Up to 50 concurrent trades")
+    logger.info(f"   🧠 Real-time Sentiment: ✅ Multi-framework aggregation")
+    logger.info(f"   🔮 Oracle Aggregation: ✅ 4 decentralized protocols")
+    logger.info(f"   💱 Inter-coin Trading: ✅ BTC-ETH, ETH-SOL cycles")
+    logger.info(f"   📊 Multi-dimensional: ✅ Horizontal + Vertical strategies")
     
     return capabilities
 
 def display_menu():
     """Display the main menu"""
-    print(f"\n🎯 SELECT TRADING SYSTEM:")
-    print("=" * 50)
-    print("1. 🧠 Sentiment-Enhanced Trading (RECOMMENDED)")
-    print("2. ⚡ Parallel Omnidimensional Trading")
-    print("3. 🔄 Triangular Arbitrage Engine")
-    print("4. 🧪 Test Sentiment Analysis")
-    print("5. 🔮 Test Oracle Integration")
-    print("6. 📊 Show System Capabilities")
-    print("7. 🚀 Run All Systems (Sequential)")
-    print("8. ❌ Exit")
-    print("=" * 50)
+    logger.info(f"\n🎯 SELECT TRADING SYSTEM:")
+    logger.info("=" * 50)
+    logger.info("1. 🧠 Sentiment-Enhanced Trading (RECOMMENDED)")
+    logger.info("2. ⚡ Parallel Omnidimensional Trading")
+    logger.info("3. 🔄 Triangular Arbitrage Engine")
+    logger.info("4. 🧪 Test Sentiment Analysis")
+    logger.info("5. 🔮 Test Oracle Integration")
+    logger.info("6. 📊 Show System Capabilities")
+    logger.info("7. 🚀 Run All Systems (Sequential)")
+    logger.info("8. ❌ Exit")
+    logger.info("=" * 50)
 
 async def run_all_systems():
     """Run all trading systems sequentially"""
@@ -275,9 +275,9 @@ async def run_all_systems():
 
 async def main():
     """Main launcher"""
-    print("\n🚀 KIMERA SENTIMENT-ENHANCED TRADING LAUNCHER")
-    print("🧠 AI-POWERED MARKET SENTIMENT + PARALLEL TRADING")
-    print("=" * 70)
+    logger.info("\n🚀 KIMERA SENTIMENT-ENHANCED TRADING LAUNCHER")
+    logger.info("🧠 AI-POWERED MARKET SENTIMENT + PARALLEL TRADING")
+    logger.info("=" * 70)
     
     # Show capabilities
     capabilities = await show_system_capabilities()
@@ -313,17 +313,17 @@ async def main():
                 await run_all_systems()
                 
             elif choice == '8':
-                print("👋 Goodbye!")
+                logger.info("👋 Goodbye!")
                 break
                 
             else:
-                print("❌ Invalid choice. Please try again.")
+                logger.info("❌ Invalid choice. Please try again.")
                 
         except KeyboardInterrupt:
-            print("\n⏹️ Operation cancelled by user")
+            logger.info("\n⏹️ Operation cancelled by user")
             break
         except ValueError:
-            print("❌ Invalid input. Please enter a number.")
+            logger.info("❌ Invalid input. Please enter a number.")
         except Exception as e:
             logger.error(f"❌ Error: {e}")
             
@@ -334,7 +334,7 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
-        print("\n👋 System shutdown requested")
+        logger.info("\n👋 System shutdown requested")
     except Exception as e:
         logger.error(f"❌ Launcher failed: {e}")
         import traceback

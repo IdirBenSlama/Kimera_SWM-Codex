@@ -156,6 +156,8 @@ class AggressiveKimeraTrader:
             
             # Force signal creation
             from src.trading.autonomous_kimera_trader import CognitiveSignal, TradingStrategy, MarketRegime
+import logging
+logger = logging.getLogger(__name__)
             
             forced_signal = CognitiveSignal(
                 symbol=symbol,
@@ -219,13 +221,13 @@ class AggressiveKimeraTrader:
 
 async def main():
     """Launch aggressive Kimera"""
-    print("🔥 UNLEASHING AGGRESSIVE KIMERA")
-    print("=" * 40)
-    print("⚠️  WARNING: MAXIMUM AGGRESSION MODE")
-    print("⚠️  NO SAFETY LIMITS")
-    print("⚠️  WILL TRADE IN ANY CONDITIONS")
-    print("⚠️  PURE RISK MODE")
-    print("=" * 40)
+    logger.info("🔥 UNLEASHING AGGRESSIVE KIMERA")
+    logger.info("=" * 40)
+    logger.info("⚠️  WARNING: MAXIMUM AGGRESSION MODE")
+    logger.info("⚠️  NO SAFETY LIMITS")
+    logger.info("⚠️  WILL TRADE IN ANY CONDITIONS")
+    logger.info("⚠️  PURE RISK MODE")
+    logger.info("=" * 40)
     
     API_KEY = os.getenv("CDP_API_KEY_NAME", "")
     

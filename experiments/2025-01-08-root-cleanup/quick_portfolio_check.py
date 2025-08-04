@@ -2,19 +2,21 @@
 """Quick portfolio check"""
 import os
 from binance.client import Client
+import logging
+logger = logging.getLogger(__name__)
 
 # Set credentials
 os.environ['BINANCE_API_KEY'] = os.getenv("BINANCE_API_KEY", "")
 os.environ['BINANCE_API_SECRET'] = 'qUn5JqSpYz1GDxFj2X3UF23TYgtxKrTsCbDZEoBMYCPbYZgP4siVLyspkB5HAPl7'
 
-print('🚀 KIMERA IMMEDIATE PROFIT SYSTEM')
-print('=' * 50)
+logger.info('🚀 KIMERA IMMEDIATE PROFIT SYSTEM')
+logger.info('=' * 50)
 
 # Quick portfolio check
 client = Client(os.getenv('BINANCE_API_KEY'), os.getenv('BINANCE_API_SECRET'))
 account = client.get_account()
 
-print('💰 CURRENT PORTFOLIO:')
+logger.info('💰 CURRENT PORTFOLIO:')
 total_value = 0
 for balance in account['balances']:
     asset = balance['asset']
@@ -34,15 +36,15 @@ for balance in account['balances']:
         
         if value > 0.1:
             total_value += value
-            print(f'   {asset}: {free:.8f} = ${value:.2f}')
+            logger.info(f'   {asset}: {free:.8f} = ${value:.2f}')
 
-print(f'💵 TOTAL VALUE: ${total_value:.2f}')
-print('✅ Portfolio analysis complete')
-print()
+logger.info(f'💵 TOTAL VALUE: ${total_value:.2f}')
+logger.info('✅ Portfolio analysis complete')
+logger.info()
 
 # Check for profitable opportunities
-print('🎯 PROFIT OPPORTUNITIES:')
-print('-' * 30)
+logger.info('🎯 PROFIT OPPORTUNITIES:')
+logger.info('-' * 30)
 
 # Check TRX/ADA volatility for quick profits
 symbols = ['TRXUSDT', 'ADAUSDT', 'BNBUSDT']
@@ -54,9 +56,9 @@ for symbol in symbols:
         
         if abs(price_change) > 1.0:  # Significant movement
             direction = "UP" if price_change > 0 else "DOWN"
-            print(f'   🔥 {symbol}: {price_change:+.2f}% ({direction}) - Vol: {volume/1000000:.1f}M')
+            logger.info(f'   🔥 {symbol}: {price_change:+.2f}% ({direction}) - Vol: {volume/1000000:.1f}M')
     except Exception as e:
-        print(f'   ⚠️ {symbol}: Error - {e}')
+        logger.info(f'   ⚠️ {symbol}: Error - {e}')
 
-print()
-print('🚀 SYSTEMS READY FOR AUTONOMOUS TRADING') 
+logger.info()
+logger.info('🚀 SYSTEMS READY FOR AUTONOMOUS TRADING') 

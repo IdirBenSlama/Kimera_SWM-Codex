@@ -11,8 +11,8 @@ from cryptography.hazmat.backends import default_backend
 
 def test_cdp_auth():
     """Debug CDP v2 authentication step by step"""
-    print("🔍 DEBUGGING CDP V2 AUTHENTICATION")
-    print("=" * 40)
+    logger.info("🔍 DEBUGGING CDP V2 AUTHENTICATION")
+    logger.info("=" * 40)
     
     # Your credentials
     ORGANIZATION_ID = "d5c46584-dd70-4be9-a71a-1e5e1b7a7ea3"
@@ -23,26 +23,28 @@ AwEHoUQDQgAERK6BZscG6p5nLQzIhPkUjXqIT9m/mw/S81U9di/u2BKRvujr4fUL
 k+1M3dZ5l6SjNp2naYaa7oXuQQUm8UsFFA==
 -----END EC PRIVATE KEY-----"""
     
-    print(f"Organization ID: {ORGANIZATION_ID}")
-    print(f"API Key ID: {API_KEY_ID}")
+    logger.info(f"Organization ID: {ORGANIZATION_ID}")
+    logger.info(f"API Key ID: {API_KEY_ID}")
     
     # Step 1: Load private key
-    print("\n📝 Step 1: Loading private key...")
+    logger.info("\n📝 Step 1: Loading private key...")
     try:
         private_key = serialization.load_pem_private_key(
             PRIVATE_KEY_PEM.encode(),
             password=None,
             backend=default_backend()
         )
-        print("✅ Private key loaded successfully")
+        logger.info("✅ Private key loaded successfully")
     except Exception as e:
-        print(f"❌ Failed to load private key: {e}")
+        logger.info(f"❌ Failed to load private key: {e}")
         return
     
     # Step 2: Create JWT token
-    print("\n📝 Step 2: Creating JWT token...")
+    logger.info("\n📝 Step 2: Creating JWT token...")
     try:
         import jwt
+import logging
+logger = logging.getLogger(__name__)
         
         request_path = f"/platform/organizations/{ORGANIZATION_ID}"
         uri = f"GET https://api.developer.coinbase.com{request_path}"
@@ -55,7 +57,7 @@ k+1M3dZ5l6SjNp2naYaa7oXuQQUm8UsFFA==
             'uri': uri
         }
         
-        print(f"JWT Payload: {payload}")
+        logger.info(f"JWT Payload: {payload}")
         
         token = jwt.encode(
             payload,
@@ -64,15 +66,15 @@ k+1M3dZ5l6SjNp2naYaa7oXuQQUm8UsFFA==
             headers={'kid': API_KEY_ID}
         )
         
-        print("✅ JWT token created successfully")
-        print(f"Token length: {len(token)}")
+        logger.info("✅ JWT token created successfully")
+        logger.info(f"Token length: {len(token)}")
         
     except Exception as e:
-        print(f"❌ Failed to create JWT token: {e}")
+        logger.info(f"❌ Failed to create JWT token: {e}")
         return
     
     # Step 3: Test API call
-    print("\n📝 Step 3: Testing API call...")
+    logger.info("\n📝 Step 3: Testing API call...")
     try:
         headers = {
             'Authorization': f'Bearer {token}',
@@ -80,27 +82,27 @@ k+1M3dZ5l6SjNp2naYaa7oXuQQUm8UsFFA==
         }
         
         url = f"https://api.developer.coinbase.com{request_path}"
-        print(f"URL: {url}")
-        print(f"Headers: {headers}")
+        logger.info(f"URL: {url}")
+        logger.info(f"Headers: {headers}")
         
         # Make the request with timeout
         response = requests.get(url, headers=headers, timeout=30)
         
-        print(f"Response Status: {response.status_code}")
-        print(f"Response Headers: {dict(response.headers)}")
+        logger.info(f"Response Status: {response.status_code}")
+        logger.info(f"Response Headers: {dict(response.headers)}")
         
         if response.status_code == 200:
             data = response.json()
-            print("✅ Authentication successful!")
-            print(f"Organization data: {data}")
+            logger.info("✅ Authentication successful!")
+            logger.info(f"Organization data: {data}")
         else:
-            print(f"❌ Authentication failed")
-            print(f"Response text: {response.text}")
+            logger.info(f"❌ Authentication failed")
+            logger.info(f"Response text: {response.text}")
             
     except requests.exceptions.Timeout:
-        print("❌ Request timed out")
+        logger.info("❌ Request timed out")
     except Exception as e:
-        print(f"❌ API call failed: {e}")
+        logger.info(f"❌ API call failed: {e}")
 
 if __name__ == "__main__":
     test_cdp_auth() 

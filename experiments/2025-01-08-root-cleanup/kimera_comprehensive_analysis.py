@@ -14,6 +14,8 @@ import asyncio
 from typing import Dict, Any, List, Tuple
 from datetime import datetime
 import traceback
+import logging
+logger = logging.getLogger(__name__)
 
 class KimeraSystemAnalyzer:
     def __init__(self, base_url: str = "http://localhost:8000"):
@@ -29,7 +31,7 @@ class KimeraSystemAnalyzer:
     def analyze_endpoint(self, path: str, method: str = "GET", payload: Dict = None, timeout: int = 60) -> Dict[str, Any]:
         """Analyze a single endpoint"""
         url = f"{self.base_url}{path}"
-        print(f"\n🔍 Analyzing: {method} {path}")
+        logger.info(f"\n🔍 Analyzing: {method} {path}")
         
         try:
             start_time = time.time()
@@ -51,9 +53,9 @@ class KimeraSystemAnalyzer:
             }
             
             if response.status_code == 200:
-                print(f"   ✅ Success ({elapsed_time:.2f}s)")
+                logger.info(f"   ✅ Success ({elapsed_time:.2f}s)")
             else:
-                print(f"   ❌ Failed: {response.status_code}")
+                logger.info(f"   ❌ Failed: {response.status_code}")
                 self.results["issues"].append({
                     "endpoint": path,
                     "issue": f"HTTP {response.status_code}",
@@ -63,7 +65,7 @@ class KimeraSystemAnalyzer:
             return result
             
         except requests.exceptions.Timeout:
-            print(f"   ⏱️ Timeout after {timeout}s")
+            logger.info(f"   ⏱️ Timeout after {timeout}s")
             self.results["issues"].append({
                 "endpoint": path,
                 "issue": "Timeout",
@@ -72,7 +74,7 @@ class KimeraSystemAnalyzer:
             return {"error": "timeout", "timeout": timeout}
             
         except Exception as e:
-            print(f"   ❌ Error: {str(e)}")
+            logger.info(f"   ❌ Error: {str(e)}")
             self.results["issues"].append({
                 "endpoint": path,
                 "issue": "Exception",
@@ -82,9 +84,9 @@ class KimeraSystemAnalyzer:
     
     def analyze_core_components(self):
         """Analyze core KIMERA components"""
-        print("\n" + "="*60)
-        print("🧠 ANALYZING CORE COMPONENTS")
-        print("="*60)
+        logger.info("\n" + "="*60)
+        logger.info("🧠 ANALYZING CORE COMPONENTS")
+        logger.info("="*60)
         
         # System Status
         status = self.analyze_endpoint("/kimera/status")
@@ -113,9 +115,9 @@ class KimeraSystemAnalyzer:
     
     def analyze_cognitive_engines(self):
         """Analyze cognitive processing engines"""
-        print("\n" + "="*60)
-        print("🔬 ANALYZING COGNITIVE ENGINES")
-        print("="*60)
+        logger.info("\n" + "="*60)
+        logger.info("🔬 ANALYZING COGNITIVE ENGINES")
+        logger.info("="*60)
         
         # Revolutionary Intelligence
         revolutionary = self.analyze_endpoint("/kimera/revolutionary/status/complete")
@@ -139,9 +141,9 @@ class KimeraSystemAnalyzer:
     
     def test_chat_functionality(self):
         """Test the chat/diffusion model functionality"""
-        print("\n" + "="*60)
-        print("💬 TESTING CHAT & DIFFUSION MODEL")
-        print("="*60)
+        logger.info("\n" + "="*60)
+        logger.info("💬 TESTING CHAT & DIFFUSION MODEL")
+        logger.info("="*60)
         
         # Test basic chat
         chat_payload = {
@@ -151,17 +153,17 @@ class KimeraSystemAnalyzer:
             "cognitive_mode": "cognitive_enhanced"
         }
         
-        print("\n📝 Testing enhanced cognitive chat...")
+        logger.info("\n📝 Testing enhanced cognitive chat...")
         chat_result = self.analyze_endpoint("/kimera/chat/", "POST", chat_payload, timeout=120)
         
         if chat_result.get("success"):
             data = chat_result["data"]
-            print(f"\n📊 Chat Metrics:")
-            print(f"   - Response length: {len(data.get('response', ''))} chars")
-            print(f"   - Confidence: {data.get('confidence', 0):.3f}")
-            print(f"   - Semantic Coherence: {data.get('semantic_coherence', 0):.3f}")
-            print(f"   - Cognitive Resonance: {data.get('cognitive_resonance', 0):.3f}")
-            print(f"   - Generation Time: {data.get('generation_time', 0):.2f}s")
+            logger.info(f"\n📊 Chat Metrics:")
+            logger.info(f"   - Response length: {len(data.get('response', ''))} chars")
+            logger.info(f"   - Confidence: {data.get('confidence', 0):.3f}")
+            logger.info(f"   - Semantic Coherence: {data.get('semantic_coherence', 0):.3f}")
+            logger.info(f"   - Cognitive Resonance: {data.get('cognitive_resonance', 0):.3f}")
+            logger.info(f"   - Generation Time: {data.get('generation_time', 0):.2f}s")
             
             self.results["components"]["chat_diffusion"] = {
                 "operational": True,
@@ -180,9 +182,9 @@ class KimeraSystemAnalyzer:
     
     def analyze_integration_status(self):
         """Analyze system integration"""
-        print("\n" + "="*60)
-        print("🌉 ANALYZING SYSTEM INTEGRATION")
-        print("="*60)
+        logger.info("\n" + "="*60)
+        logger.info("🌉 ANALYZING SYSTEM INTEGRATION")
+        logger.info("="*60)
         
         # Chat Integration
         integration = self.analyze_endpoint("/kimera/chat/integration/status")
@@ -196,15 +198,15 @@ class KimeraSystemAnalyzer:
     
     def perform_stress_tests(self):
         """Perform basic stress tests"""
-        print("\n" + "="*60)
-        print("⚡ PERFORMING STRESS TESTS")
-        print("="*60)
+        logger.info("\n" + "="*60)
+        logger.info("⚡ PERFORMING STRESS TESTS")
+        logger.info("="*60)
         
         # Test rapid endpoint access
         endpoints = ["/health", "/kimera/status", "/kimera/metrics"]
         
         for endpoint in endpoints:
-            print(f"\n📊 Stress testing {endpoint}...")
+            logger.info(f"\n📊 Stress testing {endpoint}...")
             times = []
             errors = 0
             
@@ -223,16 +225,16 @@ class KimeraSystemAnalyzer:
             
             if times:
                 avg_time = sum(times) / len(times)
-                print(f"   Average response time: {avg_time:.3f}s")
-                print(f"   Success rate: {len(times)/10*100:.0f}%")
+                logger.info(f"   Average response time: {avg_time:.3f}s")
+                logger.info(f"   Success rate: {len(times)/10*100:.0f}%")
             else:
-                print(f"   ❌ All requests failed")
+                logger.info(f"   ❌ All requests failed")
     
     def identify_issues_and_recommendations(self):
         """Analyze results and provide recommendations"""
-        print("\n" + "="*60)
-        print("🔧 ISSUES & RECOMMENDATIONS")
-        print("="*60)
+        logger.info("\n" + "="*60)
+        logger.info("🔧 ISSUES & RECOMMENDATIONS")
+        logger.info("="*60)
         
         # Check for timeout issues
         timeout_issues = [i for i in self.results["issues"] if i["issue"] == "Timeout"]
@@ -264,49 +266,49 @@ class KimeraSystemAnalyzer:
     
     def generate_report(self):
         """Generate comprehensive analysis report"""
-        print("\n" + "="*60)
-        print("📄 COMPREHENSIVE ANALYSIS REPORT")
-        print("="*60)
+        logger.info("\n" + "="*60)
+        logger.info("📄 COMPREHENSIVE ANALYSIS REPORT")
+        logger.info("="*60)
         
         # System Overview
-        print("\n🏗️ SYSTEM ARCHITECTURE:")
-        print(f"   - Base URL: {self.base_url}")
-        print(f"   - Analysis Time: {self.results['timestamp']}")
-        print(f"   - Components Analyzed: {len(self.results['components'])}")
-        print(f"   - Issues Found: {len(self.results['issues'])}")
+        logger.info("\n🏗️ SYSTEM ARCHITECTURE:")
+        logger.info(f"   - Base URL: {self.base_url}")
+        logger.info(f"   - Analysis Time: {self.results['timestamp']}")
+        logger.info(f"   - Components Analyzed: {len(self.results['components'])}")
+        logger.info(f"   - Issues Found: {len(self.results['issues'])}")
         
         # Component Status
-        print("\n📊 COMPONENT STATUS:")
+        logger.info("\n📊 COMPONENT STATUS:")
         for component, data in self.results["components"].items():
             if isinstance(data, dict) and "operational" in data:
                 status = "✅ Operational" if data["operational"] else "❌ Not Operational"
-                print(f"   - {component}: {status}")
+                logger.info(f"   - {component}: {status}")
             else:
-                print(f"   - {component}: ✅ Active")
+                logger.info(f"   - {component}: ✅ Active")
         
         # Critical Issues
         if self.results["issues"]:
-            print("\n⚠️ CRITICAL ISSUES:")
+            logger.info("\n⚠️ CRITICAL ISSUES:")
             for issue in self.results["issues"][:5]:  # Show top 5
-                print(f"   - {issue['endpoint']}: {issue['issue']}")
+                logger.info(f"   - {issue['endpoint']}: {issue['issue']}")
         
         # Recommendations
         if self.results["recommendations"]:
-            print("\n💡 RECOMMENDATIONS:")
+            logger.info("\n💡 RECOMMENDATIONS:")
             for rec in self.results["recommendations"]:
-                print(f"\n   [{rec['category']}] {rec['recommendation']}")
+                logger.info(f"\n   [{rec['category']}] {rec['recommendation']}")
                 if "details" in rec:
-                    print(f"   Details: {rec['details']}")
+                    logger.info(f"   Details: {rec['details']}")
         
         # Save detailed report
         report_file = f"kimera_analysis_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
         with open(report_file, 'w') as f:
             json.dump(self.results, f, indent=2)
-        print(f"\n📁 Detailed report saved to: {report_file}")
+        logger.info(f"\n📁 Detailed report saved to: {report_file}")
     
     def run_complete_analysis(self):
         """Run the complete system analysis"""
-        print("""
+        logger.info("""
 ╔════���═════════════════════════════════════════════════════════════╗
 ║           KIMERA SWM - COMPREHENSIVE SYSTEM ANALYSIS              ║
 ║                                                                  ║
@@ -328,7 +330,7 @@ class KimeraSystemAnalyzer:
         self.identify_issues_and_recommendations()
         self.generate_report()
         
-        print("\n\n✅ Analysis complete!")
+        logger.info("\n\n✅ Analysis complete!")
 
 def main():
     analyzer = KimeraSystemAnalyzer()

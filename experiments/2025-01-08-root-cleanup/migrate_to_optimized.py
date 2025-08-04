@@ -28,7 +28,7 @@ class KimeraOptimizationMigrator:
         
     def create_backup(self):
         """Create backup of current implementation"""
-        print("📦 Creating backup...")
+        logger.info("📦 Creating backup...")
         
         # Create backup directory
         self.backup_dir.mkdir(exist_ok=True)
@@ -45,7 +45,7 @@ class KimeraOptimizationMigrator:
             if file.exists():
                 backup_path = self.backup_dir / file.name
                 shutil.copy2(file, backup_path)
-                print(f"  ✓ Backed up {file.name}")
+                logger.info(f"  ✓ Backed up {file.name}")
         
         # Save backup metadata
         metadata = {
@@ -57,11 +57,11 @@ class KimeraOptimizationMigrator:
         with open(self.backup_dir / "backup_metadata.json", "w") as f:
             json.dump(metadata, f, indent=2)
         
-        print("✅ Backup completed")
+        logger.info("✅ Backup completed")
     
     def update_main_entry(self):
         """Update the main kimera.py to use optimized version"""
-        print("\n🔧 Updating main entry point...")
+        logger.info("\n🔧 Updating main entry point...")
         
         kimera_py = self.base_dir / "kimera.py"
         
@@ -79,11 +79,11 @@ class KimeraOptimizationMigrator:
         with open(kimera_py, 'w') as f:
             f.write(updated_content)
         
-        print("✅ Main entry point updated")
+        logger.info("✅ Main entry point updated")
     
     def update_router_imports(self):
         """Update router imports in optimized main"""
-        print("\n🔄 Updating router imports...")
+        logger.info("\n🔄 Updating router imports...")
         
         main_optimized = self.api_dir / "main_optimized.py"
         
@@ -111,11 +111,11 @@ app.include_router(optimized_geoid_router.router, prefix="/kimera", tags=["Geoid
             with open(main_optimized, 'w') as f:
                 f.write(content)
             
-            print("✅ Router imports updated")
+            logger.info("✅ Router imports updated")
     
     def create_startup_script(self):
         """Create optimized startup script"""
-        print("\n📝 Creating optimized startup script...")
+        logger.info("\n📝 Creating optimized startup script...")
         
         script_content = """#!/usr/bin/env python3
 \"\"\"
@@ -159,11 +159,11 @@ if __name__ == "__main__":
         if os.name != 'nt':
             os.chmod(startup_file, 0o755)
         
-        print("✅ Startup script created: kimera_optimized.py")
+        logger.info("✅ Startup script created: kimera_optimized.py")
     
     def install_performance_dependencies(self):
         """Install additional performance dependencies"""
-        print("\n📦 Installing performance dependencies...")
+        logger.info("\n📦 Installing performance dependencies...")
         
         dependencies = [
             "orjson",  # Fast JSON serialization
@@ -174,15 +174,15 @@ if __name__ == "__main__":
         ]
         
         for dep in dependencies:
-            print(f"  Installing {dep}...")
+            logger.info(f"  Installing {dep}...")
             subprocess.run([sys.executable, "-m", "pip", "install", dep], 
                          capture_output=True, text=True)
         
-        print("✅ Performance dependencies installed")
+        logger.info("✅ Performance dependencies installed")
     
     def verify_optimization(self):
         """Verify the optimization is working"""
-        print("\n🔍 Verifying optimization...")
+        logger.info("\n🔍 Verifying optimization...")
         
         # Check if optimized files exist
         required_files = [
@@ -197,21 +197,21 @@ if __name__ == "__main__":
         all_exist = True
         for file in required_files:
             if file.exists():
-                print(f"  ✓ {file.relative_to(self.base_dir)}")
+                logger.info(f"  ✓ {file.relative_to(self.base_dir)}")
             else:
-                print(f"  ✗ {file.relative_to(self.base_dir)} MISSING")
+                logger.info(f"  ✗ {file.relative_to(self.base_dir)} MISSING")
                 all_exist = False
         
         if all_exist:
-            print("✅ All optimization files verified")
+            logger.info("✅ All optimization files verified")
             return True
         else:
-            print("❌ Some optimization files are missing")
+            logger.info("❌ Some optimization files are missing")
             return False
     
     def create_rollback_script(self):
         """Create script to rollback changes if needed"""
-        print("\n🔄 Creating rollback script...")
+        logger.info("\n🔄 Creating rollback script...")
         
         rollback_content = f"""#!/usr/bin/env python3
 \"\"\"
@@ -220,6 +220,8 @@ Rollback Kimera Optimization
 
 import shutil
 from pathlib import Path
+import logging
+logger = logging.getLogger(__name__)
 
 backup_dir = Path("{self.backup_dir}")
 api_dir = Path("{self.api_dir}")
@@ -231,7 +233,7 @@ for backup_file in backup_dir.glob("*.py"):
         target = api_dir / "routers" / backup_file.name
     
     shutil.copy2(backup_file, target)
-    print(f"Restored {{backup_file.name}}")
+    logger.info(f"Restored {{backup_file.name}}")
 
 # Restore kimera.py
 kimera_py = Path("{self.base_dir / 'kimera.py'}")
@@ -246,7 +248,7 @@ content = content.replace(
 with open(kimera_py, 'w') as f:
     f.write(content)
 
-print("✅ Rollback completed")
+logger.info("✅ Rollback completed")
 """
         
         rollback_file = self.base_dir / "rollback_optimization.py"
@@ -256,36 +258,36 @@ print("✅ Rollback completed")
         if os.name != 'nt':
             os.chmod(rollback_file, 0o755)
         
-        print("✅ Rollback script created: rollback_optimization.py")
+        logger.info("✅ Rollback script created: rollback_optimization.py")
     
     def print_next_steps(self):
         """Print instructions for next steps"""
-        print("\n" + "="*60)
-        print("🎉 OPTIMIZATION MIGRATION COMPLETED!")
-        print("="*60)
+        logger.info("\n" + "="*60)
+        logger.info("🎉 OPTIMIZATION MIGRATION COMPLETED!")
+        logger.info("="*60)
         
-        print("\n📋 Next Steps:")
-        print("1. Stop the current Kimera server")
-        print("2. Start the optimized version:")
-        print("   python kimera_optimized.py")
-        print("\n3. Run performance test to verify improvements:")
-        print("   python performance_test_kimera.py")
+        logger.info("\n📋 Next Steps:")
+        logger.info("1. Stop the current Kimera server")
+        logger.info("2. Start the optimized version:")
+        logger.info("   python kimera_optimized.py")
+        logger.info("\n3. Run performance test to verify improvements:")
+        logger.info("   python performance_test_kimera.py")
         
-        print("\n🔄 If you need to rollback:")
-        print("   python rollback_optimization.py")
+        logger.info("\n🔄 If you need to rollback:")
+        logger.info("   python rollback_optimization.py")
         
-        print("\n⚡ Expected Performance Improvements:")
-        print("   - /health endpoint: <100μs (from 11.3s)")
-        print("   - /system-metrics/: <1ms (from 26.6s)")
-        print("   - Geoid creation: <500ms (from 2.6s)")
-        print("   - Overall throughput: >100 req/s (from 0.9 req/s)")
+        logger.info("\n⚡ Expected Performance Improvements:")
+        logger.info("   - /health endpoint: <100μs (from 11.3s)")
+        logger.info("   - /system-metrics/: <1ms (from 26.6s)")
+        logger.info("   - Geoid creation: <500ms (from 2.6s)")
+        logger.info("   - Overall throughput: >100 req/s (from 0.9 req/s)")
         
-        print("\n🚀 Happy optimizing!")
+        logger.info("\n🚀 Happy optimizing!")
     
     def run(self):
         """Run the complete migration"""
-        print("🚀 Starting Kimera Performance Optimization Migration")
-        print("="*60)
+        logger.info("🚀 Starting Kimera Performance Optimization Migration")
+        logger.info("="*60)
         
         try:
             # Step 1: Create backup
@@ -305,7 +307,7 @@ print("✅ Rollback completed")
             
             # Step 6: Verify optimization
             if not self.verify_optimization():
-                print("\n⚠️  Warning: Some files are missing. Migration may be incomplete.")
+                logger.info("\n⚠️  Warning: Some files are missing. Migration may be incomplete.")
             
             # Step 7: Create rollback script
             self.create_rollback_script()
@@ -314,8 +316,8 @@ print("✅ Rollback completed")
             self.print_next_steps()
             
         except Exception as e:
-            print(f"\n❌ Migration failed: {e}")
-            print("Run rollback_optimization.py to restore previous state")
+            logger.info(f"\n❌ Migration failed: {e}")
+            logger.info("Run rollback_optimization.py to restore previous state")
             raise
 
 

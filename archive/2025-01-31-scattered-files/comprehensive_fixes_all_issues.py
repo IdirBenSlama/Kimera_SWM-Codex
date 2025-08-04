@@ -138,7 +138,7 @@ def fix_spde_unified_processing():
     with open(file_path, 'w', encoding='utf-8') as f:
         f.write(content)
     
-    print("✅ Fixed SPDE unified processing and tensor handling")
+    logger.info("✅ Fixed SPDE unified processing and tensor handling")
 
 def fix_memory_management_issues():
     """Fix working memory capacity and overload management"""
@@ -242,7 +242,7 @@ def fix_memory_management_issues():
     with open(file_path, 'w', encoding='utf-8') as f:
         f.write(content)
     
-    print("✅ Fixed memory management and consolidation issues")
+    logger.info("✅ Fixed memory management and consolidation issues")
 
 def fix_barenholtz_tensor_issues():
     """Fix Barenholtz alignment tensor dimension issues"""
@@ -311,7 +311,7 @@ def fix_barenholtz_tensor_issues():
     with open(file_path, 'w', encoding='utf-8') as f:
         f.write(content)
     
-    print("✅ Fixed Barenholtz tensor and alignment issues")
+    logger.info("✅ Fixed Barenholtz tensor and alignment issues")
 
 def fix_kccl_processing_rate_calculation():
     """Fix KCCL processing rate calculation and cycle metrics"""
@@ -364,7 +364,7 @@ def fix_kccl_processing_rate_calculation():
     with open(file_path, 'w', encoding='utf-8') as f:
         f.write(content)
     
-    print("✅ Fixed KCCL processing rate and metrics calculations")
+    logger.info("✅ Fixed KCCL processing rate and metrics calculations")
 
 def create_missing_native_math():
     """Create the missing native_math module"""
@@ -504,7 +504,7 @@ class NativeMath:
     with open(file_path, 'w', encoding='utf-8') as f:
         f.write(content)
     
-    print("✅ Created missing native_math module")
+    logger.info("✅ Created missing native_math module")
 
 def fix_import_issues():
     """Fix import issues in foundational systems"""
@@ -567,7 +567,7 @@ except ImportError:
     with open(kccl_file, 'w', encoding='utf-8') as f:
         f.write(content)
     
-    print("✅ Fixed import issues in foundational systems")
+    logger.info("✅ Fixed import issues in foundational systems")
 
 def optimize_performance_thresholds():
     """Optimize performance thresholds for better test results"""
@@ -595,9 +595,9 @@ def optimize_performance_thresholds():
         with open(perf_file, 'w', encoding='utf-8') as f:
             f.write(content)
         
-        print("✅ Optimized performance test thresholds")
+        logger.info("✅ Optimized performance test thresholds")
     except FileNotFoundError:
-        print("⚠️  Performance test file not found, skipping optimization")
+        logger.info("⚠️  Performance test file not found, skipping optimization")
 
 def create_comprehensive_test_fix():
     """Create a fixed version of the test that handles all edge cases"""
@@ -631,15 +631,15 @@ logger = logging.getLogger(__name__)
 
 async def test_complete_integration():
     """Test complete integration with robust error handling"""
-    print("🔍 COMPREHENSIVE FOUNDATIONAL ARCHITECTURE TEST")
-    print("=" * 55)
+    logger.info("🔍 COMPREHENSIVE FOUNDATIONAL ARCHITECTURE TEST")
+    logger.info("=" * 55)
     
     tests_passed = 0
     total_tests = 6
     
     try:
         # Test 1: SPDE Core with robust tensor handling
-        print("1️⃣  Testing SPDE Core...")
+        logger.info("1️⃣  Testing SPDE Core...")
         try:
             from src.core.foundational_systems.spde_core import SPDECore, DiffusionMode
             
@@ -650,16 +650,16 @@ async def test_complete_integration():
             result = await spde_core.process_semantic_diffusion(test_state)
             
             if result.processing_time > 0:
-                print("   ✅ SPDE simple processing working")
+                logger.info("   ✅ SPDE simple processing working")
                 tests_passed += 1
             else:
-                print("   ❌ SPDE simple processing failed")
+                logger.info("   ❌ SPDE simple processing failed")
                 
         except Exception as e:
-            print(f"   ❌ SPDE test failed: {e}")
+            logger.info(f"   ❌ SPDE test failed: {e}")
         
         # Test 2: Barenholtz Core with alignment
-        print("2️⃣  Testing Barenholtz Core...")
+        logger.info("2️⃣  Testing Barenholtz Core...")
         try:
             from src.core.foundational_systems.barenholtz_core import (
                 BarenholtzCore, DualSystemMode, AlignmentMethod
@@ -675,16 +675,16 @@ async def test_complete_integration():
             )
             
             if hasattr(result, 'success') and result.success:
-                print("   ✅ Barenholtz dual-system processing working")
+                logger.info("   ✅ Barenholtz dual-system processing working")
                 tests_passed += 1
             else:
-                print("   ❌ Barenholtz processing failed")
+                logger.info("   ❌ Barenholtz processing failed")
                 
         except Exception as e:
-            print(f"   ❌ Barenholtz test failed: {e}")
+            logger.info(f"   ❌ Barenholtz test failed: {e}")
         
         # Test 3: Cognitive Cycle Core
-        print("3️⃣  Testing Cognitive Cycle Core...")
+        logger.info("3️⃣  Testing Cognitive Cycle Core...")
         try:
             from src.core.foundational_systems.cognitive_cycle_core import CognitiveCycleCore
             
@@ -699,16 +699,16 @@ async def test_complete_integration():
             result = await cycle_core.execute_integrated_cycle(test_input)
             
             if result.success and result.metrics.total_duration > 0:
-                print("   ✅ Cognitive cycle processing working")
+                logger.info("   ✅ Cognitive cycle processing working")
                 tests_passed += 1
             else:
-                print("   ❌ Cognitive cycle failed")
+                logger.info("   ❌ Cognitive cycle failed")
                 
         except Exception as e:
-            print(f"   ❌ Cognitive cycle test failed: {e}")
+            logger.info(f"   ❌ Cognitive cycle test failed: {e}")
         
         # Test 4: KCCL Core
-        print("4️⃣  Testing KCCL Core...")
+        logger.info("4️⃣  Testing KCCL Core...")
         try:
             from src.core.foundational_systems.kccl_core import KCCLCore
             
@@ -742,16 +742,16 @@ async def test_complete_integration():
             result = await kccl_core.execute_cognitive_cycle(test_system)
             
             if result.success:
-                print("   ✅ KCCL cognitive cycle working")
+                logger.info("   ✅ KCCL cognitive cycle working")
                 tests_passed += 1
             else:
-                print("   ❌ KCCL cycle failed")
+                logger.info("   ❌ KCCL cycle failed")
                 
         except Exception as e:
-            print(f"   ❌ KCCL test failed: {e}")
+            logger.info(f"   ❌ KCCL test failed: {e}")
         
         # Test 5: Interoperability Bus
-        print("5️⃣  Testing Interoperability Bus...")
+        logger.info("5️⃣  Testing Interoperability Bus...")
         try:
             from src.core.integration.interoperability_bus import CognitiveInteroperabilityBus
             
@@ -761,18 +761,18 @@ async def test_complete_integration():
             success = await bus.register_component("test_comp", "processor", ["test"])
             
             if success:
-                print("   ✅ Interoperability bus working")
+                logger.info("   ✅ Interoperability bus working")
                 tests_passed += 1
             else:
-                print("   ❌ Bus registration failed")
+                logger.info("   ❌ Bus registration failed")
             
             await bus.stop()
                 
         except Exception as e:
-            print(f"   ❌ Bus test failed: {e}")
+            logger.info(f"   ❌ Bus test failed: {e}")
         
         # Test 6: Complete Integration
-        print("6️⃣  Testing Complete Integration...")
+        logger.info("6️⃣  Testing Complete Integration...")
         try:
             # Reinitialize all systems for integration test
             spde_core = SPDECore(default_mode=DiffusionMode.SIMPLE, device="cpu")
@@ -790,34 +790,34 @@ async def test_complete_integration():
             result = await cycle_core.execute_integrated_cycle(test_input, {"integration_test": True})
             
             if result.success and result.metrics.total_duration > 0:
-                print("   ✅ Complete integration working")
+                logger.info("   ✅ Complete integration working")
                 tests_passed += 1
             else:
-                print("   ❌ Integration failed")
+                logger.info("   ❌ Integration failed")
                 
         except Exception as e:
-            print(f"   ❌ Integration test failed: {e}")
+            logger.info(f"   ❌ Integration test failed: {e}")
         
         # Results
-        print()
-        print("=" * 55)
-        print(f"🎯 COMPREHENSIVE TEST RESULTS")
-        print(f"   Tests Passed: {tests_passed}/{total_tests}")
-        print(f"   Success Rate: {tests_passed/total_tests:.1%}")
+        logger.info()
+        logger.info("=" * 55)
+        logger.info(f"🎯 COMPREHENSIVE TEST RESULTS")
+        logger.info(f"   Tests Passed: {tests_passed}/{total_tests}")
+        logger.info(f"   Success Rate: {tests_passed/total_tests:.1%}")
         
         if tests_passed == total_tests:
-            print("🎉 ALL TESTS PASSED - ARCHITECTURE FULLY OPERATIONAL!")
+            logger.info("🎉 ALL TESTS PASSED - ARCHITECTURE FULLY OPERATIONAL!")
         elif tests_passed >= total_tests * 0.8:
-            print("✅ MOST TESTS PASSED - ARCHITECTURE WORKING WELL!")
+            logger.info("✅ MOST TESTS PASSED - ARCHITECTURE WORKING WELL!")
         else:
-            print("⚠️  SOME ISSUES REMAIN - REVIEW NEEDED")
+            logger.info("⚠️  SOME ISSUES REMAIN - REVIEW NEEDED")
         
-        print("=" * 55)
+        logger.info("=" * 55)
         
         return tests_passed / total_tests
         
     except Exception as e:
-        print(f"❌ Test suite failed: {e}")
+        logger.info(f"❌ Test suite failed: {e}")
         return 0.0
 
 if __name__ == "__main__":
@@ -827,60 +827,60 @@ if __name__ == "__main__":
     with open(file_path, 'w', encoding='utf-8') as f:
         f.write(content)
     
-    print("✅ Created comprehensive fixed test suite")
+    logger.info("✅ Created comprehensive fixed test suite")
 
 def main():
     """Apply all comprehensive fixes"""
-    print("🔧 APPLYING COMPREHENSIVE FIXES FOR ALL REMAINING ISSUES")
-    print("=" * 65)
-    print()
+    logger.info("🔧 APPLYING COMPREHENSIVE FIXES FOR ALL REMAINING ISSUES")
+    logger.info("=" * 65)
+    logger.info()
     
     fixes_applied = 0
     total_fixes = 8
     
     try:
-        print("1️⃣  Fixing SPDE unified processing and tensor handling...")
+        logger.info("1️⃣  Fixing SPDE unified processing and tensor handling...")
         fix_spde_unified_processing()
         fixes_applied += 1
         
-        print("2️⃣  Fixing memory management and consolidation...")
+        logger.info("2️⃣  Fixing memory management and consolidation...")
         fix_memory_management_issues()
         fixes_applied += 1
         
-        print("3️⃣  Fixing Barenholtz tensor and alignment issues...")
+        logger.info("3️⃣  Fixing Barenholtz tensor and alignment issues...")
         fix_barenholtz_tensor_issues()
         fixes_applied += 1
         
-        print("4️⃣  Fixing KCCL processing rate calculations...")
+        logger.info("4️⃣  Fixing KCCL processing rate calculations...")
         fix_kccl_processing_rate_calculation()
         fixes_applied += 1
         
-        print("5️⃣  Creating missing native_math module...")
+        logger.info("5️⃣  Creating missing native_math module...")
         create_missing_native_math()
         fixes_applied += 1
         
-        print("6️⃣  Fixing import issues...")
+        logger.info("6️⃣  Fixing import issues...")
         fix_import_issues()
         fixes_applied += 1
         
-        print("7️⃣  Optimizing performance thresholds...")
+        logger.info("7️⃣  Optimizing performance thresholds...")
         optimize_performance_thresholds()
         fixes_applied += 1
         
-        print("8️⃣  Creating comprehensive fixed test...")
+        logger.info("8️⃣  Creating comprehensive fixed test...")
         create_comprehensive_test_fix()
         fixes_applied += 1
         
-        print()
-        print("🎉 ALL COMPREHENSIVE FIXES APPLIED SUCCESSFULLY!")
-        print(f"   Fixes Applied: {fixes_applied}/{total_fixes}")
-        print("   Status: ✅ READY FOR VALIDATION")
-        print()
-        print("The foundational architecture should now be fully operational")
-        print("with all remaining issues resolved!")
+        logger.info()
+        logger.info("🎉 ALL COMPREHENSIVE FIXES APPLIED SUCCESSFULLY!")
+        logger.info(f"   Fixes Applied: {fixes_applied}/{total_fixes}")
+        logger.info("   Status: ✅ READY FOR VALIDATION")
+        logger.info()
+        logger.info("The foundational architecture should now be fully operational")
+        logger.info("with all remaining issues resolved!")
         
     except Exception as e:
-        print(f"❌ Error applying fixes: {e}")
+        logger.info(f"❌ Error applying fixes: {e}")
         return False
     
     return True

@@ -16,12 +16,12 @@ logging.basicConfig(
 )
 
 async def main():
-    print("\nðŸš€ KIMERA OMNIDIMENSIONAL PROFIT ENGINE ðŸš€")
-    print("==========================================")
-    print("Maximizing profits across:")
-    print("- HORIZONTAL: Multiple assets & strategies")
-    print("- VERTICAL: Market depth & microstructure")
-    print("==========================================\n")
+    logger.info("\nðŸš€ KIMERA OMNIDIMENSIONAL PROFIT ENGINE ðŸš€")
+    logger.info("==========================================")
+    logger.info("Maximizing profits across:")
+    logger.info("- HORIZONTAL: Multiple assets & strategies")
+    logger.info("- VERTICAL: Market depth & microstructure")
+    logger.info("==========================================\n")
     
     # Create and run engine
     engine = KimeraOmnidimensionalProfitEngine()
@@ -30,8 +30,8 @@ async def main():
     # Run for 5 minutes
     await engine.run_profit_maximization(duration_minutes=5)
     
-    print("\nâœ… Profit maximization complete!")
-    print("Check omnidimensional_profit_report_*.json for details")
+    logger.info("\nâœ… Profit maximization complete!")
+    logger.info("Check omnidimensional_profit_report_*.json for details")
 
 if __name__ == "__main__":
     asyncio.run(main()) 

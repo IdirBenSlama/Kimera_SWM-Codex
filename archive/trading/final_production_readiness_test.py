@@ -534,25 +534,25 @@ class FinalProductionReadinessTest:
     
     def _print_final_report(self, report: Dict[str, Any]):
         """Print the final production readiness report"""
-        print("\n" + "="*100)
-        print("🎯 KIMERA TRADING SYSTEM - FINAL PRODUCTION READINESS REPORT")
-        print("="*100)
-        print(f"📊 Production Status: {report['production_status']}")
-        print(f"🏆 Readiness Level: {report['readiness_level']}")
-        print(f"✅ Pass Rate: {report['pass_rate']:.1f}%")
-        print(f"🧪 Tests Passed: {report['tests_passed']}/{report['total_tests']}")
-        print(f"⏱️ Total Execution Time: {report['total_execution_time']:.2f}s")
-        print("="*100)
-        print("📋 INDIVIDUAL TEST RESULTS:")
+        logger.info("\n" + "="*100)
+        logger.info("🎯 KIMERA TRADING SYSTEM - FINAL PRODUCTION READINESS REPORT")
+        logger.info("="*100)
+        logger.info(f"📊 Production Status: {report['production_status']}")
+        logger.info(f"🏆 Readiness Level: {report['readiness_level']}")
+        logger.info(f"✅ Pass Rate: {report['pass_rate']:.1f}%")
+        logger.info(f"🧪 Tests Passed: {report['tests_passed']}/{report['total_tests']}")
+        logger.info(f"⏱️ Total Execution Time: {report['total_execution_time']:.2f}s")
+        logger.info("="*100)
+        logger.info("📋 INDIVIDUAL TEST RESULTS:")
         
         for test_name, result in report['individual_results'].items():
             status_emoji = "✅" if result['status'] == 'PASSED' else "❌" if result['status'] == 'FAILED' else "💥"
-            print(f"   {status_emoji} {test_name}: {result['status']} ({result['execution_time']:.2f}s)")
+            logger.info(f"   {status_emoji} {test_name}: {result['status']} ({result['execution_time']:.2f}s)")
         
-        print("="*100)
-        print(f"🚀 DEPLOYMENT RECOMMENDATION:")
-        print(f"   {report['production_deployment_recommendation']}")
-        print("="*100)
+        logger.info("="*100)
+        logger.info(f"🚀 DEPLOYMENT RECOMMENDATION:")
+        logger.info(f"   {report['production_deployment_recommendation']}")
+        logger.info("="*100)
 
 async def main():
     """Run the final production readiness test"""

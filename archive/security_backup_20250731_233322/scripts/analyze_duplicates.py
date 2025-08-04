@@ -217,33 +217,33 @@ def main():
         json.dump(report, f, indent=2)
     
     # Print summary
-    print("\n" + "="*60)
-    print("DUPLICATE FILE ANALYSIS REPORT")
-    print("="*60)
-    print(f"\nTimestamp: {report['timestamp']}")
-    print(f"\nSUMMARY:")
-    print(f"- Duplicate groups: {report['summary']['total_duplicate_groups']}")
-    print(f"- Total duplicate files: {report['summary']['total_duplicate_files']}")
-    print(f"- Wasted space: {report['summary']['total_wasted_space_mb']:.2f} MB")
-    print(f"- Similar Python file groups: {report['summary']['similar_python_groups']}")
+    logger.info("\n" + "="*60)
+    logger.info("DUPLICATE FILE ANALYSIS REPORT")
+    logger.info("="*60)
+    logger.info(f"\nTimestamp: {report['timestamp']}")
+    logger.info(f"\nSUMMARY:")
+    logger.info(f"- Duplicate groups: {report['summary']['total_duplicate_groups']}")
+    logger.info(f"- Total duplicate files: {report['summary']['total_duplicate_files']}")
+    logger.info(f"- Wasted space: {report['summary']['total_wasted_space_mb']:.2f} MB")
+    logger.info(f"- Similar Python file groups: {report['summary']['similar_python_groups']}")
     
-    print(f"\nRECOMMENDATIONS:")
+    logger.info(f"\nRECOMMENDATIONS:")
     for rec in report['recommendations']:
-        print(f"\n[{rec['priority']}] {rec['category']}")
-        print(f"  {rec['description']}")
-        print(f"  â†’ {rec['action']}")
+        logger.info(f"\n[{rec['priority']}] {rec['category']}")
+        logger.info(f"  {rec['description']}")
+        logger.info(f"  â†’ {rec['action']}")
     
-    print(f"\nDetailed report saved to: duplicate_analysis_report.json")
+    logger.info(f"\nDetailed report saved to: duplicate_analysis_report.json")
     
     # Show first 5 duplicate groups as examples
     if exact_dups:
-        print(f"\nEXAMPLE DUPLICATES (first 5):")
+        logger.info(f"\nEXAMPLE DUPLICATES (first 5):")
         for i, dup in enumerate(exact_dups[:5]):
-            print(f"\nGroup {i+1} ({dup['count']} files, {dup['size']/1024:.1f} KB each):")
+            logger.info(f"\nGroup {i+1} ({dup['count']} files, {dup['size']/1024:.1f} KB each):")
             for file in dup['files'][:3]:  # Show max 3 files per group
-                print(f"  - {file}")
+                logger.info(f"  - {file}")
             if len(dup['files']) > 3:
-                print(f"  ... and {len(dup['files']) - 3} more")
+                logger.info(f"  ... and {len(dup['files']) - 3} more")
 
 
 if __name__ == '__main__':

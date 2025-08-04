@@ -321,34 +321,34 @@ class EnvironmentChecker:
 
 def main():
     """Main health check execution"""
-    print("=" * 60)
-    print("KIMERA SWM HEALTH CHECK - Protocol v3.0")
-    print("=" * 60)
-    print()
+    logger.info("=" * 60)
+    logger.info("KIMERA SWM HEALTH CHECK - Protocol v3.0")
+    logger.info("=" * 60)
+    logger.info()
     
     # Environment checks
-    print("Checking environment...")
+    logger.info("Checking environment...")
     env_checker = EnvironmentChecker()
     
     python_info = env_checker.check_python_version()
-    print(f"âœ“ Python version: {python_info['version']}")
+    logger.info(f"âœ“ Python version: {python_info['version']}")
     
     gpu_info = env_checker.check_gpu_availability()
     if gpu_info['cuda_available']:
-        print(f"âœ“ GPU available: {gpu_info['device_name']}")
+        logger.info(f"âœ“ GPU available: {gpu_info['device_name']}")
     else:
-        print("âš  GPU not available")
+        logger.info("âš  GPU not available")
     
     git_info = env_checker.check_git_status()
     if git_info['is_git_repo']:
-        print(f"âœ“ Git repository - Branch: {git_info['current_branch']}")
+        logger.info(f"âœ“ Git repository - Branch: {git_info['current_branch']}")
         if git_info['has_uncommitted_changes']:
-            print("âš  Uncommitted changes detected")
+            logger.info("âš  Uncommitted changes detected")
     
-    print()
+    logger.info()
     
     # Codebase analysis
-    print("Performing codebase cartography...")
+    logger.info("Performing codebase cartography...")
     cartographer = CodebaseCartographer()
     
     cartographer.scan_codebase()
@@ -364,25 +364,25 @@ def main():
     with open(report_path, 'w') as f:
         json.dump(report, f, indent=2)
     
-    print()
-    print("SUMMARY")
-    print("-" * 40)
-    print(f"Total files: {report['metrics']['total_files']}")
-    print(f"Total size: {report['metrics']['total_size_mb']:.2f} MB")
-    print(f"Python files: {report['metrics']['python_files']}")
-    print(f"Duplicate files: {report['metrics']['duplicate_count']}")
-    print(f"Test coverage estimate: {report['metrics']['test_coverage_estimate']:.1f}%")
+    logger.info()
+    logger.info("SUMMARY")
+    logger.info("-" * 40)
+    logger.info(f"Total files: {report['metrics']['total_files']}")
+    logger.info(f"Total size: {report['metrics']['total_size_mb']:.2f} MB")
+    logger.info(f"Python files: {report['metrics']['python_files']}")
+    logger.info(f"Duplicate files: {report['metrics']['duplicate_count']}")
+    logger.info(f"Test coverage estimate: {report['metrics']['test_coverage_estimate']:.1f}%")
     
-    print()
-    print("RECOMMENDATIONS")
-    print("-" * 40)
+    logger.info()
+    logger.info("RECOMMENDATIONS")
+    logger.info("-" * 40)
     for i, rec in enumerate(report['recommendations'], 1):
-        print(f"{i}. {rec}")
+        logger.info(f"{i}. {rec}")
     
-    print()
-    print(f"Full report saved to: {report_path}")
-    print()
-    print("Health check complete!")
+    logger.info()
+    logger.info(f"Full report saved to: {report_path}")
+    logger.info()
+    logger.info("Health check complete!")
     
     # Return exit code based on critical issues
     critical_issues = len(report['issues'])

@@ -45,10 +45,10 @@ class CDPv2RealTrader:
         # CDP v2 API endpoints
         self.base_url = "https://api.developer.coinbase.com"
         
-        print("🔥 CDP V2 REAL TRADER INITIALIZED")
-        print(f"   Organization: {organization_id[:8]}...")
-        print(f"   API Key: {api_key_id[:8]}...")
-        print("   WARNING: THIS WILL PLACE REAL ORDERS")
+        logger.info("🔥 CDP V2 REAL TRADER INITIALIZED")
+        logger.info(f"   Organization: {organization_id[:8]}...")
+        logger.info(f"   API Key: {api_key_id[:8]}...")
+        logger.info("   WARNING: THIS WILL PLACE REAL ORDERS")
         
         # Load the private key
         try:
@@ -57,9 +57,9 @@ class CDPv2RealTrader:
                 password=None,
                 backend=default_backend()
             )
-            print("✅ Private key loaded successfully")
+            logger.info("✅ Private key loaded successfully")
         except Exception as e:
-            print(f"❌ Failed to load private key: {e}")
+            logger.info(f"❌ Failed to load private key: {e}")
             self.private_key = None
     
     def create_jwt_token(self, request_path: str, method: str = 'GET', body: str = '') -> str:
@@ -89,7 +89,7 @@ class CDPv2RealTrader:
             return token
             
         except Exception as e:
-            print(f"❌ Failed to create JWT token: {e}")
+            logger.info(f"❌ Failed to create JWT token: {e}")
             return None
     
     def get_headers(self, request_path: str, method: str = 'GET', body: str = '') -> Dict[str, str]:
@@ -104,7 +104,7 @@ class CDPv2RealTrader:
     async def test_authentication(self) -> bool:
         """Test CDP v2 authentication"""
         try:
-            print("\n🔐 Testing CDP v2 authentication...")
+            logger.info("\n🔐 Testing CDP v2 authentication...")
             
             # Test endpoint - get organization info
             request_path = f"/platform/organizations/{self.organization_id}"
@@ -115,25 +115,25 @@ class CDPv2RealTrader:
                 headers=headers
             )
             
-            print(f"Response status: {response.status_code}")
+            logger.info(f"Response status: {response.status_code}")
             
             if response.status_code == 200:
                 org_data = response.json()
-                print("✅ CDP v2 authentication successful!")
-                print(f"   Organization: {org_data.get('name', 'Unknown')}")
+                logger.info("✅ CDP v2 authentication successful!")
+                logger.info(f"   Organization: {org_data.get('name', 'Unknown')}")
                 return True
             else:
-                print(f"❌ Authentication failed: {response.text}")
+                logger.info(f"❌ Authentication failed: {response.text}")
                 return False
                 
         except Exception as e:
-            print(f"❌ Authentication test failed: {e}")
+            logger.info(f"❌ Authentication test failed: {e}")
             return False
     
     async def get_wallets(self) -> List[Dict]:
         """Get all wallets for the organization"""
         try:
-            print("\n💰 Getting CDP wallets...")
+            logger.info("\n💰 Getting CDP wallets...")
             
             request_path = f"/platform/organizations/{self.organization_id}/wallets"
             headers = self.get_headers(request_path)
@@ -147,24 +147,24 @@ class CDPv2RealTrader:
                 wallets_data = response.json()
                 wallets = wallets_data.get('data', [])
                 
-                print(f"✅ Found {len(wallets)} wallets:")
+                logger.info(f"✅ Found {len(wallets)} wallets:")
                 for wallet in wallets:
-                    print(f"   Wallet ID: {wallet.get('id')}")
-                    print(f"   Name: {wallet.get('display_name', 'Unnamed')}")
+                    logger.info(f"   Wallet ID: {wallet.get('id')}")
+                    logger.info(f"   Name: {wallet.get('display_name', 'Unnamed')}")
                 
                 return wallets
             else:
-                print(f"❌ Failed to get wallets: {response.text}")
+                logger.info(f"❌ Failed to get wallets: {response.text}")
                 return []
                 
         except Exception as e:
-            print(f"❌ Failed to get wallets: {e}")
+            logger.info(f"❌ Failed to get wallets: {e}")
             return []
     
     async def get_wallet_balances(self, wallet_id: str) -> Dict[str, float]:
         """Get balances for a specific wallet"""
         try:
-            print(f"\n💰 Getting balances for wallet {wallet_id[:8]}...")
+            logger.info(f"\n💰 Getting balances for wallet {wallet_id[:8]}...")
             
             request_path = f"/platform/organizations/{self.organization_id}/wallets/{wallet_id}/balances"
             headers = self.get_headers(request_path)
@@ -178,20 +178,20 @@ class CDPv2RealTrader:
                 balances_data = response.json()
                 balances = {}
                 
-                print("💰 Wallet balances:")
+                logger.info("💰 Wallet balances:")
                 for balance in balances_data.get('data', []):
                     asset = balance.get('asset', {}).get('asset_id', 'Unknown')
                     amount = float(balance.get('amount', 0))
                     balances[asset] = amount
-                    print(f"   {asset}: {amount}")
+                    logger.info(f"   {asset}: {amount}")
                 
                 return balances
             else:
-                print(f"❌ Failed to get balances: {response.text}")
+                logger.info(f"❌ Failed to get balances: {response.text}")
                 return {}
                 
         except Exception as e:
-            print(f"❌ Failed to get balances: {e}")
+            logger.info(f"❌ Failed to get balances: {e}")
             return {}
     
     async def create_trade_order(self, wallet_id: str, asset_id: str, amount: str, side: str) -> Optional[Dict]:
@@ -205,12 +205,12 @@ class CDPv2RealTrader:
             side: 'buy' or 'sell'
         """
         try:
-            print(f"\n🚀 CREATING REAL TRADE ORDER:")
-            print(f"   Wallet: {wallet_id[:8]}...")
-            print(f"   Asset: {asset_id}")
-            print(f"   Amount: {amount}")
-            print(f"   Side: {side}")
-            print("   THIS IS REAL MONEY!")
+            logger.info(f"\n🚀 CREATING REAL TRADE ORDER:")
+            logger.info(f"   Wallet: {wallet_id[:8]}...")
+            logger.info(f"   Asset: {asset_id}")
+            logger.info(f"   Amount: {amount}")
+            logger.info(f"   Side: {side}")
+            logger.info("   THIS IS REAL MONEY!")
             
             request_path = f"/platform/organizations/{self.organization_id}/wallets/{wallet_id}/orders"
             
@@ -234,30 +234,30 @@ class CDPv2RealTrader:
                 order_result = response.json()
                 order = order_result.get('data', {})
                 
-                print(f"✅ REAL ORDER CREATED!")
-                print(f"   Order ID: {order.get('id')}")
-                print(f"   Status: {order.get('status')}")
-                print(f"   Type: {order.get('type')}")
+                logger.info(f"✅ REAL ORDER CREATED!")
+                logger.info(f"   Order ID: {order.get('id')}")
+                logger.info(f"   Status: {order.get('status')}")
+                logger.info(f"   Type: {order.get('type')}")
                 
                 return order
             else:
-                print(f"❌ Order creation failed: {response.text}")
+                logger.info(f"❌ Order creation failed: {response.text}")
                 return None
                 
         except Exception as e:
-            print(f"❌ Failed to create order: {e}")
+            logger.info(f"❌ Failed to create order: {e}")
             return None
     
     async def test_small_trade(self) -> bool:
         """Test with a very small trade to verify everything works"""
         try:
-            print("\n🧪 TESTING SMALL REAL TRADE")
-            print("=" * 30)
+            logger.info("\n🧪 TESTING SMALL REAL TRADE")
+            logger.info("=" * 30)
             
             # Get wallets
             wallets = await self.get_wallets()
             if not wallets:
-                print("❌ No wallets found")
+                logger.info("❌ No wallets found")
                 return False
             
             # Use first wallet
@@ -268,13 +268,13 @@ class CDPv2RealTrader:
             
             # Check for sufficient balance (need some base currency)
             if not balances:
-                print("❌ No balances found")
+                logger.info("❌ No balances found")
                 return False
             
-            print(f"\n💡 Available for testing:")
+            logger.info(f"\n💡 Available for testing:")
             for asset, amount in balances.items():
                 if amount > 0:
-                    print(f"   {asset}: {amount}")
+                    logger.info(f"   {asset}: {amount}")
             
             # For testing, try a very small BTC buy if USD/EUR available
             test_amount = "0.01"  # Very small amount
@@ -291,27 +291,27 @@ class CDPv2RealTrader:
                 )
                 
                 if order:
-                    print("✅ Test trade successful!")
-                    print("   Check your Coinbase app - you should see this order")
+                    logger.info("✅ Test trade successful!")
+                    logger.info("   Check your Coinbase app - you should see this order")
                     return True
                 else:
-                    print("❌ Test trade failed")
+                    logger.info("❌ Test trade failed")
                     return False
             else:
-                print("🔍 Skipping test trade")
+                logger.info("🔍 Skipping test trade")
                 return True
                 
         except Exception as e:
-            print(f"❌ Test trade failed: {e}")
+            logger.info(f"❌ Test trade failed: {e}")
             return False
 
 async def main():
     """Test CDP v2 real trading"""
-    print("🔥 CDP V2 REAL TRADER TEST")
-    print("=" * 30)
-    print("⚠️  WARNING: THIS USES REAL MONEY")
-    print("⚠️  ORDERS WILL APPEAR IN YOUR COINBASE ACCOUNT")
-    print("=" * 30)
+    logger.info("🔥 CDP V2 REAL TRADER TEST")
+    logger.info("=" * 30)
+    logger.info("⚠️  WARNING: THIS USES REAL MONEY")
+    logger.info("⚠️  ORDERS WILL APPEAR IN YOUR COINBASE ACCOUNT")
+    logger.info("=" * 30)
     
     # Your CDP credentials
     ORGANIZATION_ID = "d5c46584-dd70-4be9-a71a-1e5e1b7a7ea3"
@@ -330,7 +330,7 @@ k+1M3dZ5l6SjNp2naYaa7oXuQQUm8UsFFA==
         auth_success = await trader.test_authentication()
         
         if auth_success:
-            print("\n✅ CDP v2 authentication successful!")
+            logger.info("\n✅ CDP v2 authentication successful!")
             
             # Get wallets and balances
             wallets = await trader.get_wallets()
@@ -339,19 +339,21 @@ k+1M3dZ5l6SjNp2naYaa7oXuQQUm8UsFFA==
                 # Test small trade
                 await trader.test_small_trade()
             else:
-                print("❌ No wallets found")
+                logger.info("❌ No wallets found")
         else:
-            print("\n❌ CDP v2 authentication failed")
+            logger.info("\n❌ CDP v2 authentication failed")
     else:
-        print("\n❌ Private key loading failed")
+        logger.info("\n❌ Private key loading failed")
 
 if __name__ == "__main__":
     # Install required package
     try:
         import jwt
         import cryptography
+import logging
+logger = logging.getLogger(__name__)
     except ImportError:
-        print("Installing required packages...")
+        logger.info("Installing required packages...")
         os.system("pip install PyJWT cryptography")
         
     asyncio.run(main()) 

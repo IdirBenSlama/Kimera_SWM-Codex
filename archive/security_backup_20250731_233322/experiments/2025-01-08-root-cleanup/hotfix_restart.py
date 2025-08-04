@@ -13,20 +13,22 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from kimera_working_ultra_aggressive_trader import KimeraWorkingUltraAggressiveTrader
+import logging
+logger = logging.getLogger(__name__)
 
 async def hotfix_restart():
-    print("ðŸ”§ HOTFIX RESTART - SELL AMOUNT VALIDATION FIXES")
-    print("=" * 60)
+    logger.info("ðŸ”§ HOTFIX RESTART - SELL AMOUNT VALIDATION FIXES")
+    logger.info("=" * 60)
     
-    print("âœ… Applied fixes:")
-    print("   - Added null checks for change_24h values")
-    print("   - Added validation for sell_amount > 0")
-    print("   - Added asset amount validation")
-    print("   - Enhanced error messages")
+    logger.info("âœ… Applied fixes:")
+    logger.info("   - Added null checks for change_24h values")
+    logger.info("   - Added validation for sell_amount > 0")
+    logger.info("   - Added asset amount validation")
+    logger.info("   - Enhanced error messages")
     
     trader = KimeraWorkingUltraAggressiveTrader()
     
-    print("\nðŸš€ Starting 5-minute ultra-aggressive session with fixes...")
+    logger.info("\nðŸš€ Starting 5-minute ultra-aggressive session with fixes...")
     await trader.run_ultra_aggressive_session(5)
 
 if __name__ == "__main__":

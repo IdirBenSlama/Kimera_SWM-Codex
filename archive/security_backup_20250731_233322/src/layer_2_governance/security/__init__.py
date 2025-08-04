@@ -4,7 +4,7 @@ Re-exports security modules from src.security
 """
 
 # Import all from the actual security module
-from src.security import *
+# TODO: Replace wildcard import from src.security
 from src.security import (
     request_hardening,
     authentication,

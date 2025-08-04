@@ -215,7 +215,7 @@ class TradingConfig:
             return True
             
         except Exception as e:
-            print(f"❌ Configuration validation failed: {e}")
+            logger.info(f"❌ Configuration validation failed: {e}")
             return False
     
     def update_config(self, updates: Dict[str, Any]):
@@ -231,6 +231,8 @@ class TradingConfig:
     def load_config_from_file(self, filepath: str):
         """Load configuration from file"""
         import json
+import logging
+logger = logging.getLogger(__name__)
         with open(filepath, 'r') as f:
             file_config = json.load(f)
             self.config.update(file_config)
@@ -314,11 +316,11 @@ if __name__ == "__main__":
     config = TradingConfig('production')
     
     if config.validate_config():
-        print("✅ Configuration validation passed")
-        print(f"   Mode: {config.mode}")
-        print(f"   Symbols: {config.get_symbols()}")
-        print(f"   Profit Target: ${config.config['profit_target']:,.2f}")
-        print(f"   Risk per Trade: {config.config['risk_per_trade']:.1%}")
-        print(f"   Max Drawdown: {config.config['max_drawdown']:.1%}")
+        logger.info("✅ Configuration validation passed")
+        logger.info(f"   Mode: {config.mode}")
+        logger.info(f"   Symbols: {config.get_symbols()}")
+        logger.info(f"   Profit Target: ${config.config['profit_target']:,.2f}")
+        logger.info(f"   Risk per Trade: {config.config['risk_per_trade']:.1%}")
+        logger.info(f"   Max Drawdown: {config.config['max_drawdown']:.1%}")
     else:
-        print("❌ Configuration validation failed") 
+        logger.info("❌ Configuration validation failed") 

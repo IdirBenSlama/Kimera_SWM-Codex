@@ -123,4 +123,4 @@ if __name__ == "__main__":
     if requests_total:
         requests_total.labels(method="GET", endpoint="/test", status_code=200).inc()
     
-    print("Monitoring components used successfully")
+    logger.info("Monitoring components used successfully")

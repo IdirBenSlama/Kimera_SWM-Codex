@@ -6,6 +6,8 @@ Protocol Version: 3.0
 
 import json
 from pathlib import Path
+import logging
+logger = logging.getLogger(__name__)
 
 
 def analyze_real_duplicates():
@@ -48,51 +50,51 @@ def analyze_real_duplicates():
             real_duplicates.append(dup_group)
     
     # Print analysis
-    print("\n" + "="*60)
-    print("REAL DUPLICATE ANALYSIS (Excluding Empty Files)")
-    print("="*60)
+    logger.info("\n" + "="*60)
+    logger.info("REAL DUPLICATE ANALYSIS (Excluding Empty Files)")
+    logger.info("="*60)
     
-    print(f"\nðŸ“Š SUMMARY:")
-    print(f"- Empty __init__.py duplicates: {len(init_file_duplicates)} groups (NORMAL - ignore)")
-    print(f"- Backend duplicates: {len(backend_duplicates)} groups (CRITICAL)")
-    print(f"- Test duplicates: {len(test_duplicates)} groups (MEDIUM)")
-    print(f"- Archive duplicates: {len(archive_duplicates)} groups (LOW)")
-    print(f"- Other duplicates: {len(real_duplicates)} groups")
+    logger.info(f"\nðŸ“Š SUMMARY:")
+    logger.info(f"- Empty __init__.py duplicates: {len(init_file_duplicates)} groups (NORMAL - ignore)")
+    logger.info(f"- Backend duplicates: {len(backend_duplicates)} groups (CRITICAL)")
+    logger.info(f"- Test duplicates: {len(test_duplicates)} groups (MEDIUM)")
+    logger.info(f"- Archive duplicates: {len(archive_duplicates)} groups (LOW)")
+    logger.info(f"- Other duplicates: {len(real_duplicates)} groups")
     
     # Show critical backend duplicates
     if backend_duplicates:
-        print(f"\nðŸ”´ CRITICAL: Backend Duplicates")
-        print("-" * 40)
+        logger.info(f"\nðŸ”´ CRITICAL: Backend Duplicates")
+        logger.info("-" * 40)
         for i, dup in enumerate(backend_duplicates, 1):
             size_kb = dup['size'] / 1024
-            print(f"\nDuplicate Group {i} ({size_kb:.1f} KB):")
+            logger.info(f"\nDuplicate Group {i} ({size_kb:.1f} KB):")
             for file in dup['files']:
-                print(f"  - {file}")
+                logger.info(f"  - {file}")
     
     # Show other concerning duplicates
     if real_duplicates:
-        print(f"\nðŸŸ¡ OTHER Duplicates (Non-archive)")
-        print("-" * 40)
+        logger.info(f"\nðŸŸ¡ OTHER Duplicates (Non-archive)")
+        logger.info("-" * 40)
         for i, dup in enumerate(real_duplicates[:5], 1):  # Show first 5
             size_kb = dup['size'] / 1024
-            print(f"\nDuplicate Group {i} ({size_kb:.1f} KB):")
+            logger.info(f"\nDuplicate Group {i} ({size_kb:.1f} KB):")
             for file in dup['files'][:5]:  # Show max 5 files
-                print(f"  - {file}")
+                logger.info(f"  - {file}")
             if len(dup['files']) > 5:
-                print(f"  ... and {len(dup['files']) - 5} more")
+                logger.info(f"  ... and {len(dup['files']) - 5} more")
     
     # Generate migration recommendations
-    print(f"\nðŸ“‹ RECOMMENDED ACTIONS:")
-    print("-" * 40)
+    logger.info(f"\nðŸ“‹ RECOMMENDED ACTIONS:")
+    logger.info("-" * 40)
     
     if backend_duplicates:
-        print("\n1. BACKEND DUPLICATES (Immediate Action Required):")
+        logger.info("\n1. BACKEND DUPLICATES (Immediate Action Required):")
         for dup in backend_duplicates[:3]:  # Show first 3
             files = [f for f in dup['files'] if 'archive' not in f]
             if len(files) > 1:
-                print(f"\n   Keep: {files[0]}")
+                logger.info(f"\n   Keep: {files[0]}")
                 for f in files[1:]:
-                    print(f"   Archive: {f}")
+                    logger.info(f"   Archive: {f}")
     
     return {
         'backend_duplicates': backend_duplicates,

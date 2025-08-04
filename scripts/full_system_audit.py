@@ -1488,26 +1488,26 @@ def main():
         
         # Print summary
         summary = audit_data['summary']
-        print("\n" + "=" * 90)
-        print("KIMERA SWM - FULL CORE SYSTEM AUDIT COMPLETE")
-        print("=" * 90)
-        print(f"Overall Score: {summary.overall_score:.1f}/100")
-        print(f"Readiness Status: {summary.readiness_status.upper().replace('_', ' ')}")
-        print(f"Total Checks: {summary.total_checks}")
-        print(f"Passed: {summary.passed_checks} | Warnings: {summary.warning_checks} | Failed: {summary.failed_checks}")
-        print(f"Critical Issues: {summary.critical_issues}")
-        print(f"Audit Duration: {summary.audit_duration:.2f}s")
-        print(f"Detailed Report: {md_path}")
+        logger.info("\n" + "=" * 90)
+        logger.info("KIMERA SWM - FULL CORE SYSTEM AUDIT COMPLETE")
+        logger.info("=" * 90)
+        logger.info(f"Overall Score: {summary.overall_score:.1f}/100")
+        logger.info(f"Readiness Status: {summary.readiness_status.upper().replace('_', ' ')}")
+        logger.info(f"Total Checks: {summary.total_checks}")
+        logger.info(f"Passed: {summary.passed_checks} | Warnings: {summary.warning_checks} | Failed: {summary.failed_checks}")
+        logger.info(f"Critical Issues: {summary.critical_issues}")
+        logger.info(f"Audit Duration: {summary.audit_duration:.2f}s")
+        logger.info(f"Detailed Report: {md_path}")
         
         # Return appropriate exit code
         if summary.critical_issues > 0:
-            print("\n❌ CRITICAL ISSUES DETECTED - IMMEDIATE ATTENTION REQUIRED")
+            logger.info("\n❌ CRITICAL ISSUES DETECTED - IMMEDIATE ATTENTION REQUIRED")
             return 2
         elif summary.readiness_status in ['production_ready', 'nearly_ready']:
-            print(f"\n🎉 SYSTEM AUDIT COMPLETE - {summary.readiness_status.upper().replace('_', ' ')}")
+            logger.info(f"\n🎉 SYSTEM AUDIT COMPLETE - {summary.readiness_status.upper().replace('_', ' ')}")
             return 0
         else:
-            print(f"\n⚠️ SYSTEM NEEDS IMPROVEMENT - {summary.readiness_status.upper().replace('_', ' ')}")
+            logger.info(f"\n⚠️ SYSTEM NEEDS IMPROVEMENT - {summary.readiness_status.upper().replace('_', ' ')}")
             return 1
             
     except Exception as e:

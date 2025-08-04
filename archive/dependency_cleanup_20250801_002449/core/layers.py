@@ -323,22 +323,22 @@ if __name__ == "__main__":
     project_root = Path(__file__).parent.parent.parent
     results = LayerValidator.validate_architecture(project_root)
     
-    print(f"Total modules analyzed: {results['total_modules']}")
-    print(f"Architecture violations: {len(results['violations'])}")
+    logger.info(f"Total modules analyzed: {results['total_modules']}")
+    logger.info(f"Architecture violations: {len(results['violations'])}")
     
     if results['violations']:
-        print("\nViolations found:")
+        logger.info("\nViolations found:")
         for violation in results['violations']:
-            print(f"  - {violation}")
+            logger.info(f"  - {violation}")
     
     if results['circular_dependencies']:
-        print("\nCircular dependencies found:")
+        logger.info("\nCircular dependencies found:")
         for cycle in results['circular_dependencies']:
-            print(f"  - {' -> '.join(cycle)}")
+            logger.info(f"  - {' -> '.join(cycle)}")
     
-    print("\nLayer statistics:")
+    logger.info("\nLayer statistics:")
     for layer, count in results['layer_statistics'].items():
-        print(f"  - {layer.name}: {count} modules")
+        logger.info(f"  - {layer.name}: {count} modules")
     
     # Exit with error if violations found
     if results['violations'] or results['circular_dependencies']:

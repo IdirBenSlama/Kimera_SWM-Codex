@@ -6,6 +6,8 @@ Install all remaining dependencies for Kimera SWM
 import subprocess
 import sys
 import os
+import logging
+logger = logging.getLogger(__name__)
 
 # Get the venv Python path
 venv_pip = os.path.join("venv_py313", "Scripts", "pip")
@@ -78,22 +80,22 @@ packages = [
 def install_package(package):
     """Try to install a package, return True if successful"""
     try:
-        print(f"Installing {package}...")
+        logger.info(f"Installing {package}...")
         result = subprocess.run([venv_pip, "install", package], 
                               capture_output=True, text=True)
         if result.returncode == 0:
-            print(f"✓ {package} installed successfully")
+            logger.info(f"✓ {package} installed successfully")
             return True
         else:
-            print(f"✗ {package} failed: {result.stderr.split('ERROR:')[-1].strip()[:100]}...")
+            logger.info(f"✗ {package} failed: {result.stderr.split('ERROR:')[-1].strip()[:100]}...")
             return False
     except Exception as e:
-        print(f"✗ {package} error: {str(e)}")
+        logger.info(f"✗ {package} error: {str(e)}")
         return False
 
 def main():
-    print("Installing remaining dependencies for Kimera SWM...")
-    print("=" * 60)
+    logger.info("Installing remaining dependencies for Kimera SWM...")
+    logger.info("=" * 60)
     
     failed = []
     succeeded = []
@@ -104,14 +106,14 @@ def main():
         else:
             failed.append(package)
     
-    print("\n" + "=" * 60)
-    print(f"✓ Successfully installed: {len(succeeded)} packages")
+    logger.info("\n" + "=" * 60)
+    logger.info(f"✓ Successfully installed: {len(succeeded)} packages")
     if failed:
-        print(f"✗ Failed to install: {len(failed)} packages")
-        print("Failed packages:", ", ".join(failed))
+        logger.info(f"✗ Failed to install: {len(failed)} packages")
+        logger.info("Failed packages:", ", ".join(failed))
     
     # Try to install the specific httpx instrumentation
-    print("\nTrying alternative OpenTelemetry packages...")
+    logger.info("\nTrying alternative OpenTelemetry packages...")
     alt_packages = [
         "opentelemetry-instrumentation-httpx",
         "opentelemetry-instrumentation-aiohttp-client",

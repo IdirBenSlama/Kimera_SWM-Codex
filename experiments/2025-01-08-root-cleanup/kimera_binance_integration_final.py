@@ -245,8 +245,8 @@ class KimeraBinanceConnector:
 async def test_kimera_binance_integration():
     """Test complete Kimera-Binance integration"""
     
-    print("🚀 KIMERA-BINANCE FINAL INTEGRATION TEST")
-    print("=" * 60)
+    logger.info("🚀 KIMERA-BINANCE FINAL INTEGRATION TEST")
+    logger.info("=" * 60)
     
     # Use working credentials
     api_key = os.getenv("BINANCE_API_KEY", "")
@@ -255,85 +255,85 @@ async def test_kimera_binance_integration():
     try:
         async with KimeraBinanceConnector(api_key, secret_key, testnet=False) as connector:
             
-            print("✅ Kimera-Binance Connector initialized")
+            logger.info("✅ Kimera-Binance Connector initialized")
             
             # Test 1: Account Authentication
-            print("\n🔐 Test 1: Account Authentication")
+            logger.info("\n🔐 Test 1: Account Authentication")
             account_info = await connector.get_account_info()
             
-            print("🎉 AUTHENTICATION SUCCESSFUL!")
-            print(f"   Account Type: {account_info.get('accountType', 'Unknown')}")
-            print(f"   Trading Enabled: {account_info.get('canTrade', False)}")
-            print(f"   Withdrawal Enabled: {account_info.get('canWithdraw', False)}")
+            logger.info("🎉 AUTHENTICATION SUCCESSFUL!")
+            logger.info(f"   Account Type: {account_info.get('accountType', 'Unknown')}")
+            logger.info(f"   Trading Enabled: {account_info.get('canTrade', False)}")
+            logger.info(f"   Withdrawal Enabled: {account_info.get('canWithdraw', False)}")
             
             # Test 2: Market Analysis
-            print("\n📊 Test 2: Market Sentiment Analysis")
+            logger.info("\n📊 Test 2: Market Sentiment Analysis")
             sentiment = await connector.analyze_market_sentiment('BTCUSDT')
             
-            print(f"   Symbol: {sentiment['symbol']}")
-            print(f"   Sentiment Score: {sentiment['sentiment_score']:.3f}")
-            print(f"   24h Price Change: {sentiment['price_change_24h']:.2f}%")
-            print(f"   Buy Pressure: {sentiment['buy_pressure']:.3f}")
+            logger.info(f"   Symbol: {sentiment['symbol']}")
+            logger.info(f"   Sentiment Score: {sentiment['sentiment_score']:.3f}")
+            logger.info(f"   24h Price Change: {sentiment['price_change_24h']:.2f}%")
+            logger.info(f"   Buy Pressure: {sentiment['buy_pressure']:.3f}")
             
             # Test 3: Trading Signal Generation
-            print("\n🧠 Test 3: Cognitive Trading Signal")
+            logger.info("\n🧠 Test 3: Cognitive Trading Signal")
             signal = await connector.generate_trading_signal('BTCUSDT')
             
-            print(f"   Action: {signal['action']}")
-            print(f"   Confidence: {signal['confidence']:.3f}")
-            print(f"   Current Price: ${signal['price']:,.2f}")
-            print(f"   Reasoning: {signal['reasoning']}")
+            logger.info(f"   Action: {signal['action']}")
+            logger.info(f"   Confidence: {signal['confidence']:.3f}")
+            logger.info(f"   Current Price: ${signal['price']:,.2f}")
+            logger.info(f"   Reasoning: {signal['reasoning']}")
             
             # Test 4: Balance Check
-            print("\n💰 Test 4: Account Balances")
+            logger.info("\n💰 Test 4: Account Balances")
             btc_balance = await connector.get_balance('BTC')
             usdt_balance = await connector.get_balance('USDT')
             bnb_balance = await connector.get_balance('BNB')
             
-            print(f"   BTC Balance: {btc_balance['total']:.8f}")
-            print(f"   USDT Balance: {usdt_balance['total']:.2f}")
-            print(f"   BNB Balance: {bnb_balance['total']:.6f}")
+            logger.info(f"   BTC Balance: {btc_balance['total']:.8f}")
+            logger.info(f"   USDT Balance: {usdt_balance['total']:.2f}")
+            logger.info(f"   BNB Balance: {bnb_balance['total']:.6f}")
             
             # Test 5: Safety Systems
-            print("\n🛡️ Test 5: Safety Systems")
-            print(f"   Max Position Size: ${connector.max_position_size}")
-            print(f"   Risk Percentage: {connector.risk_percentage * 100:.2f}%")
-            print(f"   Daily Trade Limit: {connector.max_daily_trades}")
-            print(f"   Daily Trades Used: {connector.daily_trade_count}")
+            logger.info("\n🛡️ Test 5: Safety Systems")
+            logger.info(f"   Max Position Size: ${connector.max_position_size}")
+            logger.info(f"   Risk Percentage: {connector.risk_percentage * 100:.2f}%")
+            logger.info(f"   Daily Trade Limit: {connector.max_daily_trades}")
+            logger.info(f"   Daily Trades Used: {connector.daily_trade_count}")
             
             # Final Summary
-            print("\n📋 INTEGRATION SUMMARY")
-            print("=" * 60)
-            print("✅ HMAC Authentication: WORKING")
-            print("✅ Market Data Access: WORKING")
-            print("✅ Sentiment Analysis: WORKING")
-            print("✅ Signal Generation: WORKING")
-            print("✅ Safety Systems: ACTIVE")
-            print("✅ Account Integration: COMPLETE")
+            logger.info("\n📋 INTEGRATION SUMMARY")
+            logger.info("=" * 60)
+            logger.info("✅ HMAC Authentication: WORKING")
+            logger.info("✅ Market Data Access: WORKING")
+            logger.info("✅ Sentiment Analysis: WORKING")
+            logger.info("✅ Signal Generation: WORKING")
+            logger.info("✅ Safety Systems: ACTIVE")
+            logger.info("✅ Account Integration: COMPLETE")
             
-            print("\n🎯 KIMERA-BINANCE INTEGRATION: READY FOR LIVE TRADING!")
+            logger.info("\n🎯 KIMERA-BINANCE INTEGRATION: READY FOR LIVE TRADING!")
             
             return True
             
     except Exception as e:
         logger.error(f"Integration test failed: {e}")
-        print(f"\n❌ INTEGRATION ERROR: {e}")
+        logger.info(f"\n❌ INTEGRATION ERROR: {e}")
         return False
 
 async def main():
     """Main execution"""
-    print("🔧 KIMERA SYSTEM INITIALIZATION")
-    print("=" * 40)
-    print(f"Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    logger.info("🔧 KIMERA SYSTEM INITIALIZATION")
+    logger.info("=" * 40)
+    logger.info(f"Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     
     success = await test_kimera_binance_integration()
     
     if success:
-        print("\n🎉 KIMERA-BINANCE INTEGRATION SUCCESSFUL!")
-        print("System is ready for cognitive trading operations.")
+        logger.info("\n🎉 KIMERA-BINANCE INTEGRATION SUCCESSFUL!")
+        logger.info("System is ready for cognitive trading operations.")
     else:
-        print("\n❌ INTEGRATION FAILED")
-        print("Please check the error messages above.")
+        logger.info("\n❌ INTEGRATION FAILED")
+        logger.info("Please check the error messages above.")
 
 if __name__ == "__main__":
     asyncio.run(main()) 

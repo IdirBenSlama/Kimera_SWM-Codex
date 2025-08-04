@@ -44,11 +44,11 @@ class Colors:
 def print_colored(text: str, color: str = Colors.WHITE, bold: bool = False):
     """Print colored text"""
     prefix = f"{Colors.BOLD if bold else ''}{color}"
-    print(f"{prefix}{text}{Colors.END}")
+    logger.info(f"{prefix}{text}{Colors.END}")
 
 def print_banner():
     """Print the Kimera deployment banner"""
-    print(f"""{Colors.CYAN}
+    logger.info(f"""{Colors.CYAN}
 ╔════════════════════════════════════════════════════════════════════════════════════════╗
 ║                                                                                        ║
 ║                        🚀 KIMERA SWM UNIVERSAL DEPLOYMENT v{KIMERA_VERSION}                       ║
@@ -263,9 +263,11 @@ sys.path.insert(0, '.')
 try:
     import fastapi
     import uvicorn
-    print("✅ Core imports successful")
+import logging
+logger = logging.getLogger(__name__)
+    logger.info("✅ Core imports successful")
 except ImportError as e:
-    print(f"❌ Import error: {e}")
+    logger.info(f"❌ Import error: {e}")
     sys.exit(1)
 """
             

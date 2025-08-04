@@ -67,9 +67,9 @@ def calculate_minimum_order(symbol_info, current_price):
 def perform_first_trade(client):
     """Perform Kimera's first real trade"""
     
-    print("\n" + "="*80)
-    print("🚀 KIMERA FIRST REAL TRADE EXECUTION")
-    print("="*80)
+    logger.info("\n" + "="*80)
+    logger.info("🚀 KIMERA FIRST REAL TRADE EXECUTION")
+    logger.info("="*80)
     
     symbol = 'TRXUSDT'
     
@@ -90,9 +90,9 @@ def perform_first_trade(client):
             elif balance['asset'] == 'USDT':
                 usdt_balance = float(balance['free'])
         
-        print(f"\n💰 CURRENT BALANCES:")
-        print(f"   TRX: {trx_balance:.2f} (~${trx_balance * current_price:.2f})")
-        print(f"   USDT: ${usdt_balance:.2f}")
+        logger.info(f"\n💰 CURRENT BALANCES:")
+        logger.info(f"   TRX: {trx_balance:.2f} (~${trx_balance * current_price:.2f})")
+        logger.info(f"   USDT: ${usdt_balance:.2f}")
         
         # Get exchange requirements
         symbol_info = get_exchange_info(client, symbol)
@@ -103,46 +103,46 @@ def perform_first_trade(client):
         # Calculate minimum order requirements
         min_qty, min_notional, step_size = calculate_minimum_order(symbol_info, current_price)
         
-        print(f"\n📊 TRADING REQUIREMENTS:")
-        print(f"   Minimum Quantity: {min_qty:.2f} TRX")
-        print(f"   Minimum Notional: ${min_notional:.2f}")
-        print(f"   Step Size: {step_size}")
-        print(f"   Required Order Value: ${min_qty * current_price:.2f}")
+        logger.info(f"\n📊 TRADING REQUIREMENTS:")
+        logger.info(f"   Minimum Quantity: {min_qty:.2f} TRX")
+        logger.info(f"   Minimum Notional: ${min_notional:.2f}")
+        logger.info(f"   Step Size: {step_size}")
+        logger.info(f"   Required Order Value: ${min_qty * current_price:.2f}")
         
         # Check if we have enough balance
         if trx_balance < min_qty:
-            print(f"\n❌ INSUFFICIENT BALANCE:")
-            print(f"   Need: {min_qty:.2f} TRX")
-            print(f"   Have: {trx_balance:.2f} TRX")
-            print(f"   Consider converting some TRX to USDT first")
+            logger.info(f"\n❌ INSUFFICIENT BALANCE:")
+            logger.info(f"   Need: {min_qty:.2f} TRX")
+            logger.info(f"   Have: {trx_balance:.2f} TRX")
+            logger.info(f"   Consider converting some TRX to USDT first")
             return False
         
         # Execute the trade
-        print(f"\n🎯 EXECUTING KIMERA'S FIRST TRADE:")
-        print(f"   Strategy: SELL {min_qty:.2f} TRX for USDT")
-        print(f"   Expected Proceeds: ~${min_qty * current_price:.2f}")
+        logger.info(f"\n🎯 EXECUTING KIMERA'S FIRST TRADE:")
+        logger.info(f"   Strategy: SELL {min_qty:.2f} TRX for USDT")
+        logger.info(f"   Expected Proceeds: ~${min_qty * current_price:.2f}")
         
         # Confirm execution
         confirm = input(f"\n⚠️  CONFIRM REAL TRADE? (type 'YES' to proceed): ")
         if confirm != 'YES':
-            print("❌ Trade cancelled by user")
+            logger.info("❌ Trade cancelled by user")
             return False
         
         # Place the order
-        print(f"\n⚡ PLACING ORDER...")
+        logger.info(f"\n⚡ PLACING ORDER...")
         
         order = client.order_market_sell(
             symbol=symbol,
             quantity=f"{min_qty:.2f}"
         )
         
-        print(f"✅ ORDER EXECUTED SUCCESSFULLY!")
-        print(f"\n📋 ORDER DETAILS:")
-        print(f"   Order ID: {order['orderId']}")
-        print(f"   Symbol: {order['symbol']}")
-        print(f"   Side: {order['side']}")
-        print(f"   Quantity: {order['executedQty']}")
-        print(f"   Status: {order['status']}")
+        logger.info(f"✅ ORDER EXECUTED SUCCESSFULLY!")
+        logger.info(f"\n📋 ORDER DETAILS:")
+        logger.info(f"   Order ID: {order['orderId']}")
+        logger.info(f"   Symbol: {order['symbol']}")
+        logger.info(f"   Side: {order['side']}")
+        logger.info(f"   Quantity: {order['executedQty']}")
+        logger.info(f"   Status: {order['status']}")
         
         # Save order details
         order_data = {
@@ -158,10 +158,10 @@ def perform_first_trade(client):
         with open('kimera_first_trade_success.json', 'w') as f:
             json.dump(order_data, f, indent=2)
         
-        print(f"\n💾 Order details saved to: kimera_first_trade_success.json")
+        logger.info(f"\n💾 Order details saved to: kimera_first_trade_success.json")
         
         # Wait and check new balances
-        print(f"\n⏳ Waiting 3 seconds for balance update...")
+        logger.info(f"\n⏳ Waiting 3 seconds for balance update...")
         time.sleep(3)
         
         # Get updated balances
@@ -175,23 +175,23 @@ def perform_first_trade(client):
             elif balance['asset'] == 'USDT':
                 new_usdt_balance = float(balance['free'])
         
-        print(f"\n💰 UPDATED BALANCES:")
-        print(f"   TRX: {new_trx_balance:.2f} (was {trx_balance:.2f})")
-        print(f"   USDT: ${new_usdt_balance:.2f} (was ${usdt_balance:.2f})")
-        print(f"   Change: -{trx_balance - new_trx_balance:.2f} TRX, +${new_usdt_balance - usdt_balance:.2f} USDT")
+        logger.info(f"\n💰 UPDATED BALANCES:")
+        logger.info(f"   TRX: {new_trx_balance:.2f} (was {trx_balance:.2f})")
+        logger.info(f"   USDT: ${new_usdt_balance:.2f} (was ${usdt_balance:.2f})")
+        logger.info(f"   Change: -{trx_balance - new_trx_balance:.2f} TRX, +${new_usdt_balance - usdt_balance:.2f} USDT")
         
-        print(f"\n🎉 KIMERA'S FIRST TRADE COMPLETED SUCCESSFULLY!")
-        print(f"🚀 KIMERA IS NOW LIVE AND TRADING!")
+        logger.info(f"\n🎉 KIMERA'S FIRST TRADE COMPLETED SUCCESSFULLY!")
+        logger.info(f"🚀 KIMERA IS NOW LIVE AND TRADING!")
         
         return True
         
     except BinanceAPIException as e:
         logger.error(f"Binance API Error: {e}")
-        print(f"\n❌ Trading Error: {e}")
+        logger.info(f"\n❌ Trading Error: {e}")
         return False
     except Exception as e:
         logger.error(f"Unexpected error: {e}")
-        print(f"\n❌ Unexpected Error: {e}")
+        logger.info(f"\n❌ Unexpected Error: {e}")
         return False
 
 def main():
@@ -212,11 +212,11 @@ def main():
     success = perform_first_trade(client)
     
     if success:
-        print(f"\n✅ KIMERA TRADING SYSTEM FULLY OPERATIONAL!")
-        print(f"🎯 Ready for autonomous trading strategies")
-        print(f"🚀 All systems go for maximum profit optimization")
+        logger.info(f"\n✅ KIMERA TRADING SYSTEM FULLY OPERATIONAL!")
+        logger.info(f"🎯 Ready for autonomous trading strategies")
+        logger.info(f"🚀 All systems go for maximum profit optimization")
     else:
-        print(f"\n⚠️  Trade not completed - check requirements above")
+        logger.info(f"\n⚠️  Trade not completed - check requirements above")
 
 if __name__ == "__main__":
     main() 

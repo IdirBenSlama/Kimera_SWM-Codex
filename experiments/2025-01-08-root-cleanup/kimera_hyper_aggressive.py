@@ -419,21 +419,21 @@ class KimeraHyperAggressiveTrader:
 
 async def main():
     """Launch Kimera's hyper-aggressive trading mission"""
-    print("KIMERA HYPER-AGGRESSIVE AUTONOMOUS TRADER")
-    print("=" * 60)
-    print("MICRO-OPPORTUNITIES: 0.1%+ moves targeted")
-    print("PARALLEL TRADING: Up to 5 simultaneous positions")
-    print("EXECUTION SPEED: 1-second intervals")
-    print("RISK LEVEL: MAXIMUM AGGRESSION")
-    print("PROFIT TARGET: 0.3% quick scalping")
-    print("=" * 60)
+    logger.info("KIMERA HYPER-AGGRESSIVE AUTONOMOUS TRADER")
+    logger.info("=" * 60)
+    logger.info("MICRO-OPPORTUNITIES: 0.1%+ moves targeted")
+    logger.info("PARALLEL TRADING: Up to 5 simultaneous positions")
+    logger.info("EXECUTION SPEED: 1-second intervals")
+    logger.info("RISK LEVEL: MAXIMUM AGGRESSION")
+    logger.info("PROFIT TARGET: 0.3% quick scalping")
+    logger.info("=" * 60)
     
-    print("\nLAUNCHING HYPER-AGGRESSIVE KIMERA...")
+    logger.info("\nLAUNCHING HYPER-AGGRESSIVE KIMERA...")
     
     trader = KimeraHyperAggressiveTrader()
     await trader.hyper_aggressive_session()
     
-    print("\nHYPER-AGGRESSIVE TRADING SESSION COMPLETED")
+    logger.info("\nHYPER-AGGRESSIVE TRADING SESSION COMPLETED")
 
 if __name__ == "__main__":
     asyncio.run(main()) 

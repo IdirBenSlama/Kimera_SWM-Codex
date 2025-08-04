@@ -55,9 +55,9 @@ class KimeraIntelligentSetup:
     def print_colored(self, text: str, color: str = 'white'):
         """Print colored text for better visibility"""
         if color in self.colors:
-            print(f"{self.colors[color]}{text}{self.colors['end']}")
+            logger.info(f"{self.colors[color]}{text}{self.colors['end']}")
         else:
-            print(text)
+            logger.info(text)
     
     def print_banner(self):
         """Print the setup banner"""
@@ -361,37 +361,39 @@ colorama==0.4.6
         # Test critical imports
         test_script = """
 import sys
-print(f"Python: {sys.version}")
+logger.info(f"Python: {sys.version}")
 
 try:
     import torch
-    print(f"✓ PyTorch: {torch.__version__}")
-    print(f"  CUDA available: {torch.cuda.is_available()}")
+    logger.info(f"✓ PyTorch: {torch.__version__}")
+    logger.info(f"  CUDA available: {torch.cuda.is_available()}")
     if torch.cuda.is_available():
-        print(f"  CUDA version: {torch.version.cuda}")
-        print(f"  GPU: {torch.cuda.get_device_name(0)}")
+        logger.info(f"  CUDA version: {torch.version.cuda}")
+        logger.info(f"  GPU: {torch.cuda.get_device_name(0)}")
 except Exception as e:
-    print(f"✗ PyTorch: {e}")
+    logger.info(f"✗ PyTorch: {e}")
 
 try:
     import transformers
-    print(f"✓ Transformers: {transformers.__version__}")
+    logger.info(f"✓ Transformers: {transformers.__version__}")
 except Exception as e:
-    print(f"✗ Transformers: {e}")
+    logger.info(f"✗ Transformers: {e}")
 
 try:
     import fastapi
-    print(f"✓ FastAPI: {fastapi.__version__}")
+    logger.info(f"✓ FastAPI: {fastapi.__version__}")
 except Exception as e:
-    print(f"✗ FastAPI: {e}")
+    logger.info(f"✗ FastAPI: {e}")
 
 try:
     from src.core.kimera_system import KimeraSystem
-    print("✓ Kimera core modules")
+import logging
+logger = logging.getLogger(__name__)
+    logger.info("✓ Kimera core modules")
 except Exception as e:
-    print(f"✗ Kimera core: {e}")
+    logger.info(f"✗ Kimera core: {e}")
 
-print("\\nValidation complete!")
+logger.info("\\nValidation complete!")
 """
         
         # Write test script
@@ -403,7 +405,7 @@ print("\\nValidation complete!")
                               capture_output=True, text=True, 
                               cwd=str(self.project_root))
         
-        print(result.stdout)
+        logger.info(result.stdout)
         
         # Clean up
         test_file.unlink()

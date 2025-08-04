@@ -11,8 +11,8 @@ from cryptography.hazmat.backends import default_backend
 
 def discover_cdp_api():
     """Discover what type of CDP API these credentials access"""
-    print("🔍 DISCOVERING CDP API TYPE")
-    print("=" * 40)
+    logger.info("🔍 DISCOVERING CDP API TYPE")
+    logger.info("=" * 40)
     
     # Your credentials
     ORGANIZATION_ID = "d5c46584-dd70-4be9-a71a-1e5e1b7a7ea3"
@@ -33,6 +33,8 @@ k+1M3dZ5l6SjNp2naYaa7oXuQQUm8UsFFA==
     def create_jwt_token(request_path: str, method: str = 'GET') -> str:
         """Create JWT token for API call"""
         import jwt
+import logging
+logger = logging.getLogger(__name__)
         
         uri = f"{method} https://api.developer.coinbase.com{request_path}"
         
@@ -53,8 +55,8 @@ k+1M3dZ5l6SjNp2naYaa7oXuQQUm8UsFFA==
     
     def test_endpoint(path: str, description: str):
         """Test a specific endpoint"""
-        print(f"\n🔍 Testing: {description}")
-        print(f"   Path: {path}")
+        logger.info(f"\n🔍 Testing: {description}")
+        logger.info(f"   Path: {path}")
         
         try:
             token = create_jwt_token(path)
@@ -69,24 +71,24 @@ k+1M3dZ5l6SjNp2naYaa7oXuQQUm8UsFFA==
                 timeout=10
             )
             
-            print(f"   Status: {response.status_code}")
+            logger.info(f"   Status: {response.status_code}")
             
             if response.status_code == 200:
-                print("   ✅ SUCCESS!")
+                logger.info("   ✅ SUCCESS!")
                 data = response.json()
-                print(f"   Data: {json.dumps(data, indent=2)[:200]}...")
+                logger.info(f"   Data: {json.dumps(data, indent=2)[:200]}...")
                 return True
             elif response.status_code == 404:
-                print("   ❌ Not Found")
+                logger.info("   ❌ Not Found")
             elif response.status_code == 403:
-                print("   ❌ Forbidden (wrong permissions)")
+                logger.info("   ❌ Forbidden (wrong permissions)")
             elif response.status_code == 401:
-                print("   ❌ Unauthorized (auth failed)")
+                logger.info("   ❌ Unauthorized (auth failed)")
             else:
-                print(f"   ❌ Error: {response.text[:100]}")
+                logger.info(f"   ❌ Error: {response.text[:100]}")
                 
         except Exception as e:
-            print(f"   ❌ Exception: {e}")
+            logger.info(f"   ❌ Exception: {e}")
         
         return False
     
@@ -123,22 +125,22 @@ k+1M3dZ5l6SjNp2naYaa7oXuQQUm8UsFFA==
         if test_endpoint(path, description):
             successful_endpoints.append((path, description))
     
-    print(f"\n🎯 DISCOVERY RESULTS:")
-    print(f"   Successful endpoints: {len(successful_endpoints)}")
+    logger.info(f"\n🎯 DISCOVERY RESULTS:")
+    logger.info(f"   Successful endpoints: {len(successful_endpoints)}")
     
     if successful_endpoints:
-        print("   ✅ Working endpoints:")
+        logger.info("   ✅ Working endpoints:")
         for path, desc in successful_endpoints:
-            print(f"      {path} - {desc}")
+            logger.info(f"      {path} - {desc}")
     else:
-        print("   ❌ No working endpoints found")
-        print("   💡 This might be:")
-        print("      - A different type of CDP API")
-        print("      - Credentials for a specific app/wallet")
-        print("      - Wrong base URL")
+        logger.info("   ❌ No working endpoints found")
+        logger.info("   💡 This might be:")
+        logger.info("      - A different type of CDP API")
+        logger.info("      - Credentials for a specific app/wallet")
+        logger.info("      - Wrong base URL")
         
     # Try alternative base URLs
-    print(f"\n🔍 Trying alternative base URLs...")
+    logger.info(f"\n🔍 Trying alternative base URLs...")
     
     alt_urls = [
         "https://api.coinbase.com",
@@ -148,15 +150,15 @@ k+1M3dZ5l6SjNp2naYaa7oXuQQUm8UsFFA==
     ]
     
     for base_url in alt_urls:
-        print(f"\n🔍 Testing base URL: {base_url}")
+        logger.info(f"\n🔍 Testing base URL: {base_url}")
         try:
             # Simple test without auth first
             response = requests.get(f"{base_url}/", timeout=5)
-            print(f"   Status: {response.status_code}")
+            logger.info(f"   Status: {response.status_code}")
             if response.status_code != 404:
-                print(f"   ✅ Base URL exists!")
+                logger.info(f"   ✅ Base URL exists!")
         except Exception as e:
-            print(f"   ❌ {e}")
+            logger.info(f"   ❌ {e}")
 
 if __name__ == "__main__":
     discover_cdp_api() 

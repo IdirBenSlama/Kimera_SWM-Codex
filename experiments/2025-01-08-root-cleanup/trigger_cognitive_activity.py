@@ -12,6 +12,8 @@ import requests
 import time
 import json
 from datetime import datetime
+import logging
+logger = logging.getLogger(__name__)
 
 class CognitiveActivityTrigger:
     """Triggers actual cognitive activity in Kimera"""
@@ -51,25 +53,25 @@ class CognitiveActivityTrigger:
                     metrics['activity_rate'] = vault_metrics.get('recent_activity_rate', 0)
                     metrics['insights'] = vault_metrics.get('total_insights', 0)
         except Exception as e:
-            print(f"⚠️ Error getting baseline metrics: {e}")
+            logger.info(f"⚠️ Error getting baseline metrics: {e}")
         
         return metrics
     
     def trigger_insight_generation(self) -> bool:
         """Trigger insight generation"""
-        print("💡 Triggering insight generation...")
+        logger.info("💡 Triggering insight generation...")
         
         try:
             # Try auto-generate insights first
             response = requests.post(f"{self.base_url}/kimera/insights/auto_generate", timeout=15)
             if response.status_code == 200:
                 result = response.json()
-                print(f"   ✅ Auto-generated insights: {result}")
+                logger.info(f"   ✅ Auto-generated insights: {result}")
                 return True
             else:
-                print(f"   ⚠️ Auto-generate failed: {response.status_code}")
+                logger.info(f"   ⚠️ Auto-generate failed: {response.status_code}")
         except Exception as e:
-            print(f"   ❌ Auto-generate error: {e}")
+            logger.info(f"   ❌ Auto-generate error: {e}")
         
         try:
             # Try regular insight generation
@@ -87,25 +89,25 @@ class CognitiveActivityTrigger:
             
             if response.status_code == 200:
                 result = response.json()
-                print(f"   ✅ Generated insight: {result}")
+                logger.info(f"   ✅ Generated insight: {result}")
                 return True
             else:
-                print(f"   ⚠️ Insight generation failed: {response.status_code}")
+                logger.info(f"   ⚠️ Insight generation failed: {response.status_code}")
                 try:
                     error_detail = response.json()
-                    print(f"      Error: {error_detail}")
+                    logger.info(f"      Error: {error_detail}")
                 except Exception as e:
                     logger.error(f"Error in trigger_cognitive_activity.py: {e}", exc_info=True)
                     raise  # Re-raise for proper error handling
-                    print(f"      Response: {response.text[:200]}")
+                    logger.info(f"      Response: {response.text[:200]}")
         except Exception as e:
-            print(f"   ❌ Insight generation error: {e}")
+            logger.info(f"   ❌ Insight generation error: {e}")
         
         return False
     
     def trigger_contradiction_processing(self) -> bool:
         """Trigger contradiction processing"""
-        print("🔍 Triggering contradiction processing...")
+        logger.info("🔍 Triggering contradiction processing...")
         
         try:
             # Create a contradiction scenario
@@ -124,43 +126,43 @@ class CognitiveActivityTrigger:
             
             if response.status_code == 200:
                 result = response.json()
-                print(f"   ✅ Processed contradiction: {result}")
+                logger.info(f"   ✅ Processed contradiction: {result}")
                 return True
             else:
-                print(f"   ⚠️ Contradiction processing failed: {response.status_code}")
+                logger.info(f"   ⚠️ Contradiction processing failed: {response.status_code}")
                 try:
                     error_detail = response.json()
-                    print(f"      Error: {error_detail}")
+                    logger.info(f"      Error: {error_detail}")
                 except Exception as e:
                     logger.error(f"Error in trigger_cognitive_activity.py: {e}", exc_info=True)
                     raise  # Re-raise for proper error handling
-                    print(f"      Response: {response.text[:200]}")
+                    logger.info(f"      Response: {response.text[:200]}")
         except Exception as e:
-            print(f"   ❌ Contradiction processing error: {e}")
+            logger.info(f"   ❌ Contradiction processing error: {e}")
         
         return False
     
     def trigger_statistical_analysis(self) -> bool:
         """Trigger statistical analysis"""
-        print("📊 Triggering statistical analysis...")
+        logger.info("📊 Triggering statistical analysis...")
         
         try:
             response = requests.post(f"{self.base_url}/kimera/statistics/analyze", timeout=15)
             
             if response.status_code == 200:
                 result = response.json()
-                print(f"   ✅ Statistical analysis: {result}")
+                logger.info(f"   ✅ Statistical analysis: {result}")
                 return True
             else:
-                print(f"   ⚠️ Statistical analysis failed: {response.status_code}")
+                logger.info(f"   ⚠️ Statistical analysis failed: {response.status_code}")
         except Exception as e:
-            print(f"   ❌ Statistical analysis error: {e}")
+            logger.info(f"   ❌ Statistical analysis error: {e}")
         
         return False
     
     def check_activity_changes(self, baseline: dict) -> dict:
         """Check for changes in activity"""
-        print("📈 Checking for activity changes...")
+        logger.info("📈 Checking for activity changes...")
         
         current_metrics = self.get_baseline_metrics()
         changes = {}
@@ -175,31 +177,31 @@ class CognitiveActivityTrigger:
                 }
         
         if changes:
-            print("   🎉 Activity changes detected:")
+            logger.info("   🎉 Activity changes detected:")
             for key, change in changes.items():
-                print(f"      {key}: {change['before']} → {change['after']}")
+                logger.info(f"      {key}: {change['before']} → {change['after']}")
         else:
-            print("   📝 No activity changes detected yet")
+            logger.info("   📝 No activity changes detected yet")
         
         return changes
     
     def run_cognitive_activation(self):
         """Run comprehensive cognitive activation"""
-        print("=" * 80)
-        print("🧠 KIMERA COGNITIVE ACTIVITY ACTIVATION")
-        print("=" * 80)
+        logger.info("=" * 80)
+        logger.info("🧠 KIMERA COGNITIVE ACTIVITY ACTIVATION")
+        logger.info("=" * 80)
         
         if not self.check_system_ready():
-            print("❌ System not ready")
+            logger.info("❌ System not ready")
             return False
         
-        print("✅ System ready. Starting cognitive activation...\n")
+        logger.info("✅ System ready. Starting cognitive activation...\n")
         
         # Get baseline metrics
-        print("📊 Getting baseline metrics...")
+        logger.info("📊 Getting baseline metrics...")
         baseline = self.get_baseline_metrics()
-        print(f"   Baseline: {baseline}")
-        print()
+        logger.info(f"   Baseline: {baseline}")
+        logger.info()
         
         # Trigger various cognitive activities
         activities_attempted = 0
@@ -224,29 +226,29 @@ class CognitiveActivityTrigger:
         time.sleep(3)
         
         # Check for changes
-        print("\n📈 RESULTS ANALYSIS")
+        logger.info("\n📈 RESULTS ANALYSIS")
         changes = self.check_activity_changes(baseline)
         
         # Summary
-        print("\n" + "=" * 80)
+        logger.info("\n" + "=" * 80)
         if activities_successful > 0:
-            print(f"🎉 COGNITIVE ACTIVATION SUCCESSFUL!")
-            print(f"   Successfully triggered {activities_successful}/{activities_attempted} activities")
+            logger.info(f"🎉 COGNITIVE ACTIVATION SUCCESSFUL!")
+            logger.info(f"   Successfully triggered {activities_successful}/{activities_attempted} activities")
             if changes:
-                print(f"   Detected {len(changes)} metric changes")
+                logger.info(f"   Detected {len(changes)} metric changes")
             else:
-                print("   Monitor may show delayed activity - check real-time monitor")
+                logger.info("   Monitor may show delayed activity - check real-time monitor")
         else:
-            print("⚠️ COGNITIVE ACTIVATION PARTIAL")
-            print("   No activities successfully triggered")
-            print("   System may need initialization or different approach")
+            logger.info("⚠️ COGNITIVE ACTIVATION PARTIAL")
+            logger.info("   No activities successfully triggered")
+            logger.info("   System may need initialization or different approach")
         
-        print("\n💡 Monitor the real-time vault monitor for:")
-        print("   - Geoid formations from insight generation")
-        print("   - Scar formations from contradiction processing")
-        print("   - Cognitive state transitions")
-        print("   - Activity rate increases")
-        print("=" * 80)
+        logger.info("\n💡 Monitor the real-time vault monitor for:")
+        logger.info("   - Geoid formations from insight generation")
+        logger.info("   - Scar formations from contradiction processing")
+        logger.info("   - Cognitive state transitions")
+        logger.info("   - Activity rate increases")
+        logger.info("=" * 80)
         
         return activities_successful > 0
 

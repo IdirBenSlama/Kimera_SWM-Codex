@@ -294,17 +294,17 @@ class KimeraExecutionDemo:
         try:
             start_time = datetime.now()
             
-            print("=" * 100)
-            print("KIMERA ULTRA-LOW LATENCY EXECUTION DEMONSTRATION")
-            print("Showcasing State-of-the-Art Trading Infrastructure")
-            print("=" * 100)
-            print(f"Demo Pairs: {', '.join(self.demo_pairs)}")
-            print(f"Number of Demo Trades: {self.demo_trades}")
-            print(f"Trade Size: {float(self.trade_percentage * 100):.0f}% of balance")
+            logger.info("=" * 100)
+            logger.info("KIMERA ULTRA-LOW LATENCY EXECUTION DEMONSTRATION")
+            logger.info("Showcasing State-of-the-Art Trading Infrastructure")
+            logger.info("=" * 100)
+            logger.info(f"Demo Pairs: {', '.join(self.demo_pairs)}")
+            logger.info(f"Number of Demo Trades: {self.demo_trades}")
+            logger.info(f"Trade Size: {float(self.trade_percentage * 100):.0f}% of balance")
             
             initial_balance = self.get_account_balance()
-            print(f"Starting Balance: ${initial_balance}")
-            print("=" * 100)
+            logger.info(f"Starting Balance: ${initial_balance}")
+            logger.info("=" * 100)
             
             self.running = True
             logger.info("EXECUTION DEMONSTRATION STARTED")
@@ -344,16 +344,16 @@ class KimeraExecutionDemo:
         total_profit = final_balance - initial_balance
         profit_pct = (total_profit / initial_balance * 100) if initial_balance > 0 else 0
         
-        print("\n" + "=" * 100)
-        print("KIMERA EXECUTION DEMONSTRATION REPORT")
-        print("=" * 100)
-        print(f"Demo Runtime: {runtime_seconds:.1f} seconds")
-        print(f"Initial Balance: ${initial_balance:.6f}")
-        print(f"Final Balance: ${final_balance:.6f}")
-        print(f"Total P&L: ${total_profit:.6f}")
-        print(f"P&L Percentage: {profit_pct:.4f}%")
-        print(f"Successful Executions: {self.successful_trades}/{self.demo_trades}")
-        print(f"Success Rate: {(self.successful_trades/max(self.demo_trades,1)*100):.2f}%")
+        logger.info("\n" + "=" * 100)
+        logger.info("KIMERA EXECUTION DEMONSTRATION REPORT")
+        logger.info("=" * 100)
+        logger.info(f"Demo Runtime: {runtime_seconds:.1f} seconds")
+        logger.info(f"Initial Balance: ${initial_balance:.6f}")
+        logger.info(f"Final Balance: ${final_balance:.6f}")
+        logger.info(f"Total P&L: ${total_profit:.6f}")
+        logger.info(f"P&L Percentage: {profit_pct:.4f}%")
+        logger.info(f"Successful Executions: {self.successful_trades}/{self.demo_trades}")
+        logger.info(f"Success Rate: {(self.successful_trades/max(self.demo_trades,1)*100):.2f}%")
         
         if self.execution_metrics:
             # Latency analysis
@@ -362,31 +362,31 @@ class KimeraExecutionDemo:
             decision_latencies = [m.decision_latency_ns for m in self.execution_metrics]
             order_latencies = [m.order_placement_latency_ns for m in self.execution_metrics]
             
-            print("\n" + "=" * 60)
-            print("ULTRA-LOW LATENCY PERFORMANCE ANALYSIS")
-            print("=" * 60)
+            logger.info("\n" + "=" * 60)
+            logger.info("ULTRA-LOW LATENCY PERFORMANCE ANALYSIS")
+            logger.info("=" * 60)
             
-            print(f"Total Execution Latency:")
-            print(f"  Minimum: {min(total_latencies):,} ns ({min(total_latencies)/1_000_000:.2f} ms)")
-            print(f"  Maximum: {max(total_latencies):,} ns ({max(total_latencies)/1_000_000:.2f} ms)")
-            print(f"  Average: {statistics.mean(total_latencies):,.0f} ns ({statistics.mean(total_latencies)/1_000_000:.2f} ms)")
-            print(f"  Median:  {statistics.median(total_latencies):,.0f} ns ({statistics.median(total_latencies)/1_000_000:.2f} ms)")
+            logger.info(f"Total Execution Latency:")
+            logger.info(f"  Minimum: {min(total_latencies):,} ns ({min(total_latencies)/1_000_000:.2f} ms)")
+            logger.info(f"  Maximum: {max(total_latencies):,} ns ({max(total_latencies)/1_000_000:.2f} ms)")
+            logger.info(f"  Average: {statistics.mean(total_latencies):,.0f} ns ({statistics.mean(total_latencies)/1_000_000:.2f} ms)")
+            logger.info(f"  Median:  {statistics.median(total_latencies):,.0f} ns ({statistics.median(total_latencies)/1_000_000:.2f} ms)")
             
-            print(f"\nMarket Data Latency:")
-            print(f"  Average: {statistics.mean(market_latencies):,.0f} ns ({statistics.mean(market_latencies)/1_000_000:.2f} ms)")
+            logger.info(f"\nMarket Data Latency:")
+            logger.info(f"  Average: {statistics.mean(market_latencies):,.0f} ns ({statistics.mean(market_latencies)/1_000_000:.2f} ms)")
             
-            print(f"\nDecision Latency:")
-            print(f"  Average: {statistics.mean(decision_latencies):,.0f} ns ({statistics.mean(decision_latencies)/1_000_000:.2f} ms)")
+            logger.info(f"\nDecision Latency:")
+            logger.info(f"  Average: {statistics.mean(decision_latencies):,.0f} ns ({statistics.mean(decision_latencies)/1_000_000:.2f} ms)")
             
-            print(f"\nOrder Placement Latency:")
-            print(f"  Average: {statistics.mean(order_latencies):,.0f} ns ({statistics.mean(order_latencies)/1_000_000:.2f} ms)")
+            logger.info(f"\nOrder Placement Latency:")
+            logger.info(f"  Average: {statistics.mean(order_latencies):,.0f} ns ({statistics.mean(order_latencies)/1_000_000:.2f} ms)")
             
             # Individual trade breakdown
-            print(f"\n" + "=" * 60)
-            print("INDIVIDUAL TRADE PERFORMANCE")
-            print("=" * 60)
+            logger.info(f"\n" + "=" * 60)
+            logger.info("INDIVIDUAL TRADE PERFORMANCE")
+            logger.info("=" * 60)
             for i, metrics in enumerate(self.execution_metrics, 1):
-                print(f"Trade #{i}: {metrics.total_execution_latency_ns:,} ns "
+                logger.info(f"Trade #{i}: {metrics.total_execution_latency_ns:,} ns "
                       f"({metrics.total_execution_latency_ns/1_000_000:.2f} ms) - "
                       f"{metrics.symbol} {metrics.quantity} @ ${metrics.price:.6f}")
         
@@ -430,9 +430,9 @@ class KimeraExecutionDemo:
             json.dump(results_data, f, indent=2, default=str)
         
         logger.info(f"DEMONSTRATION RESULTS SAVED: {results_file}")
-        print("=" * 100)
-        print("DEMONSTRATION COMPLETE - Ultra-Low Latency Capabilities Showcased")
-        print("=" * 100)
+        logger.info("=" * 100)
+        logger.info("DEMONSTRATION COMPLETE - Ultra-Low Latency Capabilities Showcased")
+        logger.info("=" * 100)
 
 def main():
     """Main execution function"""

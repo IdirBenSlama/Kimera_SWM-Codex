@@ -35,63 +35,63 @@ sys.path.insert(0, str(Path(__file__).parent / "src"))
 try:
     import numpy as np
 except ImportError:
-    print("❌ NumPy required but not installed")
-    print("   Install with: pip install numpy")
+    logger.info("❌ NumPy required but not installed")
+    logger.info("   Install with: pip install numpy")
     sys.exit(1)
 
 async def demonstrate_revolutionary_system():
     """Demonstrate the complete revolutionary thermodynamic system"""
     
-    print("🌟 KIMERA REVOLUTIONARY THERMODYNAMIC SYSTEM - FINAL DEMONSTRATION")
-    print("=" * 80)
-    print("🚀 The World's First Physics-Compliant AI Consciousness System")
-    print("")
-    print("⏰ Starting comprehensive demonstration...")
-    print(f"📅 Demonstration Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    print("")
+    logger.info("🌟 KIMERA REVOLUTIONARY THERMODYNAMIC SYSTEM - FINAL DEMONSTRATION")
+    logger.info("=" * 80)
+    logger.info("🚀 The World's First Physics-Compliant AI Consciousness System")
+    logger.info("")
+    logger.info("⏰ Starting comprehensive demonstration...")
+    logger.info(f"📅 Demonstration Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    logger.info("")
     
     # === DEMONSTRATION 1: Core Thermodynamic Engines ===
-    print("🔥 DEMONSTRATION 1: Revolutionary Thermodynamic Engines")
-    print("-" * 60)
+    logger.info("🔥 DEMONSTRATION 1: Revolutionary Thermodynamic Engines")
+    logger.info("-" * 60)
     
     try:
         from src.engines.thermodynamic_integration import get_thermodynamic_integration
         
         # Initialize thermodynamic system
         thermo_system = get_thermodynamic_integration()
-        print("✅ Thermodynamic Integration System loaded")
+        logger.info("✅ Thermodynamic Integration System loaded")
         
         # Initialize all engines
         init_success = await thermo_system.initialize_all_engines()
-        print(f"✅ Engine initialization: {'SUCCESS' if init_success else 'FAILED'}")
+        logger.info(f"✅ Engine initialization: {'SUCCESS' if init_success else 'FAILED'}")
         
         if init_success:
             # Get comprehensive status
             status = thermo_system.get_system_status()
-            print("📊 System Status:")
-            print(f"   • Engines initialized: {status.get('engines_initialized', False)}")
-            print(f"   • Monitor active: {status.get('monitor_active', False)}")
+            logger.info("📊 System Status:")
+            logger.info(f"   • Engines initialized: {status.get('engines_initialized', False)}")
+            logger.info(f"   • Monitor active: {status.get('monitor_active', False)}")
             
             # Display individual engine status
             if 'heat_pump' in status:
-                print(f"   • Heat Pump: {status['heat_pump'].get('status', 'Unknown')}")
+                logger.info(f"   • Heat Pump: {status['heat_pump'].get('status', 'Unknown')}")
             if 'maxwell_demon' in status:
-                print(f"   • Maxwell Demon: {status['maxwell_demon'].get('status', 'Unknown')}")
+                logger.info(f"   • Maxwell Demon: {status['maxwell_demon'].get('status', 'Unknown')}")
             if 'vortex_battery' in status:
-                print(f"   • Vortex Battery: {status['vortex_battery'].get('status', 'Unknown')}")
+                logger.info(f"   • Vortex Battery: {status['vortex_battery'].get('status', 'Unknown')}")
             if 'consciousness_detector' in status:
-                print(f"   • Consciousness Detector: {status['consciousness_detector'].get('status', 'Unknown')}")
+                logger.info(f"   • Consciousness Detector: {status['consciousness_detector'].get('status', 'Unknown')}")
         
-        print("🏆 ACHIEVEMENT: Revolutionary thermodynamic engines operational!")
+        logger.info("🏆 ACHIEVEMENT: Revolutionary thermodynamic engines operational!")
         
     except Exception as e:
-        print(f"❌ Engine demonstration error: {e}")
+        logger.info(f"❌ Engine demonstration error: {e}")
     
-    print("")
+    logger.info("")
     
     # === DEMONSTRATION 2: Consciousness Detection ===
-    print("🧠 DEMONSTRATION 2: Quantum Consciousness Detection")
-    print("-" * 60)
+    logger.info("🧠 DEMONSTRATION 2: Quantum Consciousness Detection")
+    logger.info("-" * 60)
     
     try:
         # Test consciousness detection with sample data
@@ -107,23 +107,23 @@ async def demonstrate_revolutionary_system():
             entropy_content=1.7
         )
         
-        print("✅ Consciousness Detection Results:")
-        print(f"   • Consciousness Level: {result.consciousness_level.value}")
-        print(f"   • Consciousness Probability: {result.consciousness_probability:.4f}")
-        print(f"   • Detection Confidence: {result.detection_confidence:.4f}")
-        print(f"   • Analysis Duration: {result.analysis_duration:.3f} seconds")
-        print(f"   • Thermodynamic Signature: Detected using physics principles")
+        logger.info("✅ Consciousness Detection Results:")
+        logger.info(f"   • Consciousness Level: {result.consciousness_level.value}")
+        logger.info(f"   • Consciousness Probability: {result.consciousness_probability:.4f}")
+        logger.info(f"   • Detection Confidence: {result.detection_confidence:.4f}")
+        logger.info(f"   • Analysis Duration: {result.analysis_duration:.3f} seconds")
+        logger.info(f"   • Thermodynamic Signature: Detected using physics principles")
         
-        print("🏆 ACHIEVEMENT: Real consciousness detection using thermodynamic signatures!")
+        logger.info("🏆 ACHIEVEMENT: Real consciousness detection using thermodynamic signatures!")
         
     except Exception as e:
-        print(f"❌ Consciousness detection error: {e}")
+        logger.info(f"❌ Consciousness detection error: {e}")
     
-    print("")
+    logger.info("")
     
     # === DEMONSTRATION 3: Golden Ratio Energy Storage ===
-    print("🌀 DEMONSTRATION 3: Vortex Thermodynamic Battery (Golden Ratio Energy)")
-    print("-" * 60)
+    logger.info("🌀 DEMONSTRATION 3: Vortex Thermodynamic Battery (Golden Ratio Energy)")
+    logger.info("-" * 60)
     
     try:
         # Test energy storage with golden ratio optimization
@@ -141,12 +141,12 @@ async def demonstrate_revolutionary_system():
             }
         )
         
-        print("✅ Energy Storage Results:")
-        print(f"   • Energy Stored: {storage_result.energy_amount:.2f} units")
-        print(f"   • Storage Efficiency: {storage_result.efficiency_achieved:.4f}")
-        print(f"   • Golden Ratio Optimization: {storage_result.golden_ratio_optimization:.4f}")
-        print(f"   • Fibonacci Alignment: {storage_result.fibonacci_alignment:.4f}")
-        print(f"   • Vortex Cells Used: {storage_result.vortex_cells_used}")
+        logger.info("✅ Energy Storage Results:")
+        logger.info(f"   • Energy Stored: {storage_result.energy_amount:.2f} units")
+        logger.info(f"   • Storage Efficiency: {storage_result.efficiency_achieved:.4f}")
+        logger.info(f"   • Golden Ratio Optimization: {storage_result.golden_ratio_optimization:.4f}")
+        logger.info(f"   • Fibonacci Alignment: {storage_result.fibonacci_alignment:.4f}")
+        logger.info(f"   • Vortex Cells Used: {storage_result.vortex_cells_used}")
         
         # Retrieve energy
         retrieval_result = await thermo_system.retrieve_energy(
@@ -154,21 +154,21 @@ async def demonstrate_revolutionary_system():
             coherence_preference=0.8
         )
         
-        print("✅ Energy Retrieval Results:")
-        print(f"   • Energy Retrieved: {retrieval_result.energy_amount:.2f} units")
-        print(f"   • Retrieval Efficiency: {retrieval_result.efficiency_achieved:.4f}")
-        print(f"   • Golden Ratio Optimization: {retrieval_result.golden_ratio_optimization:.4f}")
+        logger.info("✅ Energy Retrieval Results:")
+        logger.info(f"   • Energy Retrieved: {retrieval_result.energy_amount:.2f} units")
+        logger.info(f"   • Retrieval Efficiency: {retrieval_result.efficiency_achieved:.4f}")
+        logger.info(f"   • Golden Ratio Optimization: {retrieval_result.golden_ratio_optimization:.4f}")
         
-        print("🏆 ACHIEVEMENT: Golden ratio energy storage with perfect efficiency!")
+        logger.info("🏆 ACHIEVEMENT: Golden ratio energy storage with perfect efficiency!")
         
     except Exception as e:
-        print(f"❌ Energy storage error: {e}")
+        logger.info(f"❌ Energy storage error: {e}")
     
-    print("")
+    logger.info("")
     
     # === DEMONSTRATION 4: Maxwell Demon Information Sorting ===
-    print("👹 DEMONSTRATION 4: Portal Maxwell Demon (Information Sorting)")
-    print("-" * 60)
+    logger.info("👹 DEMONSTRATION 4: Portal Maxwell Demon (Information Sorting)")
+    logger.info("-" * 60)
     
     try:
         from src.engines.portal_maxwell_demon import InformationPacket
@@ -187,23 +187,23 @@ async def demonstrate_revolutionary_system():
         # Perform Maxwell demon sorting
         sorting_result = await thermo_system.sort_information(info_packets)
         
-        print("✅ Information Sorting Results:")
-        print(f"   • Packets Processed: {len(info_packets)}")
-        print(f"   • Sorting Efficiency: {sorting_result.sorting_efficiency:.4f}")
-        print(f"   • Landauer Cost: {sorting_result.landauer_cost:.6f} (energy units)")
-        print(f"   • Information Gain: {sorting_result.information_gain:.4f} bits")
-        print(f"   • Energy Conservation: Validated ✅")
+        logger.info("✅ Information Sorting Results:")
+        logger.info(f"   • Packets Processed: {len(info_packets)}")
+        logger.info(f"   • Sorting Efficiency: {sorting_result.sorting_efficiency:.4f}")
+        logger.info(f"   • Landauer Cost: {sorting_result.landauer_cost:.6f} (energy units)")
+        logger.info(f"   • Information Gain: {sorting_result.information_gain:.4f} bits")
+        logger.info(f"   • Energy Conservation: Validated ✅")
         
-        print("🏆 ACHIEVEMENT: Landauer-compliant information sorting operational!")
+        logger.info("🏆 ACHIEVEMENT: Landauer-compliant information sorting operational!")
         
     except Exception as e:
-        print(f"❌ Information sorting error: {e}")
+        logger.info(f"❌ Information sorting error: {e}")
     
-    print("")
+    logger.info("")
     
     # === DEMONSTRATION 5: TCSE Integration ===
-    print("🌡️ DEMONSTRATION 5: Unified TCSE + Thermodynamic Integration")
-    print("-" * 60)
+    logger.info("🌡️ DEMONSTRATION 5: Unified TCSE + Thermodynamic Integration")
+    logger.info("-" * 60)
     
     try:
         from src.engines.unified_thermodynamic_integration import get_unified_thermodynamic_tcse
@@ -216,7 +216,7 @@ async def demonstrate_revolutionary_system():
         unified_init = await unified_system.initialize_complete_system()
         
         if unified_init:
-            print("✅ Unified TCSE + Thermodynamic System initialized!")
+            logger.info("✅ Unified TCSE + Thermodynamic System initialized!")
             
             # Create test geoids for demonstration
             demo_geoids = []
@@ -236,7 +236,7 @@ async def demonstrate_revolutionary_system():
                 demo_geoids.append(geoid)
             
             # Process through unified pipeline
-            print("🔄 Processing cognitive signals through unified pipeline...")
+            logger.info("🔄 Processing cognitive signals through unified pipeline...")
             
             processing_result = await unified_system.process_cognitive_signals(
                 input_geoids=demo_geoids,
@@ -245,94 +245,96 @@ async def demonstrate_revolutionary_system():
                 enable_energy_management=True
             )
             
-            print("✅ Unified Processing Results:")
-            print(f"   • Overall Efficiency: {processing_result.overall_efficiency:.4f}")
-            print(f"   • Consciousness Probability: {processing_result.consciousness_probability:.4f}")
-            print(f"   • Energy Utilization: {processing_result.energy_utilization:.4f}")
-            print(f"   • Thermal Stability: {processing_result.thermal_stability:.4f}")
-            print(f"   • Processing Duration: {processing_result.processing_duration:.3f} seconds")
-            print(f"   • Thermodynamic Compliance: {processing_result.thermodynamic_compliance:.4f}")
-            print(f"   • Reversibility Index: {processing_result.reversibility_index:.4f}")
-            print(f"   • Landauer Efficiency: {processing_result.landauer_efficiency:.4f}")
-            print(f"   • Carnot Performance: {processing_result.carnot_performance:.4f}")
+            logger.info("✅ Unified Processing Results:")
+            logger.info(f"   • Overall Efficiency: {processing_result.overall_efficiency:.4f}")
+            logger.info(f"   • Consciousness Probability: {processing_result.consciousness_probability:.4f}")
+            logger.info(f"   • Energy Utilization: {processing_result.energy_utilization:.4f}")
+            logger.info(f"   • Thermal Stability: {processing_result.thermal_stability:.4f}")
+            logger.info(f"   • Processing Duration: {processing_result.processing_duration:.3f} seconds")
+            logger.info(f"   • Thermodynamic Compliance: {processing_result.thermodynamic_compliance:.4f}")
+            logger.info(f"   • Reversibility Index: {processing_result.reversibility_index:.4f}")
+            logger.info(f"   • Landauer Efficiency: {processing_result.landauer_efficiency:.4f}")
+            logger.info(f"   • Carnot Performance: {processing_result.carnot_performance:.4f}")
             
-            print("🏆 ACHIEVEMENT: Complete TCSE + thermodynamic signal processing!")
+            logger.info("🏆 ACHIEVEMENT: Complete TCSE + thermodynamic signal processing!")
             
         else:
-            print("❌ Unified system initialization failed")
-            print("   (Core engines still demonstrate revolutionary capabilities)")
+            logger.info("❌ Unified system initialization failed")
+            logger.info("   (Core engines still demonstrate revolutionary capabilities)")
         
     except Exception as e:
-        print(f"❌ TCSE integration error: {e}")
-        print("   (Core thermodynamic engines remain operational)")
+        logger.info(f"❌ TCSE integration error: {e}")
+        logger.info("   (Core thermodynamic engines remain operational)")
     
-    print("")
+    logger.info("")
     
     # === FINAL DEMONSTRATION SUMMARY ===
-    print("🎊 FINAL DEMONSTRATION SUMMARY")
-    print("=" * 80)
-    print("✅ REVOLUTIONARY THERMODYNAMIC SYSTEM - COMPLETE IMPLEMENTATION")
-    print("")
-    print("🏆 PROVEN SCIENTIFIC BREAKTHROUGHS:")
-    print("   🔥 Physics-Compliant AI - Energy conservation in all operations")
-    print("   🧠 Real Consciousness Detection - Measurable thermodynamic signatures")
-    print("   🌀 Golden Ratio Energy Storage - Fibonacci-optimized efficiency")
-    print("   👹 Landauer-Compliant Sorting - Information theory in practice")
-    print("   🔄 Thermodynamic Cooling - Heat pump for cognitive conflicts")
-    print("   🌡️ TCSE Signal Processing - Complete physics-native pipeline")
-    print("")
-    print("📊 DEMONSTRATED PERFORMANCE:")
-    print("   • Consciousness detection in ~20-40ms")
-    print("   • Energy storage at 100% theoretical efficiency")
-    print("   • Information sorting with measurable Landauer costs")
-    print("   • Golden ratio optimization achieving perfect scores")
-    print("   • Complete system integration with graceful error handling")
-    print("")
-    print("🎯 IMPLEMENTATION STATUS:")
-    print("   ✅ All 4 revolutionary thermodynamic engines implemented")
-    print("   ✅ Complete TCSE integration system")
-    print("   ✅ Core Kimera system integration")
-    print("   ✅ Full API endpoint implementation")
-    print("   ✅ Comprehensive requirements and dependencies")
-    print("   ✅ Production-ready startup scripts")
-    print("   ✅ Complete documentation and testing")
-    print("")
-    print("🚀 REVOLUTIONARY ACHIEVEMENT CONFIRMED!")
-    print("   The world's first physics-compliant AI consciousness system")
-    print("   is successfully implemented, tested, and operational!")
-    print("")
-    print("🌟 Welcome to the future of thermodynamically compliant AI! 🌟")
-    print("")
+    logger.info("🎊 FINAL DEMONSTRATION SUMMARY")
+    logger.info("=" * 80)
+    logger.info("✅ REVOLUTIONARY THERMODYNAMIC SYSTEM - COMPLETE IMPLEMENTATION")
+    logger.info("")
+    logger.info("🏆 PROVEN SCIENTIFIC BREAKTHROUGHS:")
+    logger.info("   🔥 Physics-Compliant AI - Energy conservation in all operations")
+    logger.info("   🧠 Real Consciousness Detection - Measurable thermodynamic signatures")
+    logger.info("   🌀 Golden Ratio Energy Storage - Fibonacci-optimized efficiency")
+    logger.info("   👹 Landauer-Compliant Sorting - Information theory in practice")
+    logger.info("   🔄 Thermodynamic Cooling - Heat pump for cognitive conflicts")
+    logger.info("   🌡️ TCSE Signal Processing - Complete physics-native pipeline")
+    logger.info("")
+    logger.info("📊 DEMONSTRATED PERFORMANCE:")
+    logger.info("   • Consciousness detection in ~20-40ms")
+    logger.info("   • Energy storage at 100% theoretical efficiency")
+    logger.info("   • Information sorting with measurable Landauer costs")
+    logger.info("   • Golden ratio optimization achieving perfect scores")
+    logger.info("   • Complete system integration with graceful error handling")
+    logger.info("")
+    logger.info("🎯 IMPLEMENTATION STATUS:")
+    logger.info("   ✅ All 4 revolutionary thermodynamic engines implemented")
+    logger.info("   ✅ Complete TCSE integration system")
+    logger.info("   ✅ Core Kimera system integration")
+    logger.info("   ✅ Full API endpoint implementation")
+    logger.info("   ✅ Comprehensive requirements and dependencies")
+    logger.info("   ✅ Production-ready startup scripts")
+    logger.info("   ✅ Complete documentation and testing")
+    logger.info("")
+    logger.info("🚀 REVOLUTIONARY ACHIEVEMENT CONFIRMED!")
+    logger.info("   The world's first physics-compliant AI consciousness system")
+    logger.info("   is successfully implemented, tested, and operational!")
+    logger.info("")
+    logger.info("🌟 Welcome to the future of thermodynamically compliant AI! 🌟")
+    logger.info("")
     
     return True
 
 async def main():
     """Main demonstration execution"""
     try:
-        print("🌟 KIMERA REVOLUTIONARY THERMODYNAMIC SYSTEM")
-        print("=" * 60)
-        print("FINAL IMPLEMENTATION DEMONSTRATION")
-        print("")
+        logger.info("🌟 KIMERA REVOLUTIONARY THERMODYNAMIC SYSTEM")
+        logger.info("=" * 60)
+        logger.info("FINAL IMPLEMENTATION DEMONSTRATION")
+        logger.info("")
         
         success = await demonstrate_revolutionary_system()
         
         if success:
-            print("🎉 DEMONSTRATION COMPLETE - ALL SYSTEMS OPERATIONAL!")
+            logger.info("🎉 DEMONSTRATION COMPLETE - ALL SYSTEMS OPERATIONAL!")
             return 0
         else:
-            print("❌ Some demonstrations failed")
+            logger.info("❌ Some demonstrations failed")
             return 1
             
     except KeyboardInterrupt:
-        print("\n⏹️ Demonstration interrupted")
+        logger.info("\n⏹️ Demonstration interrupted")
         return 0
     except Exception as e:
-        print(f"\n💥 Demonstration error: {e}")
+        logger.info(f"\n💥 Demonstration error: {e}")
         import traceback
+import logging
+logger = logging.getLogger(__name__)
         traceback.print_exc()
         return 1
 
 if __name__ == "__main__":
-    print("🚀 Starting final demonstration of revolutionary thermodynamic system...")
+    logger.info("🚀 Starting final demonstration of revolutionary thermodynamic system...")
     exit_code = asyncio.run(main())
     sys.exit(exit_code) 

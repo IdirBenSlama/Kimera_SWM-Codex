@@ -670,29 +670,29 @@ async def main():
         logger.info(f"📊 Report saved: {report_file}")
         
         # Display results
-        print("\n" + "=" * 60)
-        print("🏆 KIMERA AUTONOMOUS MISSION RESULTS")
-        print("=" * 60)
+        logger.info("\n" + "=" * 60)
+        logger.info("🏆 KIMERA AUTONOMOUS MISSION RESULTS")
+        logger.info("=" * 60)
         
         if 'financial_performance' in report:
             perf = report['financial_performance']
-            print(f"💰 Starting Balance: ${perf['starting_balance']:.2f}")
-            print(f"💰 Ending Balance: ${perf['ending_balance']:.2f}")
-            print(f"📈 Total Profit: ${perf['total_profit']:.2f}")
-            print(f"📊 Profit Percentage: {perf['profit_percentage']:.2f}%")
+            logger.info(f"💰 Starting Balance: ${perf['starting_balance']:.2f}")
+            logger.info(f"💰 Ending Balance: ${perf['ending_balance']:.2f}")
+            logger.info(f"📈 Total Profit: ${perf['total_profit']:.2f}")
+            logger.info(f"📊 Profit Percentage: {perf['profit_percentage']:.2f}%")
         
         if 'mission_summary' in report:
             summary = report['mission_summary']
-            print(f"⏱️  Duration: {summary['duration_minutes']:.1f} minutes")
-            print(f"📈 Total Trades: {summary['total_trades']}")
-            print(f"🎯 Success Rate: {summary['success_rate']*100:.1f}%")
+            logger.info(f"⏱️  Duration: {summary['duration_minutes']:.1f} minutes")
+            logger.info(f"📈 Total Trades: {summary['total_trades']}")
+            logger.info(f"🎯 Success Rate: {summary['success_rate']*100:.1f}%")
         
-        print("=" * 60)
-        print("🚀 AUTONOMOUS MISSION COMPLETE")
+        logger.info("=" * 60)
+        logger.info("🚀 AUTONOMOUS MISSION COMPLETE")
         
     except Exception as e:
         logger.error(f"Main execution error: {e}")
-        print(f"Error: {e}")
+        logger.info(f"Error: {e}")
 
 if __name__ == "__main__":
     asyncio.run(main()) 

@@ -937,17 +937,17 @@ async def main():
         with open('autonomous_trading_results.json', 'w') as f:
             json.dump(results, f, indent=2, default=str)
         
-        print("\n" + "="*80)
-        print("KIMERA AUTONOMOUS TRADING RESULTS")
-        print("="*80)
-        print(f"Mission Status: {results['mission_status']}")
-        print(f"Target Achieved: {results['target_achieved']}")
-        print(f"Final P&L: ${results['final_pnl']:,.2f}")
-        print(f"Progress: {results['progress_percentage']:.1f}%")
-        print(f"Trading Duration: {results['trading_duration']}")
-        print(f"Total Trades: {results['performance_metrics']['total_trades']}")
-        print(f"Win Rate: {results['performance_metrics']['win_rate']:.1%}")
-        print("="*80)
+        logger.info("\n" + "="*80)
+        logger.info("KIMERA AUTONOMOUS TRADING RESULTS")
+        logger.info("="*80)
+        logger.info(f"Mission Status: {results['mission_status']}")
+        logger.info(f"Target Achieved: {results['target_achieved']}")
+        logger.info(f"Final P&L: ${results['final_pnl']:,.2f}")
+        logger.info(f"Progress: {results['progress_percentage']:.1f}%")
+        logger.info(f"Trading Duration: {results['trading_duration']}")
+        logger.info(f"Total Trades: {results['performance_metrics']['total_trades']}")
+        logger.info(f"Win Rate: {results['performance_metrics']['win_rate']:.1%}")
+        logger.info("="*80)
         
         return results
         

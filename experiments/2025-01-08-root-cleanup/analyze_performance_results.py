@@ -14,6 +14,8 @@ from pathlib import Path
 import numpy as np
 from datetime import datetime
 import statistics
+import logging
+logger = logging.getLogger(__name__)
 
 class PerformanceAnalyzer:
     def __init__(self, results_dir: str = "performance_results"):
@@ -27,16 +29,16 @@ class PerformanceAnalyzer:
             raise FileNotFoundError("No performance test results found")
             
         latest_file = max(json_files, key=lambda p: p.stat().st_mtime)
-        print(f"Loading results from: {latest_file}")
+        logger.info(f"Loading results from: {latest_file}")
         
         with open(latest_file, 'r') as f:
             return json.load(f)
     
     def analyze_results(self, results: dict):
         """Perform detailed analysis of performance results"""
-        print("\n" + "="*60)
-        print("KIMERA PERFORMANCE ANALYSIS")
-        print("="*60)
+        logger.info("\n" + "="*60)
+        logger.info("KIMERA PERFORMANCE ANALYSIS")
+        logger.info("="*60)
         
         # Extract test results
         test_results = results['test_results']
@@ -297,7 +299,7 @@ class PerformanceAnalyzer:
         plt.savefig(self.results_dir / f'kimera_detailed_analysis_{timestamp}.png', dpi=300)
         plt.close()
         
-        print(f"\n📊 Detailed visualizations saved to: {self.results_dir}/kimera_detailed_analysis_{timestamp}.png")
+        logger.info(f"\n📊 Detailed visualizations saved to: {self.results_dir}/kimera_detailed_analysis_{timestamp}.png")
     
     def _plot_response_time_comparison(self, test_results, ax):
         """Plot response time comparison"""
@@ -530,7 +532,7 @@ class PerformanceAnalyzer:
                 for rec in efficiency['recommendations']:
                     f.write(f"  • {rec}\n")
         
-        print(f"\n📄 Analysis report saved to: {report_file}")
+        logger.info(f"\n📄 Analysis report saved to: {report_file}")
         return report_file
 
 def main():
@@ -547,12 +549,12 @@ def main():
         # Generate report
         report_file = analyzer.generate_report(analysis)
         
-        print("\n✅ Performance analysis complete!")
+        logger.info("\n✅ Performance analysis complete!")
         
     except FileNotFoundError:
-        print("❌ No performance test results found. Please run the performance test first.")
+        logger.info("❌ No performance test results found. Please run the performance test first.")
     except Exception as e:
-        print(f"❌ Error during analysis: {e}")
+        logger.info(f"❌ Error during analysis: {e}")
 
 if __name__ == "__main__":
     main()

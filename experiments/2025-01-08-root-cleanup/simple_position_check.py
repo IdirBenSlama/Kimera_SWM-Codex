@@ -5,6 +5,8 @@ import hashlib
 import time
 import os
 from urllib.parse import urlencode
+import logging
+logger = logging.getLogger(__name__)
 
 class SimpleBinanceChecker:
     def __init__(self, api_key, secret_key):
@@ -54,20 +56,20 @@ async def check_position():
     secret_key = os.getenv('BINANCE_SECRET_KEY')
     
     if not api_key or not secret_key:
-        print("❌ Missing API credentials")
+        logger.info("❌ Missing API credentials")
         return
     
     checker = SimpleBinanceChecker(api_key, secret_key)
     
     try:
         # Get current BTC price
-        print("🔍 Checking current Bitcoin price...")
+        logger.info("🔍 Checking current Bitcoin price...")
         ticker = await checker.get_ticker('BTCUSDT')
         current_price = float(ticker['price'])
-        print(f"Current BTC Price: ${current_price:,.2f}")
+        logger.info(f"Current BTC Price: ${current_price:,.2f}")
         
         # Get account balance
-        print("\n🔍 Checking account balance...")
+        logger.info("\n🔍 Checking account balance...")
         account = await checker.get_account()
         
         btc_balance = 0.0
@@ -79,30 +81,30 @@ async def check_position():
             elif balance['asset'] == 'USDT':
                 usdt_balance = float(balance['free'])
         
-        print(f"BTC Balance: {btc_balance:.8f} BTC")
-        print(f"USDT Balance: {usdt_balance:.2f} USDT")
+        logger.info(f"BTC Balance: {btc_balance:.8f} BTC")
+        logger.info(f"USDT Balance: {usdt_balance:.2f} USDT")
         
         if btc_balance > 0:
             current_value = btc_balance * current_price
-            print(f"\n💰 Current BTC Position Value: ${current_value:.2f}")
+            logger.info(f"\n💰 Current BTC Position Value: ${current_value:.2f}")
             
             # Calculate unrealized P&L (entry price from previous trade)
             entry_price = 117416.81  # From the previous trade
             unrealized_pnl = (current_price - entry_price) * btc_balance
             unrealized_pnl_pct = (current_price - entry_price) / entry_price * 100
             
-            print(f"Entry Price: ${entry_price:,.2f}")
-            print(f"Unrealized P&L: ${unrealized_pnl:.2f} ({unrealized_pnl_pct:+.2f}%)")
+            logger.info(f"Entry Price: ${entry_price:,.2f}")
+            logger.info(f"Unrealized P&L: ${unrealized_pnl:.2f} ({unrealized_pnl_pct:+.2f}%)")
             
             if unrealized_pnl > 0:
-                print('🟢 Position is currently in PROFIT')
+                logger.info('🟢 Position is currently in PROFIT')
             else:
-                print('🔴 Position is currently at LOSS')
+                logger.info('🔴 Position is currently at LOSS')
         else:
-            print("📍 No BTC position found")
+            logger.info("📍 No BTC position found")
             
     except Exception as e:
-        print(f"❌ Error: {e}")
+        logger.info(f"❌ Error: {e}")
 
 if __name__ == "__main__":
     asyncio.run(check_position()) 

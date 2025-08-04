@@ -549,9 +549,9 @@ class ParallelOmnidimensionalTrader:
 
 async def main():
     """Main execution"""
-    print("\n⚡ KIMERA PARALLEL OMNIDIMENSIONAL TRADER")
-    print("🚀 MAXIMUM OPTIMIZATION MODE")
-    print("="*50)
+    logger.info("\n⚡ KIMERA PARALLEL OMNIDIMENSIONAL TRADER")
+    logger.info("🚀 MAXIMUM OPTIMIZATION MODE")
+    logger.info("="*50)
     
     try:
         trader = ParallelOmnidimensionalTrader()

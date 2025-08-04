@@ -162,16 +162,16 @@ class KimeraLiveDashboard:
         current_time = datetime.now()
         elapsed = current_time - self.start_time
         
-        print("🚀" + "="*70 + "🚀")
-        print("🎯          KIMERA LIVE AUTONOMOUS TRADING DASHBOARD           🎯")
-        print("🚀" + "="*70 + "🚀")
-        print(f"⏱️  Session Time: {elapsed}")
-        print(f"🕐 Current Time: {current_time.strftime('%Y-%m-%d %H:%M:%S')}")
-        print()
+        logger.info("🚀" + "="*70 + "🚀")
+        logger.info("🎯          KIMERA LIVE AUTONOMOUS TRADING DASHBOARD           🎯")
+        logger.info("🚀" + "="*70 + "🚀")
+        logger.info(f"⏱️  Session Time: {elapsed}")
+        logger.info(f"🕐 Current Time: {current_time.strftime('%Y-%m-%d %H:%M:%S')}")
+        logger.info()
         
         # Portfolio Overview
-        print("💰 PORTFOLIO OVERVIEW:")
-        print("-" * 50)
+        logger.info("💰 PORTFOLIO OVERVIEW:")
+        logger.info("-" * 50)
         total_value = portfolio.get('total_value', 0)
         if self.initial_balance == 0:
             self.initial_balance = total_value
@@ -179,52 +179,52 @@ class KimeraLiveDashboard:
         profit = total_value - self.initial_balance
         profit_pct = (profit / self.initial_balance * 100) if self.initial_balance > 0 else 0
         
-        print(f"💵 Total Value: ${total_value:.2f}")
-        print(f"📈 Profit/Loss: ${profit:.2f} ({profit_pct:+.2f}%)")
-        print(f"🎯 Initial: ${self.initial_balance:.2f}")
-        print()
+        logger.info(f"💵 Total Value: ${total_value:.2f}")
+        logger.info(f"📈 Profit/Loss: ${profit:.2f} ({profit_pct:+.2f}%)")
+        logger.info(f"🎯 Initial: ${self.initial_balance:.2f}")
+        logger.info()
         
         # Asset Breakdown
-        print("🪙 ASSET BREAKDOWN:")
-        print("-" * 50)
+        logger.info("🪙 ASSET BREAKDOWN:")
+        logger.info("-" * 50)
         for asset, data in portfolio.get('assets', {}).items():
             if data['value_usd'] > 0.1:  # Only show assets worth more than $0.10
-                print(f"   {asset}: {data['amount']:.8f} = ${data['value_usd']:.2f}")
-        print()
+                logger.info(f"   {asset}: {data['amount']:.8f} = ${data['value_usd']:.2f}")
+        logger.info()
         
         # Recent Trades
-        print("📊 RECENT TRADES:")
-        print("-" * 50)
+        logger.info("📊 RECENT TRADES:")
+        logger.info("-" * 50)
         if trades:
             for trade in trades[:5]:  # Show last 5 trades
                 side_emoji = "🟢" if trade['side'] == 'BUY' else "🔴"
-                print(f"   {side_emoji} {trade['symbol']}: {trade['side']} {trade['quantity']:.4f} @ ${trade['price']:.6f}")
+                logger.info(f"   {side_emoji} {trade['symbol']}: {trade['side']} {trade['quantity']:.4f} @ ${trade['price']:.6f}")
         else:
-            print("   No recent trades found")
-        print()
+            logger.info("   No recent trades found")
+        logger.info()
         
         # System Status
-        print("🔧 SYSTEM STATUS:")
-        print("-" * 50)
+        logger.info("🔧 SYSTEM STATUS:")
+        logger.info("-" * 50)
         for system, status in self.systems_status.items():
             status_emoji = "🟢" if status == 'ONLINE' else "🔴" if status == 'ERROR' else "🟡"
-            print(f"   {status_emoji} {system}: {status}")
-        print()
+            logger.info(f"   {status_emoji} {system}: {status}")
+        logger.info()
         
         # Performance Metrics
-        print("📈 PERFORMANCE METRICS:")
-        print("-" * 50)
+        logger.info("📈 PERFORMANCE METRICS:")
+        logger.info("-" * 50)
         hours_elapsed = elapsed.total_seconds() / 3600
         profit_per_hour = profit / hours_elapsed if hours_elapsed > 0 else 0
-        print(f"   💰 Profit/Hour: ${profit_per_hour:.2f}")
-        print(f"   📊 Total Trades: {len(trades)}")
-        print(f"   ⚡ ROI: {profit_pct:.2f}%")
-        print()
+        logger.info(f"   💰 Profit/Hour: ${profit_per_hour:.2f}")
+        logger.info(f"   📊 Total Trades: {len(trades)}")
+        logger.info(f"   ⚡ ROI: {profit_pct:.2f}%")
+        logger.info()
         
-        print("🚀" + "="*70 + "🚀")
-        print("🤖 KIMERA AUTONOMOUS TRADING SYSTEMS ACTIVE")
-        print("🎯 Maximum Profit Mode - Full Autonomy Granted")
-        print("🚀" + "="*70 + "🚀")
+        logger.info("🚀" + "="*70 + "🚀")
+        logger.info("🤖 KIMERA AUTONOMOUS TRADING SYSTEMS ACTIVE")
+        logger.info("🎯 Maximum Profit Mode - Full Autonomy Granted")
+        logger.info("🚀" + "="*70 + "🚀")
     
     async def run_dashboard(self):
         """Run the live dashboard"""
@@ -263,15 +263,15 @@ class KimeraLiveDashboard:
 async def main():
     """Main dashboard execution"""
     try:
-        print("🎯 KIMERA LIVE TRADING DASHBOARD")
-        print("=" * 50)
-        print("🚀 Real-time monitoring of all trading systems")
-        print("💰 Live portfolio tracking")
-        print("📊 Trade execution monitoring")
-        print("🔧 System status dashboard")
-        print("=" * 50)
-        print("Press Ctrl+C to stop")
-        print()
+        logger.info("🎯 KIMERA LIVE TRADING DASHBOARD")
+        logger.info("=" * 50)
+        logger.info("🚀 Real-time monitoring of all trading systems")
+        logger.info("💰 Live portfolio tracking")
+        logger.info("📊 Trade execution monitoring")
+        logger.info("🔧 System status dashboard")
+        logger.info("=" * 50)
+        logger.info("Press Ctrl+C to stop")
+        logger.info()
         
         dashboard = KimeraLiveDashboard()
         await dashboard.run_dashboard()

@@ -7,15 +7,17 @@ WARNING: This executes REAL trades with REAL money!
 
 import asyncio
 from kimera_omnidimensional_real_wallet import OmnidimensionalRealTrader
+import logging
+logger = logging.getLogger(__name__)
 
 async def main():
-    print("\n🚀 KIMERA OMNIDIMENSIONAL REAL WALLET TRADING 🚀")
-    print("="*50)
-    print("⚠️  WARNING: REAL TRADES WITH REAL MONEY!")
-    print("📊 Strategies:")
-    print("   - Horizontal: Multi-asset momentum & arbitrage")
-    print("   - Vertical: Order book microstructure")
-    print("="*50)
+    logger.info("\n🚀 KIMERA OMNIDIMENSIONAL REAL WALLET TRADING 🚀")
+    logger.info("="*50)
+    logger.info("⚠️  WARNING: REAL TRADES WITH REAL MONEY!")
+    logger.info("📊 Strategies:")
+    logger.info("   - Horizontal: Multi-asset momentum & arbitrage")
+    logger.info("   - Vertical: Order book microstructure")
+    logger.info("="*50)
     
     response = input("\nType 'REAL' to confirm real trading: ")
     
@@ -23,7 +25,7 @@ async def main():
         trader = OmnidimensionalRealTrader()
         await trader.run_real_trading(duration_minutes=5)
     else:
-        print("❌ Trading cancelled")
+        logger.info("❌ Trading cancelled")
 
 if __name__ == "__main__":
     asyncio.run(main()) 

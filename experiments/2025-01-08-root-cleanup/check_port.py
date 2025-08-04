@@ -8,6 +8,8 @@ This script checks if the default port 8000 is available and suggests alternativ
 import socket
 import sys
 from typing import List
+import logging
+logger = logging.getLogger(__name__)
 
 def check_port(port: int) -> bool:
     """Check if a port is available."""
@@ -28,16 +30,16 @@ def find_available_port(start_port: int = 8000, max_attempts: int = 10) -> int:
 
 def main():
     """Main function to check port availability."""
-    print("🔍 Checking port availability for Kimera SWM...")
+    logger.info("🔍 Checking port availability for Kimera SWM...")
     
     # Check default port
     default_port = 8000
     if check_port(default_port):
-        print(f"✅ Port {default_port} is available")
-        print(f"🚀 You can start Kimera with: python start_kimera.py")
+        logger.info(f"✅ Port {default_port} is available")
+        logger.info(f"🚀 You can start Kimera with: python start_kimera.py")
         return
     
-    print(f"❌ Port {default_port} is already in use")
+    logger.info(f"❌ Port {default_port} is already in use")
     
     # Find alternative ports
     alternative_ports = [8001, 8002, 8003, 8004, 8005, 8080, 8081, 8082, 9000, 9001]
@@ -48,14 +50,14 @@ def main():
             available_ports.append(port)
     
     if available_ports:
-        print(f"✅ Available alternative ports: {available_ports}")
+        logger.info(f"✅ Available alternative ports: {available_ports}")
         recommended_port = available_ports[0]
-        print(f"🚀 Recommended: Use port {recommended_port}")
-        print(f"   Start with: export PORT={recommended_port} && python start_kimera.py")
+        logger.info(f"🚀 Recommended: Use port {recommended_port}")
+        logger.info(f"   Start with: export PORT={recommended_port} && python start_kimera.py")
     else:
-        print("❌ No common ports are available")
-        print("💡 Try stopping other services or manually specify a port")
-        print("   Example: export PORT=9999 && python start_kimera.py")
+        logger.info("❌ No common ports are available")
+        logger.info("💡 Try stopping other services or manually specify a port")
+        logger.info("   Example: export PORT=9999 && python start_kimera.py")
 
 if __name__ == "__main__":
     main() 

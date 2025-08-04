@@ -8,13 +8,15 @@ AUTO TRADE NOW - IMMEDIATE TRADING EXECUTION
 
 import asyncio
 from kimera_ultimate_bulletproof_trader import KimeraUltimateBulletproofTrader
+import logging
+logger = logging.getLogger(__name__)
 
 async def auto_trade_now():
     """Start trading immediately with no prompts"""
-    print("🚀" * 80)
-    print("🚨 AUTO TRADE NOW - IMMEDIATE EXECUTION")
-    print("🛡️ BULLETPROOF TRADING STARTING IN 3 SECONDS...")
-    print("🚀" * 80)
+    logger.info("🚀" * 80)
+    logger.info("🚨 AUTO TRADE NOW - IMMEDIATE EXECUTION")
+    logger.info("🛡️ BULLETPROOF TRADING STARTING IN 3 SECONDS...")
+    logger.info("🚀" * 80)
     
     # Wait 3 seconds for dramatic effect
     await asyncio.sleep(3)

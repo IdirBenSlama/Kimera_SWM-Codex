@@ -749,29 +749,29 @@ async def main():
         logger.info(f"Report saved: {report_file}")
         
         # Display summary
-        print("\n" + "=" * 60)
-        print("KIMERA AUTONOMOUS TRADING RESULTS")
-        print("=" * 60)
+        logger.info("\n" + "=" * 60)
+        logger.info("KIMERA AUTONOMOUS TRADING RESULTS")
+        logger.info("=" * 60)
         
         if 'autonomous_trading_summary' in report:
             summary = report['autonomous_trading_summary']
-            print(f"Duration: {summary['duration_seconds']:.1f} seconds")
-            print(f"Operations: {summary['total_operations']}")
-            print(f"Success Rate: {summary['success_rate']*100:.1f}%")
-            print(f"Ops/Hour: {summary['operations_per_hour']:.1f}")
+            logger.info(f"Duration: {summary['duration_seconds']:.1f} seconds")
+            logger.info(f"Operations: {summary['total_operations']}")
+            logger.info(f"Success Rate: {summary['success_rate']*100:.1f}%")
+            logger.info(f"Ops/Hour: {summary['operations_per_hour']:.1f}")
             
         if 'financial_performance' in report:
             financial = report['financial_performance']
-            print(f"Total Volume: ${financial['total_volume_usd']:.2f}")
-            print(f"Gas Used: {financial['total_gas_used']:.0f}")
-            print(f"Est. Gas Cost: ${financial['estimated_gas_cost_usd']:.4f}")
+            logger.info(f"Total Volume: ${financial['total_volume_usd']:.2f}")
+            logger.info(f"Gas Used: {financial['total_gas_used']:.0f}")
+            logger.info(f"Est. Gas Cost: ${financial['estimated_gas_cost_usd']:.4f}")
             
-        print("=" * 60)
-        print("AUTONOMOUS TRADING SESSION COMPLETE")
+        logger.info("=" * 60)
+        logger.info("AUTONOMOUS TRADING SESSION COMPLETE")
         
     except Exception as e:
         logger.error(f"Main execution error: {e}")
-        print(f"Error: {e}")
+        logger.info(f"Error: {e}")
 
 if __name__ == "__main__":
     asyncio.run(main()) 

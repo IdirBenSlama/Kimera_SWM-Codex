@@ -1,0 +1,98 @@
+{
+  "timestamp": "2025-08-04T04:14:23.546379",
+  "repair_classification": "CRITICAL_SYSTEM_REPAIR",
+  "safety_standard": "DO-178C_Level_A",
+  "repair_results": {
+    "repair_axiomatic_foundation": {
+      "status": "FAILED",
+      "error": "'charmap' codec can't encode character '\\U0001f6a8' in position 574: character maps to <undefined>",
+      "traceback": "Traceback (most recent call last):\n  File \"D:\\DEV Perso\\MAIN KIMERA\\KIMERA_SWM_System\\scripts\\health_check\\critical_system_repair.py\", line 96, in repair_axiomatic_foundation\n    from core.axiomatic_foundation.integration import AxiomaticFoundationIntegrator\n  File \"D:\\DEV Perso\\MAIN KIMERA\\KIMERA_SWM_System\\scripts\\health_check\\..\\..\\src\\core\\axiomatic_foundation\\__init__.py\", line 27, in <module>\n    from .axiom_of_understanding import AxiomOfUnderstanding\n  File \"D:\\DEV Perso\\MAIN KIMERA\\KIMERA_SWM_System\\scripts\\health_check\\..\\..\\src\\core\\axiomatic_foundation\\axiom_of_understanding.py\", line 65, in <module>\n    UNDERSTANDING_TEMPERATURE = 1.0 / PHI  # Optimal cognitive temperature\n                                ~~~~^~~~~\nTypeError: unsupported operand type(s) for /: 'float' and 'type'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"D:\\DEV Perso\\MAIN KIMERA\\KIMERA_SWM_System\\scripts\\health_check\\critical_system_repair.py\", line 71, in execute_emergency_repair\n    result = repair_function()\n  File \"D:\\DEV Perso\\MAIN KIMERA\\KIMERA_SWM_System\\scripts\\health_check\\critical_system_repair.py\", line 118, in repair_axiomatic_foundation\n    self.create_emergency_axiomatic_fallback(fallback_path)\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^\n  File \"D:\\DEV Perso\\MAIN KIMERA\\KIMERA_SWM_System\\scripts\\health_check\\critical_system_repair.py\", line 327, in create_emergency_axiomatic_fallback\n    f.write(fallback_content)\n    ~~~~~~~^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Loomine\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\encodings\\cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\n           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeEncodeError: 'charmap' codec can't encode character '\\U0001f6a8' in position 574: character maps to <undefined>\n"
+    },
+    "repair_import_structure": {
+      "status": "PARTIAL_REPAIR",
+      "module_results": {
+        "core.validation_and_monitoring.integration": "EMERGENCY_FIX_APPLIED",
+        "core.quantum_and_privacy.integration": "EMERGENCY_FIX_APPLIED"
+      },
+      "safety_assessment": "REQUIRES_MONITORING"
+    },
+    "repair_module_naming": {
+      "status": "EMERGENCY_REPAIR_APPLIED",
+      "target_module": "core.gpu_management.integration",
+      "safety_level": "MONITORING_REQUIRED"
+    },
+    "verify_core_integrations": {
+      "operational_integrations": "5/8",
+      "operational_percentage": "62.5%",
+      "detailed_results": {
+        "core.services.integration": {
+          "import_status": "PASSED",
+          "module_available": true,
+          "safety_level": "OPERATIONAL"
+        },
+        "core.signal_processing.integration": {
+          "import_status": "PASSED",
+          "module_available": true,
+          "safety_level": "OPERATIONAL"
+        },
+        "core.geometric_optimization.integration": {
+          "import_status": "FAILED",
+          "error": "No module named 'src'",
+          "safety_level": "DEGRADED"
+        },
+        "core.high_dimensional_modeling.integration": {
+          "import_status": "FAILED",
+          "error": "No module named 'src'",
+          "safety_level": "DEGRADED"
+        },
+        "core.insight_management.integration": {
+          "import_status": "PASSED",
+          "module_available": true,
+          "safety_level": "OPERATIONAL"
+        },
+        "core.barenholtz_architecture.integration": {
+          "import_status": "PASSED",
+          "module_available": true,
+          "safety_level": "OPERATIONAL"
+        },
+        "core.response_generation.integration": {
+          "import_status": "FAILED",
+          "error": "No module named 'src'",
+          "safety_level": "DEGRADED"
+        },
+        "core.testing_and_protocols.integration": {
+          "import_status": "PASSED",
+          "module_available": true,
+          "safety_level": "OPERATIONAL"
+        }
+      },
+      "safety_assessment": "DEGRADED"
+    },
+    "assess_safety_compliance": {
+      "do178c_references_found": 87,
+      "compliance_checks": {
+        "formal_verification": false,
+        "independent_validation": false,
+        "safety_requirements_trace": false,
+        "tool_qualification": false,
+        "configuration_management": false,
+        "quality_assurance": false
+      },
+      "compliance_percentage": "0.0%",
+      "certification_readiness": "NOT_READY",
+      "safety_assessment": "REQUIRES_FORMAL_VERIFICATION"
+    }
+  },
+  "safety_violations": [
+    "\u274c Critical failure in repair_axiomatic_foundation: 'charmap' codec can't encode character '\\U0001f6a8' in position 574: character maps to <undefined>"
+  ],
+  "verification_results": {},
+  "overall_status": "EMERGENCY_REPAIRS_APPLIED",
+  "next_actions": [
+    "Monitor system stability",
+    "Implement formal verification",
+    "Conduct independent validation",
+    "Update safety documentation"
+  ],
+  "certification_impact": "REQUIRES_RECERTIFICATION"
+}

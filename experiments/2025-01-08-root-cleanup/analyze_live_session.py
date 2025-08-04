@@ -12,6 +12,8 @@ import re
 import time
 from datetime import datetime
 from typing import Dict, List, Any
+import logging
+logger = logging.getLogger(__name__)
 
 def analyze_log_file(log_file: str) -> Dict[str, Any]:
     """Analyze the trading session log file"""
@@ -142,8 +144,8 @@ def analyze_log_file(log_file: str) -> Dict[str, Any]:
 
 def main():
     """Main analysis function"""
-    print("🔍 KIMERA LIVE SESSION ANALYSIS")
-    print("=" * 50)
+    logger.info("🔍 KIMERA LIVE SESSION ANALYSIS")
+    logger.info("=" * 50)
     
     log_file = 'kimera_cdp_live_simplified_1752118689.log'
     
@@ -157,33 +159,33 @@ def main():
     with open(report_file, 'w') as f:
         json.dump(report, f, indent=2)
     
-    print(f"📊 Analysis saved: {report_file}")
+    logger.info(f"📊 Analysis saved: {report_file}")
     
     # Display results
     if 'session_summary' in report:
         summary = report['session_summary']
-        print("\n🎯 SESSION SUMMARY:")
-        print(f"   Duration: {summary['duration_minutes']:.1f} minutes")
-        print(f"   Operations: {summary['total_operations']}")
-        print(f"   Success Rate: {summary['success_rate']*100:.1f}%")
-        print(f"   Ops/Min: {summary['operations_per_minute']:.1f}")
+        logger.info("\n🎯 SESSION SUMMARY:")
+        logger.info(f"   Duration: {summary['duration_minutes']:.1f} minutes")
+        logger.info(f"   Operations: {summary['total_operations']}")
+        logger.info(f"   Success Rate: {summary['success_rate']*100:.1f}%")
+        logger.info(f"   Ops/Min: {summary['operations_per_minute']:.1f}")
     
     if 'cognitive_performance' in report:
         cognitive = report['cognitive_performance']
-        print("\n🧠 COGNITIVE PERFORMANCE:")
-        print(f"   Avg Confidence: {cognitive['avg_confidence']:.3f}")
-        print(f"   Confidence Range: {cognitive['min_confidence']:.3f} - {cognitive['max_confidence']:.3f}")
+        logger.info("\n🧠 COGNITIVE PERFORMANCE:")
+        logger.info(f"   Avg Confidence: {cognitive['avg_confidence']:.3f}")
+        logger.info(f"   Confidence Range: {cognitive['min_confidence']:.3f} - {cognitive['max_confidence']:.3f}")
     
     if 'system_info' in report:
         system = report['system_info']
-        print("\n⚡ SYSTEM STATUS:")
-        print(f"   Network: {system['network']}")
-        print(f"   Live Trading: {system['live_trading']}")
-        print(f"   Autonomous: {system['autonomous_mode']}")
-        print(f"   CDP Active: {system['cdp_integration']}")
+        logger.info("\n⚡ SYSTEM STATUS:")
+        logger.info(f"   Network: {system['network']}")
+        logger.info(f"   Live Trading: {system['live_trading']}")
+        logger.info(f"   Autonomous: {system['autonomous_mode']}")
+        logger.info(f"   CDP Active: {system['cdp_integration']}")
     
-    print("\n✅ LIVE AUTONOMOUS TRADING SESSION ANALYSIS COMPLETE")
-    print(f"📄 Full report: {report_file}")
+    logger.info("\n✅ LIVE AUTONOMOUS TRADING SESSION ANALYSIS COMPLETE")
+    logger.info(f"📄 Full report: {report_file}")
 
 if __name__ == "__main__":
     main() 

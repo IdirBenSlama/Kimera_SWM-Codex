@@ -729,27 +729,27 @@ def main():
         setup_manager = GPUSetupManager()
         success = setup_manager.run_setup()
         
-        print("\n" + "="*60)
+        logger.info("\n" + "="*60)
         if success:
-            print("🎉 KIMERA SWM GPU ACCELERATION SETUP COMPLETE!")
-            print("✅ GPU acceleration is ready for use")
-            print("\n🚀 Next steps:")
-            print("   1. Restart your Python environment")
-            print("   2. Run: python scripts/test_gpu_setup.py")
-            print("   3. Start Kimera SWM with GPU acceleration enabled")
+            logger.info("🎉 KIMERA SWM GPU ACCELERATION SETUP COMPLETE!")
+            logger.info("✅ GPU acceleration is ready for use")
+            logger.info("\n🚀 Next steps:")
+            logger.info("   1. Restart your Python environment")
+            logger.info("   2. Run: python scripts/test_gpu_setup.py")
+            logger.info("   3. Start Kimera SWM with GPU acceleration enabled")
         else:
-            print("❌ GPU ACCELERATION SETUP FAILED")
-            print("💡 Check the setup report for detailed troubleshooting steps")
-            print("🔄 Falling back to CPU mode")
+            logger.info("❌ GPU ACCELERATION SETUP FAILED")
+            logger.info("💡 Check the setup report for detailed troubleshooting steps")
+            logger.info("🔄 Falling back to CPU mode")
         
-        print("="*60)
+        logger.info("="*60)
         return 0 if success else 1
         
     except KeyboardInterrupt:
-        print("\n⚠️ Setup interrupted by user")
+        logger.info("\n⚠️ Setup interrupted by user")
         return 1
     except Exception as e:
-        print(f"\n❌ Setup failed with error: {e}")
+        logger.info(f"\n❌ Setup failed with error: {e}")
         return 1
 
 

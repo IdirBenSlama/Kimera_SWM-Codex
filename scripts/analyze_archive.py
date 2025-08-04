@@ -216,29 +216,29 @@ def main():
     summary_path.write_text(summary)
     
     # Print results
-    print("\n" + "="*60)
-    print("ARCHIVE ANALYSIS COMPLETE")
-    print("="*60)
-    print(f"\nTotal files in archive: {report['stats']['total_files']}")
-    print(f"Broken Python files: {report['stats']['broken_python']}")
+    logger.info("\n" + "="*60)
+    logger.info("ARCHIVE ANALYSIS COMPLETE")
+    logger.info("="*60)
+    logger.info(f"\nTotal files in archive: {report['stats']['total_files']}")
+    logger.info(f"Broken Python files: {report['stats']['broken_python']}")
     
-    print("\nCategories:")
+    logger.info("\nCategories:")
     for category, count in sorted(report['categories'].items(), key=lambda x: x[1], reverse=True):
-        print(f"  - {category}: {count} files")
+        logger.info(f"  - {category}: {count} files")
     
-    print("\nBroken files by category:")
+    logger.info("\nBroken files by category:")
     for category, count in report['broken_files_by_category'].items():
-        print(f"  - {category}: {count} broken files")
+        logger.info(f"  - {category}: {count} broken files")
     
-    print(f"\nDetailed report: archive_analysis_report.json")
-    print(f"Summary document: {summary_path}")
+    logger.info(f"\nDetailed report: archive_analysis_report.json")
+    logger.info(f"Summary document: {summary_path}")
     
     # Show recommendations
     if report['recommendations']:
-        print("\nRECOMMENDATIONS:")
+        logger.info("\nRECOMMENDATIONS:")
         for rec in report['recommendations']:
-            print(f"\n[{rec['priority']}] {rec['category']} ({rec['count']} files)")
-            print(f"  → {rec['action']}")
+            logger.info(f"\n[{rec['priority']}] {rec['category']} ({rec['count']} files)")
+            logger.info(f"  → {rec['action']}")
 
 
 if __name__ == '__main__':

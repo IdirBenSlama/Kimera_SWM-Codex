@@ -33,7 +33,7 @@ def patch_monitoring_core():
         
         # Write patched version
         monitoring_file.write_text(content, encoding='utf-8')
-        print(f"✓ Patched {monitoring_file}")
+        logger.info(f"✓ Patched {monitoring_file}")
 
 def patch_distributed_tracing():
     """Patch distributed tracing to handle missing imports"""
@@ -65,7 +65,7 @@ def patch_distributed_tracing():
             
             # Write patched version
             tracing_file.write_text(content, encoding='utf-8')
-            print(f"✓ Patched {tracing_file}")
+            logger.info(f"✓ Patched {tracing_file}")
 
 def install_critical_missing():
     """Install only the most critical missing packages"""
@@ -88,7 +88,7 @@ def install_critical_missing():
             raise  # Re-raise for proper error handling
 
 def main():
-    print("""
+    logger.info("""
 ╔══════════════════════════════════════════════════════════════════╗
 ║           KIMERA SWM - BYPASS IMPORTS AND LAUNCH                  ║
 ╚══════════════════════════════════════════════════════════════════╝
@@ -98,27 +98,29 @@ def main():
     os.chdir(Path(__file__).parent)
     
     # Install critical packages
-    print("📦 Installing critical packages...")
+    logger.info("📦 Installing critical packages...")
     install_critical_missing()
     
     # Patch problematic files
-    print("\n🔧 Patching import issues...")
+    logger.info("\n🔧 Patching import issues...")
     patch_monitoring_core()
     patch_distributed_tracing()
     
     # Now try to run Kimera
-    print("\n🚀 Starting Kimera...")
-    print("=" * 60)
+    logger.info("\n🚀 Starting Kimera...")
+    logger.info("=" * 60)
     
     import subprocess
+import logging
+logger = logging.getLogger(__name__)
     venv_python = Path("venv_py313/Scripts/python.exe")
     
     try:
         subprocess.run([str(venv_python), "kimera.py"])
     except KeyboardInterrupt:
-        print("\n\n✅ Kimera server stopped.")
+        logger.info("\n\n✅ Kimera server stopped.")
     except Exception as e:
-        print(f"\n❌ Error: {str(e)}")
+        logger.info(f"\n❌ Error: {str(e)}")
 
 if __name__ == "__main__":
     main()

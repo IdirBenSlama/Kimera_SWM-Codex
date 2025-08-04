@@ -46,7 +46,7 @@ class KimeraSystemAuditor:
     
     def find_active_port(self) -> bool:
         """Find which port the Kimera system is running on"""
-        print("🔍 Searching for active Kimera SWM server...")
+        logger.info("🔍 Searching for active Kimera SWM server...")
         
         for port in self.ports_to_try:
             try:
@@ -54,18 +54,18 @@ class KimeraSystemAuditor:
                 response = requests.get(url, timeout=5)
                 if response.status_code == 200:
                     self.active_port = port
-                    print(f"✅ Found Kimera SWM running on port {port}")
+                    logger.info(f"✅ Found Kimera SWM running on port {port}")
                     return True
             except requests.exceptions.RequestException:
                 continue
         
-        print("❌ No active Kimera SWM server found")
+        logger.info("❌ No active Kimera SWM server found")
         return False
     
     def audit_system_health(self) -> Dict[str, Any]:
         """Audit overall system health"""
-        print("\n🏥 AUDITING SYSTEM HEALTH")
-        print("-" * 50)
+        logger.info("\n🏥 AUDITING SYSTEM HEALTH")
+        logger.info("-" * 50)
         
         health_data = {}
         
@@ -76,31 +76,31 @@ class KimeraSystemAuditor:
             
             if response.status_code == 200:
                 health_data = response.json()
-                print("✅ System health endpoint responsive")
-                print(f"   Status: {health_data.get('status', 'unknown')}")
-                print(f"   Timestamp: {health_data.get('timestamp', 'unknown')}")
+                logger.info("✅ System health endpoint responsive")
+                logger.info(f"   Status: {health_data.get('status', 'unknown')}")
+                logger.info(f"   Timestamp: {health_data.get('timestamp', 'unknown')}")
                 
                 # Check specific health metrics
                 if 'components' in health_data:
                     components = health_data['components']
                     healthy_components = sum(1 for c in components.values() if c.get('status') == 'healthy')
                     total_components = len(components)
-                    print(f"   Components: {healthy_components}/{total_components} healthy")
+                    logger.info(f"   Components: {healthy_components}/{total_components} healthy")
                 
             else:
-                print(f"❌ Health endpoint returned status {response.status_code}")
+                logger.info(f"❌ Health endpoint returned status {response.status_code}")
                 self.issues_found.append(f"Health endpoint not responding properly: {response.status_code}")
                 
         except Exception as e:
-            print(f"❌ Health check failed: {e}")
+            logger.info(f"❌ Health check failed: {e}")
             self.issues_found.append(f"Health check failed: {e}")
             
         return health_data
     
     def audit_core_system(self) -> Dict[str, Any]:
         """Audit core Kimera system integration"""
-        print("\n🧠 AUDITING CORE SYSTEM INTEGRATION")
-        print("-" * 50)
+        logger.info("\n🧠 AUDITING CORE SYSTEM INTEGRATION")
+        logger.info("-" * 50)
         
         core_data = {}
         
@@ -111,42 +111,42 @@ class KimeraSystemAuditor:
             
             if response.status_code == 200:
                 core_data = response.json()
-                print("✅ Core system status endpoint responsive")
+                logger.info("✅ Core system status endpoint responsive")
                 
                 # Check engine status
                 if 'engines' in core_data:
                     engines = core_data['engines']
                     operational_engines = sum(1 for e in engines.values() if e is True)
                     total_engines = len(engines)
-                    print(f"   Engines: {operational_engines}/{total_engines} operational")
+                    logger.info(f"   Engines: {operational_engines}/{total_engines} operational")
                     
                     # List non-operational engines
                     failed_engines = [name for name, status in engines.items() if not status]
                     if failed_engines:
-                        print(f"   ❌ Non-operational engines: {', '.join(failed_engines)}")
+                        logger.info(f"   ❌ Non-operational engines: {', '.join(failed_engines)}")
                         self.issues_found.extend([f"Engine not operational: {engine}" for engine in failed_engines])
                 
                 # Check system state
                 system_state = core_data.get('system_state', 'unknown')
-                print(f"   System State: {system_state}")
+                logger.info(f"   System State: {system_state}")
                 
                 if system_state != 'running':
                     self.issues_found.append(f"System not in running state: {system_state}")
                 
             else:
-                print(f"❌ Core system endpoint returned status {response.status_code}")
+                logger.info(f"❌ Core system endpoint returned status {response.status_code}")
                 self.issues_found.append(f"Core system endpoint not responding: {response.status_code}")
                 
         except Exception as e:
-            print(f"❌ Core system audit failed: {e}")
+            logger.info(f"❌ Core system audit failed: {e}")
             self.issues_found.append(f"Core system audit failed: {e}")
             
         return core_data
     
     def audit_api_endpoints(self) -> Dict[str, Any]:
         """Audit critical API endpoints"""
-        print("\n🌐 AUDITING API ENDPOINTS")
-        print("-" * 50)
+        logger.info("\n🌐 AUDITING API ENDPOINTS")
+        logger.info("-" * 50)
         
         endpoints_data = {}
         critical_endpoints = [
@@ -163,43 +163,43 @@ class KimeraSystemAuditor:
                 response = requests.get(url, timeout=5)
                 
                 if response.status_code == 200:
-                    print(f"   ✅ {endpoint}")
+                    logger.info(f"   ✅ {endpoint}")
                     accessible_endpoints += 1
                     endpoints_data[endpoint] = 'accessible'
                 else:
-                    print(f"   ❌ {endpoint} (status: {response.status_code})")
+                    logger.info(f"   ❌ {endpoint} (status: {response.status_code})")
                     endpoints_data[endpoint] = f'error_{response.status_code}'
                     
             except Exception as e:
-                print(f"   ❌ {endpoint} (error: {str(e)[:50]}...)")
+                logger.info(f"   ❌ {endpoint} (error: {str(e)[:50]}...)")
                 endpoints_data[endpoint] = f'error_{type(e).__name__}'
         
-        print(f"\nAPI Endpoints: {accessible_endpoints}/{len(critical_endpoints)} accessible")
+        logger.info(f"\nAPI Endpoints: {accessible_endpoints}/{len(critical_endpoints)} accessible")
         return endpoints_data
     
     def generate_audit_report(self) -> Dict[str, Any]:
         """Generate comprehensive audit report"""
-        print("\n📊 GENERATING AUDIT REPORT")
-        print("=" * 80)
+        logger.info("\n📊 GENERATING AUDIT REPORT")
+        logger.info("=" * 80)
         
         total_issues = len(self.issues_found)
         
         if total_issues == 0:
-            print("🎉 AUDIT PASSED: No critical issues found!")
+            logger.info("🎉 AUDIT PASSED: No critical issues found!")
             audit_status = "PASSED"
         elif total_issues <= 3:
-            print(f"⚠️ AUDIT WARNING: {total_issues} minor issues found")
+            logger.info(f"⚠️ AUDIT WARNING: {total_issues} minor issues found")
             audit_status = "WARNING" 
         else:
-            print(f"❌ AUDIT FAILED: {total_issues} issues found")
+            logger.info(f"❌ AUDIT FAILED: {total_issues} issues found")
             audit_status = "FAILED"
         
-        print(f"\n📋 Issues Summary:")
+        logger.info(f"\n📋 Issues Summary:")
         if self.issues_found:
             for i, issue in enumerate(self.issues_found, 1):
-                print(f"   {i}. {issue}")
+                logger.info(f"   {i}. {issue}")
         else:
-            print("   No issues found!")
+            logger.info("   No issues found!")
         
         # Create comprehensive report
         audit_report = {
@@ -215,22 +215,22 @@ class KimeraSystemAuditor:
 
 def main():
     """Main audit execution"""
-    print("🔍 KIMERA SWM SYSTEM AUDIT")
-    print("=" * 80)
-    print(f"Audit started at: {datetime.now()}")
-    print()
+    logger.info("🔍 KIMERA SWM SYSTEM AUDIT")
+    logger.info("=" * 80)
+    logger.info(f"Audit started at: {datetime.now()}")
+    logger.info()
     
     auditor = KimeraSystemAuditor()
     
     # Step 1: Find active server
     if not auditor.find_active_port():
-        print("❌ Cannot proceed with audit - no active server found")
-        print("💡 Make sure Kimera SWM is running first:")
-        print("   python kimera.py")
+        logger.info("❌ Cannot proceed with audit - no active server found")
+        logger.info("💡 Make sure Kimera SWM is running first:")
+        logger.info("   python kimera.py")
         return False
     
     # Wait a moment for server to fully initialize
-    print("⏳ Waiting for server to fully initialize...")
+    logger.info("⏳ Waiting for server to fully initialize...")
     time.sleep(3)
     
     # Step 2: Run audit components

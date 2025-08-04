@@ -364,8 +364,8 @@ class OmnidimensionalRealTrader:
 
 async def main():
     """Main entry point"""
-    print("\n⚠️  WARNING: THIS WILL EXECUTE REAL TRADES!")
-    print("="*50)
+    logger.info("\n⚠️  WARNING: THIS WILL EXECUTE REAL TRADES!")
+    logger.info("="*50)
     
     trader = OmnidimensionalRealTrader()
     await trader.run_real_trading(duration_minutes=5)

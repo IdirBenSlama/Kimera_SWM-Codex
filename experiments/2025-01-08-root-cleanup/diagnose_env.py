@@ -30,41 +30,41 @@ def check_module_location(module_name):
         return f"Error: {e}"
 
 def main():
-    print("=== COMPREHENSIVE ENVIRONMENT DIAGNOSTIC ===\n")
+    logger.info("=== COMPREHENSIVE ENVIRONMENT DIAGNOSTIC ===\n")
     
     # Basic Python info
-    print("1. PYTHON INFORMATION:")
-    print(f"   Executable: {sys.executable}")
-    print(f"   Version: {sys.version}")
-    print(f"   Platform: {sys.platform}")
-    print(f"   Prefix: {sys.prefix}")
-    print(f"   Base Prefix: {sys.base_prefix}")
-    print(f"   Virtual Env: {sys.prefix != sys.base_prefix}")
+    logger.info("1. PYTHON INFORMATION:")
+    logger.info(f"   Executable: {sys.executable}")
+    logger.info(f"   Version: {sys.version}")
+    logger.info(f"   Platform: {sys.platform}")
+    logger.info(f"   Prefix: {sys.prefix}")
+    logger.info(f"   Base Prefix: {sys.base_prefix}")
+    logger.info(f"   Virtual Env: {sys.prefix != sys.base_prefix}")
     
     # Environment variables
-    print("\n2. ENVIRONMENT VARIABLES:")
-    print(f"   PYTHONPATH: {os.environ.get('PYTHONPATH', 'Not set')}")
-    print(f"   PATH (first 5 entries):")
+    logger.info("\n2. ENVIRONMENT VARIABLES:")
+    logger.info(f"   PYTHONPATH: {os.environ.get('PYTHONPATH', 'Not set')}")
+    logger.info(f"   PATH (first 5 entries):")
     path_entries = os.environ.get('PATH', '').split(os.pathsep)[:5]
     for entry in path_entries:
-        print(f"      - {entry}")
+        logger.info(f"      - {entry}")
     
     # sys.path
-    print("\n3. PYTHON MODULE SEARCH PATH (sys.path):")
+    logger.info("\n3. PYTHON MODULE SEARCH PATH (sys.path):")
     for i, path in enumerate(sys.path[:10]):  # First 10 entries
-        print(f"   [{i}] {path}")
+        logger.info(f"   [{i}] {path}")
     
     # Check critical modules
-    print("\n4. MODULE LOCATIONS:")
+    logger.info("\n4. MODULE LOCATIONS:")
     modules_to_check = [
         "pytest", "aiofiles", "yaml", "numpy", "torch", 
         "fastapi", "pydantic", "sqlalchemy"
     ]
     for module in modules_to_check:
-        print(f"   {module}: {check_module_location(module)}")
+        logger.info(f"   {module}: {check_module_location(module)}")
     
     # Check pytest executable
-    print("\n5. PYTEST EXECUTABLE CHECK:")
+    logger.info("\n5. PYTEST EXECUTABLE CHECK:")
     
     # Try different ways to run pytest
     commands = [
@@ -76,16 +76,16 @@ def main():
     ]
     
     for cmd, desc in commands:
-        print(f"\n   Trying: {desc}")
+        logger.info(f"\n   Trying: {desc}")
         stdout, stderr, code = run_command(cmd)
-        print(f"   Return code: {code}")
+        logger.info(f"   Return code: {code}")
         if stdout:
-            print(f"   Output: {stdout.strip()}")
+            logger.info(f"   Output: {stdout.strip()}")
         if stderr:
-            print(f"   Error: {stderr.strip()}")
+            logger.info(f"   Error: {stderr.strip()}")
     
     # Check if we can import backend modules
-    print("\n6. BACKEND MODULE IMPORT TEST:")
+    logger.info("\n6. BACKEND MODULE IMPORT TEST:")
     
     # Add the current directory to sys.path temporarily
     original_path = sys.path.copy()
@@ -101,29 +101,31 @@ def main():
     for module in test_imports:
         try:
             importlib.import_module(module)
-            print(f"   ✓ Successfully imported: {module}")
+            logger.info(f"   ✓ Successfully imported: {module}")
         except ImportError as e:
-            print(f"   ✗ Failed to import {module}: {e}")
+            logger.info(f"   ✗ Failed to import {module}: {e}")
         except Exception as e:
-            print(f"   ✗ Error importing {module}: {type(e).__name__}: {e}")
+            logger.info(f"   ✗ Error importing {module}: {type(e).__name__}: {e}")
     
     sys.path = original_path
     
     # Check site-packages
-    print("\n7. SITE-PACKAGES LOCATIONS:")
+    logger.info("\n7. SITE-PACKAGES LOCATIONS:")
     import site
+import logging
+logger = logging.getLogger(__name__)
     for path in site.getsitepackages():
-        print(f"   - {path}")
+        logger.info(f"   - {path}")
         if os.path.exists(path):
             # Count packages
             try:
                 packages = len([d for d in os.listdir(path) if os.path.isdir(os.path.join(path, d))])
-                print(f"     ({packages} packages found)")
+                logger.info(f"     ({packages} packages found)")
             except OSError as e:
-                print(f"     (Could not count packages: {e})")
+                logger.info(f"     (Could not count packages: {e})")
     
     # Check if __init__.py files exist
-    print("\n8. CHECKING __init__.py FILES:")
+    logger.info("\n8. CHECKING __init__.py FILES:")
     init_files = [
         "backend/__init__.py",
         "backend/core/__init__.py",
@@ -135,11 +137,11 @@ def main():
     for init_file in init_files:
         path = Path(init_file)
         if path.exists():
-            print(f"   ✓ {init_file} exists")
+            logger.info(f"   ✓ {init_file} exists")
         else:
-            print(f"   ✗ {init_file} MISSING")
+            logger.info(f"   ✗ {init_file} MISSING")
     
-    print("\n=== DIAGNOSTIC COMPLETE ===")
+    logger.info("\n=== DIAGNOSTIC COMPLETE ===")
 
 if __name__ == "__main__":
     main()

@@ -26,9 +26,9 @@ try:
     project_root = os.path.dirname(os.path.abspath(__file__))
     if project_root not in sys.path:
         sys.path.insert(0, project_root)
-        print(f"✅ Project root added to system path: {project_root}")
+        logger.info(f"✅ Project root added to system path: {project_root}")
 except Exception as e:
-    print(f"❌ Failed to add project root to system path: {e}", file=sys.stderr)
+    logger.info(f"❌ Failed to add project root to system path: {e}", file=sys.stderr)
 
 import uvicorn
 import logging

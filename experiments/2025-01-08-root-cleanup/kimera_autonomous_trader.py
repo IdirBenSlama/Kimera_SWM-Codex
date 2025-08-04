@@ -87,9 +87,9 @@ class KimeraAutonomousTrader:
         self.trade_history = []
         self.profit_history = []
         
-        print("🤖 KIMERA AUTONOMOUS TRADER INITIALIZED")
-        print("⚡ MAXIMUM PROFIT MODE ACTIVATED")
-        print("🎯 TARGET: 5% profit in 5 minutes")
+        logger.info("🤖 KIMERA AUTONOMOUS TRADER INITIALIZED")
+        logger.info("⚡ MAXIMUM PROFIT MODE ACTIVATED")
+        logger.info("🎯 TARGET: 5% profit in 5 minutes")
     
     async def analyze_market_opportunities(self) -> List[MarketOpportunity]:
         """Analyze market for profit opportunities"""
@@ -142,17 +142,17 @@ class KimeraAutonomousTrader:
             opportunities.sort(key=lambda x: x.profit_potential, reverse=True)
             
         except Exception as e:
-            print(f"⚠️ Error analyzing opportunities: {e}")
+            logger.info(f"⚠️ Error analyzing opportunities: {e}")
         
         return opportunities[:5]  # Top 5 opportunities
     
     async def execute_aggressive_trade(self, opportunity: MarketOpportunity) -> bool:
         """Execute aggressive trade for maximum profit"""
         try:
-            print(f"\n🚀 EXECUTING: {opportunity.opportunity_type}")
-            print(f"   Symbol: {opportunity.symbol}")
-            print(f"   Profit Potential: {opportunity.profit_potential:.2f}%")
-            print(f"   Risk Level: {opportunity.risk_level:.1%}")
+            logger.info(f"\n🚀 EXECUTING: {opportunity.opportunity_type}")
+            logger.info(f"   Symbol: {opportunity.symbol}")
+            logger.info(f"   Profit Potential: {opportunity.profit_potential:.2f}%")
+            logger.info(f"   Risk Level: {opportunity.risk_level:.1%}")
             
             # Calculate position size based on portfolio value and risk
             current_portfolio = await self.get_portfolio_value()
@@ -188,9 +188,9 @@ class KimeraAutonomousTrader:
                         buy_quantity
                     )
                     
-                    print(f"   ✅ BUY: {buy_quantity:.6f} {base_currency}")
-                    print(f"   💰 Value: ${buy_amount_usdt:.2f}")
-                    print(f"   📋 Order ID: {order['id']}")
+                    logger.info(f"   ✅ BUY: {buy_quantity:.6f} {base_currency}")
+                    logger.info(f"   💰 Value: ${buy_amount_usdt:.2f}")
+                    logger.info(f"   📋 Order ID: {order['id']}")
                     
                     # Store position for monitoring
                     self.active_positions[opportunity.symbol] = {
@@ -205,11 +205,11 @@ class KimeraAutonomousTrader:
                     self.trades_executed += 1
                     return True
                 else:
-                    print(f"   ⚠️ Insufficient funds for trade")
+                    logger.info(f"   ⚠️ Insufficient funds for trade")
                     return False
             
         except Exception as e:
-            print(f"   ❌ Trade execution failed: {e}")
+            logger.info(f"   ❌ Trade execution failed: {e}")
             return False
         
         return False
@@ -230,10 +230,10 @@ class KimeraAutonomousTrader:
                 
                 if trx_to_sell > 10:  # Minimum order size
                     order = self.exchange.create_market_sell_order('TRX/USDT', trx_to_sell)
-                    print(f"   🔄 Converted {trx_to_sell:.2f} TRX to USDT for trading")
+                    logger.info(f"   🔄 Converted {trx_to_sell:.2f} TRX to USDT for trading")
             
         except Exception as e:
-            print(f"   ⚠️ Asset conversion failed: {e}")
+            logger.info(f"   ⚠️ Asset conversion failed: {e}")
     
     async def monitor_and_exit_positions(self):
         """Monitor positions and exit for profit"""
@@ -280,8 +280,8 @@ class KimeraAutonomousTrader:
                         profit_usd = profit_pct * position['quantity'] * entry_price
                         self.total_profit += profit_usd
                         
-                        print(f"   🎯 EXITED {symbol}: {exit_reason}")
-                        print(f"   💰 Profit: ${profit_usd:.2f}")
+                        logger.info(f"   🎯 EXITED {symbol}: {exit_reason}")
+                        logger.info(f"   💰 Profit: ${profit_usd:.2f}")
                         
                         # Remove from active positions
                         del self.active_positions[symbol]
@@ -295,7 +295,7 @@ class KimeraAutonomousTrader:
                         })
             
             except Exception as e:
-                print(f"   ⚠️ Position monitoring error for {symbol}: {e}")
+                logger.info(f"   ⚠️ Position monitoring error for {symbol}: {e}")
     
     async def get_portfolio_value(self) -> float:
         """Get current total portfolio value in USD"""
@@ -328,24 +328,24 @@ class KimeraAutonomousTrader:
             return total_value
             
         except Exception as e:
-            print(f"⚠️ Portfolio value calculation error: {e}")
+            logger.info(f"⚠️ Portfolio value calculation error: {e}")
             return 0.0
     
     async def run_autonomous_session(self):
         """Run 5-minute autonomous trading session"""
-        print("\n" + "=" * 60)
-        print("🤖 KIMERA AUTONOMOUS TRADING SESSION STARTING")
-        print("⏱️ DURATION: 5 MINUTES")
-        print("🎯 TARGET: MAXIMUM PROFIT")
-        print("⚡ FULL AUTONOMY GRANTED")
-        print("=" * 60)
+        logger.info("\n" + "=" * 60)
+        logger.info("🤖 KIMERA AUTONOMOUS TRADING SESSION STARTING")
+        logger.info("⏱️ DURATION: 5 MINUTES")
+        logger.info("🎯 TARGET: MAXIMUM PROFIT")
+        logger.info("⚡ FULL AUTONOMY GRANTED")
+        logger.info("=" * 60)
         
         self.session_start = time.time()
         self.portfolio_value_start = await self.get_portfolio_value()
         self.running = True
         
-        print(f"💰 Starting Portfolio Value: ${self.portfolio_value_start:.2f}")
-        print(f"🎯 Profit Target: ${self.portfolio_value_start * self.profit_target:.2f}")
+        logger.info(f"💰 Starting Portfolio Value: ${self.portfolio_value_start:.2f}")
+        logger.info(f"🎯 Profit Target: ${self.portfolio_value_start * self.profit_target:.2f}")
         
         # Main trading loop
         while self.running and (time.time() - self.session_start) < self.session_duration:
@@ -354,7 +354,7 @@ class KimeraAutonomousTrader:
                 elapsed = time.time() - self.session_start
                 remaining = self.session_duration - elapsed
                 
-                print(f"\n⏱️ Time Remaining: {remaining:.0f}s | Trades: {self.trades_executed} | Profit: ${self.total_profit:.2f}")
+                logger.info(f"\n⏱️ Time Remaining: {remaining:.0f}s | Trades: {self.trades_executed} | Profit: ${self.total_profit:.2f}")
                 
                 # Monitor existing positions
                 if self.active_positions:
@@ -375,14 +375,14 @@ class KimeraAutonomousTrader:
                 
                 # Check if we hit profit target
                 if current_profit_pct >= self.profit_target:
-                    print(f"\n🎯 PROFIT TARGET ACHIEVED! ({current_profit_pct:.2%})")
+                    logger.info(f"\n🎯 PROFIT TARGET ACHIEVED! ({current_profit_pct:.2%})")
                     break
                 
                 # Wait before next iteration
                 await asyncio.sleep(5)
                 
             except Exception as e:
-                print(f"⚠️ Trading loop error: {e}")
+                logger.info(f"⚠️ Trading loop error: {e}")
                 await asyncio.sleep(2)
         
         # Session end
@@ -391,7 +391,7 @@ class KimeraAutonomousTrader:
     
     async def close_all_positions(self):
         """Close all remaining positions"""
-        print(f"\n🔚 CLOSING ALL POSITIONS...")
+        logger.info(f"\n🔚 CLOSING ALL POSITIONS...")
         
         for symbol in list(self.active_positions.keys()):
             try:
@@ -401,10 +401,10 @@ class KimeraAutonomousTrader:
                 
                 if available > 0:
                     order = self.exchange.create_market_sell_order(symbol, available)
-                    print(f"   ✅ Closed {symbol}")
+                    logger.info(f"   ✅ Closed {symbol}")
                     
             except Exception as e:
-                print(f"   ⚠️ Error closing {symbol}: {e}")
+                logger.info(f"   ⚠️ Error closing {symbol}: {e}")
         
         self.active_positions.clear()
     
@@ -414,45 +414,45 @@ class KimeraAutonomousTrader:
         total_profit_usd = self.portfolio_value_current - self.portfolio_value_start
         total_profit_pct = (total_profit_usd / self.portfolio_value_start) * 100
         
-        print("\n" + "=" * 60)
-        print("📊 KIMERA AUTONOMOUS TRADING SESSION COMPLETE")
-        print("=" * 60)
-        print(f"⏱️ Session Duration: {(time.time() - self.session_start):.0f} seconds")
-        print(f"📈 Starting Value: ${self.portfolio_value_start:.2f}")
-        print(f"📈 Ending Value: ${self.portfolio_value_current:.2f}")
-        print(f"💰 Total Profit: ${total_profit_usd:+.2f}")
-        print(f"📊 Profit Percentage: {total_profit_pct:+.2f}%")
-        print(f"🔄 Trades Executed: {self.trades_executed}")
+        logger.info("\n" + "=" * 60)
+        logger.info("📊 KIMERA AUTONOMOUS TRADING SESSION COMPLETE")
+        logger.info("=" * 60)
+        logger.info(f"⏱️ Session Duration: {(time.time() - self.session_start):.0f} seconds")
+        logger.info(f"📈 Starting Value: ${self.portfolio_value_start:.2f}")
+        logger.info(f"📈 Ending Value: ${self.portfolio_value_current:.2f}")
+        logger.info(f"💰 Total Profit: ${total_profit_usd:+.2f}")
+        logger.info(f"📊 Profit Percentage: {total_profit_pct:+.2f}%")
+        logger.info(f"🔄 Trades Executed: {self.trades_executed}")
         
         if self.trade_history:
-            print(f"\n📋 TRADE SUMMARY:")
+            logger.info(f"\n📋 TRADE SUMMARY:")
             for i, trade in enumerate(self.trade_history, 1):
-                print(f"   {i}. {trade['symbol']}: {trade['profit_pct']:+.2%} (${trade['profit_usd']:+.2f}) - {trade['exit_reason']}")
+                logger.info(f"   {i}. {trade['symbol']}: {trade['profit_pct']:+.2%} (${trade['profit_usd']:+.2f}) - {trade['exit_reason']}")
         
-        print("\n🎯 KIMERA AUTONOMOUS SESSION RESULTS:")
+        logger.info("\n🎯 KIMERA AUTONOMOUS SESSION RESULTS:")
         if total_profit_pct > 0:
-            print(f"   ✅ PROFITABLE SESSION: +{total_profit_pct:.2f}%")
+            logger.info(f"   ✅ PROFITABLE SESSION: +{total_profit_pct:.2f}%")
         else:
-            print(f"   📊 SESSION RESULT: {total_profit_pct:+.2f}%")
+            logger.info(f"   📊 SESSION RESULT: {total_profit_pct:+.2f}%")
         
-    print("=" * 60)
+    logger.info("=" * 60)
     
 async def main():
     try:
-        print("🚀 INITIALIZING KIMERA AUTONOMOUS TRADER...")
+        logger.info("🚀 INITIALIZING KIMERA AUTONOMOUS TRADER...")
         
         # Confirm autonomous trading
-        print("\n" + "!" * 60)
-        print("⚠️  AUTONOMOUS TRADING SESSION")
-        print("🤖 Kimera will have FULL CONTROL for 5 minutes")
-        print("💰 Target: Maximum profit and wallet growth")
-        print("⚡ High-frequency trading with real money")
-        print("!" * 60)
+        logger.info("\n" + "!" * 60)
+        logger.info("⚠️  AUTONOMOUS TRADING SESSION")
+        logger.info("🤖 Kimera will have FULL CONTROL for 5 minutes")
+        logger.info("💰 Target: Maximum profit and wallet growth")
+        logger.info("⚡ High-frequency trading with real money")
+        logger.info("!" * 60)
         
         response = input("\nGrant Kimera full autonomous trading control? (yes/no): ")
         
         if response.lower() != 'yes':
-            print("🛑 Autonomous trading cancelled")
+            logger.info("🛑 Autonomous trading cancelled")
             return
         
         # Start autonomous session
@@ -460,8 +460,10 @@ async def main():
         await trader.run_autonomous_session()
             
     except Exception as e:
-        print(f"❌ CRITICAL ERROR: {e}")
+        logger.info(f"❌ CRITICAL ERROR: {e}")
         import traceback
+import logging
+logger = logging.getLogger(__name__)
         traceback.print_exc()
 
 if __name__ == "__main__":

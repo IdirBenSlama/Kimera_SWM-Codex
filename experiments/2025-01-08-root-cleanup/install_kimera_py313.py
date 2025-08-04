@@ -14,9 +14,9 @@ import shutil
 
 def run_command(cmd, description):
     """Run a command and handle output"""
-    print(f"\n{'='*60}")
-    print(f"🔧 {description}")
-    print(f"{'='*60}")
+    logger.info(f"\n{'='*60}")
+    logger.info(f"🔧 {description}")
+    logger.info(f"{'='*60}")
     
     if isinstance(cmd, str):
         cmd = cmd.split()
@@ -24,16 +24,16 @@ def run_command(cmd, description):
     try:
         result = subprocess.run(cmd, capture_output=True, text=True)
         if result.stdout:
-            print(result.stdout)
+            logger.info(result.stdout)
         if result.stderr and result.returncode != 0:
-            print(f"⚠️ Warning: {result.stderr}")
+            logger.info(f"⚠️ Warning: {result.stderr}")
         return result.returncode == 0
     except Exception as e:
-        print(f"❌ Error: {str(e)}")
+        logger.info(f"❌ Error: {str(e)}")
         return False
 
 def main():
-    print("""
+    logger.info("""
 ╔══════════════════════════════════════════════════════════════════╗
 ║           KIMERA SWM - Python 3.13 Installation                   ║
 ╚══════════════════════════════════════════════════════════════════╝
@@ -43,11 +43,11 @@ def main():
     os.chdir(project_root)
     
     # Step 1: Clean old virtual environments
-    print("\n🧹 Cleaning old environments...")
+    logger.info("\n🧹 Cleaning old environments...")
     for venv in [".venv", "venv", ".venv-kimera", ".venv-kimera-clean"]:
         venv_path = project_root / venv
         if venv_path.exists():
-            print(f"  Removing {venv}...")
+            logger.info(f"  Removing {venv}...")
             try:
                 shutil.rmtree(venv_path)
             except Exception as e:
@@ -60,7 +60,7 @@ def main():
         [sys.executable, "-m", "venv", venv_name],
         "Creating virtual environment"
     ):
-        print("❌ Failed to create virtual environment")
+        logger.info("❌ Failed to create virtual environment")
         return False
     
     # Step 3: Get venv Python path
@@ -78,7 +78,7 @@ def main():
     )
     
     # Step 5: Install packages in stages
-    print("\n📦 Installing packages in stages...")
+    logger.info("\n📦 Installing packages in stages...")
     
     # Stage 1: Core dependencies
     core_packages = [
@@ -96,7 +96,7 @@ def main():
             [venv_pip, "install", package],
             f"Installing {package}"
         ):
-            print(f"⚠️ Failed to install {package}, continuing...")
+            logger.info(f"⚠️ Failed to install {package}, continuing...")
     
     # Stage 2: Database packages
     db_packages = [
@@ -112,7 +112,7 @@ def main():
         )
     
     # Stage 3: PyTorch CPU (to avoid CUDA issues)
-    print("\n🤖 Installing PyTorch (CPU version for compatibility)...")
+    logger.info("\n🤖 Installing PyTorch (CPU version for compatibility)...")
     run_command(
         [venv_pip, "install", "torch==2.5.1+cpu", "torchvision==0.20.1+cpu", 
          "torchaudio==2.5.1+cpu", "--index-url", "https://download.pytorch.org/whl/cpu"],
@@ -140,7 +140,7 @@ def main():
     )
     
     # Step 6: Create launcher scripts
-    print("\n📄 Creating launcher scripts...")
+    logger.info("\n📄 Creating launcher scripts...")
     
     # Windows batch file
     bat_content = f"""@echo off
@@ -152,12 +152,14 @@ pause
     
     bat_file = project_root / "start_kimera_py313.bat"
     bat_file.write_text(bat_content)
-    print(f"  ✓ Created: {bat_file}")
+    logger.info(f"  ✓ Created: {bat_file}")
     
     # Python launcher
     py_launcher = f"""#!/usr/bin/env python3
 import subprocess
 import os
+import logging
+logger = logging.getLogger(__name__)
 
 os.chdir(r"{project_root}")
 subprocess.run([r"{venv_python}", "kimera.py"])
@@ -165,10 +167,10 @@ subprocess.run([r"{venv_python}", "kimera.py"])
     
     py_file = project_root / "run_kimera_py313.py"
     py_file.write_text(py_launcher)
-    print(f"  ✓ Created: {py_file}")
+    logger.info(f"  ✓ Created: {py_file}")
     
     # Step 7: Validate installation
-    print("\n🔍 Validating installation...")
+    logger.info("\n🔍 Validating installation...")
     
     test_imports = [
         "import numpy",
@@ -185,13 +187,13 @@ subprocess.run([r"{venv_python}", "kimera.py"])
             text=True
         )
         if result.returncode == 0:
-            print(f"  ✓ {test}")
+            logger.info(f"  ✓ {test}")
         else:
-            print(f"  ✗ {test}")
+            logger.info(f"  ✗ {test}")
             all_good = False
     
     # Final message
-    print(f"""
+    logger.info(f"""
 {'='*60}
 {'✅ INSTALLATION COMPLETE!' if all_good else '⚠️ INSTALLATION COMPLETED WITH WARNINGS'}
 {'='*60}

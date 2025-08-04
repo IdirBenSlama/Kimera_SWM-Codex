@@ -15,14 +15,14 @@ from pathlib import Path
 
 def print_banner():
     """Print verification banner"""
-    print("=" * 80)
-    print("🔍 KIMERA SWM FINAL SYSTEM VERIFICATION")
-    print("   Autonomous Architect Protocol v3.0")
-    print("=" * 80)
+    logger.info("=" * 80)
+    logger.info("🔍 KIMERA SWM FINAL SYSTEM VERIFICATION")
+    logger.info("   Autonomous Architect Protocol v3.0")
+    logger.info("=" * 80)
 
 def check_health_report():
     """Verify health report exists and shows good status"""
-    print("\n📊 Checking Health Report Status...")
+    logger.info("\n📊 Checking Health Report Status...")
     
     health_files = list(Path("docs/reports/health").glob("*_health_report.json"))
     if health_files:
@@ -33,16 +33,16 @@ def check_health_report():
         score = health_data.get('overall_health', {}).get('score', 0)
         status = health_data.get('overall_health', {}).get('status', 'Unknown')
         
-        print(f"✅ Health Report: {score}% ({status})")
-        print(f"   Report: {latest_health}")
+        logger.info(f"✅ Health Report: {score}% ({status})")
+        logger.info(f"   Report: {latest_health}")
         return True
     else:
-        print("❌ No health report found")
+        logger.info("❌ No health report found")
         return False
 
 def check_audit_report():
     """Verify comprehensive audit was completed"""
-    print("\n🔍 Checking Audit Report Status...")
+    logger.info("\n🔍 Checking Audit Report Status...")
     
     audit_files = list(Path("docs/reports/analysis").glob("*_comprehensive_audit.json"))
     if audit_files:
@@ -56,21 +56,21 @@ def check_audit_report():
             python_files = audit_data.get('codebase_analysis', {}).get('python_quality', {}).get('total_python_files', 0)
             debt_level = audit_data.get('technical_debt', {}).get('debt_level', 'Unknown')
             
-            print(f"✅ Audit Completed: {total_files:,} files analyzed")
-            print(f"   Python Files: {python_files:,}")
-            print(f"   Technical Debt: {debt_level}")
-            print(f"   Report: {latest_audit}")
+            logger.info(f"✅ Audit Completed: {total_files:,} files analyzed")
+            logger.info(f"   Python Files: {python_files:,}")
+            logger.info(f"   Technical Debt: {debt_level}")
+            logger.info(f"   Report: {latest_audit}")
             return True
         except Exception as e:
-            print(f"⚠️ Audit report exists but couldn't parse: {e}")
+            logger.info(f"⚠️ Audit report exists but couldn't parse: {e}")
             return False
     else:
-        print("❌ No audit report found")
+        logger.info("❌ No audit report found")
         return False
 
 def check_directory_structure():
     """Verify directory structure compliance"""
-    print("\n📁 Checking Directory Structure...")
+    logger.info("\n📁 Checking Directory Structure...")
     
     required_dirs = [
         'src', 'tests', 'docs', 'scripts', 'experiments', 'archive',
@@ -84,15 +84,15 @@ def check_directory_structure():
             missing.append(dir_path)
     
     if not missing:
-        print(f"✅ Directory Structure: All {len(required_dirs)} directories present")
+        logger.info(f"✅ Directory Structure: All {len(required_dirs)} directories present")
         return True
     else:
-        print(f"❌ Missing directories: {missing}")
+        logger.info(f"❌ Missing directories: {missing}")
         return False
 
 def check_configuration():
     """Check configuration files"""
-    print("\n⚙️ Checking Configuration...")
+    logger.info("\n⚙️ Checking Configuration...")
     
     config_files = {
         '.env': Path('.env').exists(),
@@ -105,17 +105,17 @@ def check_configuration():
     
     for file, exists in config_files.items():
         status = "✅" if exists else "❌"
-        print(f"   {status} {file}")
+        logger.info(f"   {status} {file}")
     
     return all_present
 
 def check_python_requirements():
     """Check Python version and key dependencies"""
-    print("\n🐍 Checking Python Environment...")
+    logger.info("\n🐍 Checking Python Environment...")
     
     # Check Python version
     version_ok = sys.version_info >= (3, 10)
-    print(f"   {'✅' if version_ok else '❌'} Python {sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}")
+    logger.info(f"   {'✅' if version_ok else '❌'} Python {sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}")
     
     # Check key imports
     key_packages = ['fastapi', 'torch', 'sqlalchemy', 'pydantic']
@@ -125,35 +125,37 @@ def check_python_requirements():
         try:
             __import__(package)
             import_results[package] = True
-            print(f"   ✅ {package}")
+            logger.info(f"   ✅ {package}")
         except ImportError:
             import_results[package] = False
-            print(f"   ❌ {package}")
+            logger.info(f"   ❌ {package}")
     
     return version_ok and all(import_results.values())
 
 def check_gpu_availability():
     """Check GPU acceleration"""
-    print("\n🔥 Checking GPU Acceleration...")
+    logger.info("\n🔥 Checking GPU Acceleration...")
     
     try:
         import torch
+import logging
+logger = logging.getLogger(__name__)
         if torch.cuda.is_available():
             device_name = torch.cuda.get_device_name()
             memory_total = torch.cuda.get_device_properties(0).total_memory / (1024**3)
-            print(f"   ✅ CUDA Available: {device_name}")
-            print(f"   ✅ GPU Memory: {memory_total:.1f} GB")
+            logger.info(f"   ✅ CUDA Available: {device_name}")
+            logger.info(f"   ✅ GPU Memory: {memory_total:.1f} GB")
             return True
         else:
-            print("   ⚠️ CUDA not available - will use CPU")
+            logger.info("   ⚠️ CUDA not available - will use CPU")
             return False
     except ImportError:
-        print("   ❌ PyTorch not available")
+        logger.info("   ❌ PyTorch not available")
         return False
 
 def test_system_startup():
     """Test if the system can start"""
-    print("\n🚀 Testing System Startup...")
+    logger.info("\n🚀 Testing System Startup...")
     
     try:
         # First check if system is already running
@@ -162,10 +164,10 @@ def test_system_startup():
             if response.status_code == 200:
                 health_data = response.json()
                 if health_data.get("status") == "healthy":
-                    print("   ✅ System is already running and healthy!")
-                    print(f"   Version: {health_data.get('version', 'Unknown')}")
-                    print(f"   GPU: {health_data.get('gpu_name', 'Not detected')}")
-                    print(f"   Engines: {health_data.get('engines_loaded', False)}")
+                    logger.info("   ✅ System is already running and healthy!")
+                    logger.info(f"   Version: {health_data.get('version', 'Unknown')}")
+                    logger.info(f"   GPU: {health_data.get('gpu_name', 'Not detected')}")
+                    logger.info(f"   Engines: {health_data.get('engines_loaded', False)}")
                     return True
         except requests.exceptions.ConnectionError:
             pass
@@ -185,23 +187,23 @@ def test_system_startup():
         
         # Check if process is still running
         if process.poll() is None:
-            print("   ✅ System startup successful")
+            logger.info("   ✅ System startup successful")
             process.terminate()
             process.wait(timeout=5)
             return True
         else:
             stdout, stderr = process.communicate()
-            print("   ❌ System failed to start")
-            print(f"   Error: {stderr[:200]}...")
+            logger.info("   ❌ System failed to start")
+            logger.info(f"   Error: {stderr[:200]}...")
             return False
             
     except Exception as e:
-        print(f"   ❌ Startup test failed: {e}")
+        logger.info(f"   ❌ Startup test failed: {e}")
         return False
 
 def generate_final_report():
     """Generate final verification report"""
-    print("\n📄 Generating Final Verification Report...")
+    logger.info("\n📄 Generating Final Verification Report...")
     
     report = {
         "verification_timestamp": datetime.now().isoformat(),
@@ -233,7 +235,7 @@ def generate_final_report():
     with open(report_path, 'w') as f:
         json.dump(report, f, indent=2)
     
-    print(f"   ✅ Final report saved: {report_path}")
+    logger.info(f"   ✅ Final report saved: {report_path}")
     return report
 
 def main():
@@ -259,31 +261,31 @@ def main():
     final_report = generate_final_report()
     
     # Summary
-    print("\n" + "=" * 80)
-    print("🎯 FINAL VERIFICATION SUMMARY")
-    print("=" * 80)
+    logger.info("\n" + "=" * 80)
+    logger.info("🎯 FINAL VERIFICATION SUMMARY")
+    logger.info("=" * 80)
     
     passed = sum(1 for result in results.values() if result)
     total = len(results)
     
-    print(f"\nChecks Passed: {passed}/{total}")
+    logger.info(f"\nChecks Passed: {passed}/{total}")
     
     for name, result in results.items():
         status = "✅ PASS" if result else "❌ FAIL"
-        print(f"   {status} {name}")
+        logger.info(f"   {status} {name}")
     
     if passed == total:
-        print(f"\n🎉 KIMERA SWM VERIFICATION COMPLETE")
-        print(f"   Status: ALL REQUIREMENTS SATISFIED")
-        print(f"   System: READY FOR OPERATION")
-        print(f"\n🚀 To start Kimera SWM:")
-        print(f"   python src/main.py")
+        logger.info(f"\n🎉 KIMERA SWM VERIFICATION COMPLETE")
+        logger.info(f"   Status: ALL REQUIREMENTS SATISFIED")
+        logger.info(f"   System: READY FOR OPERATION")
+        logger.info(f"\n🚀 To start Kimera SWM:")
+        logger.info(f"   python src/main.py")
     else:
-        print(f"\n⚠️ VERIFICATION INCOMPLETE")
-        print(f"   {total - passed} checks failed")
-        print(f"   Review failed checks above")
+        logger.info(f"\n⚠️ VERIFICATION INCOMPLETE")
+        logger.info(f"   {total - passed} checks failed")
+        logger.info(f"   Review failed checks above")
     
-    print("\n" + "=" * 80)
+    logger.info("\n" + "=" * 80)
     return passed == total
 
 if __name__ == "__main__":

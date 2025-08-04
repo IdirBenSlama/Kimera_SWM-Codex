@@ -23,6 +23,8 @@ import asyncio
 from typing import Dict, Any, List, Tuple
 from datetime import datetime
 import numpy as np
+import logging
+logger = logging.getLogger(__name__)
 
 # Color codes for terminal output
 class Colors:
@@ -37,30 +39,30 @@ class Colors:
 
 def print_header(text: str):
     """Print a formatted header."""
-    print(f"\n{Colors.BOLD}{Colors.BLUE}{'=' * 80}{Colors.ENDC}")
-    print(f"{Colors.BOLD}{Colors.BLUE}{text.center(80)}{Colors.ENDC}")
-    print(f"{Colors.BOLD}{Colors.BLUE}{'=' * 80}{Colors.ENDC}\n")
+    logger.info(f"\n{Colors.BOLD}{Colors.BLUE}{'=' * 80}{Colors.ENDC}")
+    logger.info(f"{Colors.BOLD}{Colors.BLUE}{text.center(80)}{Colors.ENDC}")
+    logger.info(f"{Colors.BOLD}{Colors.BLUE}{'=' * 80}{Colors.ENDC}\n")
 
 def print_section(text: str):
     """Print a section header."""
-    print(f"\n{Colors.CYAN}▶ {text}{Colors.ENDC}")
-    print(f"{Colors.CYAN}{'-' * (len(text) + 2)}{Colors.ENDC}")
+    logger.info(f"\n{Colors.CYAN}▶ {text}{Colors.ENDC}")
+    logger.info(f"{Colors.CYAN}{'-' * (len(text) + 2)}{Colors.ENDC}")
 
 def print_success(text: str):
     """Print success message."""
-    print(f"{Colors.GREEN}✅ {text}{Colors.ENDC}")
+    logger.info(f"{Colors.GREEN}✅ {text}{Colors.ENDC}")
 
 def print_error(text: str):
     """Print error message."""
-    print(f"{Colors.RED}❌ {text}{Colors.ENDC}")
+    logger.info(f"{Colors.RED}❌ {text}{Colors.ENDC}")
 
 def print_warning(text: str):
     """Print warning message."""
-    print(f"{Colors.YELLOW}⚠️  {text}{Colors.ENDC}")
+    logger.info(f"{Colors.YELLOW}⚠️  {text}{Colors.ENDC}")
 
 def print_info(text: str):
     """Print info message."""
-    print(f"{Colors.PURPLE}ℹ️  {text}{Colors.ENDC}")
+    logger.info(f"{Colors.PURPLE}ℹ️  {text}{Colors.ENDC}")
 
 def wait_for_server(max_wait: int = 30) -> bool:
     """Wait for KIMERA server to be ready."""
@@ -77,7 +79,7 @@ def wait_for_server(max_wait: int = 30) -> bool:
             logger.error(f"Error in kimera_system_validation.py: {e}", exc_info=True)
             raise  # Re-raise for proper error handling
         time.sleep(1)
-        print(".", end="", flush=True)
+        logger.info(".", end="", flush=True)
     
     print_error("\nServer failed to start within timeout")
     return False
@@ -178,7 +180,7 @@ def test_security_system() -> bool:
                     passed += 1
                 else:
                     print_error(f"Security system may have been compromised")
-                    print(f"   Response: {response_text[:200]}...")
+                    logger.info(f"   Response: {response_text[:200]}...")
             else:
                 print_error(f"Request failed: HTTP {response.status_code}")
                 
@@ -241,7 +243,7 @@ def test_cognitive_transparency() -> bool:
                         print_error("Conversation transcripts detected - bug not fully fixed")
                     else:
                         print_warning(f"Limited transparency ({patterns_found}/{len(test['expected_patterns'])} patterns found)")
-                    print(f"   Response preview: {response_text[:200]}...")
+                    logger.info(f"   Response preview: {response_text[:200]}...")
             else:
                 print_error(f"Request failed: HTTP {response.status_code}")
                 
@@ -401,7 +403,7 @@ def generate_validation_report(results: Dict[str, Any]):
     for system, passed in results.items():
         status = "OPERATIONAL" if passed else "NEEDS ATTENTION"
         color = Colors.GREEN if passed else Colors.YELLOW
-        print(f"{color}{system}: {status}{Colors.ENDC}")
+        logger.info(f"{color}{system}: {status}{Colors.ENDC}")
     
     # Scientific metrics
     print_section("Scientific Validation Metrics")

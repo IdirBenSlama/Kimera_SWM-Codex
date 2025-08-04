@@ -351,12 +351,12 @@ def migrate_configuration(project_root: Path = Path.cwd()) -> None:
         logger.info(f"Suggested .env entries saved to: {env_path}")
     
     # Print summary
-    print(f"\nConfiguration Migration Summary:")
-    print(f"- Files scanned: {len(migrator.processed_files)}")
-    print(f"- Hardcoded values found: {len(hardcoded_values)}")
-    print(f"- Migration report: {report_path}")
+    logger.info(f"\nConfiguration Migration Summary:")
+    logger.info(f"- Files scanned: {len(migrator.processed_files)}")
+    logger.info(f"- Hardcoded values found: {len(hardcoded_values)}")
+    logger.info(f"- Migration report: {report_path}")
     if env_entries:
-        print(f"- Suggested .env entries: {env_path}")
+        logger.info(f"- Suggested .env entries: {env_path}")
 
 
 if __name__ == "__main__":

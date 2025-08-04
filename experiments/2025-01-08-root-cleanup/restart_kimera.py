@@ -9,6 +9,8 @@ import time
 import subprocess
 import psutil
 import signal
+import logging
+logger = logging.getLogger(__name__)
 
 def find_kimera_processes():
     """Find all KIMERA-related processes"""
@@ -24,19 +26,19 @@ def find_kimera_processes():
 
 def stop_kimera():
     """Stop all KIMERA processes"""
-    print("🛑 Stopping KIMERA processes...")
+    logger.info("🛑 Stopping KIMERA processes...")
     
     processes = find_kimera_processes()
     if not processes:
-        print("   No KIMERA processes found")
+        logger.info("   No KIMERA processes found")
         return
     
     for proc in processes:
         try:
-            print(f"   Terminating PID {proc.pid}: {proc.name()}")
+            logger.info(f"   Terminating PID {proc.pid}: {proc.name()}")
             proc.terminate()
         except Exception as e:
-            print(f"   Error terminating {proc.pid}: {e}")
+            logger.info(f"   Error terminating {proc.pid}: {e}")
     
     # Wait for processes to terminate
     time.sleep(2)
@@ -45,7 +47,7 @@ def stop_kimera():
     for proc in processes:
         try:
             if proc.is_running():
-                print(f"   Force killing PID {proc.pid}")
+                logger.info(f"   Force killing PID {proc.pid}")
                 proc.kill()
         except Exception as e:
             logger.error(f"Error in restart_kimera.py: {e}", exc_info=True)
@@ -53,27 +55,27 @@ def stop_kimera():
 
 def start_kimera():
     """Start KIMERA server"""
-    print("\n🚀 Starting KIMERA server...")
+    logger.info("\n🚀 Starting KIMERA server...")
     
     # Use the Python 3.13 virtual environment
     venv_python = os.path.join("venv_py313", "Scripts", "python.exe")
     
     if not os.path.exists(venv_python):
-        print("❌ Virtual environment not found!")
+        logger.info("❌ Virtual environment not found!")
         return False
     
     # Start KIMERA in a new process
     try:
         subprocess.Popen([venv_python, "kimera.py"], 
                         creationflags=subprocess.CREATE_NEW_CONSOLE)
-        print("✅ KIMERA server started in new console")
+        logger.info("✅ KIMERA server started in new console")
         return True
     except Exception as e:
-        print(f"❌ Failed to start KIMERA: {e}")
+        logger.info(f"❌ Failed to start KIMERA: {e}")
         return False
 
 def main():
-    print("""
+    logger.info("""
 ╔════════════════════════════════════════════════════��═════════════╗
 ║                    KIMERA SERVER RESTART                          ║
 ╚══════════════════════════════════════════════════════════════════╝
@@ -87,11 +89,11 @@ def main():
     
     # Start new instance
     if start_kimera():
-        print("\n✅ KIMERA restart complete!")
-        print("   The server is starting in a new console window")
-        print("   Wait a few seconds for it to fully initialize")
+        logger.info("\n✅ KIMERA restart complete!")
+        logger.info("   The server is starting in a new console window")
+        logger.info("   Wait a few seconds for it to fully initialize")
     else:
-        print("\n❌ KIMERA restart failed!")
+        logger.info("\n❌ KIMERA restart failed!")
 
 if __name__ == "__main__":
     main()

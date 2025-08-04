@@ -18,25 +18,25 @@ def setup_live_cdp_credentials():
     """
     Secure setup for live CDP credentials
     """
-    print("🔐 KIMERA CDP LIVE CREDENTIALS SETUP")
-    print("=" * 50)
-    print()
-    print("⚠️  WARNING: This will configure REAL CDP API credentials")
-    print("⚠️  Kimera will have autonomous control over your wallet")
-    print("⚠️  Only proceed if you understand the risks")
-    print()
+    logger.info("🔐 KIMERA CDP LIVE CREDENTIALS SETUP")
+    logger.info("=" * 50)
+    logger.info()
+    logger.info("⚠️  WARNING: This will configure REAL CDP API credentials")
+    logger.info("⚠️  Kimera will have autonomous control over your wallet")
+    logger.info("⚠️  Only proceed if you understand the risks")
+    logger.info()
     
     # Confirm user wants to proceed
     confirm = input("Do you want to proceed with live credential setup? (yes/no): ").strip().lower()
     if confirm != 'yes':
-        print("Setup cancelled.")
+        logger.info("Setup cancelled.")
         return False
     
-    print("\n📋 CREDENTIAL INFORMATION NEEDED:")
-    print("1. CDP API Key Name (you provided: 9268de76-b5f4-4683-b593-327fb2c19503)")
-    print("2. CDP API Private Key (from your CDP dashboard)")
-    print("3. Network preference (testnet recommended for initial testing)")
-    print()
+    logger.info("\n📋 CREDENTIAL INFORMATION NEEDED:")
+    logger.info("1. CDP API Key Name (you provided: 9268de76-b5f4-4683-b593-327fb2c19503)")
+    logger.info("2. CDP API Private Key (from your CDP dashboard)")
+    logger.info("3. Network preference (testnet recommended for initial testing)")
+    logger.info()
     
     # Get API Key Name
     api_key_name = input("Enter your CDP API Key Name [9268de76-b5f4-4683-b593-327fb2c19503]: ").strip()
@@ -44,20 +44,20 @@ def setup_live_cdp_credentials():
         api_key_name = os.getenv("CDP_API_KEY_NAME", "")
     
     # Get Private Key securely
-    print("\n🔑 Enter your CDP API Private Key:")
-    print("(This should be a long string starting with -----BEGIN EC PRIVATE KEY-----)")
+    logger.info("\n🔑 Enter your CDP API Private Key:")
+    logger.info("(This should be a long string starting with -----BEGIN EC PRIVATE KEY-----)")
     private_key = getpass.getpass("CDP Private Key: ").strip()
     
     if not private_key:
-        print("❌ Private key is required. Setup cancelled.")
+        logger.info("❌ Private key is required. Setup cancelled.")
         return False
     
     # Network selection
-    print("\n🌐 Network Selection:")
-    print("1. base-sepolia (Testnet - RECOMMENDED for initial testing)")
-    print("2. base-mainnet (Mainnet - REAL MONEY)")
-    print("3. ethereum-sepolia (Ethereum Testnet)")
-    print("4. ethereum-mainnet (Ethereum Mainnet - REAL MONEY)")
+    logger.info("\n🌐 Network Selection:")
+    logger.info("1. base-sepolia (Testnet - RECOMMENDED for initial testing)")
+    logger.info("2. base-mainnet (Mainnet - REAL MONEY)")
+    logger.info("3. ethereum-sepolia (Ethereum Testnet)")
+    logger.info("4. ethereum-mainnet (Ethereum Mainnet - REAL MONEY)")
     
     network_choice = input("Select network (1-4) [1]: ").strip()
     if not network_choice:
@@ -71,13 +71,13 @@ def setup_live_cdp_credentials():
     }
     
     if network_choice not in network_map:
-        print("❌ Invalid network selection. Setup cancelled.")
+        logger.info("❌ Invalid network selection. Setup cancelled.")
         return False
     
     network_id, is_testnet = network_map[network_choice]
     
     # Risk parameters
-    print("\n⚖️  RISK MANAGEMENT SETTINGS:")
+    logger.info("\n⚖️  RISK MANAGEMENT SETTINGS:")
     
     max_position = input("Maximum position size (% of wallet) [10]: ").strip()
     if not max_position:
@@ -150,11 +150,11 @@ KIMERA_CDP_SIMULATION_MODE=false
             raise  # Re-raise for proper error handling
             pass  # Windows doesn't support chmod
         
-        print(f"\n✅ Configuration saved to: {config_file}")
-        print("✅ File permissions set to secure (owner only)")
+        logger.info(f"\n✅ Configuration saved to: {config_file}")
+        logger.info("✅ File permissions set to secure (owner only)")
         
     except Exception as e:
-        print(f"❌ Error saving configuration: {e}")
+        logger.info(f"❌ Error saving configuration: {e}")
         return False
     
     # Create backup of configuration (without private key)
@@ -164,34 +164,34 @@ KIMERA_CDP_SIMULATION_MODE=false
     try:
         with open(backup_file, 'w') as f:
             f.write(backup_content)
-        print(f"✅ Backup configuration saved to: {backup_file}")
+        logger.info(f"✅ Backup configuration saved to: {backup_file}")
     except Exception as e:
         logger.error(f"Error in setup_live_cdp_credentials.py: {e}", exc_info=True)
         raise  # Re-raise for proper error handling
     
     # Display summary
-    print("\n" + "=" * 50)
-    print("🎯 CONFIGURATION SUMMARY")
-    print("=" * 50)
-    print(f"API Key Name: {api_key_name}")
-    print(f"Network: {network_id} ({'Testnet' if is_testnet else 'MAINNET'})")
-    print(f"Max Position: {max_position}%")
-    print(f"Min Confidence: {min_confidence}")
-    print(f"Max Daily Trades: {max_daily_trades}")
-    print("=" * 50)
+    logger.info("\n" + "=" * 50)
+    logger.info("🎯 CONFIGURATION SUMMARY")
+    logger.info("=" * 50)
+    logger.info(f"API Key Name: {api_key_name}")
+    logger.info(f"Network: {network_id} ({'Testnet' if is_testnet else 'MAINNET'})")
+    logger.info(f"Max Position: {max_position}%")
+    logger.info(f"Min Confidence: {min_confidence}")
+    logger.info(f"Max Daily Trades: {max_daily_trades}")
+    logger.info("=" * 50)
     
     if not is_testnet:
-        print("⚠️  WARNING: MAINNET CONFIGURATION DETECTED")
-        print("⚠️  This will use REAL MONEY for transactions")
-        print("⚠️  Consider testing on testnet first")
-        print()
+        logger.info("⚠️  WARNING: MAINNET CONFIGURATION DETECTED")
+        logger.info("⚠️  This will use REAL MONEY for transactions")
+        logger.info("⚠️  Consider testing on testnet first")
+        logger.info()
     
-    print("🚀 NEXT STEPS:")
-    print("1. Review the configuration file")
-    print("2. Run: python kimera_cdp_live_integration.py")
-    print("3. Monitor the logs carefully")
-    print("4. Start with small amounts")
-    print()
+    logger.info("🚀 NEXT STEPS:")
+    logger.info("1. Review the configuration file")
+    logger.info("2. Run: python kimera_cdp_live_integration.py")
+    logger.info("3. Monitor the logs carefully")
+    logger.info("4. Start with small amounts")
+    logger.info()
     
     return True
 
@@ -199,7 +199,7 @@ def verify_cdp_connection():
     """
     Verify CDP connection without executing trades
     """
-    print("🔍 VERIFYING CDP CONNECTION...")
+    logger.info("🔍 VERIFYING CDP CONNECTION...")
     
     try:
         # Try to load configuration
@@ -210,36 +210,38 @@ def verify_cdp_connection():
         private_key = os.getenv('CDP_API_KEY_PRIVATE_KEY')
         
         if not api_key_name or not private_key:
-            print("❌ Credentials not found in environment")
+            logger.info("❌ Credentials not found in environment")
             return False
         
-        print(f"✅ API Key Name: {api_key_name}")
-        print(f"✅ Private Key: {'***' + private_key[-10:] if len(private_key) > 10 else '***'}")
+        logger.info(f"✅ API Key Name: {api_key_name}")
+        logger.info(f"✅ Private Key: {'***' + private_key[-10:] if len(private_key) > 10 else '***'}")
         
         # Try to import CDP SDK
         try:
             from cdp import Cdp
-            print("✅ CDP SDK available")
+import logging
+logger = logging.getLogger(__name__)
+            logger.info("✅ CDP SDK available")
         except ImportError:
-            print("❌ CDP SDK not installed. Run: pip install cdp-sdk")
+            logger.info("❌ CDP SDK not installed. Run: pip install cdp-sdk")
             return False
         
-        print("✅ Configuration appears valid")
-        print("🚀 Ready for live trading")
+        logger.info("✅ Configuration appears valid")
+        logger.info("🚀 Ready for live trading")
         
         return True
         
     except Exception as e:
-        print(f"❌ Verification error: {e}")
+        logger.info(f"❌ Verification error: {e}")
         return False
 
 if __name__ == "__main__":
-    print("KIMERA CDP LIVE SETUP")
-    print("=" * 30)
-    print("1. Setup live credentials")
-    print("2. Verify connection")
-    print("3. Exit")
-    print()
+    logger.info("KIMERA CDP LIVE SETUP")
+    logger.info("=" * 30)
+    logger.info("1. Setup live credentials")
+    logger.info("2. Verify connection")
+    logger.info("3. Exit")
+    logger.info()
     
     choice = input("Select option (1-3): ").strip()
     
@@ -248,4 +250,4 @@ if __name__ == "__main__":
     elif choice == "2":
         verify_cdp_connection()
     else:
-        print("Goodbye!") 
+        logger.info("Goodbye!") 

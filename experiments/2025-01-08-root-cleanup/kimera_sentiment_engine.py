@@ -677,8 +677,8 @@ class KimeraSentimentEngine:
 
 async def main():
     """Test the sentiment analysis engine"""
-    print("\n🧠 KIMERA ADVANCED SENTIMENT ANALYSIS ENGINE")
-    print("=" * 60)
+    logger.info("\n🧠 KIMERA ADVANCED SENTIMENT ANALYSIS ENGINE")
+    logger.info("=" * 60)
     
     # Initialize engine
     engine = KimeraSentimentEngine()
@@ -689,20 +689,20 @@ async def main():
     # Analyze sentiment
     sentiment_results = await engine.analyze_multiple_assets(test_assets)
     
-    print(f"\n📊 SENTIMENT ANALYSIS RESULTS")
-    print("=" * 60)
+    logger.info(f"\n📊 SENTIMENT ANALYSIS RESULTS")
+    logger.info("=" * 60)
     
     for asset, sentiment in sentiment_results.items():
         signal = engine.get_sentiment_signal(sentiment)
         
-        print(f"\n{asset}:")
-        print(f"  Overall Score: {sentiment.aggregated_score:.3f}")
-        print(f"  Direction: {sentiment.trending_direction}")
-        print(f"  Trading Signal: {signal['action']} (strength: {signal['strength']:.2f})")
-        print(f"  Confidence: {signal['confidence']:.2f}")
-        print(f"  Oracle: {sentiment.oracle_sentiment:.3f}")
-        print(f"  Social: {sentiment.social_sentiment:.3f}")
-        print(f"  News: {sentiment.news_sentiment:.3f}")
+        logger.info(f"\n{asset}:")
+        logger.info(f"  Overall Score: {sentiment.aggregated_score:.3f}")
+        logger.info(f"  Direction: {sentiment.trending_direction}")
+        logger.info(f"  Trading Signal: {signal['action']} (strength: {signal['strength']:.2f})")
+        logger.info(f"  Confidence: {signal['confidence']:.2f}")
+        logger.info(f"  Oracle: {sentiment.oracle_sentiment:.3f}")
+        logger.info(f"  Social: {sentiment.social_sentiment:.3f}")
+        logger.info(f"  News: {sentiment.news_sentiment:.3f}")
 
 if __name__ == "__main__":
     asyncio.run(main()) 

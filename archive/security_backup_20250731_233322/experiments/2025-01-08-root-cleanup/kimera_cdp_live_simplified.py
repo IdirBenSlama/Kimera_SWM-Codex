@@ -348,30 +348,30 @@ async def main():
         logger.info(f"Report saved: {report_file}")
         
         # Display summary
-        print("\n" + "=" * 50)
-        print("KIMERA LIVE CDP TRADING RESULTS")
-        print("=" * 50)
+        logger.info("\n" + "=" * 50)
+        logger.info("KIMERA LIVE CDP TRADING RESULTS")
+        logger.info("=" * 50)
         
         if 'session_summary' in report:
             summary = report['session_summary']
-            print(f"Duration: {summary['duration_seconds']:.1f} seconds")
-            print(f"Operations: {summary['total_operations']}")
-            print(f"Success Rate: {summary['success_rate']*100:.1f}%")
-            print(f"Ops/Min: {summary['operations_per_minute']:.1f}")
+            logger.info(f"Duration: {summary['duration_seconds']:.1f} seconds")
+            logger.info(f"Operations: {summary['total_operations']}")
+            logger.info(f"Success Rate: {summary['success_rate']*100:.1f}%")
+            logger.info(f"Ops/Min: {summary['operations_per_minute']:.1f}")
         
         if 'system_info' in report:
             info = report['system_info']
-            print(f"Network: {info['network']}")
-            print(f"API Key: {info['api_key']}")
-            print(f"Live Trading: {info['live_trading']}")
-            print(f"Testnet: {info['testnet']}")
+            logger.info(f"Network: {info['network']}")
+            logger.info(f"API Key: {info['api_key']}")
+            logger.info(f"Live Trading: {info['live_trading']}")
+            logger.info(f"Testnet: {info['testnet']}")
         
-        print("=" * 50)
-        print("LIVE AUTONOMOUS TRADING SESSION COMPLETE")
+        logger.info("=" * 50)
+        logger.info("LIVE AUTONOMOUS TRADING SESSION COMPLETE")
         
     except Exception as e:
         logger.error(f"Main execution error: {e}")
-        print(f"Error: {e}")
+        logger.info(f"Error: {e}")
 
 if __name__ == "__main__":
     asyncio.run(main()) 

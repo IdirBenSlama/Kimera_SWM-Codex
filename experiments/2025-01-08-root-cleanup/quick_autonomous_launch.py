@@ -14,35 +14,35 @@ import logging
 os.environ['BINANCE_API_KEY'] = os.getenv("BINANCE_API_KEY", "")
 os.environ['BINANCE_API_SECRET'] = 'qUn5JqSpYz1GDxFj2X3UF23TYgtxKrTsCbDZEoBMYCPbYZgP4siVLyspkB5HAPl7'
 
-print("🚀 KIMERA AUTONOMOUS TRADER - QUICK LAUNCH")
-print("=" * 50)
-print("🧠 Full autonomy mode activated")
-print("💰 Target: Maximum profit in 10 minutes")
-print("🔥 NO LIMITS - Complete decision authority")
-print("=" * 50)
+logger.info("🚀 KIMERA AUTONOMOUS TRADER - QUICK LAUNCH")
+logger.info("=" * 50)
+logger.info("🧠 Full autonomy mode activated")
+logger.info("💰 Target: Maximum profit in 10 minutes")
+logger.info("🔥 NO LIMITS - Complete decision authority")
+logger.info("=" * 50)
 
 async def execute_autonomous_trading():
     """Execute autonomous trading directly"""
     try:
-        print("\n🧠 Initializing Kimera AI systems...")
+        logger.info("\n🧠 Initializing Kimera AI systems...")
         
         from autonomous_kimera_trader import KimeraAutonomousTrader
         
         trader = KimeraAutonomousTrader()
-        print("✅ Kimera AI online - Full autonomy granted")
-        print("🎯 Mission: 10-minute profit maximization")
-        print("🚀 Launching autonomous trading session...")
+        logger.info("✅ Kimera AI online - Full autonomy granted")
+        logger.info("🎯 Mission: 10-minute profit maximization")
+        logger.info("🚀 Launching autonomous trading session...")
         
         # Execute the autonomous session
         await trader.autonomous_trading_session()
         
-        print("\n🏁 AUTONOMOUS MISSION COMPLETED")
+        logger.info("\n🏁 AUTONOMOUS MISSION COMPLETED")
         
     except Exception as e:
-        print(f"\n❌ Error: {e}")
+        logger.info(f"\n❌ Error: {e}")
         import traceback
         traceback.print_exc()
 
 if __name__ == "__main__":
-    print("\n🔥 LAUNCHING KIMERA AUTONOMOUS TRADER...")
+    logger.info("\n🔥 LAUNCHING KIMERA AUTONOMOUS TRADER...")
     asyncio.run(execute_autonomous_trading()) 

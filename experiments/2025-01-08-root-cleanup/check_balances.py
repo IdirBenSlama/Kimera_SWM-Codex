@@ -5,6 +5,8 @@ Quick balance checker to see what assets are available
 
 import os
 from binance.client import Client
+import logging
+logger = logging.getLogger(__name__)
 
 # Set credentials
 os.environ['BINANCE_API_KEY'] = os.getenv("BINANCE_API_KEY", "")
@@ -18,8 +20,8 @@ def check_balances():
             os.getenv('BINANCE_API_SECRET')
         )
         
-        print("BINANCE ACCOUNT BALANCES")
-        print("=" * 40)
+        logger.info("BINANCE ACCOUNT BALANCES")
+        logger.info("=" * 40)
         
         account = client.get_account()
         
@@ -38,8 +40,8 @@ def check_balances():
                     'total': total
                 })
         
-        print(f"Found {len(non_zero_balances)} assets with non-zero balances:")
-        print()
+        logger.info(f"Found {len(non_zero_balances)} assets with non-zero balances:")
+        logger.info()
         
         total_usdt_value = 0
         
@@ -49,15 +51,15 @@ def check_balances():
             locked = balance['locked']
             total = balance['total']
             
-            print(f"{asset}:")
-            print(f"  Free: {free:.6f}")
-            print(f"  Locked: {locked:.6f}")
-            print(f"  Total: {total:.6f}")
+            logger.info(f"{asset}:")
+            logger.info(f"  Free: {free:.6f}")
+            logger.info(f"  Locked: {locked:.6f}")
+            logger.info(f"  Total: {total:.6f}")
             
             # Get USD value for major assets
             if asset == 'USDT':
                 usd_value = total
-                print(f"  USD Value: ${usd_value:.2f}")
+                logger.info(f"  USD Value: ${usd_value:.2f}")
                 total_usdt_value += usd_value
             elif asset in ['BTC', 'ETH', 'BNB', 'TRX', 'ADA', 'XRP']:
                 try:
@@ -65,33 +67,33 @@ def check_balances():
                     ticker = client.get_symbol_ticker(symbol=symbol)
                     price = float(ticker['price'])
                     usd_value = total * price
-                    print(f"  Price: ${price:.6f}")
-                    print(f"  USD Value: ${usd_value:.2f}")
+                    logger.info(f"  Price: ${price:.6f}")
+                    logger.info(f"  USD Value: ${usd_value:.2f}")
                     total_usdt_value += usd_value
                 except Exception as e:
-                    print(f"  USD Value: Unable to calculate ({e})")
+                    logger.info(f"  USD Value: Unable to calculate ({e})")
             
-            print()
+            logger.info()
         
-        print("=" * 40)
-        print(f"ESTIMATED TOTAL USD VALUE: ${total_usdt_value:.2f}")
-        print("=" * 40)
+        logger.info("=" * 40)
+        logger.info(f"ESTIMATED TOTAL USD VALUE: ${total_usdt_value:.2f}")
+        logger.info("=" * 40)
         
         # Check if we can trade
         usdt_balance = float([b['free'] for b in account['balances'] if b['asset'] == 'USDT'][0])
         
         if usdt_balance >= 10:
-            print(f"✅ READY TO TRADE: ${usdt_balance:.2f} USDT available")
+            logger.info(f"✅ READY TO TRADE: ${usdt_balance:.2f} USDT available")
         elif total_usdt_value >= 10:
-            print(f"💡 CONVERT TO USDT: You have ${total_usdt_value:.2f} in other assets")
-            print("   Consider converting some assets to USDT for trading")
+            logger.info(f"💡 CONVERT TO USDT: You have ${total_usdt_value:.2f} in other assets")
+            logger.info("   Consider converting some assets to USDT for trading")
         else:
-            print(f"❌ INSUFFICIENT FUNDS: Only ${total_usdt_value:.2f} total value")
+            logger.info(f"❌ INSUFFICIENT FUNDS: Only ${total_usdt_value:.2f} total value")
         
         return non_zero_balances, total_usdt_value
         
     except Exception as e:
-        print(f"Error checking balances: {e}")
+        logger.info(f"Error checking balances: {e}")
         return [], 0
 
 if __name__ == "__main__":

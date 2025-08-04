@@ -27,22 +27,22 @@ class KimeraSystemMonitor:
         
     def wait_for_system_ready(self, timeout: int = 120):
         """Wait for the Kimera system to be ready"""
-        print("🔍 Waiting for Kimera system to start...")
+        logger.info("🔍 Waiting for Kimera system to start...")
         start_time = time.time()
         
         while time.time() - start_time < timeout:
             try:
                 response = requests.get(f"{self.base_url}/health", timeout=5)
                 if response.status_code == 200:
-                    print("✅ Kimera system is ready!")
+                    logger.info("✅ Kimera system is ready!")
                     return True
             except Exception:
                 pass
             
-            print("⏳ System starting...", end="\r")
+            logger.info("⏳ System starting...", end="\r")
             time.sleep(2)
         
-        print(f"\n❌ System did not start within {timeout} seconds")
+        logger.info(f"\n❌ System did not start within {timeout} seconds")
         return False
     
     def get_system_health(self) -> Optional[Dict[str, Any]]:
@@ -52,7 +52,7 @@ class KimeraSystemMonitor:
             if response.status_code == 200:
                 return response.json()
         except Exception as e:
-            print(f"❌ Failed to get system health: {e}")
+            logger.info(f"❌ Failed to get system health: {e}")
         return None
     
     def get_monitoring_health(self) -> Optional[Dict[str, Any]]:
@@ -62,7 +62,7 @@ class KimeraSystemMonitor:
             if response.status_code == 200:
                 return response.json()
         except Exception as e:
-            print(f"❌ Failed to get monitoring health: {e}")
+            logger.info(f"❌ Failed to get monitoring health: {e}")
         return None
     
     def get_vault_health(self) -> Optional[Dict[str, Any]]:
@@ -72,7 +72,7 @@ class KimeraSystemMonitor:
             if response.status_code == 200:
                 return response.json()
         except Exception as e:
-            print(f"❌ Failed to get vault health: {e}")
+            logger.info(f"❌ Failed to get vault health: {e}")
         return None
     
     def start_vault_monitoring(self) -> bool:
@@ -83,22 +83,22 @@ class KimeraSystemMonitor:
             if status_response.status_code == 200:
                 status = status_response.json()
                 if status.get('is_monitoring', False):
-                    print("📊 Vault monitoring already active")
+                    logger.info("📊 Vault monitoring already active")
                     return True
             
             # Start monitoring
             response = requests.post(f"{self.base_url}/kimera/vault/monitoring/start", timeout=10)
             if response.status_code == 200:
                 result = response.json()
-                print("✅ Vault monitoring started successfully")
-                print(f"   📈 Monitoring interval: {result.get('monitoring_interval', 'unknown')}s")
-                print(f"   🏥 Health check interval: {result.get('health_check_interval', 'unknown')}s")
+                logger.info("✅ Vault monitoring started successfully")
+                logger.info(f"   📈 Monitoring interval: {result.get('monitoring_interval', 'unknown')}s")
+                logger.info(f"   🏥 Health check interval: {result.get('health_check_interval', 'unknown')}s")
                 return True
             else:
-                print(f"⚠️ Failed to start vault monitoring: {response.text}")
+                logger.info(f"⚠️ Failed to start vault monitoring: {response.text}")
                 return False
         except Exception as e:
-            print(f"❌ Error starting vault monitoring: {e}")
+            logger.info(f"❌ Error starting vault monitoring: {e}")
             return False
     
     def get_recent_activities(self) -> Optional[Dict[str, Any]]:
@@ -108,61 +108,61 @@ class KimeraSystemMonitor:
             if response.status_code == 200:
                 return response.json()
         except Exception as e:
-            print(f"❌ Failed to get recent activities: {e}")
+            logger.info(f"❌ Failed to get recent activities: {e}")
         return None
     
     def display_system_overview(self):
         """Display comprehensive system overview"""
-        print("\n" + "=" * 80)
-        print("🌟 KIMERA SWM SYSTEM OVERVIEW")
-        print("=" * 80)
+        logger.info("\n" + "=" * 80)
+        logger.info("🌟 KIMERA SWM SYSTEM OVERVIEW")
+        logger.info("=" * 80)
         
         # System Health
         health = self.get_system_health()
         if health:
-            print(f"🏥 System Status: {health.get('status', 'unknown')}")
-            print(f"🚀 GPU Available: {'✅' if health.get('gpu_available') else '❌'}")
+            logger.info(f"🏥 System Status: {health.get('status', 'unknown')}")
+            logger.info(f"🚀 GPU Available: {'✅' if health.get('gpu_available') else '❌'}")
             if health.get('gpu_name'):
-                print(f"   GPU: {health.get('gpu_name')}")
+                logger.info(f"   GPU: {health.get('gpu_name')}")
         
         # Monitoring Health
         monitoring = self.get_monitoring_health()
         if monitoring:
-            print(f"📊 Monitoring: {monitoring.get('status', 'unknown')}")
+            logger.info(f"📊 Monitoring: {monitoring.get('status', 'unknown')}")
             components = monitoring.get('components', {})
             
             # Engine status
             engine_components = {k: v for k, v in components.items() if k.startswith('engine_')}
             operational = sum(1 for v in engine_components.values() if v == 'healthy')
             total = len(engine_components)
-            print(f"⚙️ Engines: {operational}/{total} operational")
+            logger.info(f"⚙️ Engines: {operational}/{total} operational")
         
         # Vault Health
         vault_health = self.get_vault_health()
         if vault_health and vault_health.get('status') == 'health_data_available':
             metrics = vault_health.get('health_metrics', {})
-            print("🧠 Vault Cognitive State:")
-            print(f"   State: {metrics.get('cognitive_state', 'unknown')}")
-            print(f"   Geoids: {metrics.get('total_geoids', 0)}")
-            print(f"   Scars: {metrics.get('total_scars', 0)}")
-            print(f"   Insights: {metrics.get('total_insights', 0)}")
-            print(f"   Activity Rate: {metrics.get('recent_activity_rate', 0):.2f}/min")
-            print(f"   DB Connected: {'✅' if metrics.get('database_connected') else '❌'}")
-            print(f"   DB Latency: {metrics.get('database_latency_ms', 0):.1f}ms")
+            logger.info("🧠 Vault Cognitive State:")
+            logger.info(f"   State: {metrics.get('cognitive_state', 'unknown')}")
+            logger.info(f"   Geoids: {metrics.get('total_geoids', 0)}")
+            logger.info(f"   Scars: {metrics.get('total_scars', 0)}")
+            logger.info(f"   Insights: {metrics.get('total_insights', 0)}")
+            logger.info(f"   Activity Rate: {metrics.get('recent_activity_rate', 0):.2f}/min")
+            logger.info(f"   DB Connected: {'✅' if metrics.get('database_connected') else '❌'}")
+            logger.info(f"   DB Latency: {metrics.get('database_latency_ms', 0):.1f}ms")
             
             # Store current counts for comparison
             self.last_geoid_count = metrics.get('total_geoids', 0)
             self.last_scar_count = metrics.get('total_scars', 0)
             self.last_insight_count = metrics.get('total_insights', 0)
         else:
-            print("🧠 Vault: Health data not available")
+            logger.info("🧠 Vault: Health data not available")
         
-        print("=" * 80)
+        logger.info("=" * 80)
     
     def monitor_real_time_activity(self):
         """Monitor real-time vault activity"""
-        print(f"📊 Starting real-time monitoring (updates every {self.update_interval}s)")
-        print("📝 Press Ctrl+C to stop monitoring\n")
+        logger.info(f"📊 Starting real-time monitoring (updates every {self.update_interval}s)")
+        logger.info("📝 Press Ctrl+C to stop monitoring\n")
         
         try:
             while True:
@@ -183,26 +183,26 @@ class KimeraSystemMonitor:
                     
                     if current_geoid_count > self.last_geoid_count:
                         delta = current_geoid_count - self.last_geoid_count
-                        print(f"🧠 NEW GEOID FORMATIONS: +{delta} (total: {current_geoid_count})")
+                        logger.info(f"🧠 NEW GEOID FORMATIONS: +{delta} (total: {current_geoid_count})")
                         self.last_geoid_count = current_geoid_count
                         changes_detected = True
                     
                     if current_scar_count > self.last_scar_count:
                         delta = current_scar_count - self.last_scar_count
-                        print(f"⚡ NEW SCAR FORMATIONS: +{delta} (total: {current_scar_count})")
+                        logger.info(f"⚡ NEW SCAR FORMATIONS: +{delta} (total: {current_scar_count})")
                         self.last_scar_count = current_scar_count
                         changes_detected = True
                     
                     if current_insight_count > self.last_insight_count:
                         delta = current_insight_count - self.last_insight_count
-                        print(f"💡 NEW INSIGHTS GENERATED: +{delta} (total: {current_insight_count})")
+                        logger.info(f"💡 NEW INSIGHTS GENERATED: +{delta} (total: {current_insight_count})")
                         self.last_insight_count = current_insight_count
                         changes_detected = True
                     
                     # Show periodic status if no changes
                     if not changes_detected and activity_rate > 0:
                         timestamp = datetime.now().strftime("%H:%M:%S")
-                        print(f"[{timestamp}] 📊 {cognitive_state} | Activity: {activity_rate:.2f}/min | "
+                        logger.info(f"[{timestamp}] 📊 {cognitive_state} | Activity: {activity_rate:.2f}/min | "
                               f"G:{current_geoid_count} S:{current_scar_count} I:{current_insight_count}")
                     
                     # Get recent activities
@@ -216,20 +216,20 @@ class KimeraSystemMonitor:
                             metadata = activity.get('metadata', {})
                             
                             if 'formation' in activity_type:
-                                print(f"   🔄 {activity_type}: {metadata}")
+                                logger.info(f"   🔄 {activity_type}: {metadata}")
                         
                         self.last_activity_count = activities.get('count', 0)
                 
                 else:
                     timestamp = datetime.now().strftime("%H:%M:%S")
-                    print(f"[{timestamp}] ⏳ Waiting for vault health data...")
+                    logger.info(f"[{timestamp}] ⏳ Waiting for vault health data...")
                 
                 time.sleep(self.update_interval)
                 
         except KeyboardInterrupt:
-            print("\n🛑 Monitoring stopped by user")
+            logger.info("\n🛑 Monitoring stopped by user")
         except Exception as e:
-            print(f"\n❌ Monitoring error: {e}")
+            logger.info(f"\n❌ Monitoring error: {e}")
     
     def run_monitor(self):
         """Run the complete monitoring process"""
@@ -250,6 +250,8 @@ class KimeraSystemMonitor:
 def main():
     """Main entry point"""
     import argparse
+import logging
+logger = logging.getLogger(__name__)
     
     parser = argparse.ArgumentParser(description="Kimera System Real-Time Monitor")
     parser.add_argument("--url", default="http://localhost:8000", help="Kimera system URL")

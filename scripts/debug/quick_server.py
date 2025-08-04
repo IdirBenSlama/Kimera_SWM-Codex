@@ -9,24 +9,24 @@ from pathlib import Path
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
-print("🌟 KIMERA REVOLUTIONARY THERMODYNAMIC SYSTEM")
-print("=" * 60)
-print("🚀 Quick server startup for world's first physics-compliant AI")
+logger.info("🌟 KIMERA REVOLUTIONARY THERMODYNAMIC SYSTEM")
+logger.info("=" * 60)
+logger.info("🚀 Quick server startup for world's first physics-compliant AI")
 
 try:
-    print("📦 Loading revolutionary thermodynamic system...")
+    logger.info("📦 Loading revolutionary thermodynamic system...")
     from src.main import app
-    print("✅ Revolutionary system loaded successfully!")
+    logger.info("✅ Revolutionary system loaded successfully!")
     
-    print("🌐 Starting server on port 8003...")
+    logger.info("🌐 Starting server on port 8003...")
     import uvicorn
     
-    print("📡 Server URLs:")
-    print("   • Documentation: http://localhost:8003/docs")
-    print("   • Thermodynamic API: http://localhost:8003/kimera/unified-thermodynamic/status")
-    print("   • Health Check: http://localhost:8003/health")
-    print("")
-    print("🔥 Starting now...")
+    logger.info("📡 Server URLs:")
+    logger.info("   • Documentation: http://localhost:8003/docs")
+    logger.info("   • Thermodynamic API: http://localhost:8003/kimera/unified-thermodynamic/status")
+    logger.info("   • Health Check: http://localhost:8003/health")
+    logger.info("")
+    logger.info("🔥 Starting now...")
     
     uvicorn.run(
         app, 
@@ -37,6 +37,8 @@ try:
     )
     
 except Exception as e:
-    print(f"❌ Error: {e}")
+    logger.info(f"❌ Error: {e}")
     import traceback
+import logging
+logger = logging.getLogger(__name__)
     traceback.print_exc() 

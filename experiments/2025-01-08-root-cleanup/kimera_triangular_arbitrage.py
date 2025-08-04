@@ -303,15 +303,15 @@ class TriangularArbitrageEngine:
 
 async def main():
     """Main execution"""
-    print("\n🔄 KIMERA TRIANGULAR ARBITRAGE ENGINE")
-    print("⚡ INTER-COIN PROFIT MAXIMIZATION")
-    print("="*50)
+    logger.info("\n🔄 KIMERA TRIANGULAR ARBITRAGE ENGINE")
+    logger.info("⚡ INTER-COIN PROFIT MAXIMIZATION")
+    logger.info("="*50)
     
     engine = TriangularArbitrageEngine()
     results = await engine.run_continuous_arbitrage(duration_minutes=5)
     
-    print(f"\n✅ Session completed")
-    print(f"💰 Total profit: ${results['total_profit']:.2f}")
+    logger.info(f"\n✅ Session completed")
+    logger.info(f"💰 Total profit: ${results['total_profit']:.2f}")
 
 if __name__ == "__main__":
     asyncio.run(main()) 

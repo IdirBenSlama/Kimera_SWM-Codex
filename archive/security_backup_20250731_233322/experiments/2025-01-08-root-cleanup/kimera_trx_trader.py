@@ -339,25 +339,25 @@ class KimeraTRXTrader:
 
 async def main():
     """Launch Kimera TRX Aggressive Trader"""
-    print("KIMERA TRX AGGRESSIVE TRADER")
-    print("=" * 50)
-    print("CONVERTS TRX TO USDT FOR AGGRESSIVE TRADING")
-    print("RAPID SCALPING WITH $50 TRADES")
-    print("2-3 SECOND INTERVALS")
-    print("MAXIMUM PROFIT TARGETING")
-    print("=" * 50)
+    logger.info("KIMERA TRX AGGRESSIVE TRADER")
+    logger.info("=" * 50)
+    logger.info("CONVERTS TRX TO USDT FOR AGGRESSIVE TRADING")
+    logger.info("RAPID SCALPING WITH $50 TRADES")
+    logger.info("2-3 SECOND INTERVALS")
+    logger.info("MAXIMUM PROFIT TARGETING")
+    logger.info("=" * 50)
     
     confirmation = input("\nThis will convert TRX to USDT and execute aggressive trades.\nType 'ATTACK' to proceed: ")
     
     if confirmation == 'ATTACK':
-        print("\nLAUNCHING TRX AGGRESSIVE TRADER...")
+        logger.info("\nLAUNCHING TRX AGGRESSIVE TRADER...")
         
         trader = KimeraTRXTrader()
         await trader.aggressive_trading_session()
         
-        print("\nTRX AGGRESSIVE TRADING SESSION COMPLETED")
+        logger.info("\nTRX AGGRESSIVE TRADING SESSION COMPLETED")
     else:
-        print("TRX trading aborted")
+        logger.info("TRX trading aborted")
 
 if __name__ == "__main__":
     asyncio.run(main()) 

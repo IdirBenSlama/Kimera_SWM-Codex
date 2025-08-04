@@ -638,12 +638,12 @@ if __name__ == "__main__":
         env['PYTHONPATH'] = f"{{current_dir}}{{os.pathsep}}{{src_dir}}"
 
     # Run the unified main module
-    print("🚀 Starting KIMERA SWM System...")
-    print("🎯 Using Unified Entry Point v2.0")
-    print("🔍 Server will start on an available port (8000-8003 or 8080)")
-    print("📚 API Documentation will be available at: http://127.0.0.1:{{port}}/docs")
-    print("🎮 Set KIMERA_MODE environment variable: progressive, full, safe, fast")
-    print("=" * 80)
+    logger.info("🚀 Starting KIMERA SWM System...")
+    logger.info("🎯 Using Unified Entry Point v2.0")
+    logger.info("🔍 Server will start on an available port (8000-8003 or 8080)")
+    logger.info("📚 API Documentation will be available at: http://127.0.0.1:{{port}}/docs")
+    logger.info("🎮 Set KIMERA_MODE environment variable: progressive, full, safe, fast")
+    logger.info("=" * 80)
 
     # Use subprocess to run with correct module path and environment
     subprocess.run([sys.executable, "-m", "src.main"], cwd=current_dir, env=env)
@@ -847,12 +847,12 @@ def main():
     result = unifier.run_unification()
     
     if result['unification_successful']:
-        print(f"✅ Successfully analyzed {result['entry_points_analyzed']} entry points")
-        print(f"🎯 Created unified entry point: {result['unified_entry_created']}")
-        print(f"📁 Backup available at: {unifier.backup_dir}")
-        print("🚀 Use 'python kimera.py' to start with the unified entry point")
+        logger.info(f"✅ Successfully analyzed {result['entry_points_analyzed']} entry points")
+        logger.info(f"🎯 Created unified entry point: {result['unified_entry_created']}")
+        logger.info(f"📁 Backup available at: {unifier.backup_dir}")
+        logger.info("🚀 Use 'python kimera.py' to start with the unified entry point")
     else:
-        print("❌ Unification failed")
+        logger.info("❌ Unification failed")
         sys.exit(1)
 
 

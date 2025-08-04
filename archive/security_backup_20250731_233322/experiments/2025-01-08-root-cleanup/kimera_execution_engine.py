@@ -411,14 +411,14 @@ class KimeraExecutionEngine:
             start_time = datetime.now()
             end_time = start_time + timedelta(minutes=runtime_minutes)
             
-            print("=" * 80)
-            print("KIMERA STATE-OF-THE-ART EXECUTION ENGINE")
-            print("=" * 80)
-            print(f"Runtime: {runtime_minutes} minutes")
-            print(f"Strategy: High-Frequency Scalping")
-            print(f"Symbols: {', '.join(self.trading_symbols)}")
-            print(f"Max Position: ${self.max_position_size}")
-            print(f"Min Spread: {self.min_spread_threshold:.4f}")
+            logger.info("=" * 80)
+            logger.info("KIMERA STATE-OF-THE-ART EXECUTION ENGINE")
+            logger.info("=" * 80)
+            logger.info(f"Runtime: {runtime_minutes} minutes")
+            logger.info(f"Strategy: High-Frequency Scalping")
+            logger.info(f"Symbols: {', '.join(self.trading_symbols)}")
+            logger.info(f"Max Position: ${self.max_position_size}")
+            logger.info(f"Min Spread: {self.min_spread_threshold:.4f}")
             
             self.running = True
             logger.info("EXECUTION ENGINE STARTED")
@@ -494,17 +494,17 @@ class KimeraExecutionEngine:
                 pnl = (sell_trade['price'] - buy_trade['price']) * sell_trade['quantity']
                 total_pnl += pnl
         
-        print("\n" + "=" * 80)
-        print("EXECUTION ENGINE PERFORMANCE REPORT")
-        print("=" * 80)
-        print(f"Runtime: {runtime:.1f} seconds")
-        print(f"Total Executions: {self.total_executions}")
-        print(f"Successful Executions: {self.successful_executions}")
-        print(f"Success Rate: {success_rate:.2f}%")
-        print(f"Average Latency: {avg_latency:.2f}ms")
-        print(f"Total Trades: {total_trades}")
-        print(f"Total P&L: ${total_pnl:.4f}")
-        print(f"Trades Per Minute: {(total_trades / runtime * 60):.1f}")
+        logger.info("\n" + "=" * 80)
+        logger.info("EXECUTION ENGINE PERFORMANCE REPORT")
+        logger.info("=" * 80)
+        logger.info(f"Runtime: {runtime:.1f} seconds")
+        logger.info(f"Total Executions: {self.total_executions}")
+        logger.info(f"Successful Executions: {self.successful_executions}")
+        logger.info(f"Success Rate: {success_rate:.2f}%")
+        logger.info(f"Average Latency: {avg_latency:.2f}ms")
+        logger.info(f"Total Trades: {total_trades}")
+        logger.info(f"Total P&L: ${total_pnl:.4f}")
+        logger.info(f"Trades Per Minute: {(total_trades / runtime * 60):.1f}")
         
         # Save detailed report
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

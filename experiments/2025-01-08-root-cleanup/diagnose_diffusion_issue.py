@@ -14,9 +14,9 @@ import sys
 
 def test_raw_chat():
     """Test the raw chat endpoint to see exact response"""
-    print("\n" + "="*60)
-    print("TESTING RAW CHAT RESPONSE")
-    print("="*60)
+    logger.info("\n" + "="*60)
+    logger.info("TESTING RAW CHAT RESPONSE")
+    logger.info("="*60)
     
     url = "http://localhost:8000/kimera/chat/"
     payload = {
@@ -25,28 +25,28 @@ def test_raw_chat():
         "session_id": "debug_test"
     }
     
-    print(f"Sending: {json.dumps(payload, indent=2)}")
+    logger.info(f"Sending: {json.dumps(payload, indent=2)}")
     
     try:
         response = requests.post(url, json=payload, timeout=180)
         
-        print(f"\nStatus Code: {response.status_code}")
-        print(f"Headers: {dict(response.headers)}")
+        logger.info(f"\nStatus Code: {response.status_code}")
+        logger.info(f"Headers: {dict(response.headers)}")
         
         if response.status_code == 200:
             data = response.json()
             
             # Print the complete response
-            print("\nComplete Response:")
-            print(json.dumps(data, indent=2))
+            logger.info("\nComplete Response:")
+            logger.info(json.dumps(data, indent=2))
             
             # Analyze the response text
             response_text = data.get('response', '')
-            print(f"\n📝 Response Text Analysis:")
-            print(f"   Length: {len(response_text)} characters")
-            print(f"   Content: '{response_text}'")
-            print(f"   First 20 chars: '{response_text[:20]}'")
-            print(f"   Last 20 chars: '{response_text[-20:]}'")
+            logger.info(f"\n📝 Response Text Analysis:")
+            logger.info(f"   Length: {len(response_text)} characters")
+            logger.info(f"   Content: '{response_text}'")
+            logger.info(f"   First 20 chars: '{response_text[:20]}'")
+            logger.info(f"   Last 20 chars: '{response_text[-20:]}'")
             
             # Check if it's a fallback response
             fallback_patterns = [
@@ -59,23 +59,25 @@ def test_raw_chat():
             
             for pattern in fallback_patterns:
                 if pattern in response_text:
-                    print(f"\n⚠️ DETECTED FALLBACK PATTERN: '{pattern}'")
-                    print("   This indicates the diffusion model failed and used fallback generation!")
+                    logger.info(f"\n⚠️ DETECTED FALLBACK PATTERN: '{pattern}'")
+                    logger.info("   This indicates the diffusion model failed and used fallback generation!")
             
             return data
         else:
-            print(f"\nError Response: {response.text}")
+            logger.info(f"\nError Response: {response.text}")
             
     except Exception as e:
-        print(f"\nException: {e}")
+        logger.info(f"\nException: {e}")
         import traceback
+import logging
+logger = logging.getLogger(__name__)
         traceback.print_exc()
 
 def check_translator_hub():
     """Check the translator hub configuration"""
-    print("\n" + "="*60)
-    print("CHECKING TRANSLATOR HUB")
-    print("="*60)
+    logger.info("\n" + "="*60)
+    logger.info("CHECKING TRANSLATOR HUB")
+    logger.info("="*60)
     
     # This endpoint doesn't exist in the current setup, but let's check what we can
     endpoints = [
@@ -86,26 +88,26 @@ def check_translator_hub():
     
     for endpoint in endpoints:
         url = f"http://localhost:8000{endpoint}"
-        print(f"\nChecking {endpoint}...")
+        logger.info(f"\nChecking {endpoint}...")
         
         try:
             response = requests.get(url, timeout=10)
             if response.status_code == 200:
-                print(f"✅ Success:")
+                logger.info(f"✅ Success:")
                 data = response.json()
-                print(json.dumps(data, indent=2)[:500] + "..." if len(json.dumps(data)) > 500 else json.dumps(data, indent=2))
+                logger.info(json.dumps(data, indent=2)[:500] + "..." if len(json.dumps(data)) > 500 else json.dumps(data, indent=2))
             else:
-                print(f"❌ Error {response.status_code}: {response.text[:100]}")
+                logger.info(f"❌ Error {response.status_code}: {response.text[:100]}")
         except requests.exceptions.Timeout:
-            print("⏱️ Timeout")
+            logger.info("⏱️ Timeout")
         except Exception as e:
-            print(f"❌ Exception: {e}")
+            logger.info(f"❌ Exception: {e}")
 
 def test_different_messages():
     """Test with different message types to see if all fail the same way"""
-    print("\n" + "="*60)
-    print("TESTING DIFFERENT MESSAGE TYPES")
-    print("="*60)
+    logger.info("\n" + "="*60)
+    logger.info("TESTING DIFFERENT MESSAGE TYPES")
+    logger.info("="*60)
     
     test_messages = [
         ("Simple", "Hi"),
@@ -118,7 +120,7 @@ def test_different_messages():
     url = "http://localhost:8000/kimera/chat/"
     
     for msg_type, message in test_messages:
-        print(f"\n--- Testing {msg_type}: '{message}' ---")
+        logger.info(f"\n--- Testing {msg_type}: '{message}' ---")
         
         payload = {
             "message": message,
@@ -136,51 +138,51 @@ def test_different_messages():
                 resp_text = data.get('response', '')
                 coherence = data.get('semantic_coherence', 0)
                 
-                print(f"✅ Response ({elapsed:.1f}s): '{resp_text}'")
-                print(f"   Length: {len(resp_text)} chars, Coherence: {coherence:.6f}")
+                logger.info(f"✅ Response ({elapsed:.1f}s): '{resp_text}'")
+                logger.info(f"   Length: {len(resp_text)} chars, Coherence: {coherence:.6f}")
                 
                 # Check if all responses are similar
                 if "magnitude" in resp_text.lower() or "processing" in resp_text.lower():
-                    print("   ⚠️ FALLBACK RESPONSE DETECTED")
+                    logger.info("   ⚠️ FALLBACK RESPONSE DETECTED")
             else:
-                print(f"❌ Error: {response.status_code}")
+                logger.info(f"❌ Error: {response.status_code}")
                 
         except Exception as e:
-            print(f"❌ Exception: {e}")
+            logger.info(f"❌ Exception: {e}")
 
 def check_model_loading():
     """Try to understand if the model is loading correctly"""
-    print("\n" + "="*60)
-    print("CHECKING MODEL LOADING STATUS")
-    print("="*60)
+    logger.info("\n" + "="*60)
+    logger.info("CHECKING MODEL LOADING STATUS")
+    logger.info("="*60)
     
     # Check system status
     try:
         response = requests.get("http://localhost:8000/kimera/status", timeout=5)
         if response.status_code == 200:
             data = response.json()
-            print("System Status:")
-            print(json.dumps(data, indent=2))
+            logger.info("System Status:")
+            logger.info(json.dumps(data, indent=2))
     except Exception as e:
         logger.error(f"Error in diagnose_diffusion_issue.py: {e}", exc_info=True)
         raise  # Re-raise for proper error handling
-        print("Could not get system status")
+        logger.info("Could not get system status")
     
     # Check if we can get any info about loaded models
-    print("\nLooking for model information...")
+    logger.info("\nLooking for model information...")
     
     # Try the monitoring endpoint
     try:
         response = requests.get("http://localhost:8000/kimera/monitoring/engines/status", timeout=5)
         if response.status_code == 200:
-            print("Engine Status:")
-            print(json.dumps(response.json(), indent=2))
+            logger.info("Engine Status:")
+            logger.info(json.dumps(response.json(), indent=2))
     except Exception as e:
         logger.error(f"Error in diagnose_diffusion_issue.py: {e}", exc_info=True)
         raise  # Re-raise for proper error handling
 
 def main():
-    print("""
+    logger.info("""
 ╔══════════════════════════════════════════════════════��═══════════╗
 ║              KIMERA DIFFUSION MODEL DIAGNOSTICS                   ║
 ║                                                                  ║
@@ -197,10 +199,10 @@ def main():
     test_different_messages()
     check_model_loading()
     
-    print("\n\n" + "="*60)
-    print("DIAGNOSIS SUMMARY")
-    print("="*60)
-    print("""
+    logger.info("\n\n" + "="*60)
+    logger.info("DIAGNOSIS SUMMARY")
+    logger.info("="*60)
+    logger.info("""
 Based on the symptoms:
 1. All responses are ~39 characters (fallback responses)
 2. Semantic coherence is near zero (0.005)

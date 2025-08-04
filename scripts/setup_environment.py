@@ -13,6 +13,8 @@ Usage:
 import os
 import sys
 from pathlib import Path
+import logging
+logger = logging.getLogger(__name__)
 
 def create_environment_file():
     """Create comprehensive environment configuration"""
@@ -44,7 +46,7 @@ KIMERA_LOG_LEVEL=INFO
 # =============================================================================
 
 # Secret key for session management (change in production!)
-KIMERA_SECRET_KEY=# Generate with: python -c "import secrets; print(secrets.token_urlsafe(32))"
+KIMERA_SECRET_KEY=# Generate with: python -c "import secrets; logger.info(secrets.token_urlsafe(32))"
 
 # API key for authentication (change this!)
 KIMERA_API_KEY=# Set your actual API key here
@@ -219,16 +221,16 @@ KIMERA_CUSTOM_CONFIG={}
     with open(env_example_path, "w") as f:
         f.write(env_content)
     
-    print("✅ Created .env.example with comprehensive configuration")
+    logger.info("✅ Created .env.example with comprehensive configuration")
     
     # Create .env file if it doesn't exist
     env_path = Path(".env")
     if not env_path.exists():
         with open(env_path, "w") as f:
             f.write(env_content)
-        print("✅ Created .env file (customize as needed)")
+        logger.info("✅ Created .env file (customize as needed)")
     else:
-        print("ℹ️  .env file already exists (not overwritten)")
+        logger.info("ℹ️  .env file already exists (not overwritten)")
     
     return True
 
@@ -246,9 +248,9 @@ def create_directories():
         path = Path(directory)
         if not path.exists():
             path.mkdir(parents=True, exist_ok=True)
-            print(f"✅ Created directory: {directory}")
+            logger.info(f"✅ Created directory: {directory}")
         else:
-            print(f"ℹ️  Directory already exists: {directory}")
+            logger.info(f"ℹ️  Directory already exists: {directory}")
     
     return True
 
@@ -355,41 +357,41 @@ kimera.db-journal
     if not gitignore_path.exists():
         with open(gitignore_path, "w") as f:
             f.write(gitignore_content)
-        print("✅ Created .gitignore file")
+        logger.info("✅ Created .gitignore file")
     else:
-        print("ℹ️  .gitignore file already exists")
+        logger.info("ℹ️  .gitignore file already exists")
     
     return True
 
 def main():
     """Main setup function"""
-    print("🔧 KIMERA SWM - Environment Setup")
-    print("=" * 40)
+    logger.info("🔧 KIMERA SWM - Environment Setup")
+    logger.info("=" * 40)
     
     # Create environment configuration
-    print("\n📄 Creating environment configuration...")
+    logger.info("\n📄 Creating environment configuration...")
     if not create_environment_file():
-        print("❌ Failed to create environment configuration")
+        logger.info("❌ Failed to create environment configuration")
         return False
     
     # Create required directories
-    print("\n📁 Creating directories...")
+    logger.info("\n📁 Creating directories...")
     if not create_directories():
-        print("❌ Failed to create directories")
+        logger.info("❌ Failed to create directories")
         return False
     
     # Create .gitignore
-    print("\n📝 Creating .gitignore...")
+    logger.info("\n📝 Creating .gitignore...")
     if not create_gitignore():
-        print("❌ Failed to create .gitignore")
+        logger.info("❌ Failed to create .gitignore")
         return False
     
-    print("\n✅ Environment setup complete!")
-    print("\n📋 Next steps:")
-    print("1. Edit .env file with your specific settings")
-    print("2. Add your API keys to .env")
-    print("3. Run: python deploy_kimera.py")
-    print("4. Start Kimera: python kimera.py")
+    logger.info("\n✅ Environment setup complete!")
+    logger.info("\n📋 Next steps:")
+    logger.info("1. Edit .env file with your specific settings")
+    logger.info("2. Add your API keys to .env")
+    logger.info("3. Run: python deploy_kimera.py")
+    logger.info("4. Start Kimera: python kimera.py")
     
     return True
 

@@ -917,20 +917,20 @@ def main():
             f.write(report)
         
         # Print summary
-        print("\n" + "=" * 70)
-        print("KIMERA SWM - SYSTEM VERIFICATION COMPLETE")
-        print("=" * 70)
-        print(f"Overall Status: {results['overall_status'].upper()}")
-        print(f"Critical Failures: {len(verifier.critical_failures)}")
-        print(f"Warnings: {len(verifier.warnings)}")
-        print(f"Detailed Report: {md_path}")
-        print(f"Raw Data: {json_path}")
+        logger.info("\n" + "=" * 70)
+        logger.info("KIMERA SWM - SYSTEM VERIFICATION COMPLETE")
+        logger.info("=" * 70)
+        logger.info(f"Overall Status: {results['overall_status'].upper()}")
+        logger.info(f"Critical Failures: {len(verifier.critical_failures)}")
+        logger.info(f"Warnings: {len(verifier.warnings)}")
+        logger.info(f"Detailed Report: {md_path}")
+        logger.info(f"Raw Data: {json_path}")
         
         if results['overall_status'] in ['excellent', 'good']:
-            print("\n🎉 SYSTEM READY FOR CORE INTEGRATION! 🎉")
+            logger.info("\n🎉 SYSTEM READY FOR CORE INTEGRATION! 🎉")
             return 0
         else:
-            print("\n⚠️ Issues detected - review report before integration")
+            logger.info("\n⚠️ Issues detected - review report before integration")
             return 1
             
     except Exception as e:

@@ -1,0 +1,215 @@
+{
+  "timestamp": "2025-08-03T05:27:30.430355",
+  "system_info": {
+    "platform": "Windows-10-10.0.19045-SP0",
+    "architecture": [
+      "64bit",
+      "WindowsPE"
+    ],
+    "processor": "AMD64 Family 23 Model 8 Stepping 2, AuthenticAMD",
+    "python_version": "3.13.3",
+    "system": "Windows",
+    "release": "10",
+    "version": "10.0.19045",
+    "machine": "AMD64",
+    "node": "DESKTOP-J9N7DEC",
+    "memory": {
+      "total": 68603764736,
+      "available": 40698269696,
+      "percent": 40.7,
+      "used": 27905495040,
+      "free": 40698269696
+    },
+    "cpu": {
+      "count": 48,
+      "percent": 25.2,
+      "freq": {
+        "current": 3000.0,
+        "min": 0.0,
+        "max": 3000.0
+      }
+    },
+    "disk": {
+      "total": 4000768323584,
+      "used": 3073581867008,
+      "free": 927186456576,
+      "percent": 76.82479010068245
+    },
+    "gpu": {
+      "cuda_available": true,
+      "device_count": 1,
+      "current_device": 0,
+      "device_name": "NVIDIA GeForce RTX 2080 Ti",
+      "memory_allocated": 0,
+      "memory_cached": 0
+    }
+  },
+  "dependencies": {
+    "fastapi": {
+      "status": "available",
+      "version": "0.115.13"
+    },
+    "pydantic": {
+      "status": "available",
+      "version": "2.10.4"
+    },
+    "torch": {
+      "status": "available",
+      "version": "2.7.1+cu118"
+    },
+    "numpy": {
+      "status": "available",
+      "version": "2.2.6"
+    },
+    "pandas": {
+      "status": "available",
+      "version": "2.3.0"
+    },
+    "scipy": {
+      "status": "available",
+      "version": "1.16.0"
+    },
+    "psycopg2": {
+      "status": "available",
+      "version": "2.9.10 (dt dec pq3 ext lo64)"
+    },
+    "neo4j": {
+      "status": "available",
+      "version": "5.28.1"
+    },
+    "redis": {
+      "status": "available",
+      "version": "6.2.0"
+    },
+    "cupy": {
+      "status": "available",
+      "version": "13.4.1"
+    },
+    "matplotlib": {
+      "status": "available",
+      "version": "3.10.3"
+    },
+    "pytest": {
+      "status": "available",
+      "version": "8.4.1"
+    }
+  },
+  "engines": {},
+  "integrations": {
+    "databases": {
+      "neo4j": {
+        "status": "connected"
+      },
+      "redis": {
+        "status": "connected"
+      },
+      "postgresql": {
+        "status": "failed",
+        "error": "connection to server at \"localhost\" (::1), port 5432 failed: FATAL:  password authentication failed for user \"kimera_user\"\n"
+      }
+    },
+    "file_structure": {
+      "src/core": {
+        "exists": true,
+        "python_files": 135
+      },
+      "src/engines": {
+        "exists": true,
+        "python_files": 122
+      },
+      "scripts/health_check": {
+        "exists": true,
+        "python_files": 8
+      },
+      "docs/reports": {
+        "exists": true,
+        "python_files": 0
+      },
+      "tests": {
+        "exists": true,
+        "python_files": 137
+      },
+      "configs": {
+        "exists": true,
+        "python_files": 0
+      }
+    }
+  },
+  "performance": {
+    "benchmarks": {
+      "cpu_benchmark": {
+        "time": 0.013312339782714844,
+        "result": 333328333350000
+      },
+      "memory_benchmark": {
+        "time": 0.05281782150268555,
+        "size": 1000000
+      },
+      "import_benchmark": {
+        "time": 1.0013580322265625e-05
+      }
+    }
+  },
+  "compliance": {
+    "formal_verification": true,
+    "test_coverage": {
+      "test_files": 137,
+      "adequate": true
+    },
+    "documentation": {
+      "doc_files": 446,
+      "adequate": true
+    }
+  },
+  "issues": [
+    {
+      "severity": "CRITICAL",
+      "component": "KimeraSystem",
+      "message": "System initialization failed: unexpected indent (kimera_system.py, line 279)",
+      "timestamp": "2025-08-03T05:27:37.243177"
+    },
+    {
+      "severity": "HIGH",
+      "component": "Database",
+      "message": "PostgreSQL connection failed: connection to server at \"localhost\" (::1), port 5432 failed: FATAL:  password authentication failed for user \"kimera_user\"\n",
+      "timestamp": "2025-08-03T05:27:37.358008"
+    },
+    {
+      "severity": "LOW",
+      "component": "FileStructure",
+      "message": "Large number of files in src/core (135), consider reorganization",
+      "timestamp": "2025-08-03T05:27:37.372558"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": "IMMEDIATE",
+      "action": "Resolve 1 critical issues before proceeding",
+      "details": [
+        "System initialization failed: unexpected indent (kimera_system.py, line 279)"
+      ]
+    },
+    {
+      "priority": "HIGH",
+      "action": "Address 1 high-priority issues",
+      "details": [
+        "PostgreSQL connection failed: connection to server at \"localhost\" (::1), port 5432 failed: FATAL:  password authentication failed for user \"kimera_user\"\n"
+      ]
+    },
+    {
+      "priority": "HIGH",
+      "action": "Fix database connectivity issues",
+      "details": [
+        "Database connection failed: postgresql"
+      ]
+    }
+  ],
+  "audit_duration": 7.068800210952759,
+  "summary": {
+    "total_issues": 3,
+    "critical_issues": 1,
+    "high_issues": 1,
+    "overall_health": "DEGRADED",
+    "audit_duration": 7.068800210952759
+  }
+}

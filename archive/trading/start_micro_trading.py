@@ -507,11 +507,11 @@ async def main():
 
 if __name__ == "__main__":
     # SAFETY WARNING
-    print("⚠️" * 20)
-    print("WARNING: THIS WILL USE REAL MONEY")
-    print("Maximum position size: €0.10")
-    print("Only proceed if paper trading was successful")
-    print("⚠️" * 20)
+    logger.info("⚠️" * 20)
+    logger.info("WARNING: THIS WILL USE REAL MONEY")
+    logger.info("Maximum position size: €0.10")
+    logger.info("Only proceed if paper trading was successful")
+    logger.info("⚠️" * 20)
     
     # Confirmation required
     confirmation = input("\nType 'YES I UNDERSTAND' to proceed with real money micro-trading: ")
@@ -519,5 +519,5 @@ if __name__ == "__main__":
     if confirmation == "YES I UNDERSTAND":
         asyncio.run(main())
     else:
-        print("❌ Micro-trading cancelled - confirmation not provided")
-        print("   Run paper trading first: python run_paper_trading.py") 
+        logger.info("❌ Micro-trading cancelled - confirmation not provided")
+        logger.info("   Run paper trading first: python run_paper_trading.py") 

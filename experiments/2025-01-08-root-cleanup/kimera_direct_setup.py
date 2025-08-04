@@ -45,7 +45,7 @@ class KimeraDirectSetup:
     
     def print_colored(self, text: str, color: str = 'white'):
         """Print colored text for better visibility"""
-        print(f"{self.colors.get(color, '')}{text}{self.colors['end']}")
+        logger.info(f"{self.colors.get(color, '')}{text}{self.colors['end']}")
     
     def find_python_311_from_registry(self) -> Optional[str]:
         """Find Python 3.11 from Windows registry"""
@@ -369,15 +369,17 @@ pause
 import subprocess
 import sys
 import os
+import logging
+logger = logging.getLogger(__name__)
 
 # Direct execution of Kimera using the virtual environment
 venv_python = r"{self.get_venv_python()}"
 kimera_script = r"{self.project_root / 'kimera.py'}"
 
-print("Starting Kimera SWM...")
-print(f"Using Python: {{venv_python}}")
-print(f"Server will be at: http://localhost:8000")
-print()
+logger.info("Starting Kimera SWM...")
+logger.info(f"Using Python: {{venv_python}}")
+logger.info(f"Server will be at: http://localhost:8000")
+logger.info()
 
 os.chdir(r"{self.project_root}")
 subprocess.run([venv_python, kimera_script])
@@ -391,10 +393,10 @@ subprocess.run([venv_python, kimera_script])
         venv_python = self.get_venv_python()
         
         core_imports = {
-            "NumPy": "import numpy; print(f'NumPy {numpy.__version__}')",
-            "PyTorch": "import torch; print(f'PyTorch {torch.__version__}, CUDA: {torch.cuda.is_available()}')",
-            "FastAPI": "import fastapi; print(f'FastAPI {fastapi.__version__}')",
-            "Transformers": "import transformers; print(f'Transformers {transformers.__version__}')",
+            "NumPy": "import numpy; logger.info(f'NumPy {numpy.__version__}')",
+            "PyTorch": "import torch; logger.info(f'PyTorch {torch.__version__}, CUDA: {torch.cuda.is_available()}')",
+            "FastAPI": "import fastapi; logger.info(f'FastAPI {fastapi.__version__}')",
+            "Transformers": "import transformers; logger.info(f'Transformers {transformers.__version__}')",
         }
         
         all_good = True
@@ -478,8 +480,8 @@ if __name__ == "__main__":
     success = setup.run()
     
     if not success:
-        print("\nSetup failed. Please check the errors above.")
+        logger.info("\nSetup failed. Please check the errors above.")
         sys.exit(1)
     else:
-        print("\nSetup completed successfully!")
+        logger.info("\nSetup completed successfully!")
         sys.exit(0)

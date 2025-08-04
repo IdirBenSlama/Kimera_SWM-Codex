@@ -17,11 +17,11 @@ from src.trading.autonomous_kimera_trader import create_autonomous_kimera
 
 async def run_autonomous():
     """Run autonomous trader"""
-    print("🧠 STARTING KIMERA AUTONOMOUS TRADER")
-    print("   Target: EUR 5 → EUR 100")
-    print("   Mode: FULLY AUTONOMOUS")
-    print("   Safety Limits: NONE")
-    print()
+    logger.info("🧠 STARTING KIMERA AUTONOMOUS TRADER")
+    logger.info("   Target: EUR 5 → EUR 100")
+    logger.info("   Mode: FULLY AUTONOMOUS")
+    logger.info("   Safety Limits: NONE")
+    logger.info()
     
     # Create trader
     API_KEY = os.getenv("CDP_API_KEY_NAME", "")
@@ -29,12 +29,12 @@ async def run_autonomous():
     
     # Show status
     status = await trader.get_portfolio_status()
-    print(f"Portfolio Value: EUR {status['portfolio_value_eur']:.2f}")
-    print(f"Target: EUR {status['target_eur']}")
-    print(f"Progress: {status['progress_pct']:.1f}%")
-    print()
+    logger.info(f"Portfolio Value: EUR {status['portfolio_value_eur']:.2f}")
+    logger.info(f"Target: EUR {status['target_eur']}")
+    logger.info(f"Progress: {status['progress_pct']:.1f}%")
+    logger.info()
     
-    print("🚀 LAUNCHING AUTONOMOUS TRADING...")
+    logger.info("🚀 LAUNCHING AUTONOMOUS TRADING...")
     
     # Start autonomous trading
     await trader.run_autonomous_trader(cycle_interval_minutes=15)
@@ -43,8 +43,10 @@ if __name__ == "__main__":
     try:
         asyncio.run(run_autonomous())
     except KeyboardInterrupt:
-        print("\n🛑 Autonomous trading stopped")
+        logger.info("\n🛑 Autonomous trading stopped")
     except Exception as e:
-        print(f"\n❌ Error: {e}")
+        logger.info(f"\n❌ Error: {e}")
         import traceback
+import logging
+logger = logging.getLogger(__name__)
         traceback.print_exc() 

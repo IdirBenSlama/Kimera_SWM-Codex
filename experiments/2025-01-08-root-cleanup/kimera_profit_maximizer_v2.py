@@ -933,24 +933,24 @@ class KimeraProfitMaximizerV2:
         }
         
         # Print enhanced summary
-        print("\n" + "="*70)
-        print("🏁 KIMERA PROFIT MAXIMIZER V2 - ADVANCED RESULTS")
-        print("="*70)
-        print(f"⏱️  Duration: {elapsed_time/60:.2f} minutes")
-        print(f"💰 Total Profit: ${self.total_profit:+.4f}")
-        print(f"📊 Return: {(self.total_profit / self.max_position_value) * 100:+.2f}%")
-        print(f"🔄 Trades: {self.trades_executed} executed / {self.performance_metrics['trades_attempted']} attempted")
-        print(f"✅ Success Rate: {(self.performance_metrics['trades_successful'] / max(self.performance_metrics['trades_attempted'], 1)) * 100:.1f}%")
+        logger.info("\n" + "="*70)
+        logger.info("🏁 KIMERA PROFIT MAXIMIZER V2 - ADVANCED RESULTS")
+        logger.info("="*70)
+        logger.info(f"⏱️  Duration: {elapsed_time/60:.2f} minutes")
+        logger.info(f"💰 Total Profit: ${self.total_profit:+.4f}")
+        logger.info(f"📊 Return: {(self.total_profit / self.max_position_value) * 100:+.2f}%")
+        logger.info(f"🔄 Trades: {self.trades_executed} executed / {self.performance_metrics['trades_attempted']} attempted")
+        logger.info(f"✅ Success Rate: {(self.performance_metrics['trades_successful'] / max(self.performance_metrics['trades_attempted'], 1)) * 100:.1f}%")
         
         if self.trade_history:
-            print(f"🎯 Win Rate: {win_rate:.1f}%")
-            print(f"📈 Sharpe Ratio: {sharpe_ratio:.3f}")
-            print(f"⚡ Avg Duration: {avg_duration:.1f}s")
-            print(f"💎 Best Trade: ${best_trade['profit']:+.4f}")
-            print(f"💸 Worst Trade: ${worst_trade['profit']:+.4f}")
-            print(f"📉 Max Drawdown: ${self.performance_metrics['max_drawdown']:.4f}")
+            logger.info(f"🎯 Win Rate: {win_rate:.1f}%")
+            logger.info(f"📈 Sharpe Ratio: {sharpe_ratio:.3f}")
+            logger.info(f"⚡ Avg Duration: {avg_duration:.1f}s")
+            logger.info(f"💎 Best Trade: ${best_trade['profit']:+.4f}")
+            logger.info(f"💸 Worst Trade: ${worst_trade['profit']:+.4f}")
+            logger.info(f"📉 Max Drawdown: ${self.performance_metrics['max_drawdown']:.4f}")
             
-        print("="*70)
+        logger.info("="*70)
         
         # Save report
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
@@ -971,24 +971,24 @@ async def main():
         logger.error("❌ Failed to initialize. Exiting.")
         return
         
-    print("\n" + "="*70)
-    print("🚀 KIMERA PROFIT MAXIMIZER V2 - ADVANCED EDITION")
-    print("="*70)
-    print("⚠️  WARNING: REAL MONEY TRADING")
-    print(f"💎 Trading Pair: {maximizer.symbol}")
-    print(f"💰 Max Position: ${maximizer.max_position_value}")
-    print(f"⏱️  Duration: {maximizer.trading_duration/60} minutes")
-    print(f"🧠 Features: Multi-timeframe, Advanced TA, Dynamic Risk")
-    print(f"🛡️  Safety: Portfolio limits, Emergency protocols")
-    print("="*70)
+    logger.info("\n" + "="*70)
+    logger.info("🚀 KIMERA PROFIT MAXIMIZER V2 - ADVANCED EDITION")
+    logger.info("="*70)
+    logger.info("⚠️  WARNING: REAL MONEY TRADING")
+    logger.info(f"💎 Trading Pair: {maximizer.symbol}")
+    logger.info(f"💰 Max Position: ${maximizer.max_position_value}")
+    logger.info(f"⏱️  Duration: {maximizer.trading_duration/60} minutes")
+    logger.info(f"🧠 Features: Multi-timeframe, Advanced TA, Dynamic Risk")
+    logger.info(f"🛡️  Safety: Portfolio limits, Emergency protocols")
+    logger.info("="*70)
     
     # Countdown
     for i in range(5, 0, -1):
-        print(f"🚀 Advanced session starting in {i}...")
+        logger.info(f"🚀 Advanced session starting in {i}...")
         await asyncio.sleep(1)
         
-    print("🔥 KIMERA V2 TRADING SESSION STARTED!")
-    print("="*70)
+    logger.info("🔥 KIMERA V2 TRADING SESSION STARTED!")
+    logger.info("="*70)
     
     # Run advanced trading session
     await maximizer.advanced_trading_loop()

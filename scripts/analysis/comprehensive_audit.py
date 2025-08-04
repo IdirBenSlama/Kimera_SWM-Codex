@@ -407,7 +407,7 @@ class KimeraSystemAuditor:
                         debug_violations.append({
                             "file": str(py_file),
                             "line": i,
-                            "issue": "print() statement found - use logging instead",
+                            "issue": "logger.info() statement found - use logging instead",
                             "severity": "medium"
                         })
                     
@@ -627,11 +627,11 @@ def main():
     auditor = KimeraSystemAuditor()
     report = auditor.run_comprehensive_audit()
     
-    print(f"\n🔍 KIMERA SWM COMPREHENSIVE AUDIT COMPLETE")
-    print(f"Technical Debt Level: {report['technical_debt']['debt_level']}")
-    print(f"Total Files Analyzed: {report['codebase_analysis']['file_structure']['total_files']:,}")
-    print(f"Python Files: {report['codebase_analysis']['python_quality']['total_python_files']:,}")
-    print(f"Action Items: {len(report['recommendations']['immediate_actions']) + len(report['recommendations']['short_term_improvements'])}")
+    logger.info(f"\n🔍 KIMERA SWM COMPREHENSIVE AUDIT COMPLETE")
+    logger.info(f"Technical Debt Level: {report['technical_debt']['debt_level']}")
+    logger.info(f"Total Files Analyzed: {report['codebase_analysis']['file_structure']['total_files']:,}")
+    logger.info(f"Python Files: {report['codebase_analysis']['python_quality']['total_python_files']:,}")
+    logger.info(f"Action Items: {len(report['recommendations']['immediate_actions']) + len(report['recommendations']['short_term_improvements'])}")
     
     return report
 

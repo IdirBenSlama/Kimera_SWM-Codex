@@ -614,20 +614,20 @@ def main():
         
         # Print summary
         summary = results.get('summary', {})
-        print("\n" + "=" * 80)
-        print("KIMERA SWM - FINAL INTEGRATION TEST COMPLETE")
-        print("=" * 80)
-        print(f"Overall Status: {summary.get('overall_status', 'unknown').upper()}")
-        print(f"Success Rate: {summary.get('success_rate', 0) * 100:.1f}%")
-        print(f"Tests Passed: {summary.get('passed_tests', 0)}/{summary.get('total_tests', 0)}")
-        print(f"Duration: {summary.get('test_duration', 0):.2f}s")
-        print(f"Detailed Report: {md_path}")
+        logger.info("\n" + "=" * 80)
+        logger.info("KIMERA SWM - FINAL INTEGRATION TEST COMPLETE")
+        logger.info("=" * 80)
+        logger.info(f"Overall Status: {summary.get('overall_status', 'unknown').upper()}")
+        logger.info(f"Success Rate: {summary.get('success_rate', 0) * 100:.1f}%")
+        logger.info(f"Tests Passed: {summary.get('passed_tests', 0)}/{summary.get('total_tests', 0)}")
+        logger.info(f"Duration: {summary.get('test_duration', 0):.2f}s")
+        logger.info(f"Detailed Report: {md_path}")
         
         if summary.get('overall_status') in ['excellent', 'good']:
-            print("\n🎉 SYSTEM READY FOR COHERENT CORE INTEGRATION! 🎉")
+            logger.info("\n🎉 SYSTEM READY FOR COHERENT CORE INTEGRATION! 🎉")
             return 0
         else:
-            print("\n⚠️ Issues detected - review report before integration")
+            logger.info("\n⚠️ Issues detected - review report before integration")
             return 1
             
     except Exception as e:

@@ -8,6 +8,8 @@ from .connectors.base import BaseConnector
 from .portfolio import Portfolio
 from .risk_manager import RiskManager
 from .models import Order
+import logging
+logger = logging.getLogger(__name__)
 
 class TradingEngine:
     """
@@ -30,7 +32,7 @@ class TradingEngine:
         self.connector = connector
         self.portfolio = portfolio
         self.risk_manager = risk_manager
-        print(f"TradingEngine initialized with connector: {type(connector).__name__}")
+        logger.info(f"TradingEngine initialized with connector: {type(connector).__name__}")
 
     def check_price(self, ticker: str) -> float:
         """
@@ -42,9 +44,9 @@ class TradingEngine:
         Returns:
             The current price of the ticker as a float.
         """
-        print(f"Checking price for {ticker}...")
+        logger.info(f"Checking price for {ticker}...")
         price = self.connector.get_current_price(ticker)
-        print(f"Current price of {ticker} is ${price:,.2f}")
+        logger.info(f"Current price of {ticker} is ${price:,.2f}")
         return price
 
     def execute_order(self, order: Order):
@@ -54,7 +56,7 @@ class TradingEngine:
         Args:
             order: The order to be executed.
         """
-        print(f"\n--- Received order: {order.side.upper()} {order.quantity} {order.ticker} ---")
+        logger.info(f"\n--- Received order: {order.side.upper()} {order.quantity} {order.ticker} ---")
         # 1. Get current price
         price = self.connector.get_current_price(order.ticker)
 
@@ -63,9 +65,9 @@ class TradingEngine:
             # 3. If risk check passes, update portfolio
             try:
                 self.portfolio.update_position(order, price)
-                print(f"Order for {order.ticker} successfully executed.")
+                logger.info(f"Order for {order.ticker} successfully executed.")
             except ValueError as e:
-                print(f"Execution failed after risk check: {e}")
+                logger.info(f"Execution failed after risk check: {e}")
         else:
             # 4. If risk check fails, log rejection
-            print(f"Order for {order.ticker} REJECTED due to risk constraints.") 
+            logger.info(f"Order for {order.ticker} REJECTED due to risk constraints.") 

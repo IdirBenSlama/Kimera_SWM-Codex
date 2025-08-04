@@ -7,6 +7,8 @@ Run this script to start the Kimera SWM system
 import sys
 import os
 import subprocess
+import logging
+logger = logging.getLogger(__name__)
 
 # Add the current directory to Python path to enable imports
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -23,10 +25,10 @@ if __name__ == "__main__":
         env['PYTHONPATH'] = f"{current_dir}{os.pathsep}{src_dir}"
 
     # Run the main module using python -m to handle imports correctly
-    print("🚀 Starting KIMERA SWM System...")
-    print("🔍 Server will start on an available port (8000-8003 or 8080)")
-    print("📚 API Documentation will be available at: http://127.0.0.1:{port}/docs")
-    print("=" * 80)
+    logger.info("🚀 Starting KIMERA SWM System...")
+    logger.info("🔍 Server will start on an available port (8000-8003 or 8080)")
+    logger.info("📚 API Documentation will be available at: http://127.0.0.1:{port}/docs")
+    logger.info("=" * 80)
 
     # Use subprocess to run with correct module path and environment
     subprocess.run([sys.executable, "-m", "src.main"], cwd=current_dir, env=env)

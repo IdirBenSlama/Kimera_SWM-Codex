@@ -330,20 +330,20 @@ class KimeraAutonomousTrader:
 
 async def main():
     """Launch Kimera's autonomous trading mission"""
-    print("KIMERA AUTONOMOUS TRADER")
-    print("=" * 50)
-    print("MISSION: Maximum profit and growth")
-    print("DURATION: 10 minutes")
-    print("FULL AUTONOMY - No limits, no preset strategies")
-    print("Kimera will make all decisions independently")
-    print("=" * 50)
+    logger.info("KIMERA AUTONOMOUS TRADER")
+    logger.info("=" * 50)
+    logger.info("MISSION: Maximum profit and growth")
+    logger.info("DURATION: 10 minutes")
+    logger.info("FULL AUTONOMY - No limits, no preset strategies")
+    logger.info("Kimera will make all decisions independently")
+    logger.info("=" * 50)
     
-    print("\nLAUNCHING KIMERA AUTONOMOUS TRADER...")
+    logger.info("\nLAUNCHING KIMERA AUTONOMOUS TRADER...")
     
     trader = KimeraAutonomousTrader()
     await trader.autonomous_trading_session()
     
-    print("\nAUTONOMOUS TRADING SESSION COMPLETED")
+    logger.info("\nAUTONOMOUS TRADING SESSION COMPLETED")
 
 if __name__ == "__main__":
     asyncio.run(main()) 

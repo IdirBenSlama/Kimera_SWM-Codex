@@ -57,16 +57,16 @@ try:
     from src.core.geoid import GeoidState
     KIMERA_ENGINES_AVAILABLE = True
 except ImportError as e:
-    print(f"⚠️ Kimera engines not available: {e}")
+    logger.info(f"⚠️ Kimera engines not available: {e}")
     KIMERA_ENGINES_AVAILABLE = False
 
 # Technical Analysis imports with fallback
 try:
     import talib
     TALIB_AVAILABLE = True
-    print("✅ TA-Lib library loaded successfully")
+    logger.info("✅ TA-Lib library loaded successfully")
 except ImportError:
-    print("⚠️  TA-Lib not available, using fallback implementation")
+    logger.info("⚠️  TA-Lib not available, using fallback implementation")
     from src.utils import talib_fallback as talib
     TALIB_AVAILABLE = False
 
@@ -1435,11 +1435,11 @@ class KimeraAutonomousTraderScientific:
 
 async def main():
     """Main function for scientific autonomous trading"""
-    print("🧬" * 80)
-    print("🚨 KIMERA AUTONOMOUS TRADER - SCIENTIFIC GRADE")
-    print("🔬 MAXIMUM SCIENTIFIC RIGOR")
-    print("⚗️ ENGINEERING EXCELLENCE")
-    print("🧬" * 80)
+    logger.info("🧬" * 80)
+    logger.info("🚨 KIMERA AUTONOMOUS TRADER - SCIENTIFIC GRADE")
+    logger.info("🔬 MAXIMUM SCIENTIFIC RIGOR")
+    logger.info("⚗️ ENGINEERING EXCELLENCE")
+    logger.info("🧬" * 80)
     
     trader = KimeraAutonomousTraderScientific(target_usd=500.0)
     await trader.run_scientific_trading_session(30)

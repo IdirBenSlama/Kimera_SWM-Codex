@@ -7,6 +7,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from datetime import datetime
 import uuid
+import logging
+logger = logging.getLogger(__name__)
 
 Base = declarative_base()
 
@@ -66,5 +68,5 @@ def create_sqlite_tables(engine):
         Base.metadata.create_all(engine)
         return True
     except Exception as e:
-        print(f"Failed to create tables: {e}")
+        logger.info(f"Failed to create tables: {e}")
         return False

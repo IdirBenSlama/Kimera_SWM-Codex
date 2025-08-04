@@ -393,22 +393,22 @@ if __name__ == "__main__":
     async def test_error_handling():
         # Test successful operation
         result = await fetch_data("SELECT * FROM users")
-        print(f"Success: {result}")
+        logger.info(f"Success: {result}")
         
         # Test error with fallback
         result = await fetch_data("error query")
-        print(f"Error handled with fallback: {result}")
+        logger.info(f"Error handled with fallback: {result}")
         
         # Test circuit breaker
         for i in range(10):
             try:
                 result = await call_external_api("timeout endpoint")
             except HTTPException as e:
-                print(f"Request {i}: {e.detail}")
+                logger.info(f"Request {i}: {e.detail}")
         
         # Get error report
         report = get_error_report()
-        print(f"Error report: {report}")
+        logger.info(f"Error report: {report}")
     
     # Run the test
     asyncio.run(test_error_handling())

@@ -1,0 +1,91 @@
+{
+  "status": "SUCCESS",
+  "max_successful_dimension": 1024,
+  "optimal_configuration": 1024,
+  "recommendation": "\u2705 SYSTEM READY FOR 1024D OPERATION",
+  "performance_data": [
+    {
+      "dimensions": 128,
+      "time": 0.7455525398254395,
+      "memory": 309.91015625,
+      "gpu_memory": 9.49365234375
+    },
+    {
+      "dimensions": 256,
+      "time": 0.09423589706420898,
+      "memory": 10.578125,
+      "gpu_memory": 11.109375
+    },
+    {
+      "dimensions": 512,
+      "time": 0.10209918022155762,
+      "memory": 1.1015625,
+      "gpu_memory": 13.6123046875
+    },
+    {
+      "dimensions": 1024,
+      "time": 0.09341311454772949,
+      "memory": 0.08203125,
+      "gpu_memory": 25.0966796875
+    }
+  ],
+  "detailed_results": {
+    "128": {
+      "dimensions": 128,
+      "success": true,
+      "initialization_time": 0.7455525398254395,
+      "memory_usage_mb": 309.91015625,
+      "gpu_memory_mb": 9.49365234375,
+      "scenarios_shape": [
+        10,
+        253,
+        128
+      ],
+      "device": "cuda",
+      "timestamp": "2025-08-03T16:40:08.409149"
+    },
+    "256": {
+      "dimensions": 256,
+      "success": true,
+      "initialization_time": 0.09423589706420898,
+      "memory_usage_mb": 10.578125,
+      "gpu_memory_mb": 11.109375,
+      "scenarios_shape": [
+        10,
+        253,
+        256
+      ],
+      "device": "cuda",
+      "timestamp": "2025-08-03T16:40:10.505972"
+    },
+    "512": {
+      "dimensions": 512,
+      "success": true,
+      "initialization_time": 0.10209918022155762,
+      "memory_usage_mb": 1.1015625,
+      "gpu_memory_mb": 13.6123046875,
+      "scenarios_shape": [
+        5,
+        253,
+        512
+      ],
+      "device": "cuda",
+      "timestamp": "2025-08-03T16:40:12.610750"
+    },
+    "1024": {
+      "dimensions": 1024,
+      "success": true,
+      "initialization_time": 0.09341311454772949,
+      "memory_usage_mb": 0.08203125,
+      "gpu_memory_mb": 25.0966796875,
+      "scenarios_shape": [
+        5,
+        253,
+        1024
+      ],
+      "device": "cuda",
+      "timestamp": "2025-08-03T16:40:14.705922"
+    }
+  },
+  "test_timestamp": "2025-08-03T16:40:16.706660"
+}

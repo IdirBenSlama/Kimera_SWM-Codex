@@ -22,7 +22,7 @@ try:
     CDP_AVAILABLE = True
 except ImportError:
     CDP_AVAILABLE = False
-    print("⚠️ CDP SDK not available, using direct API")
+    logger.info("⚠️ CDP SDK not available, using direct API")
 
 # For backup, use direct Coinbase API
 import requests
@@ -230,12 +230,12 @@ class CDPRealTrader:
 
 async def main():
     """Main entry point"""
-    print("\n🚀 KIMERA CDP OMNIDIMENSIONAL REAL TRADING")
-    print("="*50)
-    print("💶 Working with your €5 balance")
-    print("📊 Strategies: Horizontal + Vertical")
-    print("⚠️  REAL MONEY - REAL TRADES")
-    print("="*50)
+    logger.info("\n🚀 KIMERA CDP OMNIDIMENSIONAL REAL TRADING")
+    logger.info("="*50)
+    logger.info("💶 Working with your €5 balance")
+    logger.info("📊 Strategies: Horizontal + Vertical")
+    logger.info("⚠️  REAL MONEY - REAL TRADES")
+    logger.info("="*50)
     
     trader = CDPRealTrader()
     await trader.run_omnidimensional_trading(duration_minutes=5)

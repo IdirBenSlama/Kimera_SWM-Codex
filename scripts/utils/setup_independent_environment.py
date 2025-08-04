@@ -78,11 +78,11 @@ class IndependentEnvironmentSetup:
         
         # Test critical imports
         critical_imports = [
-            "import torch; print(f'torch: {torch.__version__}')",
-            "import sympy; print(f'sympy: {sympy.__version__}')",
-            "import qiskit; print(f'qiskit: {qiskit.__version__}')",
-            "import fastapi; print(f'fastapi: {fastapi.__version__}')",
-            "import numpy; print(f'numpy: {numpy.__version__}')",
+            "import torch; logger.info(f'torch: {torch.__version__}')",
+            "import sympy; logger.info(f'sympy: {sympy.__version__}')",
+            "import qiskit; logger.info(f'qiskit: {qiskit.__version__}')",
+            "import fastapi; logger.info(f'fastapi: {fastapi.__version__}')",
+            "import numpy; logger.info(f'numpy: {numpy.__version__}')",
         ]
         
         for import_test in critical_imports:
@@ -165,13 +165,13 @@ class IndependentEnvironmentSetup:
         final_test_script = [
             "python", "-c", 
             "import torch, sympy, qiskit, fastapi, numpy, sqlalchemy, redis; "
-            "print('ENVIRONMENT VALIDATION COMPLETE'); "
-            "print(f'torch: {torch.__version__}'); "
-            "print(f'sympy: {sympy.__version__}'); "
-            "print(f'qiskit: {qiskit.__version__}'); "
-            "print(f'fastapi: {fastapi.__version__}'); "
-            "print(f'numpy: {numpy.__version__}'); "
-            "print('All critical packages functional!')"
+            "logger.info('ENVIRONMENT VALIDATION COMPLETE'); "
+            "logger.info(f'torch: {torch.__version__}'); "
+            "logger.info(f'sympy: {sympy.__version__}'); "
+            "logger.info(f'qiskit: {qiskit.__version__}'); "
+            "logger.info(f'fastapi: {fastapi.__version__}'); "
+            "logger.info(f'numpy: {numpy.__version__}'); "
+            "logger.info('All critical packages functional!')"
         ]
         
         success, output = self.run_command(

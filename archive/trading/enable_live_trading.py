@@ -259,27 +259,27 @@ class KimeraLiveTradingSystem:
 
 def main():
     """Main function to demonstrate live trading activation"""
-    print("🔴 KIMERA LIVE TRADING ACTIVATION")
-    print("=" * 50)
-    print()
-    print("⚠️  WARNING: THIS SCRIPT ENABLES REAL MONEY TRADING")
-    print("⚠️  ONLY USE WITH PROPER CREDENTIALS AND UNDERSTANDING")
-    print()
+    logger.info("🔴 KIMERA LIVE TRADING ACTIVATION")
+    logger.info("=" * 50)
+    logger.info()
+    logger.info("⚠️  WARNING: THIS SCRIPT ENABLES REAL MONEY TRADING")
+    logger.info("⚠️  ONLY USE WITH PROPER CREDENTIALS AND UNDERSTANDING")
+    logger.info()
     
     # Example configuration (DO NOT USE THESE VALUES)
     BINANCE_API_KEY = "YOUR_BINANCE_API_KEY_HERE"
     BINANCE_PRIVATE_KEY_PATH = "path/to/your/private_key.pem"
     
     if BINANCE_API_KEY == "YOUR_BINANCE_API_KEY_HERE":
-        print("❌ PLEASE SET YOUR ACTUAL API CREDENTIALS")
-        print("❌ DO NOT USE PLACEHOLDER VALUES")
-        print()
-        print("Required steps:")
-        print("1. Get Binance API key from your account")
-        print("2. Create Ed25519 private key file")
-        print("3. Update the credentials in this script")
-        print("4. Test with small amounts first")
-        print("5. Monitor continuously")
+        logger.info("❌ PLEASE SET YOUR ACTUAL API CREDENTIALS")
+        logger.info("❌ DO NOT USE PLACEHOLDER VALUES")
+        logger.info()
+        logger.info("Required steps:")
+        logger.info("1. Get Binance API key from your account")
+        logger.info("2. Create Ed25519 private key file")
+        logger.info("3. Update the credentials in this script")
+        logger.info("4. Test with small amounts first")
+        logger.info("5. Monitor continuously")
         return
     
     async def run_demo():
@@ -296,10 +296,10 @@ def main():
             
             # Enable live trading
             if await system.enable_live_trading():
-                print("✅ Live trading enabled successfully")
+                logger.info("✅ Live trading enabled successfully")
                 
                 # Run for 5 minutes as demo
-                print("🚀 Running live trading demo for 5 minutes...")
+                logger.info("🚀 Running live trading demo for 5 minutes...")
                 await asyncio.sleep(300)  # 5 minutes
                 
                 # Stop trading
@@ -307,13 +307,13 @@ def main():
                 
                 # Show final status
                 status = system.get_system_status()
-                print(f"📊 Final Status: {status}")
+                logger.info(f"📊 Final Status: {status}")
                 
             else:
-                print("❌ Failed to enable live trading")
+                logger.info("❌ Failed to enable live trading")
                 
         except Exception as e:
-            print(f"❌ Demo failed: {e}")
+            logger.info(f"❌ Demo failed: {e}")
             await system.emergency_stop()
     
     # Run the demo

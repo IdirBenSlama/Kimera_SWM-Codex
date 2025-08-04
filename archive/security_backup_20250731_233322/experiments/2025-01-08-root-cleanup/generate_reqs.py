@@ -4,6 +4,8 @@ Scans the project to generate a comprehensive requirements.txt file.
 import os
 import re
 import pkgutil
+import logging
+logger = logging.getLogger(__name__)
 
 # Get a list of standard library modules
 STD_LIBS = {mod.name for mod in pkgutil.iter_modules()}
@@ -49,7 +51,7 @@ def main():
                         if base_package not in ["backend", "scientific"] and base_package not in STD_LIBS:
                             dependencies.add(base_package)
         except Exception as e:
-            print(f"Could not process {file_path}: {e}")
+            logger.info(f"Could not process {file_path}: {e}")
 
     # Add packages that might be missed by the simple regex
     # These were found in the error logs
@@ -57,14 +59,14 @@ def main():
     for pkg in missed_packages:
         dependencies.add(pkg)
 
-    print("Found dependencies:", sorted(list(dependencies)))
+    logger.info("Found dependencies:", sorted(list(dependencies)))
 
     # Write to requirements.txt
     with open("requirements.txt", "w", encoding="utf-8") as f:
         for dep in sorted(list(dependencies)):
             f.write(f"{dep}\n")
     
-    print("\nrequirements.txt has been generated.")
+    logger.info("\nrequirements.txt has been generated.")
 
 if __name__ == "__main__":
     main() 

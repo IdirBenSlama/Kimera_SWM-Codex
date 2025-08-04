@@ -11,19 +11,21 @@ import json
 import subprocess
 import time
 from pathlib import Path
+import logging
+logger = logging.getLogger(__name__)
 
 def kill_existing_servers():
     """Kill any existing MCP server processes."""
-    print("🔄 Killing existing MCP server processes...")
+    logger.info("🔄 Killing existing MCP server processes...")
     try:
         subprocess.run(["taskkill", "/F", "/IM", "python.exe"], 
                       capture_output=True, check=False)
         subprocess.run(["taskkill", "/F", "/IM", "mcp-server-sqlite.exe"], 
                       capture_output=True, check=False)
         time.sleep(2)
-        print("✅ Cleaned up existing processes")
+        logger.info("✅ Cleaned up existing processes")
     except Exception as e:
-        print(f"⚠️ Error cleaning processes: {e}")
+        logger.info(f"⚠️ Error cleaning processes: {e}")
 
 def create_minimal_mcp_config():
     """Create a minimal MCP configuration that works on Windows."""
@@ -43,12 +45,12 @@ def create_minimal_mcp_config():
     with open(config_path, 'w') as f:
         json.dump(config, f, indent=2)
     
-    print(f"✅ Created minimal config: {config_path}")
+    logger.info(f"✅ Created minimal config: {config_path}")
     return config
 
 def test_minimal_config():
     """Test the minimal configuration."""
-    print("\n🧪 Testing minimal configuration...")
+    logger.info("\n🧪 Testing minimal configuration...")
     
     try:
         # Test SQLite server directly
@@ -57,19 +59,19 @@ def test_minimal_config():
             "--db-path", str(Path.cwd() / "kimera_swm.db")
         ], capture_output=True, text=True, timeout=5)
         
-        print("✅ SQLite server test passed")
+        logger.info("✅ SQLite server test passed")
         return True
         
     except subprocess.TimeoutExpired:
-        print("✅ SQLite server started (timeout expected)")
+        logger.info("✅ SQLite server started (timeout expected)")
         return True
     except Exception as e:
-        print(f"❌ SQLite server test failed: {e}")
+        logger.info(f"❌ SQLite server test failed: {e}")
         return False
 
 def create_working_config():
     """Create a working MCP configuration step by step."""
-    print("\n🔧 Creating working MCP configuration...")
+    logger.info("\n🔧 Creating working MCP configuration...")
     
     # Start with minimal working config
     config = {
@@ -91,12 +93,12 @@ def create_working_config():
     with open(config_path, 'w') as f:
         json.dump(config, f, indent=2)
     
-    print("✅ Created working configuration")
+    logger.info("✅ Created working configuration")
     return config
 
 def verify_environment():
     """Verify the Python environment has required packages."""
-    print("\n🔍 Verifying environment...")
+    logger.info("\n🔍 Verifying environment...")
     
     required_packages = ["mcp", "fastmcp", "mcp_server_fetch", "mcp_server_sqlite"]
     missing_packages = []
@@ -104,19 +106,19 @@ def verify_environment():
     for package in required_packages:
         try:
             __import__(package.replace("-", "_"))
-            print(f"✅ {package} installed")
+            logger.info(f"✅ {package} installed")
         except ImportError:
             missing_packages.append(package)
-            print(f"❌ {package} missing")
+            logger.info(f"❌ {package} missing")
     
     if missing_packages:
-        print(f"\n📦 Installing missing packages: {missing_packages}")
+        logger.info(f"\n📦 Installing missing packages: {missing_packages}")
         for package in missing_packages:
             try:
                 subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-                print(f"✅ Installed {package}")
+                logger.info(f"✅ Installed {package}")
             except Exception as e:
-                print(f"❌ Failed to install {package}: {e}")
+                logger.info(f"❌ Failed to install {package}: {e}")
 
 def create_cursor_restart_script():
     """Create a script to properly restart Cursor."""
@@ -133,13 +135,13 @@ pause
     with open(script_path, 'w') as f:
         f.write(script_content)
     
-    print(f"✅ Created restart script: {script_path}")
+    logger.info(f"✅ Created restart script: {script_path}")
 
 def main():
     """Main fix routine."""
-    print("🚀 Windows MCP Server Fix Script")
-    print("Based on Cursor forum solutions")
-    print("=" * 50)
+    logger.info("🚀 Windows MCP Server Fix Script")
+    logger.info("Based on Cursor forum solutions")
+    logger.info("=" * 50)
     
     # Step 1: Clean environment
     kill_existing_servers()
@@ -150,9 +152,9 @@ def main():
     # Step 3: Test minimal config
     create_minimal_mcp_config()
     if test_minimal_config():
-        print("✅ Minimal config works")
+        logger.info("✅ Minimal config works")
     else:
-        print("❌ Basic SQLite server not working")
+        logger.info("❌ Basic SQLite server not working")
         return
     
     # Step 4: Create working config
@@ -161,13 +163,13 @@ def main():
     # Step 5: Create restart script
     create_cursor_restart_script()
     
-    print("\n🎯 NEXT STEPS:")
-    print("1. Run 'restart_cursor.bat' to restart Cursor")
-    print("2. Check MCP servers in Cursor settings")
-    print("3. If still red, try the alternative configs below")
+    logger.info("\n🎯 NEXT STEPS:")
+    logger.info("1. Run 'restart_cursor.bat' to restart Cursor")
+    logger.info("2. Check MCP servers in Cursor settings")
+    logger.info("3. If still red, try the alternative configs below")
     
-    print("\n💡 ALTERNATIVE SOLUTIONS:")
-    print("If servers still show red, try these configurations:")
+    logger.info("\n💡 ALTERNATIVE SOLUTIONS:")
+    logger.info("If servers still show red, try these configurations:")
     
     # Alternative 1: CMD wrapper
     alt_config_1 = {
@@ -182,10 +184,10 @@ def main():
     
     with open(".cursor/mcp_alt1.json", 'w') as f:
         json.dump(alt_config_1, f, indent=2)
-    print("✅ Alternative 1 saved to .cursor/mcp_alt1.json")
+    logger.info("✅ Alternative 1 saved to .cursor/mcp_alt1.json")
     
     # Alternative 2: Full paths
-    python_path = subprocess.check_output([sys.executable, "-c", "import sys; print(sys.executable)"], text=True).strip()
+    python_path = subprocess.check_output([sys.executable, "-c", "import sys; logger.info(sys.executable)"], text=True).strip()
     alt_config_2 = {
         "mcpServers": {
             "sqlite-full": {
@@ -198,13 +200,13 @@ def main():
     
     with open(".cursor/mcp_alt2.json", 'w') as f:
         json.dump(alt_config_2, f, indent=2)
-    print("✅ Alternative 2 saved to .cursor/mcp_alt2.json")
+    logger.info("✅ Alternative 2 saved to .cursor/mcp_alt2.json")
     
-    print("\n📋 TROUBLESHOOTING:")
-    print("- If servers remain red, copy contents of mcp_alt1.json to mcp.json")
-    print("- If that fails, try mcp_alt2.json")
-    print("- Restart Cursor completely after each change")
-    print("- Check Windows firewall/antivirus isn't blocking processes")
+    logger.info("\n📋 TROUBLESHOOTING:")
+    logger.info("- If servers remain red, copy contents of mcp_alt1.json to mcp.json")
+    logger.info("- If that fails, try mcp_alt2.json")
+    logger.info("- Restart Cursor completely after each change")
+    logger.info("- Check Windows firewall/antivirus isn't blocking processes")
 
 if __name__ == "__main__":
     main() 

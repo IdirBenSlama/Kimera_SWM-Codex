@@ -25,6 +25,8 @@ from typing import Dict, List, Any, Optional
 import json
 import traceback
 from decimal import Decimal, ROUND_DOWN
+import logging
+logger = logging.getLogger(__name__)
 
 load_dotenv()
 
@@ -69,15 +71,15 @@ class KimeraUltimateBulletproofTrader:
         self.trade_history = []
         self.running = False
         
-        print("🛡️" * 80)
-        print("🤖 KIMERA ULTIMATE BULLETPROOF TRADER")
-        print("🛡️ ABSOLUTE ZERO-FAILURE GUARANTEE")
-        print("🔥 5-LAYER VALIDATION SYSTEM")
-        print("💰 ULTRA-CONSERVATIVE CALCULATIONS")
-        print(f"💵 MIN TRADE SIZE: ${self.min_trade_size}")
-        print(f"🧹 DUST THRESHOLD: ${self.dust_threshold}")
-        print("🛡️ 100% BULLETPROOF LOGIC")
-        print("🛡️" * 80)
+        logger.info("🛡️" * 80)
+        logger.info("🤖 KIMERA ULTIMATE BULLETPROOF TRADER")
+        logger.info("🛡️ ABSOLUTE ZERO-FAILURE GUARANTEE")
+        logger.info("🔥 5-LAYER VALIDATION SYSTEM")
+        logger.info("💰 ULTRA-CONSERVATIVE CALCULATIONS")
+        logger.info(f"💵 MIN TRADE SIZE: ${self.min_trade_size}")
+        logger.info(f"🧹 DUST THRESHOLD: ${self.dust_threshold}")
+        logger.info("🛡️ 100% BULLETPROOF LOGIC")
+        logger.info("🛡️" * 80)
     
     def validate_amount_bulletproof(self, amount: float, symbol: str, operation: str) -> tuple[bool, str]:
         """5-Layer bulletproof amount validation"""
@@ -160,8 +162,8 @@ class KimeraUltimateBulletproofTrader:
             portfolio = {}
             total_value = 0.0
             
-            print(f"\n🧹 ULTRA-CLEAN PORTFOLIO ANALYSIS:")
-            print("-" * 60)
+            logger.info(f"\n🧹 ULTRA-CLEAN PORTFOLIO ANALYSIS:")
+            logger.info("-" * 60)
             
             for asset, info in balance.items():
                 if asset not in ['free', 'used', 'total', 'info'] and isinstance(info, dict):
@@ -176,7 +178,7 @@ class KimeraUltimateBulletproofTrader:
                                 price = tickers[symbol]['last']
                                 usd_value = free * price
                             else:
-                                print(f"   ⚠️ {asset}: No ticker data - EXCLUDED")
+                                logger.info(f"   ⚠️ {asset}: No ticker data - EXCLUDED")
                                 continue
                         
                         # ULTRA-AGGRESSIVE DUST FILTERING
@@ -196,18 +198,18 @@ class KimeraUltimateBulletproofTrader:
                                     if (sellable_amount >= min_amount * self.min_amount_multiplier and 
                                         sellable_value >= min_notional):
                                         tradeable = True
-                                        print(f"   ✅ {asset}: ${usd_value:.2f} (TRADEABLE)")
+                                        logger.info(f"   ✅ {asset}: ${usd_value:.2f} (TRADEABLE)")
                                     else:
                                         tradeable = False
-                                        print(f"   ⚠️ {asset}: ${usd_value:.2f} (NOT TRADEABLE - amounts too small)")
+                                        logger.info(f"   ⚠️ {asset}: ${usd_value:.2f} (NOT TRADEABLE - amounts too small)")
                                         continue  # Skip non-tradeable assets
                                         
                                 except Exception as e:
-                                    print(f"   ❌ {asset}: Market validation failed - EXCLUDED")
+                                    logger.info(f"   ❌ {asset}: Market validation failed - EXCLUDED")
                                     continue
                             else:
                                 tradeable = True
-                                print(f"   ✅ {asset}: ${usd_value:.2f} (USDT)")
+                                logger.info(f"   ✅ {asset}: ${usd_value:.2f} (USDT)")
                             
                             portfolio[asset] = {
                                 'amount': free,
@@ -218,16 +220,16 @@ class KimeraUltimateBulletproofTrader:
                             }
                             total_value += usd_value
                         else:
-                            print(f"   🧹 {asset}: ${usd_value:.2f} (DUST - EXCLUDED)")
+                            logger.info(f"   🧹 {asset}: ${usd_value:.2f} (DUST - EXCLUDED)")
             
-            print("-" * 60)
-            print(f"💰 Ultra-Clean Portfolio Value: ${total_value:.2f}")
-            print(f"🛡️ Assets Included: {len(portfolio)}")
+            logger.info("-" * 60)
+            logger.info(f"💰 Ultra-Clean Portfolio Value: ${total_value:.2f}")
+            logger.info(f"🛡️ Assets Included: {len(portfolio)}")
             
             return {'assets': portfolio, 'total_value': total_value}
             
         except Exception as e:
-            print(f"❌ Portfolio error: {e}")
+            logger.info(f"❌ Portfolio error: {e}")
             return {'assets': {}, 'total_value': 0.0}
     
     def find_bulletproof_opportunities(self) -> List[Dict]:
@@ -238,8 +240,8 @@ class KimeraUltimateBulletproofTrader:
             tickers = self.exchange.fetch_tickers()
             portfolio = self.get_ultra_clean_portfolio()
             
-            print(f"\n🔍 SEARCHING FOR BULLETPROOF OPPORTUNITIES:")
-            print("-" * 60)
+            logger.info(f"\n🔍 SEARCHING FOR BULLETPROOF OPPORTUNITIES:")
+            logger.info("-" * 60)
             
             # Get USDT balance for BUY opportunities
             usdt_balance = portfolio['assets'].get('USDT', {}).get('amount', 0)
@@ -286,9 +288,9 @@ class KimeraUltimateBulletproofTrader:
                                     'validation': reason,
                                     'reason': f"Safe momentum: +{change_24h:.2f}%"
                                 })
-                                print(f"   ✅ BUY: {symbol} - ${trade_size:.2f} - {reason}")
+                                logger.info(f"   ✅ BUY: {symbol} - ${trade_size:.2f} - {reason}")
                             else:
-                                print(f"   ❌ BUY: {symbol} - FAILED: {reason}")
+                                logger.info(f"   ❌ BUY: {symbol} - FAILED: {reason}")
             
             # 🛡️ ULTRA-CONSERVATIVE SELL OPPORTUNITIES 🛡️
             for asset, data in portfolio['assets'].items():
@@ -322,18 +324,18 @@ class KimeraUltimateBulletproofTrader:
                                 'validation': reason,
                                 'reason': f"Safe profit: +{change_24h:.2f}%"
                             })
-                            print(f"   ✅ SELL: {symbol} - {sell_amount:.8f} - {reason}")
+                            logger.info(f"   ✅ SELL: {symbol} - {sell_amount:.8f} - {reason}")
                         else:
-                            print(f"   ❌ SELL: {symbol} - FAILED: {reason}")
+                            logger.info(f"   ❌ SELL: {symbol} - FAILED: {reason}")
             
             # Sort by confidence
             opportunities.sort(key=lambda x: x['confidence'], reverse=True)
             
-            print(f"🎯 Found {len(opportunities)} bulletproof opportunities")
+            logger.info(f"🎯 Found {len(opportunities)} bulletproof opportunities")
             return opportunities[:3]  # Return top 3 only
             
         except Exception as e:
-            print(f"❌ Opportunity search error: {e}")
+            logger.info(f"❌ Opportunity search error: {e}")
             traceback.print_exc()
             return []
     
@@ -343,27 +345,27 @@ class KimeraUltimateBulletproofTrader:
             symbol = opportunity['symbol']
             direction = opportunity['direction']
             
-            print(f"\n🛡️ EXECUTING ULTRA-BULLETPROOF TRADE:")
-            print(f"   Type: {opportunity['type']}")
-            print(f"   Symbol: {symbol}")
-            print(f"   Direction: {direction}")
-            print(f"   Confidence: {opportunity['confidence']:.1%}")
-            print(f"   Validation: {opportunity['validation']}")
-            print(f"   Reason: {opportunity['reason']}")
+            logger.info(f"\n🛡️ EXECUTING ULTRA-BULLETPROOF TRADE:")
+            logger.info(f"   Type: {opportunity['type']}")
+            logger.info(f"   Symbol: {symbol}")
+            logger.info(f"   Direction: {direction}")
+            logger.info(f"   Confidence: {opportunity['confidence']:.1%}")
+            logger.info(f"   Validation: {opportunity['validation']}")
+            logger.info(f"   Reason: {opportunity['reason']}")
             
             if direction == 'BUY':
                 trade_size_usdt = opportunity['trade_size_usdt']
                 quantity = opportunity['quantity']
                 price = opportunity['price']
                 
-                print(f"   Trade Size: ${trade_size_usdt:.2f}")
-                print(f"   Quantity: {quantity:.8f}")
-                print(f"   Price: ${price:.4f}")
+                logger.info(f"   Trade Size: ${trade_size_usdt:.2f}")
+                logger.info(f"   Quantity: {quantity:.8f}")
+                logger.info(f"   Price: ${price:.4f}")
                 
                 # FINAL VALIDATION BEFORE EXECUTION
                 valid, reason = self.validate_amount_bulletproof(quantity, symbol, "BUY")
                 if not valid:
-                    print(f"   ❌ FINAL VALIDATION FAILED: {reason}")
+                    logger.info(f"   ❌ FINAL VALIDATION FAILED: {reason}")
                     return False
                 
                 # Check USDT balance one more time
@@ -371,20 +373,20 @@ class KimeraUltimateBulletproofTrader:
                 usdt_available = balance['USDT']['free']
                 
                 if usdt_available < trade_size_usdt * 1.05:  # 5% safety margin
-                    print(f"   ❌ Insufficient USDT: {usdt_available:.2f} < {trade_size_usdt * 1.05:.2f}")
+                    logger.info(f"   ❌ Insufficient USDT: {usdt_available:.2f} < {trade_size_usdt * 1.05:.2f}")
                     return False
                 
                 # Execute BUY order
-                print(f"   🚀 EXECUTING BUY ORDER...")
+                logger.info(f"   🚀 EXECUTING BUY ORDER...")
                 order = self.exchange.create_market_buy_order(symbol, quantity)
                 
                 actual_cost = order.get('cost', trade_size_usdt)
                 actual_quantity = order.get('amount', quantity)
                 
-                print(f"   ✅ BUY SUCCESSFUL!")
-                print(f"   💰 Cost: ${actual_cost:.2f}")
-                print(f"   📦 Quantity: {actual_quantity:.8f}")
-                print(f"   📋 Order ID: {order['id']}")
+                logger.info(f"   ✅ BUY SUCCESSFUL!")
+                logger.info(f"   💰 Cost: ${actual_cost:.2f}")
+                logger.info(f"   📦 Quantity: {actual_quantity:.8f}")
+                logger.info(f"   📋 Order ID: {order['id']}")
                 
                 # Track position
                 self.active_positions[symbol] = {
@@ -403,31 +405,31 @@ class KimeraUltimateBulletproofTrader:
                 sell_amount = opportunity['sell_amount']
                 notional_value = opportunity['notional_value']
                 
-                print(f"   Sell Amount: {sell_amount:.8f}")
-                print(f"   Notional Value: ${notional_value:.2f}")
+                logger.info(f"   Sell Amount: {sell_amount:.8f}")
+                logger.info(f"   Notional Value: ${notional_value:.2f}")
                 
                 # FINAL VALIDATION BEFORE EXECUTION
                 valid, reason = self.validate_amount_bulletproof(sell_amount, symbol, "SELL")
                 if not valid:
-                    print(f"   ❌ FINAL VALIDATION FAILED: {reason}")
+                    logger.info(f"   ❌ FINAL VALIDATION FAILED: {reason}")
                     return False
                 
                 # Execute SELL order
-                print(f"   🚀 EXECUTING SELL ORDER...")
+                logger.info(f"   🚀 EXECUTING SELL ORDER...")
                 order = self.exchange.create_market_sell_order(symbol, sell_amount)
                 
                 received_usdt = order.get('cost', 0)
                 
-                print(f"   ✅ SELL SUCCESSFUL!")
-                print(f"   💰 Received: ${received_usdt:.2f}")
-                print(f"   📋 Order ID: {order['id']}")
+                logger.info(f"   ✅ SELL SUCCESSFUL!")
+                logger.info(f"   💰 Received: ${received_usdt:.2f}")
+                logger.info(f"   📋 Order ID: {order['id']}")
                 
                 self.trades_executed += 1
                 self.total_profit += received_usdt * 0.02  # Estimate profit
                 return True
             
         except Exception as e:
-            print(f"   ❌ TRADE EXECUTION FAILED: {e}")
+            logger.info(f"   ❌ TRADE EXECUTION FAILED: {e}")
             traceback.print_exc()
             self.failed_trades += 1
             return False
@@ -476,31 +478,31 @@ class KimeraUltimateBulletproofTrader:
                             if profit_usd > 0:
                                 self.successful_trades += 1
                             
-                            print(f"   🎯 EXITED {symbol}: {reason}")
-                            print(f"   💰 P&L: ${profit_usd:+.2f}")
+                            logger.info(f"   🎯 EXITED {symbol}: {reason}")
+                            logger.info(f"   💰 P&L: ${profit_usd:+.2f}")
                             
                             del self.active_positions[symbol]
                         else:
-                            print(f"   ⚠️ Exit validation failed for {symbol}: {validation_reason}")
+                            logger.info(f"   ⚠️ Exit validation failed for {symbol}: {validation_reason}")
                 
             except Exception as e:
-                print(f"   ❌ Position monitoring error for {symbol}: {e}")
+                logger.info(f"   ❌ Position monitoring error for {symbol}: {e}")
     
     async def run_ultimate_bulletproof_session(self, duration_minutes: int = 3):
         """Run ultimate bulletproof session"""
-        print(f"\n🛡️ STARTING ULTIMATE BULLETPROOF SESSION 🛡️")
-        print(f"⏱️ DURATION: {duration_minutes} MINUTES")
-        print(f"🎯 TARGET: {self.profit_target:.0%} PROFIT")
-        print(f"🛡️ ZERO-FAILURE GUARANTEE")
-        print("🛡️" * 80)
+        logger.info(f"\n🛡️ STARTING ULTIMATE BULLETPROOF SESSION 🛡️")
+        logger.info(f"⏱️ DURATION: {duration_minutes} MINUTES")
+        logger.info(f"🎯 TARGET: {self.profit_target:.0%} PROFIT")
+        logger.info(f"🛡️ ZERO-FAILURE GUARANTEE")
+        logger.info("🛡️" * 80)
         
         self.session_start = time.time()
         portfolio = self.get_ultra_clean_portfolio()
         self.starting_portfolio_value = portfolio['total_value']
         self.running = True
         
-        print(f"💰 Starting Portfolio: ${self.starting_portfolio_value:.2f}")
-        print(f"🎯 Target Value: ${self.starting_portfolio_value * (1 + self.profit_target):.2f}")
+        logger.info(f"💰 Starting Portfolio: ${self.starting_portfolio_value:.2f}")
+        logger.info(f"🎯 Target Value: ${self.starting_portfolio_value * (1 + self.profit_target):.2f}")
         
         session_duration = duration_minutes * 60
         last_trade_time = 0
@@ -521,13 +523,13 @@ class KimeraUltimateBulletproofTrader:
                     current_profit = self.current_portfolio_value - self.starting_portfolio_value
                     current_profit_pct = (current_profit / self.starting_portfolio_value) * 100
                     
-                    print(f"\n⚡ {remaining:.0f}s | ${self.current_portfolio_value:.2f} | "
+                    logger.info(f"\n⚡ {remaining:.0f}s | ${self.current_portfolio_value:.2f} | "
                           f"{current_profit_pct:+.2f}% | T:{self.trades_executed} | "
                           f"S:{self.successful_trades} | 🛡️")
                     
                     # Check target
                     if current_profit_pct >= self.profit_target * 100:
-                        print(f"\n🎯 TARGET ACHIEVED! {current_profit_pct:.2f}% PROFIT!")
+                        logger.info(f"\n🎯 TARGET ACHIEVED! {current_profit_pct:.2f}% PROFIT!")
                         break
                 
                 # Monitor positions
@@ -549,10 +551,10 @@ class KimeraUltimateBulletproofTrader:
                 await asyncio.sleep(3)  # Conservative loop delay
                 
             except KeyboardInterrupt:
-                print("\n🛑 MANUAL STOP")
+                logger.info("\n🛑 MANUAL STOP")
                 break
             except Exception as e:
-                print(f"⚠️ Loop error: {e}")
+                logger.info(f"⚠️ Loop error: {e}")
                 await asyncio.sleep(5)  # Longer delay on errors
         
         # Close session
@@ -560,7 +562,7 @@ class KimeraUltimateBulletproofTrader:
     
     async def close_ultimate_session(self):
         """Close ultimate bulletproof session"""
-        print(f"\n🔚 CLOSING ULTIMATE BULLETPROOF SESSION...")
+        logger.info(f"\n🔚 CLOSING ULTIMATE BULLETPROOF SESSION...")
         
         # Close all positions with bulletproof validation
         for symbol in list(self.active_positions.keys()):
@@ -573,12 +575,12 @@ class KimeraUltimateBulletproofTrader:
                     valid, reason = self.validate_amount_bulletproof(available, symbol, "SELL")
                     if valid:
                         order = self.exchange.create_market_sell_order(symbol, available)
-                        print(f"   ✅ Closed {symbol}: ${order.get('cost', 0):.2f}")
+                        logger.info(f"   ✅ Closed {symbol}: ${order.get('cost', 0):.2f}")
                     else:
-                        print(f"   ⚠️ Could not close {symbol}: {reason}")
+                        logger.info(f"   ⚠️ Could not close {symbol}: {reason}")
                     
             except Exception as e:
-                print(f"   ❌ Error closing {symbol}: {e}")
+                logger.info(f"   ❌ Error closing {symbol}: {e}")
         
         # Final calculations
         final_portfolio = self.get_ultra_clean_portfolio()
@@ -588,34 +590,34 @@ class KimeraUltimateBulletproofTrader:
         session_time = (time.time() - self.session_start) / 60
         
         # Report
-        print("\n" + "🛡️" * 80)
-        print("📊 KIMERA ULTIMATE BULLETPROOF SESSION COMPLETE")
-        print("🛡️" * 80)
-        print(f"⏱️ Duration: {session_time:.1f} minutes")
-        print(f"💰 Starting: ${self.starting_portfolio_value:.2f}")
-        print(f"💰 Final: ${final_value:.2f}")
-        print(f"📈 Profit: ${total_profit:+.2f}")
-        print(f"🎯 Profit %: {total_profit_pct:+.2f}%")
-        print(f"🔄 Trades: {self.trades_executed}")
-        print(f"✅ Success: {self.successful_trades}")
-        print(f"❌ Failed: {self.failed_trades}")
-        print(f"🛡️ Zero Failures: {self.failed_trades == 0}")
+        logger.info("\n" + "🛡️" * 80)
+        logger.info("📊 KIMERA ULTIMATE BULLETPROOF SESSION COMPLETE")
+        logger.info("🛡️" * 80)
+        logger.info(f"⏱️ Duration: {session_time:.1f} minutes")
+        logger.info(f"💰 Starting: ${self.starting_portfolio_value:.2f}")
+        logger.info(f"💰 Final: ${final_value:.2f}")
+        logger.info(f"📈 Profit: ${total_profit:+.2f}")
+        logger.info(f"🎯 Profit %: {total_profit_pct:+.2f}%")
+        logger.info(f"🔄 Trades: {self.trades_executed}")
+        logger.info(f"✅ Success: {self.successful_trades}")
+        logger.info(f"❌ Failed: {self.failed_trades}")
+        logger.info(f"🛡️ Zero Failures: {self.failed_trades == 0}")
         
         if self.trades_executed > 0:
             win_rate = (self.successful_trades / self.trades_executed) * 100
-            print(f"🎯 Win Rate: {win_rate:.1f}%")
+            logger.info(f"🎯 Win Rate: {win_rate:.1f}%")
 
 async def main():
     """Main function"""
-    print("🛡️" * 80)
-    print("🚨 KIMERA ULTIMATE BULLETPROOF TRADER")
-    print("🛡️ ABSOLUTE ZERO-FAILURE GUARANTEE")
-    print("🔥 5-LAYER VALIDATION SYSTEM")
-    print("🛡️" * 80)
+    logger.info("🛡️" * 80)
+    logger.info("🚨 KIMERA ULTIMATE BULLETPROOF TRADER")
+    logger.info("🛡️ ABSOLUTE ZERO-FAILURE GUARANTEE")
+    logger.info("🔥 5-LAYER VALIDATION SYSTEM")
+    logger.info("🛡️" * 80)
     
     confirm = input("\nActivate ULTIMATE BULLETPROOF mode? (yes/no): ").lower()
     if confirm != 'yes':
-        print("❌ Aborted")
+        logger.info("❌ Aborted")
         return
     
     duration = input("Duration in minutes (default 3): ").strip()

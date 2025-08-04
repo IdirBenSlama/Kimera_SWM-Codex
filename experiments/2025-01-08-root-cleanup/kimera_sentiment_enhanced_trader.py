@@ -580,9 +580,9 @@ class SentimentEnhancedTrader:
 
 async def main():
     """Main execution"""
-    print("\n🧠 KIMERA SENTIMENT-ENHANCED OMNIDIMENSIONAL TRADER")
-    print("🚀 COMBINING TECHNICAL + SENTIMENT ANALYSIS")
-    print("="*60)
+    logger.info("\n🧠 KIMERA SENTIMENT-ENHANCED OMNIDIMENSIONAL TRADER")
+    logger.info("🚀 COMBINING TECHNICAL + SENTIMENT ANALYSIS")
+    logger.info("="*60)
     
     try:
         trader = SentimentEnhancedTrader()

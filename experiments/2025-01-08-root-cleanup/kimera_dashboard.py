@@ -24,6 +24,8 @@ import numpy as np
 sys.path.append('backend')
 
 from trading.api.binance_connector_hmac import BinanceConnector
+import logging
+logger = logging.getLogger(__name__)
 
 class KimeraDashboard:
     """Real-time trading dashboard for Kimera system."""
@@ -51,11 +53,11 @@ class KimeraDashboard:
     async def initialize(self):
         """Initialize dashboard connection."""
         try:
-            print("🚀 Initializing Kimera Dashboard...")
+            logger.info("🚀 Initializing Kimera Dashboard...")
             
             # Load credentials
             if not os.path.exists('kimera_binance_hmac.env'):
-                print("❌ Credentials file not found!")
+                logger.info("❌ Credentials file not found!")
                 return False
                 
             with open('kimera_binance_hmac.env', 'r') as f:
@@ -74,11 +76,11 @@ class KimeraDashboard:
                 testnet=testnet
             )
             
-            print("✅ Dashboard connection established")
+            logger.info("✅ Dashboard connection established")
             return True
             
         except Exception as e:
-            print(f"❌ Dashboard initialization failed: {e}")
+            logger.info(f"❌ Dashboard initialization failed: {e}")
             return False
             
     def setup_dashboard_layout(self):
@@ -173,7 +175,7 @@ class KimeraDashboard:
             return True
             
         except Exception as e:
-            print(f"❌ Error fetching market data: {e}")
+            logger.info(f"❌ Error fetching market data: {e}")
             return False
             
     def calculate_rsi(self, prices: pd.Series, period: int = 14) -> float:
@@ -347,22 +349,22 @@ Status: LIVE MONITORING
                 plt.tight_layout()
                 
         except Exception as e:
-            print(f"❌ Dashboard update error: {e}")
+            logger.info(f"❌ Dashboard update error: {e}")
             
     async def run_dashboard(self):
         """Run the real-time dashboard."""
-        print("🚀 Starting Kimera Real-Time Dashboard...")
+        logger.info("🚀 Starting Kimera Real-Time Dashboard...")
         
         if not await self.initialize():
-            print("❌ Failed to initialize dashboard")
+            logger.info("❌ Failed to initialize dashboard")
             return
             
         self.setup_dashboard_layout()
         self.running = True
         
-        print("✅ Dashboard is running!")
-        print("📊 Monitoring TRX/USDT market data...")
-        print("⚠️  Close the window or press Ctrl+C to stop")
+        logger.info("✅ Dashboard is running!")
+        logger.info("📊 Monitoring TRX/USDT market data...")
+        logger.info("⚠️  Close the window or press Ctrl+C to stop")
         
         try:
             # Initial data fetch
@@ -380,9 +382,9 @@ Status: LIVE MONITORING
             plt.show()
             
         except KeyboardInterrupt:
-            print("\n🛑 Dashboard stopped by user")
+            logger.info("\n🛑 Dashboard stopped by user")
         except Exception as e:
-            print(f"❌ Dashboard error: {e}")
+            logger.info(f"❌ Dashboard error: {e}")
         finally:
             self.running = False
             if self.connector:
@@ -394,11 +396,11 @@ async def main():
     await dashboard.run_dashboard()
 
 if __name__ == "__main__":
-    print("🎛️  KIMERA REAL-TIME TRADING DASHBOARD")
-    print("=" * 50)
-    print("📊 Live market monitoring for TRX/USDT")
-    print("🔄 Real-time price, RSI, volume, and signals")
-    print("⚡ Updates every 2 seconds")
-    print("=" * 50)
+    logger.info("🎛️  KIMERA REAL-TIME TRADING DASHBOARD")
+    logger.info("=" * 50)
+    logger.info("📊 Live market monitoring for TRX/USDT")
+    logger.info("🔄 Real-time price, RSI, volume, and signals")
+    logger.info("⚡ Updates every 2 seconds")
+    logger.info("=" * 50)
     
     asyncio.run(main()) 

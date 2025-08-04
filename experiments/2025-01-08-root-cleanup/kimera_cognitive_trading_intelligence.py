@@ -1168,10 +1168,10 @@ class KimeraCognitiveTrader:
 
 async def main():
     """Main function to run cognitive trading"""
-    print("🧠" * 80)
-    print("🚨 KIMERA COGNITIVE TRADING INTELLIGENCE")
-    print("🔮 THE PINNACLE OF FINTECH EVOLUTION")
-    print("🧠" * 80)
+    logger.info("🧠" * 80)
+    logger.info("🚨 KIMERA COGNITIVE TRADING INTELLIGENCE")
+    logger.info("🔮 THE PINNACLE OF FINTECH EVOLUTION")
+    logger.info("🧠" * 80)
     
     trader = KimeraCognitiveTrader()
     await trader.run_cognitive_trading_session(10)

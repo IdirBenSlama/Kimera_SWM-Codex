@@ -159,19 +159,19 @@ def main():
     logger.warning(f"⚠️ Found {total_issues} potential hardcoded credentials in {len(results)} files")
     
     for file_path, issues in results.items():
-        print(f"\n{file_path}:")
+        logger.info(f"\n{file_path}:")
         for line_num, pattern, line in issues:
-            print(f"  Line {line_num}: {line}")
+            logger.info(f"  Line {line_num}: {line}")
             
             if args.fix:
-                print("  Suggestion: Use environment variables instead:")
-                print("    from src.config.config_manager import ConfigManager")
-                print("    api_key = ConfigManager.get_api_key('service_name')")
+                logger.info("  Suggestion: Use environment variables instead:")
+                logger.info("    from src.config.config_manager import ConfigManager")
+                logger.info("    api_key = ConfigManager.get_api_key('service_name')")
     
-    print("\nRecommendation:")
-    print("1. Replace hardcoded credentials with environment variables")
-    print("2. Use the ConfigManager to access credentials")
-    print("3. See docs/CREDENTIALS_CONFIGURATION_GUIDE.md for more information")
+    logger.info("\nRecommendation:")
+    logger.info("1. Replace hardcoded credentials with environment variables")
+    logger.info("2. Use the ConfigManager to access credentials")
+    logger.info("3. See docs/CREDENTIALS_CONFIGURATION_GUIDE.md for more information")
 
 if __name__ == "__main__":
     main() 

@@ -14,8 +14,8 @@ from src.trading.autonomous_kimera_trader import create_autonomous_kimera
 
 async def check_signals():
     """Check what trading signals Kimera is generating"""
-    print("🧠 CHECKING KIMERA TRADING SIGNALS")
-    print("=" * 50)
+    logger.info("🧠 CHECKING KIMERA TRADING SIGNALS")
+    logger.info("=" * 50)
     
     try:
         # Create trader
@@ -25,50 +25,50 @@ async def check_signals():
         # Symbols to analyze
         symbols = ['bitcoin', 'ethereum', 'solana', 'cardano', 'polkadot']
         
-        print("📊 ANALYZING MARKET CONDITIONS...")
+        logger.info("📊 ANALYZING MARKET CONDITIONS...")
         
         for symbol in symbols:
-            print(f"\n🔍 {symbol.upper()}:")
+            logger.info(f"\n🔍 {symbol.upper()}:")
             
             # Fetch market data
             df = await trader.fetch_market_data(symbol)
             if df.empty:
-                print("   ❌ No market data")
+                logger.info("   ❌ No market data")
                 continue
             
             # Analyze market regime
             regime = trader.analyze_market_regime(symbol)
-            print(f"   📈 Market Regime: {regime.value}")
+            logger.info(f"   📈 Market Regime: {regime.value}")
             
             # Generate signal
             signal = trader.generate_cognitive_signal(symbol)
             
             if signal:
-                print(f"   🎯 ACTION: {signal.action}")
-                print(f"   📊 Confidence: {signal.confidence:.2f}")
-                print(f"   💪 Conviction: {signal.conviction:.2f}")
-                print(f"   🧭 Strategy: {signal.strategy.value}")
-                print(f"   💰 Allocation: {signal.suggested_allocation_pct:.1f}%")
-                print(f"   🎯 Entry Price: €{signal.entry_price:.2f}")
+                logger.info(f"   🎯 ACTION: {signal.action}")
+                logger.info(f"   📊 Confidence: {signal.confidence:.2f}")
+                logger.info(f"   💪 Conviction: {signal.conviction:.2f}")
+                logger.info(f"   🧭 Strategy: {signal.strategy.value}")
+                logger.info(f"   💰 Allocation: {signal.suggested_allocation_pct:.1f}%")
+                logger.info(f"   🎯 Entry Price: €{signal.entry_price:.2f}")
                 
                 # Check if would execute
                 if signal.confidence > 0.6:
-                    print("   ✅ WOULD EXECUTE (confidence > 60%)")
+                    logger.info("   ✅ WOULD EXECUTE (confidence > 60%)")
                 else:
-                    print(f"   ❌ Would NOT execute (confidence {signal.confidence:.1%} < 60%)")
+                    logger.info(f"   ❌ Would NOT execute (confidence {signal.confidence:.1%} < 60%)")
                     
-                print(f"   💭 Reasoning: {signal.reasoning}")
+                logger.info(f"   💭 Reasoning: {signal.reasoning}")
                 
             else:
-                print("   ⚪ No signal generated (HOLD)")
+                logger.info("   ⚪ No signal generated (HOLD)")
         
         # Show current portfolio status
-        print(f"\n📈 PORTFOLIO STATUS:")
+        logger.info(f"\n📈 PORTFOLIO STATUS:")
         status = await trader.get_portfolio_status()
-        print(f"   💰 Value: €{status['portfolio_value_eur']:.2f}")
-        print(f"   📊 Progress: {status['progress_pct']:.1f}%")
-        print(f"   🎯 Active Positions: {status['active_positions']}")
-        print(f"   📈 Total Trades: {status['total_trades']}")
+        logger.info(f"   💰 Value: €{status['portfolio_value_eur']:.2f}")
+        logger.info(f"   📊 Progress: {status['progress_pct']:.1f}%")
+        logger.info(f"   🎯 Active Positions: {status['active_positions']}")
+        logger.info(f"   📈 Total Trades: {status['total_trades']}")
         
         # Check if any high-confidence signals exist
         high_confidence_count = 0
@@ -79,19 +79,21 @@ async def check_signals():
                 if signal and signal.confidence > 0.6:
                     high_confidence_count += 1
         
-        print(f"\n🚀 SUMMARY:")
-        print(f"   High Confidence Signals: {high_confidence_count}/{len(symbols)}")
+        logger.info(f"\n🚀 SUMMARY:")
+        logger.info(f"   High Confidence Signals: {high_confidence_count}/{len(symbols)}")
         
         if high_confidence_count == 0:
-            print("   💡 REASON FOR NO TRADES: Market conditions don't meet AI confidence thresholds")
-            print("   🧠 AI is waiting for better opportunities")
-            print("   ⚙️ To trade more aggressively, lower confidence threshold to 40-50%")
+            logger.info("   💡 REASON FOR NO TRADES: Market conditions don't meet AI confidence thresholds")
+            logger.info("   🧠 AI is waiting for better opportunities")
+            logger.info("   ⚙️ To trade more aggressively, lower confidence threshold to 40-50%")
         else:
-            print("   🎯 Signals available but system may be in simulation mode")
+            logger.info("   🎯 Signals available but system may be in simulation mode")
             
     except Exception as e:
-        print(f"❌ Error: {e}")
+        logger.info(f"❌ Error: {e}")
         import traceback
+import logging
+logger = logging.getLogger(__name__)
         traceback.print_exc()
 
 if __name__ == "__main__":

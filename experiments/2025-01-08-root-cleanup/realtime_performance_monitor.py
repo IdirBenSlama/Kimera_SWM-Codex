@@ -539,8 +539,8 @@ class KimeraDashboardServer:
 
 def main():
     """Main function to run performance monitoring"""
-    print("📊 KIMERA Real-time Performance Monitor")
-    print("=" * 50)
+    logger.info("📊 KIMERA Real-time Performance Monitor")
+    logger.info("=" * 50)
     
     # Create monitor
     monitor = KimeraPerformanceMonitor(history_size=200)
@@ -550,8 +550,8 @@ def main():
     
     try:
         # Run for a demo period
-        print("🔄 Monitoring active - collecting metrics...")
-        print("Press Ctrl+C to stop and generate report")
+        logger.info("🔄 Monitoring active - collecting metrics...")
+        logger.info("Press Ctrl+C to stop and generate report")
         
         # Let it run and collect data
         while True:
@@ -561,10 +561,10 @@ def main():
             dashboard_data = monitor.generate_dashboard_data()
             current = dashboard_data['current_metrics']
             
-            print(f"📈 CPU: {current['cpu_percent']:.1f}% | RAM: {current['memory_percent']:.1f}% | Alerts: {len(dashboard_data['recent_alerts'])}")
+            logger.info(f"📈 CPU: {current['cpu_percent']:.1f}% | RAM: {current['memory_percent']:.1f}% | Alerts: {len(dashboard_data['recent_alerts'])}")
             
     except KeyboardInterrupt:
-        print("\n🛑 Stopping monitoring...")
+        logger.info("\n🛑 Stopping monitoring...")
         
     finally:
         # Stop monitoring
@@ -574,10 +574,10 @@ def main():
         snapshot_file = monitor.save_dashboard_snapshot()
         report_file = monitor.generate_performance_report()
         
-        print(f"\n📊 Final Reports Generated:")
-        print(f"  📄 Performance Report: {report_file}")
-        print(f"  💾 Dashboard Snapshot: {snapshot_file}")
-        print("\n✅ Monitoring complete!")
+        logger.info(f"\n📊 Final Reports Generated:")
+        logger.info(f"  📄 Performance Report: {report_file}")
+        logger.info(f"  💾 Dashboard Snapshot: {snapshot_file}")
+        logger.info("\n✅ Monitoring complete!")
 
 if __name__ == "__main__":
     main() 

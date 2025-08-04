@@ -215,12 +215,12 @@ async def main():
     # Initialize the system
     initialized_components = await perf_manager.initialize_system()
     
-    print("\nInitialized Components:", initialized_components.keys())
+    logger.info("\nInitialized Components:", initialized_components.keys())
     
     # Get performance report
     report = perf_manager.get_performance_report()
-    print("\nPerformance Report:")
-    print(json.dumps(report, indent=2, default=str))
+    logger.info("\nPerformance Report:")
+    logger.info(json.dumps(report, indent=2, default=str))
     
     # Shutdown
     await perf_manager.shutdown()

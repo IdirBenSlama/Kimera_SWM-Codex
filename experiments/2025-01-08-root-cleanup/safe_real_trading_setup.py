@@ -15,7 +15,7 @@ class SafeRealTradingSetup:
         
     def check_prerequisites(self):
         """Check if system is ready for real trading"""
-        print("🔍 Checking Real Trading Prerequisites...")
+        logger.info("🔍 Checking Real Trading Prerequisites...")
         
         issues = []
         
@@ -41,12 +41,12 @@ class SafeRealTradingSetup:
                 issues.append("❌ Cannot read system logs - permission issues")
         
         if issues:
-            print("\n🚨 CRITICAL ISSUES PREVENTING REAL TRADING:")
+            logger.info("\n🚨 CRITICAL ISSUES PREVENTING REAL TRADING:")
             for issue in issues:
-                print(f"   {issue}")
+                logger.info(f"   {issue}")
             return False
         
-        print("✅ Prerequisites check passed")
+        logger.info("✅ Prerequisites check passed")
         return True
     
     def create_safe_config(self):
@@ -87,24 +87,24 @@ class SafeRealTradingSetup:
         with open(self.config_file, "w") as f:
             json.dump(safe_config, f, indent=2)
         
-        print(f"✅ Created ultra-safe trading configuration: {self.config_file}")
+        logger.info(f"✅ Created ultra-safe trading configuration: {self.config_file}")
         
     def validate_balance_and_setup(self):
         """Validate exchange connection and balance"""
-        print("\n🔍 Validating Exchange Connection...")
+        logger.info("\n🔍 Validating Exchange Connection...")
         
         try:
             # This would normally connect to real exchange
             # For now, just show what would be validated
-            print("   ✅ API credentials format")
-            print("   ✅ Ed25519 key format")
-            print("   ✅ Exchange connectivity")
-            print("   ✅ Account permissions")
-            print("   ✅ Balance verification")
-            print("   ✅ Minimum balance requirements")
+            logger.info("   ✅ API credentials format")
+            logger.info("   ✅ Ed25519 key format")
+            logger.info("   ✅ Exchange connectivity")
+            logger.info("   ✅ Account permissions")
+            logger.info("   ✅ Balance verification")
+            logger.info("   ✅ Minimum balance requirements")
             
         except Exception as e:
-            print(f"   ❌ Exchange validation failed: {e}")
+            logger.info(f"   ❌ Exchange validation failed: {e}")
             return False
         
         return True
@@ -119,9 +119,11 @@ EMERGENCY STOP - Immediately close all positions
 '''
 import ccxt
 import json
+import logging
+logger = logging.getLogger(__name__)
 
 def emergency_stop():
-    print("🚨 EMERGENCY STOP ACTIVATED")
+    logger.info("🚨 EMERGENCY STOP ACTIVATED")
     
     # Load real API credentials
     with open("config/binance_real_api.json", "r") as f:
@@ -138,7 +140,7 @@ def emergency_stop():
     positions = exchange.fetch_positions()
     open_positions = [pos for pos in positions if pos['contracts'] > 0]
     
-    print(f"Found {len(open_positions)} open positions")
+    logger.info(f"Found {len(open_positions)} open positions")
     
     # Close all positions immediately
     for position in open_positions:
@@ -151,9 +153,9 @@ def emergency_stop():
         else:
             exchange.create_market_buy_order(symbol, size)
         
-        print(f"✅ Closed {symbol} position")
+        logger.info(f"✅ Closed {symbol} position")
     
-    print("🛑 All positions closed - EMERGENCY STOP COMPLETE")
+    logger.info("🛑 All positions closed - EMERGENCY STOP COMPLETE")
 
 if __name__ == "__main__":
     emergency_stop()
@@ -162,17 +164,17 @@ if __name__ == "__main__":
         with open("EMERGENCY_STOP.py", "w") as f:
             f.write(emergency_script)
         
-        print("✅ Created emergency stop mechanism")
+        logger.info("✅ Created emergency stop mechanism")
         
     def setup_real_trading(self):
         """Complete real trading setup process"""
         
-        print("🚀 Starting Safe Real Trading Setup...")
-        print("=" * 50)
+        logger.info("🚀 Starting Safe Real Trading Setup...")
+        logger.info("=" * 50)
         
         # Step 1: Check prerequisites
         if not self.check_prerequisites():
-            print("\n❌ Setup failed - prerequisites not met")
+            logger.info("\n❌ Setup failed - prerequisites not met")
             return False
         
         # Step 2: Create safe configuration
@@ -180,41 +182,41 @@ if __name__ == "__main__":
         
         # Step 3: Validate exchange connection
         if not self.validate_balance_and_setup():
-            print("\n❌ Setup failed - exchange validation failed")
+            logger.info("\n❌ Setup failed - exchange validation failed")
             return False
         
         # Step 4: Create emergency mechanisms
         self.create_emergency_stop()
         
-        print("\n" + "=" * 50)
-        print("✅ REAL TRADING SETUP COMPLETE")
-        print("\n🚨 CRITICAL WARNINGS:")
-        print("   - Start with paper trading for 2 weeks")
-        print("   - Use micro positions ($5-10) initially")
-        print("   - Never risk more than you can afford to lose")
-        print("   - Monitor all trades in real-time")
-        print("   - Keep emergency stop script accessible")
+        logger.info("\n" + "=" * 50)
+        logger.info("✅ REAL TRADING SETUP COMPLETE")
+        logger.info("\n🚨 CRITICAL WARNINGS:")
+        logger.info("   - Start with paper trading for 2 weeks")
+        logger.info("   - Use micro positions ($5-10) initially")
+        logger.info("   - Never risk more than you can afford to lose")
+        logger.info("   - Monitor all trades in real-time")
+        logger.info("   - Keep emergency stop script accessible")
         
         return True
 
 def main():
-    print("🔥 KIMERA REAL TRADING SETUP")
-    print("⚠️  WARNING: This involves real money and real risk")
-    print("⚠️  Only proceed if you understand the risks")
-    print("\n" + "=" * 50)
+    logger.info("🔥 KIMERA REAL TRADING SETUP")
+    logger.info("⚠️  WARNING: This involves real money and real risk")
+    logger.info("⚠️  Only proceed if you understand the risks")
+    logger.info("\n" + "=" * 50)
     
     setup = SafeRealTradingSetup()
     success = setup.setup_real_trading()
     
     if success:
-        print("\n✅ Setup complete - but STILL NEEDS:")
-        print("   1. Real Binance API credentials")
-        print("   2. Ed25519 private key file")
-        print("   3. System stability fixes")
-        print("   4. Extended testing period")
-        print("   5. Conservative risk management")
+        logger.info("\n✅ Setup complete - but STILL NEEDS:")
+        logger.info("   1. Real Binance API credentials")
+        logger.info("   2. Ed25519 private key file")
+        logger.info("   3. System stability fixes")
+        logger.info("   4. Extended testing period")
+        logger.info("   5. Conservative risk management")
     else:
-        print("\n❌ Setup failed - system not ready")
+        logger.info("\n❌ Setup failed - system not ready")
 
 if __name__ == "__main__":
     main() 

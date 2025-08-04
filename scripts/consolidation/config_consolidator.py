@@ -683,13 +683,13 @@ def main():
     result = consolidator.run_consolidation()
     
     if result['consolidation_successful']:
-        print(f"✅ Successfully processed {result['config_files_processed']} configuration files")
-        print(f"📊 Organized into {result['categories']} categories")
-        print(f"⚠️ Found {result['conflicts_found']} conflicts")
-        print(f"📁 Consolidated configs: {consolidator.consolidated_dir}")
-        print(f"📁 Backup available at: {consolidator.backup_dir}")
+        logger.info(f"✅ Successfully processed {result['config_files_processed']} configuration files")
+        logger.info(f"📊 Organized into {result['categories']} categories")
+        logger.info(f"⚠️ Found {result['conflicts_found']} conflicts")
+        logger.info(f"📁 Consolidated configs: {consolidator.consolidated_dir}")
+        logger.info(f"📁 Backup available at: {consolidator.backup_dir}")
     else:
-        print("❌ Configuration consolidation failed")
+        logger.info("❌ Configuration consolidation failed")
         sys.exit(1)
 
 

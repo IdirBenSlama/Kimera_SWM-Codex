@@ -489,8 +489,8 @@ class AutonomousTradingSystemTest:
 
 async def run_system_test():
     """Run the complete system test"""
-    print("🎯 KIMERA AUTONOMOUS TRADING SYSTEM TEST")
-    print("=" * 60)
+    logger.info("🎯 KIMERA AUTONOMOUS TRADING SYSTEM TEST")
+    logger.info("=" * 60)
     
     # Initialize test runner
     test_runner = AutonomousTradingSystemTest()
@@ -503,34 +503,34 @@ async def run_system_test():
         json.dump(results, f, indent=2)
     
     # Print summary
-    print("\n" + "=" * 60)
-    print("AUTONOMOUS TRADING SYSTEM TEST RESULTS")
-    print("=" * 60)
+    logger.info("\n" + "=" * 60)
+    logger.info("AUTONOMOUS TRADING SYSTEM TEST RESULTS")
+    logger.info("=" * 60)
     
     summary = results['summary']
-    print(f"Overall Status: {summary['overall_status']}")
-    print(f"Pass Rate: {summary['pass_rate']:.1f}%")
-    print(f"Passed Tests: {summary['passed_tests']}/{summary['total_tests']}")
-    print(f"Readiness: {summary['readiness']}")
+    logger.info(f"Overall Status: {summary['overall_status']}")
+    logger.info(f"Pass Rate: {summary['pass_rate']:.1f}%")
+    logger.info(f"Passed Tests: {summary['passed_tests']}/{summary['total_tests']}")
+    logger.info(f"Readiness: {summary['readiness']}")
     
-    print("\nComponent Status:")
+    logger.info("\nComponent Status:")
     for component, status in results['component_status'].items():
-        print(f"  {component}: {status}")
+        logger.info(f"  {component}: {status}")
     
-    print("\nRecommendations:")
+    logger.info("\nRecommendations:")
     for rec in results['recommendations']:
-        print(f"  • {rec}")
+        logger.info(f"  • {rec}")
     
-    print("\nNext Steps:")
+    logger.info("\nNext Steps:")
     for step in results['deployment_readiness']['recommended_next_steps']:
-        print(f"  {step}")
+        logger.info(f"  {step}")
     
-    print("\nDeployment Readiness:")
-    print(f"  Ready for Testnet: {'✅' if results['deployment_readiness']['ready_for_testnet'] else '❌'}")
-    print(f"  Ready for Production: {'✅' if results['deployment_readiness']['ready_for_production'] else '❌'}")
+    logger.info("\nDeployment Readiness:")
+    logger.info(f"  Ready for Testnet: {'✅' if results['deployment_readiness']['ready_for_testnet'] else '❌'}")
+    logger.info(f"  Ready for Production: {'✅' if results['deployment_readiness']['ready_for_production'] else '❌'}")
     
-    print("=" * 60)
-    print("🎯 Test completed successfully!")
+    logger.info("=" * 60)
+    logger.info("🎯 Test completed successfully!")
     
     return results
 

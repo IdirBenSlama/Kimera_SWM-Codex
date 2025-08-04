@@ -28,8 +28,8 @@ try:
     from coinbase.websocket import WSClient
     SDK_AVAILABLE = True
 except ImportError:
-    print("❌ Coinbase Advanced Trade SDK not installed!")
-    print("Install with: pip install coinbase-advanced-py")
+    logger.info("❌ Coinbase Advanced Trade SDK not installed!")
+    logger.info("Install with: pip install coinbase-advanced-py")
     SDK_AVAILABLE = False
     sys.exit(1)
 
@@ -582,9 +582,9 @@ class KimeraAdvancedTrader:
 
 async def main():
     """Main execution function"""
-    print("\n🚀 KIMERA OMNIDIMENSIONAL TRADING ENGINE")
-    print("Using Coinbase Advanced Trade API")
-    print("=" * 50)
+    logger.info("\n🚀 KIMERA OMNIDIMENSIONAL TRADING ENGINE")
+    logger.info("Using Coinbase Advanced Trade API")
+    logger.info("=" * 50)
     
     try:
         # Initialize trader
@@ -593,8 +593,8 @@ async def main():
         # Execute omnidimensional trading
         total_profit = await trader.run_omnidimensional_trading(duration_minutes=5)
         
-        print(f"\n✅ Trading session completed")
-        print(f"💰 Total estimated profit: €{total_profit:.2f}")
+        logger.info(f"\n✅ Trading session completed")
+        logger.info(f"💰 Total estimated profit: €{total_profit:.2f}")
         
     except Exception as e:
         logger.error(f"❌ Trading session failed: {e}")
@@ -605,7 +605,7 @@ async def main():
 if __name__ == "__main__":
     # Install SDK if needed
     if not SDK_AVAILABLE:
-        print("Installing Coinbase Advanced Trade SDK...")
+        logger.info("Installing Coinbase Advanced Trade SDK...")
         os.system("pip install coinbase-advanced-py")
     
     # Run the trading system

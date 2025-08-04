@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+# Fix import paths
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+
+
 """
 KIMERA SWM System Requirements and Health Check
 Follows the Kimera SWM Autonomous Architect Protocol v3.0
@@ -340,14 +346,14 @@ def main():
     checker = KimeraHealthChecker()
     report = checker.run_complete_health_check()
     
-    print(f"\n🏥 KIMERA SWM HEALTH CHECK COMPLETE")
-    print(f"Overall Health: {report['overall_health']['score']:.1f}% ({report['overall_health']['status']})")
-    print(f"Recommendations: {len(report['recommendations'])}")
+    logger.info(f"\n🏥 KIMERA SWM HEALTH CHECK COMPLETE")
+    logger.info(f"Overall Health: {report['overall_health']['score']:.1f}% ({report['overall_health']['status']})")
+    logger.info(f"Recommendations: {len(report['recommendations'])}")
     
     if report['recommendations']:
-        print("\n📋 Action Items:")
+        logger.info("\n📋 Action Items:")
         for i, rec in enumerate(report['recommendations'], 1):
-            print(f"  {i}. {rec}")
+            logger.info(f"  {i}. {rec}")
     
     return report
 

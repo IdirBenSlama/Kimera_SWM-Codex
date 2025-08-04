@@ -660,29 +660,29 @@ def get_cache_stats() -> CacheMetrics:
 if __name__ == "__main__":
     # Test advanced caching
     async def test_caching():
-        print("💾 Testing Kimera SWM Advanced Caching System")
-        print("=" * 50)
+        logger.info("💾 Testing Kimera SWM Advanced Caching System")
+        logger.info("=" * 50)
         
         # Initialize
         success = await initialize_caching()
         
         if success:
-            print("✅ Advanced caching initialized successfully")
+            logger.info("✅ Advanced caching initialized successfully")
             
             # Test caching
             await put_cached("test_key", {"data": "test_value", "timestamp": time.time()})
             
             result = await get_cached("test_key")
             if result:
-                print("✅ Cache store/retrieve working")
+                logger.info("✅ Cache store/retrieve working")
             
             # Get stats
             stats = get_cache_stats()
-            print(f"Cache Entries: {stats.total_entries}")
-            print(f"Hit Rate: {stats.hit_rate:.1%}")
+            logger.info(f"Cache Entries: {stats.total_entries}")
+            logger.info(f"Hit Rate: {stats.hit_rate:.1%}")
         else:
-            print("⚠️  Caching system initialization failed")
+            logger.info("⚠️  Caching system initialization failed")
         
-        print("\n🎯 Advanced Caching System Ready!")
+        logger.info("\n🎯 Advanced Caching System Ready!")
     
     asyncio.run(test_caching())

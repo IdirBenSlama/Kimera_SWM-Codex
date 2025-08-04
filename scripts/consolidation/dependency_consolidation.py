@@ -347,11 +347,11 @@ def main():
     result = consolidator.run_consolidation()
     
     if result['consolidation_successful']:
-        print(f"✅ Successfully consolidated {result['total_packages']} packages")
-        print(f"📊 Resolved {result['conflicts_found']} conflicts")
-        print(f"📁 Files generated in: {consolidator.consolidated_dir}")
+        logger.info(f"✅ Successfully consolidated {result['total_packages']} packages")
+        logger.info(f"📊 Resolved {result['conflicts_found']} conflicts")
+        logger.info(f"📁 Files generated in: {consolidator.consolidated_dir}")
     else:
-        print("❌ Consolidation failed")
+        logger.info("❌ Consolidation failed")
         sys.exit(1)
 
 

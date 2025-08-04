@@ -465,12 +465,12 @@ def main():
     result = merger.run_merger()
     
     if result['merger_successful']:
-        print(f"✅ Successfully merged {result['merged_files']} files")
-        print(f"📊 Resolved {result['conflicts_resolved']} conflicts")
-        print(f"🔄 Updated {result['imports_updated']} import statements")
-        print(f"📁 Backup available at: {merger.backup_dir}")
+        logger.info(f"✅ Successfully merged {result['merged_files']} files")
+        logger.info(f"📊 Resolved {result['conflicts_resolved']} conflicts")
+        logger.info(f"🔄 Updated {result['imports_updated']} import statements")
+        logger.info(f"📁 Backup available at: {merger.backup_dir}")
     else:
-        print("❌ Merger failed")
+        logger.info("❌ Merger failed")
         sys.exit(1)
 
 

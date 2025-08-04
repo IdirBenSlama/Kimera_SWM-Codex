@@ -6,6 +6,8 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
 from .models import Order, Position
+import logging
+logger = logging.getLogger(__name__)
 
 class Portfolio:
     """
@@ -14,7 +16,7 @@ class Portfolio:
     def __init__(self, initial_cash: float = 100000.0):
         self.cash: float = initial_cash
         self.positions: Dict[str, Position] = {}
-        print(f"Portfolio initialized with ${self.cash:,.2f} cash.")
+        logger.info(f"Portfolio initialized with ${self.cash:,.2f} cash.")
 
     def update_position(self, order: Order, price: float):
         """
@@ -42,7 +44,7 @@ class Portfolio:
                     quantity=order.quantity,
                     average_entry_price=price
                 )
-            print(f"Executed BUY of {order.quantity} {order.ticker} @ ${price:,.2f}. New cash balance: ${self.cash:,.2f}")
+            logger.info(f"Executed BUY of {order.quantity} {order.ticker} @ ${price:,.2f}. New cash balance: ${self.cash:,.2f}")
 
         elif order.side == 'sell':
             if order.ticker not in self.positions or self.positions[order.ticker].quantity < order.quantity:
@@ -54,7 +56,7 @@ class Portfolio:
 
             if position.quantity == 0:
                 del self.positions[order.ticker]
-            print(f"Executed SELL of {order.quantity} {order.ticker} @ ${price:,.2f}. New cash balance: ${self.cash:,.2f}")
+            logger.info(f"Executed SELL of {order.quantity} {order.ticker} @ ${price:,.2f}. New cash balance: ${self.cash:,.2f}")
 
 
     def get_total_value(self, current_prices: Dict[str, float]) -> float:

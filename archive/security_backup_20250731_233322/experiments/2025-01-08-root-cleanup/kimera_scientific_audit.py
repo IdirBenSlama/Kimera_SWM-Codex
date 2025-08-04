@@ -495,12 +495,12 @@ class KimeraScientificAuditor:
             json.dump(self.audit_results, f, indent=2)
             
         # Print summary
-        print("\n" + "="*70)
-        print("KIMERA SCIENTIFIC AUDIT SUMMARY")
-        print("="*70)
-        print(f"Total Issues Found: {total_issues}")
-        print(f"Critical Issues: {critical_count}")
-        print("\nIssue Breakdown:")
+        logger.info("\n" + "="*70)
+        logger.info("KIMERA SCIENTIFIC AUDIT SUMMARY")
+        logger.info("="*70)
+        logger.info(f"Total Issues Found: {total_issues}")
+        logger.info(f"Critical Issues: {critical_count}")
+        logger.info("\nIssue Breakdown:")
         
         for category in ["postgresql", "entropy", "thermodynamic", "quantum", 
                         "diffusion", "portal_vortex", "semantic", "performance"]:
@@ -508,15 +508,15 @@ class KimeraScientificAuditor:
             if key in self.audit_results:
                 count = len(self.audit_results[key])
                 if count > 0:
-                    print(f"  - {category.replace('_', ' ').title()}: {count}")
+                    logger.info(f"  - {category.replace('_', ' ').title()}: {count}")
                     
-        print("\nKey Measurements:")
+        logger.info("\nKey Measurements:")
         for key, value in self.audit_results["measurements"].items():
             if isinstance(value, (int, float)):
-                print(f"  - {key}: {value:.4f}")
+                logger.info(f"  - {key}: {value:.4f}")
                 
-        print("="*70)
-        print(f"\nDetailed report saved to: {report_file}")
+        logger.info("="*70)
+        logger.info(f"\nDetailed report saved to: {report_file}")
         
         return self.audit_results
         

@@ -200,7 +200,7 @@ class MCPValidator:
         
         # Generate and display report
         report = self.generate_report(results)
-        print(report)
+        logger.info(report)
         
         # Save report to file
         with open('mcp_validation_report.txt', 'w') as f:

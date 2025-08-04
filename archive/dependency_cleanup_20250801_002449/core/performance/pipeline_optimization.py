@@ -625,8 +625,8 @@ def get_pipeline_metrics() -> PipelineMetrics:
 if __name__ == "__main__":
     # Test pipeline optimization
     async def test_pipeline():
-        print("⚡ Testing Kimera SWM Pipeline Optimization")
-        print("=" * 45)
+        logger.info("⚡ Testing Kimera SWM Pipeline Optimization")
+        logger.info("=" * 45)
         
         # Test function
         async def test_task(task_name: str, duration: float = 1.0):
@@ -638,7 +638,7 @@ if __name__ == "__main__":
         add_pipeline_task("task2", test_task, "Task 2", 1.0, dependencies={"task1"})
         add_pipeline_task("task3", test_task, "Task 3", 0.3, priority=TaskPriority.MEDIUM)
         
-        print("✅ Added test tasks to pipeline")
+        logger.info("✅ Added test tasks to pipeline")
         
         # Start pipeline
         start_task = asyncio.create_task(start_pipeline())
@@ -651,10 +651,10 @@ if __name__ == "__main__":
         
         # Get metrics
         metrics = get_pipeline_metrics()
-        print(f"Tasks completed: {metrics.completed_tasks}")
-        print(f"Average duration: {metrics.avg_task_duration:.3f}s")
-        print(f"Performance score: {metrics.performance_score:.3f}")
+        logger.info(f"Tasks completed: {metrics.completed_tasks}")
+        logger.info(f"Average duration: {metrics.avg_task_duration:.3f}s")
+        logger.info(f"Performance score: {metrics.performance_score:.3f}")
         
-        print("\n🎯 Pipeline Optimization System Ready!")
+        logger.info("\n🎯 Pipeline Optimization System Ready!")
     
     asyncio.run(test_pipeline())

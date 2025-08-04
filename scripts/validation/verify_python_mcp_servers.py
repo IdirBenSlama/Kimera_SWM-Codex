@@ -17,7 +17,7 @@ def run_server_test(server_name, test_logic_fn, server_args=None):
     :param server_args: A list of additional arguments for the server command.
     :return: True if the test passes, False otherwise.
     """
-    print(f"--- Testing {server_name} ---")
+    logger.info(f"--- Testing {server_name} ---")
     if server_args is None:
         server_args = []
         
@@ -29,24 +29,24 @@ def run_server_test(server_name, test_logic_fn, server_args=None):
             env=None
         )
         
-        print(f"Starting server with command: {server_name} {' '.join(server_args)}")
+        logger.info(f"Starting server with command: {server_name} {' '.join(server_args)}")
         
         # Run the provided test logic with the server parameters
         test_logic_fn(server_params)
         
-        print(f"[{server_name.upper()}] TEST PASSED")
+        logger.info(f"[{server_name.upper()}] TEST PASSED")
         return True
 
     except Exception as e:
-        print(f"An error occurred during the test for {server_name}: {e}")
+        logger.info(f"An error occurred during the test for {server_name}: {e}")
         return False
     finally:
         # Cleanup
         if server_name == "mcp-server-sqlite" and os.path.exists(SQLITE_DB_PATH):
             os.remove(SQLITE_DB_PATH)
-            print(f"Removed temporary database: {SQLITE_DB_PATH}")
-        print("-" * (len(server_name) + 12))
-        print("\\n")
+            logger.info(f"Removed temporary database: {SQLITE_DB_PATH}")
+        logger.info("-" * (len(server_name) + 12))
+        logger.info("\\n")
 
 
 def sqlite_test_logic(server_params):
@@ -60,25 +60,27 @@ def sqlite_test_logic(server_params):
                 
                 # List available tools
                 tools = await session.list_tools()
-                print(f"Connected to SQLite server with {len(tools.tools)} tools")
+                logger.info(f"Connected to SQLite server with {len(tools.tools)} tools")
                 
                 if tools.tools:
-                    print(f"Available tools: {[tool.name for tool in tools.tools]}")
+                    logger.info(f"Available tools: {[tool.name for tool in tools.tools]}")
                     
                     # Try to call a tool if available
                     if any(tool.name == "execute_query" for tool in tools.tools):
                         result = await session.call_tool("execute_query", {
                             "query": "SELECT 'Hello from Kimera' as message"
                         })
-                        print(f"Tool execution result: {result.content}")
+                        logger.info(f"Tool execution result: {result.content}")
                 
-                print("SQLite server test completed successfully")
+                logger.info("SQLite server test completed successfully")
     
     asyncio.run(test())
 
 def fetch_test_logic(server_params):
     """Tests the Fetch server by connecting and listing tools."""
     import asyncio
+import logging
+logger = logging.getLogger(__name__)
     
     async def test():
         async with stdio_client(server_params) as (read, write):
@@ -87,25 +89,25 @@ def fetch_test_logic(server_params):
                 
                 # List available tools
                 tools = await session.list_tools()
-                print(f"Connected to Fetch server with {len(tools.tools)} tools")
+                logger.info(f"Connected to Fetch server with {len(tools.tools)} tools")
                 
                 if tools.tools:
-                    print(f"Available tools: {[tool.name for tool in tools.tools]}")
+                    logger.info(f"Available tools: {[tool.name for tool in tools.tools]}")
                     
                     # Try to call a tool if available
                     if any(tool.name == "fetch" for tool in tools.tools):
                         result = await session.call_tool("fetch", {
                             "url": "http://info.cern.ch"
                         })
-                        print(f"Fetch result length: {len(str(result.content))} characters")
+                        logger.info(f"Fetch result length: {len(str(result.content))} characters")
                 
-                print("Fetch server test completed successfully")
+                logger.info("Fetch server test completed successfully")
     
     asyncio.run(test())
 
 
 if __name__ == "__main__":
-    print("Starting verification of Python-based MCP servers...")
+    logger.info("Starting verification of Python-based MCP servers...")
     
     results = {}
     
@@ -122,13 +124,13 @@ if __name__ == "__main__":
         fetch_test_logic
     )
 
-    print("--- VERIFICATION SUMMARY ---")
+    logger.info("--- VERIFICATION SUMMARY ---")
     for server, passed in results.items():
         status = "SUCCESS" if passed else "FAILURE"
-        print(f"- {server}: {status}")
-    print("----------------------------")
+        logger.info(f"- {server}: {status}")
+    logger.info("----------------------------")
     
     if all(results.values()):
-        print("All tested Python MCP servers are working correctly!")
+        logger.info("All tested Python MCP servers are working correctly!")
     else:
-        print("Some MCP servers failed the verification test.") 
+        logger.info("Some MCP servers failed the verification test.") 

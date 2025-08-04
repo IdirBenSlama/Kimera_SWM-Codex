@@ -27,14 +27,14 @@ from sqlalchemy import text
 
 async def test_connection_pool():
     """Test database connection pool functionality"""
-    print("\n=== Testing Database Connection Pool ===")
+    logger.info("\n=== Testing Database Connection Pool ===")
     
     pool = DatabaseConnectionPool()
     
     try:
         # Initialize pool
         await pool.initialize()
-        print("✓ Connection pool initialized")
+        logger.info("✓ Connection pool initialized")
         
         # Test getting sessions
         sessions_created = 0
@@ -42,7 +42,7 @@ async def test_connection_pool():
             result = await session.execute(text("SELECT 1"))
             assert result.scalar() == 1
             sessions_created += 1
-        print(f"✓ Created and used {sessions_created} session")
+        logger.info(f"✓ Created and used {sessions_created} session")
         
         # Test multiple concurrent sessions
         async def use_session(i: int):
@@ -52,26 +52,26 @@ async def test_connection_pool():
         
         results = await asyncio.gather(*[use_session(i) for i in range(5)])
         assert results == list(range(5))
-        print("✓ Concurrent sessions working")
+        logger.info("✓ Concurrent sessions working")
         
         # Check pool stats
         stats = pool.get_pool_stats()
-        print(f"✓ Pool stats: {stats}")
+        logger.info(f"✓ Pool stats: {stats}")
         
         # Close pool
         await pool.close()
-        print("✓ Connection pool closed")
+        logger.info("✓ Connection pool closed")
         
         return True
         
     except Exception as e:
-        print(f"✗ Connection pool test failed: {e}")
+        logger.info(f"✗ Connection pool test failed: {e}")
         return False
 
 
 async def test_query_optimizer():
     """Test query optimizer functionality"""
-    print("\n=== Testing Query Optimizer ===")
+    logger.info("\n=== Testing Query Optimizer ===")
     
     optimizer = QueryOptimizer(cache_size=10, cache_ttl=5)
     
@@ -83,7 +83,7 @@ async def test_query_optimizer():
         
         assert key1 == key2
         assert key1 != key3
-        print("✓ Cache key generation working")
+        logger.info("✓ Cache key generation working")
         
         # Test query stats
         optimizer._update_stats("test_key", hit=False, execution_time=0.1)
@@ -92,36 +92,36 @@ async def test_query_optimizer():
         stats = optimizer.get_query_stats()
         assert stats["total_queries"] == 2
         assert stats["cache_hit_rate"] == 0.5
-        print("✓ Query statistics tracking working")
+        logger.info("✓ Query statistics tracking working")
         
         # Test cache clearing
         optimizer.query_cache["test"] = "data"
         optimizer.clear_cache()
         assert len(optimizer.query_cache) == 0
-        print("✓ Cache clearing working")
+        logger.info("✓ Cache clearing working")
         
         return True
         
     except Exception as e:
-        print(f"✗ Query optimizer test failed: {e}")
+        logger.info(f"✗ Query optimizer test failed: {e}")
         return False
 
 
 async def test_database_optimization_middleware():
     """Test database optimization middleware"""
-    print("\n=== Testing Database Optimization Middleware ===")
+    logger.info("\n=== Testing Database Optimization Middleware ===")
     
     try:
         # Get middleware instance
         middleware = await get_db_optimization()
-        print("✓ Middleware instance created")
+        logger.info("✓ Middleware instance created")
         
         # Test optimized session
         async with middleware.optimized_session() as session:
             # Test basic query
             result = await session.execute(text("SELECT 1"))
             assert result.scalar() == 1
-            print("✓ Optimized session working")
+            logger.info("✓ Optimized session working")
             
             # Test cached query execution
             query = "SELECT 1 as value"
@@ -135,26 +135,26 @@ async def test_database_optimization_middleware():
             # Second call should be from cache
             stats = middleware.query_optimizer.get_query_stats()
             assert stats["total_queries"] > 0
-            print(f"✓ Query caching working (hit rate: {stats['cache_hit_rate']:.2%})")
+            logger.info(f"✓ Query caching working (hit rate: {stats['cache_hit_rate']:.2%})")
         
         # Check Redis connection (if enabled)
         settings = get_settings()
         if settings.get_feature("redis_caching") and middleware.redis_client:
             await middleware.redis_client.ping()
-            print("✓ Redis connection working")
+            logger.info("✓ Redis connection working")
         else:
-            print("ℹ Redis caching not enabled")
+            logger.info("ℹ Redis caching not enabled")
         
         return True
         
     except Exception as e:
-        print(f"✗ Middleware test failed: {e}")
+        logger.info(f"✗ Middleware test failed: {e}")
         return False
 
 
 async def test_decorators():
     """Test query optimization decorators"""
-    print("\n=== Testing Query Optimization Decorators ===")
+    logger.info("\n=== Testing Query Optimization Decorators ===")
     
     try:
         # Test cached_query decorator
@@ -175,17 +175,17 @@ async def test_decorators():
         
         # First call
         result1 = await get_user(session, 1)
-        print(f"  First call - call_count: {call_count}")
+        logger.info(f"  First call - call_count: {call_count}")
         assert call_count == 1
         
         # Second call (should be cached)
         result2 = await get_user(session, 1)
-        print(f"  Second call - call_count: {call_count}")
-        print(f"  Cache keys: {list(session.query_optimizer.query_cache.keys())}")
+        logger.info(f"  Second call - call_count: {call_count}")
+        logger.info(f"  Cache keys: {list(session.query_optimizer.query_cache.keys())}")
         
         # For now, just check that the decorator doesn't break the function
         assert result1 == result2
-        print("✓ @cached_query decorator working (function executes correctly)")
+        logger.info("✓ @cached_query decorator working (function executes correctly)")
         
         # Test batch_query decorator
         batch_calls = []
@@ -201,20 +201,22 @@ async def test_decorators():
         results = await asyncio.gather(*tasks)
         
         assert results == [0, 2, 4, 6, 8]
-        print("✓ @batch_query decorator working")
+        logger.info("✓ @batch_query decorator working")
         
         return True
         
     except Exception as e:
         import traceback
-        print(f"✗ Decorator test failed: {e}")
+import logging
+logger = logging.getLogger(__name__)
+        logger.info(f"✗ Decorator test failed: {e}")
         traceback.print_exc()
         return False
 
 
 async def test_performance():
     """Test performance improvements"""
-    print("\n=== Testing Performance Improvements ===")
+    logger.info("\n=== Testing Performance Improvements ===")
     
     try:
         middleware = await get_db_optimization()
@@ -234,22 +236,22 @@ async def test_performance():
             cached_time = time.time() - start
             
             improvement = (first_time - cached_time) / first_time * 100
-            print(f"✓ Cache performance improvement: {improvement:.1f}%")
-            print(f"  - First query: {first_time*1000:.2f}ms")
-            print(f"  - Cached query: {cached_time*1000:.2f}ms")
+            logger.info(f"✓ Cache performance improvement: {improvement:.1f}%")
+            logger.info(f"  - First query: {first_time*1000:.2f}ms")
+            logger.info(f"  - Cached query: {cached_time*1000:.2f}ms")
         
         return True
         
     except Exception as e:
-        print(f"✗ Performance test failed: {e}")
+        logger.info(f"✗ Performance test failed: {e}")
         return False
 
 
 async def main():
     """Run all verification tests"""
-    print("=" * 60)
-    print("Database Optimization Verification")
-    print("=" * 60)
+    logger.info("=" * 60)
+    logger.info("Database Optimization Verification")
+    logger.info("=" * 60)
     
     results = []
     
@@ -261,23 +263,23 @@ async def main():
     results.append(("Performance", await test_performance()))
     
     # Summary
-    print("\n" + "=" * 60)
-    print("Verification Summary")
-    print("=" * 60)
+    logger.info("\n" + "=" * 60)
+    logger.info("Verification Summary")
+    logger.info("=" * 60)
     
     all_passed = True
     for component, passed in results:
         status = "✓ PASSED" if passed else "✗ FAILED"
-        print(f"{component:.<40} {status}")
+        logger.info(f"{component:.<40} {status}")
         if not passed:
             all_passed = False
     
-    print("=" * 60)
+    logger.info("=" * 60)
     
     if all_passed:
-        print("\n✓ All database optimization tests PASSED!")
+        logger.info("\n✓ All database optimization tests PASSED!")
     else:
-        print("\n✗ Some tests FAILED - review the output above")
+        logger.info("\n✗ Some tests FAILED - review the output above")
     
     # Cleanup
     try:

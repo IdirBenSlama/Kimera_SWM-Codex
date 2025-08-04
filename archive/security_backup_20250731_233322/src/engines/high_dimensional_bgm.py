@@ -403,11 +403,11 @@ def create_high_dimensional_bgm(dimension: int = 512,
 # Example usage and testing
 if __name__ == "__main__":
     # Test high-dimensional BGM
-    print("ðŸš€ Testing High-Dimensional BGM Engine")
+    logger.info("ðŸš€ Testing High-Dimensional BGM Engine")
     
     # Test different dimensions
     for dim in [512, 1024, 2048]:
-        print(f"\nðŸ“Š Testing {dim}D BGM:")
+        logger.info(f"\nðŸ“Š Testing {dim}D BGM:")
         
         # Create BGM engine
         bgm = create_high_dimensional_bgm(dimension=dim)
@@ -431,9 +431,9 @@ if __name__ == "__main__":
         # Compute moments
         moments = bgm.compute_moments(paths)
         
-        print(f"   Mean final price: {torch.mean(moments['mean']):.2f}")
-        print(f"   Std final price: {torch.mean(moments['std']):.2f}")
-        print(f"   Performance: {bgm.get_performance_stats()['simulation_stats']['avg_time_per_simulation']:.6f}s per path")
+        logger.info(f"   Mean final price: {torch.mean(moments['mean']):.2f}")
+        logger.info(f"   Std final price: {torch.mean(moments['std']):.2f}")
+        logger.info(f"   Performance: {bgm.get_performance_stats()['simulation_stats']['avg_time_per_simulation']:.6f}s per path")
         
         # Test cognitive integration
         market_data = {
@@ -443,6 +443,6 @@ if __name__ == "__main__":
         }
         
         enhanced_drift = bgm.integrate_with_cognitive_field(market_data)
-        print(f"   Cognitive enhancement: {torch.mean(enhanced_drift):.6f}")
+        logger.info(f"   Cognitive enhancement: {torch.mean(enhanced_drift):.6f}")
     
-    print("\nâœ… High-Dimensional BGM testing complete!") 
+    logger.info("\nâœ… High-Dimensional BGM testing complete!") 

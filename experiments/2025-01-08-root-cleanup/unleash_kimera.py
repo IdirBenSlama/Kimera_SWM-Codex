@@ -10,14 +10,16 @@ without requiring manual input.
 import subprocess
 import sys
 import os
+import logging
+logger = logging.getLogger(__name__)
 
 def main():
     """Auto-launch Kimera autonomous trader"""
-    print("🧠 AUTO-LAUNCHING KIMERA AUTONOMOUS TRADER")
-    print("   Mode: FULLY AUTONOMOUS")
-    print("   Safety Limits: NONE")
-    print("   Auto-Confirmation: ENABLED")
-    print()
+    logger.info("🧠 AUTO-LAUNCHING KIMERA AUTONOMOUS TRADER")
+    logger.info("   Mode: FULLY AUTONOMOUS")
+    logger.info("   Safety Limits: NONE")
+    logger.info("   Auto-Confirmation: ENABLED")
+    logger.info()
     
     # Create the confirmation input
     confirmation_input = "UNLEASH KIMERA\n"
@@ -34,33 +36,33 @@ def main():
         )
         
         # Send the confirmation automatically
-        print("🚀 Sending auto-confirmation: 'UNLEASH KIMERA'")
+        logger.info("🚀 Sending auto-confirmation: 'UNLEASH KIMERA'")
         process.stdin.write(confirmation_input)
         process.stdin.flush()
         
         # Stream the output
-        print("📊 KIMERA AUTONOMOUS TRADER OUTPUT:")
-        print("=" * 60)
+        logger.info("📊 KIMERA AUTONOMOUS TRADER OUTPUT:")
+        logger.info("=" * 60)
         
         for line in iter(process.stdout.readline, ''):
-            print(line.rstrip())
+            logger.info(line.rstrip())
             
             # Check for completion or error
             if "TARGET REACHED" in line:
-                print("\n🎉 MISSION ACCOMPLISHED!")
+                logger.info("\n🎉 MISSION ACCOMPLISHED!")
                 break
             elif "ERROR" in line or "FAILED" in line:
-                print(f"\n❌ Error detected: {line.strip()}")
+                logger.info(f"\n❌ Error detected: {line.strip()}")
                 break
         
         process.wait()
         
     except KeyboardInterrupt:
-        print("\n🛑 Auto-launch interrupted by user")
+        logger.info("\n🛑 Auto-launch interrupted by user")
         if 'process' in locals():
             process.terminate()
     except Exception as e:
-        print(f"\n❌ Auto-launch failed: {e}")
+        logger.info(f"\n❌ Auto-launch failed: {e}")
 
 if __name__ == "__main__":
     main() 

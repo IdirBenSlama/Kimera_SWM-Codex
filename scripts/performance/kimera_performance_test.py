@@ -98,7 +98,7 @@ class KimeraPerformanceTester:
                     
             except Exception as e:
                 errors += 1
-                print(f"Error testing {endpoint}: {e}")
+                logger.info(f"Error testing {endpoint}: {e}")
         
         if times:
             return {
@@ -115,7 +115,7 @@ class KimeraPerformanceTester:
     
     def test_api_endpoints(self):
         """Test various API endpoints"""
-        print("\n🔍 Testing API Endpoints...")
+        logger.info("\n🔍 Testing API Endpoints...")
         
         endpoints = [
             ("GET", "/health", None),
@@ -139,14 +139,14 @@ class KimeraPerformanceTester:
         ]
         
         for method, endpoint, data in endpoints:
-            print(f"  Testing {method} {endpoint}...")
+            logger.info(f"  Testing {method} {endpoint}...")
             self.results["api_tests"][endpoint] = self._measure_request(
                 method, endpoint, data
             )
     
     def test_cognitive_engines(self):
         """Test cognitive engine performance"""
-        print("\n🧠 Testing Cognitive Engines...")
+        logger.info("\n🧠 Testing Cognitive Engines...")
         
         # Test understanding engine with varying complexity
         complexities = [
@@ -156,7 +156,7 @@ class KimeraPerformanceTester:
         ]
         
         for level, query in complexities:
-            print(f"  Testing understanding engine - {level} complexity...")
+            logger.info(f"  Testing understanding engine - {level} complexity...")
             self.results["cognitive_tests"][f"understanding_{level}"] = \
                 self._measure_request("POST", "/api/v1/cognitive/understand", {
                     "query": query,
@@ -164,7 +164,7 @@ class KimeraPerformanceTester:
                 }, iterations=5)
         
         # Test quantum cognitive engine
-        print("  Testing quantum cognitive engine...")
+        logger.info("  Testing quantum cognitive engine...")
         self.results["cognitive_tests"]["quantum_exploration"] = \
             self._measure_request("POST", "/api/v1/cognitive/quantum/explore", {
                 "concept": "consciousness",
@@ -174,7 +174,7 @@ class KimeraPerformanceTester:
     
     def test_parallel_processing(self):
         """Test parallel processing capabilities"""
-        print("\n⚡ Testing Parallel Processing...")
+        logger.info("\n⚡ Testing Parallel Processing...")
         
         def parallel_request(i):
             start = time.perf_counter()
@@ -189,7 +189,7 @@ class KimeraPerformanceTester:
         
         # Test with different levels of concurrency
         for workers in [1, 5, 10, 20]:
-            print(f"  Testing with {workers} concurrent requests...")
+            logger.info(f"  Testing with {workers} concurrent requests...")
             
             start_time = time.perf_counter()
             successes = 0
@@ -217,7 +217,7 @@ class KimeraPerformanceTester:
     
     def monitor_resources(self, duration: int = 10):
         """Monitor system resources during operation"""
-        print(f"\n📊 Monitoring Resources for {duration} seconds...")
+        logger.info(f"\n📊 Monitoring Resources for {duration} seconds...")
         
         cpu_usage = []
         memory_usage = []
@@ -279,7 +279,7 @@ class KimeraPerformanceTester:
     
     def generate_summary(self):
         """Generate performance summary"""
-        print("\n📈 Generating Summary...")
+        logger.info("\n📈 Generating Summary...")
         
         # API performance summary
         api_times = []
@@ -330,17 +330,17 @@ class KimeraPerformanceTester:
     
     def run_all_tests(self):
         """Run all performance tests"""
-        print("🚀 Starting Kimera SWM Performance Testing Suite")
-        print("=" * 60)
+        logger.info("🚀 Starting Kimera SWM Performance Testing Suite")
+        logger.info("=" * 60)
         
         try:
             # Check if service is available
             response = requests.get(f"{self.base_url}/health", timeout=5)
             if response.status_code != 200:
-                print("❌ Kimera service not responding properly")
+                logger.info("❌ Kimera service not responding properly")
                 return
         except:
-            print("❌ Cannot connect to Kimera service at", self.base_url)
+            logger.info("❌ Cannot connect to Kimera service at", self.base_url)
             return
         
         # Run tests
@@ -355,28 +355,30 @@ class KimeraPerformanceTester:
         filename = f"docs/reports/performance/kimera_performance_{timestamp}.json"
         
         import os
+import logging
+logger = logging.getLogger(__name__)
         os.makedirs(os.path.dirname(filename), exist_ok=True)
         
         with open(filename, 'w') as f:
             json.dump(self.results, f, indent=2)
         
-        print(f"\n✅ Performance testing complete!")
-        print(f"📄 Results saved to: {filename}")
+        logger.info(f"\n✅ Performance testing complete!")
+        logger.info(f"📄 Results saved to: {filename}")
         
         # Print summary
-        print("\n📊 PERFORMANCE SUMMARY")
-        print("=" * 60)
+        logger.info("\n📊 PERFORMANCE SUMMARY")
+        logger.info("=" * 60)
         if "api_performance" in self.results["summary"]:
-            print(f"Average API Response Time: {self.results['summary']['api_performance']['mean_response_time_ms']:.1f} ms")
+            logger.info(f"Average API Response Time: {self.results['summary']['api_performance']['mean_response_time_ms']:.1f} ms")
         if "cognitive_performance" in self.results["summary"]:
-            print(f"Average Cognitive Processing: {self.results['summary']['cognitive_performance']['mean_processing_time_ms']:.1f} ms")
+            logger.info(f"Average Cognitive Processing: {self.results['summary']['cognitive_performance']['mean_processing_time_ms']:.1f} ms")
         if "parallel_performance" in self.results["summary"]:
-            print(f"Max Throughput: {self.results['summary']['parallel_performance']['max_requests_per_second']:.1f} req/s")
+            logger.info(f"Max Throughput: {self.results['summary']['parallel_performance']['max_requests_per_second']:.1f} req/s")
         if "resource_efficiency" in self.results["summary"]:
-            print(f"CPU Usage: {self.results['summary']['resource_efficiency']['cpu_utilization']:.1f}%")
-            print(f"Memory Usage: {self.results['summary']['resource_efficiency']['memory_utilization']:.1f}%")
+            logger.info(f"CPU Usage: {self.results['summary']['resource_efficiency']['cpu_utilization']:.1f}%")
+            logger.info(f"Memory Usage: {self.results['summary']['resource_efficiency']['memory_utilization']:.1f}%")
             if self.results['summary']['resource_efficiency']['gpu_utilization'] != "N/A":
-                print(f"GPU Usage: {self.results['summary']['resource_efficiency']['gpu_utilization']:.1f}%")
+                logger.info(f"GPU Usage: {self.results['summary']['resource_efficiency']['gpu_utilization']:.1f}%")
 
 
 if __name__ == "__main__":
