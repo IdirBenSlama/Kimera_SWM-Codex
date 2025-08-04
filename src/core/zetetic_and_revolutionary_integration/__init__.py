@@ -16,8 +16,8 @@ Integration follows DO-178C Level A standards with:
 - Nuclear-grade safety for cognitive evolution
 """
 
-from .zetetic_revolutionary_integration_engine import ZeteticRevolutionaryIntegrationEngine
+from .zetetic_revolutionary_integration_engine import (
+    ZeteticRevolutionaryIntegrationEngine,
+)
 
-__all__ = [
-    'ZeteticRevolutionaryIntegrationEngine'
-]
+__all__ = ["ZeteticRevolutionaryIntegrationEngine"]

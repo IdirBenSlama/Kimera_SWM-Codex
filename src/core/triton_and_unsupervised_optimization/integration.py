@@ -21,9 +21,10 @@ Integration Points:
 import asyncio
 import threading
 import time
-from typing import Dict, Any, Optional, List, Tuple, Union
 from dataclasses import dataclass
 from datetime import datetime, timezone
+from typing import Any, Dict, List, Optional, Tuple, Union
+
 import numpy as np
 
 # Kimera imports with robust fallback handling
@@ -34,8 +35,10 @@ except ImportError:
         from utils.kimera_logger import get_system_logger
     except ImportError:
         import logging
+
         def get_system_logger(*args, **kwargs):
             return logging.getLogger(__name__)
+
 
 try:
     from ...core.constants import EPSILON, MAX_ITERATIONS, PHI
@@ -51,6 +54,7 @@ except ImportError:
 # GPU availability check
 try:
     import torch
+
     GPU_AVAILABLE = torch.cuda.is_available()
     TRITON_AVAILABLE = True
     try:
@@ -74,6 +78,7 @@ logger = get_system_logger(__name__)
 @dataclass
 class TritonOptimizationMetrics:
     """Comprehensive metrics for Triton and unsupervised optimization system."""
+
     kernel_performance_score: float = 0.0
     test_optimization_efficiency: float = 0.0
     gpu_utilization: float = 0.0
@@ -129,10 +134,14 @@ class TritonUnsupervisedOptimizationIntegrator:
         try:
             if self.gpu_available and self.triton_available:
                 self.triton_kernels = TritonCognitiveKernels()
-                logger.info("✅ TritonCognitiveKernels initialized with GPU acceleration")
+                logger.info(
+                    "✅ TritonCognitiveKernels initialized with GPU acceleration"
+                )
             else:
                 self.triton_kernels = None
-                logger.info("⚠️ TritonCognitiveKernels disabled (GPU/Triton unavailable)")
+                logger.info(
+                    "⚠️ TritonCognitiveKernels disabled (GPU/Triton unavailable)"
+                )
         except Exception as e:
             logger.error(f"❌ Failed to initialize Triton kernels: {e}")
             self.triton_kernels = None
@@ -149,12 +158,17 @@ class TritonUnsupervisedOptimizationIntegrator:
         self._initialized = True
         self.metrics.health_status = "OPERATIONAL"
 
-        logger.info("🚀 Triton and Unsupervised Optimization Integrator initialized successfully (DO-178C Level A)")
+        logger.info(
+            "🚀 Triton and Unsupervised Optimization Integrator initialized successfully (DO-178C Level A)"
+        )
 
     def _start_health_monitoring(self) -> None:
         """Start health monitoring thread with aerospace-grade protocols."""
+
         def health_monitor():
-            while not self._stop_health_monitoring.wait(0.5):  # SR-4.23.6: 500ms intervals
+            while not self._stop_health_monitoring.wait(
+                0.5
+            ):  # SR-4.23.6: 500ms intervals
                 try:
                     self._update_health_metrics()
                 except Exception as e:
@@ -171,9 +185,14 @@ class TritonUnsupervisedOptimizationIntegrator:
             if self.gpu_available and torch:
                 try:
                     if torch.cuda.is_available():
-                        gpu_memory = torch.cuda.memory_allocated() / torch.cuda.max_memory_allocated()
+                        gpu_memory = (
+                            torch.cuda.memory_allocated()
+                            / torch.cuda.max_memory_allocated()
+                        )
                         self.metrics.gpu_memory_usage = gpu_memory
-                        self.metrics.gpu_utilization = min(gpu_memory / 0.8, 1.0)  # 80% threshold
+                        self.metrics.gpu_utilization = min(
+                            gpu_memory / 0.8, 1.0
+                        )  # 80% threshold
 
                         if gpu_memory > 0.8:
                             logger.warning(f"GPU memory usage high: {gpu_memory:.1%}")
@@ -187,14 +206,18 @@ class TritonUnsupervisedOptimizationIntegrator:
             if self.triton_kernels:
                 components_operational += 1
                 # Check kernel execution performance
-                if hasattr(self.triton_kernels, 'last_execution_time'):
-                    self.metrics.kernel_execution_time = getattr(self.triton_kernels, 'last_execution_time', 0.0)
+                if hasattr(self.triton_kernels, "last_execution_time"):
+                    self.metrics.kernel_execution_time = getattr(
+                        self.triton_kernels, "last_execution_time", 0.0
+                    )
 
             if self.unsupervised_optimization:
                 components_operational += 1
                 # Check optimization convergence
-                if hasattr(self.unsupervised_optimization, 'convergence_rate'):
-                    self.metrics.optimization_convergence_rate = getattr(self.unsupervised_optimization, 'convergence_rate', 0.0)
+                if hasattr(self.unsupervised_optimization, "convergence_rate"):
+                    self.metrics.optimization_convergence_rate = getattr(
+                        self.unsupervised_optimization, "convergence_rate", 0.0
+                    )
 
             # Overall health assessment
             health_ratio = components_operational / total_components
@@ -207,7 +230,9 @@ class TritonUnsupervisedOptimizationIntegrator:
 
             self.metrics.last_update = datetime.now(timezone.utc)
 
-    async def execute_triton_kernel(self, operation: str, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def execute_triton_kernel(
+        self, operation: str, data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """
         Execute Triton cognitive kernel with safety protocols.
 
@@ -232,15 +257,16 @@ class TritonUnsupervisedOptimizationIntegrator:
 
             # GPU memory check (SR-4.23.2)
             if self.gpu_available and torch and torch.cuda.is_available():
-                gpu_memory_usage = torch.cuda.memory_allocated() / torch.cuda.max_memory_allocated()
+                gpu_memory_usage = (
+                    torch.cuda.memory_allocated() / torch.cuda.max_memory_allocated()
+                )
                 if gpu_memory_usage > 0.8:
                     logger.warning("GPU memory high, using CPU fallback")
                     return await self._cpu_fallback_processing(operation, data)
 
             # Execute kernel with timeout protection (SR-4.23.1)
             result = await asyncio.wait_for(
-                self._execute_kernel_async(operation, data),
-                timeout=10.0
+                self._execute_kernel_async(operation, data), timeout=10.0
             )
 
             # Positive confirmation (SR-4.23.8)
@@ -263,63 +289,76 @@ class TritonUnsupervisedOptimizationIntegrator:
             logger.error(f"Kernel '{operation}' failed: {e}, using CPU fallback")
             return await self._cpu_fallback_processing(operation, data)  # SR-4.23.4
 
-    async def _execute_kernel_async(self, operation: str, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _execute_kernel_async(
+        self, operation: str, data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Execute Triton kernel asynchronously."""
         # Convert to async execution
         loop = asyncio.get_event_loop()
         return await loop.run_in_executor(
-            None,
-            self._execute_kernel_sync,
-            operation,
-            data
+            None, self._execute_kernel_sync, operation, data
         )
 
-    def _execute_kernel_sync(self, operation: str, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _execute_kernel_sync(
+        self, operation: str, data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Execute Triton kernel synchronously."""
         try:
             if operation == "cognitive_field_fusion":
-                field_a = data.get('field_a', np.zeros((64, 64)))
-                field_b = data.get('field_b', np.zeros((64, 64)))
+                field_a = data.get("field_a", np.zeros((64, 64)))
+                field_b = data.get("field_b", np.zeros((64, 64)))
 
                 if torch and self.triton_kernels:
                     # Convert to tensors for Triton processing
-                    tensor_a = torch.tensor(field_a, dtype=torch.float32, device='cuda')
-                    tensor_b = torch.tensor(field_b, dtype=torch.float32, device='cuda')
+                    tensor_a = torch.tensor(field_a, dtype=torch.float32, device="cuda")
+                    tensor_b = torch.tensor(field_b, dtype=torch.float32, device="cuda")
 
-                    result = self.triton_kernels.cognitive_field_fusion(tensor_a, tensor_b)
+                    result = self.triton_kernels.cognitive_field_fusion(
+                        tensor_a, tensor_b
+                    )
                     return {"fused_field": result.cpu().numpy()}
 
             elif operation == "attention_optimization":
-                attention_map = data.get('attention_map', np.eye(64))
+                attention_map = data.get("attention_map", np.eye(64))
 
                 if torch and self.triton_kernels:
-                    tensor_map = torch.tensor(attention_map, dtype=torch.float32, device='cuda')
+                    tensor_map = torch.tensor(
+                        attention_map, dtype=torch.float32, device="cuda"
+                    )
                     result = self.triton_kernels.optimized_attention(tensor_map)
                     return {"optimized_attention": result.cpu().numpy()}
 
             # Default processing for unknown operations
-            return {"processed": True, "operation": operation, "input_keys": list(data.keys())}
+            return {
+                "processed": True,
+                "operation": operation,
+                "input_keys": list(data.keys()),
+            }
 
         except Exception as e:
             logger.error(f"Kernel execution error: {e}")
             raise
 
-    async def _cpu_fallback_processing(self, operation: str, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _cpu_fallback_processing(
+        self, operation: str, data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """CPU fallback processing for kernel operations."""
         logger.debug(f"Using CPU fallback for operation: {operation}")
 
         try:
             if operation == "cognitive_field_fusion":
-                field_a = data.get('field_a', np.zeros((64, 64)))
-                field_b = data.get('field_b', np.zeros((64, 64)))
+                field_a = data.get("field_a", np.zeros((64, 64)))
+                field_b = data.get("field_b", np.zeros((64, 64)))
                 # Simple CPU fusion using element-wise operations
                 fused = (field_a + field_b) / 2.0
                 return {"fused_field": fused}
 
             elif operation == "attention_optimization":
-                attention_map = data.get('attention_map', np.eye(64))
+                attention_map = data.get("attention_map", np.eye(64))
                 # Simple attention normalization
-                optimized = attention_map / (np.sum(attention_map, axis=-1, keepdims=True) + EPSILON)
+                optimized = attention_map / (
+                    np.sum(attention_map, axis=-1, keepdims=True) + EPSILON
+                )
                 return {"optimized_attention": optimized}
 
             # Default CPU processing
@@ -329,7 +368,9 @@ class TritonUnsupervisedOptimizationIntegrator:
             logger.error(f"CPU fallback processing failed: {e}")
             return {"error": str(e), "operation": operation}
 
-    async def optimize_test_suite(self, test_suite: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    async def optimize_test_suite(
+        self, test_suite: List[Dict[str, Any]]
+    ) -> List[Dict[str, Any]]:
         """
         Optimize test suite using unsupervised learning.
 
@@ -350,7 +391,9 @@ class TritonUnsupervisedOptimizationIntegrator:
                 optimized_case = self.unsupervised_optimization.optimize_test(test_case)
 
                 # Convergence validation (SR-4.23.3)
-                convergence_score = self._calculate_convergence_score(test_case, optimized_case)
+                convergence_score = self._calculate_convergence_score(
+                    test_case, optimized_case
+                )
                 convergence_scores.append(convergence_score)
 
                 # Validation before deployment (SR-4.23.5)
@@ -367,26 +410,36 @@ class TritonUnsupervisedOptimizationIntegrator:
                 self.metrics.tests_optimized += len(test_suite)
                 self.metrics.optimization_convergence_rate = avg_convergence
 
-            logger.info(f"Test suite optimization completed: {len(optimized_suite)} tests, convergence: {avg_convergence:.3f}")
+            logger.info(
+                f"Test suite optimization completed: {len(optimized_suite)} tests, convergence: {avg_convergence:.3f}"
+            )
             return optimized_suite
 
         except Exception as e:
             logger.error(f"Test suite optimization failed: {e}")
             return test_suite  # Safe fallback
 
-    def _calculate_convergence_score(self, original: Dict[str, Any], optimized: Dict[str, Any]) -> float:
+    def _calculate_convergence_score(
+        self, original: Dict[str, Any], optimized: Dict[str, Any]
+    ) -> float:
         """Calculate convergence score for optimization validation."""
         try:
             # Compare key metrics to assess optimization convergence
-            original_complexity = original.get('complexity', 1.0)
-            optimized_complexity = optimized.get('complexity', 1.0)
+            original_complexity = original.get("complexity", 1.0)
+            optimized_complexity = optimized.get("complexity", 1.0)
 
-            original_performance = original.get('performance_score', 0.5)
-            optimized_performance = optimized.get('performance_score', 0.5)
+            original_performance = original.get("performance_score", 0.5)
+            optimized_performance = optimized.get("performance_score", 0.5)
 
             # Convergence based on improvement ratio
-            complexity_improvement = max(0, (original_complexity - optimized_complexity) / original_complexity)
-            performance_improvement = max(0, (optimized_performance - original_performance) / (original_performance + EPSILON))
+            complexity_improvement = max(
+                0, (original_complexity - optimized_complexity) / original_complexity
+            )
+            performance_improvement = max(
+                0,
+                (optimized_performance - original_performance)
+                / (original_performance + EPSILON),
+            )
 
             return (complexity_improvement + performance_improvement) / 2.0
 
@@ -397,16 +450,16 @@ class TritonUnsupervisedOptimizationIntegrator:
         """Validate optimized test case meets quality standards."""
         try:
             # Essential test case components validation
-            required_fields = ['name', 'complexity', 'performance_score']
+            required_fields = ["name", "complexity", "performance_score"]
             if not all(field in test_case for field in required_fields):
                 return False
 
             # Reasonable bounds validation
-            complexity = test_case.get('complexity', float('inf'))
+            complexity = test_case.get("complexity", float("inf"))
             if complexity < 0 or complexity > 100:
                 return False
 
-            performance = test_case.get('performance_score', -1)
+            performance = test_case.get("performance_score", -1)
             if performance < 0 or performance > 1:
                 return False
 
@@ -440,8 +493,9 @@ class TritonUnsupervisedOptimizationIntegrator:
                 "triton_available": self.triton_available,
                 "components": {
                     "triton_kernels": self.triton_kernels is not None,
-                    "unsupervised_optimization": self.unsupervised_optimization is not None
-                }
+                    "unsupervised_optimization": self.unsupervised_optimization
+                    is not None,
+                },
             }
 
     def shutdown(self) -> None:
@@ -454,9 +508,9 @@ class TritonUnsupervisedOptimizationIntegrator:
             self._health_thread.join(timeout=5.0)
 
         # Shutdown components
-        for component_name in ['triton_kernels', 'unsupervised_optimization']:
+        for component_name in ["triton_kernels", "unsupervised_optimization"]:
             component = getattr(self, component_name, None)
-            if component and hasattr(component, 'shutdown'):
+            if component and hasattr(component, "shutdown"):
                 try:
                     component.shutdown()
                     logger.debug(f"✅ {component_name} shutdown complete")
@@ -472,8 +526,10 @@ class TritonUnsupervisedOptimizationIntegrator:
                 logger.error(f"❌ GPU memory clear error: {e}")
 
         self.metrics.health_status = "SHUTDOWN"
-        logger.info("🚀 Triton and Unsupervised Optimization Integrator shutdown complete")
+        logger.info(
+            "🚀 Triton and Unsupervised Optimization Integrator shutdown complete"
+        )
 
 
 # Export integrator for KimeraSystem initialization
-__all__ = ['TritonUnsupervisedOptimizationIntegrator']
+__all__ = ["TritonUnsupervisedOptimizationIntegrator"]

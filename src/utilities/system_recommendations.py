@@ -8,8 +8,9 @@ Author: KIMERA Development Team
 Version: 1.0.0
 """
 
-from typing import List, Dict, Any
 from datetime import datetime
+from typing import Any, Dict, List
+
 
 class SystemRecommendations:
     """System recommendation generation and tracking"""
@@ -27,15 +28,17 @@ class SystemRecommendations:
             priority: Priority level (low, medium, high, critical)
         """
         recommendation = {
-            'category': category,
-            'message': message,
-            'priority': priority,
-            'timestamp': datetime.now()
+            "category": category,
+            "message": message,
+            "priority": priority,
+            "timestamp": datetime.now(),
         }
 
         self.recommendations.append(recommendation)
 
-    def get_recommendations(self, category: str = None, priority: str = None) -> List[Dict[str, Any]]:
+    def get_recommendations(
+        self, category: str = None, priority: str = None
+    ) -> List[Dict[str, Any]]:
         """
         Get recommendations, optionally filtered by category or priority
 
@@ -49,10 +52,10 @@ class SystemRecommendations:
         filtered = self.recommendations
 
         if category:
-            filtered = [r for r in filtered if r['category'] == category]
+            filtered = [r for r in filtered if r["category"] == category]
 
         if priority:
-            filtered = [r for r in filtered if r['priority'] == priority]
+            filtered = [r for r in filtered if r["priority"] == priority]
 
         return filtered
 
@@ -62,7 +65,7 @@ class SystemRecommendations:
         critical = self.get_recommendations(priority="critical")
 
         all_high = high_priority + critical
-        return [r['message'] for r in all_high]
+        return [r["message"] for r in all_high]
 
     def clear_recommendations(self):
         """Clear all recommendations"""

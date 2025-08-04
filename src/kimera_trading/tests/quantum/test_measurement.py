@@ -1,6 +1,8 @@
-import pytest
-from kimera_trading.quantum.measurement import QuantumMeasurement
 import numpy as np
+import pytest
+
+from kimera_trading.quantum.measurement import QuantumMeasurement
+
 
 def test_quantum_measurement():
     measurement = QuantumMeasurement()

@@ -22,36 +22,39 @@ Version: 1.0.0 - DO-178C Level A Compliant
 Safety Level: Catastrophic (Level A)
 """
 
-import pytest
 import asyncio
 import time
-import numpy as np
-import torch
-from typing import Dict, Any
 from datetime import datetime, timezone
+from typing import Any, Dict
 
-# Import the integration system
-from src.core.quantum_security_and_complexity.integration import (
-    QuantumSecurityComplexityIntegrator,
-    QuantumSecurityMode,
-    ComplexityAnalysisMode,
-    create_quantum_security_complexity_integrator
+import numpy as np
+import pytest
+import torch
+
+# Import test utilities
+from src.core.constants import (
+    DO_178C_LEVEL_A_SAFETY_LEVEL,
+    DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD,
+)
+from src.core.quantum_security_and_complexity.complexity_analysis.quantum_thermodynamic_complexity_analyzer import (
+    ComplexityState,
+    QuantumThermodynamicComplexityAnalyzer,
 )
 
 # Import components
 from src.core.quantum_security_and_complexity.crypto_systems.quantum_resistant_crypto import (
-    QuantumResistantCrypto,
+    DilithiumParams,
     LatticeParams,
-    DilithiumParams
+    QuantumResistantCrypto,
 )
 
-from src.core.quantum_security_and_complexity.complexity_analysis.quantum_thermodynamic_complexity_analyzer import (
-    QuantumThermodynamicComplexityAnalyzer,
-    ComplexityState
+# Import the integration system
+from src.core.quantum_security_and_complexity.integration import (
+    ComplexityAnalysisMode,
+    QuantumSecurityComplexityIntegrator,
+    QuantumSecurityMode,
+    create_quantum_security_complexity_integrator,
 )
-
-# Import test utilities
-from src.core.constants import DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD, DO_178C_LEVEL_A_SAFETY_LEVEL
 from src.utilities.health_status import HealthStatus
 
 
@@ -65,13 +68,15 @@ class TestQuantumSecurityComplexityIntegration:
             crypto_device_id=0,
             complexity_dimensions=1024,
             adaptive_mode=True,
-            safety_level="catastrophic"
+            safety_level="catastrophic",
         )
 
     @pytest.fixture
     def sample_data(self):
         """Sample data for testing encryption operations"""
-        return "KIMERA Quantum Security Test Data - DO-178C Level A Compliance Validation"
+        return (
+            "KIMERA Quantum Security Test Data - DO-178C Level A Compliance Validation"
+        )
 
     @pytest.fixture
     def sample_system_state(self):
@@ -85,7 +90,7 @@ class TestQuantumSecurityComplexityIntegration:
             "phase_transition_proximity": 0.2,
             "system_dimensions": 1024,
             "active_processes": 15,
-            "timestamp": datetime.now(timezone.utc)
+            "timestamp": datetime.now(timezone.utc),
         }
 
     def test_integrator_initialization_safety(self, integrator):
@@ -121,19 +126,17 @@ class TestQuantumSecurityComplexityIntegration:
 
         # Test standard encryption
         result = integrator.perform_secure_encryption(
-            data=sample_data,
-            security_mode=QuantumSecurityMode.STANDARD
+            data=sample_data, security_mode=QuantumSecurityMode.STANDARD
         )
 
         assert result is not None
-        assert hasattr(result, 'ciphertext')
-        assert hasattr(result, 'public_key')
+        assert hasattr(result, "ciphertext")
+        assert hasattr(result, "public_key")
         assert len(result.ciphertext) > 0
 
         # Test high security encryption
         high_security_result = integrator.perform_secure_encryption(
-            data=sample_data,
-            security_mode=QuantumSecurityMode.HIGH_SECURITY
+            data=sample_data, security_mode=QuantumSecurityMode.HIGH_SECURITY
         )
 
         assert high_security_result is not None
@@ -141,8 +144,7 @@ class TestQuantumSecurityComplexityIntegration:
 
         # Test performance mode encryption
         performance_result = integrator.perform_secure_encryption(
-            data=sample_data,
-            security_mode=QuantumSecurityMode.PERFORMANCE
+            data=sample_data, security_mode=QuantumSecurityMode.PERFORMANCE
         )
 
         assert performance_result is not None
@@ -154,25 +156,27 @@ class TestQuantumSecurityComplexityIntegration:
 
         print("✅ Test 2: Quantum-resistant cryptographic operations passed")
 
-    def test_quantum_thermodynamic_complexity_analysis(self, integrator, sample_system_state):
+    def test_quantum_thermodynamic_complexity_analysis(
+        self, integrator, sample_system_state
+    ):
         """Test 3: Quantum thermodynamic complexity analysis"""
         print("🧮 Test 3: Quantum Thermodynamic Complexity Analysis")
 
         # Test real-time analysis
         result = integrator.analyze_system_complexity(
             system_state=sample_system_state,
-            analysis_mode=ComplexityAnalysisMode.REAL_TIME
+            analysis_mode=ComplexityAnalysisMode.REAL_TIME,
         )
 
         assert result is not None
-        assert hasattr(result, 'complexity_state')
-        assert hasattr(result, 'integrated_information')
-        assert hasattr(result, 'quantum_coherence')
+        assert hasattr(result, "complexity_state")
+        assert hasattr(result, "integrated_information")
+        assert hasattr(result, "quantum_coherence")
 
         # Test safety critical analysis
         safety_result = integrator.analyze_system_complexity(
             system_state=sample_system_state,
-            analysis_mode=ComplexityAnalysisMode.SAFETY_CRITICAL
+            analysis_mode=ComplexityAnalysisMode.SAFETY_CRITICAL,
         )
 
         assert safety_result is not None
@@ -181,7 +185,7 @@ class TestQuantumSecurityComplexityIntegration:
         # Test continuous monitoring
         monitoring_result = integrator.analyze_system_complexity(
             system_state=sample_system_state,
-            analysis_mode=ComplexityAnalysisMode.CONTINUOUS_MONITORING
+            analysis_mode=ComplexityAnalysisMode.CONTINUOUS_MONITORING,
         )
 
         assert monitoring_result is not None
@@ -189,14 +193,16 @@ class TestQuantumSecurityComplexityIntegration:
         # Test batch analysis
         batch_result = integrator.analyze_system_complexity(
             system_state=sample_system_state,
-            analysis_mode=ComplexityAnalysisMode.BATCH_ANALYSIS
+            analysis_mode=ComplexityAnalysisMode.BATCH_ANALYSIS,
         )
 
         assert batch_result is not None
 
         print("✅ Test 3: Quantum thermodynamic complexity analysis passed")
 
-    def test_integrated_security_analysis_operations(self, integrator, sample_data, sample_system_state):
+    def test_integrated_security_analysis_operations(
+        self, integrator, sample_data, sample_system_state
+    ):
         """Test 4: Integrated security and complexity operations"""
         print("🔗 Test 4: Integrated Security and Complexity Operations")
 
@@ -205,7 +211,7 @@ class TestQuantumSecurityComplexityIntegration:
             data=sample_data,
             system_state=sample_system_state,
             security_mode=QuantumSecurityMode.STANDARD,
-            analysis_mode=ComplexityAnalysisMode.REAL_TIME
+            analysis_mode=ComplexityAnalysisMode.REAL_TIME,
         )
 
         assert result is not None
@@ -226,7 +232,7 @@ class TestQuantumSecurityComplexityIntegration:
             data=sample_data,
             system_state=sample_system_state,
             security_mode=QuantumSecurityMode.HIGH_SECURITY,
-            analysis_mode=ComplexityAnalysisMode.SAFETY_CRITICAL
+            analysis_mode=ComplexityAnalysisMode.SAFETY_CRITICAL,
         )
 
         assert high_security_result["integration_successful"] is True
@@ -257,7 +263,9 @@ class TestQuantumSecurityComplexityIntegration:
 
         # Verify DO-178C Level A requirements
         assert health["safety_level"] == "catastrophic"
-        assert safety_assessment["safety_score"] >= DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD
+        assert (
+            safety_assessment["safety_score"] >= DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD
+        )
         assert safety_assessment["safety_level"] == DO_178C_LEVEL_A_SAFETY_LEVEL
         assert safety_assessment["compliance_status"] in ["COMPLIANT", "DEGRADED"]
 
@@ -271,15 +279,16 @@ class TestQuantumSecurityComplexityIntegration:
 
         print("✅ Test 5: Safety compliance and validation passed")
 
-    def test_performance_benchmarks_requirements(self, integrator, sample_data, sample_system_state):
+    def test_performance_benchmarks_requirements(
+        self, integrator, sample_data, sample_system_state
+    ):
         """Test 6: Performance benchmarks and requirements validation"""
         print("⚡ Test 6: Performance Benchmarks and Requirements")
 
         # Test encryption performance
         start_time = time.time()
         encryption_result = integrator.perform_secure_encryption(
-            data=sample_data,
-            security_mode=QuantumSecurityMode.PERFORMANCE
+            data=sample_data, security_mode=QuantumSecurityMode.PERFORMANCE
         )
         encryption_time = (time.time() - start_time) * 1000  # Convert to ms
 
@@ -290,7 +299,7 @@ class TestQuantumSecurityComplexityIntegration:
         start_time = time.time()
         complexity_result = integrator.analyze_system_complexity(
             system_state=sample_system_state,
-            analysis_mode=ComplexityAnalysisMode.REAL_TIME
+            analysis_mode=ComplexityAnalysisMode.REAL_TIME,
         )
         analysis_time = (time.time() - start_time) * 1000  # Convert to ms
 
@@ -303,7 +312,7 @@ class TestQuantumSecurityComplexityIntegration:
             data=sample_data,
             system_state=sample_system_state,
             security_mode=QuantumSecurityMode.STANDARD,
-            analysis_mode=ComplexityAnalysisMode.REAL_TIME
+            analysis_mode=ComplexityAnalysisMode.REAL_TIME,
         )
         integrated_time = (time.time() - start_time) * 1000  # Convert to ms
 
@@ -349,10 +358,12 @@ class TestQuantumSecurityComplexityIntegration:
         assert 0 <= safety_score <= 1  # Safety score bounded
 
         # Verify component state consistency
-        components_available = sum([
-            health["component_status"]["quantum_crypto"]["available"],
-            health["component_status"]["complexity_analyzer"]["available"]
-        ])
+        components_available = sum(
+            [
+                health["component_status"]["quantum_crypto"]["available"],
+                health["component_status"]["complexity_analyzer"]["available"],
+            ]
+        )
 
         if components_available == 2:
             assert health["health_status"] == "operational"
@@ -363,7 +374,9 @@ class TestQuantumSecurityComplexityIntegration:
 
         print("✅ Test 7: Formal verification capabilities passed")
 
-    def test_failure_mode_analysis_recovery(self, integrator, sample_data, sample_system_state):
+    def test_failure_mode_analysis_recovery(
+        self, integrator, sample_data, sample_system_state
+    ):
         """Test 8: Failure mode analysis and recovery"""
         print("⚠️ Test 8: Failure Mode Analysis and Recovery")
 
@@ -377,8 +390,7 @@ class TestQuantumSecurityComplexityIntegration:
 
             # This should handle gracefully with safety fallback
             result = integrator.perform_secure_encryption(
-                data=sample_data,
-                security_mode=QuantumSecurityMode.SAFETY_FALLBACK
+                data=sample_data, security_mode=QuantumSecurityMode.SAFETY_FALLBACK
             )
 
             # Should fail gracefully
@@ -390,7 +402,7 @@ class TestQuantumSecurityComplexityIntegration:
             # This should handle gracefully
             complexity_result = integrator.analyze_system_complexity(
                 system_state=sample_system_state,
-                analysis_mode=ComplexityAnalysisMode.SAFETY_CRITICAL
+                analysis_mode=ComplexityAnalysisMode.SAFETY_CRITICAL,
             )
 
             # Should fail gracefully
@@ -412,8 +424,7 @@ class TestQuantumSecurityComplexityIntegration:
         # Test safety fallback is always available
         if integrator.quantum_crypto:
             result = integrator.perform_secure_encryption(
-                data=sample_data,
-                security_mode=QuantumSecurityMode.SAFETY_FALLBACK
+                data=sample_data, security_mode=QuantumSecurityMode.SAFETY_FALLBACK
             )
 
             # Safety fallback should always succeed
@@ -453,16 +464,18 @@ class TestQuantumSecurityComplexityIntegration:
 
 def test_quantum_security_complexity_integration_suite():
     """Run the complete quantum security and complexity integration test suite"""
-    print("\n" + "="*80)
+    print("\n" + "=" * 80)
     print("🔬 QUANTUM SECURITY AND COMPLEXITY INTEGRATION TEST SUITE")
     print("DO-178C Level A Compliance Validation")
-    print("="*80)
+    print("=" * 80)
 
     # Run all tests
     test_instance = TestQuantumSecurityComplexityIntegration()
 
     integrator = create_quantum_security_complexity_integrator()
-    sample_data = "KIMERA Quantum Security Test Data - DO-178C Level A Compliance Validation"
+    sample_data = (
+        "KIMERA Quantum Security Test Data - DO-178C Level A Compliance Validation"
+    )
     sample_system_state = {
         "cognitive_load": 0.7,
         "processing_complexity": 0.8,
@@ -472,26 +485,34 @@ def test_quantum_security_complexity_integration_suite():
         "phase_transition_proximity": 0.2,
         "system_dimensions": 1024,
         "active_processes": 15,
-        "timestamp": datetime.now(timezone.utc)
+        "timestamp": datetime.now(timezone.utc),
     }
 
     # Execute all test methods
     test_instance.test_integrator_initialization_safety(integrator)
     test_instance.test_quantum_resistant_cryptography(integrator, sample_data)
-    test_instance.test_quantum_thermodynamic_complexity_analysis(integrator, sample_system_state)
-    test_instance.test_integrated_security_analysis_operations(integrator, sample_data, sample_system_state)
+    test_instance.test_quantum_thermodynamic_complexity_analysis(
+        integrator, sample_system_state
+    )
+    test_instance.test_integrated_security_analysis_operations(
+        integrator, sample_data, sample_system_state
+    )
     test_instance.test_safety_compliance_validation(integrator)
-    test_instance.test_performance_benchmarks_requirements(integrator, sample_data, sample_system_state)
+    test_instance.test_performance_benchmarks_requirements(
+        integrator, sample_data, sample_system_state
+    )
     test_instance.test_formal_verification_capabilities(integrator)
-    test_instance.test_failure_mode_analysis_recovery(integrator, sample_data, sample_system_state)
+    test_instance.test_failure_mode_analysis_recovery(
+        integrator, sample_data, sample_system_state
+    )
     test_instance.test_integration_with_kimera_system()
 
-    print("\n" + "="*80)
+    print("\n" + "=" * 80)
     print("🎉 ALL QUANTUM SECURITY AND COMPLEXITY INTEGRATION TESTS PASSED")
     print("✅ DO-178C Level A Compliance Verified")
     print("✅ Nuclear Engineering Safety Principles Validated")
     print("✅ Aerospace-Grade Requirements Met")
-    print("="*80)
+    print("=" * 80)
 
 
 if __name__ == "__main__":

@@ -5,20 +5,24 @@ The monitor analyses recent system metrics and adjusts thresholds in
 `config/optimized_settings.json` to maintain optimal behaviour while
 respecting safety limits.
 """
+
 from __future__ import annotations
 
 import json
 import logging
 import math
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 log = logging.getLogger(__name__)
-DEFAULT_CONFIG_PATH = Path(__file__).resolve().parents[2] / "config" / "optimized_settings.json"
+DEFAULT_CONFIG_PATH = (
+    Path(__file__).resolve().parents[2] / "config" / "optimized_settings.json"
+)
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Helper functions
 # ──────────────────────────────────────────────────────────────────────────────
+
 
 def _load_config(config_path: Path = DEFAULT_CONFIG_PATH) -> Dict[str, Any]:
     if not config_path.exists():
@@ -35,6 +39,7 @@ def _save_config(cfg: Dict[str, Any], config_path: Path = DEFAULT_CONFIG_PATH) -
 # ──────────────────────────────────────────────────────────────────────────────
 # Self-Tuning Monitor
 # ──────────────────────────────────────────────────────────────────────────────
+
 
 class SelfTuningMonitor:  # noqa: D101
     CONTRADICTION_UPPER = 10  # per cycle
@@ -53,7 +58,9 @@ class SelfTuningMonitor:  # noqa: D101
 
     # Public API -------------------------------------------------------------
 
-    def run_periodic_adjustment(self, recent_metrics: List[Dict[str, Any]]) -> None:  # noqa: D401
+    def run_periodic_adjustment(
+        self, recent_metrics: List[Dict[str, Any]]
+    ) -> None:  # noqa: D401
         """Analyse recent metrics and adjust thresholds if required.
 
         Args:
@@ -64,28 +71,50 @@ class SelfTuningMonitor:  # noqa: D101
             log.warning("No metrics supplied to SelfTuningMonitor – skipping.")
             return
 
-        avg_contradictions = sum(m.get("contradictions_detected", 0) for m in recent_metrics) / len(recent_metrics)
-        avg_entropy_delta = sum(m.get("entropy_delta", 0.0) for m in recent_metrics) / len(recent_metrics)
+        avg_contradictions = sum(
+            m.get("contradictions_detected", 0) for m in recent_metrics
+        ) / len(recent_metrics)
+        avg_entropy_delta = sum(
+            m.get("entropy_delta", 0.0) for m in recent_metrics
+        ) / len(recent_metrics)
 
         cfg = self._get_config()
-        tension_threshold: float = cfg.setdefault("governance", {}).get("tension_threshold", 0.5)
+        tension_threshold: float = cfg.setdefault("governance", {}).get(
+            "tension_threshold", 0.5
+        )
 
         # --- Adjust tension threshold based on contradiction rate -----------
         if avg_contradictions > self.CONTRADICTION_UPPER:
             tension_threshold = min(self.MAX_TENSION, tension_threshold + self.STEP)
-            log.info("High contradiction rate detected (%.2f). Raising tension threshold to %.2f", avg_contradictions, tension_threshold)
+            log.info(
+                "High contradiction rate detected (%.2f). Raising tension threshold to %.2f",
+                avg_contradictions,
+                tension_threshold,
+            )
         elif avg_contradictions < self.CONTRADICTION_LOWER:
             tension_threshold = max(self.MIN_TENSION, tension_threshold - self.STEP)
-            log.info("Low contradiction rate detected (%.2f). Lowering tension threshold to %.2f", avg_contradictions, tension_threshold)
+            log.info(
+                "Low contradiction rate detected (%.2f). Lowering tension threshold to %.2f",
+                avg_contradictions,
+                tension_threshold,
+            )
 
         # --- Potential place for entropy-driven tuning ----------------------
         prune_threshold: float = cfg["governance"].get("entropy_prune_threshold", 3.0)
         if avg_entropy_delta > self.ENTROPY_DELTA_UPPER:
             prune_threshold = max(1.0, prune_threshold - 0.1)
-            log.info("Entropy growing quickly (Δ=%.2f). Tightening prune threshold to %.2f", avg_entropy_delta, prune_threshold)
+            log.info(
+                "Entropy growing quickly (Δ=%.2f). Tightening prune threshold to %.2f",
+                avg_entropy_delta,
+                prune_threshold,
+            )
         elif avg_entropy_delta < self.ENTROPY_DELTA_LOWER:
             prune_threshold = min(5.0, prune_threshold + 0.1)
-            log.info("Entropy dropping (Δ=%.2f). Loosening prune threshold to %.2f", avg_entropy_delta, prune_threshold)
+            log.info(
+                "Entropy dropping (Δ=%.2f). Loosening prune threshold to %.2f",
+                avg_entropy_delta,
+                prune_threshold,
+            )
 
         # Persist updates
         cfg["governance"]["tension_threshold"] = tension_threshold
@@ -101,4 +130,4 @@ class SelfTuningMonitor:  # noqa: D101
 
     def _save_config(self, cfg: Dict[str, Any]) -> None:  # noqa: D401
         _save_config(cfg, self.config_path)
-        self.config_cache = cfg 
+        self.config_cache = cfg

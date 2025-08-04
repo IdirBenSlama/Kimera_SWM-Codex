@@ -10,11 +10,11 @@ Version: 1.0.0 - DO-178C Level A Compliant
 """
 
 from .revolutionary_epistemic_validator import (
-    RevolutionaryEpistemicValidator,
+    EpistemicAnalysisResult,
     QuantumTruthState,
     QuantumTruthSuperposition,
+    RevolutionaryEpistemicValidator,
     ValidationResult,
-    EpistemicAnalysisResult
 )
 
 __all__ = [
@@ -22,5 +22,5 @@ __all__ = [
     "QuantumTruthState",
     "QuantumTruthSuperposition",
     "ValidationResult",
-    "EpistemicAnalysisResult"
+    "EpistemicAnalysisResult",
 ]

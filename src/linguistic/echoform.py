@@ -48,7 +48,7 @@ def _tokenize(text: str) -> List[str]:
                 j += 1
             else:
                 raise ValueError("Unterminated string literal")
-            tokens.append('"' + ''.join(buf) + '"')
+            tokens.append('"' + "".join(buf) + '"')
             i = j + 1
             continue
 
@@ -119,4 +119,3 @@ def parse_echoform(text: str) -> List:
     if pos != len(tokens):
         raise ValueError("Unbalanced parentheses in EchoForm")
     return ast
-

@@ -2,7 +2,7 @@
 Axiomatic Foundation Module
 ==========================
 
-This module establishes a formal, verifiable, and self-consistent foundation 
+This module establishes a formal, verifiable, and self-consistent foundation
 for Kimera's cognitive processes based on rigorous mathematical principles.
 
 The axiomatic foundation provides:
@@ -27,8 +27,4 @@ from .axiom_mathematical_proof import AxiomProofSystem
 from .axiom_of_understanding import AxiomOfUnderstanding
 from .axiom_verification import AxiomVerificationEngine
 
-__all__ = [
-    'AxiomProofSystem',
-    'AxiomOfUnderstanding', 
-    'AxiomVerificationEngine'
-]
+__all__ = ["AxiomProofSystem", "AxiomOfUnderstanding", "AxiomVerificationEngine"]

@@ -22,29 +22,29 @@ Version: 1.0.0 - DO-178C Level A Compliant
 Safety Level: Catastrophic (Level A)
 """
 
+# Import epistemic validation components
+from .epistemic_validation.revolutionary_epistemic_validator import (
+    EpistemicAnalysisResult,
+    QuantumTruthState,
+    QuantumTruthSuperposition,
+    RevolutionaryEpistemicValidator,
+    ValidationResult,
+)
+
 # Import main integration component
 from .integration import (
-    SignalEvolutionValidationIntegrator,
-    SignalEvolutionMode,
     EpistemicValidationMode,
-    create_signal_evolution_validation_integrator
+    SignalEvolutionMode,
+    SignalEvolutionValidationIntegrator,
+    create_signal_evolution_validation_integrator,
 )
 
 # Import signal evolution components
 from .signal_evolution.real_time_signal_evolution import (
+    GeoidStreamProcessor,
     RealTimeSignalEvolutionEngine,
-    ThermalBudgetSignalController,
     SignalEvolutionResult,
-    GeoidStreamProcessor
-)
-
-# Import epistemic validation components
-from .epistemic_validation.revolutionary_epistemic_validator import (
-    RevolutionaryEpistemicValidator,
-    QuantumTruthState,
-    QuantumTruthSuperposition,
-    ValidationResult,
-    EpistemicAnalysisResult
+    ThermalBudgetSignalController,
 )
 
 # Package metadata
@@ -61,13 +61,11 @@ __all__ = [
     "SignalEvolutionMode",
     "EpistemicValidationMode",
     "create_signal_evolution_validation_integrator",
-
     # Signal Evolution
     "RealTimeSignalEvolutionEngine",
     "ThermalBudgetSignalController",
     "SignalEvolutionResult",
     "GeoidStreamProcessor",
-
     # Epistemic Validation
     "RevolutionaryEpistemicValidator",
     "QuantumTruthState",
@@ -78,7 +76,14 @@ __all__ = [
 
 # Logging setup
 import logging
+
 logger = logging.getLogger(__name__)
-logger.info("🌊 Signal Evolution and Validation module loaded (v1.0.0, DO-178C Level A)")
-logger.info("   Components available: ['signal_evolution', 'epistemic_validation', 'integrator']")
-logger.info("   Dependencies: ['numpy', 'torch', 'asyncio', 'quantum_cognitive_engine']")
+logger.info(
+    "🌊 Signal Evolution and Validation module loaded (v1.0.0, DO-178C Level A)"
+)
+logger.info(
+    "   Components available: ['signal_evolution', 'epistemic_validation', 'integrator']"
+)
+logger.info(
+    "   Dependencies: ['numpy', 'torch', 'asyncio', 'quantum_cognitive_engine']"
+)

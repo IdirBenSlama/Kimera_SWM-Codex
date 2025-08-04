@@ -11,8 +11,8 @@ testability, and decouples our API layer from the core system.
 """
 
 import logging
-from typing import Optional
 from functools import lru_cache
+from typing import Optional
 
 from fastapi import HTTPException
 
@@ -21,26 +21,40 @@ try:
     from vault.vault_manager import VaultManager
 except ImportError:
     # Create placeholders for vault.vault_manager
-        class VaultManager: pass
+    class VaultManager:
+        pass
+
+
 try:
     from engines.contradiction_engine import ContradictionEngine
 except ImportError:
     # Create placeholders for engines.contradiction_engine
-        class ContradictionEngine: pass
+    class ContradictionEngine:
+        pass
+
+
 try:
-    from engines.foundational_thermodynamic_engine import FoundationalThermodynamicEngine
+    from engines.foundational_thermodynamic_engine import (
+        FoundationalThermodynamicEngine,
+    )
 except ImportError:
     # Create placeholders for engines.foundational_thermodynamic_engine
-        class FoundationalThermodynamicEngine: pass
+    class FoundationalThermodynamicEngine:
+        pass
+
+
 try:
     from utils.gpu_foundation import GPUFoundation
 except ImportError:
     # Create placeholders for utils.gpu_foundation
-        class GPUFoundation: pass
+    class GPUFoundation:
+        pass
+
 
 logger = logging.getLogger(__name__)
 
 # --- Provider Functions with Caching (Singleton Behavior) ---
+
 
 @lru_cache(maxsize=None)
 def get_gpu_foundation() -> Optional[GPUFoundation]:
@@ -51,11 +65,14 @@ def get_gpu_foundation() -> Optional[GPUFoundation]:
     """
     try:
         gpu_found = GPUFoundation()
-        logger.info("GPU detected via DI – operations will use %s", gpu_found.get_device())
+        logger.info(
+            "GPU detected via DI – operations will use %s", gpu_found.get_device()
+        )
         return gpu_found
     except (RuntimeError, ImportError, AttributeError) as exc:
         logger.warning("GPU unavailable or initialisation failed via DI (%s).", exc)
         return None
+
 
 @lru_cache(maxsize=None)
 def get_vault_manager() -> VaultManager:
@@ -70,6 +87,7 @@ def get_vault_manager() -> VaultManager:
         logger.critical("Failed to initialize VaultManager: %s", e, exc_info=True)
         raise HTTPException(status_code=503, detail="VaultManager is unavailable.")
 
+
 @lru_cache(maxsize=None)
 def get_contradiction_engine() -> ContradictionEngine:
     """
@@ -80,8 +98,13 @@ def get_contradiction_engine() -> ContradictionEngine:
     try:
         return ContradictionEngine(tension_threshold=0.4)
     except Exception as e:
-        logger.critical("Failed to initialize ContradictionEngine: %s", e, exc_info=True)
-        raise HTTPException(status_code=503, detail="ContradictionEngine is unavailable.")
+        logger.critical(
+            "Failed to initialize ContradictionEngine: %s", e, exc_info=True
+        )
+        raise HTTPException(
+            status_code=503, detail="ContradictionEngine is unavailable."
+        )
+
 
 @lru_cache(maxsize=None)
 def get_thermodynamic_engine() -> FoundationalThermodynamicEngine:
@@ -93,8 +116,13 @@ def get_thermodynamic_engine() -> FoundationalThermodynamicEngine:
     try:
         return FoundationalThermodynamicEngine()
     except Exception as e:
-        logger.critical("Failed to initialize FoundationalThermodynamicEngine: %s", e, exc_info=True)
-        raise HTTPException(status_code=503, detail="FoundationalThermodynamicEngine is unavailable.")
+        logger.critical(
+            "Failed to initialize FoundationalThermodynamicEngine: %s", e, exc_info=True
+        )
+        raise HTTPException(
+            status_code=503, detail="FoundationalThermodynamicEngine is unavailable."
+        )
+
 
 # Note: The embedding model is handled differently and seems to be managed
-# within `embedding_utils` itself. We will address that separately if needed. 
+# within `embedding_utils` itself. We will address that separately if needed.

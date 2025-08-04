@@ -10,13 +10,14 @@ This engine implements vortex dynamics that represent:
 - Emergent spiral structures in thought patterns
 """
 
-import numpy as np
-import torch
 import logging
-from typing import Dict, List, Tuple, Optional, Any, Union
 from dataclasses import dataclass
 from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple, Union
+
+import numpy as np
 import scipy.ndimage as ndimage
+import torch
 from scipy.integrate import odeint
 
 try:
@@ -25,42 +26,52 @@ except ImportError:
     try:
         from utils.config import get_api_settings
     except ImportError:
-        def get_api_settings(): return {}
+
+        def get_api_settings():
+            return {}
+
 
 logger = logging.getLogger(__name__)
 
+
 class VortexType(Enum):
     """Types of vortex structures"""
-    POINT = "point"              # Point vortex
-    RANKINE = "rankine"          # Rankine vortex (solid body core)
-    LAMB_OSEEN = "lamb_oseen"    # Viscous vortex
-    BURGERS = "burgers"          # Burgers vortex
-    COGNITIVE = "cognitive"       # Cognitive attractor vortex
+
+    POINT = "point"  # Point vortex
+    RANKINE = "rankine"  # Rankine vortex (solid body core)
+    LAMB_OSEEN = "lamb_oseen"  # Viscous vortex
+    BURGERS = "burgers"  # Burgers vortex
+    COGNITIVE = "cognitive"  # Cognitive attractor vortex
+
 
 @dataclass
 class Vortex:
     """Represents a vortex in cognitive field"""
-    position: np.ndarray      # Position in field
-    circulation: float        # Vortex strength (Γ)
-    radius: float            # Core radius
+
+    position: np.ndarray  # Position in field
+    circulation: float  # Vortex strength (Γ)
+    radius: float  # Core radius
     vortex_type: VortexType
-    velocity: np.ndarray     # Vortex movement velocity
-    age: float = 0.0         # Vortex age
-    stability: float = 1.0   # Vortex stability
+    velocity: np.ndarray  # Vortex movement velocity
+    age: float = 0.0  # Vortex age
+    stability: float = 1.0  # Vortex stability
 
     def update_position(self, dt: float):
         """Update vortex position"""
         self.position += self.velocity * dt
         self.age += dt
 
+
 @dataclass
 class VortexField:
     """Vortex field state"""
-    velocity_field: np.ndarray    # Velocity field (u, v)
-    vorticity_field: np.ndarray   # Vorticity ω = ∇ × v
-    stream_function: np.ndarray   # Stream function ψ
-    energy: float                 # Kinetic energy
-    enstrophy: float             # Enstrophy (vorticity squared)
+
+    velocity_field: np.ndarray  # Velocity field (u, v)
+    vorticity_field: np.ndarray  # Vorticity ω = ∇ × v
+    stream_function: np.ndarray  # Stream function ψ
+    energy: float  # Kinetic energy
+    enstrophy: float  # Enstrophy (vorticity squared)
+
 
 class VortexDynamicsEngine:
     """
@@ -88,11 +99,13 @@ class VortexDynamicsEngine:
 
         logger.info(f"Vortex Dynamics Engine initialized: {grid_size}x{grid_size} grid")
 
-    def create_vortex(self,
-                     position: Tuple[float, float],
-                     circulation: float,
-                     vortex_type: VortexType = VortexType.COGNITIVE,
-                     radius: float = 1.0) -> Vortex:
+    def create_vortex(
+        self,
+        position: Tuple[float, float],
+        circulation: float,
+        vortex_type: VortexType = VortexType.COGNITIVE,
+        radius: float = 1.0,
+    ) -> Vortex:
         """
         Create a new vortex
 
@@ -110,11 +123,13 @@ class VortexDynamicsEngine:
             circulation=circulation,
             radius=radius,
             vortex_type=vortex_type,
-            velocity=np.zeros(2)
+            velocity=np.zeros(2),
         )
 
         self.vortices.append(vortex)
-        logger.info(f"Created {vortex_type.value} vortex at {position} with Γ={circulation}")
+        logger.info(
+            f"Created {vortex_type.value} vortex at {position} with Γ={circulation}"
+        )
 
         return vortex
 
@@ -154,19 +169,23 @@ class VortexDynamicsEngine:
             v_theta = np.where(
                 r < vortex.radius,
                 vortex.circulation * r / (2 * np.pi * vortex.radius**2),
-                vortex.circulation / (2 * np.pi * r)
+                vortex.circulation / (2 * np.pi * r),
             )
 
         elif vortex.vortex_type == VortexType.LAMB_OSEEN:
             # Lamb-Oseen vortex: viscous decay
-            v_theta = (vortex.circulation / (2 * np.pi * r)) * \
-                     (1 - np.exp(-r**2 / (4 * self.viscosity * (vortex.age + 1))))
+            v_theta = (vortex.circulation / (2 * np.pi * r)) * (
+                1 - np.exp(-(r**2) / (4 * self.viscosity * (vortex.age + 1)))
+            )
 
         elif vortex.vortex_type == VortexType.COGNITIVE:
             # Cognitive vortex: custom profile with attraction/repulsion
-            core_factor = np.exp(-r**2 / (2 * vortex.radius**2))
-            v_theta = (vortex.circulation / (2 * np.pi * r)) * \
-                     (1 - core_factor) * vortex.stability
+            core_factor = np.exp(-(r**2) / (2 * vortex.radius**2))
+            v_theta = (
+                (vortex.circulation / (2 * np.pi * r))
+                * (1 - core_factor)
+                * vortex.stability
+            )
         else:
             v_theta = vortex.circulation / (2 * np.pi * r)
 
@@ -270,7 +289,7 @@ class VortexDynamicsEngine:
             vortex.stability *= np.exp(-dt * 0.1)
 
             # Circulation modulation
-            vortex.circulation *= (0.99 + 0.01 * np.sin(vortex.age))
+            vortex.circulation *= 0.99 + 0.01 * np.sin(vortex.age)
 
     def merge_vortices(self, merge_radius: float = 1.0):
         """
@@ -302,8 +321,8 @@ class VortexDynamicsEngine:
 
                     # Weighted average position
                     new_position = (
-                        vortex_i.position * abs(vortex_i.circulation) +
-                        vortex_j.position * abs(vortex_j.circulation)
+                        vortex_i.position * abs(vortex_i.circulation)
+                        + vortex_j.position * abs(vortex_j.circulation)
                     ) / (abs(vortex_i.circulation) + abs(vortex_j.circulation))
 
                     # Update vortex i
@@ -349,8 +368,9 @@ class VortexDynamicsEngine:
 
         return total_enstrophy
 
-    def detect_coherent_structures(self, vorticity: np.ndarray,
-                                 threshold: float = 0.5) -> List[Dict[str, Any]]:
+    def detect_coherent_structures(
+        self, vorticity: np.ndarray, threshold: float = 0.5
+    ) -> List[Dict[str, Any]]:
         """
         Detect coherent vortex structures in the field
 
@@ -385,7 +405,8 @@ class VortexDynamicsEngine:
                 "circulation": circulation,
                 "area": area,
                 "intensity": np.mean(np.abs(vorticity[mask])),
-                "coherence": np.std(vorticity[mask]) / (np.mean(np.abs(vorticity[mask])) + 1e-10)
+                "coherence": np.std(vorticity[mask])
+                / (np.mean(np.abs(vorticity[mask])) + 1e-10),
             }
 
             structures.append(structure)
@@ -405,7 +426,7 @@ class VortexDynamicsEngine:
             vorticity_field=vorticity,
             stream_function=stream_function,
             energy=energy,
-            enstrophy=enstrophy
+            enstrophy=enstrophy,
         )
 
     def cognitive_vortex_interaction(self, semantic_field: np.ndarray) -> np.ndarray:
@@ -437,18 +458,20 @@ class VortexDynamicsEngine:
             if vortex.vortex_type == VortexType.COGNITIVE:
                 # Cognitive vortices enhance nearby semantic activations
                 distance_field = np.sqrt(
-                    (self.X - vortex.position[0])**2 +
-                    (self.Y - vortex.position[1])**2
+                    (self.X - vortex.position[0]) ** 2
+                    + (self.Y - vortex.position[1]) ** 2
                 )
 
-                influence = np.exp(-distance_field**2 / (2 * vortex.radius**2))
-                mixed_field += vortex.stability * influence * np.sign(vortex.circulation)
+                influence = np.exp(-(distance_field**2) / (2 * vortex.radius**2))
+                mixed_field += (
+                    vortex.stability * influence * np.sign(vortex.circulation)
+                )
 
         return mixed_field
 
-    def _semi_lagrangian_advection(self, field: np.ndarray,
-                                  u: np.ndarray, v: np.ndarray,
-                                  dt: float) -> np.ndarray:
+    def _semi_lagrangian_advection(
+        self, field: np.ndarray, u: np.ndarray, v: np.ndarray, dt: float
+    ) -> np.ndarray:
         """Semi-Lagrangian advection scheme"""
         # Backward particle tracing
         X_back = self.X - u * dt
@@ -460,19 +483,19 @@ class VortexDynamicsEngine:
 
         # Interpolate field values
         from scipy.interpolate import RegularGridInterpolator
+
         x_1d = np.linspace(0, self.domain_size, self.grid_size)
         y_1d = np.linspace(0, self.domain_size, self.grid_size)
 
         interpolator = RegularGridInterpolator(
-            (y_1d, x_1d), field,
-            bounds_error=False,
-            fill_value=0
+            (y_1d, x_1d), field, bounds_error=False, fill_value=0
         )
 
         points = np.stack([Y_back.ravel(), X_back.ravel()], axis=-1)
         advected = interpolator(points).reshape(field.shape)
 
         return advected
+
 
 # Convenience class for simple vortex field operations
 class SimpleVortexField:
@@ -486,9 +509,7 @@ class SimpleVortexField:
     def add_vortex(self, x: float, y: float, strength: float):
         """Add a vortex to the field"""
         return self.engine.create_vortex(
-            position=(x, y),
-            circulation=strength,
-            vortex_type=VortexType.COGNITIVE
+            position=(x, y), circulation=strength, vortex_type=VortexType.COGNITIVE
         )
 
     def calculate_circulation(self) -> float:
@@ -504,6 +525,7 @@ class SimpleVortexField:
     def get_field_state(self) -> VortexField:
         """Get current field state"""
         return self.engine.generate_vortex_field_state()
+
 
 def create_vortex_field(grid_size: int = 128) -> SimpleVortexField:
     """Factory function to create vortex field"""

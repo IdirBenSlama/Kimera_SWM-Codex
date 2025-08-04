@@ -4,57 +4,70 @@ Test the Kimera Text Diffusion Engine directly
 """
 
 import asyncio
-import sys
 import os
+import sys
 
 # Add project root to path
 sys.path.insert(0, os.path.abspath("."))
 
+
 async def test_diffusion():
     try:
         print("🧪 Testing Kimera Text Diffusion Engine...")
-        
+
         # Import required components
         from src.engines.kimera_text_diffusion_engine import (
-            create_kimera_text_diffusion_engine,
+            DiffusionMode,
             DiffusionRequest,
-            DiffusionMode
+            create_kimera_text_diffusion_engine,
         )
         from src.utils.gpu_foundation import GPUFoundation
-        
+
         # Initialize GPU foundation
         print("🎮 Initializing GPU Foundation...")
         gpu_foundation = GPUFoundation()
         print(f"✅ GPU: {gpu_foundation.get_device()}")
-        
+
         # Create diffusion engine
         print("\n🌊 Creating Diffusion Engine...")
         config = {
-            'num_steps': 20,
-            'noise_schedule': 'cosine',
-            'embedding_dim': 1024,
-            'max_length': 512
+            "num_steps": 20,
+            "noise_schedule": "cosine",
+            "embedding_dim": 1024,
+            "max_length": 512,
         }
-        
+
         engine = create_kimera_text_diffusion_engine(config, gpu_foundation)
         if not engine:
             print("❌ Failed to create diffusion engine")
             return
-        
+
         print("✅ Diffusion engine created successfully")
-        
+
         # Test different modes
         test_cases = [
             ("Hello, how are you?", DiffusionMode.STANDARD, "Standard mode"),
-            ("Tell me about consciousness", DiffusionMode.COGNITIVE_ENHANCED, "Cognitive enhanced mode"),
-            ("What's your personality like?", DiffusionMode.PERSONA_AWARE, "Persona aware mode"),
-            ("Explain quantum physics simply", DiffusionMode.NEURODIVERGENT, "Neurodivergent mode"),
+            (
+                "Tell me about consciousness",
+                DiffusionMode.COGNITIVE_ENHANCED,
+                "Cognitive enhanced mode",
+            ),
+            (
+                "What's your personality like?",
+                DiffusionMode.PERSONA_AWARE,
+                "Persona aware mode",
+            ),
+            (
+                "Explain quantum physics simply",
+                DiffusionMode.NEURODIVERGENT,
+                "Neurodivergent mode",
+            ),
         ]
-        
+
         for message, mode, description in test_cases:
             print(f"\n🔬 Testing {description}...")
             print(f"📝 Input: {message}")
-            
+
             request = DiffusionRequest(
                 source_content=message,
                 source_modality="text",
@@ -62,9 +75,9 @@ async def test_diffusion():
                 mode=mode,
                 metadata={
                     "persona_prompt": "You are KIMERA, an advanced AI with deep understanding."
-                }
+                },
             )
-            
+
             try:
                 result = await engine.generate(request)
                 print(f"✅ Response: {result.generated_content[:200]}...")
@@ -76,13 +89,15 @@ async def test_diffusion():
                 print(f"   - Diffusion Steps: {result.diffusion_steps_used}")
             except Exception as e:
                 print(f"❌ Error: {e}")
-        
+
         print("\n✅ All tests completed!")
-        
+
     except Exception as e:
         print(f"❌ Test failed: {e}")
         import traceback
+
         traceback.print_exc()
+
 
 if __name__ == "__main__":
     asyncio.run(test_diffusion())

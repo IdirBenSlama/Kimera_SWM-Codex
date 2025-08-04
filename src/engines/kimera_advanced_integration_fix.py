@@ -15,37 +15,38 @@ Scientific Rigor: Each component is integrated based on its mathematical foundat
 and thermodynamic principles, ensuring coherent system behavior.
 """
 
-import logging
 import asyncio
-import torch
-import numpy as np
-from typing import Dict, Any, Optional, List, Tuple
+import logging
+import time
 from dataclasses import dataclass
 from datetime import datetime
-import time
+from typing import Any, Dict, List, Optional, Tuple
 
-# Core Security Systems
-from src.core.gyroscopic_security import (
-    GyroscopicSecurityCore, 
-    ManipulationVector,
-    create_balanced_security_core
-)
+import numpy as np
+import torch
 
 # Profiling Systems
 from src.core.anthropomorphic_profiler import (
     AnthropomorphicProfiler,
+    InteractionAnalysis,
     PersonalityProfile,
-    InteractionAnalysis
 )
 
-# Linguistic Systems
-from src.linguistic.echoform import parse_echoform
+# Core Security Systems
+from src.core.gyroscopic_security import (
+    GyroscopicSecurityCore,
+    ManipulationVector,
+    create_balanced_security_core,
+)
 
 # Cognitive Systems
 from src.engines.cognitive_field_dynamics import CognitiveFieldDynamics
 
 # Import the text diffusion engine we need to fix
 from src.engines.kimera_text_diffusion_engine import KimeraTextDiffusionEngine
+
+# Linguistic Systems
+from src.linguistic.echoform import parse_echoform
 
 logger = logging.getLogger(__name__)
 
@@ -459,11 +460,11 @@ logger.info("🔬 Initializing Advanced KIMERA Integration System")
         try:
             # Import cognitive response system
             from .kimera_cognitive_response_system import (
-                get_cognitive_response_system,
+                CognitiveMetrics,
                 create_cognitive_metrics_from_features,
-                CognitiveMetrics
+                get_cognitive_response_system,
             )
-            
+
             # Create metrics from all integrated systems
             metrics = CognitiveMetrics(
                 resonance_frequency=grounded_concepts.get('resonance_frequency', 10.0),
@@ -510,9 +511,10 @@ def apply_advanced_integration_to_diffusion_engine(diffusion_engine: KimeraTextD
     
     # Replace the problematic method with integrated version
     import types
-from ..utils.config import get_api_settings
+
 from ..config.settings import get_settings
-    
+from ..utils.config import get_api_settings
+
     async def integrated_generate_text_from_grounded_concepts(
         self,
         grounded_concepts: Dict[str, Any],

@@ -1,9 +1,9 @@
-
 import asyncio
 import logging
 import unittest
 
 from src.core.geometric_optimization.integration import GeometricOptimizationIntegrator
+
 
 class TestGeometricOptimizationIntegration(unittest.TestCase):
 
@@ -23,12 +23,16 @@ class TestGeometricOptimizationIntegration(unittest.TestCase):
         semantic_content = {"meaning": 0.9, "beauty": 0.8}
         symbolic_content = {"form": "phyllotaxis", "pattern": "spiral"}
 
-        result = await integrator.create_optimized_mirror_portal(semantic_content, symbolic_content)
+        result = await integrator.create_optimized_mirror_portal(
+            semantic_content, symbolic_content
+        )
 
         self.assertIn("portal_id", result)
         self.assertIn("optimized_coherence", result)
         self.assertTrue(0 <= result["optimized_coherence"] <= 1)
-        logging.info(f"Optimized mirror portal created with coherence: {result['optimized_coherence']}")
+        logging.info(
+            f"Optimized mirror portal created with coherence: {result['optimized_coherence']}"
+        )
 
     def test_get_global_optimization_metrics(self):
         """Test the retrieval of global optimization metrics."""
@@ -40,6 +44,7 @@ class TestGeometricOptimizationIntegration(unittest.TestCase):
         self.assertIn("diffusion_alignment", metrics)
         self.assertIn("ecoform_naturalness", metrics)
         logging.info(f"Global optimization metrics: {metrics}")
+
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

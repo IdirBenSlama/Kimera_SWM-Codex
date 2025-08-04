@@ -16,15 +16,15 @@ Safety Requirements: SR-4.20.1 through SR-4.20.24
 """
 
 from .integration import RhetoricalSymbolicIntegrator
-from .rhetorical_engine import RhetoricalProcessor, RhetoricalAnalysis
-from .symbolic_engine import SymbolicProcessor, SymbolicAnalysis
+from .rhetorical_engine import RhetoricalAnalysis, RhetoricalProcessor
+from .symbolic_engine import SymbolicAnalysis, SymbolicProcessor
 
 __all__ = [
-    'RhetoricalSymbolicIntegrator',
-    'RhetoricalProcessor',
-    'RhetoricalAnalysis',
-    'SymbolicProcessor',
-    'SymbolicAnalysis'
+    "RhetoricalSymbolicIntegrator",
+    "RhetoricalProcessor",
+    "RhetoricalAnalysis",
+    "SymbolicProcessor",
+    "SymbolicAnalysis",
 ]
 
 __version__ = "1.0.0"

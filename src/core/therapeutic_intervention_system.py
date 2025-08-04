@@ -1,13 +1,14 @@
-from typing import Dict, Any
 import asyncio
 import logging
+from typing import Any, Dict
 
 from ..engines.quantum_cognitive_engine import QuantumCognitiveEngine
 from .geoid import GeoidState
+
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S'
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
 )
 logger = logging.getLogger(__name__)
 
@@ -31,23 +32,25 @@ class TherapeuticInterventionSystem:
             alert (Dict[str, Any]): The alert dictionary, which is expected
                                     to contain an 'action' or 'action_required' key.
         """
-        action = alert.get('action') or alert.get('action_required')
+        action = alert.get("action") or alert.get("action_required")
         if not action:
             logger.warning(f"Received alert with no specified action: {alert}")
             return
 
         logger.info(f"Processing action '{action}' from alert: {alert}")
 
-        if action == 'IMMEDIATE_ISOLATION':
+        if action == "IMMEDIATE_ISOLATION":
             self.trigger_isolation(alert)
-        elif action == 'COGNITIVE_RESET_PROTOCOL':
+        elif action == "COGNITIVE_RESET_PROTOCOL":
             self.trigger_cognitive_reset(alert)
-        elif action == 'COGNITIVE_RECALIBRATION':
+        elif action == "COGNITIVE_RECALIBRATION":
             self.trigger_recalibration(alert)
-        elif action == 'CREATE_MIRROR_PORTAL':
+        elif action == "CREATE_MIRROR_PORTAL":
             asyncio.run(self.trigger_mirror_portal_creation(alert))
         else:
-            logger.warning(f"Unknown action '{action}' received. No intervention triggered.")
+            logger.warning(
+                f"Unknown action '{action}' received. No intervention triggered."
+            )
 
     def trigger_isolation(self, details: Dict[str, Any]):
         """
@@ -68,7 +71,9 @@ class TherapeuticInterventionSystem:
         Args:
             details (Dict[str, Any]): The details of the alert.
         """
-        logger.warning(f"WARNING: COGNITIVE RESET PROTOCOL triggered. Details: {details}")
+        logger.warning(
+            f"WARNING: COGNITIVE RESET PROTOCOL triggered. Details: {details}"
+        )
         # In a real system, this would execute code to reload a safe cognitive state.
 
     def trigger_recalibration(self, details: Dict[str, Any]):
@@ -79,8 +84,10 @@ class TherapeuticInterventionSystem:
         Args:
             details (Dict[str, Any]): The details of the alert.
         """
-        logger.warning(f"WARNING: COGNITIVE RECALIBRATION triggered. Details: {details}")
-        # In a real system, this would execute code to retune model parameters. 
+        logger.warning(
+            f"WARNING: COGNITIVE RECALIBRATION triggered. Details: {details}"
+        )
+        # In a real system, this would execute code to retune model parameters.
 
     async def trigger_mirror_portal_creation(self, details: Dict[str, Any]):
         """
@@ -90,25 +97,24 @@ class TherapeuticInterventionSystem:
             details (Dict[str, Any]): The details of the alert.
         """
         logger.info(f"Triggering geoid mirror portal creation. Details: {details}")
-        
+
         # Create dummy geoids for the purpose of this demonstration
         semantic_geoid = GeoidState(
             geoid_id="semantic_geoid_for_therapy",
             semantic_state={"meaning": 0.5, "understanding": 0.5},
             symbolic_state={},
-            metadata={}
+            metadata={},
         )
-        
+
         symbolic_geoid = GeoidState(
             geoid_id="symbolic_geoid_for_therapy",
             semantic_state={"symbolic_meaning": 0.5, "symbolic_understanding": 0.5},
             symbolic_state={"type": "symbolic_representation"},
-            metadata={}
+            metadata={},
         )
-        
+
         portal_state = await self.quantum_cognitive_engine.create_mirror_portal_state(
-            semantic_geoid=semantic_geoid,
-            symbolic_geoid=symbolic_geoid
+            semantic_geoid=semantic_geoid, symbolic_geoid=symbolic_geoid
         )
-        
-        logger.info(f"Mirror portal created: {portal_state.portal_id}") 
+
+        logger.info(f"Mirror portal created: {portal_state.portal_id}")

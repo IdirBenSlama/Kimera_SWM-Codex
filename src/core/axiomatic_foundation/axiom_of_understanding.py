@@ -26,16 +26,17 @@ References:
 - Lawvere, F.W. (1969). "Adjointness in Foundations"
 """
 
-import numpy as np
-from typing import Dict, List, Tuple, Any, Optional, Set, Callable
+import asyncio
+import json
+import threading
+from abc import ABC, abstractmethod
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-import json
-import asyncio
-from abc import ABC, abstractmethod
 from enum import Enum, auto
-import threading
-from concurrent.futures import ThreadPoolExecutor
+from typing import Any, Callable, Dict, List, Optional, Set, Tuple
+
+import numpy as np
 
 # Kimera imports
 try:
@@ -45,7 +46,10 @@ except ImportError:
         from utils.kimera_logger import get_system_logger
     except ImportError:
         # Create placeholders for utils.kimera_logger
-            def get_system_logger(*args, **kwargs): return None
+        def get_system_logger(*args, **kwargs):
+            return None
+
+
 try:
     from ...core.constants import EPSILON, PHI, PLANCK_REDUCED
 except ImportError:
@@ -70,15 +74,17 @@ UNDERSTANDING_TEMPERATURE = 1.0 / PHI  # Optimal cognitive temperature
 
 class UnderstandingMode(Enum):
     """Modes of understanding operation"""
+
     COMPOSITIONAL = auto()  # Understanding through composition
-    CAUSAL = auto()        # Understanding through causality
-    REFLEXIVE = auto()     # Self-referential understanding
-    EMERGENT = auto()      # Understanding through emergence
+    CAUSAL = auto()  # Understanding through causality
+    REFLEXIVE = auto()  # Self-referential understanding
+    EMERGENT = auto()  # Understanding through emergence
 
 
 @dataclass
 class SemanticState:
     """Represents a state in semantic space"""
+
     vector: np.ndarray
     entropy: float
     information: float
@@ -98,6 +104,7 @@ class SemanticState:
 @dataclass
 class UnderstandingTransformation:
     """Represents a transformation in understanding space"""
+
     operator: np.ndarray
     mode: UnderstandingMode
     entropy_reduction_factor: float
@@ -119,13 +126,14 @@ class UnderstandingTransformation:
             vector=new_vector,
             entropy=new_entropy,
             information=new_information,
-            meaning_label=f"U({state.meaning_label})"
+            meaning_label=f"U({state.meaning_label})",
         )
 
 
 @dataclass
 class UnderstandingManifold:
     """The Riemannian manifold where understanding occurs"""
+
     dimension: int
     metric_tensor: np.ndarray
     christoffel_symbols: np.ndarray
@@ -138,7 +146,9 @@ class UnderstandingManifold:
         diff = state1.vector - state2.vector
         return np.sqrt(diff @ self.metric_tensor @ diff)
 
-    def parallel_transport(self, vector: np.ndarray, path: List[np.ndarray]) -> np.ndarray:
+    def parallel_transport(
+        self, vector: np.ndarray, path: List[np.ndarray]
+    ) -> np.ndarray:
         """Parallel transport a vector along a path"""
         # Simplified parallel transport
         transported = vector.copy()
@@ -158,7 +168,9 @@ class AxiomOfUnderstanding:
     for all cognitive operations in Kimera.
     """
 
-    def __init__(self, dimension: int = 10, temperature: float = UNDERSTANDING_TEMPERATURE):
+    def __init__(
+        self, dimension: int = 10, temperature: float = UNDERSTANDING_TEMPERATURE
+    ):
         self.dimension = dimension
         self.temperature = temperature
         self.manifold = self._initialize_manifold()
@@ -194,7 +206,9 @@ class AxiomOfUnderstanding:
         # Simplified: assuming Levi-Civita connection
 
         # Riemann curvature tensor (simplified)
-        riemann = np.zeros((self.dimension, self.dimension, self.dimension, self.dimension))
+        riemann = np.zeros(
+            (self.dimension, self.dimension, self.dimension, self.dimension)
+        )
         curvature_strength = 1.0 / PHI  # Positive curvature
 
         for i in range(self.dimension):
@@ -203,7 +217,8 @@ class AxiomOfUnderstanding:
                     for l in range(self.dimension):
                         if i != j and k != l:
                             riemann[i, j, k, l] = curvature_strength * (
-                                metric[i, k] * metric[j, l] - metric[i, l] * metric[j, k]
+                                metric[i, k] * metric[j, l]
+                                - metric[i, l] * metric[j, k]
                             )
 
         # Ricci scalar (trace of Ricci tensor)
@@ -214,7 +229,7 @@ class AxiomOfUnderstanding:
             metric_tensor=metric,
             christoffel_symbols=christoffel,
             riemann_tensor=riemann,
-            ricci_scalar=ricci_scalar
+            ricci_scalar=ricci_scalar,
         )
 
     def _initialize_operators(self):
@@ -257,7 +272,7 @@ class AxiomOfUnderstanding:
             mode=UnderstandingMode.COMPOSITIONAL,
             entropy_reduction_factor=0.7,
             information_preservation_factor=0.95,
-            metadata={"block_size": block_size}
+            metadata={"block_size": block_size},
         )
 
     def _create_causal_operator(self):
@@ -275,7 +290,7 @@ class AxiomOfUnderstanding:
             mode=UnderstandingMode.CAUSAL,
             entropy_reduction_factor=0.6,
             information_preservation_factor=0.9,
-            metadata={"temporal_structure": "lower_triangular"}
+            metadata={"temporal_structure": "lower_triangular"},
         )
 
     def _create_reflexive_operator(self):
@@ -287,7 +302,11 @@ class AxiomOfUnderstanding:
         for i in range(self.dimension):
             for j in range(self.dimension):
                 if i != j:
-                    operator[i, j] = 0.1 * np.exp(-abs(i - j)) * np.cos(2 * np.pi * (i - j) / self.dimension)
+                    operator[i, j] = (
+                        0.1
+                        * np.exp(-abs(i - j))
+                        * np.cos(2 * np.pi * (i - j) / self.dimension)
+                    )
 
         # Ensure eigenvalue less than 1 for convergence
         eigenvalues = np.linalg.eigvals(operator)
@@ -300,7 +319,7 @@ class AxiomOfUnderstanding:
             mode=UnderstandingMode.REFLEXIVE,
             entropy_reduction_factor=0.5,  # Highest reduction
             information_preservation_factor=0.99,  # Highest preservation
-            metadata={"has_fixed_point": True}
+            metadata={"has_fixed_point": True},
         )
 
     def _create_emergent_operator(self):
@@ -324,10 +343,14 @@ class AxiomOfUnderstanding:
             mode=UnderstandingMode.EMERGENT,
             entropy_reduction_factor=0.65,
             information_preservation_factor=0.92,
-            metadata={"symmetry": "hermitian", "scaling": "golden_ratio"}
+            metadata={"symmetry": "hermitian", "scaling": "golden_ratio"},
         )
 
-    def understand(self, state: SemanticState, mode: UnderstandingMode = UnderstandingMode.COMPOSITIONAL) -> SemanticState:
+    def understand(
+        self,
+        state: SemanticState,
+        mode: UnderstandingMode = UnderstandingMode.COMPOSITIONAL,
+    ) -> SemanticState:
         """
         Apply understanding transformation to a semantic state.
 
@@ -351,13 +374,19 @@ class AxiomOfUnderstanding:
 
         # Verify the axiom
         entropy_reduced = understood_state.entropy < state.entropy
-        information_preserved = abs(understood_state.information - state.information) < EPSILON
+        information_preserved = (
+            abs(understood_state.information - state.information) < EPSILON
+        )
 
         if not entropy_reduced:
-            logger.warning(f"Entropy not reduced: {state.entropy} -> {understood_state.entropy}")
+            logger.warning(
+                f"Entropy not reduced: {state.entropy} -> {understood_state.entropy}"
+            )
 
         if not information_preserved:
-            logger.warning(f"Information not preserved: {state.information} -> {understood_state.information}")
+            logger.warning(
+                f"Information not preserved: {state.information} -> {understood_state.information}"
+            )
 
         # Update metrics
         self.total_transformations += 1
@@ -370,7 +399,9 @@ class AxiomOfUnderstanding:
 
         return understood_state
 
-    def compose_understandings(self, state1: SemanticState, state2: SemanticState) -> SemanticState:
+    def compose_understandings(
+        self, state1: SemanticState, state2: SemanticState
+    ) -> SemanticState:
         """
         Compose two semantic states according to the composition law.
 
@@ -384,14 +415,20 @@ class AxiomOfUnderstanding:
         composed_vector = self._compose_vectors(u_state1.vector, u_state2.vector)
 
         # Calculate composed entropy and information
-        composed_entropy = np.sqrt(u_state1.entropy * u_state2.entropy)  # Geometric mean
-        composed_information = u_state1.information + u_state2.information - self._mutual_information(u_state1, u_state2)
+        composed_entropy = np.sqrt(
+            u_state1.entropy * u_state2.entropy
+        )  # Geometric mean
+        composed_information = (
+            u_state1.information
+            + u_state2.information
+            - self._mutual_information(u_state1, u_state2)
+        )
 
         composed_state = SemanticState(
             vector=composed_vector,
             entropy=composed_entropy,
             information=composed_information,
-            meaning_label=f"({u_state1.meaning_label} ∘ {u_state2.meaning_label})"
+            meaning_label=f"({u_state1.meaning_label} ∘ {u_state2.meaning_label})",
         )
 
         return composed_state
@@ -415,26 +452,36 @@ class AxiomOfUnderstanding:
 
         return composed
 
-    def _mutual_information(self, state1: SemanticState, state2: SemanticState) -> float:
+    def _mutual_information(
+        self, state1: SemanticState, state2: SemanticState
+    ) -> float:
         """Calculate mutual information between two states"""
         # Simplified mutual information based on vector correlation
         correlation = np.abs(np.dot(state1.vector, state2.vector))
 
         # Convert to information measure
         if correlation > 0:
-            mutual_info = -np.log(1 - correlation**2) * min(state1.information, state2.information)
+            mutual_info = -np.log(1 - correlation**2) * min(
+                state1.information, state2.information
+            )
         else:
             mutual_info = 0.0
 
         return mutual_info
 
-    def measure_understanding_quality(self, original: SemanticState, understood: SemanticState) -> Dict[str, float]:
+    def measure_understanding_quality(
+        self, original: SemanticState, understood: SemanticState
+    ) -> Dict[str, float]:
         """Measure the quality of understanding transformation"""
         # Entropy reduction
         entropy_reduction = (original.entropy - understood.entropy) / original.entropy
 
         # Information preservation
-        info_preservation = understood.information / original.information if original.information > 0 else 1.0
+        info_preservation = (
+            understood.information / original.information
+            if original.information > 0
+            else 1.0
+        )
 
         # Semantic coherence (vector similarity)
         coherence = np.dot(original.vector, understood.vector)
@@ -442,7 +489,11 @@ class AxiomOfUnderstanding:
         # Complexity reduction (sparsity)
         original_complexity = np.count_nonzero(np.abs(original.vector) > 0.1)
         understood_complexity = np.count_nonzero(np.abs(understood.vector) > 0.1)
-        complexity_reduction = 1 - (understood_complexity / original_complexity if original_complexity > 0 else 0)
+        complexity_reduction = 1 - (
+            understood_complexity / original_complexity
+            if original_complexity > 0
+            else 0
+        )
 
         # Stability (eigenvalue analysis)
         mode = UnderstandingMode.COMPOSITIONAL  # Default
@@ -456,10 +507,19 @@ class AxiomOfUnderstanding:
             "semantic_coherence": coherence,
             "complexity_reduction": complexity_reduction,
             "stability": stability,
-            "overall_quality": (entropy_reduction + info_preservation + coherence + complexity_reduction + stability) / 5
+            "overall_quality": (
+                entropy_reduction
+                + info_preservation
+                + coherence
+                + complexity_reduction
+                + stability
+            )
+            / 5,
         }
 
-    def find_fixed_points(self, mode: UnderstandingMode = UnderstandingMode.REFLEXIVE) -> List[SemanticState]:
+    def find_fixed_points(
+        self, mode: UnderstandingMode = UnderstandingMode.REFLEXIVE
+    ) -> List[SemanticState]:
         """Find fixed points of the understanding operator"""
         operator = self.operators[mode].operator
 
@@ -477,13 +537,15 @@ class AxiomOfUnderstanding:
                     vector=vector,
                     entropy=0.1,  # Low entropy at fixed point
                     information=1.0,  # Maximum information
-                    meaning_label=f"FixedPoint_{i}"
+                    meaning_label=f"FixedPoint_{i}",
                 )
                 fixed_points.append(state)
 
         return fixed_points
 
-    def calculate_understanding_flow(self, initial_state: SemanticState, steps: int = 10) -> List[SemanticState]:
+    def calculate_understanding_flow(
+        self, initial_state: SemanticState, steps: int = 10
+    ) -> List[SemanticState]:
         """Calculate the flow of understanding over multiple iterations"""
         flow = [initial_state]
         current_state = initial_state
@@ -509,8 +571,8 @@ class AxiomOfUnderstanding:
                 "Understanding has a temperature (optimal rate)",
                 "Understanding forms a semigroup (not a group)",
                 "Understanding converges to fixed points (insights)",
-                "Understanding is compositional (U(A∘B) = U(A)∘U(B))"
-            ]
+                "Understanding is compositional (U(A∘B) = U(A)∘U(B))",
+            ],
         }
 
     def shutdown(self):
@@ -536,5 +598,11 @@ def get_axiom_of_understanding() -> AxiomOfUnderstanding:
     return _axiom_instance
 
 
-__all__ = ['AxiomOfUnderstanding', 'get_axiom_of_understanding', 'SemanticState',
-           'UnderstandingMode', 'UnderstandingTransformation', 'UnderstandingManifold']
+__all__ = [
+    "AxiomOfUnderstanding",
+    "get_axiom_of_understanding",
+    "SemanticState",
+    "UnderstandingMode",
+    "UnderstandingTransformation",
+    "UnderstandingManifold",
+]

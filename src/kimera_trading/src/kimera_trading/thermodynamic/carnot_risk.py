@@ -1,7 +1,7 @@
 class CarnotCycleRiskModel:
     """
     A risk model inspired by the Carnot cycle.
-    
+
     Efficiency = 1 - (T_cold / T_hot)
     """
 

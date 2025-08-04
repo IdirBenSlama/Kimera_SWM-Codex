@@ -11,18 +11,20 @@ Date: June 2025
 Status: Production-Ready
 """
 
-import numpy as np
-import cupy as cp
-import torch
-from numba import cuda
-from typing import Tuple, Optional, Dict, Any, List
-import logging
-from dataclasses import dataclass
 import hashlib
+import logging
 import secrets
 import time
-from src.utils.config import get_api_settings
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional, Tuple
+
+import cupy as cp
+import numpy as np
+import torch
+from numba import cuda
+
 from src.config.settings import get_settings
+from src.utils.config import get_api_settings
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -32,6 +34,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class LatticeParams:
     """Parameters for lattice-based cryptography"""
+
     n: int = 512  # Dimension
     q: int = 12289  # Modulus (prime)
     sigma: float = 3.2  # Gaussian parameter
@@ -41,12 +44,13 @@ class LatticeParams:
     def security_level(self) -> int:
         """Estimate security level in bits"""
         # Simplified estimate based on dimension and modulus
-        return int(0.265 * self.n * np.log2(self.q/self.sigma))
+        return int(0.265 * self.n * np.log2(self.q / self.sigma))
 
 
 @dataclass
 class CryptographicResult:
     """Result of cryptographic operations"""
+
     ciphertext: bytes
     public_key: bytes
     private_key: Optional[bytes] = None
@@ -54,9 +58,11 @@ class CryptographicResult:
     success: bool = True
     error_message: Optional[str] = None
 
+
 @dataclass
 class DilithiumParams:
     """Parameters for Dilithium digital signatures"""
+
     n: int = 256  # Polynomial degree
     q: int = 8380417  # Modulus
     d: int = 13  # Dropped bits
@@ -92,19 +98,25 @@ class QuantumResistantCrypto:
         self._initialize_polynomial_tables()
 
         logger.info(f"Quantum-Resistant Crypto initialized on device {device_id}")
-        logger.info(f"Lattice security level: ~{self.lattice_params.security_level} bits")
+        logger.info(
+            f"Lattice security level: ~{self.lattice_params.security_level} bits"
+        )
 
     def _initialize_polynomial_tables(self):
         """Initialize tables for polynomial arithmetic"""
         # NTT tables for lattice operations
-        self.ntt_table = self._generate_ntt_table(self.lattice_params.n, self.lattice_params.q)
+        self.ntt_table = self._generate_ntt_table(
+            self.lattice_params.n, self.lattice_params.q
+        )
         self.ntt_table_dilithium = self._generate_ntt_table(
             self.dilithium_params.n, self.dilithium_params.q
         )
 
         # Bit reversal tables
         self.bit_rev_table = self._generate_bit_reversal_table(self.lattice_params.n)
-        self.bit_rev_table_dilithium = self._generate_bit_reversal_table(self.dilithium_params.n)
+        self.bit_rev_table_dilithium = self._generate_bit_reversal_table(
+            self.dilithium_params.n
+        )
 
     def _generate_ntt_table(self, n: int, q: int) -> cp.ndarray:
         """Generate NTT twiddle factors"""
@@ -122,7 +134,7 @@ class QuantumResistantCrypto:
         table = cp.zeros(n, dtype=cp.int64)
         table[0] = 1
         for i in range(1, n):
-            table[i] = (table[i-1] * root) % q
+            table[i] = (table[i - 1] * root) % q
 
         return table
 
@@ -130,8 +142,8 @@ class QuantumResistantCrypto:
         """Find primitive n-th root of unity modulo q"""
         # Simplified - in practice use optimized method
         for g in range(2, q):
-            if pow(g, (q-1)//n, q) != 1 and pow(g, q-1, q) == 1:
-                return pow(g, (q-1)//n, q)
+            if pow(g, (q - 1) // n, q) != 1 and pow(g, q - 1, q) == 1:
+                return pow(g, (q - 1) // n, q)
         raise ValueError(f"No primitive {n}-th root found modulo {q}")
 
     def _generate_bit_reversal_table(self, n: int) -> cp.ndarray:
@@ -208,7 +220,9 @@ class QuantumResistantCrypto:
                 val -= q
             poly[idx] = val
 
-    def generate_kyber_keypair(self) -> Tuple[Dict[str, cp.ndarray], Dict[str, cp.ndarray]]:
+    def generate_kyber_keypair(
+        self,
+    ) -> Tuple[Dict[str, cp.ndarray], Dict[str, cp.ndarray]]:
         """Generate Kyber (ML-KEM) key pair for encryption
 
         Returns:
@@ -240,8 +254,8 @@ class QuantumResistantCrypto:
                 b[i] = (b[i] + prod) % q
             b[i] = (b[i] + e[i]) % q
 
-        public_key = {'A': A, 'b': b}
-        secret_key = {'s': s}
+        public_key = {"A": A, "b": b}
+        secret_key = {"s": s}
 
         logger.info("Kyber key pair generated")
 
@@ -308,7 +322,9 @@ class QuantumResistantCrypto:
 
         return c
 
-    def _ntt_forward(self, poly: cp.ndarray, twiddles: cp.ndarray, q: int) -> cp.ndarray:
+    def _ntt_forward(
+        self, poly: cp.ndarray, twiddles: cp.ndarray, q: int
+    ) -> cp.ndarray:
         """Forward NTT transform"""
         n = len(poly)
         result = poly.copy()
@@ -337,7 +353,9 @@ class QuantumResistantCrypto:
 
         return result
 
-    def _ntt_inverse(self, poly: cp.ndarray, twiddles: cp.ndarray, q: int) -> cp.ndarray:
+    def _ntt_inverse(
+        self, poly: cp.ndarray, twiddles: cp.ndarray, q: int
+    ) -> cp.ndarray:
         """Inverse NTT transform"""
         n = len(poly)
         result = poly.copy()
@@ -353,8 +371,9 @@ class QuantumResistantCrypto:
                 for j in range(start, start + half):
                     t = result[j]
                     result[j] = (t + result[j + half]) % q
-                    result[j + half] = ((t - result[j + half]) *
-                                       pow(int(twiddles[k * step]), q-2, q)) % q
+                    result[j + half] = (
+                        (t - result[j + half]) * pow(int(twiddles[k * step]), q - 2, q)
+                    ) % q
                     k += 1
 
             length //= 2
@@ -366,12 +385,14 @@ class QuantumResistantCrypto:
                 result[i], result[j] = result[j], result[i]
 
         # Scale by n^(-1)
-        n_inv = pow(n, q-2, q)
+        n_inv = pow(n, q - 2, q)
         result = (result * n_inv) % q
 
         return result
 
-    def kyber_encrypt(self, message: cp.ndarray, public_key: Dict[str, cp.ndarray]) -> Dict[str, cp.ndarray]:
+    def kyber_encrypt(
+        self, message: cp.ndarray, public_key: Dict[str, cp.ndarray]
+    ) -> Dict[str, cp.ndarray]:
         """Encrypt message using Kyber
 
         Args:
@@ -402,7 +423,7 @@ class QuantumResistantCrypto:
 
         # Compute ciphertext
         # u = A^T r + e1
-        A = public_key['A']
+        A = public_key["A"]
         u = cp.zeros((k, n), dtype=cp.int32)
         for i in range(k):
             for j in range(k):
@@ -411,17 +432,18 @@ class QuantumResistantCrypto:
             u[i] = (u[i] + e1[i]) % q
 
         # v = b^T r + e2 + m
-        b = public_key['b']
+        b = public_key["b"]
         v = e2.copy()
         for i in range(k):
             prod = self._poly_multiply(b[i], r[i], q)
             v = (v + prod) % q
         v = (v + m_poly) % q
 
-        return {'u': u, 'v': v}
+        return {"u": u, "v": v}
 
-    def kyber_decrypt(self, ciphertext: Dict[str, cp.ndarray],
-                     secret_key: Dict[str, cp.ndarray]) -> cp.ndarray:
+    def kyber_decrypt(
+        self, ciphertext: Dict[str, cp.ndarray], secret_key: Dict[str, cp.ndarray]
+    ) -> cp.ndarray:
         """Decrypt Kyber ciphertext
 
         Args:
@@ -435,9 +457,9 @@ class QuantumResistantCrypto:
         q = self.lattice_params.q
         k = self.lattice_params.k
 
-        u = ciphertext['u']
-        v = ciphertext['v']
-        s = secret_key['s']
+        u = ciphertext["u"]
+        v = ciphertext["v"]
+        s = secret_key["s"]
 
         # Compute m = v - s^T u
         m_noisy = v.copy()
@@ -495,8 +517,8 @@ class QuantumResistantCrypto:
             t[i] = (t[i] + s2[i]) % params.q
 
         # Pack keys
-        public_key = {'seed': seed, 't': t}
-        secret_key = {'seed': seed, 's1': s1, 's2': s2, 't': t}
+        public_key = {"seed": seed, "t": t}
+        secret_key = {"seed": seed, "s1": s1, "s2": s2, "t": t}
 
         logger.info("Dilithium key pair generated")
 
@@ -505,9 +527,13 @@ class QuantumResistantCrypto:
     def _expand_matrix_a(self, seed: cp.ndarray, k: int, l: int) -> cp.ndarray:
         """Expand seed to matrix A using SHAKE128"""
         # Simplified - use deterministic expansion
-        cp.random.seed(int.from_bytes(seed[:4].get(), 'little'))
-        A = cp.random.randint(0, self.dilithium_params.q,
-                             size=(k, l, self.dilithium_params.n), dtype=cp.int32)
+        cp.random.seed(int.from_bytes(seed[:4].get(), "little"))
+        A = cp.random.randint(
+            0,
+            self.dilithium_params.q,
+            size=(k, l, self.dilithium_params.n),
+            dtype=cp.int32,
+        )
         return A
 
     def _sample_uniform_eta(self, n: int, eta: int) -> cp.ndarray:
@@ -518,7 +544,9 @@ class QuantumResistantCrypto:
         """Multiply polynomials for Dilithium"""
         return self._poly_multiply(a, b, self.dilithium_params.q)
 
-    def dilithium_sign(self, message: bytes, secret_key: Dict[str, Any]) -> Dict[str, Any]:
+    def dilithium_sign(
+        self, message: bytes, secret_key: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Sign message using Dilithium
 
         Args:
@@ -540,7 +568,7 @@ class QuantumResistantCrypto:
             y[i] = cp.random.randint(-params.gamma1, params.gamma1, size=params.n)
 
         # Compute w = Ay
-        A = self._expand_matrix_a(secret_key['seed'], params.k, params.l)
+        A = self._expand_matrix_a(secret_key["seed"], params.k, params.l)
         w = cp.zeros((params.k, params.n), dtype=cp.int32)
 
         for i in range(params.k):
@@ -558,11 +586,11 @@ class QuantumResistantCrypto:
         # Compute z = y + cs1
         z = y.copy()
         for i in range(params.l):
-            cs1 = self._poly_multiply_dilithium(c, secret_key['s1'][i])
+            cs1 = self._poly_multiply_dilithium(c, secret_key["s1"][i])
             z[i] = (z[i] + cs1) % params.q
 
         # Return signature
-        return {'c_tilde': c_tilde, 'z': z}
+        return {"c_tilde": c_tilde, "z": z}
 
     def _high_bits(self, w: cp.ndarray, gamma2: int) -> cp.ndarray:
         """Extract high bits of coefficients"""
@@ -575,7 +603,7 @@ class QuantumResistantCrypto:
 
         # Deterministic sampling from seed
         indices = list(range(n))
-        cp.random.seed(int.from_bytes(seed[:4], 'little'))
+        cp.random.seed(int.from_bytes(seed[:4], "little"))
         cp.random.shuffle(indices)
 
         # Set tau coefficients to ±1
@@ -584,8 +612,9 @@ class QuantumResistantCrypto:
 
         return c
 
-    def dilithium_verify(self, message: bytes, signature: Dict[str, Any],
-                        public_key: Dict[str, Any]) -> bool:
+    def dilithium_verify(
+        self, message: bytes, signature: Dict[str, Any], public_key: Dict[str, Any]
+    ) -> bool:
         """Verify Dilithium signature
 
         Args:
@@ -602,14 +631,14 @@ class QuantumResistantCrypto:
         mu = hashlib.sha3_256(message).digest()
 
         # Expand matrix A
-        A = self._expand_matrix_a(public_key['seed'], params.k, params.l)
+        A = self._expand_matrix_a(public_key["seed"], params.k, params.l)
 
         # Recover c from c_tilde
-        c = self._sample_challenge(signature['c_tilde'], params.n, params.tau)
+        c = self._sample_challenge(signature["c_tilde"], params.n, params.tau)
 
         # Compute w' = Az - ct
-        z = signature['z']
-        t = public_key['t']
+        z = signature["z"]
+        t = public_key["t"]
 
         w_prime = cp.zeros((params.k, params.n), dtype=cp.int32)
         for i in range(params.k):
@@ -626,7 +655,7 @@ class QuantumResistantCrypto:
         w1_prime = self._high_bits(w_prime, params.gamma2)
         c_tilde_prime = hashlib.sha3_256(mu + w1_prime.tobytes()).digest()
 
-        return c_tilde_prime == signature['c_tilde']
+        return c_tilde_prime == signature["c_tilde"]
 
     def secure_cognitive_hash(self, cognitive_state: cp.ndarray) -> cp.ndarray:
         """Compute quantum-resistant hash of cognitive state
@@ -671,12 +700,12 @@ class QuantumResistantCrypto:
         dec_message = self.kyber_decrypt(ct, sk)
         dec_time = time.time() - start
 
-        results['kyber'] = {
-            'keygen_ms': keygen_time * 1000,
-            'encrypt_ms': enc_time * 1000,
-            'decrypt_ms': dec_time * 1000,
-            'ciphertext_size_bytes': ct['u'].nbytes + ct['v'].nbytes,
-            'public_key_size_bytes': pk['A'].nbytes + pk['b'].nbytes
+        results["kyber"] = {
+            "keygen_ms": keygen_time * 1000,
+            "encrypt_ms": enc_time * 1000,
+            "decrypt_ms": dec_time * 1000,
+            "ciphertext_size_bytes": ct["u"].nbytes + ct["v"].nbytes,
+            "public_key_size_bytes": pk["A"].nbytes + pk["b"].nbytes,
         }
 
         # Benchmark Dilithium
@@ -698,12 +727,12 @@ class QuantumResistantCrypto:
         valid = self.dilithium_verify(test_message, sig, pk_dil)
         verify_time = time.time() - start
 
-        results['dilithium'] = {
-            'keygen_ms': keygen_time * 1000,
-            'sign_ms': sign_time * 1000,
-            'verify_ms': verify_time * 1000,
-            'signature_size_bytes': sig['z'].nbytes + len(sig['c_tilde']),
-            'verification_result': valid
+        results["dilithium"] = {
+            "keygen_ms": keygen_time * 1000,
+            "sign_ms": sign_time * 1000,
+            "verify_ms": verify_time * 1000,
+            "signature_size_bytes": sig["z"].nbytes + len(sig["c_tilde"]),
+            "verification_result": valid,
         }
 
         return results
@@ -726,7 +755,9 @@ if __name__ == "__main__":
     decrypted = pqc.kyber_decrypt(ciphertext, sk)
 
     logger.info(f"Decrypted: {decrypted[:len(cognitive_data)]}")
-    logger.info(f"Correct: {cp.array_equal(cognitive_data, decrypted[:len(cognitive_data)])}")
+    logger.info(
+        f"Correct: {cp.array_equal(cognitive_data, decrypted[:len(cognitive_data)])}"
+    )
 
     # Test Dilithium signatures
     logger.info("\nTesting Dilithium signatures...")
@@ -757,9 +788,9 @@ if __name__ == "__main__":
     benchmarks = pqc.benchmark_pqc_operations()
 
     logger.info("\nKyber performance:")
-    for metric, value in benchmarks['kyber'].items():
+    for metric, value in benchmarks["kyber"].items():
         logger.info(f"  {metric}: {value}")
 
     logger.info("\nDilithium performance:")
-    for metric, value in benchmarks['dilithium'].items():
+    for metric, value in benchmarks["dilithium"].items():
         logger.info(f"  {metric}: {value}")

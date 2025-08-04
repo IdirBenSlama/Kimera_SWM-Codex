@@ -1,39 +1,42 @@
 import numpy as np
 
+
 class CognitiveRiskFieldMapper:
     """
     Maps risk as disturbances in cognitive fields.
-    
+
     Concepts:
     - Risk creates "wells" in the cognitive landscape
     - Opportunities create "peaks"
     - Navigation requires field awareness
     """
-    
+
     def __init__(self):
         self.grid_size = 100
 
     def map_risk_topology(self, market_state):
         """Create topological map of risk field"""
-        
+
         # Initialize field grid
         field = np.zeros((self.grid_size, self.grid_size))
-        
+
         # Add risk sources as potential wells
         for risk in self.identify_risks(market_state):
             field += self._create_risk_well(risk)
-        
+
         # Add opportunities as peaks
         for opportunity in self.identify_opportunities(market_state):
             field += self._create_opportunity_peak(opportunity)
-        
+
         # Apply consciousness modulation
         field = self._modulate_by_consciousness(field, market_state.consciousness)
-        
+
         # Calculate gradient for navigation
         gradient = np.gradient(field)
-        
-        class RiskField: pass
+
+        class RiskField:
+            pass
+
         rf = RiskField()
         rf.topology = field
         rf.gradient = gradient

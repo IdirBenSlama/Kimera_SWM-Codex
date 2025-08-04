@@ -17,31 +17,34 @@ Author: KIMERA Development Team
 Version: 1.0.0 (DO-178C Level A)
 """
 
-import itertools
-from dataclasses import dataclass, field
-from typing import Dict, List, Any, Optional, Tuple, Set
-from enum import Enum
 import hashlib
+import itertools
 import json
-import numpy as np
-from datetime import datetime
 import sys
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
 from pathlib import Path
+from typing import Any, Dict, List, Optional, Set, Tuple
+
+import numpy as np
 
 # Add src to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent.parent.parent))
 
-from utils.kimera_logger import get_logger, LogCategory
 from utils.kimera_exceptions import KimeraValidationError
+from utils.kimera_logger import LogCategory, get_logger
+
+from .cognitive_contexts import CognitiveContext, get_cognitive_context_manager
 from .complexity_levels import ComplexityLevel, get_complexity_manager
 from .input_types import InputType, get_input_generator
-from .cognitive_contexts import CognitiveContext, get_cognitive_context_manager
 
 logger = get_logger(__name__, LogCategory.SYSTEM)
 
 
 class MatrixValidationStatus(Enum):
     """Validation status for test matrix components"""
+
     VALID = "valid"
     INVALID = "invalid"
     WARNING = "warning"
@@ -51,6 +54,7 @@ class MatrixValidationStatus(Enum):
 @dataclass
 class TestConfiguration:
     """Complete test configuration combining all dimensions"""
+
     config_id: int
     complexity_level: ComplexityLevel
     input_type: InputType
@@ -72,12 +76,15 @@ class TestConfiguration:
         """Generate configuration hash for uniqueness validation"""
         if not self.configuration_hash:
             config_string = f"{self.complexity_level.value}_{self.input_type.value}_{self.cognitive_context.value}"
-            self.configuration_hash = hashlib.sha256(config_string.encode()).hexdigest()[:16]
+            self.configuration_hash = hashlib.sha256(
+                config_string.encode()
+            ).hexdigest()[:16]
 
 
 @dataclass
 class MatrixValidationReport:
     """Comprehensive validation report for test matrix"""
+
     total_configurations: int
     valid_configurations: int
     invalid_configurations: int
@@ -147,11 +154,13 @@ class TestMatrixValidator:
         logger.info(f"✅ Generated {len(configurations)} test configurations")
         return configurations
 
-    def _generate_single_configuration(self,
-                                     config_id: int,
-                                     complexity: ComplexityLevel,
-                                     input_type: InputType,
-                                     context: CognitiveContext) -> TestConfiguration:
+    def _generate_single_configuration(
+        self,
+        config_id: int,
+        complexity: ComplexityLevel,
+        input_type: InputType,
+        context: CognitiveContext,
+    ) -> TestConfiguration:
         """Generate a single test configuration with validation"""
 
         # Get component managers
@@ -160,8 +169,7 @@ class TestMatrixValidator:
 
         # Generate test input sample
         input_sample = self.input_generator.generate_sample(
-            input_type=input_type,
-            complexity_level=complexity.value
+            input_type=input_type, complexity_level=complexity.value
         )
 
         # Estimate processing characteristics
@@ -169,9 +177,7 @@ class TestMatrixValidator:
             complexity_config, context_config, input_sample
         )
 
-        memory_usage = self._estimate_memory_usage(
-            complexity_config, input_sample
-        )
+        memory_usage = self._estimate_memory_usage(complexity_config, input_sample)
 
         success_probability = self._predict_success_probability(
             complexity_config, context_config, input_sample
@@ -189,7 +195,7 @@ class TestMatrixValidator:
             predicted_success_probability=success_probability,
             configuration_hash="",  # Will be generated in __post_init__
             generation_timestamp=datetime.now(),
-            validation_status=MatrixValidationStatus.PENDING
+            validation_status=MatrixValidationStatus.PENDING,
         )
 
         # Validate configuration
@@ -197,10 +203,9 @@ class TestMatrixValidator:
 
         return config
 
-    def _estimate_processing_time(self,
-                                 complexity_config: Any,
-                                 context_config: Any,
-                                 input_sample: Any) -> float:
+    def _estimate_processing_time(
+        self, complexity_config: Any, context_config: Any, input_sample: Any
+    ) -> float:
         """Estimate processing time for configuration"""
 
         # Base time from complexity
@@ -208,10 +213,10 @@ class TestMatrixValidator:
 
         # Context multiplier
         context_multiplier = {
-            CognitiveContext.ANALYTICAL: 1.5,     # Slower, more thorough
-            CognitiveContext.CREATIVE: 0.8,       # Faster, more intuitive
-            CognitiveContext.PROBLEM_SOLVING: 1.2, # Moderate speed
-            CognitiveContext.PATTERN_RECOGNITION: 0.5  # Very fast
+            CognitiveContext.ANALYTICAL: 1.5,  # Slower, more thorough
+            CognitiveContext.CREATIVE: 0.8,  # Faster, more intuitive
+            CognitiveContext.PROBLEM_SOLVING: 1.2,  # Moderate speed
+            CognitiveContext.PATTERN_RECOGNITION: 0.5,  # Very fast
         }
 
         context_factor = context_multiplier.get(context_config.context, 1.0)
@@ -224,9 +229,7 @@ class TestMatrixValidator:
 
         return estimated_time
 
-    def _estimate_memory_usage(self,
-                              complexity_config: Any,
-                              input_sample: Any) -> int:
+    def _estimate_memory_usage(self, complexity_config: Any, input_sample: Any) -> int:
         """Estimate memory usage for configuration"""
 
         # Base memory from complexity
@@ -240,10 +243,9 @@ class TestMatrixValidator:
 
         return estimated_memory
 
-    def _predict_success_probability(self,
-                                   complexity_config: Any,
-                                   context_config: Any,
-                                   input_sample: Any) -> float:
+    def _predict_success_probability(
+        self, complexity_config: Any, context_config: Any, input_sample: Any
+    ) -> float:
         """Predict probability of test configuration success"""
 
         # Base success rate from complexity (inverse relationship)
@@ -251,10 +253,10 @@ class TestMatrixValidator:
 
         # Context adjustment
         context_adjustment = {
-            CognitiveContext.ANALYTICAL: 0.05,    # Slightly more reliable
-            CognitiveContext.CREATIVE: -0.10,     # More variable
-            CognitiveContext.PROBLEM_SOLVING: 0.0, # Baseline
-            CognitiveContext.PATTERN_RECOGNITION: 0.03  # Fairly reliable
+            CognitiveContext.ANALYTICAL: 0.05,  # Slightly more reliable
+            CognitiveContext.CREATIVE: -0.10,  # More variable
+            CognitiveContext.PROBLEM_SOLVING: 0.0,  # Baseline
+            CognitiveContext.PATTERN_RECOGNITION: 0.03,  # Fairly reliable
         }
 
         context_factor = context_adjustment.get(context_config.context, 0.0)
@@ -263,9 +265,9 @@ class TestMatrixValidator:
         complexity_penalty = input_sample.complexity_score * 0.05
 
         # Calculate predicted probability
-        predicted_probability = max(0.1, min(0.99,
-            base_success + context_factor - complexity_penalty
-        ))
+        predicted_probability = max(
+            0.1, min(0.99, base_success + context_factor - complexity_penalty)
+        )
 
         return predicted_probability
 
@@ -291,11 +293,17 @@ class TestMatrixValidator:
 
         # Check input sample validity
         if not self.input_generator.validate_sample(
-            type('Sample', (), {
-                'content': config.test_input_sample,
-                'input_type': config.input_type,
-                'validation_checksum': hashlib.sha256(config.test_input_sample.encode()).hexdigest()[:16]
-            })()
+            type(
+                "Sample",
+                (),
+                {
+                    "content": config.test_input_sample,
+                    "input_type": config.input_type,
+                    "validation_checksum": hashlib.sha256(
+                        config.test_input_sample.encode()
+                    ).hexdigest()[:16],
+                },
+            )()
         ):
             validation_notes.append("Input sample validation failed")
             status = MatrixValidationStatus.INVALID
@@ -305,14 +313,20 @@ class TestMatrixValidator:
         config.validation_notes = validation_notes
 
         if status == MatrixValidationStatus.INVALID:
-            logger.warning(f"Configuration {config.config_id} validation failed: {validation_notes}")
+            logger.warning(
+                f"Configuration {config.config_id} validation failed: {validation_notes}"
+            )
 
-    def _validate_matrix_completeness(self, configurations: List[TestConfiguration]) -> None:
+    def _validate_matrix_completeness(
+        self, configurations: List[TestConfiguration]
+    ) -> None:
         """Validate complete matrix coverage"""
 
         # Check total count
         if len(configurations) != 96:
-            raise KimeraValidationError(f"Expected 96 configurations, got {len(configurations)}")
+            raise KimeraValidationError(
+                f"Expected 96 configurations, got {len(configurations)}"
+            )
 
         # Check unique configuration hashes
         hashes = [config.configuration_hash for config in configurations]
@@ -325,13 +339,19 @@ class TestMatrixValidator:
         context_coverage = set(config.cognitive_context for config in configurations)
 
         if len(complexity_coverage) != 4:
-            raise KimeraValidationError(f"Incomplete complexity coverage: {complexity_coverage}")
+            raise KimeraValidationError(
+                f"Incomplete complexity coverage: {complexity_coverage}"
+            )
 
         if len(input_coverage) != 6:
-            raise KimeraValidationError(f"Incomplete input type coverage: {input_coverage}")
+            raise KimeraValidationError(
+                f"Incomplete input type coverage: {input_coverage}"
+            )
 
         if len(context_coverage) != 4:
-            raise KimeraValidationError(f"Incomplete context coverage: {context_coverage}")
+            raise KimeraValidationError(
+                f"Incomplete context coverage: {context_coverage}"
+            )
 
         # Check each combination exists exactly once
         expected_combinations = set(
@@ -349,7 +369,9 @@ class TestMatrixValidator:
         if expected_combinations != actual_combinations:
             missing = expected_combinations - actual_combinations
             extra = actual_combinations - expected_combinations
-            raise KimeraValidationError(f"Matrix coverage mismatch. Missing: {missing}, Extra: {extra}")
+            raise KimeraValidationError(
+                f"Matrix coverage mismatch. Missing: {missing}, Extra: {extra}"
+            )
 
         logger.info("✅ Matrix completeness validation passed")
 
@@ -361,7 +383,9 @@ class TestMatrixValidator:
             Detailed validation report with compliance status
         """
         if not self.configurations:
-            raise KimeraValidationError("No configurations to validate. Generate matrix first.")
+            raise KimeraValidationError(
+                "No configurations to validate. Generate matrix first."
+            )
 
         logger.info("Performing comprehensive matrix validation...")
 
@@ -370,7 +394,7 @@ class TestMatrixValidator:
             MatrixValidationStatus.VALID: 0,
             MatrixValidationStatus.INVALID: 0,
             MatrixValidationStatus.WARNING: 0,
-            MatrixValidationStatus.PENDING: 0
+            MatrixValidationStatus.PENDING: 0,
         }
 
         for config in self.configurations:
@@ -402,13 +426,15 @@ class TestMatrixValidator:
             performance_predictions=performance_predictions,
             validation_timestamp=datetime.now(),
             traceability_matrix=traceability_matrix,
-            compliance_status=compliance_status
+            compliance_status=compliance_status,
         )
 
         # Store in history
         self.validation_history.append(report)
 
-        logger.info(f"✅ Matrix validation completed: {report.valid_configurations}/96 valid configurations")
+        logger.info(
+            f"✅ Matrix validation completed: {report.valid_configurations}/96 valid configurations"
+        )
 
         return report
 
@@ -418,32 +444,41 @@ class TestMatrixValidator:
             "complexity_levels": {},
             "input_types": {},
             "cognitive_contexts": {},
-            "combinations": {}
+            "combinations": {},
         }
 
         # Complexity level coverage
         for complexity in ComplexityLevel:
-            count = sum(1 for config in self.configurations
-                       if config.complexity_level == complexity)
+            count = sum(
+                1
+                for config in self.configurations
+                if config.complexity_level == complexity
+            )
             analysis["complexity_levels"][complexity.value] = count
 
         # Input type coverage
         for input_type in InputType:
-            count = sum(1 for config in self.configurations
-                       if config.input_type == input_type)
+            count = sum(
+                1 for config in self.configurations if config.input_type == input_type
+            )
             analysis["input_types"][input_type.value] = count
 
         # Cognitive context coverage
         for context in CognitiveContext:
-            count = sum(1 for config in self.configurations
-                       if config.cognitive_context == context)
+            count = sum(
+                1
+                for config in self.configurations
+                if config.cognitive_context == context
+            )
             analysis["cognitive_contexts"][context.value] = count
 
         # High-level combination analysis
-        analysis["combinations"]["total_unique"] = len(set(
-            (config.complexity_level, config.input_type, config.cognitive_context)
-            for config in self.configurations
-        ))
+        analysis["combinations"]["total_unique"] = len(
+            set(
+                (config.complexity_level, config.input_type, config.cognitive_context)
+                for config in self.configurations
+            )
+        )
         analysis["combinations"]["expected_unique"] = 96
 
         return analysis
@@ -451,8 +486,12 @@ class TestMatrixValidator:
     def _calculate_resource_estimates(self) -> Dict[str, float]:
         """Calculate resource estimates for complete matrix execution"""
 
-        total_time = sum(config.expected_processing_time for config in self.configurations)
-        max_memory = max(config.estimated_memory_usage for config in self.configurations)
+        total_time = sum(
+            config.expected_processing_time for config in self.configurations
+        )
+        max_memory = max(
+            config.estimated_memory_usage for config in self.configurations
+        )
         avg_time = total_time / len(self.configurations) if self.configurations else 0
 
         # Parallel execution estimates (assuming 8 parallel workers)
@@ -464,21 +503,24 @@ class TestMatrixValidator:
             "peak_memory_usage_mb": max_memory,
             "average_processing_time_seconds": avg_time,
             "estimated_cpu_hours": total_time / 3600.0,
-            "estimated_storage_gb": len(self.configurations) * 0.1  # 100MB per test
+            "estimated_storage_gb": len(self.configurations) * 0.1,  # 100MB per test
         }
 
     def _generate_performance_predictions(self) -> Dict[str, float]:
         """Generate performance predictions for matrix execution"""
 
-        success_probabilities = [config.predicted_success_probability for config in self.configurations]
+        success_probabilities = [
+            config.predicted_success_probability for config in self.configurations
+        ]
 
         return {
             "predicted_overall_success_rate": np.mean(success_probabilities),
             "confidence_interval_lower": np.percentile(success_probabilities, 5),
             "confidence_interval_upper": np.percentile(success_probabilities, 95),
-            "expected_failures": len(self.configurations) * (1 - np.mean(success_probabilities)),
+            "expected_failures": len(self.configurations)
+            * (1 - np.mean(success_probabilities)),
             "minimum_success_rate": np.min(success_probabilities),
-            "maximum_success_rate": np.max(success_probabilities)
+            "maximum_success_rate": np.max(success_probabilities),
         }
 
     def _create_traceability_matrix(self) -> Dict[str, List[str]]:
@@ -488,7 +530,7 @@ class TestMatrixValidator:
             "coverage_requirements": [],
             "performance_requirements": [],
             "validation_requirements": [],
-            "compliance_requirements": []
+            "compliance_requirements": [],
         }
 
         # Coverage requirements traceability
@@ -503,7 +545,7 @@ class TestMatrixValidator:
             "PERF-001: Maximum processing time 30s",
             "PERF-002: Maximum memory usage 16GB",
             "PERF-003: Minimum success rate 10%",
-            "PERF-004: Parallel execution capability"
+            "PERF-004: Parallel execution capability",
         ]
 
         # Validation requirements
@@ -511,7 +553,7 @@ class TestMatrixValidator:
             "VAL-001: Input sample validation",
             "VAL-002: Configuration uniqueness",
             "VAL-003: Matrix completeness",
-            "VAL-004: Resource bound checking"
+            "VAL-004: Resource bound checking",
         ]
 
         # Compliance requirements
@@ -519,7 +561,7 @@ class TestMatrixValidator:
             "COMP-001: DO-178C Level A documentation",
             "COMP-002: Traceability to requirements",
             "COMP-003: Independent validation",
-            "COMP-004: Reproducible test generation"
+            "COMP-004: Reproducible test generation",
         ]
 
         return traceability
@@ -533,27 +575,32 @@ class TestMatrixValidator:
 
         return {
             "matrix_completeness": total_configs == 96,
-            "validation_completeness": status_counts[MatrixValidationStatus.PENDING] == 0,
-            "acceptable_failure_rate": (invalid_configs / total_configs) < 0.05 if total_configs > 0 else False,
+            "validation_completeness": status_counts[MatrixValidationStatus.PENDING]
+            == 0,
+            "acceptable_failure_rate": (
+                (invalid_configs / total_configs) < 0.05 if total_configs > 0 else False
+            ),
             "traceability_complete": True,  # Always true if we reach this point
             "documentation_complete": True,  # Always true for generated matrix
-            "reproducibility_verified": self.seed is not None
+            "reproducibility_verified": self.seed is not None,
         }
 
     def export_matrix_configuration(self, filepath: str) -> None:
         """Export test matrix configuration to file"""
 
         if not self.configurations:
-            raise KimeraValidationError("No configurations to export. Generate matrix first.")
+            raise KimeraValidationError(
+                "No configurations to export. Generate matrix first."
+            )
 
         export_data = {
             "metadata": {
                 "generation_timestamp": datetime.now().isoformat(),
                 "total_configurations": len(self.configurations),
                 "seed": self.seed,
-                "version": "1.0.0"
+                "version": "1.0.0",
             },
-            "configurations": []
+            "configurations": [],
         }
 
         for config in self.configurations:
@@ -562,17 +609,21 @@ class TestMatrixValidator:
                 "complexity_level": config.complexity_level.value,
                 "input_type": config.input_type.value,
                 "cognitive_context": config.cognitive_context.value,
-                "test_input_sample": config.test_input_sample[:200] + "..." if len(config.test_input_sample) > 200 else config.test_input_sample,
+                "test_input_sample": (
+                    config.test_input_sample[:200] + "..."
+                    if len(config.test_input_sample) > 200
+                    else config.test_input_sample
+                ),
                 "expected_processing_time": config.expected_processing_time,
                 "estimated_memory_usage": config.estimated_memory_usage,
                 "predicted_success_probability": config.predicted_success_probability,
                 "configuration_hash": config.configuration_hash,
                 "validation_status": config.validation_status.value,
-                "validation_notes": config.validation_notes
+                "validation_notes": config.validation_notes,
             }
             export_data["configurations"].append(config_data)
 
-        with open(filepath, 'w') as f:
+        with open(filepath, "w") as f:
             json.dump(export_data, f, indent=2)
 
         logger.info(f"Test matrix exported to {filepath}")
@@ -615,6 +666,7 @@ class TestMatrixValidator:
 
 # Global instance for module access
 _matrix_validator: Optional[TestMatrixValidator] = None
+
 
 def get_matrix_validator(seed: Optional[int] = None) -> TestMatrixValidator:
     """Get global test matrix validator instance"""

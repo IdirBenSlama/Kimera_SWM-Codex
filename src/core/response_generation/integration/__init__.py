@@ -16,23 +16,23 @@ Safety Level: Catastrophic (Level A)
 """
 
 from .full_integration_bridge import (
-    KimeraFullIntegrationBridge,
-    IntegrationMode,
-    ProcessingPriority,
     IntegrationConfig,
-    IntegrationMetrics
+    IntegrationMetrics,
+    IntegrationMode,
+    KimeraFullIntegrationBridge,
+    ProcessingPriority,
 )
 
 # Alias for compatibility
 ResponseGenerationIntegrator = KimeraFullIntegrationBridge
 
 __all__ = [
-    'KimeraFullIntegrationBridge',
-    'ResponseGenerationIntegrator',
-    'IntegrationMode',
-    'ProcessingPriority',
-    'IntegrationConfig',
-    'IntegrationMetrics'
+    "KimeraFullIntegrationBridge",
+    "ResponseGenerationIntegrator",
+    "IntegrationMode",
+    "ProcessingPriority",
+    "IntegrationConfig",
+    "IntegrationMetrics",
 ]
 
 __version__ = "1.0.0"

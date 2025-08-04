@@ -9,15 +9,16 @@ Zero-debugging constraint compliant exception system with:
 - Integration with logging framework
 """
 
-from typing import Dict, Any, Optional, List, Union
+import time
+import traceback
 from dataclasses import dataclass, field
 from enum import Enum
-import traceback
-import time
+from typing import Any, Dict, List, Optional, Union
 
 
 class ErrorSeverity(Enum):
     """Error severity levels for categorization"""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -26,6 +27,7 @@ class ErrorSeverity(Enum):
 
 class ErrorCategory(Enum):
     """Categories of errors in Kimera system"""
+
     COGNITIVE = "cognitive"
     DATABASE = "database"
     GPU = "gpu"
@@ -40,6 +42,7 @@ class ErrorCategory(Enum):
 @dataclass
 class ErrorContext:
     """Comprehensive error context for debugging and recovery"""
+
     error_id: str
     timestamp: float
     component: str
@@ -66,7 +69,7 @@ class KimeraBaseException(Exception):
         severity: ErrorSeverity = ErrorSeverity.MEDIUM,
         context: Optional[Dict[str, Any]] = None,
         recovery_suggestions: Optional[List[str]] = None,
-        original_exception: Optional[Exception] = None
+        original_exception: Optional[Exception] = None,
     ):
         super().__init__(message)
 
@@ -80,6 +83,7 @@ class KimeraBaseException(Exception):
 
         # Generate unique error ID
         import uuid
+
         self.error_id = f"{category.value}_{uuid.uuid4().hex[:8]}"
 
         # Capture stack trace
@@ -88,23 +92,25 @@ class KimeraBaseException(Exception):
     def to_dict(self) -> Dict[str, Any]:
         """Convert exception to dictionary for logging/serialization"""
         return {
-            'error_id': self.error_id,
-            'message': self.message,
-            'category': self.category.value,
-            'severity': self.severity.value,
-            'context': self.context,
-            'recovery_suggestions': self.recovery_suggestions,
-            'timestamp': self.timestamp,
-            'stack_trace': self.stack_trace,
-            'original_exception': str(self.original_exception) if self.original_exception else None,
+            "error_id": self.error_id,
+            "message": self.message,
+            "category": self.category.value,
+            "severity": self.severity.value,
+            "context": self.context,
+            "recovery_suggestions": self.recovery_suggestions,
+            "timestamp": self.timestamp,
+            "stack_trace": self.stack_trace,
+            "original_exception": (
+                str(self.original_exception) if self.original_exception else None
+            ),
         }
 
-    def add_context(self, key: str, value: Any) -> 'KimeraBaseException':
+    def add_context(self, key: str, value: Any) -> "KimeraBaseException":
         """Add context information to the exception"""
         self.context[key] = value
         return self
 
-    def add_recovery_suggestion(self, suggestion: str) -> 'KimeraBaseException':
+    def add_recovery_suggestion(self, suggestion: str) -> "KimeraBaseException":
         """Add a recovery suggestion"""
         self.recovery_suggestions.append(suggestion)
         return self
@@ -119,11 +125,7 @@ class KimeraCognitiveError(KimeraBaseException):
     """
 
     def __init__(self, message: str, **kwargs):
-        super().__init__(
-            message,
-            category=ErrorCategory.COGNITIVE,
-            **kwargs
-        )
+        super().__init__(message, category=ErrorCategory.COGNITIVE, **kwargs)
 
         # Add default recovery suggestions
         if not self.recovery_suggestions:
@@ -131,7 +133,7 @@ class KimeraCognitiveError(KimeraBaseException):
                 "Check cognitive field initialization",
                 "Verify geoid data integrity",
                 "Review contradiction detection parameters",
-                "Ensure sufficient system resources"
+                "Ensure sufficient system resources",
             ]
 
 
@@ -143,11 +145,7 @@ class KimeraDatabaseError(KimeraBaseException):
     """
 
     def __init__(self, message: str, **kwargs):
-        super().__init__(
-            message,
-            category=ErrorCategory.DATABASE,
-            **kwargs
-        )
+        super().__init__(message, category=ErrorCategory.DATABASE, **kwargs)
 
         # Add default recovery suggestions
         if not self.recovery_suggestions:
@@ -156,7 +154,7 @@ class KimeraDatabaseError(KimeraBaseException):
                 "Verify database credentials",
                 "Review database schema integrity",
                 "Check available disk space",
-                "Retry operation with backoff"
+                "Retry operation with backoff",
             ]
 
 
@@ -170,14 +168,11 @@ class KimeraGPUError(KimeraBaseException):
 
     def __init__(self, message: str, device: Optional[str] = None, **kwargs):
         super().__init__(
-            message,
-            category=ErrorCategory.GPU,
-            severity=ErrorSeverity.HIGH,
-            **kwargs
+            message, category=ErrorCategory.GPU, severity=ErrorSeverity.HIGH, **kwargs
         )
 
         if device:
-            self.add_context('device', device)
+            self.add_context("device", device)
 
         # Add default recovery suggestions
         if not self.recovery_suggestions:
@@ -186,7 +181,7 @@ class KimeraGPUError(KimeraBaseException):
                 "Reduce batch size or model dimensions",
                 "Check GPU memory availability",
                 "Verify CUDA installation and drivers",
-                "Fall back to CPU processing if necessary"
+                "Fall back to CPU processing if necessary",
             ]
 
 
@@ -199,11 +194,7 @@ class KimeraNetworkError(KimeraBaseException):
     """
 
     def __init__(self, message: str, **kwargs):
-        super().__init__(
-            message,
-            category=ErrorCategory.NETWORK,
-            **kwargs
-        )
+        super().__init__(message, category=ErrorCategory.NETWORK, **kwargs)
 
         # Add default recovery suggestions
         if not self.recovery_suggestions:
@@ -212,7 +203,7 @@ class KimeraNetworkError(KimeraBaseException):
                 "Verify API endpoint availability",
                 "Review authentication credentials",
                 "Implement retry with exponential backoff",
-                "Check rate limiting and quotas"
+                "Check rate limiting and quotas",
             ]
 
 
@@ -229,7 +220,7 @@ class KimeraValidationError(KimeraBaseException):
             message,
             category=ErrorCategory.VALIDATION,
             severity=ErrorSeverity.MEDIUM,
-            **kwargs
+            **kwargs,
         )
 
         # Add default recovery suggestions
@@ -238,7 +229,7 @@ class KimeraValidationError(KimeraBaseException):
                 "Verify input data format and types",
                 "Check parameter value ranges",
                 "Review API documentation for requirements",
-                "Validate data schema compliance"
+                "Validate data schema compliance",
             ]
 
 
@@ -255,7 +246,7 @@ class KimeraSecurityError(KimeraBaseException):
             message,
             category=ErrorCategory.SECURITY,
             severity=ErrorSeverity.HIGH,
-            **kwargs
+            **kwargs,
         )
 
         # Add default recovery suggestions
@@ -265,7 +256,7 @@ class KimeraSecurityError(KimeraBaseException):
                 "Check user permissions and roles",
                 "Review security configuration",
                 "Audit access logs for suspicious activity",
-                "Consider implementing additional security measures"
+                "Consider implementing additional security measures",
             ]
 
 
@@ -278,11 +269,7 @@ class KimeraPerformanceError(KimeraBaseException):
     """
 
     def __init__(self, message: str, **kwargs):
-        super().__init__(
-            message,
-            category=ErrorCategory.PERFORMANCE,
-            **kwargs
-        )
+        super().__init__(message, category=ErrorCategory.PERFORMANCE, **kwargs)
 
         # Add default recovery suggestions
         if not self.recovery_suggestions:
@@ -291,7 +278,7 @@ class KimeraPerformanceError(KimeraBaseException):
                 "Increase system resources (CPU, memory)",
                 "Implement caching or memoization",
                 "Consider parallel processing",
-                "Review performance bottlenecks"
+                "Review performance bottlenecks",
             ]
 
 
@@ -308,7 +295,7 @@ class KimeraResourceError(KimeraBaseException):
             message,
             category=ErrorCategory.RESOURCE,
             severity=ErrorSeverity.HIGH,
-            **kwargs
+            **kwargs,
         )
 
         # Add default recovery suggestions
@@ -318,7 +305,7 @@ class KimeraResourceError(KimeraBaseException):
                 "Clear temporary files and caches",
                 "Reduce processing load",
                 "Scale up system resources",
-                "Implement resource pooling"
+                "Implement resource pooling",
             ]
 
 
@@ -331,11 +318,7 @@ class KimeraConfigurationError(KimeraBaseException):
     """
 
     def __init__(self, message: str, **kwargs):
-        super().__init__(
-            message,
-            category=ErrorCategory.CONFIGURATION,
-            **kwargs
-        )
+        super().__init__(message, category=ErrorCategory.CONFIGURATION, **kwargs)
 
         # Add default recovery suggestions
         if not self.recovery_suggestions:
@@ -344,7 +327,7 @@ class KimeraConfigurationError(KimeraBaseException):
                 "Verify all required settings are provided",
                 "Check environment variable values",
                 "Validate configuration against schema",
-                "Restore from known good configuration"
+                "Restore from known good configuration",
             ]
 
 
@@ -360,7 +343,7 @@ class KimeraIntegrationError(KimeraBaseException):
         super().__init__(
             message,
             category=ErrorCategory.CONFIGURATION,  # Using CONFIGURATION as closest match
-            **kwargs
+            **kwargs,
         )
 
         # Add default recovery suggestions
@@ -370,59 +353,54 @@ class KimeraIntegrationError(KimeraBaseException):
                 "Check module import paths",
                 "Restart system components",
                 "Review integration configuration",
-                "Check for circular dependencies"
+                "Check for circular dependencies",
             ]
 
 
 # Exception mapping for converting generic exceptions to Kimera-specific ones
 EXCEPTION_MAPPING = {
     # Database exceptions
-    'SQLAlchemyError': KimeraDatabaseError,
-    'OperationalError': KimeraDatabaseError,
-    'IntegrityError': KimeraDatabaseError,
-    'DatabaseError': KimeraDatabaseError,
-    'ConnectionError': KimeraDatabaseError,
-
+    "SQLAlchemyError": KimeraDatabaseError,
+    "OperationalError": KimeraDatabaseError,
+    "IntegrityError": KimeraDatabaseError,
+    "DatabaseError": KimeraDatabaseError,
+    "ConnectionError": KimeraDatabaseError,
     # GPU/CUDA exceptions
-    'RuntimeError': lambda msg, **kwargs: (
-        KimeraGPUError(msg, **kwargs) if 'cuda' in msg.lower() or 'gpu' in msg.lower()
+    "RuntimeError": lambda msg, **kwargs: (
+        KimeraGPUError(msg, **kwargs)
+        if "cuda" in msg.lower() or "gpu" in msg.lower()
         else KimeraResourceError(msg, **kwargs)
     ),
-    'OutOfMemoryError': KimeraResourceError,
-    'CudaError': KimeraGPUError,
-
+    "OutOfMemoryError": KimeraResourceError,
+    "CudaError": KimeraGPUError,
     # Network exceptions
-    'HTTPException': KimeraNetworkError,
-    'RequestException': KimeraNetworkError,
-    'TimeoutError': KimeraNetworkError,
-    'URLError': KimeraNetworkError,
-
+    "HTTPException": KimeraNetworkError,
+    "RequestException": KimeraNetworkError,
+    "TimeoutError": KimeraNetworkError,
+    "URLError": KimeraNetworkError,
     # Validation exceptions
-    'ValueError': KimeraValidationError,
-    'TypeError': KimeraValidationError,
-    'ValidationError': KimeraValidationError,
-
+    "ValueError": KimeraValidationError,
+    "TypeError": KimeraValidationError,
+    "ValidationError": KimeraValidationError,
     # Security exceptions
-    'PermissionError': KimeraSecurityError,
-    'AuthenticationError': KimeraSecurityError,
-    'AuthorizationError': KimeraSecurityError,
-
+    "PermissionError": KimeraSecurityError,
+    "AuthenticationError": KimeraSecurityError,
+    "AuthorizationError": KimeraSecurityError,
     # Configuration exceptions
-    'ConfigurationError': KimeraConfigurationError,
-    'EnvironmentError': KimeraConfigurationError,
-    'KeyError': KimeraConfigurationError,
-    'AttributeError': KimeraConfigurationError,
-
+    "ConfigurationError": KimeraConfigurationError,
+    "EnvironmentError": KimeraConfigurationError,
+    "KeyError": KimeraConfigurationError,
+    "AttributeError": KimeraConfigurationError,
     # Performance exceptions
-    'MemoryError': KimeraPerformanceError,
-    'RecursionError': KimeraPerformanceError,
+    "MemoryError": KimeraPerformanceError,
+    "RecursionError": KimeraPerformanceError,
 }
 
 
 def map_exception(
     exception: Exception,
     context: Optional[Dict[str, Any]] = None,
-    recovery_suggestions: Optional[List[str]] = None
+    recovery_suggestions: Optional[List[str]] = None,
 ) -> KimeraBaseException:
     """
     Map a generic exception to a Kimera-specific exception.
@@ -444,16 +422,27 @@ def map_exception(
 
         # Handle callable mappers (for conditional mapping)
         if callable(mapper) and not issubclass(mapper, KimeraBaseException):
-            return mapper(message, context=context, recovery_suggestions=recovery_suggestions, original_exception=exception)
+            return mapper(
+                message,
+                context=context,
+                recovery_suggestions=recovery_suggestions,
+                original_exception=exception,
+            )
         else:
-            return mapper(message, context=context, recovery_suggestions=recovery_suggestions, original_exception=exception)
+            return mapper(
+                message,
+                context=context,
+                recovery_suggestions=recovery_suggestions,
+                original_exception=exception,
+            )
 
     # Default to cognitive error for unmapped exceptions
     return KimeraCognitiveError(
         f"Unmapped exception: {exception_name}: {message}",
         context=context,
-        recovery_suggestions=recovery_suggestions or ["Review system logs for more details"],
-        original_exception=exception
+        recovery_suggestions=recovery_suggestions
+        or ["Review system logs for more details"],
+        original_exception=exception,
     )
 
 
@@ -462,7 +451,7 @@ def handle_exception(
     component: str,
     operation: str,
     context: Optional[Dict[str, Any]] = None,
-    logger=None
+    logger=None,
 ) -> KimeraBaseException:
     """
     Comprehensive exception handler that maps, logs, and enriches exceptions.
@@ -481,19 +470,20 @@ def handle_exception(
     kimera_exception = map_exception(exception, context)
 
     # Enrich with component and operation context
-    kimera_exception.add_context('component', component)
-    kimera_exception.add_context('operation', operation)
+    kimera_exception.add_context("component", component)
+    kimera_exception.add_context("operation", operation)
 
     # Add system state if available
     try:
         import psutil
+
         process = psutil.Process()
         system_state = {
-            'cpu_percent': process.cpu_percent(),
-            'memory_percent': process.memory_percent(),
-            'thread_count': process.num_threads(),
+            "cpu_percent": process.cpu_percent(),
+            "memory_percent": process.memory_percent(),
+            "thread_count": process.num_threads(),
         }
-        kimera_exception.add_context('system_state', system_state)
+        kimera_exception.add_context("system_state", system_state)
     except Exception:
         pass  # System monitoring is optional
 
@@ -502,7 +492,7 @@ def handle_exception(
         logger.error(
             f"Exception in {component}.{operation}: {kimera_exception.message}",
             error=kimera_exception,
-            **kimera_exception.context
+            **kimera_exception.context,
         )
 
     return kimera_exception
@@ -520,7 +510,7 @@ class KimeraExceptionHandler:
         operation: str,
         context: Optional[Dict[str, Any]] = None,
         logger=None,
-        reraise: bool = True
+        reraise: bool = True,
     ):
         self.component = component
         self.operation = operation
@@ -535,11 +525,7 @@ class KimeraExceptionHandler:
         if exc_type is not None:
             # Handle the exception
             kimera_exception = handle_exception(
-                exc_val,
-                self.component,
-                self.operation,
-                self.context,
-                self.logger
+                exc_val, self.component, self.operation, self.context, self.logger
             )
 
             if self.reraise:
@@ -556,7 +542,7 @@ def kimera_exception_handler(
     component: str,
     operation: Optional[str] = None,
     context: Optional[Dict[str, Any]] = None,
-    logger=None
+    logger=None,
 ):
     """
     Decorator for automatic exception handling in functions.
@@ -567,6 +553,7 @@ def kimera_exception_handler(
         context: Additional context
         logger: Logger instance
     """
+
     def decorator(func):
         def wrapper(*args, **kwargs):
             op_name = operation or func.__name__
@@ -580,4 +567,5 @@ def kimera_exception_handler(
                 raise kimera_exception from e
 
         return wrapper
+
     return decorator

@@ -17,18 +17,19 @@ Author: KIMERA Development Team
 Version: 1.0.0 (DO-178C Level A)
 """
 
-from enum import Enum
-from dataclasses import dataclass, field
-from typing import Dict, List, Any, Optional
-import numpy as np
 import sys
+from dataclasses import dataclass, field
+from enum import Enum
 from pathlib import Path
+from typing import Any, Dict, List, Optional
+
+import numpy as np
 
 # Add src to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent.parent.parent))
 
-from utils.kimera_logger import get_logger, LogCategory
 from utils.kimera_exceptions import KimeraValidationError
+from utils.kimera_logger import LogCategory, get_logger
 
 logger = get_logger(__name__, LogCategory.SYSTEM)
 
@@ -40,28 +41,31 @@ class ComplexityLevel(Enum):
     Based on nuclear engineering classification systems where
     each level requires exponentially more rigorous validation.
     """
-    SIMPLE = "simple"           # Level 1: Single system operations
-    MEDIUM = "medium"           # Level 2: Dual system coordination
-    COMPLEX = "complex"         # Level 3: Multi-dimensional processing
-    EXPERT = "expert"           # Level 4: Full cognitive architecture
+
+    SIMPLE = "simple"  # Level 1: Single system operations
+    MEDIUM = "medium"  # Level 2: Dual system coordination
+    COMPLEX = "complex"  # Level 3: Multi-dimensional processing
+    EXPERT = "expert"  # Level 4: Full cognitive architecture
 
 
 @dataclass
 class ComplexityMetrics:
     """Quantitative metrics for complexity assessment"""
-    cognitive_load: float           # 0.0 to 1.0 scale
-    memory_requirement: int         # MB required
-    processing_time_estimate: float # seconds
-    system_components: int          # number of active components
-    interaction_depth: int          # levels of system interaction
-    parallelization_factor: float   # concurrent processing capability
-    failure_probability: float      # estimated failure rate
+
+    cognitive_load: float  # 0.0 to 1.0 scale
+    memory_requirement: int  # MB required
+    processing_time_estimate: float  # seconds
+    system_components: int  # number of active components
+    interaction_depth: int  # levels of system interaction
+    parallelization_factor: float  # concurrent processing capability
+    failure_probability: float  # estimated failure rate
     verification_complexity: float  # verification difficulty scale
 
 
 @dataclass
 class ComplexityConfiguration:
     """Complete configuration for a complexity level"""
+
     level: ComplexityLevel
     metrics: ComplexityMetrics
     system_requirements: Dict[str, Any]
@@ -73,10 +77,10 @@ class ComplexityConfiguration:
     def is_valid(self) -> bool:
         """Validate configuration consistency"""
         return (
-            0.0 <= self.metrics.cognitive_load <= 1.0 and
-            self.metrics.memory_requirement > 0 and
-            self.metrics.processing_time_estimate > 0 and
-            self.metrics.system_components > 0
+            0.0 <= self.metrics.cognitive_load <= 1.0
+            and self.metrics.memory_requirement > 0
+            and self.metrics.processing_time_estimate > 0
+            and self.metrics.system_components > 0
         )
 
 
@@ -98,7 +102,9 @@ class ComplexityLevelManager:
         logger.info(f"   Configurations: {len(self.configurations)}")
         logger.info(f"   Total complexity range: {self._get_complexity_range()}")
 
-    def _initialize_configurations(self) -> Dict[ComplexityLevel, ComplexityConfiguration]:
+    def _initialize_configurations(
+        self,
+    ) -> Dict[ComplexityLevel, ComplexityConfiguration]:
         """Initialize all complexity level configurations"""
         configurations = {}
 
@@ -107,45 +113,45 @@ class ComplexityLevelManager:
             level=ComplexityLevel.SIMPLE,
             metrics=ComplexityMetrics(
                 cognitive_load=0.2,
-                memory_requirement=256,      # 256 MB
+                memory_requirement=256,  # 256 MB
                 processing_time_estimate=0.1,  # 100ms
                 system_components=1,
                 interaction_depth=1,
                 parallelization_factor=1.0,
-                failure_probability=0.001,   # 0.1% failure rate
-                verification_complexity=0.2
+                failure_probability=0.001,  # 0.1% failure rate
+                verification_complexity=0.2,
             ),
             system_requirements={
                 "active_engines": ["cognitive_response"],
                 "gpu_required": False,
                 "quantum_security": False,
                 "thermodynamic_validation": False,
-                "dual_system_mode": False
+                "dual_system_mode": False,
             },
             validation_criteria={
-                "response_time_max": 0.5,    # 500ms max
-                "memory_usage_max": 512,     # 512 MB max
-                "cpu_usage_max": 25.0,       # 25% CPU max
-                "success_rate_min": 99.5     # 99.5% success rate
+                "response_time_max": 0.5,  # 500ms max
+                "memory_usage_max": 512,  # 512 MB max
+                "cpu_usage_max": 25.0,  # 25% CPU max
+                "success_rate_min": 99.5,  # 99.5% success rate
             },
             test_parameters={
                 "iterations": 100,
                 "concurrent_tests": 1,
-                "timeout": 1.0,              # 1 second timeout
-                "retry_attempts": 3
+                "timeout": 1.0,  # 1 second timeout
+                "retry_attempts": 3,
             },
             expected_behaviors=[
                 "Direct response generation",
                 "Single cognitive pathway activation",
                 "Linear processing flow",
-                "Minimal resource utilization"
+                "Minimal resource utilization",
             ],
             failure_modes=[
                 "Response timeout",
                 "Memory allocation failure",
                 "Invalid input handling",
-                "Component initialization failure"
-            ]
+                "Component initialization failure",
+            ],
         )
 
         # MEDIUM Level - Dual system coordination
@@ -153,46 +159,46 @@ class ComplexityLevelManager:
             level=ComplexityLevel.MEDIUM,
             metrics=ComplexityMetrics(
                 cognitive_load=0.5,
-                memory_requirement=1024,     # 1 GB
+                memory_requirement=1024,  # 1 GB
                 processing_time_estimate=0.5,  # 500ms
                 system_components=3,
                 interaction_depth=2,
                 parallelization_factor=2.0,
-                failure_probability=0.005,   # 0.5% failure rate
-                verification_complexity=0.5
+                failure_probability=0.005,  # 0.5% failure rate
+                verification_complexity=0.5,
             ),
             system_requirements={
                 "active_engines": ["cognitive_response", "barenholtz_architecture"],
                 "gpu_required": True,
                 "quantum_security": True,
                 "thermodynamic_validation": False,
-                "dual_system_mode": True
+                "dual_system_mode": True,
             },
             validation_criteria={
-                "response_time_max": 2.0,    # 2 second max
-                "memory_usage_max": 2048,    # 2 GB max
-                "cpu_usage_max": 50.0,       # 50% CPU max
-                "success_rate_min": 98.0     # 98% success rate
+                "response_time_max": 2.0,  # 2 second max
+                "memory_usage_max": 2048,  # 2 GB max
+                "cpu_usage_max": 50.0,  # 50% CPU max
+                "success_rate_min": 98.0,  # 98% success rate
             },
             test_parameters={
                 "iterations": 200,
                 "concurrent_tests": 2,
-                "timeout": 3.0,              # 3 second timeout
-                "retry_attempts": 2
+                "timeout": 3.0,  # 3 second timeout
+                "retry_attempts": 2,
             },
             expected_behaviors=[
                 "Dual-system coordination",
                 "System 1/System 2 arbitration",
                 "Parallel processing paths",
-                "Security validation active"
+                "Security validation active",
             ],
             failure_modes=[
                 "Dual-system deadlock",
                 "Arbitration failure",
                 "Security validation timeout",
                 "Memory pressure issues",
-                "GPU resource contention"
-            ]
+                "GPU resource contention",
+            ],
         )
 
         # COMPLEX Level - High-dimensional multi-system processing
@@ -200,42 +206,44 @@ class ComplexityLevelManager:
             level=ComplexityLevel.COMPLEX,
             metrics=ComplexityMetrics(
                 cognitive_load=0.8,
-                memory_requirement=4096,     # 4 GB
+                memory_requirement=4096,  # 4 GB
                 processing_time_estimate=2.0,  # 2 seconds
                 system_components=6,
                 interaction_depth=4,
                 parallelization_factor=4.0,
-                failure_probability=0.02,    # 2% failure rate
-                verification_complexity=0.8
+                failure_probability=0.02,  # 2% failure rate
+                verification_complexity=0.8,
             ),
             system_requirements={
                 "active_engines": [
-                    "cognitive_response", "barenholtz_architecture",
-                    "high_dimensional_modeling", "insight_management"
+                    "cognitive_response",
+                    "barenholtz_architecture",
+                    "high_dimensional_modeling",
+                    "insight_management",
                 ],
                 "gpu_required": True,
                 "quantum_security": True,
                 "thermodynamic_validation": True,
-                "dual_system_mode": True
+                "dual_system_mode": True,
             },
             validation_criteria={
-                "response_time_max": 5.0,    # 5 second max
-                "memory_usage_max": 6144,    # 6 GB max
-                "cpu_usage_max": 75.0,       # 75% CPU max
-                "success_rate_min": 95.0     # 95% success rate
+                "response_time_max": 5.0,  # 5 second max
+                "memory_usage_max": 6144,  # 6 GB max
+                "cpu_usage_max": 75.0,  # 75% CPU max
+                "success_rate_min": 95.0,  # 95% success rate
             },
             test_parameters={
                 "iterations": 500,
                 "concurrent_tests": 4,
-                "timeout": 10.0,             # 10 second timeout
-                "retry_attempts": 1
+                "timeout": 10.0,  # 10 second timeout
+                "retry_attempts": 1,
             },
             expected_behaviors=[
                 "High-dimensional processing (1024D)",
                 "Multi-system coordination",
                 "Thermodynamic coherence validation",
                 "Insight generation and management",
-                "Complex parallel processing"
+                "Complex parallel processing",
             ],
             failure_modes=[
                 "High-dimensional overflow",
@@ -243,8 +251,8 @@ class ComplexityLevelManager:
                 "Insight validation timeout",
                 "Multi-system coordination deadlock",
                 "Memory exhaustion",
-                "GPU computation timeout"
-            ]
+                "GPU computation timeout",
+            ],
         )
 
         # EXPERT Level - Full cognitive architecture integration
@@ -252,37 +260,41 @@ class ComplexityLevelManager:
             level=ComplexityLevel.EXPERT,
             metrics=ComplexityMetrics(
                 cognitive_load=1.0,
-                memory_requirement=8192,     # 8 GB
+                memory_requirement=8192,  # 8 GB
                 processing_time_estimate=5.0,  # 5 seconds
                 system_components=12,
                 interaction_depth=8,
                 parallelization_factor=8.0,
-                failure_probability=0.05,    # 5% failure rate
-                verification_complexity=1.0
+                failure_probability=0.05,  # 5% failure rate
+                verification_complexity=1.0,
             ),
             system_requirements={
                 "active_engines": [
-                    "cognitive_response", "barenholtz_architecture",
-                    "high_dimensional_modeling", "insight_management",
-                    "thermodynamic_integration", "quantum_security",
-                    "ethical_governor", "system_monitor"
+                    "cognitive_response",
+                    "barenholtz_architecture",
+                    "high_dimensional_modeling",
+                    "insight_management",
+                    "thermodynamic_integration",
+                    "quantum_security",
+                    "ethical_governor",
+                    "system_monitor",
                 ],
                 "gpu_required": True,
                 "quantum_security": True,
                 "thermodynamic_validation": True,
-                "dual_system_mode": True
+                "dual_system_mode": True,
             },
             validation_criteria={
-                "response_time_max": 10.0,   # 10 second max
-                "memory_usage_max": 12288,   # 12 GB max
-                "cpu_usage_max": 90.0,       # 90% CPU max
-                "success_rate_min": 90.0     # 90% success rate
+                "response_time_max": 10.0,  # 10 second max
+                "memory_usage_max": 12288,  # 12 GB max
+                "cpu_usage_max": 90.0,  # 90% CPU max
+                "success_rate_min": 90.0,  # 90% success rate
             },
             test_parameters={
                 "iterations": 1000,
                 "concurrent_tests": 8,
-                "timeout": 30.0,             # 30 second timeout
-                "retry_attempts": 0          # No retries at expert level
+                "timeout": 30.0,  # 30 second timeout
+                "retry_attempts": 0,  # No retries at expert level
             },
             expected_behaviors=[
                 "Full cognitive architecture activation",
@@ -291,7 +303,7 @@ class ComplexityLevelManager:
                 "Complete validation pipeline",
                 "Emergent cognitive behaviors",
                 "Cross-system learning",
-                "Adaptive processing optimization"
+                "Adaptive processing optimization",
             ],
             failure_modes=[
                 "System-wide deadlock",
@@ -302,8 +314,8 @@ class ComplexityLevelManager:
                 "Emergent behavior instability",
                 "Cross-system interference",
                 "Memory fragmentation",
-                "GPU memory overflow"
-            ]
+                "GPU memory overflow",
+            ],
         )
 
         # Validate all configurations
@@ -321,10 +333,9 @@ class ComplexityLevelManager:
         """Get all available complexity levels"""
         return list(ComplexityLevel)
 
-    def estimate_complexity(self,
-                          system_components: int,
-                          processing_time: float,
-                          memory_usage: int) -> ComplexityLevel:
+    def estimate_complexity(
+        self, system_components: int, processing_time: float, memory_usage: int
+    ) -> ComplexityLevel:
         """
         Estimate complexity level based on system characteristics
 
@@ -337,9 +348,7 @@ class ComplexityLevelManager:
         memory_score = min(memory_usage / 8192.0, 1.0)
 
         # Weighted average with conservative bias
-        complexity_score = (component_score * 0.4 +
-                          time_score * 0.3 +
-                          memory_score * 0.3)
+        complexity_score = component_score * 0.4 + time_score * 0.3 + memory_score * 0.3
 
         # Map to complexity levels with conservative bias
         if complexity_score >= 0.75:
@@ -351,9 +360,9 @@ class ComplexityLevelManager:
         else:
             return ComplexityLevel.SIMPLE
 
-    def validate_system_capabilities(self,
-                                   level: ComplexityLevel,
-                                   available_systems: List[str]) -> bool:
+    def validate_system_capabilities(
+        self, level: ComplexityLevel, available_systems: List[str]
+    ) -> bool:
         """
         Validate that system has required capabilities for complexity level
 
@@ -374,8 +383,12 @@ class ComplexityLevelManager:
 
     def get_scaling_factors(self) -> Dict[str, np.ndarray]:
         """Get scaling factors across complexity levels for analysis"""
-        levels = [ComplexityLevel.SIMPLE, ComplexityLevel.MEDIUM,
-                 ComplexityLevel.COMPLEX, ComplexityLevel.EXPERT]
+        levels = [
+            ComplexityLevel.SIMPLE,
+            ComplexityLevel.MEDIUM,
+            ComplexityLevel.COMPLEX,
+            ComplexityLevel.EXPERT,
+        ]
 
         cognitive_loads = []
         memory_requirements = []
@@ -393,7 +406,7 @@ class ComplexityLevelManager:
             "cognitive_load": np.array(cognitive_loads),
             "memory_requirement": np.array(memory_requirements),
             "processing_time": np.array(processing_times),
-            "component_count": np.array(component_counts)
+            "component_count": np.array(component_counts),
         }
 
     def _get_complexity_range(self) -> str:
@@ -408,20 +421,33 @@ class ComplexityLevelManager:
             "total_levels": len(self.configurations),
             "complexity_range": self._get_complexity_range(),
             "memory_range": {
-                "min": min(c.metrics.memory_requirement for c in self.configurations.values()),
-                "max": max(c.metrics.memory_requirement for c in self.configurations.values())
+                "min": min(
+                    c.metrics.memory_requirement for c in self.configurations.values()
+                ),
+                "max": max(
+                    c.metrics.memory_requirement for c in self.configurations.values()
+                ),
             },
             "processing_time_range": {
-                "min": min(c.metrics.processing_time_estimate for c in self.configurations.values()),
-                "max": max(c.metrics.processing_time_estimate for c in self.configurations.values())
+                "min": min(
+                    c.metrics.processing_time_estimate
+                    for c in self.configurations.values()
+                ),
+                "max": max(
+                    c.metrics.processing_time_estimate
+                    for c in self.configurations.values()
+                ),
             },
             "validation_history_count": len(self.validation_history),
-            "configurations_valid": all(c.is_valid() for c in self.configurations.values())
+            "configurations_valid": all(
+                c.is_valid() for c in self.configurations.values()
+            ),
         }
 
 
 # Global instance for module access
 _complexity_manager: Optional[ComplexityLevelManager] = None
+
 
 def get_complexity_manager() -> ComplexityLevelManager:
     """Get global complexity level manager instance"""

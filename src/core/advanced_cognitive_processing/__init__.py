@@ -16,7 +16,7 @@ from .cognitive_pharmaceutical_optimizer import CognitivePharmaceuticalOptimizer
 from .integration import AdvancedCognitiveProcessingIntegration
 
 __all__ = [
-    'CognitiveGraphProcessor',
-    'CognitivePharmaceuticalOptimizer',
-    'AdvancedCognitiveProcessingIntegration'
+    "CognitiveGraphProcessor",
+    "CognitivePharmaceuticalOptimizer",
+    "AdvancedCognitiveProcessingIntegration",
 ]

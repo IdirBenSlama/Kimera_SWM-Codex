@@ -14,30 +14,30 @@ Key Components:
 Safety Compliance: DO-178C Level A
 """
 
+from .intelligent_pruning_engine import should_prune  # Legacy compatibility
 from .intelligent_pruning_engine import (
-    IntelligentPruningEngine,
-    PruningConfig,
-    PruningResult,
-    PrunableItem,
     InsightScar,
-    Scar,
-    PruningStrategy,
+    IntelligentPruningEngine,
+    PrunableItem,
+    PruningConfig,
     PruningDecision,
+    PruningResult,
+    PruningStrategy,
     SafetyStatus,
+    Scar,
     create_intelligent_pruning_engine,
-    should_prune  # Legacy compatibility
 )
 
 __all__ = [
-    'IntelligentPruningEngine',
-    'PruningConfig',
-    'PruningResult',
-    'PrunableItem',
-    'InsightScar',
-    'Scar',
-    'PruningStrategy',
-    'PruningDecision',
-    'SafetyStatus',
-    'create_intelligent_pruning_engine',
-    'should_prune'
+    "IntelligentPruningEngine",
+    "PruningConfig",
+    "PruningResult",
+    "PrunableItem",
+    "InsightScar",
+    "Scar",
+    "PruningStrategy",
+    "PruningDecision",
+    "SafetyStatus",
+    "create_intelligent_pruning_engine",
+    "should_prune",
 ]

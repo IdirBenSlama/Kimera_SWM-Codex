@@ -7,13 +7,15 @@ This engine provides methods to analyze collections of embeddings (cognitive fie
 using principles derived from statistical thermodynamics.
 """
 
-import numpy as np
-from typing import List, Dict, Any
 import logging
+from typing import Any, Dict, List
+
+import numpy as np
+
+from ..config.settings import get_settings
 
 # Configuration Management
 from ..utils.config import get_api_settings
-from ..config.settings import get_settings
 
 logger = logging.getLogger(__name__)
 
@@ -25,18 +27,20 @@ class ThermodynamicEngine:
     This engine provides methods to analyze collections of embeddings (cognitive fields)
     using principles derived from statistical thermodynamics.
     """
-    
+
     def __init__(self):
         """Initialize the thermodynamic engine with configuration."""
         self.settings = get_api_settings()
         logger.info("🌡️ Thermodynamic Engine initialized")
         logger.debug(f"   Environment: {self.settings.environment}")
-        
+
         # Initialize thermodynamic constants
         self.boltzmann_constant = 1.0  # Normalized for cognitive fields
-        self.temperature_scale = 1.0   # Scaling factor for semantic temperature
+        self.temperature_scale = 1.0  # Scaling factor for semantic temperature
 
-    def calculate_semantic_temperature(self, cognitive_field: List[np.ndarray]) -> float:
+    def calculate_semantic_temperature(
+        self, cognitive_field: List[np.ndarray]
+    ) -> float:
         """
         Calculates the Semantic Temperature of a cognitive field.
 
@@ -49,49 +53,55 @@ class ThermodynamicEngine:
         Returns:
             The semantic temperature of the field as a float. Returns 0.0 if the
             field is empty or contains insufficient data for covariance calculation.
-            
+
         Raises:
             TypeError: If cognitive_field is not a list or contains non-numpy arrays
             ValueError: If arrays have incompatible shapes
         """
         # Input validation
         if not isinstance(cognitive_field, list):
-            raise TypeError(f"cognitive_field must be a list, got {type(cognitive_field)}")
-        
+            raise TypeError(
+                f"cognitive_field must be a list, got {type(cognitive_field)}"
+            )
+
         if not cognitive_field:
             logger.debug("Empty cognitive field provided, returning zero temperature")
             return 0.0
-            
+
         if len(cognitive_field) < 2:
-            logger.debug("Insufficient data for covariance calculation, returning zero temperature")
+            logger.debug(
+                "Insufficient data for covariance calculation, returning zero temperature"
+            )
             return 0.0
 
         # Validate array contents
         for i, field in enumerate(cognitive_field):
             if not isinstance(field, np.ndarray):
-                raise TypeError(f"All field elements must be numpy arrays, got {type(field)} at index {i}")
-        
+                raise TypeError(
+                    f"All field elements must be numpy arrays, got {type(field)} at index {i}"
+                )
+
         try:
             field_matrix = np.array(cognitive_field)
-            
+
             # Ensure the matrix is 2D
             if field_matrix.ndim == 1:
                 field_matrix = field_matrix.reshape(-1, 1)
 
             cov_matrix = np.cov(field_matrix, rowvar=False)
-            
+
             # For a 1D array of embeddings, np.cov returns a float, not a matrix.
             if cov_matrix.ndim == 0:
                 temperature = float(cov_matrix)
             else:
                 temperature = float(np.trace(cov_matrix))
-            
+
             # Apply scaling factor
             temperature *= self.temperature_scale
-            
+
             logger.debug(f"Calculated semantic temperature: {temperature:.6f}")
             return temperature
-            
+
         except Exception as e:
             logger.error(f"Error calculating semantic temperature: {e}")
             return 0.0
@@ -131,4 +141,4 @@ class ThermodynamicEngine:
             "work_extracted": work_extracted,
             "t_hot": t_hot,
             "t_cold": t_cold,
-        } 
+        }

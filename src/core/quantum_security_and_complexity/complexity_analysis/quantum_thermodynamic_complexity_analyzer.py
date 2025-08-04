@@ -27,22 +27,24 @@ NOTE: This system analyzes computational complexity, NOT consciousness.
 """
 
 import asyncio
+import logging
 import math
-import numpy as np
-import torch
-from typing import Dict, List, Any, Optional, Tuple
+import uuid
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-import uuid
-import logging
+from typing import Any, Dict, List, Optional, Tuple
+
+import numpy as np
+import torch
+
+from src.config.settings import get_settings
 
 # Kimera core imports
 from src.core.geoid import GeoidState
-from src.utils.kimera_logger import get_logger, LogCategory
-from src.utils.kimera_exceptions import KimeraCognitiveError
 from src.utils.config import get_api_settings
-from src.config.settings import get_settings
+from src.utils.kimera_exceptions import KimeraCognitiveError
+from src.utils.kimera_logger import LogCategory, get_logger
 
 logger = get_logger(__name__, LogCategory.SYSTEM)
 
@@ -53,24 +55,30 @@ ENTROPY_PRODUCTION_THRESHOLD = 0.1  # Maximum entropy production for high comple
 FREE_ENERGY_GRADIENT_THRESHOLD = 0.3
 PHASE_TRANSITION_THRESHOLD = 0.8  # Proximity to phase transition
 
+
 class ComplexityState(Enum):
     """Thermodynamically-detected complexity states"""
+
     LOW_COMPLEXITY = "low_complexity"
     MODERATE_COMPLEXITY = "moderate_complexity"
     HIGH_COMPLEXITY = "high_complexity"
     ULTRA_COMPLEXITY = "ultra_complexity"
     QUANTUM_COMPLEXITY = "quantum_complexity"
 
+
 class PhaseTransitionType(Enum):
     """Types of complexity phase transitions"""
+
     ORDER_DISORDER = "order_disorder"
     COMPLEXITY_EMERGENCE = "complexity_emergence"
     QUANTUM_COHERENCE_COLLAPSE = "quantum_coherence_collapse"
     INTEGRATED_INFORMATION_SURGE = "integrated_information_surge"
 
+
 @dataclass
 class ThermodynamicSignature:
     """Thermodynamic signature result"""
+
     temperature: float
     entropy: float
     free_energy: float
@@ -78,9 +86,11 @@ class ThermodynamicSignature:
     complexity_measure: float
     timestamp: datetime
 
+
 @dataclass
 class ComplexityAnalysisResult:
     """Result of complexity analysis"""
+
     complexity_state: ComplexityState
     integrated_information: float
     quantum_coherence: float
@@ -88,9 +98,11 @@ class ComplexityAnalysisResult:
     thermodynamic_signature: ThermodynamicSignature
     analysis_timestamp: datetime
 
+
 @dataclass
 class ComplexitySignature:
     """Thermodynamic signature of computational complexity using Integrated Information Theory"""
+
     complexity_id: str
     complexity_state: ComplexityState
     integrated_information: float  # Φ (phi)
@@ -102,9 +114,11 @@ class ComplexitySignature:
     emergence_probability: float
     timestamp: datetime
 
+
 @dataclass
 class PhaseTransitionEvent:
     """Complexity phase transition detection"""
+
     transition_id: str
     transition_type: PhaseTransitionType
     critical_temperature: float
@@ -116,6 +130,7 @@ class PhaseTransitionEvent:
     complexity_before: ComplexityState
     complexity_after: ComplexityState
     timestamp: datetime
+
 
 class QuantumThermodynamicComplexityAnalyzer:
     """
@@ -151,7 +166,9 @@ class QuantumThermodynamicComplexityAnalyzer:
         logger.info("   Quantum coherence measurements active")
         logger.info("   Thermodynamic complexity analysis ready")
 
-    def analyze_complexity_threshold(self, geoids: List[GeoidState]) -> ComplexitySignature:
+    def analyze_complexity_threshold(
+        self, geoids: List[GeoidState]
+    ) -> ComplexitySignature:
         """
         Analyze complexity threshold using thermodynamic signatures
 
@@ -209,7 +226,7 @@ class QuantumThermodynamicComplexityAnalyzer:
             phase_transition_proximity=phase_proximity,
             thermodynamic_complexity=complexity,
             emergence_probability=emergence_prob,
-            timestamp=datetime.now()
+            timestamp=datetime.now(),
         )
 
         self.detected_signatures.append(signature)
@@ -251,12 +268,16 @@ class QuantumThermodynamicComplexityAnalyzer:
             whole_entropy = self._calculate_shannon_entropy(whole_system)
 
             # Calculate sum of part entropies
-            part_entropies = sum(self._calculate_shannon_entropy(vec) for vec in info_vectors)
+            part_entropies = sum(
+                self._calculate_shannon_entropy(vec) for vec in info_vectors
+            )
 
             # Integrated Information Φ
             phi = max(0.0, whole_entropy - part_entropies)
 
-            logger.debug(f"   Φ calculation: whole_entropy={whole_entropy:.3f}, part_entropies={part_entropies:.3f}, Φ={phi:.3f}")
+            logger.debug(
+                f"   Φ calculation: whole_entropy={whole_entropy:.3f}, part_entropies={part_entropies:.3f}, Φ={phi:.3f}"
+            )
 
             return phi
 
@@ -282,9 +303,11 @@ class QuantumThermodynamicComplexityAnalyzer:
             trace_rho_squared = np.trace(np.dot(density_matrix, density_matrix))
             dimension = density_matrix.shape[0]
 
-            coherence = max(0.0, trace_rho_squared - 1.0/dimension)
+            coherence = max(0.0, trace_rho_squared - 1.0 / dimension)
 
-            logger.debug(f"   Coherence: trace(ρ²)={trace_rho_squared:.3f}, 1/d={1.0/dimension:.3f}, C={coherence:.3f}")
+            logger.debug(
+                f"   Coherence: trace(ρ²)={trace_rho_squared:.3f}, 1/d={1.0/dimension:.3f}, C={coherence:.3f}"
+            )
 
             return coherence
 
@@ -309,7 +332,9 @@ class QuantumThermodynamicComplexityAnalyzer:
             # Use recent history for rate calculation
             if len(self.detected_signatures) > 0:
                 previous_signature = self.detected_signatures[-1]
-                time_diff = (datetime.now() - previous_signature.timestamp).total_seconds()
+                time_diff = (
+                    datetime.now() - previous_signature.timestamp
+                ).total_seconds()
 
                 if time_diff > 0:
                     # Approximate previous entropy from thermodynamic complexity
@@ -355,8 +380,8 @@ class QuantumThermodynamicComplexityAnalyzer:
             if len(self.detected_signatures) > 0:
                 previous_signature = self.detected_signatures[-1]
                 previous_free_energy = (
-                    previous_signature.thermodynamic_complexity * 100 -
-                    50 * previous_signature.entropy_production_rate
+                    previous_signature.thermodynamic_complexity * 100
+                    - 50 * previous_signature.entropy_production_rate
                 )
                 gradient = abs(free_energy - previous_free_energy)
             else:
@@ -403,27 +428,38 @@ class QuantumThermodynamicComplexityAnalyzer:
             logger.error(f"Error detecting phase transition proximity: {e}")
             return 0.0
 
-    def _calculate_thermodynamic_complexity(self, phi: float, coherence: float,
-                                          entropy_production: float, free_energy_gradient: float,
-                                          phase_proximity: float) -> float:
+    def _calculate_thermodynamic_complexity(
+        self,
+        phi: float,
+        coherence: float,
+        entropy_production: float,
+        free_energy_gradient: float,
+        phase_proximity: float,
+    ) -> float:
         """
         Calculate overall thermodynamic complexity measure
 
         Combines all thermodynamic measures into single complexity score.
         """
         complexity = (
-            self.phi_weight * phi +
-            self.coherence_weight * coherence +
-            self.entropy_weight * (1.0 - entropy_production) +  # Lower entropy production = higher complexity
-            self.free_energy_weight * free_energy_gradient +
-            self.phase_transition_weight * phase_proximity
+            self.phi_weight * phi
+            + self.coherence_weight * coherence
+            + self.entropy_weight
+            * (1.0 - entropy_production)  # Lower entropy production = higher complexity
+            + self.free_energy_weight * free_energy_gradient
+            + self.phase_transition_weight * phase_proximity
         )
 
         return min(1.0, max(0.0, complexity))
 
-    def _classify_complexity_state(self, phi: float, coherence: float,
-                                    entropy_production: float, free_energy_gradient: float,
-                                    phase_proximity: float) -> ComplexityState:
+    def _classify_complexity_state(
+        self,
+        phi: float,
+        coherence: float,
+        entropy_production: float,
+        free_energy_gradient: float,
+        phase_proximity: float,
+    ) -> ComplexityState:
         """
         Classify complexity state based on thermodynamic measures
 
@@ -444,14 +480,15 @@ class QuantumThermodynamicComplexityAnalyzer:
         else:
             return ComplexityState.QUANTUM_COMPLEXITY
 
-    def _calculate_emergence_probability(self, phi: float, coherence: float,
-                                       phase_proximity: float) -> float:
+    def _calculate_emergence_probability(
+        self, phi: float, coherence: float, phase_proximity: float
+    ) -> float:
         """
         Calculate probability of emergent complexity behavior
 
         Based on integrated information, coherence, and phase transition proximity.
         """
-        emergence_prob = (phi * coherence * phase_proximity) ** (1/3)
+        emergence_prob = (phi * coherence * phase_proximity) ** (1 / 3)
         return min(1.0, max(0.0, emergence_prob))
 
     def get_complexity_statistics(self) -> Dict[str, Any]:
@@ -466,7 +503,7 @@ class QuantumThermodynamicComplexityAnalyzer:
                 "complexity_distribution": {},
                 "average_phi": 0.0,
                 "average_coherence": 0.0,
-                "average_complexity": 0.0
+                "average_complexity": 0.0,
             }
 
         # Calculate distribution
@@ -478,7 +515,9 @@ class QuantumThermodynamicComplexityAnalyzer:
         # Calculate averages
         avg_phi = np.mean([s.integrated_information for s in self.detected_signatures])
         avg_coherence = np.mean([s.quantum_coherence for s in self.detected_signatures])
-        avg_complexity = np.mean([s.thermodynamic_complexity for s in self.detected_signatures])
+        avg_complexity = np.mean(
+            [s.thermodynamic_complexity for s in self.detected_signatures]
+        )
 
         return {
             "total_analyses": len(self.detected_signatures),
@@ -486,7 +525,7 @@ class QuantumThermodynamicComplexityAnalyzer:
             "average_phi": float(avg_phi),
             "average_coherence": float(avg_coherence),
             "average_complexity": float(avg_complexity),
-            "phase_transitions_detected": len(self.phase_transitions)
+            "phase_transitions_detected": len(self.phase_transitions),
         }
 
     # Helper methods for calculations
@@ -496,11 +535,11 @@ class QuantumThermodynamicComplexityAnalyzer:
         vector_data = []
 
         # Add basic state information
-        if hasattr(geoid, 'field_strength'):
+        if hasattr(geoid, "field_strength"):
             vector_data.append(geoid.field_strength)
-        if hasattr(geoid, 'resonance_frequency'):
+        if hasattr(geoid, "resonance_frequency"):
             vector_data.append(geoid.resonance_frequency)
-        if hasattr(geoid, 'coherence_level'):
+        if hasattr(geoid, "coherence_level"):
             vector_data.append(geoid.coherence_level)
 
         # Default vector if no data
@@ -543,7 +582,9 @@ class QuantumThermodynamicComplexityAnalyzer:
             if len(vector) > 2:
                 vector = vector[:2]
             elif len(vector) < 2:
-                vector = np.pad(vector, (0, 2-len(vector)), 'constant', constant_values=0.5)
+                vector = np.pad(
+                    vector, (0, 2 - len(vector)), "constant", constant_values=0.5
+                )
 
             # Normalize
             norm = np.linalg.norm(vector)
@@ -585,8 +626,8 @@ class QuantumThermodynamicComplexityAnalyzer:
         total_energy = 0.0
         for geoid in geoids:
             # Estimate energy from field strength and activity
-            if hasattr(geoid, 'field_strength'):
-                total_energy += geoid.field_strength ** 2
+            if hasattr(geoid, "field_strength"):
+                total_energy += geoid.field_strength**2
             else:
                 total_energy += 0.25  # Default energy level
 
@@ -621,7 +662,7 @@ class QuantumThermodynamicComplexityAnalyzer:
         # Calculate alignment/correlation between vectors
         correlations = []
         for i in range(len(vectors)):
-            for j in range(i+1, len(vectors)):
+            for j in range(i + 1, len(vectors)):
                 if len(vectors[i]) == len(vectors[j]) and len(vectors[i]) > 0:
                     corr = np.corrcoef(vectors[i], vectors[j])[0, 1]
                     if not np.isnan(corr):
@@ -656,9 +697,9 @@ class QuantumThermodynamicComplexityAnalyzer:
 
         # Simplified correlation length based on spatial/temporal correlations
         correlations = []
-        for i in range(len(geoids)-1):
+        for i in range(len(geoids) - 1):
             vec1 = self._extract_information_vector(geoids[i])
-            vec2 = self._extract_information_vector(geoids[i+1])
+            vec2 = self._extract_information_vector(geoids[i + 1])
 
             if len(vec1) == len(vec2) and len(vec1) > 0:
                 corr = np.corrcoef(vec1, vec2)[0, 1]
@@ -699,9 +740,13 @@ async def demonstrate_complexity_analysis():
 
     logger.info(f"✅ Complexity Analysis Complete:")
     logger.info(f"   State: {signature.complexity_state.value}")
-    logger.info(f"   Integrated Information (Φ): {signature.integrated_information:.3f}")
+    logger.info(
+        f"   Integrated Information (Φ): {signature.integrated_information:.3f}"
+    )
     logger.info(f"   Quantum Coherence: {signature.quantum_coherence:.3f}")
-    logger.info(f"   Thermodynamic Complexity: {signature.thermodynamic_complexity:.3f}")
+    logger.info(
+        f"   Thermodynamic Complexity: {signature.thermodynamic_complexity:.3f}"
+    )
 
     # Get statistics
     stats = analyzer.get_complexity_statistics()

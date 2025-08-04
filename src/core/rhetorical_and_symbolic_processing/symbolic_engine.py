@@ -15,45 +15,53 @@ Safety Requirements: SR-4.20.13 through SR-4.20.24
 """
 
 from __future__ import annotations
-import logging
+
 import asyncio
+import logging
 import time
-from typing import Dict, Any, Optional, List, Tuple
 from dataclasses import dataclass
+from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple
+
 import numpy as np
 import torch
-from enum import Enum
 
 logger = logging.getLogger(__name__)
 
+
 class SymbolicModality(Enum):
     """Symbolic modalities with safety validation."""
+
     NATURAL_LANGUAGE = "natural_language"
-    ICONOGRAPHY = "iconography"           # Visual symbols, pictographs
-    EMOJI_SEMIOTICS = "emoji_semiotics"   # Emoji and emoticon systems
-    MATHEMATICAL = "mathematical"         # Mathematical notation
-    MUSICAL = "musical"                   # Musical notation and rhythm
-    GESTURAL = "gestural"                 # Sign language and gestures
-    ARCHITECTURAL = "architectural"       # Spatial and structural symbols
-    CULTURAL_SYMBOLS = "cultural_symbols" # Religious, cultural, traditional symbols
-    DIGITAL_ICONS = "digital_icons"       # UI/UX iconography
-    HIEROGLYPHIC = "hieroglyphic"        # Ancient symbolic systems
+    ICONOGRAPHY = "iconography"  # Visual symbols, pictographs
+    EMOJI_SEMIOTICS = "emoji_semiotics"  # Emoji and emoticon systems
+    MATHEMATICAL = "mathematical"  # Mathematical notation
+    MUSICAL = "musical"  # Musical notation and rhythm
+    GESTURAL = "gestural"  # Sign language and gestures
+    ARCHITECTURAL = "architectural"  # Spatial and structural symbols
+    CULTURAL_SYMBOLS = "cultural_symbols"  # Religious, cultural, traditional symbols
+    DIGITAL_ICONS = "digital_icons"  # UI/UX iconography
+    HIEROGLYPHIC = "hieroglyphic"  # Ancient symbolic systems
+
 
 class ScriptFamily(Enum):
     """Script families for linguistic analysis."""
-    LATIN = "latin"                       # Latin-based scripts
-    CYRILLIC = "cyrillic"                # Cyrillic scripts
-    ARABIC = "arabic"                    # Arabic script family
-    CHINESE = "chinese"                  # Chinese characters
-    JAPANESE = "japanese"                # Hiragana, Katakana, Kanji
-    KOREAN = "korean"                    # Hangul
-    INDIC = "indic"                      # Devanagari, Tamil, etc.
-    HEBREW = "hebrew"                    # Hebrew script
-    THAI = "thai"                        # Thai script
+
+    LATIN = "latin"  # Latin-based scripts
+    CYRILLIC = "cyrillic"  # Cyrillic scripts
+    ARABIC = "arabic"  # Arabic script family
+    CHINESE = "chinese"  # Chinese characters
+    JAPANESE = "japanese"  # Hiragana, Katakana, Kanji
+    KOREAN = "korean"  # Hangul
+    INDIC = "indic"  # Devanagari, Tamil, etc.
+    HEBREW = "hebrew"  # Hebrew script
+    THAI = "thai"  # Thai script
+
 
 @dataclass
 class SymbolicAnalysis:
     """Symbolic analysis result with formal verification."""
+
     modality: SymbolicModality
     script_family: Optional[ScriptFamily]
     semantic_meaning: str
@@ -67,11 +75,18 @@ class SymbolicAnalysis:
 
     def __post_init__(self):
         """Validate symbolic analysis result."""
-        assert 0.0 <= self.symbol_complexity <= 1.0, "Symbol complexity must be in [0,1]"
-        assert 0.0 <= self.cross_cultural_recognition <= 1.0, "Recognition must be in [0,1]"
+        assert (
+            0.0 <= self.symbol_complexity <= 1.0
+        ), "Symbol complexity must be in [0,1]"
+        assert (
+            0.0 <= self.cross_cultural_recognition <= 1.0
+        ), "Recognition must be in [0,1]"
         assert 0.0 <= self.confidence <= 1.0, "Confidence must be in [0,1]"
         assert self.processing_time >= 0.0, "Processing time must be non-negative"
-        assert len(self.semantic_meaning.strip()) > 0, "Semantic meaning cannot be empty"
+        assert (
+            len(self.semantic_meaning.strip()) > 0
+        ), "Semantic meaning cannot be empty"
+
 
 class SymbolicProcessor:
     """
@@ -108,9 +123,13 @@ class SymbolicProcessor:
             self._visual_features = self._initialize_visual_features()
 
             # Safety validation
-            assert len(self._icon_patterns) > 0, "Iconological patterns must be initialized"
+            assert (
+                len(self._icon_patterns) > 0
+            ), "Iconological patterns must be initialized"
             assert len(self._script_features) > 0, "Script features must be initialized"
-            assert len(self._cultural_symbols) > 0, "Cultural symbols must be initialized"
+            assert (
+                len(self._cultural_symbols) > 0
+            ), "Cultural symbols must be initialized"
             assert len(self._visual_features) > 0, "Visual features must be initialized"
 
             self._initialized = True
@@ -129,14 +148,14 @@ class SymbolicProcessor:
                 "faces": ["😀", "😃", "😄", "😁", "😆", "😅", "🤣", "😂", "🙂", "🙃"],
                 "gestures": ["👍", "👎", "👌", "✌️", "🤞", "🤟", "🤘", "🤙", "👈", "👉"],
                 "objects": ["📱", "💻", "🖥️", "⌨️", "🖱️", "🖨️", "📷", "📹", "🎥", "📺"],
-                "nature": ["🌞", "🌙", "⭐", "🌟", "💫", "✨", "🌍", "🌎", "🌏", "🌕"]
+                "nature": ["🌞", "🌙", "⭐", "🌟", "💫", "✨", "🌍", "🌎", "🌏", "🌕"],
             },
             "pictograph_types": {
                 "informational": ["ℹ️", "⚠️", "🚫", "✅", "❌", "❓", "❗", "💡"],
                 "directional": ["⬆️", "⬇️", "⬅️", "➡️", "↗️", "↘️", "↙️", "↖️"],
                 "mathematical": ["➕", "➖", "✖️", "➗", "🟰", "📐", "📏", "🔢"],
-                "temporal": ["⏰", "⏱️", "⏲️", "🕐", "🕑", "🕒", "🕓", "🕔"]
-            }
+                "temporal": ["⏰", "⏱️", "⏲️", "🕐", "🕑", "🕒", "🕓", "🕔"],
+            },
         }
 
     def _initialize_script_features(self) -> Dict[str, Any]:
@@ -147,36 +166,36 @@ class SymbolicProcessor:
                 "character_range": (0x0020, 0x024F),
                 "complexity": 0.3,
                 "phonetic": True,
-                "cultural_spread": 0.9
+                "cultural_spread": 0.9,
             },
             ScriptFamily.CYRILLIC.value: {
                 "direction": "left_to_right",
                 "character_range": (0x0400, 0x04FF),
                 "complexity": 0.4,
                 "phonetic": True,
-                "cultural_spread": 0.3
+                "cultural_spread": 0.3,
             },
             ScriptFamily.ARABIC.value: {
                 "direction": "right_to_left",
                 "character_range": (0x0600, 0x06FF),
                 "complexity": 0.7,
                 "phonetic": True,
-                "cultural_spread": 0.4
+                "cultural_spread": 0.4,
             },
             ScriptFamily.CHINESE.value: {
                 "direction": "top_to_bottom",
                 "character_range": (0x4E00, 0x9FFF),
                 "complexity": 0.9,
                 "phonetic": False,
-                "cultural_spread": 0.3
+                "cultural_spread": 0.3,
             },
             ScriptFamily.JAPANESE.value: {
                 "direction": "top_to_bottom",
                 "character_range": (0x3040, 0x30FF),
                 "complexity": 0.8,
                 "phonetic": True,
-                "cultural_spread": 0.2
-            }
+                "cultural_spread": 0.2,
+            },
         }
 
     def _initialize_cultural_symbols(self) -> Dict[str, Any]:
@@ -187,18 +206,18 @@ class SymbolicProcessor:
                 "islamic": ["☪️", "🕌", "📿"],
                 "buddhist": ["☸️", "🧘", "🙏"],
                 "hindu": ["🕉️", "🪬", "🙏"],
-                "jewish": ["✡️", "🕎", "🏛️"]
+                "jewish": ["✡️", "🕎", "🏛️"],
             },
             "political": {
                 "democracy": ["🗳️", "⚖️", "🏛️"],
                 "peace": ["☮️", "🕊️", "🤝"],
-                "unity": ["🤝", "🌐", "🤲"]
+                "unity": ["🤝", "🌐", "🤲"],
             },
             "scientific": {
                 "atoms": ["⚛️", "🔬", "🧪"],
                 "medicine": ["⚕️", "💊", "🩺"],
-                "technology": ["⚙️", "🔧", "💻"]
-            }
+                "technology": ["⚙️", "🔧", "💻"],
+            },
         }
 
     def _initialize_visual_features(self) -> Dict[str, Any]:
@@ -207,26 +226,26 @@ class SymbolicProcessor:
             "shape_features": {
                 "circular": ["⭕", "🔴", "🟠", "🟡", "🟢", "🔵", "🟣"],
                 "angular": ["⬛", "🔶", "🔷", "💎", "🔺", "🔻"],
-                "linear": ["➖", "➡️", "⬆️", "⬇️", "↗️", "↘️"]
+                "linear": ["➖", "➡️", "⬆️", "⬇️", "↗️", "↘️"],
             },
             "color_semantics": {
                 "red": {"emotion": "passion", "meaning": "danger", "energy": 0.9},
                 "green": {"emotion": "calm", "meaning": "nature", "energy": 0.4},
                 "blue": {"emotion": "trust", "meaning": "stability", "energy": 0.3},
-                "yellow": {"emotion": "joy", "meaning": "warning", "energy": 0.8}
+                "yellow": {"emotion": "joy", "meaning": "warning", "energy": 0.8},
             },
             "size_complexity": {
                 "simple": {"strokes": 1, "complexity": 0.1},
                 "moderate": {"strokes": 3, "complexity": 0.5},
-                "complex": {"strokes": 8, "complexity": 0.9}
-            }
+                "complex": {"strokes": 8, "complexity": 0.9},
+            },
         }
 
     async def analyze_symbols(
         self,
         content: str,
         context: Optional[str] = None,
-        modality: Optional[SymbolicModality] = None
+        modality: Optional[SymbolicModality] = None,
     ) -> SymbolicAnalysis:
         """
         Analyze symbolic content with aerospace-grade safety validation.
@@ -246,7 +265,9 @@ class SymbolicProcessor:
 
         try:
             # Input validation
-            assert isinstance(content, str) and len(content.strip()) > 0, "Content must be non-empty string"
+            assert (
+                isinstance(content, str) and len(content.strip()) > 0
+            ), "Content must be non-empty string"
             assert len(content) <= 50000, "Content too long for safe processing"
 
             # Detect modality if not specified
@@ -256,33 +277,49 @@ class SymbolicProcessor:
             script_family = await self._detect_script_family(content)
 
             # Extract semantic meaning
-            semantic_meaning = await self._extract_semantic_meaning(content, detected_modality)
+            semantic_meaning = await self._extract_semantic_meaning(
+                content, detected_modality
+            )
 
             # Determine cultural context
-            cultural_context = context or await self._determine_cultural_context(content)
+            cultural_context = context or await self._determine_cultural_context(
+                content
+            )
 
             # Calculate symbol complexity
-            symbol_complexity = await self._calculate_symbol_complexity(content, detected_modality)
+            symbol_complexity = await self._calculate_symbol_complexity(
+                content, detected_modality
+            )
 
             # Assess cross-cultural recognition
-            cross_cultural_recognition = await self._assess_cross_cultural_recognition(content)
+            cross_cultural_recognition = await self._assess_cross_cultural_recognition(
+                content
+            )
 
             # Extract visual features
-            visual_features = await self._extract_visual_features(content, detected_modality)
+            visual_features = await self._extract_visual_features(
+                content, detected_modality
+            )
 
             # Find metaphorical associations
-            metaphorical_associations = await self._find_metaphorical_associations(content)
+            metaphorical_associations = await self._find_metaphorical_associations(
+                content
+            )
 
             # Calculate confidence
             confidence = self._calculate_confidence(
-                symbol_complexity, cross_cultural_recognition, len(metaphorical_associations)
+                symbol_complexity,
+                cross_cultural_recognition,
+                len(metaphorical_associations),
             )
 
             processing_time = time.time() - start_time
 
             # Safety validation: processing time check
             if processing_time > self._max_processing_time:
-                logger.warning(f"⚠️ Processing time {processing_time:.2f}s exceeds limit")
+                logger.warning(
+                    f"⚠️ Processing time {processing_time:.2f}s exceeds limit"
+                )
 
             analysis = SymbolicAnalysis(
                 modality=detected_modality,
@@ -294,7 +331,7 @@ class SymbolicProcessor:
                 visual_features=visual_features,
                 metaphorical_associations=metaphorical_associations,
                 processing_time=processing_time,
-                confidence=confidence
+                confidence=confidence,
             )
 
             # Update performance metrics
@@ -342,7 +379,9 @@ class SymbolicProcessor:
 
         return None
 
-    async def _extract_semantic_meaning(self, content: str, modality: SymbolicModality) -> str:
+    async def _extract_semantic_meaning(
+        self, content: str, modality: SymbolicModality
+    ) -> str:
         """Extract semantic meaning based on modality."""
         if modality == SymbolicModality.EMOJI_SEMIOTICS:
             # Map emojis to emotional/conceptual meanings
@@ -352,7 +391,7 @@ class SymbolicProcessor:
                 "❤️": "love, affection",
                 "🔥": "intensity, energy",
                 "💡": "idea, innovation",
-                "⚠️": "warning, caution"
+                "⚠️": "warning, caution",
             }
 
             meanings = []
@@ -390,7 +429,9 @@ class SymbolicProcessor:
 
         return "general_cultural"
 
-    async def _calculate_symbol_complexity(self, content: str, modality: SymbolicModality) -> float:
+    async def _calculate_symbol_complexity(
+        self, content: str, modality: SymbolicModality
+    ) -> float:
         """Calculate symbolic complexity score."""
         if modality == SymbolicModality.MATHEMATICAL:
             # Mathematical symbols have higher complexity
@@ -423,14 +464,16 @@ class SymbolicProcessor:
         recognition_score = universal_count / len(content)
         return min(recognition_score * 2.0, 1.0)  # Scale up universal symbols
 
-    async def _extract_visual_features(self, content: str, modality: SymbolicModality) -> Dict[str, float]:
+    async def _extract_visual_features(
+        self, content: str, modality: SymbolicModality
+    ) -> Dict[str, float]:
         """Extract visual feature characteristics."""
         features = {
             "circular_elements": 0.0,
             "angular_elements": 0.0,
             "linear_elements": 0.0,
             "color_richness": 0.0,
-            "size_variation": 0.0
+            "size_variation": 0.0,
         }
 
         if modality in [SymbolicModality.EMOJI_SEMIOTICS, SymbolicModality.ICONOGRAPHY]:
@@ -438,9 +481,13 @@ class SymbolicProcessor:
             for shape_type, symbols in self._visual_features["shape_features"].items():
                 count = sum(1 for symbol in symbols if symbol in content)
                 if shape_type == "circular":
-                    features["circular_elements"] = min(count / max(len(content), 1), 1.0)
+                    features["circular_elements"] = min(
+                        count / max(len(content), 1), 1.0
+                    )
                 elif shape_type == "angular":
-                    features["angular_elements"] = min(count / max(len(content), 1), 1.0)
+                    features["angular_elements"] = min(
+                        count / max(len(content), 1), 1.0
+                    )
                 elif shape_type == "linear":
                     features["linear_elements"] = min(count / max(len(content), 1), 1.0)
 
@@ -456,7 +503,7 @@ class SymbolicProcessor:
             "💡": ["innovation", "insight", "understanding"],
             "❤️": ["love", "care", "connection"],
             "🌟": ["excellence", "achievement", "brilliance"],
-            "🌍": ["global", "universal", "connected"]
+            "🌍": ["global", "universal", "connected"],
         }
 
         for symbol, metaphors in emoji_metaphors.items():
@@ -465,7 +512,9 @@ class SymbolicProcessor:
 
         return list(set(associations))  # Remove duplicates
 
-    def _calculate_confidence(self, complexity: float, recognition: float, associations_count: int) -> float:
+    def _calculate_confidence(
+        self, complexity: float, recognition: float, associations_count: int
+    ) -> float:
         """Calculate analysis confidence."""
         # Higher complexity and recognition increase confidence
         base_confidence = (complexity + recognition) / 2.0
@@ -478,11 +527,11 @@ class SymbolicProcessor:
 
     def get_health_metrics(self) -> Dict[str, Any]:
         """Get processor health metrics."""
-        avg_processing_time = (
-            self._total_processing_time / max(self._analysis_count, 1)
-        )
+        avg_processing_time = self._total_processing_time / max(self._analysis_count, 1)
 
-        error_rate = self._error_count / max(self._analysis_count + self._error_count, 1)
+        error_rate = self._error_count / max(
+            self._analysis_count + self._error_count, 1
+        )
 
         return {
             "initialized": self._initialized,
@@ -493,7 +542,7 @@ class SymbolicProcessor:
             "safety_margins": self._safety_margins,
             "device": self.device,
             "supported_modalities": [m.value for m in SymbolicModality],
-            "supported_scripts": [s.value for s in ScriptFamily]
+            "supported_scripts": [s.value for s in ScriptFamily],
         }
 
     async def shutdown(self) -> None:

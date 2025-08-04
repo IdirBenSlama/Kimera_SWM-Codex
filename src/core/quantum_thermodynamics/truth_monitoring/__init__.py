@@ -10,11 +10,11 @@ Version: 1.0.0 - DO-178C Level A Compliant
 """
 
 from .quantum_truth_monitor import (
+    ClaimTruthEvolution,
+    QuantumMeasurement,
     QuantumTruthMonitor,
     QuantumTruthState,
-    QuantumMeasurement,
-    ClaimTruthEvolution,
-    TruthMonitoringResult
+    TruthMonitoringResult,
 )
 
 __all__ = [
@@ -22,5 +22,5 @@ __all__ = [
     "QuantumTruthState",
     "QuantumMeasurement",
     "ClaimTruthEvolution",
-    "TruthMonitoringResult"
+    "TruthMonitoringResult",
 ]

@@ -12,27 +12,29 @@ Author: KIMERA Development Team
 Version: 1.0.0 - Phase 2 Quantum Integration
 """
 
-import logging
-import time
-import numpy as np
-import torch
-from typing import Dict, Any, Optional, List, Union, Tuple, Callable
-from dataclasses import dataclass
-from enum import Enum
-from datetime import datetime
 import asyncio
 import concurrent.futures
+import logging
+import time
+from dataclasses import dataclass
+from datetime import datetime
+from enum import Enum
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+
+import numpy as np
+import torch
+
+from ..config.settings import get_settings
+from ..utils.config import get_api_settings
+from ..utils.gpu_foundation import CognitiveStabilityMetrics, GPUFoundation
 
 # KIMERA imports
 from .quantum_cognitive_engine import (
-    QuantumCognitiveEngine, 
-    QuantumCognitiveState, 
+    QuantumCognitiveEngine,
+    QuantumCognitiveMode,
+    QuantumCognitiveState,
     QuantumProcessingMetrics,
-    QuantumCognitiveMode
 )
-from ..utils.gpu_foundation import GPUFoundation, CognitiveStabilityMetrics
-from ..utils.config import get_api_settings
-from ..config.settings import get_settings
 
 # Configure logging
 logging.basicConfig(

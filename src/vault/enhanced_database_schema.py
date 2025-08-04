@@ -6,30 +6,43 @@ It implements lazy table creation to prevent import-time database connection fai
 """
 
 import logging
+import os
+import uuid
+from datetime import datetime
+
 from sqlalchemy import (
-    Column, String, Float, DateTime, Text, Integer, ForeignKey, 
-    JSON, Boolean, func, Index, text
+    JSON,
+    Boolean,
+    Column,
+    DateTime,
+    Float,
+    ForeignKey,
+    Index,
+    Integer,
+    String,
+    Text,
+    func,
+    text,
 )
-from sqlalchemy.dialects.postgresql import UUID, JSONB, ARRAY
-from sqlalchemy import JSON
+from sqlalchemy.dialects.postgresql import ARRAY, JSONB, UUID
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
-from datetime import datetime
-import uuid
-import os
 
 # Database-agnostic imports
 try:
     from pgvector.sqlalchemy import Vector
+
     PGVECTOR_AVAILABLE = True
 except ImportError:
     PGVECTOR_AVAILABLE = False
 
+
 # Check if we're using PostgreSQL or SQLite
 def is_postgresql():
     """Check if we're using PostgreSQL based on environment variables"""
-    db_url = os.getenv('DATABASE_URL', os.getenv('KIMERA_DATABASE_URL', ''))
-    return 'postgresql' in db_url.lower()
+    db_url = os.getenv("DATABASE_URL", os.getenv("KIMERA_DATABASE_URL", ""))
+    return "postgresql" in db_url.lower()
+
 
 # Database-agnostic column types
 def get_array_column():
@@ -39,12 +52,14 @@ def get_array_column():
     else:
         return Text  # Store as JSON string for SQLite
 
+
 def get_vector_column(dimensions=768):
     """Get appropriate vector column type based on database"""
     if is_postgresql() and PGVECTOR_AVAILABLE:
         return Vector(dimensions)
     else:
         return Text  # Store as JSON string for SQLite
+
 
 def get_uuid_column():
     """Get appropriate UUID column type based on database"""
@@ -53,17 +68,20 @@ def get_uuid_column():
     else:
         return String(36)  # Store as string for SQLite
 
+
 logger = logging.getLogger(__name__)
 
 # Create declarative base
 Base = declarative_base()
 
+
 class GeoidState(Base):
     """
     Represents a cognitive state as a high-dimensional vector.
     """
+
     __tablename__ = "geoid_states"
-    
+
     id = Column(get_uuid_column(), primary_key=True, default=uuid.uuid4)
     timestamp = Column(DateTime, default=datetime.utcnow)
     state_vector = Column(get_vector_column(768), nullable=False)
@@ -73,21 +91,27 @@ class GeoidState(Base):
     energy_level = Column(Float, nullable=False, default=1.0)
     creation_context = Column(Text)
     tags = Column(get_array_column())
-    
+
     # Relationships
-    transitions_as_source = relationship("CognitiveTransition", 
-                                        foreign_keys="CognitiveTransition.source_id",
-                                        back_populates="source")
-    transitions_as_target = relationship("CognitiveTransition", 
-                                        foreign_keys="CognitiveTransition.target_id",
-                                        back_populates="target")
+    transitions_as_source = relationship(
+        "CognitiveTransition",
+        foreign_keys="CognitiveTransition.source_id",
+        back_populates="source",
+    )
+    transitions_as_target = relationship(
+        "CognitiveTransition",
+        foreign_keys="CognitiveTransition.target_id",
+        back_populates="target",
+    )
+
 
 class CognitiveTransition(Base):
     """
     Represents a transition between cognitive states.
     """
+
     __tablename__ = "cognitive_transitions"
-    
+
     id = Column(get_uuid_column(), primary_key=True, default=uuid.uuid4)
     source_id = Column(get_uuid_column(), ForeignKey("geoid_states.id"), nullable=False)
     target_id = Column(get_uuid_column(), ForeignKey("geoid_states.id"), nullable=False)
@@ -96,17 +120,23 @@ class CognitiveTransition(Base):
     transition_type = Column(String(50), nullable=False)
     timestamp = Column(DateTime, default=datetime.utcnow)
     meta_data = Column(JSON, default={})
-    
+
     # Relationships
-    source = relationship("GeoidState", foreign_keys=[source_id], back_populates="transitions_as_source")
-    target = relationship("GeoidState", foreign_keys=[target_id], back_populates="transitions_as_target")
+    source = relationship(
+        "GeoidState", foreign_keys=[source_id], back_populates="transitions_as_source"
+    )
+    target = relationship(
+        "GeoidState", foreign_keys=[target_id], back_populates="transitions_as_target"
+    )
+
 
 class SemanticEmbedding(Base):
     """
     Stores text embeddings for semantic operations.
     """
+
     __tablename__ = "semantic_embeddings"
-    
+
     id = Column(get_uuid_column(), primary_key=True, default=uuid.uuid4)
     text_content = Column(Text, nullable=False)
     embedding = Column(Text, nullable=False)  # Stored as JSON string for compatibility
@@ -114,12 +144,14 @@ class SemanticEmbedding(Base):
     source = Column(String(100))
     meta_data = Column(JSON, default={})
 
+
 class PortalConfiguration(Base):
     """
     Stores configurations for interdimensional portals.
     """
+
     __tablename__ = "portal_configurations"
-    
+
     id = Column(get_uuid_column(), primary_key=True, default=uuid.uuid4)
     source_dimension = Column(Integer, nullable=False)
     target_dimension = Column(Integer, nullable=False)
@@ -131,12 +163,14 @@ class PortalConfiguration(Base):
     configuration_parameters = Column(JSONB, nullable=False)
     status = Column(String(20), nullable=False)
 
+
 class SystemMetric(Base):
     """
     Records system performance metrics.
     """
+
     __tablename__ = "system_metrics"
-    
+
     id = Column(Integer, primary_key=True, autoincrement=True)
     timestamp = Column(DateTime, default=datetime.utcnow)
     metric_name = Column(String(100), nullable=False)
@@ -144,12 +178,14 @@ class SystemMetric(Base):
     component = Column(String(100), nullable=False)
     context = Column(JSON, default={})
 
+
 class InsightDB(Base):
     """
     Stores insights and scars from the understanding system.
     """
+
     __tablename__ = "insights"
-    
+
     id = Column(Integer, primary_key=True, autoincrement=True)
     insight_id = Column(String(100), unique=True, nullable=False)
     insight_type = Column(String(50), nullable=False)
@@ -163,11 +199,13 @@ class InsightDB(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     last_reinforced_cycle = Column(String(100))
 
+
 # Understanding-oriented database models for cognitive evolution
 class MultimodalGroundingDB(Base):
     """Multimodal grounding for connecting abstract concepts to real-world experiences"""
+
     __tablename__ = "multimodal_grounding"
-    
+
     id = Column(Integer, primary_key=True, autoincrement=True)
     grounding_id = Column(String(100), unique=True, nullable=False)
     concept_id = Column(String(100), nullable=False)
@@ -179,10 +217,12 @@ class MultimodalGroundingDB(Base):
     confidence_score = Column(Float, default=0.0)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
 class CausalRelationshipDB(Base):
     """Causal relationships between concepts"""
+
     __tablename__ = "causal_relationships"
-    
+
     id = Column(Integer, primary_key=True, autoincrement=True)
     relationship_id = Column(String(100), unique=True, nullable=False)
     cause_concept_id = Column(String(100), nullable=False)
@@ -195,10 +235,12 @@ class CausalRelationshipDB(Base):
     temporal_pattern = Column(String(50))
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
 class SelfModelDB(Base):
     """System's model of itself"""
+
     __tablename__ = "self_models"
-    
+
     id = Column(Integer, primary_key=True, autoincrement=True)
     model_id = Column(String(100), unique=True, nullable=False)
     model_version = Column(Integer, nullable=False)
@@ -211,10 +253,12 @@ class SelfModelDB(Base):
     metacognitive_awareness = Column(JSON, default={})
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
 class IntrospectionLogDB(Base):
     """Introspection logs for self-awareness"""
+
     __tablename__ = "introspection_logs"
-    
+
     id = Column(Integer, primary_key=True, autoincrement=True)
     log_id = Column(String(100), unique=True, nullable=False)
     introspection_type = Column(String(50), nullable=False)
@@ -225,10 +269,12 @@ class IntrospectionLogDB(Base):
     processing_context = Column(JSON, default={})
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
 class CompositionSemanticDB(Base):
     """Compositional semantic understanding"""
+
     __tablename__ = "composition_semantics"
-    
+
     id = Column(Integer, primary_key=True, autoincrement=True)
     composition_id = Column(String(100), unique=True, nullable=False)
     component_concepts = Column(get_array_column())
@@ -238,10 +284,12 @@ class CompositionSemanticDB(Base):
     understanding_confidence = Column(Float, default=0.0)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
 class ConceptualAbstractionDB(Base):
     """Conceptual abstraction for understanding"""
+
     __tablename__ = "conceptual_abstractions"
-    
+
     id = Column(Integer, primary_key=True, autoincrement=True)
     concept_id = Column(String(100), unique=True, nullable=False)
     concept_name = Column(String(200), nullable=False)
@@ -251,10 +299,12 @@ class ConceptualAbstractionDB(Base):
     concept_coherence = Column(Float, default=0.0)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
 class ValueSystemDB(Base):
     """Value system for ethical reasoning"""
+
     __tablename__ = "value_systems"
-    
+
     id = Column(Integer, primary_key=True, autoincrement=True)
     value_id = Column(String(100), unique=True, nullable=False)
     value_name = Column(String(200), nullable=False)
@@ -265,10 +315,12 @@ class ValueSystemDB(Base):
     value_priority = Column(Integer, default=5)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
 class GenuineOpinionDB(Base):
     """Genuine opinions formed by the system"""
+
     __tablename__ = "genuine_opinions"
-    
+
     id = Column(Integer, primary_key=True, autoincrement=True)
     opinion_id = Column(String(100), unique=True, nullable=False)
     topic = Column(String(200), nullable=False)
@@ -279,10 +331,12 @@ class GenuineOpinionDB(Base):
     confidence = Column(Float, default=0.0)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
 class EthicalReasoningDB(Base):
     """Ethical reasoning processes"""
+
     __tablename__ = "ethical_reasoning"
-    
+
     id = Column(Integer, primary_key=True, autoincrement=True)
     reasoning_id = Column(String(100), unique=True, nullable=False)
     ethical_dilemma = Column(Text, nullable=False)
@@ -294,10 +348,12 @@ class EthicalReasoningDB(Base):
     confidence_level = Column(Float, default=0.0)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
 class EnhancedScarDB(Base):
     """Enhanced SCAR with understanding depth"""
+
     __tablename__ = "enhanced_scars"
-    
+
     id = Column(Integer, primary_key=True, autoincrement=True)
     scar_id = Column(String(100), unique=True, nullable=False)
     traditional_scar_id = Column(String(100))
@@ -309,10 +365,12 @@ class EnhancedScarDB(Base):
     value_implications = Column(JSON, default={})
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
 class EnhancedGeoidDB(Base):
     """Enhanced Geoid with understanding components"""
+
     __tablename__ = "enhanced_geoids"
-    
+
     id = Column(Integer, primary_key=True, autoincrement=True)
     geoid_id = Column(String(100), unique=True, nullable=False)
     traditional_geoid_id = Column(String(100))
@@ -323,10 +381,12 @@ class EnhancedGeoidDB(Base):
     multimodal_groundings = Column(get_array_column())
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
 class UnderstandingTestDB(Base):
     """Understanding tests and results"""
+
     __tablename__ = "understanding_tests"
-    
+
     id = Column(Integer, primary_key=True, autoincrement=True)
     test_id = Column(String(100), unique=True, nullable=False)
     test_type = Column(String(100), nullable=False)
@@ -338,10 +398,12 @@ class UnderstandingTestDB(Base):
     system_state = Column(JSON, default={})
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
 class ComplexityIndicatorDB(Base):
     """Complexity indicators for consciousness measurement"""
+
     __tablename__ = "complexity_indicators"
-    
+
     id = Column(Integer, primary_key=True, autoincrement=True)
     indicator_id = Column(String(100), unique=True, nullable=False)
     phi_value = Column(Float)
@@ -353,26 +415,29 @@ class ComplexityIndicatorDB(Base):
     processing_integration = Column(Float, default=0.0)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
 # Define function to create all tables
 def create_tables(engine):
     """
     Create all tables in the database.
-    
+
     Args:
         engine: SQLAlchemy engine instance
     """
     logger.info("Creating database tables...")
     Base.metadata.create_all(bind=engine)
-    
+
     # Create vector extension and indexes if PostgreSQL
-    if engine.dialect.name == 'postgresql':
+    if engine.dialect.name == "postgresql":
         try:
             with engine.connect() as conn:
                 # Create vector extension if not exists
                 conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
-                
+
                 # Create vector indexes
-                conn.execute(text("""
+                conn.execute(
+                    text(
+                        """
                     DO $$
                     BEGIN
                         IF NOT EXISTS (
@@ -390,13 +455,16 @@ def create_tables(engine):
                         END IF;
                     END
                     $$;
-                """))
-                
+                """
+                    )
+                )
+
                 logger.info("PostgreSQL vector extension created successfully")
         except Exception as e:
             logger.warning(f"Could not create vector extension or indexes: {e}")
-    
+
     logger.info("Database tables created successfully")
+
 
 # Do not create tables at import time - this will be done explicitly when needed
 # This prevents database connection failures during import

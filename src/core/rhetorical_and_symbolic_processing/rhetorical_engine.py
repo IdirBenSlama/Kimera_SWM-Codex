@@ -14,28 +14,34 @@ Safety Requirements: SR-4.20.1 through SR-4.20.12
 """
 
 from __future__ import annotations
-import logging
+
 import asyncio
+import logging
 import time
-from typing import Dict, Any, Optional, List, Tuple
 from dataclasses import dataclass
+from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple
+
 import numpy as np
 import torch
-from enum import Enum
 
 logger = logging.getLogger(__name__)
 
+
 class RhetoricalMode(Enum):
     """Rhetorical analysis modes with safety validation."""
-    CLASSICAL = "classical"        # Aristotelian rhetoric (Ethos, Pathos, Logos)
-    MODERN = "modern"             # Toulmin, Perelman, Pragma-dialectics
+
+    CLASSICAL = "classical"  # Aristotelian rhetoric (Ethos, Pathos, Logos)
+    MODERN = "modern"  # Toulmin, Perelman, Pragma-dialectics
     CROSS_CULTURAL = "cross_cultural"  # Multi-cultural rhetorical analysis
     NEURODIVERGENT = "neurodivergent"  # Optimized for neurodivergent cognition
-    UNIFIED = "unified"           # All modes combined
+    UNIFIED = "unified"  # All modes combined
+
 
 @dataclass
 class RhetoricalAnalysis:
     """Rhetorical analysis result with formal verification."""
+
     ethos_score: float
     pathos_score: float
     logos_score: float
@@ -52,10 +58,15 @@ class RhetoricalAnalysis:
         assert 0.0 <= self.ethos_score <= 1.0, "Ethos score must be in [0,1]"
         assert 0.0 <= self.pathos_score <= 1.0, "Pathos score must be in [0,1]"
         assert 0.0 <= self.logos_score <= 1.0, "Logos score must be in [0,1]"
-        assert 0.0 <= self.persuasive_effectiveness <= 1.0, "Effectiveness must be in [0,1]"
-        assert 0.0 <= self.neurodivergent_accessibility <= 1.0, "Accessibility must be in [0,1]"
+        assert (
+            0.0 <= self.persuasive_effectiveness <= 1.0
+        ), "Effectiveness must be in [0,1]"
+        assert (
+            0.0 <= self.neurodivergent_accessibility <= 1.0
+        ), "Accessibility must be in [0,1]"
         assert 0.0 <= self.confidence <= 1.0, "Confidence must be in [0,1]"
         assert self.processing_time >= 0.0, "Processing time must be non-negative"
+
 
 class RhetoricalProcessor:
     """
@@ -92,9 +103,15 @@ class RhetoricalProcessor:
             self._cultural_contexts = self._initialize_cultural_contexts()
 
             # Safety validation
-            assert len(self._classical_patterns) > 0, "Classical patterns must be initialized"
-            assert len(self._modern_frameworks) > 0, "Modern frameworks must be initialized"
-            assert len(self._cultural_contexts) > 0, "Cultural contexts must be initialized"
+            assert (
+                len(self._classical_patterns) > 0
+            ), "Classical patterns must be initialized"
+            assert (
+                len(self._modern_frameworks) > 0
+            ), "Modern frameworks must be initialized"
+            assert (
+                len(self._cultural_contexts) > 0
+            ), "Cultural contexts must be initialized"
 
             self._initialized = True
             logger.info("✅ RhetoricalProcessor initialization successful")
@@ -109,21 +126,52 @@ class RhetoricalProcessor:
         """Initialize classical rhetorical patterns."""
         return {
             "ethos_indicators": [
-                "credibility", "authority", "expertise", "trustworthiness",
-                "reputation", "experience", "qualification", "integrity"
+                "credibility",
+                "authority",
+                "expertise",
+                "trustworthiness",
+                "reputation",
+                "experience",
+                "qualification",
+                "integrity",
             ],
             "pathos_indicators": [
-                "emotion", "feeling", "passion", "fear", "hope", "anger",
-                "joy", "sadness", "sympathy", "empathy", "urgency"
+                "emotion",
+                "feeling",
+                "passion",
+                "fear",
+                "hope",
+                "anger",
+                "joy",
+                "sadness",
+                "sympathy",
+                "empathy",
+                "urgency",
             ],
             "logos_indicators": [
-                "evidence", "logic", "reasoning", "statistics", "facts",
-                "proof", "analysis", "conclusion", "premise", "syllogism"
+                "evidence",
+                "logic",
+                "reasoning",
+                "statistics",
+                "facts",
+                "proof",
+                "analysis",
+                "conclusion",
+                "premise",
+                "syllogism",
             ],
             "rhetorical_devices": [
-                "metaphor", "analogy", "repetition", "parallelism", "antithesis",
-                "chiasmus", "alliteration", "hyperbole", "irony", "rhetorical_question"
-            ]
+                "metaphor",
+                "analogy",
+                "repetition",
+                "parallelism",
+                "antithesis",
+                "chiasmus",
+                "alliteration",
+                "hyperbole",
+                "irony",
+                "rhetorical_question",
+            ],
         }
 
     def _initialize_modern_frameworks(self) -> Dict[str, Any]:
@@ -135,14 +183,14 @@ class RhetoricalProcessor:
                 "warrant": "reasoning bridge",
                 "backing": "warrant support",
                 "qualifier": "strength indicator",
-                "rebuttal": "counter-arguments"
+                "rebuttal": "counter-arguments",
             },
             "pragma_dialectical": {
                 "standpoint": "position defended",
                 "argumentation": "supporting reasons",
                 "critical_discussion": "dialectical exchange",
-                "resolution": "agreement attempt"
-            }
+                "resolution": "agreement attempt",
+            },
         }
 
     def _initialize_cultural_contexts(self) -> Dict[str, Any]:
@@ -151,25 +199,25 @@ class RhetoricalProcessor:
             "western": {
                 "emphasis": "logical_structure",
                 "persuasion_style": "direct",
-                "evidence_preference": "empirical"
+                "evidence_preference": "empirical",
             },
             "eastern": {
                 "emphasis": "harmony_relationship",
                 "persuasion_style": "indirect",
-                "evidence_preference": "traditional_wisdom"
+                "evidence_preference": "traditional_wisdom",
             },
             "indigenous": {
                 "emphasis": "storytelling_metaphor",
                 "persuasion_style": "narrative",
-                "evidence_preference": "experiential"
-            }
+                "evidence_preference": "experiential",
+            },
         }
 
     async def analyze_rhetoric(
         self,
         text: str,
         context: Optional[str] = None,
-        mode: Optional[RhetoricalMode] = None
+        mode: Optional[RhetoricalMode] = None,
     ) -> RhetoricalAnalysis:
         """
         Analyze rhetorical elements with aerospace-grade safety validation.
@@ -190,7 +238,9 @@ class RhetoricalProcessor:
 
         try:
             # Input validation
-            assert isinstance(text, str) and len(text.strip()) > 0, "Text must be non-empty string"
+            assert (
+                isinstance(text, str) and len(text.strip()) > 0
+            ), "Text must be non-empty string"
             assert len(text) <= 100000, "Text too long for safe processing"
 
             # Classical rhetoric analysis
@@ -213,7 +263,9 @@ class RhetoricalProcessor:
             rhetorical_devices = await self._detect_rhetorical_devices(text)
 
             # Neurodivergent accessibility assessment
-            neurodivergent_accessibility = await self._assess_neurodivergent_accessibility(text)
+            neurodivergent_accessibility = (
+                await self._assess_neurodivergent_accessibility(text)
+            )
 
             # Confidence calculation
             confidence = self._calculate_confidence(
@@ -224,7 +276,9 @@ class RhetoricalProcessor:
 
             # Safety validation: processing time check
             if processing_time > self._max_processing_time:
-                logger.warning(f"⚠️ Processing time {processing_time:.2f}s exceeds limit")
+                logger.warning(
+                    f"⚠️ Processing time {processing_time:.2f}s exceeds limit"
+                )
 
             analysis = RhetoricalAnalysis(
                 ethos_score=ethos_score,
@@ -236,7 +290,7 @@ class RhetoricalProcessor:
                 rhetorical_devices=rhetorical_devices,
                 neurodivergent_accessibility=neurodivergent_accessibility,
                 processing_time=processing_time,
-                confidence=confidence
+                confidence=confidence,
             )
 
             # Update performance metrics
@@ -256,7 +310,9 @@ class RhetoricalProcessor:
         ethos_indicators = self._classical_patterns["ethos_indicators"]
 
         # Simple frequency-based analysis (production would use ML models)
-        matches = sum(1 for indicator in ethos_indicators if indicator.lower() in text.lower())
+        matches = sum(
+            1 for indicator in ethos_indicators if indicator.lower() in text.lower()
+        )
         ethos_score = min(matches / len(ethos_indicators), 1.0)
 
         # Add base score for mathematical/scientific content
@@ -270,7 +326,9 @@ class RhetoricalProcessor:
         """Analyze pathos (emotional appeal) elements."""
         pathos_indicators = self._classical_patterns["pathos_indicators"]
 
-        matches = sum(1 for indicator in pathos_indicators if indicator.lower() in text.lower())
+        matches = sum(
+            1 for indicator in pathos_indicators if indicator.lower() in text.lower()
+        )
         pathos_score = min(matches / len(pathos_indicators), 1.0)
 
         # Add base score for emotive language
@@ -283,7 +341,9 @@ class RhetoricalProcessor:
         """Analyze logos (logical reasoning) elements."""
         logos_indicators = self._classical_patterns["logos_indicators"]
 
-        matches = sum(1 for indicator in logos_indicators if indicator.lower() in text.lower())
+        matches = sum(
+            1 for indicator in logos_indicators if indicator.lower() in text.lower()
+        )
         logos_score = min(matches / len(logos_indicators), 1.0)
 
         # Add base score for mathematical/logical content
@@ -302,7 +362,10 @@ class RhetoricalProcessor:
             # Basic keyword detection
             keywords = description.split()
             presence = any(kw.lower() in text.lower() for kw in keywords)
-            structure[component] = {"present": presence, "confidence": 0.5 if presence else 0.1}
+            structure[component] = {
+                "present": presence,
+                "confidence": 0.5 if presence else 0.1,
+            }
 
         return structure
 
@@ -315,9 +378,15 @@ class RhetoricalProcessor:
 
         western_score = sum(1 for ind in western_indicators if ind in text.lower())
         eastern_score = sum(1 for ind in eastern_indicators if ind in text.lower())
-        indigenous_score = sum(1 for ind in indigenous_indicators if ind in text.lower())
+        indigenous_score = sum(
+            1 for ind in indigenous_indicators if ind in text.lower()
+        )
 
-        scores = {"western": western_score, "eastern": eastern_score, "indigenous": indigenous_score}
+        scores = {
+            "western": western_score,
+            "eastern": eastern_score,
+            "indigenous": indigenous_score,
+        }
         return max(scores.items(), key=lambda x: x[1])[0]
 
     def _calculate_persuasive_effectiveness(
@@ -328,7 +397,9 @@ class RhetoricalProcessor:
         rhetorical_balance = (ethos + pathos + logos) / 3.0
 
         # Structure completeness
-        structure_score = sum(1 for comp in structure.values() if comp.get("present", False))
+        structure_score = sum(
+            1 for comp in structure.values() if comp.get("present", False)
+        )
         structure_completeness = structure_score / len(structure)
 
         # Combined effectiveness
@@ -360,21 +431,27 @@ class RhetoricalProcessor:
     async def _assess_neurodivergent_accessibility(self, text: str) -> float:
         """Assess accessibility for neurodivergent cognition."""
         # Factors that improve neurodivergent accessibility
-        sentences = text.split('.')
-        avg_sentence_length = sum(len(s.split()) for s in sentences) / max(len(sentences), 1)
+        sentences = text.split(".")
+        avg_sentence_length = sum(len(s.split()) for s in sentences) / max(
+            len(sentences), 1
+        )
 
         # Shorter sentences are more accessible
         length_score = max(0.0, 1.0 - (avg_sentence_length - 10) / 20)
 
         # Clear structure indicators
         structure_indicators = ["first", "second", "finally", "therefore", "because"]
-        structure_score = sum(1 for ind in structure_indicators if ind.lower() in text.lower())
+        structure_score = sum(
+            1 for ind in structure_indicators if ind.lower() in text.lower()
+        )
         structure_score = min(structure_score / 5.0, 1.0)
 
         accessibility = (length_score + structure_score) / 2.0
         return max(0.0, min(accessibility, 1.0))
 
-    def _calculate_confidence(self, ethos: float, pathos: float, logos: float, device_count: int) -> float:
+    def _calculate_confidence(
+        self, ethos: float, pathos: float, logos: float, device_count: int
+    ) -> float:
         """Calculate analysis confidence."""
         # Higher scores and more devices increase confidence
         score_confidence = (ethos + pathos + logos) / 3.0
@@ -383,16 +460,18 @@ class RhetoricalProcessor:
         # Base confidence on detection of any rhetorical elements
         base_confidence = 0.3 if (ethos > 0.0 or pathos > 0.0 or logos > 0.0) else 0.1
 
-        confidence = base_confidence + (score_confidence + device_confidence) / 2.0 * 0.7
+        confidence = (
+            base_confidence + (score_confidence + device_confidence) / 2.0 * 0.7
+        )
         return max(0.1, min(confidence, 1.0))  # Minimum 0.1 confidence
 
     def get_health_metrics(self) -> Dict[str, Any]:
         """Get processor health metrics."""
-        avg_processing_time = (
-            self._total_processing_time / max(self._analysis_count, 1)
-        )
+        avg_processing_time = self._total_processing_time / max(self._analysis_count, 1)
 
-        error_rate = self._error_count / max(self._analysis_count + self._error_count, 1)
+        error_rate = self._error_count / max(
+            self._analysis_count + self._error_count, 1
+        )
 
         return {
             "initialized": self._initialized,
@@ -402,7 +481,7 @@ class RhetoricalProcessor:
             "max_processing_time": self._max_processing_time,
             "safety_margins": self._safety_margins,
             "device": self.device,
-            "mode": self.mode.value
+            "mode": self.mode.value,
         }
 
     async def shutdown(self) -> None:

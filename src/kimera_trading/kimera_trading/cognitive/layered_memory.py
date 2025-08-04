@@ -1,9 +1,12 @@
 from collections import deque
 
+
 class LayeredMemory:
     """A layered memory system that mimics human cognitive processes."""
 
-    def __init__(self, short_term_size=100, medium_term_size=1000, long_term_size=10000):
+    def __init__(
+        self, short_term_size=100, medium_term_size=1000, long_term_size=10000
+    ):
         self.short_term = deque(maxlen=short_term_size)
         self.medium_term = deque(maxlen=medium_term_size)
         self.long_term = deque(maxlen=long_term_size)

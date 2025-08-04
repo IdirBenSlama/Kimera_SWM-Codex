@@ -17,41 +17,45 @@ Author: KIMERA Development Team
 Version: 2.0.0 (DO-178C Level A)
 """
 
+import asyncio
+import json
 import logging
 import re
+import sys
 import time
-import asyncio
-from typing import Dict, Any, Optional, Tuple, List, Union
-from enum import Enum
 from dataclasses import dataclass, field
+from enum import Enum
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple, Union
+
 import numpy as np
 import torch
-import json
 
-import sys
-from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent.parent.parent))
 
-from src.utils.kimera_logger import get_logger, LogCategory
-from src.utils.kimera_exceptions import KimeraCognitiveError
 from src.config.settings import get_settings
-from ..security.quantum_security import get_quantum_security, ThreatLevel
+from src.utils.kimera_exceptions import KimeraCognitiveError
+from src.utils.kimera_logger import LogCategory, get_logger
+
+from ..security.quantum_security import ThreatLevel, get_quantum_security
 
 logger = get_logger(__name__, LogCategory.COGNITIVE)
 
 
 class ResponseType(Enum):
     """Types of responses KIMERA can generate"""
-    DIRECT = "direct"                    # Normal conversational response
+
+    DIRECT = "direct"  # Normal conversational response
     COGNITIVE_STATE = "cognitive_state"  # Internal state reporting
-    HYBRID = "hybrid"                    # Mix of direct + cognitive
-    DEBUG = "debug"                      # Full transparency mode
-    SECURE = "secure"                    # Security-enhanced response
-    MULTI_MODAL = "multi_modal"          # Multi-modal output
+    HYBRID = "hybrid"  # Mix of direct + cognitive
+    DEBUG = "debug"  # Full transparency mode
+    SECURE = "secure"  # Security-enhanced response
+    MULTI_MODAL = "multi_modal"  # Multi-modal output
 
 
 class CognitiveContext(Enum):
     """Contexts where cognitive reporting is appropriate"""
+
     CONSCIOUSNESS_QUERY = "consciousness_query"
     COGNITIVE_STATE_QUERY = "cognitive_state_query"
     DEBUG_REQUEST = "debug_request"
@@ -64,16 +68,18 @@ class CognitiveContext(Enum):
 
 class ResponseQuality(Enum):
     """Response quality levels"""
-    EXCELLENT = "excellent"      # > 0.9
-    GOOD = "good"               # > 0.8
-    ACCEPTABLE = "acceptable"    # > 0.7
-    POOR = "poor"               # > 0.5
-    INADEQUATE = "inadequate"    # <= 0.5
+
+    EXCELLENT = "excellent"  # > 0.9
+    GOOD = "good"  # > 0.8
+    ACCEPTABLE = "acceptable"  # > 0.7
+    POOR = "poor"  # > 0.5
+    INADEQUATE = "inadequate"  # <= 0.5
 
 
 @dataclass
 class CognitiveMetrics:
     """Internal cognitive state metrics"""
+
     resonance_frequency: float
     field_strength: float
     cognitive_coherence: float
@@ -87,6 +93,7 @@ class CognitiveMetrics:
 @dataclass
 class ResponseGenerationConfig:
     """Configuration for response generation"""
+
     max_response_length: int = 4096
     min_quality_threshold: float = 0.7
     enable_cognitive_reporting: bool = True
@@ -99,6 +106,7 @@ class ResponseGenerationConfig:
 @dataclass
 class ResponseContext:
     """Context information for response generation"""
+
     user_query: str
     conversation_history: List[Dict[str, Any]] = field(default_factory=list)
     system_state: Optional[Dict[str, Any]] = None
@@ -110,6 +118,7 @@ class ResponseContext:
 @dataclass
 class ResponseOutput:
     """Complete response output with metadata"""
+
     content: str
     response_type: ResponseType
     quality_score: float
@@ -120,9 +129,11 @@ class ResponseOutput:
 
     def is_valid(self) -> bool:
         """Check if response meets quality standards"""
-        return (self.quality_score >= 0.7 and
-                len(self.content.strip()) > 0 and
-                self.security_status.get('status') != 'BLOCKED')
+        return (
+            self.quality_score >= 0.7
+            and len(self.content.strip()) > 0
+            and self.security_status.get("status") != "BLOCKED"
+        )
 
 
 class CognitiveProcessor:
@@ -139,9 +150,9 @@ class CognitiveProcessor:
 
         logger.info(f"🧠 Cognitive Processor initialized on {device}")
 
-    async def process_query(self,
-                          context: ResponseContext,
-                          config: ResponseGenerationConfig) -> CognitiveMetrics:
+    async def process_query(
+        self, context: ResponseContext, config: ResponseGenerationConfig
+    ) -> CognitiveMetrics:
         """Process query and generate cognitive metrics"""
         start_time = time.time()
 
@@ -170,7 +181,9 @@ class CognitiveProcessor:
 
             # Calculate processing efficiency
             processing_time = time.time() - start_time
-            processing_efficiency = min(1.0, 1.0 / (processing_time * 10))  # Penalize slow processing
+            processing_efficiency = min(
+                1.0, 1.0 / (processing_time * 10)
+            )  # Penalize slow processing
 
             metrics = CognitiveMetrics(
                 resonance_frequency=resonance_frequency,
@@ -179,14 +192,16 @@ class CognitiveProcessor:
                 semantic_complexity=semantic_complexity,
                 temporal_consistency=temporal_consistency,
                 emotional_resonance=emotional_resonance,
-                processing_efficiency=processing_efficiency
+                processing_efficiency=processing_efficiency,
             )
 
             self.processing_history.append(metrics)
 
-            logger.debug(f"🧠 Cognitive metrics: coherence={cognitive_coherence:.3f}, "
-                        f"complexity={semantic_complexity:.3f}, "
-                        f"resonance={resonance_frequency:.2f}Hz")
+            logger.debug(
+                f"🧠 Cognitive metrics: coherence={cognitive_coherence:.3f}, "
+                f"complexity={semantic_complexity:.3f}, "
+                f"resonance={resonance_frequency:.2f}Hz"
+            )
 
             return metrics
 
@@ -202,7 +217,7 @@ class CognitiveProcessor:
         # Multiple complexity indicators
         word_count = len(text.split())
         unique_words = len(set(text.lower().split()))
-        sentence_count = len([s for s in text.split('.') if s.strip()])
+        sentence_count = len([s for s in text.split(".") if s.strip()])
 
         # Lexical diversity
         lexical_diversity = unique_words / word_count if word_count > 0 else 0
@@ -211,13 +226,15 @@ class CognitiveProcessor:
         avg_sentence_length = word_count / sentence_count if sentence_count > 0 else 0
 
         # Syntactic complexity (simplified)
-        syntactic_markers = text.count(',') + text.count(';') + text.count(':')
+        syntactic_markers = text.count(",") + text.count(";") + text.count(":")
         syntactic_complexity = syntactic_markers / word_count if word_count > 0 else 0
 
         # Combine indicators
-        complexity = (lexical_diversity +
-                     min(avg_sentence_length / 20, 1.0) +
-                     min(syntactic_complexity * 10, 1.0)) / 3
+        complexity = (
+            lexical_diversity
+            + min(avg_sentence_length / 20, 1.0)
+            + min(syntactic_complexity * 10, 1.0)
+        ) / 3
 
         return min(complexity, 1.0)
 
@@ -253,13 +270,14 @@ class CognitiveProcessor:
 
         return min(field_strength, self.field_strength_range[1])
 
-    def _assess_cognitive_coherence(self,
-                                   context: ResponseContext,
-                                   resonance: float,
-                                   field_strength: float) -> float:
+    def _assess_cognitive_coherence(
+        self, context: ResponseContext, resonance: float, field_strength: float
+    ) -> float:
         """Assess cognitive coherence"""
         # Base coherence from resonance stability
-        resonance_stability = 1.0 - abs(resonance - self.resonance_baseline) / self.resonance_baseline
+        resonance_stability = (
+            1.0 - abs(resonance - self.resonance_baseline) / self.resonance_baseline
+        )
 
         # Field strength contribution
         field_contribution = min(field_strength / self.field_strength_range[1], 1.0)
@@ -268,9 +286,11 @@ class CognitiveProcessor:
         context_consistency = self._calculate_context_consistency(context)
 
         # Combine factors
-        coherence = (resonance_stability * 0.4 +
-                    field_contribution * 0.3 +
-                    context_consistency * 0.3)
+        coherence = (
+            resonance_stability * 0.4
+            + field_contribution * 0.3
+            + context_consistency * 0.3
+        )
 
         return min(coherence, 1.0)
 
@@ -287,7 +307,7 @@ class CognitiveProcessor:
         history_words = set()
 
         for message in recent_messages:
-            content = message.get('content', '')
+            content = message.get("content", "")
             history_words.update(content.lower().split())
 
         if not history_words:
@@ -323,9 +343,9 @@ class CognitiveProcessor:
         """Assess emotional resonance of text"""
         # Simplified emotional analysis
         emotional_indicators = {
-            'positive': ['good', 'great', 'excellent', 'amazing', 'wonderful', 'love'],
-            'negative': ['bad', 'terrible', 'awful', 'hate', 'horrible', 'disaster'],
-            'neutral': ['okay', 'fine', 'normal', 'standard', 'regular']
+            "positive": ["good", "great", "excellent", "amazing", "wonderful", "love"],
+            "negative": ["bad", "terrible", "awful", "hate", "horrible", "disaster"],
+            "neutral": ["okay", "fine", "normal", "standard", "regular"],
         }
 
         text_lower = text.lower()
@@ -380,16 +400,22 @@ class ResponseGenerator:
             response_type = self._determine_response_type(context, cognitive_metrics)
 
             # Step 4: Generate content
-            content = await self._generate_content(context, response_type, cognitive_metrics)
+            content = await self._generate_content(
+                context, response_type, cognitive_metrics
+            )
 
             # Step 5: Quality assessment
             quality_score = self._assess_quality(content, cognitive_metrics)
 
             # Step 6: Validate response
             if quality_score < self.config.min_quality_threshold:
-                logger.warning(f"⚠️ Response quality below threshold: {quality_score:.3f}")
+                logger.warning(
+                    f"⚠️ Response quality below threshold: {quality_score:.3f}"
+                )
                 # Attempt enhancement
-                content = await self._enhance_response(content, context, cognitive_metrics)
+                content = await self._enhance_response(
+                    content, context, cognitive_metrics
+                )
                 quality_score = self._assess_quality(content, cognitive_metrics)
 
             processing_time = (time.time() - start_time) * 1000  # ms
@@ -402,17 +428,19 @@ class ResponseGenerator:
                 security_status=security_status,
                 processing_time_ms=processing_time,
                 metadata={
-                    'generation_count': self.generation_count,
-                    'config': self.config.__dict__,
-                    'timestamp': time.time()
-                }
+                    "generation_count": self.generation_count,
+                    "config": self.config.__dict__,
+                    "timestamp": time.time(),
+                },
             )
 
             self.generation_count += 1
             self.quality_history.append(quality_score)
 
-            logger.info(f"✨ Response generated: {response_type.value} "
-                       f"(quality: {quality_score:.3f}, time: {processing_time:.1f}ms)")
+            logger.info(
+                f"✨ Response generated: {response_type.value} "
+                f"(quality: {quality_score:.3f}, time: {processing_time:.1f}ms)"
+            )
 
             return response
 
@@ -423,52 +451,63 @@ class ResponseGenerator:
     async def _assess_security(self, context: ResponseContext) -> Dict[str, Any]:
         """Assess security context of request"""
         if not self.config.enable_security_enhancement:
-            return {'status': 'DISABLED', 'threat_level': 'unknown'}
+            return {"status": "DISABLED", "threat_level": "unknown"}
 
         try:
             # Prepare data for security assessment
             security_data = {
-                'user_query': context.user_query,
-                'conversation_length': len(context.conversation_history),
-                'modalities': context.modality_preferences,
-                'timestamp': time.time()
+                "user_query": context.user_query,
+                "conversation_length": len(context.conversation_history),
+                "modalities": context.modality_preferences,
+                "timestamp": time.time(),
             }
 
             # Get quantum security assessment
-            security_result = await self.quantum_security.process_with_quantum_protection(
-                security_data, require_encryption=False
+            security_result = (
+                await self.quantum_security.process_with_quantum_protection(
+                    security_data, require_encryption=False
+                )
             )
 
             return security_result
 
         except Exception as e:
             logger.error(f"❌ Security assessment failed: {e}")
-            return {'status': 'ERROR', 'threat_level': 'unknown', 'error': str(e)}
+            return {"status": "ERROR", "threat_level": "unknown", "error": str(e)}
 
-    def _determine_response_type(self,
-                               context: ResponseContext,
-                               metrics: CognitiveMetrics) -> ResponseType:
+    def _determine_response_type(
+        self, context: ResponseContext, metrics: CognitiveMetrics
+    ) -> ResponseType:
         """Determine appropriate response type"""
         query_lower = context.user_query.lower()
 
         # Security-enhanced response for high-threat contexts
-        if (context.security_context and
-            context.security_context.get('threat_level') in ['high', 'critical']):
+        if context.security_context and context.security_context.get(
+            "threat_level"
+        ) in ["high", "critical"]:
             return ResponseType.SECURE
 
         # Debug response for debug requests
-        if any(term in query_lower for term in ['debug', 'diagnostic', 'internal']):
+        if any(term in query_lower for term in ["debug", "diagnostic", "internal"]):
             return ResponseType.DEBUG
 
         # Cognitive state response for consciousness/state queries
-        consciousness_terms = ['conscious', 'awareness', 'cognitive', 'thinking', 'mind']
+        consciousness_terms = [
+            "conscious",
+            "awareness",
+            "cognitive",
+            "thinking",
+            "mind",
+        ]
         if any(term in query_lower for term in consciousness_terms):
             return ResponseType.COGNITIVE_STATE
 
         # Multi-modal for complex queries with high semantic complexity
-        if (metrics.semantic_complexity > 0.7 and
-            self.config.enable_multi_modal and
-            len(context.modality_preferences) > 1):
+        if (
+            metrics.semantic_complexity > 0.7
+            and self.config.enable_multi_modal
+            and len(context.modality_preferences) > 1
+        ):
             return ResponseType.MULTI_MODAL
 
         # Hybrid for moderately complex cognitive queries
@@ -478,10 +517,12 @@ class ResponseGenerator:
         # Default to direct response
         return ResponseType.DIRECT
 
-    async def _generate_content(self,
-                              context: ResponseContext,
-                              response_type: ResponseType,
-                              metrics: CognitiveMetrics) -> str:
+    async def _generate_content(
+        self,
+        context: ResponseContext,
+        response_type: ResponseType,
+        metrics: CognitiveMetrics,
+    ) -> str:
         """Generate response content based on type and metrics"""
 
         if response_type == ResponseType.COGNITIVE_STATE:
@@ -502,9 +543,9 @@ class ResponseGenerator:
         else:  # DIRECT
             return self._generate_direct_response(context, metrics)
 
-    def _generate_cognitive_state_response(self,
-                                         context: ResponseContext,
-                                         metrics: CognitiveMetrics) -> str:
+    def _generate_cognitive_state_response(
+        self, context: ResponseContext, metrics: CognitiveMetrics
+    ) -> str:
         """Generate cognitive state transparency response"""
 
         coherence_desc = self._describe_coherence_level(metrics.cognitive_coherence)
@@ -524,9 +565,9 @@ This represents my current cognitive field state as I process your query. The me
 
         return response
 
-    def _generate_debug_response(self,
-                               context: ResponseContext,
-                               metrics: CognitiveMetrics) -> str:
+    def _generate_debug_response(
+        self, context: ResponseContext, metrics: CognitiveMetrics
+    ) -> str:
         """Generate debug/diagnostic response"""
 
         response = f"""DEBUG INFORMATION:
@@ -558,9 +599,9 @@ This represents my current cognitive field state as I process your query. The me
 
         return response
 
-    def _generate_secure_response(self,
-                                context: ResponseContext,
-                                metrics: CognitiveMetrics) -> str:
+    def _generate_secure_response(
+        self, context: ResponseContext, metrics: CognitiveMetrics
+    ) -> str:
         """Generate security-enhanced response"""
 
         response = f"""I've processed your request with enhanced security protocols active.
@@ -573,9 +614,9 @@ Your query has been analyzed and I can provide a response while maintaining full
 
         return response
 
-    def _generate_hybrid_response(self,
-                                context: ResponseContext,
-                                metrics: CognitiveMetrics) -> str:
+    def _generate_hybrid_response(
+        self, context: ResponseContext, metrics: CognitiveMetrics
+    ) -> str:
         """Generate hybrid direct + cognitive response"""
 
         # Generate direct response first
@@ -588,9 +629,9 @@ Your query has been analyzed and I can provide a response while maintaining full
 
         return direct_response + cognitive_insight
 
-    def _generate_multi_modal_response(self,
-                                     context: ResponseContext,
-                                     metrics: CognitiveMetrics) -> str:
+    def _generate_multi_modal_response(
+        self, context: ResponseContext, metrics: CognitiveMetrics
+    ) -> str:
         """Generate multi-modal response"""
 
         base_response = self._generate_direct_response(context, metrics)
@@ -607,9 +648,9 @@ This response integrates processing across multiple cognitive modalities for enh
 
         return base_response + modal_elements
 
-    def _generate_direct_response(self,
-                                context: ResponseContext,
-                                metrics: CognitiveMetrics) -> str:
+    def _generate_direct_response(
+        self, context: ResponseContext, metrics: CognitiveMetrics
+    ) -> str:
         """Generate direct conversational response"""
 
         # For this implementation, we'll generate a thoughtful response
@@ -618,13 +659,15 @@ This response integrates processing across multiple cognitive modalities for enh
         query_lower = context.user_query.lower()
 
         # Handle different query types
-        if any(term in query_lower for term in ['help', 'assist', 'support']):
+        if any(term in query_lower for term in ["help", "assist", "support"]):
             return "I'm here to help! I can assist with a wide range of tasks using my cognitive architecture that combines analytical and intuitive processing. What specific area would you like help with?"
 
-        elif any(term in query_lower for term in ['how', 'what', 'why', 'when', 'where']):
+        elif any(
+            term in query_lower for term in ["how", "what", "why", "when", "where"]
+        ):
             return f"Based on your question, I'll analyze this systematically. Given the semantic complexity level of {metrics.semantic_complexity:.2f}, I can provide a comprehensive response drawing from multiple cognitive systems."
 
-        elif any(term in query_lower for term in ['explain', 'describe', 'tell me']):
+        elif any(term in query_lower for term in ["explain", "describe", "tell me"]):
             return "I can provide an explanation using both analytical reasoning and pattern recognition. My dual-system architecture allows me to approach explanations from multiple cognitive perspectives."
 
         else:
@@ -645,36 +688,42 @@ This response integrates processing across multiple cognitive modalities for enh
 
         # Content quality indicators
         content_factors = {
-            'specificity': len([w for w in content.split() if len(w) > 6]) / len(content.split()),
-            'structure': content.count('.') + content.count(':') + content.count('\n'),
-            'informativeness': len(set(content.lower().split())) / len(content.split())
+            "specificity": len([w for w in content.split() if len(w) > 6])
+            / len(content.split()),
+            "structure": content.count(".") + content.count(":") + content.count("\n"),
+            "informativeness": len(set(content.lower().split())) / len(content.split()),
         }
 
         # Normalize structure factor
-        structure_factor = min(content_factors['structure'] / 5, 1.0)
+        structure_factor = min(content_factors["structure"] / 5, 1.0)
 
         # Combine factors
-        quality = (length_factor * 0.2 +
-                  coherence_factor * 0.4 +
-                  content_factors['specificity'] * 0.2 +
-                  content_factors['informativeness'] * 0.1 +
-                  structure_factor * 0.1)
+        quality = (
+            length_factor * 0.2
+            + coherence_factor * 0.4
+            + content_factors["specificity"] * 0.2
+            + content_factors["informativeness"] * 0.1
+            + structure_factor * 0.1
+        )
 
         return min(quality, 1.0)
 
-    async def _enhance_response(self,
-                              content: str,
-                              context: ResponseContext,
-                              metrics: CognitiveMetrics) -> str:
+    async def _enhance_response(
+        self, content: str, context: ResponseContext, metrics: CognitiveMetrics
+    ) -> str:
         """Enhance response quality"""
 
         # Add more structure if lacking
-        if content.count('\n') == 0 and len(content) > 200:
+        if content.count("\n") == 0 and len(content) > 200:
             # Add paragraph breaks
-            sentences = content.split('. ')
+            sentences = content.split(". ")
             if len(sentences) > 3:
                 mid_point = len(sentences) // 2
-                content = '. '.join(sentences[:mid_point]) + '.\n\n' + '. '.join(sentences[mid_point:])
+                content = (
+                    ". ".join(sentences[:mid_point])
+                    + ".\n\n"
+                    + ". ".join(sentences[mid_point:])
+                )
 
         # Add cognitive insight if very short
         if len(content) < 100:
@@ -710,20 +759,31 @@ This response integrates processing across multiple cognitive modalities for enh
     def get_performance_stats(self) -> Dict[str, Any]:
         """Get performance statistics"""
         return {
-            'total_generations': self.generation_count,
-            'average_quality': np.mean(self.quality_history) if self.quality_history else 0.0,
-            'quality_trend': 'improving' if len(self.quality_history) > 5 and
-                           np.mean(self.quality_history[-5:]) > np.mean(self.quality_history[:-5])
-                           else 'stable',
-            'cognitive_processor_history': len(self.cognitive_processor.processing_history),
-            'config': self.config.__dict__
+            "total_generations": self.generation_count,
+            "average_quality": (
+                np.mean(self.quality_history) if self.quality_history else 0.0
+            ),
+            "quality_trend": (
+                "improving"
+                if len(self.quality_history) > 5
+                and np.mean(self.quality_history[-5:])
+                > np.mean(self.quality_history[:-5])
+                else "stable"
+            ),
+            "cognitive_processor_history": len(
+                self.cognitive_processor.processing_history
+            ),
+            "config": self.config.__dict__,
         }
 
 
 # Factory function for global instance
 _response_system_instance: Optional[ResponseGenerator] = None
 
-def get_cognitive_response_system(config: Optional[ResponseGenerationConfig] = None) -> ResponseGenerator:
+
+def get_cognitive_response_system(
+    config: Optional[ResponseGenerationConfig] = None,
+) -> ResponseGenerator:
     """Get global cognitive response system instance"""
     global _response_system_instance
     if _response_system_instance is None:

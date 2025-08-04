@@ -12,7 +12,7 @@ import torch
 # --------------------------------------------------------------------------
 
 # Automatically select CUDA if available, otherwise fallback to CPU.
-DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Use mixed-precision (FP16) for performance. Set to False for higher precision.
 USE_MIXED_PRECISION = True
@@ -59,4 +59,4 @@ ENABLE_TENSOR_CORES = True
 ADAPTIVE_BATCH_SIZE_MAX = 1024
 
 # The lower limit for the adaptive batch size.
-ADAPTIVE_BATCH_SIZE_MIN = 128 
+ADAPTIVE_BATCH_SIZE_MIN = 128

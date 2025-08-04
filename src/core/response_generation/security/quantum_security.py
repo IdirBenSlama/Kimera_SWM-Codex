@@ -18,29 +18,31 @@ Version: 2.0.0 (DO-178C Level A)
 """
 
 import asyncio
-import logging
 import hashlib
+import logging
 import secrets
+import sys
 import time
-from typing import Dict, Any, Optional, List, Tuple
 from dataclasses import dataclass, field
 from enum import Enum
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple
+
 import numpy as np
 import torch
 
-import sys
-from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent.parent.parent))
 
-from src.utils.kimera_logger import get_logger, LogCategory
-from src.utils.kimera_exceptions import KimeraSecurityError
 from src.config.settings import get_settings
+from src.utils.kimera_exceptions import KimeraSecurityError
+from src.utils.kimera_logger import LogCategory, get_logger
 
 logger = get_logger(__name__, LogCategory.SECURITY)
 
 
 class ThreatLevel(Enum):
     """Security threat levels following aerospace standards"""
+
     MINIMAL = "minimal"
     LOW = "low"
     MODERATE = "moderate"
@@ -51,6 +53,7 @@ class ThreatLevel(Enum):
 
 class QuantumAttackType(Enum):
     """Known quantum attack vectors"""
+
     SHORS_ALGORITHM = "shors_algorithm"
     GROVERS_ALGORITHM = "grovers_algorithm"
     QUANTUM_CRYPTANALYSIS = "quantum_cryptanalysis"
@@ -61,6 +64,7 @@ class QuantumAttackType(Enum):
 @dataclass
 class SecurityMetrics:
     """Comprehensive security assessment metrics"""
+
     threat_level: ThreatLevel
     quantum_resistance_score: float  # 0.0 to 1.0
     entropy_level: float
@@ -73,6 +77,7 @@ class SecurityMetrics:
 @dataclass
 class QuantumSecurityConfig:
     """Configuration for quantum security system"""
+
     key_size: int = 3072  # Post-quantum key size
     hash_algorithm: str = "SHA3-512"
     signature_scheme: str = "CRYSTALS-Dilithium"
@@ -87,17 +92,19 @@ class LatticeBasedCrypto:
     def __init__(self, key_size: int = 3072):
         self.key_size = key_size
         self.dimension = 256  # Lattice dimension
-        self.modulus = 3329   # Prime modulus for Ring-LWE
+        self.modulus = 3329  # Prime modulus for Ring-LWE
 
     def generate_keypair(self) -> Tuple[torch.Tensor, torch.Tensor]:
         """Generate quantum-resistant key pair"""
         # Simplified lattice key generation
-        private_key = torch.randint(0, self.modulus, (self.dimension,), dtype=torch.int32)
+        private_key = torch.randint(
+            0, self.modulus, (self.dimension,), dtype=torch.int32
+        )
 
         # Generate lattice matrix
-        lattice_matrix = torch.randint(0, self.modulus,
-                                     (self.dimension, self.dimension),
-                                     dtype=torch.int32)
+        lattice_matrix = torch.randint(
+            0, self.modulus, (self.dimension, self.dimension), dtype=torch.int32
+        )
 
         # Public key = matrix * private_key + error
         error = torch.randint(0, 3, (self.dimension,), dtype=torch.int32)
@@ -114,7 +121,9 @@ class LatticeBasedCrypto:
 
         # Ciphertext computation
         c1 = (torch.matmul(r.float(), public_key.float()) + e1.float()) % self.modulus
-        c2 = (message.float() + e2.float() + torch.sum(r.float() * public_key.float())) % self.modulus
+        c2 = (
+            message.float() + e2.float() + torch.sum(r.float() * public_key.float())
+        ) % self.modulus
 
         return torch.stack([c1, c2])
 
@@ -128,7 +137,7 @@ class QuantumThreatDetector:
             QuantumAttackType.GROVERS_ALGORITHM: self._detect_grovers_pattern,
             QuantumAttackType.QUANTUM_CRYPTANALYSIS: self._detect_cryptanalysis,
             QuantumAttackType.HYBRID_ATTACK: self._detect_hybrid_attack,
-            QuantumAttackType.SIDE_CHANNEL: self._detect_side_channel
+            QuantumAttackType.SIDE_CHANNEL: self._detect_side_channel,
         }
 
         self.detection_history: List[Dict[str, Any]] = []
@@ -159,44 +168,56 @@ class QuantumThreatDetector:
             quantum_resistance_score=quantum_resistance,
             entropy_level=entropy,
             attack_probability=max_threat,
-            response_time_ms=response_time
+            response_time_ms=response_time,
         )
 
         # Log security event
-        logger.info(f"🔒 Quantum threat analysis: {threat_level.value} "
-                   f"(resistance: {quantum_resistance:.3f}, "
-                   f"entropy: {entropy:.3f}, time: {response_time:.1f}ms)")
+        logger.info(
+            f"🔒 Quantum threat analysis: {threat_level.value} "
+            f"(resistance: {quantum_resistance:.3f}, "
+            f"entropy: {entropy:.3f}, time: {response_time:.1f}ms)"
+        )
 
         return metrics
 
     async def _detect_shors_pattern(self, data: Dict[str, Any]) -> float:
         """Detect Shor's algorithm attack patterns"""
         # Simplified pattern detection
-        text_content = str(data.get('content', ''))
+        text_content = str(data.get("content", ""))
 
         # Look for patterns indicating factorization attempts
         suspicious_patterns = [
-            'factorization', 'prime', 'quantum_period', 'modular_exponentiation',
-            'discrete_log', 'rsa_break', 'quantum_fourier'
+            "factorization",
+            "prime",
+            "quantum_period",
+            "modular_exponentiation",
+            "discrete_log",
+            "rsa_break",
+            "quantum_fourier",
         ]
 
-        pattern_count = sum(1 for pattern in suspicious_patterns
-                          if pattern in text_content.lower())
+        pattern_count = sum(
+            1 for pattern in suspicious_patterns if pattern in text_content.lower()
+        )
 
         return min(pattern_count * 0.2, 1.0)
 
     async def _detect_grovers_pattern(self, data: Dict[str, Any]) -> float:
         """Detect Grover's algorithm attack patterns"""
         # Look for database search optimization patterns
-        text_content = str(data.get('content', ''))
+        text_content = str(data.get("content", ""))
 
         grover_indicators = [
-            'quantum_search', 'amplitude_amplification', 'oracle_function',
-            'quadratic_speedup', 'unstructured_search'
+            "quantum_search",
+            "amplitude_amplification",
+            "oracle_function",
+            "quadratic_speedup",
+            "unstructured_search",
         ]
 
-        indicator_count = sum(1 for indicator in grover_indicators
-                            if indicator in text_content.lower())
+        indicator_count = sum(
+            1 for indicator in grover_indicators if indicator in text_content.lower()
+        )
 
         return min(indicator_count * 0.3, 1.0)
 
@@ -204,13 +225,16 @@ class QuantumThreatDetector:
         """Detect quantum cryptanalysis attempts"""
         # Monitor for cryptographic analysis patterns
         crypto_terms = [
-            'cryptanalysis', 'key_recovery', 'cipher_break', 'vulnerability',
-            'quantum_algorithm', 'post_quantum'
+            "cryptanalysis",
+            "key_recovery",
+            "cipher_break",
+            "vulnerability",
+            "quantum_algorithm",
+            "post_quantum",
         ]
 
-        text_content = str(data.get('content', ''))
-        crypto_score = sum(1 for term in crypto_terms
-                          if term in text_content.lower())
+        text_content = str(data.get("content", ""))
+        crypto_score = sum(1 for term in crypto_terms if term in text_content.lower())
 
         return min(crypto_score * 0.25, 1.0)
 
@@ -229,7 +253,7 @@ class QuantumThreatDetector:
     async def _detect_side_channel(self, data: Dict[str, Any]) -> float:
         """Detect side-channel attack patterns"""
         # Monitor timing, power, and information leakage patterns
-        timing_patterns = data.get('timing_data', {})
+        timing_patterns = data.get("timing_data", {})
 
         if timing_patterns:
             # Analyze timing variance (simplified)
@@ -294,7 +318,7 @@ class QuantumThreatDetector:
         text = str(data)
 
         # Factors that increase complexity
-        nested_structures = text.count('{') + text.count('[')
+        nested_structures = text.count("{") + text.count("[")
         numeric_content = sum(1 for char in text if char.isdigit())
         special_chars = sum(1 for char in text if not char.isalnum())
 
@@ -336,9 +360,9 @@ class KimeraQuantumEdgeSecurityArchitecture:
         logger.info(f"   Signature: {self.config.signature_scheme}")
         logger.info(f"   Hardware security: {self.config.hardware_security_enabled}")
 
-    async def process_with_quantum_protection(self,
-                                           data: Dict[str, Any],
-                                           require_encryption: bool = False) -> Dict[str, Any]:
+    async def process_with_quantum_protection(
+        self, data: Dict[str, Any], require_encryption: bool = False
+    ) -> Dict[str, Any]:
         """
         Process data with quantum-level security protection
 
@@ -358,13 +382,15 @@ class KimeraQuantumEdgeSecurityArchitecture:
             # Step 2: Security decision
             if metrics.threat_level in [ThreatLevel.CRITICAL, ThreatLevel.CATASTROPHIC]:
                 self.blocked_requests += 1
-                logger.warning(f"🚫 Request blocked - threat level: {metrics.threat_level.value}")
+                logger.warning(
+                    f"🚫 Request blocked - threat level: {metrics.threat_level.value}"
+                )
 
                 return {
-                    'status': 'BLOCKED',
-                    'threat_level': metrics.threat_level.value,
-                    'reason': 'Quantum threat detected',
-                    'security_score': 0.0
+                    "status": "BLOCKED",
+                    "threat_level": metrics.threat_level.value,
+                    "reason": "Quantum threat detected",
+                    "security_score": 0.0,
                 }
 
             # Step 3: Apply security measures
@@ -372,13 +398,13 @@ class KimeraQuantumEdgeSecurityArchitecture:
 
             # Step 4: Generate response
             response = {
-                'status': 'SECURED',
-                'threat_level': metrics.threat_level.value,
-                'quantum_resistance_score': metrics.quantum_resistance_score,
-                'security_score': self._calculate_overall_security_score(metrics),
-                'response_time_ms': metrics.response_time_ms,
-                'data': secured_data,
-                'hardware_integrity': metrics.hardware_integrity
+                "status": "SECURED",
+                "threat_level": metrics.threat_level.value,
+                "quantum_resistance_score": metrics.quantum_resistance_score,
+                "security_score": self._calculate_overall_security_score(metrics),
+                "response_time_ms": metrics.response_time_ms,
+                "data": secured_data,
+                "hardware_integrity": metrics.hardware_integrity,
             }
 
             # Step 5: Optional encryption
@@ -387,8 +413,10 @@ class KimeraQuantumEdgeSecurityArchitecture:
 
             # Log successful processing
             self.security_events.append(metrics)
-            logger.info(f"✅ Request processed - security score: "
-                       f"{response['security_score']:.3f}")
+            logger.info(
+                f"✅ Request processed - security score: "
+                f"{response['security_score']:.3f}"
+            )
 
             return response
 
@@ -396,30 +424,30 @@ class KimeraQuantumEdgeSecurityArchitecture:
             logger.error(f"❌ Security processing failed: {e}")
             raise KimeraSecurityError(f"Quantum security processing failed: {e}")
 
-    async def _apply_security_measures(self,
-                                     data: Dict[str, Any],
-                                     metrics: SecurityMetrics) -> Dict[str, Any]:
+    async def _apply_security_measures(
+        self, data: Dict[str, Any], metrics: SecurityMetrics
+    ) -> Dict[str, Any]:
         """Apply appropriate security measures based on threat assessment"""
 
         secured_data = data.copy()
 
         # Add security headers
-        secured_data['_security'] = {
-            'timestamp': time.time(),
-            'threat_level': metrics.threat_level.value,
-            'quantum_protected': True,
-            'entropy_verified': metrics.entropy_level > 0.5
+        secured_data["_security"] = {
+            "timestamp": time.time(),
+            "threat_level": metrics.threat_level.value,
+            "quantum_protected": True,
+            "entropy_verified": metrics.entropy_level > 0.5,
         }
 
         # Apply additional protections for higher threat levels
         if metrics.threat_level in [ThreatLevel.HIGH, ThreatLevel.MODERATE]:
             # Add cryptographic signature
             signature = await self._generate_quantum_signature(secured_data)
-            secured_data['_security']['signature'] = signature
+            secured_data["_security"]["signature"] = signature
 
             # Add integrity check
             integrity_hash = self._calculate_integrity_hash(secured_data)
-            secured_data['_security']['integrity_hash'] = integrity_hash
+            secured_data["_security"]["integrity_hash"] = integrity_hash
 
         return secured_data
 
@@ -427,18 +455,20 @@ class KimeraQuantumEdgeSecurityArchitecture:
         """Encrypt response using post-quantum cryptography"""
         # Convert response to tensor for encryption
         response_str = str(response)
-        response_tensor = torch.tensor([ord(c) for c in response_str], dtype=torch.int32)
+        response_tensor = torch.tensor(
+            [ord(c) for c in response_str], dtype=torch.int32
+        )
 
         # Encrypt using lattice-based cryptography
         encrypted_tensor = self.lattice_crypto.encrypt(response_tensor, self.public_key)
 
         return {
-            'encrypted': True,
-            'algorithm': self.config.encryption_scheme,
-            'data': encrypted_tensor.tolist(),
-            'key_fingerprint': hashlib.sha256(
+            "encrypted": True,
+            "algorithm": self.config.encryption_scheme,
+            "data": encrypted_tensor.tolist(),
+            "key_fingerprint": hashlib.sha256(
                 self.public_key.numpy().tobytes()
-            ).hexdigest()[:16]
+            ).hexdigest()[:16],
         }
 
     async def _generate_quantum_signature(self, data: Dict[str, Any]) -> str:
@@ -473,36 +503,42 @@ class KimeraQuantumEdgeSecurityArchitecture:
         """Get comprehensive security system status"""
         if not self.security_events:
             return {
-                'status': 'READY',
-                'total_requests': self.total_requests,
-                'blocked_requests': self.blocked_requests,
-                'block_rate': 0.0,
-                'average_security_score': 0.0
+                "status": "READY",
+                "total_requests": self.total_requests,
+                "blocked_requests": self.blocked_requests,
+                "block_rate": 0.0,
+                "average_security_score": 0.0,
             }
 
         # Calculate metrics
         recent_events = self.security_events[-100:]  # Last 100 events
-        avg_security_score = np.mean([
-            self._calculate_overall_security_score(event)
-            for event in recent_events
-        ])
+        avg_security_score = np.mean(
+            [self._calculate_overall_security_score(event) for event in recent_events]
+        )
 
-        block_rate = self.blocked_requests / self.total_requests if self.total_requests > 0 else 0.0
+        block_rate = (
+            self.blocked_requests / self.total_requests
+            if self.total_requests > 0
+            else 0.0
+        )
 
         return {
-            'status': 'OPERATIONAL',
-            'total_requests': self.total_requests,
-            'blocked_requests': self.blocked_requests,
-            'block_rate': block_rate,
-            'average_security_score': float(avg_security_score),
-            'quantum_resistant': True,
-            'hardware_integrity': True,
-            'last_threat_level': recent_events[-1].threat_level.value if recent_events else 'unknown'
+            "status": "OPERATIONAL",
+            "total_requests": self.total_requests,
+            "blocked_requests": self.blocked_requests,
+            "block_rate": block_rate,
+            "average_security_score": float(avg_security_score),
+            "quantum_resistant": True,
+            "hardware_integrity": True,
+            "last_threat_level": (
+                recent_events[-1].threat_level.value if recent_events else "unknown"
+            ),
         }
 
 
 # Factory function for global instance
 _quantum_security_instance: Optional[KimeraQuantumEdgeSecurityArchitecture] = None
+
 
 def get_quantum_security() -> KimeraQuantumEdgeSecurityArchitecture:
     """Get global quantum security instance"""

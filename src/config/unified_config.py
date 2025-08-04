@@ -10,48 +10,52 @@ Date: 2025-07-31T23:17:21.069377
 Version: 1.0.0
 """
 
-import os
-import yaml
-from pathlib import Path
-from typing import Dict, Any, Optional
 import logging
+import os
+from pathlib import Path
+from typing import Any, Dict, Optional
+
+import yaml
 
 logger = logging.getLogger(__name__)
 
+
 class UnifiedConfigLoader:
     """Unified configuration loader for KIMERA SWM."""
-    
+
     def __init__(self, config_root: Optional[Path] = None):
         if config_root is None:
             # Default to configs_consolidated directory
             current_dir = Path(__file__).parent.parent.parent
             config_root = current_dir / "configs_consolidated"
-        
+
         self.config_root = Path(config_root)
         self._cache = {}
-    
-    def load_config(self, environment: str = None, category: str = None) -> Dict[str, Any]:
+
+    def load_config(
+        self, environment: str = None, category: str = None
+    ) -> Dict[str, Any]:
         """
         Load configuration for specified environment and category.
-        
+
         Args:
             environment: Environment name (development, production, testing)
             category: Config category (trading, monitoring, database, ai_ml)
-            
+
         Returns:
             Dictionary containing configuration
         """
         # Default environment from ENV var or development
         if environment is None:
-            environment = os.getenv('ENVIRONMENT', 'development')
-        
+            environment = os.getenv("ENVIRONMENT", "development")
+
         cache_key = f"{environment}_{category or 'main'}"
-        
+
         if cache_key in self._cache:
             return self._cache[cache_key]
-        
+
         config = {}
-        
+
         try:
             if category is None:
                 # Load main environment config
@@ -59,36 +63,37 @@ class UnifiedConfigLoader:
             else:
                 # Load category-specific config
                 config_path = self.config_root / environment / f"{category}.yaml"
-            
+
             if config_path.exists():
-                with open(config_path, 'r', encoding='utf-8') as f:
+                with open(config_path, "r", encoding="utf-8") as f:
                     config = yaml.safe_load(f) or {}
-                
+
                 logger.info(f"Loaded config: {config_path}")
             else:
                 logger.warning(f"Config file not found: {config_path}")
-        
+
         except Exception as e:
             logger.error(f"Error loading config {cache_key}: {e}")
-        
+
         # Cache the result
         self._cache[cache_key] = config
-        
+
         return config
-    
+
     def get_env_file_path(self, environment: str = None) -> Path:
         """Get path to environment file."""
         if environment is None:
-            environment = os.getenv('ENVIRONMENT', 'development')
-        
+            environment = os.getenv("ENVIRONMENT", "development")
+
         return self.config_root / "env" / f"{environment}.env"
-    
+
     def load_env_vars(self, environment: str = None):
         """Load environment variables from file."""
         env_file = self.get_env_file_path(environment)
-        
+
         if env_file.exists():
             from dotenv import load_dotenv
+
             load_dotenv(env_file)
             logger.info(f"Loaded environment variables from: {env_file}")
         else:
@@ -98,22 +103,27 @@ class UnifiedConfigLoader:
 # Global loader instance
 _loader = UnifiedConfigLoader()
 
+
 def load_config(environment: str = None, category: str = None) -> Dict[str, Any]:
     """Load configuration using global loader."""
     return _loader.load_config(environment, category)
+
 
 def load_env_vars(environment: str = None):
     """Load environment variables using global loader."""
     return _loader.load_env_vars(environment)
 
-def get_config_value(key: str, default: Any = None, environment: str = None, category: str = None) -> Any:
+
+def get_config_value(
+    key: str, default: Any = None, environment: str = None, category: str = None
+) -> Any:
     """Get specific configuration value with dot notation support."""
     config = load_config(environment, category)
-    
+
     # Support dot notation (e.g., "app.name")
-    keys = key.split('.')
+    keys = key.split(".")
     value = config
-    
+
     try:
         for k in keys:
             value = value[k]

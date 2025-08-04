@@ -5,24 +5,25 @@ Phase 3, Week 8: Performance Optimization
 """
 
 from __future__ import annotations
-from dataclasses import dataclass, field
-from pathlib import Path
-from typing import Any, Dict, Optional, Callable, Coroutine, TypeVar, Tuple
-import asyncio
-import logging
-import time
 
+import asyncio
 import hashlib
 import json
+import logging
 import pickle
+import time
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Any, Callable, Coroutine, Dict, Optional, Tuple, TypeVar
+
 try:
     import redis.asyncio as aioredis  # Use the new async redis client
 except ImportError:  # Optional dependency
     aioredis = None
 
-from cachetools import TTLCache, LRUCache
+from cachetools import LRUCache, TTLCache
 
-from src.config import get_settings, get_feature_flag
+from src.config import get_feature_flag, get_settings
 
 logger = logging.getLogger(__name__)
 
@@ -40,6 +41,7 @@ def _now() -> float:
 @dataclass
 class CacheStats:
     """Statistics for a cache tier"""
+
     hits: int = 0
     misses: int = 0
     sets: int = 0
@@ -161,7 +163,9 @@ class RedisCache:
 
     async def set(self, key: str, value: Any):
         try:
-            await self.client.set(key, pickle.dumps(value), ex=self.ttl)  # Use 'ex' instead of 'expire'
+            await self.client.set(
+                key, pickle.dumps(value), ex=self.ttl
+            )  # Use 'ex' instead of 'expire'
             self.stats.sets += 1
         except Exception as e:
             logger.warning(f"RedisCache set error: {e}")
@@ -185,15 +189,23 @@ class CacheManager:
 
         # Enable disk cache if feature flag
         if get_feature_flag("disk_cache"):
-            self.disk_cache = DiskCache(root=settings.paths.temp_dir / "cache", ttl=86400)
+            self.disk_cache = DiskCache(
+                root=settings.paths.temp_dir / "cache", ttl=86400
+            )
         # Enable redis if feature flag and library available
         if get_feature_flag("redis_cache") and aioredis is not None:
             self.redis_cache = None  # async connect later
 
     async def initialize(self):
-        if self.redis_cache is None and get_feature_flag("redis_cache") and aioredis is not None:
+        if (
+            self.redis_cache is None
+            and get_feature_flag("redis_cache")
+            and aioredis is not None
+        ):
             try:
-                client = await aioredis.from_url("redis://localhost", decode_responses=False)
+                client = await aioredis.from_url(
+                    "redis://localhost", decode_responses=False
+                )
                 self.redis_cache = RedisCache(client)
                 logger.info("RedisCache initialized")
             except Exception as e:

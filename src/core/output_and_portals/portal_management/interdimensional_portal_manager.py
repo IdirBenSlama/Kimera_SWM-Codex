@@ -18,67 +18,72 @@ Version: 1.0.0 (DO-178C Level A)
 """
 
 import asyncio
+import heapq
 import json
 import math
-import time
-import uuid
-from dataclasses import dataclass, field
-from typing import Dict, List, Any, Optional, Union, Callable, Tuple, Set
-from enum import Enum
-from datetime import datetime, timedelta
-import numpy as np
-import torch
-import networkx as nx
-from pathlib import Path
 import sys
 import threading
+import time
+import uuid
 from collections import deque
-import heapq
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from enum import Enum
+from pathlib import Path
+from typing import Any, Callable, Dict, List, Optional, Set, Tuple, Union
+
+import networkx as nx
+import numpy as np
+import torch
 
 # Add src to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent.parent))
 
-from utils.kimera_logger import get_logger, LogCategory
-from utils.kimera_exceptions import KimeraValidationError, KimeraCognitiveError
+from utils.kimera_exceptions import KimeraCognitiveError, KimeraValidationError
+from utils.kimera_logger import LogCategory, get_logger
 
 logger = get_logger(__name__, LogCategory.SYSTEM)
 
 
 class PortalType(Enum):
     """Types of interdimensional portals with safety classifications"""
-    SEMANTIC = "semantic"                    # Between semantic spaces
-    TEMPORAL = "temporal"                    # Between time states
-    QUANTUM = "quantum"                      # Between quantum states
-    THERMODYNAMIC = "thermodynamic"          # Between energy states
-    COGNITIVE = "cognitive"                  # Between cognitive states
-    DIMENSIONAL = "dimensional"              # Between spatial dimensions
-    INFORMATIONAL = "informational"          # Between information spaces
-    CONSCIOUSNESS = "consciousness"          # Between consciousness levels
-    HYBRID = "hybrid"                        # Multi-type portal
+
+    SEMANTIC = "semantic"  # Between semantic spaces
+    TEMPORAL = "temporal"  # Between time states
+    QUANTUM = "quantum"  # Between quantum states
+    THERMODYNAMIC = "thermodynamic"  # Between energy states
+    COGNITIVE = "cognitive"  # Between cognitive states
+    DIMENSIONAL = "dimensional"  # Between spatial dimensions
+    INFORMATIONAL = "informational"  # Between information spaces
+    CONSCIOUSNESS = "consciousness"  # Between consciousness levels
+    HYBRID = "hybrid"  # Multi-type portal
 
 
 class PortalStability(Enum):
     """Portal stability classifications with nuclear safety standards"""
-    STABLE = "stable"                        # >95% stability
-    OPERATIONAL = "operational"              # 80-95% stability
-    DEGRADED = "degraded"                    # 60-80% stability
-    UNSTABLE = "unstable"                    # 40-60% stability
-    CRITICAL = "critical"                    # 20-40% stability
-    EMERGENCY_SHUTDOWN = "emergency_shutdown" # <20% stability
-    COLLAPSED = "collapsed"                  # 0% stability
+
+    STABLE = "stable"  # >95% stability
+    OPERATIONAL = "operational"  # 80-95% stability
+    DEGRADED = "degraded"  # 60-80% stability
+    UNSTABLE = "unstable"  # 40-60% stability
+    CRITICAL = "critical"  # 20-40% stability
+    EMERGENCY_SHUTDOWN = "emergency_shutdown"  # <20% stability
+    COLLAPSED = "collapsed"  # 0% stability
 
 
 class PortalSafetyLevel(Enum):
     """Portal safety levels following nuclear engineering principles"""
-    GREEN = "green"          # Normal operation
-    YELLOW = "yellow"        # Caution required
-    ORANGE = "orange"        # Increased monitoring
-    RED = "red"             # Immediate attention required
-    BLACK = "black"         # Emergency shutdown required
+
+    GREEN = "green"  # Normal operation
+    YELLOW = "yellow"  # Caution required
+    ORANGE = "orange"  # Increased monitoring
+    RED = "red"  # Immediate attention required
+    BLACK = "black"  # Emergency shutdown required
 
 
 class DimensionalSpace(Enum):
     """Cognitive dimensional spaces for portal connections"""
+
     BARENHOLTZ_SYSTEM_1 = "barenholtz_system_1"
     BARENHOLTZ_SYSTEM_2 = "barenholtz_system_2"
     HIGH_DIMENSIONAL_MODELING = "high_dimensional_modeling"
@@ -94,6 +99,7 @@ class DimensionalSpace(Enum):
 @dataclass
 class PortalConfiguration:
     """Complete portal configuration with safety parameters"""
+
     source_dimension: DimensionalSpace
     target_dimension: DimensionalSpace
     portal_type: PortalType
@@ -109,6 +115,7 @@ class PortalConfiguration:
 @dataclass
 class PortalMetrics:
     """Real-time portal performance and safety metrics"""
+
     stability_score: float
     energy_consumption: float
     throughput_current: float
@@ -125,6 +132,7 @@ class PortalMetrics:
 @dataclass
 class PortalState:
     """Current portal state with comprehensive tracking"""
+
     portal_id: str
     configuration: PortalConfiguration
     metrics: PortalMetrics
@@ -147,10 +155,11 @@ class PortalState:
     def is_safe_to_traverse(self) -> bool:
         """Check if portal is safe for traversal"""
         return (
-            self.is_active and
-            self.stability_status in [PortalStability.STABLE, PortalStability.OPERATIONAL] and
-            self.safety_level in [PortalSafetyLevel.GREEN, PortalSafetyLevel.YELLOW] and
-            self.containment_status == "contained"
+            self.is_active
+            and self.stability_status
+            in [PortalStability.STABLE, PortalStability.OPERATIONAL]
+            and self.safety_level in [PortalSafetyLevel.GREEN, PortalSafetyLevel.YELLOW]
+            and self.containment_status == "contained"
         )
 
 
@@ -169,37 +178,54 @@ class DimensionalSafetyAnalyzer:
         self.hazard_models = self._initialize_hazard_models()
         self.safety_thresholds = self._initialize_safety_thresholds()
 
-        logger.info("🛡️ Dimensional Safety Analyzer initialized (Nuclear Engineering Standards)")
+        logger.info(
+            "🛡️ Dimensional Safety Analyzer initialized (Nuclear Engineering Standards)"
+        )
 
     def _initialize_safety_database(self) -> Dict[str, Dict[str, Any]]:
         """Initialize comprehensive safety database"""
         return {
             "dimensional_interactions": {
                 "safe_combinations": [
-                    (DimensionalSpace.BARENHOLTZ_SYSTEM_1, DimensionalSpace.BARENHOLTZ_SYSTEM_2),
-                    (DimensionalSpace.INSIGHT_MANAGEMENT, DimensionalSpace.RESPONSE_GENERATION),
-                    (DimensionalSpace.HIGH_DIMENSIONAL_MODELING, DimensionalSpace.THERMODYNAMIC_INTEGRATION)
+                    (
+                        DimensionalSpace.BARENHOLTZ_SYSTEM_1,
+                        DimensionalSpace.BARENHOLTZ_SYSTEM_2,
+                    ),
+                    (
+                        DimensionalSpace.INSIGHT_MANAGEMENT,
+                        DimensionalSpace.RESPONSE_GENERATION,
+                    ),
+                    (
+                        DimensionalSpace.HIGH_DIMENSIONAL_MODELING,
+                        DimensionalSpace.THERMODYNAMIC_INTEGRATION,
+                    ),
                 ],
                 "caution_combinations": [
-                    (DimensionalSpace.QUANTUM_SECURITY, DimensionalSpace.CONSCIOUSNESS_FIELD),
-                    (DimensionalSpace.TESTING_ORCHESTRATION, DimensionalSpace.ETHICAL_GOVERNANCE)
+                    (
+                        DimensionalSpace.QUANTUM_SECURITY,
+                        DimensionalSpace.CONSCIOUSNESS_FIELD,
+                    ),
+                    (
+                        DimensionalSpace.TESTING_ORCHESTRATION,
+                        DimensionalSpace.ETHICAL_GOVERNANCE,
+                    ),
                 ],
                 "forbidden_combinations": [
                     # High-risk combinations that require special protocols
-                ]
+                ],
             },
             "energy_safety_limits": {
                 PortalType.SEMANTIC: 100.0,
                 PortalType.COGNITIVE: 150.0,
                 PortalType.QUANTUM: 200.0,
                 PortalType.CONSCIOUSNESS: 300.0,
-                PortalType.HYBRID: 500.0
+                PortalType.HYBRID: 500.0,
             },
             "stability_requirements": {
                 "minimum_stability": 0.6,
                 "operational_stability": 0.8,
-                "preferred_stability": 0.95
-            }
+                "preferred_stability": 0.95,
+            },
         }
 
     def _initialize_hazard_models(self) -> Dict[str, Any]:
@@ -207,30 +233,30 @@ class DimensionalSafetyAnalyzer:
         return {
             "cascade_failure_risk": {
                 "threshold": 0.1,
-                "mitigation": "immediate_isolation"
+                "mitigation": "immediate_isolation",
             },
             "dimensional_bleeding": {
                 "threshold": 0.05,
-                "mitigation": "containment_protocols"
+                "mitigation": "containment_protocols",
             },
             "quantum_decoherence": {
                 "threshold": 0.8,
-                "mitigation": "coherence_restoration"
+                "mitigation": "coherence_restoration",
             },
             "consciousness_contamination": {
                 "threshold": 0.02,
-                "mitigation": "emergency_shutdown"
-            }
+                "mitigation": "emergency_shutdown",
+            },
         }
 
     def _initialize_safety_thresholds(self) -> Dict[str, float]:
         """Initialize safety threshold values"""
         return {
             "maximum_energy_density": 1000.0,  # J/m³
-            "maximum_temperature": 373.15,      # K (100°C)
-            "maximum_pressure": 1e6,            # Pa (10 bar)
-            "maximum_radiation": 1e-6,          # Sv/h
-            "minimum_containment": 0.99         # 99% containment efficiency
+            "maximum_temperature": 373.15,  # K (100°C)
+            "maximum_pressure": 1e6,  # Pa (10 bar)
+            "maximum_radiation": 1e-6,  # Sv/h
+            "minimum_containment": 0.99,  # 99% containment efficiency
         }
 
     def analyze_portal_safety(self, config: PortalConfiguration) -> Dict[str, Any]:
@@ -248,7 +274,7 @@ class DimensionalSafetyAnalyzer:
             "recommendations": [],
             "approval_status": "pending",
             "hazard_analysis": {},
-            "mitigation_strategies": []
+            "mitigation_strategies": [],
         }
 
         try:
@@ -270,7 +296,9 @@ class DimensionalSafetyAnalyzer:
                 safety_report["hazard_analysis"]["quantum"] = quantum_risk
 
             # Calculate overall safety level
-            overall_risk_score = self._calculate_overall_risk(safety_report["hazard_analysis"])
+            overall_risk_score = self._calculate_overall_risk(
+                safety_report["hazard_analysis"]
+            )
             safety_report["overall_risk_score"] = overall_risk_score
 
             # Determine safety level
@@ -291,10 +319,14 @@ class DimensionalSafetyAnalyzer:
                 safety_report["approval_status"] = "denied"
 
             # Generate recommendations
-            safety_report["recommendations"] = self._generate_safety_recommendations(safety_report)
+            safety_report["recommendations"] = self._generate_safety_recommendations(
+                safety_report
+            )
 
-            logger.debug(f"Safety analysis completed: risk={overall_risk_score:.3f}, "
-                        f"level={safety_report['safety_level'].value}")
+            logger.debug(
+                f"Safety analysis completed: risk={overall_risk_score:.3f}, "
+                f"level={safety_report['safety_level'].value}"
+            )
 
             return safety_report
 
@@ -305,22 +337,36 @@ class DimensionalSafetyAnalyzer:
             logger.error(f"Safety analysis failed: {e}")
             return safety_report
 
-    def _analyze_dimensional_compatibility(self, config: PortalConfiguration) -> Dict[str, Any]:
+    def _analyze_dimensional_compatibility(
+        self, config: PortalConfiguration
+    ) -> Dict[str, Any]:
         """Analyze dimensional compatibility and interaction safety"""
         combination = (config.source_dimension, config.target_dimension)
         reverse_combination = (config.target_dimension, config.source_dimension)
 
-        safe_combinations = self.safety_database["dimensional_interactions"]["safe_combinations"]
-        caution_combinations = self.safety_database["dimensional_interactions"]["caution_combinations"]
-        forbidden_combinations = self.safety_database["dimensional_interactions"]["forbidden_combinations"]
+        safe_combinations = self.safety_database["dimensional_interactions"][
+            "safe_combinations"
+        ]
+        caution_combinations = self.safety_database["dimensional_interactions"][
+            "caution_combinations"
+        ]
+        forbidden_combinations = self.safety_database["dimensional_interactions"][
+            "forbidden_combinations"
+        ]
 
         if combination in safe_combinations or reverse_combination in safe_combinations:
             risk_level = 0.1
             risk_description = "Low risk - compatible dimensions"
-        elif combination in caution_combinations or reverse_combination in caution_combinations:
+        elif (
+            combination in caution_combinations
+            or reverse_combination in caution_combinations
+        ):
             risk_level = 0.4
             risk_description = "Medium risk - caution required"
-        elif combination in forbidden_combinations or reverse_combination in forbidden_combinations:
+        elif (
+            combination in forbidden_combinations
+            or reverse_combination in forbidden_combinations
+        ):
             risk_level = 0.9
             risk_description = "High risk - forbidden combination"
         else:
@@ -331,12 +377,14 @@ class DimensionalSafetyAnalyzer:
             "risk_level": risk_level,
             "description": risk_description,
             "combination": combination,
-            "compatibility_verified": risk_level < 0.5
+            "compatibility_verified": risk_level < 0.5,
         }
 
     def _analyze_energy_safety(self, config: PortalConfiguration) -> Dict[str, Any]:
         """Analyze energy safety requirements"""
-        energy_limit = self.safety_database["energy_safety_limits"].get(config.portal_type, 100.0)
+        energy_limit = self.safety_database["energy_safety_limits"].get(
+            config.portal_type, 100.0
+        )
 
         if config.energy_requirements <= energy_limit * 0.5:
             risk_level = 0.1
@@ -356,12 +404,16 @@ class DimensionalSafetyAnalyzer:
             "description": risk_description,
             "energy_required": config.energy_requirements,
             "energy_limit": energy_limit,
-            "within_limits": config.energy_requirements <= energy_limit
+            "within_limits": config.energy_requirements <= energy_limit,
         }
 
-    def _analyze_stability_requirements(self, config: PortalConfiguration) -> Dict[str, Any]:
+    def _analyze_stability_requirements(
+        self, config: PortalConfiguration
+    ) -> Dict[str, Any]:
         """Analyze portal stability requirements"""
-        min_stability = self.safety_database["stability_requirements"]["minimum_stability"]
+        min_stability = self.safety_database["stability_requirements"][
+            "minimum_stability"
+        ]
 
         if config.stability_threshold >= 0.95:
             risk_level = 0.05
@@ -381,7 +433,7 @@ class DimensionalSafetyAnalyzer:
             "description": risk_description,
             "stability_threshold": config.stability_threshold,
             "minimum_required": min_stability,
-            "meets_requirements": config.stability_threshold >= min_stability
+            "meets_requirements": config.stability_threshold >= min_stability,
         }
 
     def _analyze_quantum_safety(self, config: PortalConfiguration) -> Dict[str, Any]:
@@ -397,7 +449,8 @@ class DimensionalSafetyAnalyzer:
             "risk_level": risk_level,
             "description": risk_description,
             "quantum_coherence_required": config.quantum_coherence_required,
-            "special_protocols_needed": config.portal_type in [PortalType.QUANTUM, PortalType.CONSCIOUSNESS]
+            "special_protocols_needed": config.portal_type
+            in [PortalType.QUANTUM, PortalType.CONSCIOUSNESS],
         }
 
     def _calculate_overall_risk(self, hazard_analysis: Dict[str, Any]) -> float:
@@ -407,7 +460,7 @@ class DimensionalSafetyAnalyzer:
             "dimensional": 0.3,
             "energy": 0.25,
             "stability": 0.25,
-            "quantum": 0.2
+            "quantum": 0.2,
         }
 
         total_weight = 0.0
@@ -422,7 +475,9 @@ class DimensionalSafetyAnalyzer:
 
         return weighted_sum / max(total_weight, 1.0)
 
-    def _generate_safety_recommendations(self, safety_report: Dict[str, Any]) -> List[str]:
+    def _generate_safety_recommendations(
+        self, safety_report: Dict[str, Any]
+    ) -> List[str]:
         """Generate safety recommendations based on analysis"""
         recommendations = []
 
@@ -458,7 +513,9 @@ class DimensionalSafetyAnalyzer:
         if "energy" in hazard_analysis:
             energy_risk = hazard_analysis["energy"]["risk_level"]
             if energy_risk > 0.5:
-                recommendations.append("Optimize energy consumption or increase safety margins")
+                recommendations.append(
+                    "Optimize energy consumption or increase safety margins"
+                )
 
         if "quantum" in hazard_analysis:
             quantum_risk = hazard_analysis["quantum"]["risk_level"]
@@ -489,22 +546,21 @@ class PortalStabilityPredictor:
         """Initialize stability prediction models"""
         # Simplified models - in production would use trained ML models
         return {
-            "linear_decay": {
-                "decay_rate": 0.001,  # Per hour
-                "noise_factor": 0.05
-            },
+            "linear_decay": {"decay_rate": 0.001, "noise_factor": 0.05},  # Per hour
             "exponential_decay": {
-                "half_life": 168.0,   # 7 days in hours
-                "noise_factor": 0.03
+                "half_life": 168.0,  # 7 days in hours
+                "noise_factor": 0.03,
             },
             "oscillatory": {
-                "frequency": 24.0,    # 24-hour cycle
+                "frequency": 24.0,  # 24-hour cycle
                 "amplitude": 0.1,
-                "phase": 0.0
-            }
+                "phase": 0.0,
+            },
         }
 
-    def predict_stability(self, portal: PortalState, hours_ahead: float = 24.0) -> Dict[str, Any]:
+    def predict_stability(
+        self, portal: PortalState, hours_ahead: float = 24.0
+    ) -> Dict[str, Any]:
         """
         Predict portal stability for specified time horizon
 
@@ -515,7 +571,9 @@ class PortalStabilityPredictor:
         Returns:
             Comprehensive stability prediction report
         """
-        prediction_key = f"{portal.portal_id}_{hours_ahead}_{portal.metrics.last_update.timestamp()}"
+        prediction_key = (
+            f"{portal.portal_id}_{hours_ahead}_{portal.metrics.last_update.timestamp()}"
+        )
 
         if prediction_key in self.prediction_cache:
             return self.prediction_cache[prediction_key]
@@ -529,15 +587,23 @@ class PortalStabilityPredictor:
 
             # Linear decay model
             linear_model = self.prediction_models["linear_decay"]
-            linear_prediction = max(0.0, current_stability - (linear_model["decay_rate"] * hours_ahead))
-            linear_prediction += np.random.normal(0, linear_model["noise_factor"]) if hours_ahead > 0 else 0
+            linear_prediction = max(
+                0.0, current_stability - (linear_model["decay_rate"] * hours_ahead)
+            )
+            linear_prediction += (
+                np.random.normal(0, linear_model["noise_factor"])
+                if hours_ahead > 0
+                else 0
+            )
             predictions["linear"] = max(0.0, min(1.0, linear_prediction))
 
             # Exponential decay model
             exp_model = self.prediction_models["exponential_decay"]
             decay_constant = np.log(2) / exp_model["half_life"]
             exp_prediction = current_stability * np.exp(-decay_constant * hours_ahead)
-            exp_prediction += np.random.normal(0, exp_model["noise_factor"]) if hours_ahead > 0 else 0
+            exp_prediction += (
+                np.random.normal(0, exp_model["noise_factor"]) if hours_ahead > 0 else 0
+            )
             predictions["exponential"] = max(0.0, min(1.0, exp_prediction))
 
             # Oscillatory model (for portals with cyclic behavior)
@@ -551,7 +617,9 @@ class PortalStabilityPredictor:
 
             # Ensemble prediction (weighted average)
             weights = {"linear": 0.4, "exponential": 0.4, "oscillatory": 0.2}
-            ensemble_prediction = sum(weights[model] * pred for model, pred in predictions.items())
+            ensemble_prediction = sum(
+                weights[model] * pred for model, pred in predictions.items()
+            )
 
             # Calculate confidence based on model agreement
             prediction_variance = np.var(list(predictions.values()))
@@ -566,28 +634,34 @@ class PortalStabilityPredictor:
                 "prediction_horizon_hours": hours_ahead,
                 "confidence": confidence,
                 "model_predictions": predictions,
-                "risk_factors": self._identify_risk_factors(portal, ensemble_prediction),
+                "risk_factors": self._identify_risk_factors(
+                    portal, ensemble_prediction
+                ),
                 "maintenance_recommendations": self._generate_maintenance_recommendations(
                     portal, ensemble_prediction, hours_ahead
-                )
+                ),
             }
 
             # Cache the prediction
             self.prediction_cache[prediction_key] = prediction_report
 
             # Add to historical data
-            self.historical_data.append({
-                "timestamp": datetime.now(),
-                "portal_id": portal.portal_id,
-                "current_stability": current_stability,
-                "predicted_stability": ensemble_prediction,
-                "actual_stability": None  # Will be updated when actual data is available
-            })
+            self.historical_data.append(
+                {
+                    "timestamp": datetime.now(),
+                    "portal_id": portal.portal_id,
+                    "current_stability": current_stability,
+                    "predicted_stability": ensemble_prediction,
+                    "actual_stability": None,  # Will be updated when actual data is available
+                }
+            )
 
-            logger.debug(f"Stability prediction for {portal.portal_id}: "
-                        f"current={current_stability:.3f}, "
-                        f"predicted={ensemble_prediction:.3f} "
-                        f"(+{hours_ahead}h)")
+            logger.debug(
+                f"Stability prediction for {portal.portal_id}: "
+                f"current={current_stability:.3f}, "
+                f"predicted={ensemble_prediction:.3f} "
+                f"(+{hours_ahead}h)"
+            )
 
             return prediction_report
 
@@ -598,10 +672,12 @@ class PortalStabilityPredictor:
                 "prediction_timestamp": datetime.now(),
                 "error": str(e),
                 "predicted_stability": portal.metrics.stability_score,
-                "confidence": 0.0
+                "confidence": 0.0,
             }
 
-    def _identify_risk_factors(self, portal: PortalState, predicted_stability: float) -> List[str]:
+    def _identify_risk_factors(
+        self, portal: PortalState, predicted_stability: float
+    ) -> List[str]:
         """Identify risk factors affecting portal stability"""
         risk_factors = []
 
@@ -625,10 +701,9 @@ class PortalStabilityPredictor:
 
         return risk_factors
 
-    def _generate_maintenance_recommendations(self,
-                                           portal: PortalState,
-                                           predicted_stability: float,
-                                           hours_ahead: float) -> List[str]:
+    def _generate_maintenance_recommendations(
+        self, portal: PortalState, predicted_stability: float, hours_ahead: float
+    ) -> List[str]:
         """Generate maintenance recommendations based on predictions"""
         recommendations = []
 
@@ -661,10 +736,12 @@ class InterdimensionalPortalManager:
     - Continuous monitoring and surveillance
     """
 
-    def __init__(self,
-                 max_portals: int = 100,
-                 safety_threshold: float = 0.6,
-                 enable_predictive_maintenance: bool = True):
+    def __init__(
+        self,
+        max_portals: int = 100,
+        safety_threshold: float = 0.6,
+        enable_predictive_maintenance: bool = True,
+    ):
 
         self.max_portals = max_portals
         self.safety_threshold = safety_threshold
@@ -672,7 +749,9 @@ class InterdimensionalPortalManager:
 
         # Core components
         self.safety_analyzer = DimensionalSafetyAnalyzer()
-        self.stability_predictor = PortalStabilityPredictor() if enable_predictive_maintenance else None
+        self.stability_predictor = (
+            PortalStabilityPredictor() if enable_predictive_maintenance else None
+        )
 
         # Portal registry and network
         self.portals: Dict[str, PortalState] = {}
@@ -695,12 +774,14 @@ class InterdimensionalPortalManager:
             "emergency_shutdowns": 0,
             "safety_violations": 0,
             "average_portal_lifetime": 0.0,
-            "uptime_seconds": 0.0
+            "uptime_seconds": 0.0,
         }
 
         self.start_time = datetime.now()
 
-        logger.info("🌀 Interdimensional Portal Manager initialized (Nuclear Engineering Standards)")
+        logger.info(
+            "🌀 Interdimensional Portal Manager initialized (Nuclear Engineering Standards)"
+        )
         logger.info(f"   Max portals: {max_portals}")
         logger.info(f"   Safety threshold: {safety_threshold}")
         logger.info(f"   Predictive maintenance: {enable_predictive_maintenance}")
@@ -712,17 +793,19 @@ class InterdimensionalPortalManager:
             "containment_breach": self._containment_protocol,
             "cascade_failure": self._cascade_prevention,
             "quantum_decoherence": self._quantum_restoration,
-            "dimensional_bleeding": self._dimensional_isolation
+            "dimensional_bleeding": self._dimensional_isolation,
         }
 
-    async def create_portal(self,
-                          source_dimension: DimensionalSpace,
-                          target_dimension: DimensionalSpace,
-                          portal_type: PortalType = PortalType.COGNITIVE,
-                          energy_requirements: float = 100.0,
-                          stability_threshold: float = 0.8,
-                          quantum_coherence_required: bool = False,
-                          safety_override: bool = False) -> str:
+    async def create_portal(
+        self,
+        source_dimension: DimensionalSpace,
+        target_dimension: DimensionalSpace,
+        portal_type: PortalType = PortalType.COGNITIVE,
+        energy_requirements: float = 100.0,
+        stability_threshold: float = 0.8,
+        quantum_coherence_required: bool = False,
+        safety_override: bool = False,
+    ) -> str:
         """
         Create a new interdimensional portal with comprehensive safety checks
 
@@ -758,15 +841,15 @@ class InterdimensionalPortalManager:
                 safety_constraints={
                     "max_temperature": 373.15,
                     "max_pressure": 1e6,
-                    "max_radiation": 1e-6
+                    "max_radiation": 1e-6,
                 },
                 quantum_coherence_required=quantum_coherence_required,
                 emergency_protocols=["immediate_shutdown", "containment_breach"],
                 monitoring_parameters={
                     "stability_check_interval": 1.0,
                     "safety_check_interval": 5.0,
-                    "maintenance_interval": 3600.0
-                }
+                    "maintenance_interval": 3600.0,
+                },
             )
 
             # Perform safety analysis
@@ -778,8 +861,13 @@ class InterdimensionalPortalManager:
                         f"Portal creation denied: {safety_report.get('recommendations', [])}"
                     )
 
-                if safety_report["safety_level"] in [PortalSafetyLevel.RED, PortalSafetyLevel.BLACK]:
-                    logger.warning(f"High-risk portal creation: {safety_report['safety_level'].value}")
+                if safety_report["safety_level"] in [
+                    PortalSafetyLevel.RED,
+                    PortalSafetyLevel.BLACK,
+                ]:
+                    logger.warning(
+                        f"High-risk portal creation: {safety_report['safety_level'].value}"
+                    )
 
             # Initialize portal metrics
             initial_metrics = PortalMetrics(
@@ -792,7 +880,7 @@ class InterdimensionalPortalManager:
                 quantum_coherence=1.0 if quantum_coherence_required else 0.0,
                 temperature_kelvin=293.15,  # Room temperature
                 pressure_pascals=101325.0,  # Atmospheric pressure
-                radiation_level=0.0
+                radiation_level=0.0,
             )
 
             # Create portal state
@@ -802,7 +890,7 @@ class InterdimensionalPortalManager:
                 metrics=initial_metrics,
                 stability_status=PortalStability.STABLE,
                 safety_level=PortalSafetyLevel.GREEN,
-                creation_time=datetime.now()
+                creation_time=datetime.now(),
             )
 
             # Register portal
@@ -822,9 +910,13 @@ class InterdimensionalPortalManager:
             # Update statistics
             self.operation_stats["portals_created"] += 1
 
-            logger.info(f"Portal {portal_id} created: {source_dimension.value} → {target_dimension.value}")
-            logger.info(f"   Type: {portal_type.value}, Energy: {energy_requirements}, "
-                       f"Stability: {stability_threshold}")
+            logger.info(
+                f"Portal {portal_id} created: {source_dimension.value} → {target_dimension.value}"
+            )
+            logger.info(
+                f"   Type: {portal_type.value}, Energy: {energy_requirements}, "
+                f"Stability: {stability_threshold}"
+            )
 
             return portal_id
 
@@ -832,10 +924,12 @@ class InterdimensionalPortalManager:
             logger.error(f"Portal creation failed: {e}")
             raise KimeraCognitiveError(f"Portal creation failed: {str(e)}")
 
-    async def traverse_portal(self,
-                            portal_id: str,
-                            data_payload: Any,
-                            traversal_context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    async def traverse_portal(
+        self,
+        portal_id: str,
+        data_payload: Any,
+        traversal_context: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
         """
         Traverse portal with comprehensive safety checks and monitoring
 
@@ -867,7 +961,9 @@ class InterdimensionalPortalManager:
 
             # Simulate traversal process
             # In production, this would involve actual dimensional transformation
-            traversal_result = await self._perform_traversal(portal, data_payload, traversal_context)
+            traversal_result = await self._perform_traversal(
+                portal, data_payload, traversal_context
+            )
 
             # Update traversal statistics
             portal.traversal_count += 1
@@ -883,11 +979,12 @@ class InterdimensionalPortalManager:
             portal.metrics.latency_ms = traversal_time
             portal.metrics.throughput_current += 1.0
             portal.metrics.throughput_peak = max(
-                portal.metrics.throughput_peak,
-                portal.metrics.throughput_current
+                portal.metrics.throughput_peak, portal.metrics.throughput_current
             )
 
-            logger.debug(f"Portal {portal_id} traversal completed: {traversal_time:.2f}ms")
+            logger.debug(
+                f"Portal {portal_id} traversal completed: {traversal_time:.2f}ms"
+            )
 
             return {
                 "portal_id": portal_id,
@@ -897,8 +994,8 @@ class InterdimensionalPortalManager:
                 "portal_status": {
                     "stability": portal.metrics.stability_score,
                     "safety_level": portal.safety_level.value,
-                    "energy_consumption": portal.metrics.energy_consumption
-                }
+                    "energy_consumption": portal.metrics.energy_consumption,
+                },
             }
 
         except Exception as e:
@@ -915,14 +1012,13 @@ class InterdimensionalPortalManager:
                 "portal_status": {
                     "stability": portal.metrics.stability_score,
                     "safety_level": portal.safety_level.value,
-                    "energy_consumption": portal.metrics.energy_consumption
-                }
+                    "energy_consumption": portal.metrics.energy_consumption,
+                },
             }
 
-    async def _perform_traversal(self,
-                               portal: PortalState,
-                               data_payload: Any,
-                               context: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    async def _perform_traversal(
+        self, portal: PortalState, data_payload: Any, context: Optional[Dict[str, Any]]
+    ) -> Dict[str, Any]:
         """Perform the actual dimensional traversal"""
 
         # Simulate traversal delay based on portal type and energy
@@ -932,14 +1028,18 @@ class InterdimensionalPortalManager:
             PortalType.COGNITIVE: 0.005,
             PortalType.QUANTUM: 0.010,
             PortalType.CONSCIOUSNESS: 0.020,
-            PortalType.HYBRID: 0.015
+            PortalType.HYBRID: 0.015,
         }
 
-        traversal_delay = base_delay + type_delays.get(portal.configuration.portal_type, 0.005)
+        traversal_delay = base_delay + type_delays.get(
+            portal.configuration.portal_type, 0.005
+        )
         await asyncio.sleep(traversal_delay)
 
         # Simulate energy consumption
-        energy_consumed = portal.configuration.energy_requirements * 0.1  # 10% per traversal
+        energy_consumed = (
+            portal.configuration.energy_requirements * 0.1
+        )  # 10% per traversal
         portal.metrics.energy_consumption += energy_consumed
 
         # Simulate dimensional transformation
@@ -950,7 +1050,7 @@ class InterdimensionalPortalManager:
             "transformation_type": portal.configuration.portal_type.value,
             "context": context or {},
             "traversal_timestamp": datetime.now().isoformat(),
-            "energy_signature": energy_consumed
+            "energy_signature": energy_consumed,
         }
 
         return transformed_payload
@@ -959,22 +1059,28 @@ class InterdimensionalPortalManager:
         """Update portal metrics based on events"""
 
         # Update stability based on usage and age
-        age_factor = min(1.0, portal.age_seconds / (7 * 24 * 3600))  # Week normalization
-        usage_factor = min(1.0, portal.traversal_count / 1000.0)      # Usage normalization
+        age_factor = min(
+            1.0, portal.age_seconds / (7 * 24 * 3600)
+        )  # Week normalization
+        usage_factor = min(1.0, portal.traversal_count / 1000.0)  # Usage normalization
 
         if event == "traversal_start":
             # Slight stability decrease during traversal
-            portal.metrics.stability_score *= (1.0 - 0.001)
+            portal.metrics.stability_score *= 1.0 - 0.001
         elif event == "traversal_complete":
             # Reinforcement from successful traversal
-            portal.metrics.stability_score = min(1.0, portal.metrics.stability_score + 0.0001)
+            portal.metrics.stability_score = min(
+                1.0, portal.metrics.stability_score + 0.0001
+            )
         elif event == "traversal_failed":
             # Significant stability decrease from failure
-            portal.metrics.stability_score *= (1.0 - 0.01)
+            portal.metrics.stability_score *= 1.0 - 0.01
 
         # Apply age-based decay
         decay_rate = 0.00001 * age_factor  # Very slow decay
-        portal.metrics.stability_score = max(0.0, portal.metrics.stability_score - decay_rate)
+        portal.metrics.stability_score = max(
+            0.0, portal.metrics.stability_score - decay_rate
+        )
 
         # Update stability status
         if portal.metrics.stability_score >= 0.95:
@@ -991,9 +1097,15 @@ class InterdimensionalPortalManager:
             portal.stability_status = PortalStability.EMERGENCY_SHUTDOWN
 
         # Update safety level based on stability and metrics
-        if portal.stability_status == PortalStability.STABLE and portal.metrics.error_rate < 0.01:
+        if (
+            portal.stability_status == PortalStability.STABLE
+            and portal.metrics.error_rate < 0.01
+        ):
             portal.safety_level = PortalSafetyLevel.GREEN
-        elif portal.stability_status in [PortalStability.OPERATIONAL, PortalStability.DEGRADED]:
+        elif portal.stability_status in [
+            PortalStability.OPERATIONAL,
+            PortalStability.DEGRADED,
+        ]:
             portal.safety_level = PortalSafetyLevel.YELLOW
         elif portal.stability_status == PortalStability.UNSTABLE:
             portal.safety_level = PortalSafetyLevel.ORANGE
@@ -1018,8 +1130,7 @@ class InterdimensionalPortalManager:
         self._stop_monitoring.clear()
 
         self.monitoring_thread = threading.Thread(
-            target=self._monitoring_loop,
-            daemon=True
+            target=self._monitoring_loop, daemon=True
         )
         self.monitoring_thread.start()
 
@@ -1078,14 +1189,16 @@ class InterdimensionalPortalManager:
                     "temperature": portal.metrics.temperature_kelvin,
                     "pressure": portal.metrics.pressure_pascals,
                     "radiation": portal.metrics.radiation_level,
-                    "error_rate": portal.metrics.error_rate
-                }
+                    "error_rate": portal.metrics.error_rate,
+                },
             }
 
             portal.incidents.append(incident)
             self.operation_stats["safety_violations"] += 1
 
-            logger.warning(f"Safety violations detected in portal {portal.portal_id}: {safety_violations}")
+            logger.warning(
+                f"Safety violations detected in portal {portal.portal_id}: {safety_violations}"
+            )
 
     def _perform_predictive_maintenance(self) -> None:
         """Perform predictive maintenance analysis"""
@@ -1107,33 +1220,45 @@ class InterdimensionalPortalManager:
                     "type": "predictive_maintenance",
                     "predicted_stability": prediction["predicted_stability"],
                     "confidence": prediction["confidence"],
-                    "recommendations": prediction.get("maintenance_recommendations", [])
+                    "recommendations": prediction.get(
+                        "maintenance_recommendations", []
+                    ),
                 }
 
                 portal.maintenance_history.append(maintenance_recommendation)
 
-                logger.info(f"Maintenance recommended for portal {portal_id}: "
-                           f"predicted_stability={prediction['predicted_stability']:.3f}")
+                logger.info(
+                    f"Maintenance recommended for portal {portal_id}: "
+                    f"predicted_stability={prediction['predicted_stability']:.3f}"
+                )
 
     def _update_system_statistics(self) -> None:
         """Update system-wide statistics"""
         current_time = datetime.now()
-        self.operation_stats["uptime_seconds"] = (current_time - self.start_time).total_seconds()
+        self.operation_stats["uptime_seconds"] = (
+            current_time - self.start_time
+        ).total_seconds()
 
         # Calculate average portal lifetime
         active_portals = [p for p in self.portals.values() if p.is_active]
         if active_portals:
             total_lifetime = sum(p.age_seconds for p in active_portals)
-            self.operation_stats["average_portal_lifetime"] = total_lifetime / len(active_portals)
+            self.operation_stats["average_portal_lifetime"] = total_lifetime / len(
+                active_portals
+            )
 
-    async def _trigger_emergency_protocol(self, portal: PortalState, protocol_name: str) -> None:
+    async def _trigger_emergency_protocol(
+        self, portal: PortalState, protocol_name: str
+    ) -> None:
         """Trigger emergency response protocol"""
         if protocol_name in self.emergency_protocols:
             try:
                 await self.emergency_protocols[protocol_name](portal)
                 self.operation_stats["emergency_shutdowns"] += 1
 
-                logger.critical(f"Emergency protocol {protocol_name} triggered for portal {portal.portal_id}")
+                logger.critical(
+                    f"Emergency protocol {protocol_name} triggered for portal {portal.portal_id}"
+                )
 
             except Exception as e:
                 logger.error(f"Emergency protocol {protocol_name} failed: {e}")
@@ -1172,7 +1297,9 @@ class InterdimensionalPortalManager:
     async def _quantum_restoration(self, portal: PortalState) -> None:
         """Quantum coherence restoration protocol"""
         # Attempt to restore quantum coherence
-        portal.metrics.quantum_coherence = min(1.0, portal.metrics.quantum_coherence + 0.1)
+        portal.metrics.quantum_coherence = min(
+            1.0, portal.metrics.quantum_coherence + 0.1
+        )
 
         logger.warning(f"Quantum restoration attempted for portal {portal.portal_id}")
 
@@ -1180,7 +1307,9 @@ class InterdimensionalPortalManager:
         """Dimensional bleeding isolation protocol"""
         portal.containment_status = "dimensionally_isolated"
 
-        logger.critical(f"Dimensional isolation activated for portal {portal.portal_id}")
+        logger.critical(
+            f"Dimensional isolation activated for portal {portal.portal_id}"
+        )
 
     def _update_network_topology(self, portal: PortalState) -> None:
         """Update portal network topology"""
@@ -1192,7 +1321,7 @@ class InterdimensionalPortalManager:
             target,
             portal_id=portal.portal_id,
             weight=1.0 / max(portal.configuration.energy_requirements, 1.0),
-            stability=portal.metrics.stability_score
+            stability=portal.metrics.stability_score,
         )
 
     def _remove_from_network(self, portal: PortalState) -> None:
@@ -1219,8 +1348,10 @@ class InterdimensionalPortalManager:
             other_source = other_portal.configuration.source_dimension
             other_target = other_portal.configuration.target_dimension
 
-            if (source_dim in [other_source, other_target] or
-                target_dim in [other_source, other_target]):
+            if source_dim in [other_source, other_target] or target_dim in [
+                other_source,
+                other_target,
+            ]:
                 connected.append(other_id)
 
         return connected
@@ -1230,9 +1361,11 @@ class InterdimensionalPortalManager:
         expired_portals = []
 
         for portal_id, portal in self.portals.items():
-            if (not portal.is_active or
-                portal.stability_status == PortalStability.COLLAPSED or
-                portal.safety_level == PortalSafetyLevel.BLACK):
+            if (
+                not portal.is_active
+                or portal.stability_status == PortalStability.COLLAPSED
+                or portal.safety_level == PortalSafetyLevel.BLACK
+            ):
                 expired_portals.append(portal_id)
 
         for portal_id in expired_portals:
@@ -1292,7 +1425,7 @@ class InterdimensionalPortalManager:
                 "source_dimension": portal.configuration.source_dimension.value,
                 "target_dimension": portal.configuration.target_dimension.value,
                 "portal_type": portal.configuration.portal_type.value,
-                "energy_requirements": portal.configuration.energy_requirements
+                "energy_requirements": portal.configuration.energy_requirements,
             },
             "metrics": {
                 "stability_score": portal.metrics.stability_score,
@@ -1300,22 +1433,24 @@ class InterdimensionalPortalManager:
                 "throughput_current": portal.metrics.throughput_current,
                 "error_rate": portal.metrics.error_rate,
                 "latency_ms": portal.metrics.latency_ms,
-                "quantum_coherence": portal.metrics.quantum_coherence
+                "quantum_coherence": portal.metrics.quantum_coherence,
             },
             "status": {
                 "stability_status": portal.stability_status.value,
                 "safety_level": portal.safety_level.value,
                 "is_active": portal.is_active,
                 "containment_status": portal.containment_status,
-                "is_safe_to_traverse": portal.is_safe_to_traverse
+                "is_safe_to_traverse": portal.is_safe_to_traverse,
             },
             "statistics": {
                 "age_seconds": portal.age_seconds,
                 "traversal_count": portal.traversal_count,
-                "last_traversal": portal.last_traversal.isoformat() if portal.last_traversal else None,
+                "last_traversal": (
+                    portal.last_traversal.isoformat() if portal.last_traversal else None
+                ),
                 "incident_count": len(portal.incidents),
-                "maintenance_count": len(portal.maintenance_history)
-            }
+                "maintenance_count": len(portal.maintenance_history),
+            },
         }
 
     def get_system_status(self) -> Dict[str, Any]:
@@ -1324,7 +1459,9 @@ class InterdimensionalPortalManager:
 
         stability_distribution = {}
         for status in PortalStability:
-            count = sum(1 for p in self.portals.values() if p.stability_status == status)
+            count = sum(
+                1 for p in self.portals.values() if p.stability_status == status
+            )
             stability_distribution[status.value] = count
 
         safety_distribution = {}
@@ -1337,11 +1474,11 @@ class InterdimensionalPortalManager:
                 "total_portals": len(self.portals),
                 "active_portals": active_portals,
                 "monitoring_active": self.monitoring_active,
-                "uptime_seconds": self.operation_stats["uptime_seconds"]
+                "uptime_seconds": self.operation_stats["uptime_seconds"],
             },
             "portal_distribution": {
                 "by_stability": stability_distribution,
-                "by_safety": safety_distribution
+                "by_safety": safety_distribution,
             },
             "operation_statistics": self.operation_stats.copy(),
             "network_topology": {
@@ -1349,13 +1486,13 @@ class InterdimensionalPortalManager:
                 "edges": len(self.portal_network.edges()),
                 "connected_components": nx.number_connected_components(
                     self.portal_network.to_undirected()
-                )
+                ),
             },
             "safety_features": {
                 "safety_analyzer_active": True,
                 "predictive_maintenance": self.stability_predictor is not None,
-                "emergency_protocols": len(self.emergency_protocols)
-            }
+                "emergency_protocols": len(self.emergency_protocols),
+            },
         }
 
     async def shutdown(self) -> None:
@@ -1381,10 +1518,11 @@ class InterdimensionalPortalManager:
 # Global instance for module access
 _portal_manager: Optional[InterdimensionalPortalManager] = None
 
+
 def get_interdimensional_portal_manager(
     max_portals: int = 100,
     safety_threshold: float = 0.6,
-    enable_predictive_maintenance: bool = True
+    enable_predictive_maintenance: bool = True,
 ) -> InterdimensionalPortalManager:
     """Get global interdimensional portal manager instance"""
     global _portal_manager
@@ -1392,6 +1530,6 @@ def get_interdimensional_portal_manager(
         _portal_manager = InterdimensionalPortalManager(
             max_portals=max_portals,
             safety_threshold=safety_threshold,
-            enable_predictive_maintenance=enable_predictive_maintenance
+            enable_predictive_maintenance=enable_predictive_maintenance,
         )
     return _portal_manager

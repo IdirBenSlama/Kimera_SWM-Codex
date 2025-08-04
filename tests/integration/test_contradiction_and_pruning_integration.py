@@ -23,12 +23,12 @@ References:
 - DO-333: Formal Methods Supplement to DO-178C
 """
 
-import unittest
 import asyncio
 import json
-from datetime import datetime, timezone, timedelta
-from typing import List, Dict, Any
 import logging
+import unittest
+from datetime import datetime, timedelta, timezone
+from typing import Any, Dict, List
 
 # Set up logging for test visibility
 logging.basicConfig(level=logging.INFO)
@@ -37,21 +37,23 @@ logger = logging.getLogger(__name__)
 try:
     from src.core.contradiction_and_pruning import (
         ContradictionAndPruningIntegrator,
-        ProactiveContradictionDetector,
-        IntelligentPruningEngine,
-        ProactiveDetectionConfig,
-        PruningConfig,
         GeoidState,
         InsightScar,
-        Scar,
+        IntelligentPruningEngine,
+        ProactiveContradictionDetector,
+        ProactiveDetectionConfig,
+        PruningConfig,
         PruningDecision,
         SafetyStatus,
-        create_contradiction_and_pruning_integrator
+        Scar,
+        create_contradiction_and_pruning_integrator,
     )
+
     IMPORTS_AVAILABLE = True
 except ImportError as e:
     logger.error(f"❌ Failed to import contradiction and pruning modules: {e}")
     IMPORTS_AVAILABLE = False
+
 
 class TestContradictionAndPruningIntegration(unittest.TestCase):
     """
@@ -73,7 +75,7 @@ class TestContradictionAndPruningIntegration(unittest.TestCase):
             scan_interval_hours=1,  # Short for testing
             max_comparisons_per_run=100,
             enable_clustering=True,
-            enable_temporal_analysis=True
+            enable_temporal_analysis=True,
         )
 
         self.pruning_config = PruningConfig(
@@ -81,7 +83,7 @@ class TestContradictionAndPruningIntegration(unittest.TestCase):
             memory_pressure_threshold=0.9,
             deprecated_insight_priority=10.0,
             max_prune_per_cycle=50,
-            safety_margin=0.1
+            safety_margin=0.1,
         )
 
         # Create test data
@@ -100,17 +102,15 @@ class TestContradictionAndPruningIntegration(unittest.TestCase):
                 geoid_id=f"test_geoid_{i}",
                 semantic_state={
                     "content": f"Test content {i} with semantic meaning",
-                    "domain": "test_domain" if i < 3 else "alternate_domain"
+                    "domain": "test_domain" if i < 3 else "alternate_domain",
                 },
-                symbolic_state={
-                    "symbols": [f"symbol_{i}", f"alt_symbol_{i}"]
-                },
+                symbolic_state={"symbols": [f"symbol_{i}", f"alt_symbol_{i}"]},
                 embedding_vector=[float(j + i) for j in range(10)],
                 metadata={
                     "created": (base_time - timedelta(days=i)).isoformat(),
                     "test": True,
-                    "last_accessed": (base_time - timedelta(hours=i)).isoformat()
-                }
+                    "last_accessed": (base_time - timedelta(hours=i)).isoformat(),
+                },
             )
             geoids.append(geoid)
 
@@ -128,9 +128,9 @@ class TestContradictionAndPruningIntegration(unittest.TestCase):
                 content=f"Deprecated insight content {i}",
                 created_at=base_time - timedelta(days=30 + i),
                 utility_score=0.1,  # Low utility
-                metadata={"safety_critical": False}
+                metadata={"safety_critical": False},
             )
-            insight.status = 'deprecated'
+            insight.status = "deprecated"
             items.append(insight)
 
         # Create active insights (should be preserved)
@@ -140,9 +140,9 @@ class TestContradictionAndPruningIntegration(unittest.TestCase):
                 content=f"Active insight content {i}",
                 created_at=base_time - timedelta(days=i),
                 utility_score=0.8,  # High utility
-                metadata={"safety_critical": False}
+                metadata={"safety_critical": False},
             )
-            insight.status = 'active'
+            insight.status = "active"
             insight.access_count = 10  # Frequently accessed
             items.append(insight)
 
@@ -152,7 +152,7 @@ class TestContradictionAndPruningIntegration(unittest.TestCase):
             content="Safety critical system insight",
             created_at=base_time - timedelta(days=60),
             utility_score=0.9,
-            metadata={"safety_critical": True}
+            metadata={"safety_critical": True},
         )
         items.append(safety_critical)
 
@@ -162,7 +162,7 @@ class TestContradictionAndPruningIntegration(unittest.TestCase):
                 scar_id=f"regular_scar_{i}",
                 created_at=base_time - timedelta(days=15 + i),
                 utility_score=0.3 + (i * 0.2),
-                metadata={"safety_critical": False}
+                metadata={"safety_critical": False},
             )
             items.append(scar)
 
@@ -183,8 +183,7 @@ class TestContradictionAndPruningIntegration(unittest.TestCase):
 
         # Test integrated initialization
         integrator = ContradictionAndPruningIntegrator(
-            self.detection_config,
-            self.pruning_config
+            self.detection_config, self.pruning_config
         )
         self.assertIsNotNone(integrator)
         self.assertIsNotNone(integrator.contradiction_detector)
@@ -203,25 +202,25 @@ class TestContradictionAndPruningIntegration(unittest.TestCase):
         # Test health status retrieval
         health_status = integrator.get_comprehensive_health_status()
         self.assertIsInstance(health_status, dict)
-        self.assertIn('integration_status', health_status)
-        self.assertIn('contradiction_detection', health_status)
-        self.assertIn('intelligent_pruning', health_status)
-        self.assertIn('safety_assessment', health_status)
+        self.assertIn("integration_status", health_status)
+        self.assertIn("contradiction_detection", health_status)
+        self.assertIn("intelligent_pruning", health_status)
+        self.assertIn("safety_assessment", health_status)
 
         # Verify safety assessment structure
-        safety_assessment = health_status['safety_assessment']
-        self.assertIn('overall_safety_status', safety_assessment)
-        self.assertIn('safety_score', safety_assessment)
-        self.assertIn('safety_indicators', safety_assessment)
+        safety_assessment = health_status["safety_assessment"]
+        self.assertIn("overall_safety_status", safety_assessment)
+        self.assertIn("safety_score", safety_assessment)
+        self.assertIn("safety_indicators", safety_assessment)
 
         # Test individual component health
         detector_health = integrator.contradiction_detector.get_health_status()
-        self.assertIn('status', detector_health)
-        self.assertIn('performance_metrics', detector_health)
+        self.assertIn("status", detector_health)
+        self.assertIn("performance_metrics", detector_health)
 
         pruning_health = integrator.pruning_engine.get_health_status()
-        self.assertIn('performance_metrics', pruning_health)
-        self.assertIn('safety_features', pruning_health)
+        self.assertIn("performance_metrics", pruning_health)
+        self.assertIn("safety_features", pruning_health)
 
         logger.info("✅ Health monitoring test passed")
 
@@ -238,22 +237,24 @@ class TestContradictionAndPruningIntegration(unittest.TestCase):
         scan_results = detector.run_proactive_scan(self.test_geoids)
 
         self.assertIsInstance(scan_results, dict)
-        self.assertIn('status', scan_results)
-        self.assertIn('tensions_found', scan_results)
-        self.assertIn('geoids_scanned', scan_results)
-        self.assertIn('strategies_used', scan_results)
+        self.assertIn("status", scan_results)
+        self.assertIn("tensions_found", scan_results)
+        self.assertIn("geoids_scanned", scan_results)
+        self.assertIn("strategies_used", scan_results)
 
         # Verify scan completed successfully
-        if scan_results['status'] == 'completed':
-            self.assertEqual(scan_results['geoids_scanned'], len(self.test_geoids))
-            self.assertIsInstance(scan_results['tensions_found'], list)
-            self.assertGreater(len(scan_results['strategies_used']), 0)
+        if scan_results["status"] == "completed":
+            self.assertEqual(scan_results["geoids_scanned"], len(self.test_geoids))
+            self.assertIsInstance(scan_results["tensions_found"], list)
+            self.assertGreater(len(scan_results["strategies_used"]), 0)
 
         # Test JSON serialization (SR-4.15.1)
         json_str = json.dumps(scan_results)
         self.assertIsInstance(json_str, str)
 
-        logger.info(f"✅ Contradiction detection test passed - {scan_results.get('status', 'unknown')} status")
+        logger.info(
+            f"✅ Contradiction detection test passed - {scan_results.get('status', 'unknown')} status"
+        )
 
     def test_04_intelligent_pruning(self):
         """Test intelligent pruning functionality."""
@@ -267,25 +268,40 @@ class TestContradictionAndPruningIntegration(unittest.TestCase):
 
         self.assertIsNotNone(result)
         self.assertEqual(result.item_id, deprecated_item.item_id)
-        self.assertIn(result.decision, [PruningDecision.PRUNE, PruningDecision.PRESERVE, PruningDecision.DEFER])
+        self.assertIn(
+            result.decision,
+            [PruningDecision.PRUNE, PruningDecision.PRESERVE, PruningDecision.DEFER],
+        )
         self.assertGreaterEqual(result.confidence_score, 0.0)
         self.assertLessEqual(result.confidence_score, 1.0)
 
         # Test safety-critical item protection
-        safety_critical_item = next(item for item in self.test_prunable_items
-                                  if item.metadata.get('safety_critical', False))
+        safety_critical_item = next(
+            item
+            for item in self.test_prunable_items
+            if item.metadata.get("safety_critical", False)
+        )
         safety_result = engine.should_prune(safety_critical_item, vault_pressure=0.9)
 
         self.assertEqual(safety_result.decision, PruningDecision.PRESERVE)
         self.assertEqual(safety_result.safety_status, SafetyStatus.SAFETY_CRITICAL)
 
         # Test batch analysis
-        batch_results = engine.analyze_batch(self.test_prunable_items[:5], vault_pressure=0.6)
+        batch_results = engine.analyze_batch(
+            self.test_prunable_items[:5], vault_pressure=0.6
+        )
         self.assertEqual(len(batch_results), 5)
 
         for batch_result in batch_results:
             self.assertIsInstance(batch_result.pruning_score, (int, float))
-            self.assertIn(batch_result.decision, [PruningDecision.PRUNE, PruningDecision.PRESERVE, PruningDecision.DEFER])
+            self.assertIn(
+                batch_result.decision,
+                [
+                    PruningDecision.PRUNE,
+                    PruningDecision.PRESERVE,
+                    PruningDecision.DEFER,
+                ],
+            )
 
         logger.info("✅ Intelligent pruning test passed")
 
@@ -302,24 +318,24 @@ class TestContradictionAndPruningIntegration(unittest.TestCase):
             cycle_results = await integrator.run_integrated_analysis_cycle(
                 vault_pressure=0.7,
                 geoids=self.test_geoids,
-                prunable_items=self.test_prunable_items
+                prunable_items=self.test_prunable_items,
             )
 
             self.assertIsInstance(cycle_results, dict)
-            self.assertIn('status', cycle_results)
-            self.assertIn('contradiction_detection', cycle_results)
-            self.assertIn('pruning_analysis', cycle_results)
-            self.assertIn('integration_actions', cycle_results)
-            self.assertIn('safety_assessment', cycle_results)
-            self.assertIn('performance_metrics', cycle_results)
+            self.assertIn("status", cycle_results)
+            self.assertIn("contradiction_detection", cycle_results)
+            self.assertIn("pruning_analysis", cycle_results)
+            self.assertIn("integration_actions", cycle_results)
+            self.assertIn("safety_assessment", cycle_results)
+            self.assertIn("performance_metrics", cycle_results)
 
             # Verify safety assessment
-            safety_assessment = cycle_results['safety_assessment']
-            self.assertIn('overall_safety_score', safety_assessment)
-            self.assertIn('safety_level', safety_assessment)
+            safety_assessment = cycle_results["safety_assessment"]
+            self.assertIn("overall_safety_score", safety_assessment)
+            self.assertIn("safety_level", safety_assessment)
 
             # Verify integration actions
-            actions = cycle_results['integration_actions']
+            actions = cycle_results["integration_actions"]
             self.assertIsInstance(actions, list)
 
             return cycle_results
@@ -329,7 +345,9 @@ class TestContradictionAndPruningIntegration(unittest.TestCase):
         asyncio.set_event_loop(loop)
         try:
             cycle_results = loop.run_until_complete(run_integration_test())
-            logger.info(f"✅ Integration workflow test passed - Status: {cycle_results.get('status', 'unknown')}")
+            logger.info(
+                f"✅ Integration workflow test passed - Status: {cycle_results.get('status', 'unknown')}"
+            )
         finally:
             loop.close()
 
@@ -356,11 +374,13 @@ class TestContradictionAndPruningIntegration(unittest.TestCase):
         fallback_results = detector.run_proactive_scan()  # No geoids provided
 
         self.assertIsInstance(fallback_results, dict)
-        self.assertIn('status', fallback_results)
+        self.assertIn("status", fallback_results)
 
         # Test error handling
         try:
-            invalid_config = PruningConfig(vault_pressure_threshold=2.0)  # Invalid value
+            invalid_config = PruningConfig(
+                vault_pressure_threshold=2.0
+            )  # Invalid value
             self.fail("Should have raised ValueError for invalid configuration")
         except ValueError:
             pass  # Expected behavior
@@ -377,7 +397,9 @@ class TestContradictionAndPruningIntegration(unittest.TestCase):
 
         # Measure detection performance
         start_time = datetime.now(timezone.utc)
-        detection_results = integrator.contradiction_detector.run_proactive_scan(self.test_geoids)
+        detection_results = integrator.contradiction_detector.run_proactive_scan(
+            self.test_geoids
+        )
         detection_duration = (datetime.now(timezone.utc) - start_time).total_seconds()
 
         # Verify detection performance (should be under 10 seconds for test data)
@@ -385,7 +407,9 @@ class TestContradictionAndPruningIntegration(unittest.TestCase):
 
         # Measure pruning performance
         start_time = datetime.now(timezone.utc)
-        pruning_results = integrator.pruning_engine.analyze_batch(self.test_prunable_items, 0.6)
+        pruning_results = integrator.pruning_engine.analyze_batch(
+            self.test_prunable_items, 0.6
+        )
         pruning_duration = (datetime.now(timezone.utc) - start_time).total_seconds()
 
         # Verify pruning performance (should be under 5 seconds for test data)
@@ -394,10 +418,12 @@ class TestContradictionAndPruningIntegration(unittest.TestCase):
         # Test memory efficiency
         metrics = integrator.get_integration_metrics()
         self.assertIsInstance(metrics, dict)
-        self.assertIn('uptime_seconds', metrics)
-        self.assertIn('scans_per_hour', metrics)
+        self.assertIn("uptime_seconds", metrics)
+        self.assertIn("scans_per_hour", metrics)
 
-        logger.info(f"✅ Performance benchmarks passed - Detection: {detection_duration:.2f}s, Pruning: {pruning_duration:.2f}s")
+        logger.info(
+            f"✅ Performance benchmarks passed - Detection: {detection_duration:.2f}s, Pruning: {pruning_duration:.2f}s"
+        )
 
     def test_08_failure_modes(self):
         """Test failure mode analysis and error handling."""
@@ -436,13 +462,16 @@ class TestContradictionAndPruningIntegration(unittest.TestCase):
 
         logger.info("✅ Failure mode analysis test passed")
 
+
 def run_integration_tests():
     """Run the complete integration test suite."""
     logger.info("🚀 Starting Contradiction and Pruning Integration Test Suite")
     logger.info("   Following DO-178C Level A certification standards")
 
     # Create test suite
-    test_suite = unittest.TestLoader().loadTestsFromTestCase(TestContradictionAndPruningIntegration)
+    test_suite = unittest.TestLoader().loadTestsFromTestCase(
+        TestContradictionAndPruningIntegration
+    )
 
     # Run tests with detailed output
     runner = unittest.TextTestRunner(verbosity=2, stream=None)
@@ -452,7 +481,11 @@ def run_integration_tests():
     total_tests = result.testsRun
     failures = len(result.failures)
     errors = len(result.errors)
-    success_rate = ((total_tests - failures - errors) / total_tests) * 100 if total_tests > 0 else 0
+    success_rate = (
+        ((total_tests - failures - errors) / total_tests) * 100
+        if total_tests > 0
+        else 0
+    )
 
     logger.info("=" * 80)
     logger.info("🔍 CONTRADICTION AND PRUNING INTEGRATION TEST REPORT")
@@ -467,9 +500,12 @@ def run_integration_tests():
     if success_rate >= 90.0:
         logger.info("✅ INTEGRATION TEST SUITE PASSED - System ready for deployment")
     else:
-        logger.error("❌ INTEGRATION TEST SUITE FAILED - Review failures before deployment")
+        logger.error(
+            "❌ INTEGRATION TEST SUITE FAILED - Review failures before deployment"
+        )
 
     return result.wasSuccessful()
+
 
 if __name__ == "__main__":
     # Run integration tests when executed directly

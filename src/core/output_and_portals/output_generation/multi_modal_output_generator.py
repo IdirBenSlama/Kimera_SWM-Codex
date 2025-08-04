@@ -20,49 +20,53 @@ Version: 1.0.0 (DO-178C Level A)
 import asyncio
 import hashlib
 import json
+import sys
 import time
 import uuid
 from dataclasses import dataclass, field
-from typing import Dict, List, Any, Optional, Union, Callable, Tuple
-from enum import Enum
 from datetime import datetime, timedelta
+from enum import Enum
+from pathlib import Path
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+
 import numpy as np
 import torch
-from pathlib import Path
-import sys
 
 # Add src to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent.parent))
 
-from utils.kimera_logger import get_logger, LogCategory
-from utils.kimera_exceptions import KimeraValidationError, KimeraCognitiveError
+from utils.kimera_exceptions import KimeraCognitiveError, KimeraValidationError
+from utils.kimera_logger import LogCategory, get_logger
 
 logger = get_logger(__name__, LogCategory.COGNITIVE)
 
 
 class OutputModality(Enum):
     """Supported output modalities for multi-modal generation"""
-    TEXT = "text"                          # Natural language text
-    STRUCTURED_DATA = "structured_data"    # JSON/XML/YAML structured formats
-    MATHEMATICAL = "mathematical"          # Mathematical expressions and proofs
-    VISUAL = "visual"                      # Visual representations and diagrams
-    AUDIO = "audio"                        # Audio patterns and representations
-    SCIENTIFIC_PAPER = "scientific_paper" # Academic publication format
-    EXECUTABLE_CODE = "executable_code"    # Runnable code in various languages
-    FORMAL_PROOF = "formal_proof"          # Formal mathematical/logical proofs
+
+    TEXT = "text"  # Natural language text
+    STRUCTURED_DATA = "structured_data"  # JSON/XML/YAML structured formats
+    MATHEMATICAL = "mathematical"  # Mathematical expressions and proofs
+    VISUAL = "visual"  # Visual representations and diagrams
+    AUDIO = "audio"  # Audio patterns and representations
+    SCIENTIFIC_PAPER = "scientific_paper"  # Academic publication format
+    EXECUTABLE_CODE = "executable_code"  # Runnable code in various languages
+    FORMAL_PROOF = "formal_proof"  # Formal mathematical/logical proofs
 
 
 class OutputQuality(Enum):
     """Output quality levels"""
-    DRAFT = "draft"              # Basic output, minimal validation
-    STANDARD = "standard"        # Standard quality with basic validation
-    HIGH = "high"               # High quality with comprehensive validation
-    SCIENTIFIC = "scientific"    # Scientific-grade with peer review standards
+
+    DRAFT = "draft"  # Basic output, minimal validation
+    STANDARD = "standard"  # Standard quality with basic validation
+    HIGH = "high"  # High quality with comprehensive validation
+    SCIENTIFIC = "scientific"  # Scientific-grade with peer review standards
     MISSION_CRITICAL = "mission_critical"  # Aerospace-grade reliability
 
 
 class VerificationStatus(Enum):
     """Output verification status"""
+
     PENDING = "pending"
     VERIFIED = "verified"
     FAILED = "failed"
@@ -72,6 +76,7 @@ class VerificationStatus(Enum):
 @dataclass
 class OutputMetadata:
     """Comprehensive metadata for generated outputs"""
+
     generation_timestamp: datetime
     modality: OutputModality
     quality_level: OutputQuality
@@ -90,6 +95,7 @@ class OutputMetadata:
 @dataclass
 class OutputArtifact:
     """Complete output artifact with content and metadata"""
+
     artifact_id: str
     content: Union[str, Dict[str, Any], bytes]
     modality: OutputModality
@@ -107,13 +113,13 @@ class OutputArtifact:
     def _calculate_checksum(self) -> str:
         """Calculate SHA-256 checksum of content"""
         if isinstance(self.content, str):
-            content_bytes = self.content.encode('utf-8')
+            content_bytes = self.content.encode("utf-8")
         elif isinstance(self.content, dict):
-            content_bytes = json.dumps(self.content, sort_keys=True).encode('utf-8')
+            content_bytes = json.dumps(self.content, sort_keys=True).encode("utf-8")
         elif isinstance(self.content, bytes):
             content_bytes = self.content
         else:
-            content_bytes = str(self.content).encode('utf-8')
+            content_bytes = str(self.content).encode("utf-8")
 
         return hashlib.sha256(content_bytes).hexdigest()[:16]
 
@@ -140,25 +146,49 @@ class ScientificNomenclatureEngine:
         # In production, this would load from comprehensive scientific databases
         return {
             "cognitive_science": {
-                "terms": ["cognition", "metacognition", "consciousness", "attention", "memory"],
+                "terms": [
+                    "cognition",
+                    "metacognition",
+                    "consciousness",
+                    "attention",
+                    "memory",
+                ],
                 "authority": "APA Dictionary of Psychology",
-                "verification_method": "peer_review"
+                "verification_method": "peer_review",
             },
             "mathematics": {
-                "terms": ["entropy", "information", "probability", "statistics", "topology"],
+                "terms": [
+                    "entropy",
+                    "information",
+                    "probability",
+                    "statistics",
+                    "topology",
+                ],
                 "authority": "Mathematics Subject Classification",
-                "verification_method": "formal_proof"
+                "verification_method": "formal_proof",
             },
             "physics": {
-                "terms": ["thermodynamics", "quantum", "energy", "entropy", "coherence"],
+                "terms": [
+                    "thermodynamics",
+                    "quantum",
+                    "energy",
+                    "entropy",
+                    "coherence",
+                ],
                 "authority": "NIST Physics Laboratory",
-                "verification_method": "experimental_validation"
+                "verification_method": "experimental_validation",
             },
             "computer_science": {
-                "terms": ["algorithm", "complexity", "optimization", "verification", "validation"],
+                "terms": [
+                    "algorithm",
+                    "complexity",
+                    "optimization",
+                    "verification",
+                    "validation",
+                ],
                 "authority": "ACM Computing Classification System",
-                "verification_method": "formal_verification"
-            }
+                "verification_method": "formal_verification",
+            },
         }
 
     def verify_terminology(self, text: str) -> Tuple[float, List[str]]:
@@ -183,39 +213,49 @@ class ScientificNomenclatureEngine:
                     if len(term) > 3:  # Simple heuristic
                         verified_terms += 1
                     else:
-                        issues.append(f"Term '{term}' requires verification against {domain_data['authority']}")
+                        issues.append(
+                            f"Term '{term}' requires verification against {domain_data['authority']}"
+                        )
 
         accuracy_score = verified_terms / max(1, total_terms)
         return accuracy_score, issues
 
-    def generate_citations(self, content: str, domain: str = "general") -> List[Dict[str, str]]:
+    def generate_citations(
+        self, content: str, domain: str = "general"
+    ) -> List[Dict[str, str]]:
         """Generate appropriate citations for content"""
         # Simplified implementation - in production would use citation databases
         citations = []
 
         if "quantum" in content.lower():
-            citations.append({
-                "type": "book",
-                "title": "Quantum Computation and Quantum Information",
-                "authors": "Nielsen, M. A., & Chuang, I. L.",
-                "year": "2010",
-                "publisher": "Cambridge University Press",
-                "doi": "10.1017/CBO9780511976667"
-            })
+            citations.append(
+                {
+                    "type": "book",
+                    "title": "Quantum Computation and Quantum Information",
+                    "authors": "Nielsen, M. A., & Chuang, I. L.",
+                    "year": "2010",
+                    "publisher": "Cambridge University Press",
+                    "doi": "10.1017/CBO9780511976667",
+                }
+            )
 
         if "cognitive" in content.lower():
-            citations.append({
-                "type": "journal",
-                "title": "The Cambridge Handbook of Cognitive Science",
-                "authors": "Frankish, K., & Ramsey, W. M.",
-                "year": "2012",
-                "journal": "Cambridge University Press",
-                "doi": "10.1017/CBO9781139033640"
-            })
+            citations.append(
+                {
+                    "type": "journal",
+                    "title": "The Cambridge Handbook of Cognitive Science",
+                    "authors": "Frankish, K., & Ramsey, W. M.",
+                    "year": "2012",
+                    "journal": "Cambridge University Press",
+                    "doi": "10.1017/CBO9781139033640",
+                }
+            )
 
         return citations
 
-    def format_academic_output(self, content: str, citations: List[Dict[str, str]]) -> str:
+    def format_academic_output(
+        self, content: str, citations: List[Dict[str, str]]
+    ) -> str:
         """Format content according to academic standards"""
         formatted_content = content
 
@@ -248,7 +288,7 @@ class OutputVerificationEngine:
             OutputQuality.STANDARD: 0.7,
             OutputQuality.HIGH: 0.85,
             OutputQuality.SCIENTIFIC: 0.95,
-            OutputQuality.MISSION_CRITICAL: 0.99
+            OutputQuality.MISSION_CRITICAL: 0.99,
         }
 
         logger.info("✅ Output Verification Engine initialized (DO-178C Level A)")
@@ -271,7 +311,7 @@ class OutputVerificationEngine:
             "overall_score": 0.0,
             "status": VerificationStatus.PENDING,
             "issues": [],
-            "recommendations": []
+            "recommendations": [],
         }
 
         try:
@@ -286,23 +326,36 @@ class OutputVerificationEngine:
             verification_report["verification_methods"].append("semantic_coherence")
 
             # Scientific accuracy verification
-            if artifact.modality in [OutputModality.SCIENTIFIC_PAPER, OutputModality.MATHEMATICAL, OutputModality.FORMAL_PROOF]:
+            if artifact.modality in [
+                OutputModality.SCIENTIFIC_PAPER,
+                OutputModality.MATHEMATICAL,
+                OutputModality.FORMAL_PROOF,
+            ]:
                 accuracy_score = self._verify_scientific_accuracy(artifact)
                 verification_report["results"]["scientific_accuracy"] = accuracy_score
-                verification_report["verification_methods"].append("scientific_accuracy")
+                verification_report["verification_methods"].append(
+                    "scientific_accuracy"
+                )
 
             # Formal verification for mathematical content
-            if artifact.modality in [OutputModality.MATHEMATICAL, OutputModality.FORMAL_PROOF]:
+            if artifact.modality in [
+                OutputModality.MATHEMATICAL,
+                OutputModality.FORMAL_PROOF,
+            ]:
                 formal_score = self._verify_mathematical_content(artifact)
                 verification_report["results"]["formal_verification"] = formal_score
-                verification_report["verification_methods"].append("formal_verification")
+                verification_report["verification_methods"].append(
+                    "formal_verification"
+                )
 
             # Calculate overall score
             scores = list(verification_report["results"].values())
             verification_report["overall_score"] = np.mean(scores) if scores else 0.0
 
             # Determine verification status
-            threshold = self.quality_thresholds.get(artifact.metadata.quality_level, 0.7)
+            threshold = self.quality_thresholds.get(
+                artifact.metadata.quality_level, 0.7
+            )
             if verification_report["overall_score"] >= threshold:
                 verification_report["status"] = VerificationStatus.VERIFIED
             elif verification_report["overall_score"] >= threshold * 0.8:
@@ -311,7 +364,9 @@ class OutputVerificationEngine:
                 verification_report["status"] = VerificationStatus.FAILED
 
             # Generate recommendations
-            verification_report["recommendations"] = self._generate_recommendations(verification_report)
+            verification_report["recommendations"] = self._generate_recommendations(
+                verification_report
+            )
 
             verification_time = (time.time() - verification_start) * 1000
             verification_report["verification_time_ms"] = verification_time
@@ -319,9 +374,11 @@ class OutputVerificationEngine:
             # Store in history
             self.verification_history.append(verification_report)
 
-            logger.debug(f"Verification completed for {artifact.artifact_id}: "
-                        f"score={verification_report['overall_score']:.3f}, "
-                        f"status={verification_report['status'].value}")
+            logger.debug(
+                f"Verification completed for {artifact.artifact_id}: "
+                f"score={verification_report['overall_score']:.3f}, "
+                f"status={verification_report['status'].value}"
+            )
 
             return verification_report
 
@@ -365,7 +422,7 @@ class OutputVerificationEngine:
             score -= 0.3
 
         # Check for sentence structure (basic)
-        sentences = content.split('.')
+        sentences = content.split(".")
         if len(sentences) < 2:
             score -= 0.1
 
@@ -386,7 +443,13 @@ class OutputVerificationEngine:
         # For now, simplified implementation
         content = artifact.content.lower()
 
-        scientific_terms = ["hypothesis", "theory", "evidence", "methodology", "analysis"]
+        scientific_terms = [
+            "hypothesis",
+            "theory",
+            "evidence",
+            "methodology",
+            "analysis",
+        ]
         term_count = sum(1 for term in scientific_terms if term in content)
 
         # Basic scoring based on scientific term density
@@ -407,7 +470,9 @@ class OutputVerificationEngine:
 
         # Check for proof structure
         proof_indicators = ["proof", "theorem", "lemma", "corollary", "QED", "∎"]
-        proof_count = sum(1 for indicator in proof_indicators if indicator.lower() in content.lower())
+        proof_count = sum(
+            1 for indicator in proof_indicators if indicator.lower() in content.lower()
+        )
 
         # Combine scores
         math_score = min(1.0, math_count / 5.0)
@@ -415,23 +480,35 @@ class OutputVerificationEngine:
 
         return (math_score + proof_score) / 2.0
 
-    def _generate_recommendations(self, verification_report: Dict[str, Any]) -> List[str]:
+    def _generate_recommendations(
+        self, verification_report: Dict[str, Any]
+    ) -> List[str]:
         """Generate recommendations for improving output quality"""
         recommendations = []
 
         for method, score in verification_report["results"].items():
             if score < 0.8:
                 if method == "content_integrity":
-                    recommendations.append("Improve content integrity verification and checksum validation")
+                    recommendations.append(
+                        "Improve content integrity verification and checksum validation"
+                    )
                 elif method == "semantic_coherence":
-                    recommendations.append("Enhance semantic coherence through better sentence structure and vocabulary diversity")
+                    recommendations.append(
+                        "Enhance semantic coherence through better sentence structure and vocabulary diversity"
+                    )
                 elif method == "scientific_accuracy":
-                    recommendations.append("Increase scientific accuracy through better terminology and citation management")
+                    recommendations.append(
+                        "Increase scientific accuracy through better terminology and citation management"
+                    )
                 elif method == "formal_verification":
-                    recommendations.append("Strengthen formal verification with more rigorous mathematical proof structure")
+                    recommendations.append(
+                        "Strengthen formal verification with more rigorous mathematical proof structure"
+                    )
 
         if verification_report["overall_score"] < 0.7:
-            recommendations.append("Consider increasing quality level and applying additional verification methods")
+            recommendations.append(
+                "Consider increasing quality level and applying additional verification methods"
+            )
 
         return recommendations
 
@@ -446,10 +523,12 @@ class MultiModalOutputGenerator:
     - Positive confirmation of output validity
     """
 
-    def __init__(self,
-                 default_quality: OutputQuality = OutputQuality.STANDARD,
-                 enable_verification: bool = True,
-                 enable_citations: bool = True):
+    def __init__(
+        self,
+        default_quality: OutputQuality = OutputQuality.STANDARD,
+        enable_verification: bool = True,
+        enable_citations: bool = True,
+    ):
 
         self.default_quality = default_quality
         self.enable_verification = enable_verification
@@ -457,7 +536,9 @@ class MultiModalOutputGenerator:
 
         # Core components
         self.nomenclature_engine = ScientificNomenclatureEngine()
-        self.verification_engine = OutputVerificationEngine() if enable_verification else None
+        self.verification_engine = (
+            OutputVerificationEngine() if enable_verification else None
+        )
 
         # Generation statistics
         self.generation_stats = {
@@ -466,7 +547,7 @@ class MultiModalOutputGenerator:
             "failed_generations": 0,
             "average_generation_time": 0.0,
             "modality_counts": {modality: 0 for modality in OutputModality},
-            "quality_counts": {quality: 0 for quality in OutputQuality}
+            "quality_counts": {quality: 0 for quality in OutputQuality},
         }
 
         # Generation cache for performance
@@ -482,11 +563,13 @@ class MultiModalOutputGenerator:
         logger.info(f"   Verification enabled: {enable_verification}")
         logger.info(f"   Citations enabled: {enable_citations}")
 
-    def generate_output(self,
-                       content_request: Dict[str, Any],
-                       modality: OutputModality = OutputModality.TEXT,
-                       quality_level: OutputQuality = None,
-                       context: Optional[Dict[str, Any]] = None) -> OutputArtifact:
+    def generate_output(
+        self,
+        content_request: Dict[str, Any],
+        modality: OutputModality = OutputModality.TEXT,
+        quality_level: OutputQuality = None,
+        context: Optional[Dict[str, Any]] = None,
+    ) -> OutputArtifact:
         """
         Generate output artifact with specified modality and quality level
 
@@ -507,7 +590,9 @@ class MultiModalOutputGenerator:
             artifact_id = f"output_{uuid.uuid4().hex[:12]}"
 
             # Check cache for similar requests
-            cache_key = self._generate_cache_key(content_request, modality, quality_level)
+            cache_key = self._generate_cache_key(
+                content_request, modality, quality_level
+            )
             if cache_key in self.generation_cache:
                 self.cache_hits += 1
                 cached_artifact = self.generation_cache[cache_key]
@@ -517,13 +602,17 @@ class MultiModalOutputGenerator:
             self.cache_misses += 1
 
             # Generate content based on modality
-            content = self._generate_content_by_modality(content_request, modality, quality_level, context)
+            content = self._generate_content_by_modality(
+                content_request, modality, quality_level, context
+            )
 
             # Generate citations if enabled
             citations = []
             if self.enable_citations:
                 domain = context.get("domain", "general") if context else "general"
-                citations = self.nomenclature_engine.generate_citations(str(content), domain)
+                citations = self.nomenclature_engine.generate_citations(
+                    str(content), domain
+                )
 
             # Create metadata
             generation_time = (time.time() - generation_start) * 1000
@@ -536,9 +625,11 @@ class MultiModalOutputGenerator:
                 scientific_accuracy_score=0.0,
                 semantic_coherence_score=0.0,
                 citation_count=len(citations),
-                computational_cost=self._calculate_computational_cost(content_request, modality),
+                computational_cost=self._calculate_computational_cost(
+                    content_request, modality
+                ),
                 generation_time_ms=generation_time,
-                resource_usage=self._measure_resource_usage()
+                resource_usage=self._measure_resource_usage(),
             )
 
             # Create output artifact
@@ -547,21 +638,27 @@ class MultiModalOutputGenerator:
                 content=content,
                 modality=modality,
                 metadata=metadata,
-                citations=citations
+                citations=citations,
             )
 
             # Perform verification if enabled
             if self.verification_engine:
                 verification_report = self.verification_engine.verify_output(artifact)
                 artifact.metadata.verification_status = verification_report["status"]
-                artifact.metadata.confidence_score = verification_report["overall_score"]
+                artifact.metadata.confidence_score = verification_report[
+                    "overall_score"
+                ]
                 artifact.metadata.verification_history.append(verification_report)
 
                 # Update specific quality scores
                 if "semantic_coherence" in verification_report["results"]:
-                    artifact.metadata.semantic_coherence_score = verification_report["results"]["semantic_coherence"]
+                    artifact.metadata.semantic_coherence_score = verification_report[
+                        "results"
+                    ]["semantic_coherence"]
                 if "scientific_accuracy" in verification_report["results"]:
-                    artifact.metadata.scientific_accuracy_score = verification_report["results"]["scientific_accuracy"]
+                    artifact.metadata.scientific_accuracy_score = verification_report[
+                        "results"
+                    ]["scientific_accuracy"]
 
             # Generate digital signature for authenticity
             artifact.digital_signature = self._generate_digital_signature(artifact)
@@ -575,10 +672,12 @@ class MultiModalOutputGenerator:
             # Register the artifact
             self.output_registry[artifact_id] = artifact
 
-            logger.info(f"Generated {modality.value} output {artifact_id}: "
-                       f"quality={quality_level.value}, "
-                       f"time={generation_time:.1f}ms, "
-                       f"verification={artifact.metadata.verification_status.value}")
+            logger.info(
+                f"Generated {modality.value} output {artifact_id}: "
+                f"quality={quality_level.value}, "
+                f"time={generation_time:.1f}ms, "
+                f"verification={artifact.metadata.verification_status.value}"
+            )
 
             return artifact
 
@@ -588,11 +687,13 @@ class MultiModalOutputGenerator:
             logger.error(f"Output generation failed: {e}")
             raise KimeraCognitiveError(f"Output generation failed: {str(e)}")
 
-    def _generate_content_by_modality(self,
-                                    content_request: Dict[str, Any],
-                                    modality: OutputModality,
-                                    quality_level: OutputQuality,
-                                    context: Optional[Dict[str, Any]]) -> Union[str, Dict[str, Any], bytes]:
+    def _generate_content_by_modality(
+        self,
+        content_request: Dict[str, Any],
+        modality: OutputModality,
+        quality_level: OutputQuality,
+        context: Optional[Dict[str, Any]],
+    ) -> Union[str, Dict[str, Any], bytes]:
         """Generate content specific to the requested modality"""
 
         base_content = content_request.get("content", "")
@@ -600,41 +701,64 @@ class MultiModalOutputGenerator:
         specifications = content_request.get("specifications", {})
 
         if modality == OutputModality.TEXT:
-            return self._generate_text_output(base_content, topic, quality_level, specifications)
+            return self._generate_text_output(
+                base_content, topic, quality_level, specifications
+            )
 
         elif modality == OutputModality.STRUCTURED_DATA:
-            return self._generate_structured_data(base_content, topic, quality_level, specifications)
+            return self._generate_structured_data(
+                base_content, topic, quality_level, specifications
+            )
 
         elif modality == OutputModality.MATHEMATICAL:
-            return self._generate_mathematical_output(base_content, topic, quality_level, specifications)
+            return self._generate_mathematical_output(
+                base_content, topic, quality_level, specifications
+            )
 
         elif modality == OutputModality.SCIENTIFIC_PAPER:
-            return self._generate_scientific_paper(base_content, topic, quality_level, specifications)
+            return self._generate_scientific_paper(
+                base_content, topic, quality_level, specifications
+            )
 
         elif modality == OutputModality.FORMAL_PROOF:
-            return self._generate_formal_proof(base_content, topic, quality_level, specifications)
+            return self._generate_formal_proof(
+                base_content, topic, quality_level, specifications
+            )
 
         elif modality == OutputModality.EXECUTABLE_CODE:
-            return self._generate_executable_code(base_content, topic, quality_level, specifications)
+            return self._generate_executable_code(
+                base_content, topic, quality_level, specifications
+            )
 
         elif modality == OutputModality.VISUAL:
-            return self._generate_visual_representation(base_content, topic, quality_level, specifications)
+            return self._generate_visual_representation(
+                base_content, topic, quality_level, specifications
+            )
 
         elif modality == OutputModality.AUDIO:
-            return self._generate_audio_representation(base_content, topic, quality_level, specifications)
+            return self._generate_audio_representation(
+                base_content, topic, quality_level, specifications
+            )
 
         else:
             raise KimeraValidationError(f"Unsupported output modality: {modality}")
 
-    def _generate_text_output(self, content: str, topic: str, quality: OutputQuality, specs: Dict[str, Any]) -> str:
+    def _generate_text_output(
+        self, content: str, topic: str, quality: OutputQuality, specs: Dict[str, Any]
+    ) -> str:
         """Generate high-quality text output"""
 
         # Apply scientific nomenclature if high quality
         if quality in [OutputQuality.SCIENTIFIC, OutputQuality.MISSION_CRITICAL]:
-            accuracy_score, issues = self.nomenclature_engine.verify_terminology(content)
+            accuracy_score, issues = self.nomenclature_engine.verify_terminology(
+                content
+            )
             if accuracy_score < 0.8:
                 # Enhance with proper terminology
-                content = f"This analysis addresses {topic} with rigorous scientific methodology. " + content
+                content = (
+                    f"This analysis addresses {topic} with rigorous scientific methodology. "
+                    + content
+                )
 
         # Add quality-specific enhancements
         if quality == OutputQuality.MISSION_CRITICAL:
@@ -644,7 +768,9 @@ class MultiModalOutputGenerator:
 
         return content
 
-    def _generate_structured_data(self, content: str, topic: str, quality: OutputQuality, specs: Dict[str, Any]) -> Dict[str, Any]:
+    def _generate_structured_data(
+        self, content: str, topic: str, quality: OutputQuality, specs: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Generate structured data output"""
         format_type = specs.get("format", "json")
 
@@ -655,20 +781,23 @@ class MultiModalOutputGenerator:
                 "quality_level": quality.value,
                 "format": format_type,
                 "generation_timestamp": datetime.now().isoformat(),
-                "scientific_compliance": quality in [OutputQuality.SCIENTIFIC, OutputQuality.MISSION_CRITICAL]
-            }
+                "scientific_compliance": quality
+                in [OutputQuality.SCIENTIFIC, OutputQuality.MISSION_CRITICAL],
+            },
         }
 
         if quality in [OutputQuality.SCIENTIFIC, OutputQuality.MISSION_CRITICAL]:
             structured["validation"] = {
                 "terminology_verified": True,
                 "citations_required": True,
-                "peer_review_recommended": quality == OutputQuality.SCIENTIFIC
+                "peer_review_recommended": quality == OutputQuality.SCIENTIFIC,
             }
 
         return structured
 
-    def _generate_mathematical_output(self, content: str, topic: str, quality: OutputQuality, specs: Dict[str, Any]) -> str:
+    def _generate_mathematical_output(
+        self, content: str, topic: str, quality: OutputQuality, specs: Dict[str, Any]
+    ) -> str:
         """Generate mathematical expressions and formulas"""
 
         # For high-quality mathematical output, ensure formal structure
@@ -693,7 +822,9 @@ Let X be the set of cognitive states, and let f: X → ℝ be a function represe
 
         return math_output
 
-    def _generate_scientific_paper(self, content: str, topic: str, quality: OutputQuality, specs: Dict[str, Any]) -> str:
+    def _generate_scientific_paper(
+        self, content: str, topic: str, quality: OutputQuality, specs: Dict[str, Any]
+    ) -> str:
         """Generate scientific paper format output"""
 
         return f"""
@@ -728,7 +859,9 @@ This research provides a solid foundation for understanding {topic} within the c
 [Citations would be automatically generated based on content analysis]
 """
 
-    def _generate_formal_proof(self, content: str, topic: str, quality: OutputQuality, specs: Dict[str, Any]) -> str:
+    def _generate_formal_proof(
+        self, content: str, topic: str, quality: OutputQuality, specs: Dict[str, Any]
+    ) -> str:
         """Generate formal mathematical proof"""
 
         return f"""
@@ -749,7 +882,9 @@ This research provides a solid foundation for understanding {topic} within the c
 **Verification**: This proof has been formally verified using automated theorem proving techniques.
 """
 
-    def _generate_executable_code(self, content: str, topic: str, quality: OutputQuality, specs: Dict[str, Any]) -> str:
+    def _generate_executable_code(
+        self, content: str, topic: str, quality: OutputQuality, specs: Dict[str, Any]
+    ) -> str:
         """Generate executable code output"""
         language = specs.get("language", "python")
 
@@ -807,7 +942,9 @@ if __name__ == "__main__":
 
         return f"# {topic} implementation in {language}\\n# {content}"
 
-    def _generate_visual_representation(self, content: str, topic: str, quality: OutputQuality, specs: Dict[str, Any]) -> str:
+    def _generate_visual_representation(
+        self, content: str, topic: str, quality: OutputQuality, specs: Dict[str, Any]
+    ) -> str:
         """Generate visual representation description"""
 
         # In production, this would generate actual visual content
@@ -833,7 +970,9 @@ Technical Specifications:
 - Verification: Visual elements independently verified for accuracy
 """
 
-    def _generate_audio_representation(self, content: str, topic: str, quality: OutputQuality, specs: Dict[str, Any]) -> str:
+    def _generate_audio_representation(
+        self, content: str, topic: str, quality: OutputQuality, specs: Dict[str, Any]
+    ) -> str:
         """Generate audio representation description"""
 
         # In production, this would generate actual audio content
@@ -858,17 +997,24 @@ Technical Specifications:
 - Verification: Audio content verified for clarity and accuracy
 """
 
-    def _generate_cache_key(self, content_request: Dict[str, Any], modality: OutputModality, quality: OutputQuality) -> str:
+    def _generate_cache_key(
+        self,
+        content_request: Dict[str, Any],
+        modality: OutputModality,
+        quality: OutputQuality,
+    ) -> str:
         """Generate cache key for content request"""
         key_data = {
             "content": str(content_request),
             "modality": modality.value,
-            "quality": quality.value
+            "quality": quality.value,
         }
         key_string = json.dumps(key_data, sort_keys=True)
         return hashlib.md5(key_string.encode()).hexdigest()
 
-    def _calculate_computational_cost(self, content_request: Dict[str, Any], modality: OutputModality) -> float:
+    def _calculate_computational_cost(
+        self, content_request: Dict[str, Any], modality: OutputModality
+    ) -> float:
         """Calculate computational cost of generation"""
         base_cost = 1.0
 
@@ -881,7 +1027,7 @@ Technical Specifications:
             OutputModality.FORMAL_PROOF: 2.5,
             OutputModality.EXECUTABLE_CODE: 1.8,
             OutputModality.VISUAL: 3.0,
-            OutputModality.AUDIO: 2.5
+            OutputModality.AUDIO: 2.5,
         }
 
         # Content complexity factor
@@ -896,7 +1042,7 @@ Technical Specifications:
         return {
             "cpu_percent": 0.0,  # Would use psutil in production
             "memory_mb": 0.0,
-            "gpu_utilization": 0.0
+            "gpu_utilization": 0.0,
         }
 
     def _generate_digital_signature(self, artifact: OutputArtifact) -> str:
@@ -905,7 +1051,9 @@ Technical Specifications:
         signature_data = f"{artifact.artifact_id}_{artifact.checksum}_{artifact.metadata.generation_timestamp}"
         return hashlib.sha256(signature_data.encode()).hexdigest()
 
-    def _update_generation_stats(self, artifact: Optional[OutputArtifact], generation_time: float, success: bool) -> None:
+    def _update_generation_stats(
+        self, artifact: Optional[OutputArtifact], generation_time: float, success: bool
+    ) -> None:
         """Update generation statistics"""
         self.generation_stats["total_generations"] += 1
 
@@ -913,13 +1061,19 @@ Technical Specifications:
             self.generation_stats["successful_generations"] += 1
             if artifact:
                 self.generation_stats["modality_counts"][artifact.modality] += 1
-                self.generation_stats["quality_counts"][artifact.metadata.quality_level] += 1
+                self.generation_stats["quality_counts"][
+                    artifact.metadata.quality_level
+                ] += 1
         else:
             self.generation_stats["failed_generations"] += 1
 
         # Update average generation time
-        total_time = self.generation_stats["average_generation_time"] * (self.generation_stats["total_generations"] - 1)
-        self.generation_stats["average_generation_time"] = (total_time + generation_time) / self.generation_stats["total_generations"]
+        total_time = self.generation_stats["average_generation_time"] * (
+            self.generation_stats["total_generations"] - 1
+        )
+        self.generation_stats["average_generation_time"] = (
+            total_time + generation_time
+        ) / self.generation_stats["total_generations"]
 
     def get_artifact(self, artifact_id: str) -> Optional[OutputArtifact]:
         """Retrieve artifact by ID"""
@@ -932,11 +1086,12 @@ Technical Specifications:
             "cache_performance": {
                 "cache_hits": self.cache_hits,
                 "cache_misses": self.cache_misses,
-                "cache_hit_rate": self.cache_hits / max(1, self.cache_hits + self.cache_misses)
+                "cache_hit_rate": self.cache_hits
+                / max(1, self.cache_hits + self.cache_misses),
             },
             "registry_size": len(self.output_registry),
             "verification_enabled": self.verification_engine is not None,
-            "citations_enabled": self.enable_citations
+            "citations_enabled": self.enable_citations,
         }
 
     def clear_cache(self) -> None:
@@ -950,10 +1105,11 @@ Technical Specifications:
 # Global instance for module access
 _output_generator: Optional[MultiModalOutputGenerator] = None
 
+
 def get_multi_modal_output_generator(
     default_quality: OutputQuality = OutputQuality.STANDARD,
     enable_verification: bool = True,
-    enable_citations: bool = True
+    enable_citations: bool = True,
 ) -> MultiModalOutputGenerator:
     """Get global multi-modal output generator instance"""
     global _output_generator
@@ -961,6 +1117,6 @@ def get_multi_modal_output_generator(
         _output_generator = MultiModalOutputGenerator(
             default_quality=default_quality,
             enable_verification=enable_verification,
-            enable_citations=enable_citations
+            enable_citations=enable_citations,
         )
     return _output_generator

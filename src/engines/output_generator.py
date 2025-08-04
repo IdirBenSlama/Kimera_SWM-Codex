@@ -4,16 +4,18 @@ Insight Output Generator
 This engine takes a fully processed GeoidMosaic (after synthesis and
 symbolic enrichment) and generates the final, storable InsightScar object.
 """
-import uuid
-from typing import Dict, Any
 
+import uuid
+from typing import Any, Dict
+
+from ..config.settings import get_settings
 from ..core.insight import InsightScar
 from ..utils.config import get_api_settings
-from ..config.settings import get_settings
 from ..utils.kimera_logger import get_cognitive_logger
 
 # Initialize logger
 logger = get_cognitive_logger(__name__)
+
 
 # Placeholder for GeoidMosaic from activation_synthesis
 class GeoidMosaic:
@@ -26,7 +28,10 @@ class GeoidMosaic:
         self.archetype = "The Seeker"
         self.paradox = "The destination is not a place, but a new way of seeing."
 
-def calculate_insight_quality_score(entropy_reduction: float, synthesis_cost: float) -> float:
+
+def calculate_insight_quality_score(
+    entropy_reduction: float, synthesis_cost: float
+) -> float:
     """
     Calculates a quality score for the insight.
 
@@ -44,7 +49,10 @@ def calculate_insight_quality_score(entropy_reduction: float, synthesis_cost: fl
     # Normalize to prevent extreme values, this can be refined
     return (entropy_reduction / synthesis_cost) * 100
 
-def generate_insight_scar(mosaic: GeoidMosaic, resonance_id: str, entropy_reduction: float) -> InsightScar:
+
+def generate_insight_scar(
+    mosaic: GeoidMosaic, resonance_id: str, entropy_reduction: float
+) -> InsightScar:
     """
     Generates a final InsightScar from a GeoidMosaic.
 
@@ -56,25 +64,27 @@ def generate_insight_scar(mosaic: GeoidMosaic, resonance_id: str, entropy_reduct
     Returns:
         A populated InsightScar object ready for validation and storage.
     """
-    quality_score = calculate_insight_quality_score(entropy_reduction, mosaic.synthesis_cost)
-    
+    quality_score = calculate_insight_quality_score(
+        entropy_reduction, mosaic.synthesis_cost
+    )
+
     # The echoform representation would be a structured summary of the insight
     echoform_repr = {
-        "type": "ANALOGY", # This would be determined dynamically
+        "type": "ANALOGY",  # This would be determined dynamically
         "core_concept": mosaic.combined_features,
         "archetype": mosaic.archetype,
         "paradox": mosaic.paradox,
-        "quality_score": quality_score
+        "quality_score": quality_score,
     }
 
     insight = InsightScar(
         insight_id=f"INS_{uuid.uuid4().hex[:12]}",
-        insight_type="ANALOGY", # Placeholder
+        insight_type="ANALOGY",  # Placeholder
         source_resonance_id=resonance_id,
         echoform_repr=echoform_repr,
-        application_domains=["cross-domain"], # Placeholder
-        confidence=quality_score, # Use quality score as confidence for now
-        entropy_reduction=entropy_reduction
+        application_domains=["cross-domain"],  # Placeholder
+        confidence=quality_score,  # Use quality score as confidence for now
+        entropy_reduction=entropy_reduction,
     )
 
-    return insight 
+    return insight

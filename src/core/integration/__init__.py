@@ -16,48 +16,48 @@ This layer ensures high interconnectedness, complete transparency,
 and maximum efficiency across the entire cognitive architecture.
 """
 
-from .interoperability_bus import (
-    CognitiveInteroperabilityBus, 
-    MessageRouter, 
-    EventStream,
-    ComponentRegistry
+from .architecture_orchestrator import (
+    InterconnectionMatrix,
+    KimeraCoreArchitecture,
+    SystemCoordinator,
 )
-from .transparency_monitor import (
-    CognitiveTransparencyMonitor,
-    ProcessTracer,
-    PerformanceMonitor,
-    StateObserver,
-    DecisionAuditor
+from .interoperability_bus import (
+    CognitiveInteroperabilityBus,
+    ComponentRegistry,
+    EventStream,
+    MessageRouter,
 )
 from .performance_optimizer import (
     CognitivePerformanceOptimizer,
     GPUOptimizer,
     MemoryOptimizer,
-    ParallelProcessor
+    ParallelProcessor,
 )
-from .architecture_orchestrator import (
-    KimeraCoreArchitecture,
-    InterconnectionMatrix,
-    SystemCoordinator
+from .transparency_monitor import (
+    CognitiveTransparencyMonitor,
+    DecisionAuditor,
+    PerformanceMonitor,
+    ProcessTracer,
+    StateObserver,
 )
 
 __all__ = [
-    'CognitiveInteroperabilityBus',
-    'CognitiveTransparencyMonitor',
-    'CognitivePerformanceOptimizer',
-    'KimeraCoreArchitecture',
-    'MessageRouter',
-    'EventStream',
-    'ComponentRegistry',
-    'ProcessTracer',
-    'PerformanceMonitor',
-    'StateObserver',
-    'DecisionAuditor',
-    'GPUOptimizer',
-    'MemoryOptimizer',
-    'ParallelProcessor',
-    'InterconnectionMatrix',
-    'SystemCoordinator'
+    "CognitiveInteroperabilityBus",
+    "CognitiveTransparencyMonitor",
+    "CognitivePerformanceOptimizer",
+    "KimeraCoreArchitecture",
+    "MessageRouter",
+    "EventStream",
+    "ComponentRegistry",
+    "ProcessTracer",
+    "PerformanceMonitor",
+    "StateObserver",
+    "DecisionAuditor",
+    "GPUOptimizer",
+    "MemoryOptimizer",
+    "ParallelProcessor",
+    "InterconnectionMatrix",
+    "SystemCoordinator",
 ]
 
 # Version information

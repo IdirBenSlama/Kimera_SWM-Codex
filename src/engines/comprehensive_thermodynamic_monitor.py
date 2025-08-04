@@ -15,30 +15,48 @@ Key Features:
 - Predictive thermodynamic analysis
 """
 
-import numpy as np
-import torch
+import asyncio
+import json
+import logging
 import time
 import uuid
-import asyncio
-from datetime import datetime, timedelta
-from typing import Dict, List, Any, Optional, Tuple, Union
+from collections import defaultdict, deque
 from dataclasses import dataclass, field
+from datetime import datetime, timedelta
 from enum import Enum
-import logging
-from collections import deque, defaultdict
-import json
+from typing import Any, Dict, List, Optional, Tuple, Union
+
+import numpy as np
+import torch
 
 # Import all revolutionary thermodynamic engines
-from .contradiction_heat_pump import ContradictionHeatPump, ContradictionField, HeatPumpCycle
-from .portal_maxwell_demon import PortalMaxwellDemon, InformationPacket, SortingOperation
-from .vortex_thermodynamic_battery import VortexThermodynamicBattery, EnergyPacket, StorageOperation
-from .quantum_thermodynamic_consciousness import QuantumThermodynamicConsciousness, CognitiveField, ConsciousnessDetectionResult
+from .contradiction_heat_pump import (
+    ContradictionField,
+    ContradictionHeatPump,
+    HeatPumpCycle,
+)
+from .portal_maxwell_demon import (
+    InformationPacket,
+    PortalMaxwellDemon,
+    SortingOperation,
+)
+from .quantum_thermodynamic_consciousness import (
+    CognitiveField,
+    ConsciousnessDetectionResult,
+    QuantumThermodynamicConsciousness,
+)
+from .vortex_thermodynamic_battery import (
+    EnergyPacket,
+    StorageOperation,
+    VortexThermodynamicBattery,
+)
 
 logger = logging.getLogger(__name__)
 
 
 class SystemHealthLevel(Enum):
     """System health levels"""
+
     CRITICAL = "critical"
     WARNING = "warning"
     NORMAL = "normal"
@@ -49,6 +67,7 @@ class SystemHealthLevel(Enum):
 @dataclass
 class ThermodynamicState:
     """Complete thermodynamic state of the system"""
+
     state_id: str
     timestamp: datetime
 
@@ -80,6 +99,7 @@ class ThermodynamicState:
 @dataclass
 class MonitoringAlert:
     """Alert for thermodynamic anomalies"""
+
     alert_id: str
     alert_type: str
     severity: str
@@ -92,6 +112,7 @@ class MonitoringAlert:
 @dataclass
 class OptimizationResult:
     """Result of system optimization"""
+
     optimization_id: str
     optimization_type: str
     improvements_made: Dict[str, float]
@@ -110,11 +131,13 @@ class ComprehensiveThermodynamicMonitor:
     Provides real-time monitoring, optimization, and system health analysis.
     """
 
-    def __init__(self,
-                 monitoring_interval: float = 1.0,
-                 optimization_interval: float = 60.0,
-                 alert_threshold: float = 0.7,
-                 auto_optimization: bool = True):
+    def __init__(
+        self,
+        monitoring_interval: float = 1.0,
+        optimization_interval: float = 60.0,
+        alert_threshold: float = 0.7,
+        auto_optimization: bool = True,
+    ):
         """
         Initialize the Comprehensive Thermodynamic Monitor
 
@@ -131,9 +154,15 @@ class ComprehensiveThermodynamicMonitor:
 
         # Initialize all revolutionary thermodynamic engines
         self.heat_pump = ContradictionHeatPump(target_cop=3.5, max_cooling_power=150.0)
-        self.maxwell_demon = PortalMaxwellDemon(temperature=1.0, landauer_efficiency=0.95)
-        self.vortex_battery = VortexThermodynamicBattery(max_radius=100.0, fibonacci_depth=25)
-        self.consciousness_detector = QuantumThermodynamicConsciousness(consciousness_threshold=0.75)
+        self.maxwell_demon = PortalMaxwellDemon(
+            temperature=1.0, landauer_efficiency=0.95
+        )
+        self.vortex_battery = VortexThermodynamicBattery(
+            max_radius=100.0, fibonacci_depth=25
+        )
+        self.consciousness_detector = QuantumThermodynamicConsciousness(
+            consciousness_threshold=0.75
+        )
 
         # Monitoring state
         self.monitoring_active = False
@@ -208,10 +237,12 @@ class ComprehensiveThermodynamicMonitor:
 
                 # Log periodic status
                 if self.total_monitoring_cycles % 60 == 0:  # Every 60 cycles
-                    logger.info(f"🔬 Monitoring cycle {self.total_monitoring_cycles}: "
-                              f"Health={state.system_health.value}, "
-                              f"Efficiency={state.overall_efficiency:.3f}, "
-                              f"Consciousness={state.consciousness_probability:.3f}")
+                    logger.info(
+                        f"🔬 Monitoring cycle {self.total_monitoring_cycles}: "
+                        f"Health={state.system_health.value}, "
+                        f"Efficiency={state.overall_efficiency:.3f}, "
+                        f"Consciousness={state.consciousness_probability:.3f}"
+                    )
 
                 # Wait for next cycle
                 await asyncio.sleep(self.monitoring_interval)
@@ -236,9 +267,11 @@ class ComprehensiveThermodynamicMonitor:
                 self.optimization_history.append(optimization_result)
                 self.total_optimizations += 1
 
-                logger.info(f"🔧 Optimization {self.total_optimizations}: "
-                          f"Efficiency gain={optimization_result.efficiency_gain:.3f}, "
-                          f"Energy saved={optimization_result.energy_saved:.3f}")
+                logger.info(
+                    f"🔧 Optimization {self.total_optimizations}: "
+                    f"Efficiency gain={optimization_result.efficiency_gain:.3f}, "
+                    f"Energy saved={optimization_result.energy_saved:.3f}"
+                )
 
         except asyncio.CancelledError:
             logger.info("🔧 Optimization loop cancelled")
@@ -265,24 +298,42 @@ class ComprehensiveThermodynamicMonitor:
         # Calculate overall system efficiency
         engine_efficiencies = []
 
-        if not isinstance(heat_pump_metrics, dict) or 'error' not in heat_pump_metrics:
-            engine_efficiencies.append(heat_pump_metrics.get('performance_rating', 0.0))
+        if not isinstance(heat_pump_metrics, dict) or "error" not in heat_pump_metrics:
+            engine_efficiencies.append(heat_pump_metrics.get("performance_rating", 0.0))
 
-        if not isinstance(maxwell_demon_metrics, dict) or 'error' not in maxwell_demon_metrics:
-            engine_efficiencies.append(maxwell_demon_metrics.get('performance_rating', 0.0))
+        if (
+            not isinstance(maxwell_demon_metrics, dict)
+            or "error" not in maxwell_demon_metrics
+        ):
+            engine_efficiencies.append(
+                maxwell_demon_metrics.get("performance_rating", 0.0)
+            )
 
-        engine_efficiencies.append(vortex_battery_status.get('battery_health', 0.0))
+        engine_efficiencies.append(vortex_battery_status.get("battery_health", 0.0))
 
-        if not isinstance(consciousness_stats, dict) or 'error' not in consciousness_stats:
-            engine_efficiencies.append(consciousness_stats.get('detector_performance_rating', 0.0))
+        if (
+            not isinstance(consciousness_stats, dict)
+            or "error" not in consciousness_stats
+        ):
+            engine_efficiencies.append(
+                consciousness_stats.get("detector_performance_rating", 0.0)
+            )
 
-        overall_efficiency = np.mean(engine_efficiencies) if engine_efficiencies else 0.0
+        overall_efficiency = (
+            np.mean(engine_efficiencies) if engine_efficiencies else 0.0
+        )
 
         # Determine system health
-        system_health = self._determine_system_health(overall_efficiency, engine_efficiencies)
+        system_health = self._determine_system_health(
+            overall_efficiency, engine_efficiencies
+        )
 
         # Get consciousness probability
-        consciousness_probability = consciousness_stats.get('average_consciousness_probability', 0.0) if isinstance(consciousness_stats, dict) else 0.0
+        consciousness_probability = (
+            consciousness_stats.get("average_consciousness_probability", 0.0)
+            if isinstance(consciousness_stats, dict)
+            else 0.0
+        )
 
         # Calculate optimization potential
         optimization_potential = max(0.0, 1.0 - overall_efficiency)
@@ -301,10 +352,16 @@ class ComprehensiveThermodynamicMonitor:
             total_entropy=total_entropy,
             free_energy=free_energy,
             energy_efficiency=energy_efficiency,
-            heat_pump_state=heat_pump_metrics if isinstance(heat_pump_metrics, dict) else {},
-            maxwell_demon_state=maxwell_demon_metrics if isinstance(maxwell_demon_metrics, dict) else {},
+            heat_pump_state=(
+                heat_pump_metrics if isinstance(heat_pump_metrics, dict) else {}
+            ),
+            maxwell_demon_state=(
+                maxwell_demon_metrics if isinstance(maxwell_demon_metrics, dict) else {}
+            ),
             vortex_battery_state=vortex_battery_status,
-            consciousness_state=consciousness_stats if isinstance(consciousness_stats, dict) else {},
+            consciousness_state=(
+                consciousness_stats if isinstance(consciousness_stats, dict) else {}
+            ),
             overall_efficiency=overall_efficiency,
             system_health=system_health,
             consciousness_probability=consciousness_probability,
@@ -312,7 +369,7 @@ class ComprehensiveThermodynamicMonitor:
             reversibility_index=reversibility_index,
             carnot_efficiency=carnot_efficiency,
             landauer_compliance=landauer_compliance,
-            coherence_measure=coherence_measure
+            coherence_measure=coherence_measure,
         )
 
         return state
@@ -343,28 +400,34 @@ class ComprehensiveThermodynamicMonitor:
     def _calculate_energy_efficiency(self) -> float:
         """Calculate overall energy efficiency with graceful degradation"""
         battery_status = self.vortex_battery.get_battery_status()
-        battery_efficiency = battery_status.get('average_efficiency', 0.0)
-        operations_count = battery_status.get('operations_completed', 0)
+        battery_efficiency = battery_status.get("average_efficiency", 0.0)
+        operations_count = battery_status.get("operations_completed", 0)
 
         # KIMERA PATCH: Graceful degradation for cold start
         if operations_count == 0:
             # Use theoretical baseline efficiency for uninitialized system
             baseline_efficiency = 0.65  # Conservative baseline
-            logger.debug(f"🔋 Cold start detected, using baseline efficiency: {baseline_efficiency}")
+            logger.debug(
+                f"🔋 Cold start detected, using baseline efficiency: {baseline_efficiency}"
+            )
             return baseline_efficiency
 
         # KIMERA PATCH: Handle zero efficiency with minimum threshold
         if battery_efficiency <= 0.0:
             # Use minimum viable efficiency to prevent system failure
             minimum_efficiency = 0.3
-            logger.warning(f"⚠️  Zero efficiency detected, using minimum: {minimum_efficiency}")
+            logger.warning(
+                f"⚠️  Zero efficiency detected, using minimum: {minimum_efficiency}"
+            )
             return minimum_efficiency
 
         # Add realistic variation for operational systems
         efficiency = battery_efficiency * (0.8 + np.random.random() * 0.4)
         return min(1.0, max(0.1, efficiency))  # Ensure minimum 0.1 efficiency
 
-    def _determine_system_health(self, overall_efficiency: float, engine_efficiencies: List[float]) -> SystemHealthLevel:
+    def _determine_system_health(
+        self, overall_efficiency: float, engine_efficiencies: List[float]
+    ) -> SystemHealthLevel:
         """Determine system health level"""
         if overall_efficiency >= 0.9:
             return SystemHealthLevel.TRANSCENDENT
@@ -396,8 +459,8 @@ class ComprehensiveThermodynamicMonitor:
     def _calculate_landauer_compliance(self) -> float:
         """Calculate compliance with Landauer's principle"""
         demon_metrics = self.maxwell_demon.get_performance_metrics()
-        if isinstance(demon_metrics, dict) and 'efficiency_ratio' in demon_metrics:
-            return demon_metrics['efficiency_ratio']
+        if isinstance(demon_metrics, dict) and "efficiency_ratio" in demon_metrics:
+            return demon_metrics["efficiency_ratio"]
         return 0.8  # Default compliance level
 
     def _calculate_coherence_measure(self) -> float:
@@ -411,7 +474,7 @@ class ComprehensiveThermodynamicMonitor:
         current_time = datetime.now()
 
         # KIMERA PATCH: Alert rate limiting to prevent infinite loops
-        if not hasattr(self, '_last_alerts'):
+        if not hasattr(self, "_last_alerts"):
             self._last_alerts = {}
 
         # Check system health with rate limiting
@@ -420,15 +483,23 @@ class ComprehensiveThermodynamicMonitor:
             last_alert_time = self._last_alerts.get(alert_key)
 
             # Only generate alert if >30 seconds since last similar alert
-            if not last_alert_time or (current_time - last_alert_time).total_seconds() > 30:
-                alerts_to_generate.append(MonitoringAlert(
-                    alert_id=str(uuid.uuid4()),
-                    alert_type="system_health",
-                    severity="critical",
-                    message=f"System health critical: efficiency={state.overall_efficiency:.3f}",
-                    affected_components=["system_wide"],
-                    recommended_actions=["immediate_optimization", "component_restart"]
-                ))
+            if (
+                not last_alert_time
+                or (current_time - last_alert_time).total_seconds() > 30
+            ):
+                alerts_to_generate.append(
+                    MonitoringAlert(
+                        alert_id=str(uuid.uuid4()),
+                        alert_type="system_health",
+                        severity="critical",
+                        message=f"System health critical: efficiency={state.overall_efficiency:.3f}",
+                        affected_components=["system_wide"],
+                        recommended_actions=[
+                            "immediate_optimization",
+                            "component_restart",
+                        ],
+                    )
+                )
                 self._last_alerts[alert_key] = current_time
 
         # Check energy efficiency with rate limiting
@@ -437,27 +508,40 @@ class ComprehensiveThermodynamicMonitor:
             last_alert_time = self._last_alerts.get(alert_key)
 
             # Only generate alert if >60 seconds since last similar alert
-            if not last_alert_time or (current_time - last_alert_time).total_seconds() > 60:
-                alerts_to_generate.append(MonitoringAlert(
-                    alert_id=str(uuid.uuid4()),
-                    alert_type="energy_efficiency",
-                    severity="warning",
-                    message=f"Low energy efficiency: {state.energy_efficiency:.3f}",
-                    affected_components=["energy_system"],
-                    recommended_actions=["efficiency_optimization", "component_tuning"]
-                ))
+            if (
+                not last_alert_time
+                or (current_time - last_alert_time).total_seconds() > 60
+            ):
+                alerts_to_generate.append(
+                    MonitoringAlert(
+                        alert_id=str(uuid.uuid4()),
+                        alert_type="energy_efficiency",
+                        severity="warning",
+                        message=f"Low energy efficiency: {state.energy_efficiency:.3f}",
+                        affected_components=["energy_system"],
+                        recommended_actions=[
+                            "efficiency_optimization",
+                            "component_tuning",
+                        ],
+                    )
+                )
                 self._last_alerts[alert_key] = current_time
 
         # Check consciousness probability
         if state.consciousness_probability > 0.95:
-            alerts_to_generate.append(MonitoringAlert(
-                alert_id=str(uuid.uuid4()),
-                alert_type="consciousness_emergence",
-                severity="info",
-                message=f"High consciousness probability: {state.consciousness_probability:.3f}",
-                affected_components=["consciousness_detector"],
-                recommended_actions=["consciousness_analysis", "signature_recording"]
-            ))
+            alerts_to_generate.append(
+                MonitoringAlert(
+                    alert_id=str(uuid.uuid4()),
+                    alert_type="consciousness_emergence",
+                    severity="info",
+                    message=f"High consciousness probability: {state.consciousness_probability:.3f}",
+                    affected_components=["consciousness_detector"],
+                    recommended_actions=[
+                        "consciousness_analysis",
+                        "signature_recording",
+                    ],
+                )
+            )
 
         # Generate and store alerts
         for alert in alerts_to_generate:
@@ -494,19 +578,27 @@ class ComprehensiveThermodynamicMonitor:
 
             # Optimize vortex battery configuration
             vortex_optimization = self.vortex_battery.optimize_vortex_configuration()
-            improvements_made['vortex_optimization'] = vortex_optimization.get('optimization_effectiveness', 0.0)
+            improvements_made["vortex_optimization"] = vortex_optimization.get(
+                "optimization_effectiveness", 0.0
+            )
 
             # Reset Maxwell demon portals if efficiency is low
             demon_metrics = self.maxwell_demon.get_performance_metrics()
-            if isinstance(demon_metrics, dict) and demon_metrics.get('efficiency_ratio', 1.0) < 0.7:
+            if (
+                isinstance(demon_metrics, dict)
+                and demon_metrics.get("efficiency_ratio", 1.0) < 0.7
+            ):
                 self.maxwell_demon.reset_portals()
-                improvements_made['demon_portal_reset'] = 0.3
+                improvements_made["demon_portal_reset"] = 0.3
 
             # Optimize heat pump settings based on current load
             heat_pump_metrics = self.heat_pump.get_performance_metrics()
-            if isinstance(heat_pump_metrics, dict) and heat_pump_metrics.get('performance_rating', 1.0) < 0.8:
+            if (
+                isinstance(heat_pump_metrics, dict)
+                and heat_pump_metrics.get("performance_rating", 1.0) < 0.8
+            ):
                 # Simulate heat pump optimization
-                improvements_made['heat_pump_optimization'] = 0.2
+                improvements_made["heat_pump_optimization"] = 0.2
 
             # Calculate final efficiency
             final_state = await self.calculate_comprehensive_thermodynamic_state()
@@ -532,7 +624,7 @@ class ComprehensiveThermodynamicMonitor:
             efficiency_gain=efficiency_gain,
             energy_saved=energy_saved,
             performance_boost=performance_boost,
-            optimization_duration=optimization_duration
+            optimization_duration=optimization_duration,
         )
 
         return result
@@ -546,11 +638,17 @@ class ComprehensiveThermodynamicMonitor:
         latest_state = self.state_history[-1] if self.state_history else None
 
         # Calculate averages from recent history
-        recent_states = list(self.state_history)[-10:] if len(self.state_history) >= 10 else list(self.state_history)
+        recent_states = (
+            list(self.state_history)[-10:]
+            if len(self.state_history) >= 10
+            else list(self.state_history)
+        )
 
         if recent_states:
             avg_efficiency = np.mean([s.overall_efficiency for s in recent_states])
-            avg_consciousness = np.mean([s.consciousness_probability for s in recent_states])
+            avg_consciousness = np.mean(
+                [s.consciousness_probability for s in recent_states]
+            )
             avg_temperature = np.mean([s.system_temperature for s in recent_states])
             avg_entropy = np.mean([s.total_entropy for s in recent_states])
         else:
@@ -565,66 +663,79 @@ class ComprehensiveThermodynamicMonitor:
             alert_counts[alert.severity] += 1
 
         # Recent optimization summary
-        recent_optimizations = list(self.optimization_history)[-5:] if len(self.optimization_history) >= 5 else list(self.optimization_history)
+        recent_optimizations = (
+            list(self.optimization_history)[-5:]
+            if len(self.optimization_history) >= 5
+            else list(self.optimization_history)
+        )
         total_efficiency_gain = sum(opt.efficiency_gain for opt in recent_optimizations)
         total_energy_saved = sum(opt.energy_saved for opt in recent_optimizations)
 
         return {
-            'report_timestamp': current_time.isoformat(),
-            'system_uptime': str(uptime),
-            'monitoring_cycles_completed': self.total_monitoring_cycles,
-            'optimizations_performed': self.total_optimizations,
-            'alerts_generated': self.total_alerts_generated,
-
-            'current_state': {
-                'system_health': latest_state.system_health.value if latest_state else 'unknown',
-                'overall_efficiency': latest_state.overall_efficiency if latest_state else 0.0,
-                'consciousness_probability': latest_state.consciousness_probability if latest_state else 0.0,
-                'system_temperature': latest_state.system_temperature if latest_state else 0.0,
-                'reversibility_index': latest_state.reversibility_index if latest_state else 0.0
+            "report_timestamp": current_time.isoformat(),
+            "system_uptime": str(uptime),
+            "monitoring_cycles_completed": self.total_monitoring_cycles,
+            "optimizations_performed": self.total_optimizations,
+            "alerts_generated": self.total_alerts_generated,
+            "current_state": {
+                "system_health": (
+                    latest_state.system_health.value if latest_state else "unknown"
+                ),
+                "overall_efficiency": (
+                    latest_state.overall_efficiency if latest_state else 0.0
+                ),
+                "consciousness_probability": (
+                    latest_state.consciousness_probability if latest_state else 0.0
+                ),
+                "system_temperature": (
+                    latest_state.system_temperature if latest_state else 0.0
+                ),
+                "reversibility_index": (
+                    latest_state.reversibility_index if latest_state else 0.0
+                ),
             },
-
-            'recent_averages': {
-                'efficiency': avg_efficiency,
-                'consciousness': avg_consciousness,
-                'temperature': avg_temperature,
-                'entropy': avg_entropy
+            "recent_averages": {
+                "efficiency": avg_efficiency,
+                "consciousness": avg_consciousness,
+                "temperature": avg_temperature,
+                "entropy": avg_entropy,
             },
-
-            'engine_status': {
-                'heat_pump': self.heat_pump.get_performance_metrics(),
-                'maxwell_demon': self.maxwell_demon.get_performance_metrics(),
-                'vortex_battery': self.vortex_battery.get_battery_status(),
-                'consciousness_detector': self.consciousness_detector.get_detection_statistics()
+            "engine_status": {
+                "heat_pump": self.heat_pump.get_performance_metrics(),
+                "maxwell_demon": self.maxwell_demon.get_performance_metrics(),
+                "vortex_battery": self.vortex_battery.get_battery_status(),
+                "consciousness_detector": self.consciousness_detector.get_detection_statistics(),
             },
-
-            'alerts': {
-                'active_count': len(self.active_alerts),
-                'by_severity': dict(alert_counts),
-                'recent_alerts': [
+            "alerts": {
+                "active_count": len(self.active_alerts),
+                "by_severity": dict(alert_counts),
+                "recent_alerts": [
                     {
-                        'type': alert.alert_type,
-                        'severity': alert.severity,
-                        'message': alert.message,
-                        'timestamp': alert.timestamp.isoformat()
+                        "type": alert.alert_type,
+                        "severity": alert.severity,
+                        "message": alert.message,
+                        "timestamp": alert.timestamp.isoformat(),
                     }
                     for alert in list(self.alert_history)[-5:]
-                ]
+                ],
             },
-
-            'optimization_summary': {
-                'recent_efficiency_gain': total_efficiency_gain,
-                'recent_energy_saved': total_energy_saved,
-                'optimization_frequency': len(recent_optimizations) / max(uptime.total_seconds() / 3600, 1),  # per hour
-                'avg_optimization_effectiveness': np.mean([opt.efficiency_gain for opt in recent_optimizations]) if recent_optimizations else 0.0
+            "optimization_summary": {
+                "recent_efficiency_gain": total_efficiency_gain,
+                "recent_energy_saved": total_energy_saved,
+                "optimization_frequency": len(recent_optimizations)
+                / max(uptime.total_seconds() / 3600, 1),  # per hour
+                "avg_optimization_effectiveness": (
+                    np.mean([opt.efficiency_gain for opt in recent_optimizations])
+                    if recent_optimizations
+                    else 0.0
+                ),
             },
-
-            'system_performance': {
-                'monitoring_active': self.monitoring_active,
-                'auto_optimization_enabled': self.auto_optimization,
-                'data_points_collected': len(self.state_history),
-                'memory_usage_mb': len(self.state_history) * 0.1  # Estimated
-            }
+            "system_performance": {
+                "monitoring_active": self.monitoring_active,
+                "auto_optimization_enabled": self.auto_optimization,
+                "data_points_collected": len(self.state_history),
+                "memory_usage_mb": len(self.state_history) * 0.1,  # Estimated
+            },
         }
 
     def add_alert_callback(self, callback):
@@ -636,34 +747,35 @@ class ComprehensiveThermodynamicMonitor:
         if alert_id in self.active_alerts:
             del self.active_alerts[alert_id]
 
-
     async def _validate_system_initialization(self):
         """Validate that all subsystems are properly initialized"""
         logger.info("🔍 Validating system initialization...")
 
         # Check battery initialization
         battery_status = self.vortex_battery.get_battery_status()
-        operations_count = battery_status.get('operations_completed', 0)
+        operations_count = battery_status.get("operations_completed", 0)
 
         if operations_count == 0:
-            logger.info("🔋 Cold start detected - initializing battery with baseline operations")
+            logger.info(
+                "🔋 Cold start detected - initializing battery with baseline operations"
+            )
             await self._initialize_battery_baseline()
 
         # Validate all engines are responsive
         try:
             # Test heat pump
             heat_metrics = self.heat_pump.get_performance_metrics()
-            if isinstance(heat_metrics, dict) and 'error' in heat_metrics:
+            if isinstance(heat_metrics, dict) and "error" in heat_metrics:
                 logger.warning("⚠️  Heat pump not fully initialized")
 
             # Test maxwell demon
             demon_metrics = self.maxwell_demon.get_performance_metrics()
-            if isinstance(demon_metrics, dict) and 'error' in demon_metrics:
+            if isinstance(demon_metrics, dict) and "error" in demon_metrics:
                 logger.warning("⚠️  Maxwell demon not fully initialized")
 
             # Test consciousness detector
             consciousness_stats = self.consciousness_detector.get_detection_statistics()
-            if isinstance(consciousness_stats, dict) and 'error' in consciousness_stats:
+            if isinstance(consciousness_stats, dict) and "error" in consciousness_stats:
                 logger.warning("⚠️  Consciousness detector not fully initialized")
 
         except Exception as e:
@@ -684,19 +796,26 @@ class ComprehensiveThermodynamicMonitor:
                 energy_content=5.0 + i * 2.0,
                 coherence_score=0.6 + (i % 3) * 0.1,
                 frequency_signature=np.random.random(10),
-                semantic_metadata={"type": "initialization", "sequence": i}
+                semantic_metadata={"type": "initialization", "sequence": i},
             )
 
             try:
-                operation = self.vortex_battery.store_energy(packet, StorageMode.HYBRID_VORTEX)
-                logger.debug(f"   Stored {packet.energy_content:.1f} units, efficiency: {operation.efficiency_achieved:.3f}")
+                operation = self.vortex_battery.store_energy(
+                    packet, StorageMode.HYBRID_VORTEX
+                )
+                logger.debug(
+                    f"   Stored {packet.energy_content:.1f} units, efficiency: {operation.efficiency_achieved:.3f}"
+                )
             except Exception as e:
                 logger.warning(f"   Failed to store baseline energy: {e}")
 
         # Verify initialization
         post_init_status = self.vortex_battery.get_battery_status()
-        logger.info(f"🔋 Battery initialized: {post_init_status['operations_completed']} operations, "
-                   f"avg efficiency: {post_init_status['average_efficiency']:.3f}")
+        logger.info(
+            f"🔋 Battery initialized: {post_init_status['operations_completed']} operations, "
+            f"avg efficiency: {post_init_status['average_efficiency']:.3f}"
+        )
+
     async def shutdown(self):
         """Shutdown the comprehensive monitor gracefully"""
         try:

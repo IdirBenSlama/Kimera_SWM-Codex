@@ -34,31 +34,39 @@ EPISTEMIC FOUNDATION:
 """
 
 import asyncio
+import concurrent.futures
 import logging
-import time
 import math
-import numpy as np
-import torch
-import torch.nn.functional as F
-from typing import Dict, List, Any, Optional, Tuple, Set
+import threading
+import time
+import uuid
+from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-import uuid
-import threading
-from collections import deque, defaultdict
-import concurrent.futures
+from typing import Any, Dict, List, Optional, Set, Tuple
+
+import numpy as np
+import torch
+import torch.nn.functional as F
 
 # Kimera Core Imports
 from ..core.cognitive_field_config import CognitiveFieldConfig
 from ..engines.cognitive_field_dynamics import CognitiveFieldDynamics
-from ..engines.quantum_thermodynamic_consciousness import QuantumThermodynamicConsciousnessDetector
 from ..engines.foundational_thermodynamic_engine import FoundationalThermodynamicEngine
-from ..engines.geoid_mirror_portal_engine import GeoidMirrorPortalEngine, MirrorPortalState
+from ..engines.geoid_mirror_portal_engine import (
+    GeoidMirrorPortalEngine,
+    MirrorPortalState,
+)
+from ..engines.quantum_thermodynamic_consciousness import (
+    QuantumThermodynamicConsciousnessDetector,
+)
 from ..engines.revolutionary_epistemic_validator import RevolutionaryEpistemicValidator
-from ..monitoring.comprehensive_thermodynamic_monitor import ComprehensiveThermodynamicMonitor
+from ..monitoring.comprehensive_thermodynamic_monitor import (
+    ComprehensiveThermodynamicMonitor,
+)
 from ..utils.gpu_foundation import GPUFoundation
-from ..utils.kimera_logger import get_logger, LogCategory
+from ..utils.kimera_logger import LogCategory, get_logger
 
 logger = get_logger(__name__, LogCategory.SYSTEM)
 
@@ -930,6 +938,8 @@ async def demonstrate_zetetic_revolutionary_integration():
 
 if __name__ == "__main__":
     import asyncio
-from ..utils.config import get_api_settings
+
 from ..config.settings import get_settings
+from ..utils.config import get_api_settings
+
     asyncio.run(demonstrate_zetetic_revolutionary_integration())

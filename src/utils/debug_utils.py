@@ -7,7 +7,7 @@ an external debugger.
 from __future__ import annotations
 
 import threading
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 
 def get_thread_info() -> List[Dict[str, Any]]:  # noqa: D401
@@ -22,4 +22,4 @@ def get_thread_info() -> List[Dict[str, Any]]:  # noqa: D401
                 "alive": t.is_alive(),
             }
         )
-    return thread_data 
+    return thread_data

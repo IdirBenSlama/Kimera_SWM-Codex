@@ -10,15 +10,15 @@ Version: 1.0.0 - DO-178C Level A Compliant
 """
 
 from .quantum_resistant_crypto import (
-    QuantumResistantCrypto,
-    LatticeParams,
+    CryptographicResult,
     DilithiumParams,
-    CryptographicResult
+    LatticeParams,
+    QuantumResistantCrypto,
 )
 
 __all__ = [
     "QuantumResistantCrypto",
     "LatticeParams",
     "DilithiumParams",
-    "CryptographicResult"
+    "CryptographicResult",
 ]

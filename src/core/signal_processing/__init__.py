@@ -19,9 +19,9 @@ from .emergent_signal_detector import EmergentSignalIntelligenceDetector
 from .integration import SignalProcessingIntegration
 
 __all__ = [
-    'DiffusionResponseEngine',
-    'EmergentSignalIntelligenceDetector',
-    'SignalProcessingIntegration'
+    "DiffusionResponseEngine",
+    "EmergentSignalIntelligenceDetector",
+    "SignalProcessingIntegration",
 ]
 
 # Version and compliance information

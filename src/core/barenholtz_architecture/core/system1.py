@@ -15,34 +15,39 @@ Safety Requirements:
 - Parallel processing capabilities required
 """
 
-import time
-import torch
-import torch.nn.functional as F
-import numpy as np
-from typing import Dict, List, Optional, Any, Tuple
-from dataclasses import dataclass, field
-from datetime import datetime
 import asyncio
 import logging
+import time
+from dataclasses import dataclass, field
+from datetime import datetime
+from typing import Any, Dict, List, Optional, Tuple
+
+import numpy as np
 import psutil
+import torch
+import torch.nn.functional as F
 
 # Robust import fallback for kimera utilities
 try:
-    from src.utils.kimera_logger import get_logger, LogCategory
     from src.utils.kimera_exceptions import KimeraCognitiveError
+    from src.utils.kimera_logger import LogCategory, get_logger
 except ImportError:
     try:
-        from utils.kimera_logger import get_logger, LogCategory
         from utils.kimera_exceptions import KimeraCognitiveError
+        from utils.kimera_logger import LogCategory, get_logger
     except ImportError:
         import logging
+
         # Fallback logger and exception
         def get_logger(name, category=None):
             return logging.getLogger(name)
+
         class LogCategory:
             DUAL_SYSTEM = "dual_system"
+
         class KimeraCognitiveError(Exception):
             pass
+
 
 logger = get_logger(__name__, LogCategory.DUAL_SYSTEM)
 
@@ -50,6 +55,7 @@ logger = get_logger(__name__, LogCategory.DUAL_SYSTEM)
 @dataclass
 class IntuitionResult:
     """Result from System 1 intuitive processing"""
+
     pattern_matches: List[Dict[str, float]]
     associations: Dict[str, List[str]]
     confidence: float
@@ -60,8 +66,8 @@ class IntuitionResult:
     def is_valid(self) -> bool:
         """Validate result meets safety requirements"""
         return (
-            0.0 <= self.confidence <= 1.0 and
-            self.processing_time < 0.100  # 100ms requirement
+            0.0 <= self.confidence <= 1.0
+            and self.processing_time < 0.100  # 100ms requirement
         )
 
 
@@ -86,33 +92,35 @@ class PatternMatcher:
 
         # Parallel similarity computation
         for pattern_id, pattern_data in self.pattern_memory.items():
-            pattern_emb = pattern_data['embedding']
-            similarity = F.cosine_similarity(
-                input_norm,
-                pattern_emb,
-                dim=0
-            ).item()
+            pattern_emb = pattern_data["embedding"]
+            similarity = F.cosine_similarity(input_norm, pattern_emb, dim=0).item()
 
             if similarity > self.match_threshold:
-                matches.append({
-                    'pattern_id': pattern_id,
-                    'similarity': similarity,
-                    'category': pattern_data.get('category', 'unknown'),
-                    'associations': pattern_data.get('associations', [])
-                })
+                matches.append(
+                    {
+                        "pattern_id": pattern_id,
+                        "similarity": similarity,
+                        "category": pattern_data.get("category", "unknown"),
+                        "associations": pattern_data.get("associations", []),
+                    }
+                )
 
         # Sort by similarity (highest first)
-        matches.sort(key=lambda x: x['similarity'], reverse=True)
+        matches.sort(key=lambda x: x["similarity"], reverse=True)
 
         return matches[:10]  # Return top 10 matches for efficiency
 
-    def add_pattern(self, pattern_id: str, embedding: torch.Tensor,
-                   metadata: Optional[Dict[str, Any]] = None):
+    def add_pattern(
+        self,
+        pattern_id: str,
+        embedding: torch.Tensor,
+        metadata: Optional[Dict[str, Any]] = None,
+    ):
         """Add pattern to associative memory"""
         self.pattern_memory[pattern_id] = {
-            'embedding': F.normalize(embedding.view(-1), p=2, dim=0),
-            'timestamp': datetime.now(),
-            **(metadata or {})
+            "embedding": F.normalize(embedding.view(-1), p=2, dim=0),
+            "timestamp": datetime.now(),
+            **(metadata or {}),
         }
 
 
@@ -124,8 +132,9 @@ class AssociativeProcessor:
         self.association_network = {}  # Graph of associations
         self.activation_decay = 0.8
 
-    def get_associations(self, concepts: List[str],
-                        max_depth: int = 2) -> Dict[str, List[str]]:
+    def get_associations(
+        self, concepts: List[str], max_depth: int = 2
+    ) -> Dict[str, List[str]]:
         """
         Retrieve associations using spreading activation
 
@@ -150,12 +159,11 @@ class AssociativeProcessor:
                 # Spread to neighbors
                 for neighbor, weight in self.association_network[node].items():
                     if neighbor not in associations:
-                        spread = activation * weight * (self.activation_decay ** depth)
+                        spread = activation * weight * (self.activation_decay**depth)
 
                         if spread > 0.1:  # Threshold to prevent noise
                             new_activations[neighbor] = max(
-                                new_activations.get(neighbor, 0),
-                                spread
+                                new_activations.get(neighbor, 0), spread
                             )
 
             # Add new associations
@@ -186,10 +194,10 @@ class System1Processor:
 
         # Performance monitoring
         self.performance_stats = {
-            'total_calls': 0,
-            'avg_response_time': 0.0,
-            'max_response_time': 0.0,
-            'timeout_count': 0
+            "total_calls": 0,
+            "avg_response_time": 0.0,
+            "max_response_time": 0.0,
+            "timeout_count": 0,
         }
 
         # Safety limits
@@ -198,9 +206,9 @@ class System1Processor:
 
         logger.info("🧠 System 1 Processor initialized (fast/intuitive)")
 
-    async def process(self,
-                     input_data: torch.Tensor,
-                     context: Optional[Dict[str, Any]] = None) -> IntuitionResult:
+    async def process(
+        self, input_data: torch.Tensor, context: Optional[Dict[str, Any]] = None
+    ) -> IntuitionResult:
         """
         Main System 1 processing function
 
@@ -215,12 +223,10 @@ class System1Processor:
 
         try:
             # Parallel processing tasks
-            pattern_task = asyncio.create_task(
-                self._async_pattern_match(input_data)
-            )
+            pattern_task = asyncio.create_task(self._async_pattern_match(input_data))
 
             # Extract concepts for association (simplified for example)
-            concepts = context.get('concepts', []) if context else []
+            concepts = context.get("concepts", []) if context else []
             if concepts:
                 association_task = asyncio.create_task(
                     self._async_associations(concepts)
@@ -233,8 +239,7 @@ class System1Processor:
 
             # Wait for parallel tasks with timeout
             pattern_matches = await asyncio.wait_for(
-                pattern_task,
-                timeout=self.MAX_RESPONSE_TIME * 0.8  # 80% of budget
+                pattern_task, timeout=self.MAX_RESPONSE_TIME * 0.8  # 80% of budget
             )
 
             associations = {}
@@ -242,10 +247,12 @@ class System1Processor:
                 try:
                     associations = await asyncio.wait_for(
                         association_task,
-                        timeout=self.MAX_RESPONSE_TIME * 0.2  # Remaining budget
+                        timeout=self.MAX_RESPONSE_TIME * 0.2,  # Remaining budget
                     )
                 except asyncio.TimeoutError:
-                    logger.debug("Association task timed out, continuing with patterns only")
+                    logger.debug(
+                        "Association task timed out, continuing with patterns only"
+                    )
 
             # Calculate confidence based on pattern matches
             confidence = self._calculate_confidence(pattern_matches, features)
@@ -260,7 +267,7 @@ class System1Processor:
                 associations=associations,
                 confidence=confidence,
                 processing_time=processing_time,
-                features_detected=features
+                features_detected=features,
             )
 
             # Safety validation
@@ -272,7 +279,7 @@ class System1Processor:
             return result
 
         except asyncio.TimeoutError:
-            self.performance_stats['timeout_count'] += 1
+            self.performance_stats["timeout_count"] += 1
             logger.error("System 1 processing timeout exceeded")
 
             # Return degraded result
@@ -281,14 +288,16 @@ class System1Processor:
                 associations={},
                 confidence=0.0,
                 processing_time=self.MAX_RESPONSE_TIME,
-                features_detected={}
+                features_detected={},
             )
 
         except Exception as e:
             logger.error(f"System 1 processing error: {e}")
             raise KimeraCognitiveError(f"System 1 processing failed: {e}")
 
-    async def _async_pattern_match(self, input_data: torch.Tensor) -> List[Dict[str, float]]:
+    async def _async_pattern_match(
+        self, input_data: torch.Tensor
+    ) -> List[Dict[str, float]]:
         """Asynchronous pattern matching"""
         # Fast path for small inputs (typical in testing)
         if input_data.numel() < 1000:
@@ -297,17 +306,13 @@ class System1Processor:
 
         # Use thread pool for larger inputs
         return await asyncio.get_event_loop().run_in_executor(
-            None,
-            self.pattern_matcher.match_patterns,
-            input_data
+            None, self.pattern_matcher.match_patterns, input_data
         )
 
     async def _async_associations(self, concepts: List[str]) -> Dict[str, List[str]]:
         """Asynchronous association retrieval"""
         return await asyncio.get_event_loop().run_in_executor(
-            None,
-            self.associative_processor.get_associations,
-            concepts
+            None, self.associative_processor.get_associations, concepts
         )
 
     def _detect_features(self, input_data: torch.Tensor) -> Dict[str, Any]:
@@ -316,14 +321,14 @@ class System1Processor:
 
         # Basic statistical features (fast to compute)
         data_np = input_data.cpu().numpy()
-        features['mean'] = float(np.mean(data_np))
-        features['std'] = float(np.std(data_np))
-        features['max'] = float(np.max(data_np))
-        features['min'] = float(np.min(data_np))
+        features["mean"] = float(np.mean(data_np))
+        features["std"] = float(np.std(data_np))
+        features["max"] = float(np.max(data_np))
+        features["min"] = float(np.min(data_np))
 
         # Detect patterns (simplified)
-        features['has_pattern'] = self._has_repeating_pattern(data_np)
-        features['complexity'] = self._estimate_complexity(data_np)
+        features["has_pattern"] = self._has_repeating_pattern(data_np)
+        features["complexity"] = self._estimate_complexity(data_np)
 
         return features
 
@@ -350,19 +355,19 @@ class System1Processor:
 
         return min(entropy / max_entropy, 1.0)
 
-    def _calculate_confidence(self,
-                            pattern_matches: List[Dict[str, float]],
-                            features: Dict[str, Any]) -> float:
+    def _calculate_confidence(
+        self, pattern_matches: List[Dict[str, float]], features: Dict[str, Any]
+    ) -> float:
         """Calculate intuitive confidence score"""
         if not pattern_matches:
             return 0.1  # Low baseline confidence
 
         # Weight by top matches
-        top_similarities = [m['similarity'] for m in pattern_matches[:3]]
+        top_similarities = [m["similarity"] for m in pattern_matches[:3]]
         pattern_confidence = np.mean(top_similarities) if top_similarities else 0.0
 
         # Adjust by feature complexity
-        complexity_factor = 1.0 - (features.get('complexity', 0.5) * 0.3)
+        complexity_factor = 1.0 - (features.get("complexity", 0.5) * 0.3)
 
         confidence = pattern_confidence * complexity_factor
 
@@ -372,6 +377,7 @@ class System1Processor:
         """Check current memory usage in MB"""
         # Simplified memory check
         import psutil
+
         process = psutil.Process()
         return process.memory_info().rss / 1024 / 1024
 
@@ -382,41 +388,44 @@ class System1Processor:
             # Keep only recent patterns
             sorted_patterns = sorted(
                 self.pattern_matcher.pattern_memory.items(),
-                key=lambda x: x[1]['timestamp'],
-                reverse=True
+                key=lambda x: x[1]["timestamp"],
+                reverse=True,
             )
             self.pattern_matcher.pattern_memory = dict(sorted_patterns[:800])
 
         # Trim association network
         if len(self.associative_processor.association_network) > 5000:
             # Keep only strong associations
-            for node in list(self.associative_processor.association_network.keys())[:1000]:
+            for node in list(self.associative_processor.association_network.keys())[
+                :1000
+            ]:
                 del self.associative_processor.association_network[node]
 
     def _update_stats(self, processing_time: float):
         """Update performance statistics"""
-        self.performance_stats['total_calls'] += 1
+        self.performance_stats["total_calls"] += 1
 
         # Update average
-        n = self.performance_stats['total_calls']
-        old_avg = self.performance_stats['avg_response_time']
-        self.performance_stats['avg_response_time'] = (
-            (old_avg * (n - 1) + processing_time) / n
-        )
+        n = self.performance_stats["total_calls"]
+        old_avg = self.performance_stats["avg_response_time"]
+        self.performance_stats["avg_response_time"] = (
+            old_avg * (n - 1) + processing_time
+        ) / n
 
         # Update max
-        self.performance_stats['max_response_time'] = max(
-            self.performance_stats['max_response_time'],
-            processing_time
+        self.performance_stats["max_response_time"] = max(
+            self.performance_stats["max_response_time"], processing_time
         )
 
     def get_performance_report(self) -> Dict[str, Any]:
         """Get performance statistics for monitoring"""
         return {
             **self.performance_stats,
-            'compliance': {
-                'response_time_ok': self.performance_stats['max_response_time'] < self.MAX_RESPONSE_TIME,
-                'memory_ok': self._check_memory_usage() < self.MAX_MEMORY_MB,
-                'timeout_rate': self.performance_stats['timeout_count'] / max(self.performance_stats['total_calls'], 1)
-            }
+            "compliance": {
+                "response_time_ok": self.performance_stats["max_response_time"]
+                < self.MAX_RESPONSE_TIME,
+                "memory_ok": self._check_memory_usage() < self.MAX_MEMORY_MB,
+                "timeout_rate": self.performance_stats["timeout_count"]
+                / max(self.performance_stats["total_calls"], 1),
+            },
         }

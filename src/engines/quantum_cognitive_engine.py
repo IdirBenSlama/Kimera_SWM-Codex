@@ -12,27 +12,29 @@ Author: KIMERA Development Team
 Version: 1.0.0 - Phase 2 Quantum Integration
 """
 
+import asyncio
+import logging
+import time
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple, Union
+
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import numpy as np
-import logging
-from typing import Dict, List, Any, Optional, Tuple, Union
-from dataclasses import dataclass, field
-from enum import Enum
-import asyncio
-import time
-from datetime import datetime
+
+# Quantum computing imports
+from qiskit import ClassicalRegister, QuantumCircuit, QuantumRegister
+from qiskit.circuit.library import EfficientSU2, RealAmplitudes
+from qiskit.quantum_info import DensityMatrix, Statevector
+from qiskit_aer import AerSimulator
+
+from ..config.settings import get_settings
 
 # Configuration Management
 from ..utils.config import get_api_settings
-from ..config.settings import get_settings
-
-# Quantum computing imports
-from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister
-from qiskit_aer import AerSimulator
-from qiskit.circuit.library import RealAmplitudes, EfficientSU2
-from qiskit.quantum_info import Statevector, DensityMatrix
 
 # Optional imports for advanced features
 try:
@@ -46,28 +48,40 @@ except ImportError:
         COBYLA = None
         SPSA = None
 
+from src.core.geometric_optimization.geoid_mirror_portal_engine import (
+    GeoidMirrorPortalEngine,
+    MirrorPortalState,
+)
+
 # KIMERA imports
-from src.utils.gpu_foundation import GPUFoundation, CognitiveStabilityMetrics, GPUValidationLevel
-from src.core.geometric_optimization.geoid_mirror_portal_engine import GeoidMirrorPortalEngine, MirrorPortalState
+from src.utils.gpu_foundation import (
+    CognitiveStabilityMetrics,
+    GPUFoundation,
+    GPUValidationLevel,
+)
 
 # Configure logging with scientific precision
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - [Quantum Engine] %(message)s'
+    format="%(asctime)s - %(name)s - %(levelname)s - [Quantum Engine] %(message)s",
 )
 logger = logging.getLogger(__name__)
 
+
 class QuantumCognitiveMode(Enum):
     """Quantum cognitive processing modes"""
-    SUPERPOSITION = "superposition"        # Parallel cognitive processing
-    ENTANGLEMENT = "entanglement"         # Interconnected cognitive states
-    INTERFERENCE = "interference"         # Cognitive pattern interference
-    MEASUREMENT = "measurement"           # Cognitive state collapse
-    MIRROR_PORTAL = "mirror_portal"         # Geoid mirror portal processing
+
+    SUPERPOSITION = "superposition"  # Parallel cognitive processing
+    ENTANGLEMENT = "entanglement"  # Interconnected cognitive states
+    INTERFERENCE = "interference"  # Cognitive pattern interference
+    MEASUREMENT = "measurement"  # Cognitive state collapse
+    MIRROR_PORTAL = "mirror_portal"  # Geoid mirror portal processing
+
 
 @dataclass
 class QuantumCognitiveState:
     """Quantum cognitive state representation"""
+
     state_vector: np.ndarray
     entanglement_entropy: float
     coherence_time: float
@@ -76,9 +90,11 @@ class QuantumCognitiveState:
     classical_correlation: float
     timestamp: datetime
 
+
 @dataclass
 class QuantumProcessingMetrics:
     """Quantum processing performance metrics"""
+
     circuit_depth: int
     gate_count: int
     execution_time: float
@@ -87,6 +103,7 @@ class QuantumProcessingMetrics:
     gpu_utilization: float
     memory_usage: float
 
+
 class QuantumNeuropsychiatricSafeguard:
     """Neuropsychiatric safety for quantum cognition"""
 
@@ -94,29 +111,44 @@ class QuantumNeuropsychiatricSafeguard:
         # Adjusted thresholds for more realistic validation
         self.identity_threshold = 0.3  # Lowered from 0.95 for testing environments
         self.coherence_threshold = 0.5  # Lowered from 0.90 for more flexibility
-        self.reality_anchor_strength = 0.1  # Lowered from 0.85 to allow quantum exploration
+        self.reality_anchor_strength = (
+            0.1  # Lowered from 0.85 to allow quantum exploration
+        )
 
-    def validate_quantum_cognitive_state(self, quantum_state: QuantumCognitiveState) -> bool:
+    def validate_quantum_cognitive_state(
+        self, quantum_state: QuantumCognitiveState
+    ) -> bool:
         """Validate quantum cognitive state for neuropsychiatric safety"""
-        logger.info("🧠 Validating quantum cognitive state for neuropsychiatric safety...")
+        logger.info(
+            "🧠 Validating quantum cognitive state for neuropsychiatric safety..."
+        )
 
         # Check identity coherence
         if quantum_state.quantum_fidelity < self.identity_threshold:
-            logger.warning(f"⚠️ Quantum identity coherence below threshold: {quantum_state.quantum_fidelity:.3f}")
+            logger.warning(
+                f"⚠️ Quantum identity coherence below threshold: {quantum_state.quantum_fidelity:.3f}"
+            )
             return False
 
         # Check classical correlation (reality anchor)
         if quantum_state.classical_correlation < self.reality_anchor_strength:
-            logger.warning(f"⚠️ Classical correlation below reality anchor: {quantum_state.classical_correlation:.3f}")
+            logger.warning(
+                f"⚠️ Classical correlation below reality anchor: {quantum_state.classical_correlation:.3f}"
+            )
             return False
 
         # Check entanglement entropy for stability
         if quantum_state.entanglement_entropy > 2.0:  # Maximum entropy for stability
-            logger.warning(f"⚠️ Entanglement entropy too high: {quantum_state.entanglement_entropy:.3f}")
+            logger.warning(
+                f"⚠️ Entanglement entropy too high: {quantum_state.entanglement_entropy:.3f}"
+            )
             return False
 
-        logger.info("✅ Quantum cognitive state validated - neuropsychiatric safety confirmed")
+        logger.info(
+            "✅ Quantum cognitive state validated - neuropsychiatric safety confirmed"
+        )
         return True
+
 
 class QuantumCognitiveEngine:
     """
@@ -129,10 +161,12 @@ class QuantumCognitiveEngine:
     - Cognitive entanglement modeling
     """
 
-    def __init__(self,
-                 num_qubits: int = 20,
-                 gpu_acceleration: bool = True,
-                 safety_level: str = "rigorous"):
+    def __init__(
+        self,
+        num_qubits: int = 20,
+        gpu_acceleration: bool = True,
+        safety_level: str = "rigorous",
+    ):
         """Initialize Quantum Cognitive Engine"""
         self.num_qubits = num_qubits
         self.gpu_acceleration = gpu_acceleration
@@ -145,11 +179,15 @@ class QuantumCognitiveEngine:
             self.device = torch.device("cuda")
             gpu_name = torch.cuda.get_device_name()
             gpu_memory = torch.cuda.get_device_properties(0).total_memory / 1024**3
-            logger.info(f"🖥️ Quantum Cognitive Engine: GPU acceleration enabled: {gpu_name} ({gpu_memory:.1f}GB)")
+            logger.info(
+                f"🖥️ Quantum Cognitive Engine: GPU acceleration enabled: {gpu_name} ({gpu_memory:.1f}GB)"
+            )
         else:
             self.device = torch.device("cpu")
             if self.gpu_acceleration:
-                logger.warning("⚠️ Quantum Cognitive Engine: GPU requested but not available, falling back to CPU")
+                logger.warning(
+                    "⚠️ Quantum Cognitive Engine: GPU requested but not available, falling back to CPU"
+                )
             else:
                 logger.info("🖥️ Quantum Cognitive Engine: Using CPU as requested")
 
@@ -160,7 +198,9 @@ class QuantumCognitiveEngine:
         self.mirror_portal_engine = GeoidMirrorPortalEngine()
         self.cognitive_states: List[QuantumCognitiveState] = []
 
-        logger.info(f"🚀 Quantum Cognitive Engine initializing with {num_qubits} qubits")
+        logger.info(
+            f"🚀 Quantum Cognitive Engine initializing with {num_qubits} qubits"
+        )
 
         try:
             self._initialize_gpu_foundation()
@@ -195,18 +235,20 @@ class QuantumCognitiveEngine:
             try:
                 # Try GPU-accelerated simulator
                 self.quantum_simulator = AerSimulator(
-                    method='statevector',
-                    device='GPU',
+                    method="statevector",
+                    device="GPU",
                     max_parallel_threads=8,
-                    max_parallel_experiments=4
+                    max_parallel_experiments=4,
                 )
                 logger.info("✅ GPU-accelerated quantum simulator initialized")
             except Exception as e:
-                logger.warning(f"⚠️ GPU simulator not supported, falling back to CPU: {str(e)[:100]}")
-                self.quantum_simulator = AerSimulator(method='statevector')
+                logger.warning(
+                    f"⚠️ GPU simulator not supported, falling back to CPU: {str(e)[:100]}"
+                )
+                self.quantum_simulator = AerSimulator(method="statevector")
                 logger.info("✅ CPU quantum simulator initialized (GPU fallback)")
         else:
-            self.quantum_simulator = AerSimulator(method='statevector')
+            self.quantum_simulator = AerSimulator(method="statevector")
             logger.info("✅ CPU quantum simulator initialized")
 
     def _validate_quantum_gpu_integration(self) -> None:
@@ -222,12 +264,19 @@ class QuantumCognitiveEngine:
 
             # Check if GPU is available
             import torch
+
             if not torch.cuda.is_available():
-                logger.warning("⚠️ CUDA not available - using CPU fallback for quantum simulation")
-                self.quantum_simulator = AerSimulator(method='statevector', device='CPU')
+                logger.warning(
+                    "⚠️ CUDA not available - using CPU fallback for quantum simulation"
+                )
+                self.quantum_simulator = AerSimulator(
+                    method="statevector", device="CPU"
+                )
             else:
                 # Try GPU simulator
-                self.quantum_simulator = AerSimulator(method='statevector', device='GPU')
+                self.quantum_simulator = AerSimulator(
+                    method="statevector", device="GPU"
+                )
 
             # Run test
             job = self.quantum_simulator.run(qc, shots=1000)
@@ -235,7 +284,9 @@ class QuantumCognitiveEngine:
 
             if result.success:
                 counts = result.get_counts()
-                logger.info(f"✅ Quantum simulator validated successfully. Test results: {counts}")
+                logger.info(
+                    f"✅ Quantum simulator validated successfully. Test results: {counts}"
+                )
             else:
                 raise RuntimeError(f"Quantum simulation failed: {result.status}")
 
@@ -244,34 +295,45 @@ class QuantumCognitiveEngine:
                 # Enhanced GPU quantum simulation with better detection
                 try:
                     import cupy as cp
+
                     if cp.cuda.is_available() and cp.cuda.device_count() > 0:
                         logger.info("✅ GPU quantum simulation enabled with CuPy")
                         self.gpu_enabled = True
                     else:
                         raise RuntimeError("CuPy available but no CUDA devices")
                 except ImportError:
-                    logger.info("ℹ️ CuPy not available - quantum simulation will use CPU (normal)")
+                    logger.info(
+                        "ℹ️ CuPy not available - quantum simulation will use CPU (normal)"
+                    )
                     self.gpu_enabled = False
                 except Exception as e:
-                    logger.info(f"ℹ️ GPU quantum simulation not available ({e}) - using CPU (normal)")
+                    logger.info(
+                        f"ℹ️ GPU quantum simulation not available ({e}) - using CPU (normal)"
+                    )
                     self.gpu_enabled = False
-                self.quantum_simulator = AerSimulator(method='statevector', device='CPU')
+                self.quantum_simulator = AerSimulator(
+                    method="statevector", device="CPU"
+                )
                 # Retry validation with CPU
                 job = self.quantum_simulator.run(qc, shots=1000)
                 result = job.result()
                 if result.success:
-                    logger.info("✅ Quantum simulator validated successfully with CPU fallback")
+                    logger.info(
+                        "✅ Quantum simulator validated successfully with CPU fallback"
+                    )
                 else:
                     raise
             else:
                 logger.error(f"❌ Quantum simulator validation failed: {e}")
                 raise
 
-    def create_cognitive_superposition(self,
-                                     cognitive_inputs: List[np.ndarray],
-                                     entanglement_strength: float = 0.5) -> QuantumCognitiveState:
+    def create_cognitive_superposition(
+        self, cognitive_inputs: List[np.ndarray], entanglement_strength: float = 0.5
+    ) -> QuantumCognitiveState:
         """Create quantum superposition of cognitive states"""
-        logger.info(f"🌀 Creating cognitive superposition with {len(cognitive_inputs)} inputs...")
+        logger.info(
+            f"🌀 Creating cognitive superposition with {len(cognitive_inputs)} inputs..."
+        )
 
         # Create quantum circuit for cognitive superposition
         qc = QuantumCircuit(self.num_qubits)
@@ -311,39 +373,45 @@ class QuantumCognitiveEngine:
             decoherence_rate=0.01,
             quantum_fidelity=quantum_fidelity,
             classical_correlation=classical_correlation,
-            timestamp=datetime.now()
+            timestamp=datetime.now(),
         )
 
         # Validate neuropsychiatric safety
         if not self.safety_guard.validate_quantum_cognitive_state(quantum_state):
-            raise RuntimeError("Quantum cognitive state failed neuropsychiatric safety validation")
+            raise RuntimeError(
+                "Quantum cognitive state failed neuropsychiatric safety validation"
+            )
 
         self.cognitive_states.append(quantum_state)
-        logger.info(f"✅ Cognitive superposition created in {execution_time*1000:.2f}ms")
+        logger.info(
+            f"✅ Cognitive superposition created in {execution_time*1000:.2f}ms"
+        )
         logger.info(f"   Entanglement entropy: {entanglement_entropy:.3f}")
         logger.info(f"   Quantum fidelity: {quantum_fidelity:.3f}")
 
         return quantum_state
 
-    async def create_mirror_portal_state(self,
-                                       semantic_geoid: 'GeoidState',
-                                       symbolic_geoid: 'GeoidState',
-                                       portal_intensity: float = 0.8) -> MirrorPortalState:
+    async def create_mirror_portal_state(
+        self,
+        semantic_geoid: "GeoidState",
+        symbolic_geoid: "GeoidState",
+        portal_intensity: float = 0.8,
+    ) -> MirrorPortalState:
         """Create a mirror portal and return its state"""
         logger.info("🌀 Creating geoid mirror portal state...")
 
         portal_state = await self.mirror_portal_engine.create_mirror_portal(
             semantic_geoid=semantic_geoid,
             symbolic_geoid=symbolic_geoid,
-            portal_intensity=portal_intensity
+            portal_intensity=portal_intensity,
         )
 
         logger.info(f"✅ Mirror portal {portal_state.portal_id} created successfully")
         return portal_state
 
-    def process_quantum_cognitive_interference(self,
-                                             state1: QuantumCognitiveState,
-                                             state2: QuantumCognitiveState) -> QuantumCognitiveState:
+    def process_quantum_cognitive_interference(
+        self, state1: QuantumCognitiveState, state2: QuantumCognitiveState
+    ) -> QuantumCognitiveState:
         """Process quantum interference between cognitive states"""
         logger.info("🌊 Processing quantum cognitive interference...")
 
@@ -381,21 +449,27 @@ class QuantumCognitiveEngine:
             decoherence_rate=max(state1.decoherence_rate, state2.decoherence_rate),
             quantum_fidelity=0.95,  # High fidelity for interference
             classical_correlation=0.90,  # Strong classical correlation
-            timestamp=datetime.now()
+            timestamp=datetime.now(),
         )
 
         # Validate safety
         if not self.safety_guard.validate_quantum_cognitive_state(interference_state):
             raise RuntimeError("Quantum interference state failed safety validation")
 
-        logger.info(f"✅ Quantum cognitive interference processed in {execution_time*1000:.2f}ms")
+        logger.info(
+            f"✅ Quantum cognitive interference processed in {execution_time*1000:.2f}ms"
+        )
         return interference_state
 
-    def measure_quantum_cognitive_state(self,
-                                      quantum_state: QuantumCognitiveState,
-                                      measurement_basis: str = "computational") -> Dict[str, Any]:
+    def measure_quantum_cognitive_state(
+        self,
+        quantum_state: QuantumCognitiveState,
+        measurement_basis: str = "computational",
+    ) -> Dict[str, Any]:
         """Measure quantum cognitive state and collapse to classical"""
-        logger.info(f"📏 Measuring quantum cognitive state in {measurement_basis} basis...")
+        logger.info(
+            f"📏 Measuring quantum cognitive state in {measurement_basis} basis..."
+        )
 
         # Create measurement circuit
         qc = QuantumCircuit(self.num_qubits, self.num_qubits)
@@ -418,13 +492,13 @@ class QuantumCognitiveEngine:
 
         # Process measurement results
         measurement_results = {
-            'counts': counts,
-            'execution_time': execution_time,
-            'total_shots': 1000,
-            'measurement_basis': measurement_basis,
-            'quantum_fidelity': quantum_state.quantum_fidelity,
-            'classical_correlation': quantum_state.classical_correlation,
-            'timestamp': datetime.now()
+            "counts": counts,
+            "execution_time": execution_time,
+            "total_shots": 1000,
+            "measurement_basis": measurement_basis,
+            "quantum_fidelity": quantum_state.quantum_fidelity,
+            "classical_correlation": quantum_state.classical_correlation,
+            "timestamp": datetime.now(),
         }
 
         logger.info(f"✅ Quantum measurement completed in {execution_time*1000:.2f}ms")
@@ -440,7 +514,9 @@ class QuantumCognitiveEngine:
             # This is a more memory-efficient way to calculate entanglement entropy
             num_qubits = int(np.log2(density_matrix.dim))
             subsystem_qubits = list(range(num_qubits // 2))
-            reduced_density_matrix = partial_trace(density_matrix, list(range(num_qubits // 2, num_qubits)))
+            reduced_density_matrix = partial_trace(
+                density_matrix, list(range(num_qubits // 2, num_qubits))
+            )
             eigenvalues = np.linalg.eigvals(reduced_density_matrix.data)
             eigenvalues = np.real(eigenvalues)
             eigenvalues = eigenvalues[eigenvalues > 1e-10]
@@ -468,7 +544,9 @@ class QuantumCognitiveEngine:
         norm = np.linalg.norm(state_vector)
         return min(norm, 1.0)
 
-    def _calculate_classical_correlation(self, cognitive_inputs: List[np.ndarray]) -> float:
+    def _calculate_classical_correlation(
+        self, cognitive_inputs: List[np.ndarray]
+    ) -> float:
         """Calculate classical correlation with cognitive inputs"""
         if len(cognitive_inputs) < 2:
             return 0.5  # Reasonable default for single input
@@ -479,8 +557,9 @@ class QuantumCognitiveEngine:
             for j in range(i + 1, len(cognitive_inputs)):
                 if cognitive_inputs[i].size > 0 and cognitive_inputs[j].size > 0:
                     try:
-                        corr = np.corrcoef(cognitive_inputs[i].flatten(),
-                                         cognitive_inputs[j].flatten())[0, 1]
+                        corr = np.corrcoef(
+                            cognitive_inputs[i].flatten(), cognitive_inputs[j].flatten()
+                        )[0, 1]
                         if not np.isnan(corr):
                             correlations.append(abs(corr))
                     except Exception:
@@ -502,17 +581,17 @@ class QuantumCognitiveEngine:
 
         if self.gpu_foundation:
             gpu_info = self.gpu_foundation.get_system_info()
-            gpu_util = gpu_info.get('gpu_utilization', 0.0)
-            memory_usage = gpu_info.get('gpu_memory_used_gb', 0.0)
+            gpu_util = gpu_info.get("gpu_utilization", 0.0)
+            memory_usage = gpu_info.get("gpu_memory_used_gb", 0.0)
 
         return QuantumProcessingMetrics(
             circuit_depth=self.num_qubits,
             gate_count=self.num_qubits * 2,  # Simplified estimation
             execution_time=0.001,  # Last execution time
-            quantum_volume=2**min(self.num_qubits, 10),  # Simplified quantum volume
+            quantum_volume=2 ** min(self.num_qubits, 10),  # Simplified quantum volume
             error_rate=0.001,  # Simplified error rate
             gpu_utilization=gpu_util,
-            memory_usage=memory_usage
+            memory_usage=memory_usage,
         )
 
     def shutdown(self) -> None:
@@ -528,11 +607,13 @@ class QuantumCognitiveEngine:
 
         logger.info("✅ Quantum Cognitive Engine shutdown complete")
 
-def initialize_quantum_cognitive_engine(num_qubits: int = 20,
-                                      gpu_acceleration: bool = True) -> QuantumCognitiveEngine:
+
+def initialize_quantum_cognitive_engine(
+    num_qubits: int = 20, gpu_acceleration: bool = True
+) -> QuantumCognitiveEngine:
     """Initialize quantum cognitive engine with default settings"""
     return QuantumCognitiveEngine(
         num_qubits=num_qubits,
         gpu_acceleration=gpu_acceleration,
-        safety_level="rigorous"
+        safety_level="rigorous",
     )

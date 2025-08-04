@@ -18,36 +18,44 @@ References:
 """
 
 from __future__ import annotations
-from typing import List, Union, Dict, Any, Optional, Tuple
-from dataclasses import dataclass
-from datetime import datetime, timezone, timedelta
-from enum import Enum, auto
-import logging
+
 import json
+import logging
+from dataclasses import dataclass
+from datetime import datetime, timedelta, timezone
+from enum import Enum, auto
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 logger = logging.getLogger(__name__)
 
+
 class PruningStrategy(Enum):
     """Enumeration of available pruning strategies."""
+
     LIFECYCLE_BASED = auto()
     THERMODYNAMIC_PRESSURE = auto()
     UTILITY_SCORE = auto()
     TEMPORAL_DECAY = auto()
     MEMORY_PRESSURE = auto()
 
+
 class PruningDecision(Enum):
     """Pruning decision enumeration following formal verification requirements."""
+
     PRUNE = auto()
     PRESERVE = auto()
     DEFER = auto()
     QUARANTINE = auto()
 
+
 class SafetyStatus(Enum):
     """Safety status for pruning operations."""
+
     SAFE_TO_PRUNE = auto()
     SAFETY_CRITICAL = auto()
     UNDER_REVIEW = auto()
     PROTECTED = auto()
+
 
 @dataclass
 class PruningConfig:
@@ -57,6 +65,7 @@ class PruningConfig:
     DO-178C Requirement: All configuration parameters must be
     explicitly defined and validated.
     """
+
     # Pressure thresholds (0.0 to 1.0)
     vault_pressure_threshold: float = 0.8
     memory_pressure_threshold: float = 0.9
@@ -88,6 +97,7 @@ class PruningConfig:
         if self.max_prune_per_cycle <= 0:
             raise ValueError("max_prune_per_cycle must be positive")
 
+
 @dataclass
 class PruningResult:
     """
@@ -96,6 +106,7 @@ class PruningResult:
     Nuclear Engineering Principle: All decisions must be traceable
     and include justification for safety assessment.
     """
+
     item_id: str
     decision: PruningDecision
     strategy_used: PruningStrategy
@@ -113,6 +124,7 @@ class PruningResult:
         if not 0.0 <= self.pruning_score <= 100.0:
             raise ValueError("pruning_score must be between 0.0 and 100.0")
 
+
 class PrunableItem:
     """
     Abstract base for items that can be pruned.
@@ -120,8 +132,14 @@ class PrunableItem:
     Safety Requirement SR-4.15.7: All prunable items must implement
     consistent interface for safety assessment.
     """
-    def __init__(self, item_id: str, item_type: str, created_at: datetime,
-                 metadata: Optional[Dict[str, Any]] = None):
+
+    def __init__(
+        self,
+        item_id: str,
+        item_type: str,
+        created_at: datetime,
+        metadata: Optional[Dict[str, Any]] = None,
+    ):
         self.item_id = item_id
         self.item_type = item_type
         self.created_at = created_at
@@ -129,7 +147,7 @@ class PrunableItem:
         self.last_accessed = None
         self.access_count = 0
         self.utility_score = 0.0
-        self.status = 'active'
+        self.status = "active"
 
     @property
     def age_days(self) -> int:
@@ -139,17 +157,18 @@ class PrunableItem:
     @property
     def is_deprecated(self) -> bool:
         """Check if item is marked as deprecated."""
-        return self.status == 'deprecated'
+        return self.status == "deprecated"
 
     @property
     def is_safety_critical(self) -> bool:
         """Check if item is safety critical (should not be pruned)."""
-        return self.metadata.get('safety_critical', False)
+        return self.metadata.get("safety_critical", False)
 
     def update_access(self):
         """Update access tracking."""
         self.last_accessed = datetime.now(timezone.utc)
         self.access_count += 1
+
 
 class InsightScar(PrunableItem):
     """
@@ -158,8 +177,15 @@ class InsightScar(PrunableItem):
     Represents cognitive insights that can be pruned based on
     lifecycle and utility criteria.
     """
-    def __init__(self, scar_id: str, content: str, created_at: datetime,
-                 utility_score: float = 0.0, metadata: Optional[Dict[str, Any]] = None):
+
+    def __init__(
+        self,
+        scar_id: str,
+        content: str,
+        created_at: datetime,
+        utility_score: float = 0.0,
+        metadata: Optional[Dict[str, Any]] = None,
+    ):
         super().__init__(scar_id, "insight_scar", created_at, metadata)
         self.content = content
         self.utility_score = utility_score
@@ -174,19 +200,28 @@ class InsightScar(PrunableItem):
         """Check if insight has high utility value."""
         return self.utility_score > 0.7
 
+
 class Scar(PrunableItem):
     """
     Generic SCAR implementation for pruning analysis.
 
     Represents general SCARs with utility scoring for pruning decisions.
     """
-    def __init__(self, scar_id: str, created_at: datetime,
-                 utility_score: float = 0.0, metadata: Optional[Dict[str, Any]] = None):
+
+    def __init__(
+        self,
+        scar_id: str,
+        created_at: datetime,
+        utility_score: float = 0.0,
+        metadata: Optional[Dict[str, Any]] = None,
+    ):
         super().__init__(scar_id, "scar", created_at, metadata)
         self.utility_score = utility_score
 
+
 # Combined type for items that can be pruned
 Prunable = Union[InsightScar, Scar, PrunableItem]
+
 
 class IntelligentPruningEngine:
     """
@@ -205,17 +240,19 @@ class IntelligentPruningEngine:
         """
         self.config = config or PruningConfig()
         self.performance_metrics = {
-            'items_analyzed': 0,
-            'items_pruned': 0,
-            'safety_blocks': 0,
-            'rollbacks_performed': 0,
-            'average_confidence': 0.0
+            "items_analyzed": 0,
+            "items_pruned": 0,
+            "safety_blocks": 0,
+            "rollbacks_performed": 0,
+            "average_confidence": 0.0,
         }
         self.pruning_history: List[PruningResult] = []
         self.protected_items: set = set()  # Items protected from pruning
 
         logger.info("🔧 Intelligent Pruning Engine initialized")
-        logger.info(f"   Configuration: Vault threshold={self.config.vault_pressure_threshold}")
+        logger.info(
+            f"   Configuration: Vault threshold={self.config.vault_pressure_threshold}"
+        )
         logger.info(f"   Safety Features: Rollback={self.config.enable_rollback}")
 
     def get_health_status(self) -> Dict[str, Any]:
@@ -226,22 +263,27 @@ class IntelligentPruningEngine:
         with positive confirmation of operational status.
         """
         return {
-            'performance_metrics': self.performance_metrics.copy(),
-            'configuration': {
-                'vault_threshold': self.config.vault_pressure_threshold,
-                'utility_threshold': self.config.utility_threshold,
-                'max_prune_per_cycle': self.config.max_prune_per_cycle,
-                'safety_margin': self.config.safety_margin
+            "performance_metrics": self.performance_metrics.copy(),
+            "configuration": {
+                "vault_threshold": self.config.vault_pressure_threshold,
+                "utility_threshold": self.config.utility_threshold,
+                "max_prune_per_cycle": self.config.max_prune_per_cycle,
+                "safety_margin": self.config.safety_margin,
             },
-            'protection_status': {
-                'protected_items_count': len(self.protected_items),
-                'recent_pruning_history': len([r for r in self.pruning_history
-                                             if (datetime.now(timezone.utc) - r.timestamp).days < 7])
+            "protection_status": {
+                "protected_items_count": len(self.protected_items),
+                "recent_pruning_history": len(
+                    [
+                        r
+                        for r in self.pruning_history
+                        if (datetime.now(timezone.utc) - r.timestamp).days < 7
+                    ]
+                ),
             },
-            'safety_features': {
-                'rollback_enabled': self.config.enable_rollback,
-                'safety_margin_active': self.config.safety_margin > 0
-            }
+            "safety_features": {
+                "rollback_enabled": self.config.enable_rollback,
+                "safety_margin_active": self.config.safety_margin > 0,
+            },
         }
 
     def protect_item(self, item_id: str, reason: str = "manual_protection"):
@@ -274,7 +316,7 @@ class IntelligentPruningEngine:
         Returns:
             PruningResult with decision, confidence, and justification
         """
-        self.performance_metrics['items_analyzed'] += 1
+        self.performance_metrics["items_analyzed"] += 1
 
         # Safety check: Protected items cannot be pruned
         if item.item_id in self.protected_items:
@@ -287,7 +329,7 @@ class IntelligentPruningEngine:
                 pruning_score=0.0,
                 justification="Item is protected from pruning",
                 timestamp=datetime.now(timezone.utc),
-                metadata={"protection_active": True}
+                metadata={"protection_active": True},
             )
 
         # Safety check: Safety-critical items
@@ -301,7 +343,7 @@ class IntelligentPruningEngine:
                 pruning_score=0.0,
                 justification="Item is marked as safety-critical",
                 timestamp=datetime.now(timezone.utc),
-                metadata={"safety_critical": True}
+                metadata={"safety_critical": True},
             )
 
         # Apply multiple pruning strategies
@@ -328,19 +370,24 @@ class IntelligentPruningEngine:
         strategies_scores[PruningStrategy.MEMORY_PRESSURE] = memory_score
 
         # Determine best strategy and final score
-        best_strategy = max(strategies_scores.keys(), key=lambda k: strategies_scores[k])
+        best_strategy = max(
+            strategies_scores.keys(), key=lambda k: strategies_scores[k]
+        )
         final_score = strategies_scores[best_strategy]
 
         # Apply safety margin (conservative decision making)
         safe_score = final_score * (1.0 - self.config.safety_margin)
 
         # Make pruning decision
-        decision, confidence = self._make_pruning_decision(item, safe_score, vault_pressure)
+        decision, confidence = self._make_pruning_decision(
+            item, safe_score, vault_pressure
+        )
         safety_status = self._assess_safety_status(item, decision, confidence)
 
         # Generate justification
-        justification = self._generate_justification(item, best_strategy, safe_score,
-                                                   vault_pressure, decision)
+        justification = self._generate_justification(
+            item, best_strategy, safe_score, vault_pressure, decision
+        )
 
         result = PruningResult(
             item_id=item.item_id,
@@ -352,12 +399,12 @@ class IntelligentPruningEngine:
             justification=justification,
             timestamp=datetime.now(timezone.utc),
             metadata={
-                'vault_pressure': vault_pressure,
-                'strategy_scores': {k.name: v for k, v in strategies_scores.items()},
-                'safety_margin_applied': self.config.safety_margin,
-                'item_type': item.item_type,
-                'item_age_days': item.age_days
-            }
+                "vault_pressure": vault_pressure,
+                "strategy_scores": {k.name: v for k, v in strategies_scores.items()},
+                "safety_margin_applied": self.config.safety_margin,
+                "item_type": item.item_type,
+                "item_age_days": item.age_days,
+            },
         )
 
         # Store in history for analysis
@@ -365,17 +412,21 @@ class IntelligentPruningEngine:
 
         # Update performance metrics
         if decision == PruningDecision.PRUNE:
-            self.performance_metrics['items_pruned'] += 1
+            self.performance_metrics["items_pruned"] += 1
         elif safety_status == SafetyStatus.SAFETY_CRITICAL:
-            self.performance_metrics['safety_blocks'] += 1
+            self.performance_metrics["safety_blocks"] += 1
 
         # Update average confidence
         total_confidence = sum(r.confidence_score for r in self.pruning_history)
-        self.performance_metrics['average_confidence'] = total_confidence / len(self.pruning_history)
+        self.performance_metrics["average_confidence"] = total_confidence / len(
+            self.pruning_history
+        )
 
         return result
 
-    def _calculate_lifecycle_score(self, item: Prunable, vault_pressure: float) -> float:
+    def _calculate_lifecycle_score(
+        self, item: Prunable, vault_pressure: float
+    ) -> float:
         """
         Calculate pruning score based on item lifecycle.
 
@@ -414,7 +465,9 @@ class IntelligentPruningEngine:
             return 0.0  # No pressure-based pruning needed
 
         # Pressure exceeds threshold
-        pressure_factor = (vault_pressure - self.config.vault_pressure_threshold) / (1.0 - self.config.vault_pressure_threshold)
+        pressure_factor = (vault_pressure - self.config.vault_pressure_threshold) / (
+            1.0 - self.config.vault_pressure_threshold
+        )
         base_score = pressure_factor * 8.0
 
         # Prioritize low-utility items under pressure
@@ -454,13 +507,17 @@ class IntelligentPruningEngine:
 
         # Recent activity protection
         if item.last_accessed:
-            hours_since_access = (datetime.now(timezone.utc) - item.last_accessed).total_seconds() / 3600
+            hours_since_access = (
+                datetime.now(timezone.utc) - item.last_accessed
+            ).total_seconds() / 3600
             if hours_since_access < self.config.protection_period_hours:
                 temporal_decay *= 0.1  # Strong protection for recently accessed items
 
         return temporal_decay
 
-    def _calculate_memory_pressure_score(self, item: Prunable, vault_pressure: float) -> float:
+    def _calculate_memory_pressure_score(
+        self, item: Prunable, vault_pressure: float
+    ) -> float:
         """
         Calculate pruning score based on memory pressure.
 
@@ -470,18 +527,21 @@ class IntelligentPruningEngine:
             return 0.0
 
         # Extreme pressure - more aggressive pruning
-        emergency_factor = (vault_pressure - self.config.memory_pressure_threshold) / (1.0 - self.config.memory_pressure_threshold)
+        emergency_factor = (vault_pressure - self.config.memory_pressure_threshold) / (
+            1.0 - self.config.memory_pressure_threshold
+        )
 
         # Size-based scoring for memory relief
         size_score = 0.0
-        if hasattr(item, 'content_length'):
+        if hasattr(item, "content_length"):
             # Larger items get higher pruning scores under memory pressure
             size_score = min(item.content_length / 10000.0, 3.0)
 
         return emergency_factor * 10.0 + size_score
 
-    def _make_pruning_decision(self, item: Prunable, pruning_score: float,
-                             vault_pressure: float) -> Tuple[PruningDecision, float]:
+    def _make_pruning_decision(
+        self, item: Prunable, pruning_score: float, vault_pressure: float
+    ) -> Tuple[PruningDecision, float]:
         """
         Make final pruning decision with confidence assessment.
 
@@ -501,8 +561,9 @@ class IntelligentPruningEngine:
             # Clear preservation
             return PruningDecision.PRESERVE, min((10.0 - pruning_score) / 10.0, 0.95)
 
-    def _assess_safety_status(self, item: Prunable, decision: PruningDecision,
-                            confidence: float) -> SafetyStatus:
+    def _assess_safety_status(
+        self, item: Prunable, decision: PruningDecision, confidence: float
+    ) -> SafetyStatus:
         """
         Assess safety status of pruning decision.
 
@@ -520,9 +581,14 @@ class IntelligentPruningEngine:
 
         return SafetyStatus.SAFE_TO_PRUNE
 
-    def _generate_justification(self, item: Prunable, strategy: PruningStrategy,
-                              score: float, vault_pressure: float,
-                              decision: PruningDecision) -> str:
+    def _generate_justification(
+        self,
+        item: Prunable,
+        strategy: PruningStrategy,
+        score: float,
+        vault_pressure: float,
+        decision: PruningDecision,
+    ) -> str:
         """
         Generate human-readable justification for pruning decision.
 
@@ -534,39 +600,55 @@ class IntelligentPruningEngine:
         # Strategy-specific justification
         if strategy == PruningStrategy.LIFECYCLE_BASED:
             if isinstance(item, InsightScar) and item.is_deprecated:
-                justifications.append("Item is deprecated insight with high pruning priority")
+                justifications.append(
+                    "Item is deprecated insight with high pruning priority"
+                )
             if item.age_days > self.config.max_idle_days:
-                justifications.append(f"Item age ({item.age_days} days) exceeds threshold")
+                justifications.append(
+                    f"Item age ({item.age_days} days) exceeds threshold"
+                )
 
         elif strategy == PruningStrategy.THERMODYNAMIC_PRESSURE:
-            justifications.append(f"Vault pressure ({vault_pressure:.2f}) exceeds threshold ({self.config.vault_pressure_threshold})")
+            justifications.append(
+                f"Vault pressure ({vault_pressure:.2f}) exceeds threshold ({self.config.vault_pressure_threshold})"
+            )
 
         elif strategy == PruningStrategy.UTILITY_SCORE:
-            justifications.append(f"Low utility score ({item.utility_score:.2f}) below threshold ({self.config.utility_threshold})")
+            justifications.append(
+                f"Low utility score ({item.utility_score:.2f}) below threshold ({self.config.utility_threshold})"
+            )
 
         elif strategy == PruningStrategy.TEMPORAL_DECAY:
-            justifications.append(f"Temporal decay factor based on {item.age_days} day age")
+            justifications.append(
+                f"Temporal decay factor based on {item.age_days} day age"
+            )
 
         elif strategy == PruningStrategy.MEMORY_PRESSURE:
-            justifications.append(f"Emergency memory pressure relief (pressure: {vault_pressure:.2f})")
+            justifications.append(
+                f"Emergency memory pressure relief (pressure: {vault_pressure:.2f})"
+            )
 
         # Decision justification
         decision_text = {
             PruningDecision.PRUNE: "Recommended for pruning",
             PruningDecision.PRESERVE: "Recommended to preserve",
             PruningDecision.DEFER: "Decision deferred for review",
-            PruningDecision.QUARANTINE: "Quarantined for further analysis"
+            PruningDecision.QUARANTINE: "Quarantined for further analysis",
         }
 
         justifications.append(f"{decision_text[decision]} (score: {score:.2f})")
 
         # Safety margin note
         if self.config.safety_margin > 0:
-            justifications.append(f"Safety margin ({self.config.safety_margin:.1%}) applied")
+            justifications.append(
+                f"Safety margin ({self.config.safety_margin:.1%}) applied"
+            )
 
         return "; ".join(justifications)
 
-    def analyze_batch(self, items: List[Prunable], vault_pressure: float) -> List[PruningResult]:
+    def analyze_batch(
+        self, items: List[Prunable], vault_pressure: float
+    ) -> List[PruningResult]:
         """
         Analyze a batch of items for pruning decisions.
 
@@ -576,9 +658,11 @@ class IntelligentPruningEngine:
         results = []
 
         # Apply safety limit
-        items_to_process = items[:self.config.max_prune_per_cycle]
+        items_to_process = items[: self.config.max_prune_per_cycle]
         if len(items) > self.config.max_prune_per_cycle:
-            logger.warning(f"⚠️ Batch size limited to {self.config.max_prune_per_cycle} items for safety")
+            logger.warning(
+                f"⚠️ Batch size limited to {self.config.max_prune_per_cycle} items for safety"
+            )
 
         logger.info(f"🔍 Analyzing batch of {len(items_to_process)} items")
 
@@ -598,16 +682,20 @@ class IntelligentPruningEngine:
                     pruning_score=0.0,
                     justification=f"Analysis failed: {str(e)}",
                     timestamp=datetime.now(timezone.utc),
-                    metadata={"error": True, "error_message": str(e)}
+                    metadata={"error": True, "error_message": str(e)},
                 )
                 results.append(error_result)
 
         # Log batch results
         prune_count = sum(1 for r in results if r.decision == PruningDecision.PRUNE)
-        preserve_count = sum(1 for r in results if r.decision == PruningDecision.PRESERVE)
+        preserve_count = sum(
+            1 for r in results if r.decision == PruningDecision.PRESERVE
+        )
         defer_count = sum(1 for r in results if r.decision == PruningDecision.DEFER)
 
-        logger.info(f"📊 Batch analysis complete: {prune_count} prune, {preserve_count} preserve, {defer_count} defer")
+        logger.info(
+            f"📊 Batch analysis complete: {prune_count} prune, {preserve_count} preserve, {defer_count} defer"
+        )
 
         return results
 
@@ -619,45 +707,54 @@ class IntelligentPruningEngine:
         rollback capability for safety-critical operations.
         """
         execution_log = {
-            'started_at': datetime.now(timezone.utc),
-            'items_processed': 0,
-            'items_pruned': 0,
-            'items_preserved': 0,
-            'errors': [],
-            'rollback_available': self.config.enable_rollback
+            "started_at": datetime.now(timezone.utc),
+            "items_processed": 0,
+            "items_pruned": 0,
+            "items_preserved": 0,
+            "errors": [],
+            "rollback_available": self.config.enable_rollback,
         }
 
         for result in results:
             try:
-                execution_log['items_processed'] += 1
+                execution_log["items_processed"] += 1
 
                 if result.decision == PruningDecision.PRUNE:
                     if result.safety_status == SafetyStatus.SAFE_TO_PRUNE:
                         # Execute pruning (this would interface with actual storage)
                         logger.info(f"🗑️ Pruning item {result.item_id}")
-                        execution_log['items_pruned'] += 1
+                        execution_log["items_pruned"] += 1
                     else:
-                        logger.warning(f"⚠️ Skipping pruning of {result.item_id}: safety status {result.safety_status}")
-                        execution_log['items_preserved'] += 1
+                        logger.warning(
+                            f"⚠️ Skipping pruning of {result.item_id}: safety status {result.safety_status}"
+                        )
+                        execution_log["items_preserved"] += 1
 
                 elif result.decision == PruningDecision.PRESERVE:
                     logger.debug(f"📦 Preserving item {result.item_id}")
-                    execution_log['items_preserved'] += 1
+                    execution_log["items_preserved"] += 1
 
             except Exception as e:
                 error_msg = f"Failed to execute pruning for {result.item_id}: {e}"
                 logger.error(f"❌ {error_msg}")
-                execution_log['errors'].append(error_msg)
+                execution_log["errors"].append(error_msg)
 
-        execution_log['completed_at'] = datetime.now(timezone.utc)
-        execution_log['duration_seconds'] = (execution_log['completed_at'] - execution_log['started_at']).total_seconds()
+        execution_log["completed_at"] = datetime.now(timezone.utc)
+        execution_log["duration_seconds"] = (
+            execution_log["completed_at"] - execution_log["started_at"]
+        ).total_seconds()
 
-        logger.info(f"✅ Pruning execution complete: {execution_log['items_pruned']} pruned, "
-                   f"{execution_log['items_preserved']} preserved in {execution_log['duration_seconds']:.2f}s")
+        logger.info(
+            f"✅ Pruning execution complete: {execution_log['items_pruned']} pruned, "
+            f"{execution_log['items_preserved']} preserved in {execution_log['duration_seconds']:.2f}s"
+        )
 
         return execution_log
 
-def create_intelligent_pruning_engine(config: Optional[PruningConfig] = None) -> IntelligentPruningEngine:
+
+def create_intelligent_pruning_engine(
+    config: Optional[PruningConfig] = None,
+) -> IntelligentPruningEngine:
     """
     Factory function for creating pruning engine instances.
 
@@ -672,6 +769,7 @@ def create_intelligent_pruning_engine(config: Optional[PruningConfig] = None) ->
         logger.error(f"❌ Failed to create pruning engine: {e}")
         raise
 
+
 # Legacy compatibility function
 def should_prune(item: Prunable, vault_pressure: float) -> float:
     """
@@ -679,23 +777,26 @@ def should_prune(item: Prunable, vault_pressure: float) -> float:
 
     Note: This function is deprecated. Use IntelligentPruningEngine.should_prune() instead.
     """
-    logger.warning("⚠️ Using deprecated should_prune function. Migrate to IntelligentPruningEngine.")
+    logger.warning(
+        "⚠️ Using deprecated should_prune function. Migrate to IntelligentPruningEngine."
+    )
 
     engine = create_intelligent_pruning_engine()
     result = engine.should_prune(item, vault_pressure)
     return result.pruning_score
 
+
 # Export safety-critical components
 __all__ = [
-    'IntelligentPruningEngine',
-    'PruningConfig',
-    'PruningResult',
-    'PrunableItem',
-    'InsightScar',
-    'Scar',
-    'PruningStrategy',
-    'PruningDecision',
-    'SafetyStatus',
-    'create_intelligent_pruning_engine',
-    'should_prune'  # Legacy compatibility
+    "IntelligentPruningEngine",
+    "PruningConfig",
+    "PruningResult",
+    "PrunableItem",
+    "InsightScar",
+    "Scar",
+    "PruningStrategy",
+    "PruningDecision",
+    "SafetyStatus",
+    "create_intelligent_pruning_engine",
+    "should_prune",  # Legacy compatibility
 ]

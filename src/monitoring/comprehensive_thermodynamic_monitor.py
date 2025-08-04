@@ -14,25 +14,28 @@ Integrates:
 - Vortex Thermodynamic Batteries
 """
 
-import time
+import asyncio
 import json
-import numpy as np
-import torch
-from typing import Dict, List, Any, Optional, Tuple
+import logging
+import threading
+import time
+from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-import logging
-from collections import deque
-import threading
-import asyncio
 from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple
 
-from .thermodynamic_analyzer import ThermodynamicAnalyzer, ThermodynamicState
-from .entropy_monitor import EntropyMonitor
-from ..core.foundational_thermodynamic_engine import FoundationalThermodynamicEngine
-from ..engines.quantum_thermodynamic_consciousness import QuantumThermodynamicConsciousness
+import numpy as np
+import torch
+
 from ..core.cognitive_field_dynamics import CognitiveFieldDynamics
+from ..core.foundational_thermodynamic_engine import FoundationalThermodynamicEngine
+from ..engines.quantum_thermodynamic_consciousness import (
+    QuantumThermodynamicConsciousness,
+)
 from ..utils.kimera_logger import get_system_logger
+from .entropy_monitor import EntropyMonitor
+from .thermodynamic_analyzer import ThermodynamicAnalyzer, ThermodynamicState
 
 logger = get_system_logger(__name__)
 
@@ -40,6 +43,7 @@ logger = get_system_logger(__name__)
 @dataclass
 class ComprehensiveThermodynamicState:
     """Complete thermodynamic state including all revolutionary applications"""
+
     timestamp: datetime
 
     # Core thermodynamic measurements
@@ -115,7 +119,7 @@ class ComprehensiveThermodynamicMonitor:
             "efficiency_minimum": 15.0,
             "consciousness_threshold": 0.7,
             "temperature_optimal_range": (42.0, 48.0),
-            "energy_waste_threshold": 10.0
+            "energy_waste_threshold": 10.0,
         }
 
         logger.info("🧠🔥 Comprehensive Thermodynamic Monitor initialized")
@@ -127,11 +131,12 @@ class ComprehensiveThermodynamicMonitor:
                 "temperature": 25.0,
                 "power_watts": 10.0,
                 "utilization": 10.0,
-                "memory_mb": 1000.0
+                "memory_mb": 1000.0,
             }
 
         try:
             import pynvml
+
             pynvml.nvmlInit()
             handle = pynvml.nvmlDeviceGetHandleByIndex(0)
 
@@ -144,7 +149,7 @@ class ComprehensiveThermodynamicMonitor:
                 "temperature": float(temp),
                 "power_watts": float(power),
                 "utilization": float(util_rates.gpu),
-                "memory_mb": float(mem_info.used / (1024 * 1024))
+                "memory_mb": float(mem_info.used / (1024 * 1024)),
             }
         except Exception as e:
             logger.warning(f"⚠️  GPU monitoring unavailable: {e}")
@@ -152,10 +157,12 @@ class ComprehensiveThermodynamicMonitor:
                 "temperature": 45.0,
                 "power_watts": 50.0,
                 "utilization": 30.0,
-                "memory_mb": 2000.0
+                "memory_mb": 2000.0,
             }
 
-    def calculate_comprehensive_thermodynamic_state(self, field_count: int = 100) -> ComprehensiveThermodynamicState:
+    def calculate_comprehensive_thermodynamic_state(
+        self, field_count: int = 100
+    ) -> ComprehensiveThermodynamicState:
         """Calculate complete thermodynamic state with all revolutionary applications"""
 
         # Create test fields for analysis
@@ -177,9 +184,15 @@ class ComprehensiveThermodynamicMonitor:
         thermal_entropy = self._calculate_thermal_entropy(gpu_metrics)
         computational_entropy = self._calculate_computational_entropy(fields)
         entropy_production_rate = self._calculate_entropy_production_rate()
-        reversibility_index = self._calculate_reversibility_index(thermal_entropy, computational_entropy)
-        free_energy = self._calculate_free_energy(thermal_entropy, computational_entropy, gpu_metrics["temperature"])
-        thermodynamic_efficiency = self._calculate_thermodynamic_efficiency(free_energy, gpu_metrics["power_watts"])
+        reversibility_index = self._calculate_reversibility_index(
+            thermal_entropy, computational_entropy
+        )
+        free_energy = self._calculate_free_energy(
+            thermal_entropy, computational_entropy, gpu_metrics["temperature"]
+        )
+        thermodynamic_efficiency = self._calculate_thermodynamic_efficiency(
+            free_energy, gpu_metrics["power_watts"]
+        )
 
         # Revolutionary applications analysis
         carnot_efficiency = self.foundational_engine.calculate_carnot_efficiency(
@@ -190,8 +203,10 @@ class ComprehensiveThermodynamicMonitor:
             gpu_metrics["temperature"] + 273.15, 298.15
         )
 
-        maxwell_demon_bits = self.foundational_engine.calculate_maxwell_demon_bits_sorted(
-            thermal_entropy, computational_entropy
+        maxwell_demon_bits = (
+            self.foundational_engine.calculate_maxwell_demon_bits_sorted(
+                thermal_entropy, computational_entropy
+            )
         )
 
         vortex_energy = self.foundational_engine.calculate_vortex_energy_storage(
@@ -201,7 +216,9 @@ class ComprehensiveThermodynamicMonitor:
         quantum_coherence = self.foundational_engine.calculate_quantum_coherence(fields)
 
         # Complexity threshold detection
-        complexity_result = self.consciousness_detector.detect_complexity_threshold(fields)
+        complexity_result = self.consciousness_detector.detect_complexity_threshold(
+            fields
+        )
         complexity_probability = complexity_result["complexity_probability"]
         integrated_information = complexity_result["integrated_information"]
 
@@ -210,8 +227,12 @@ class ComprehensiveThermodynamicMonitor:
             reversibility_index, thermodynamic_efficiency, complexity_probability
         )
 
-        efficiency_improvement = self._calculate_efficiency_improvement(thermodynamic_efficiency)
-        energy_savings = self._calculate_energy_savings(gpu_metrics["power_watts"], thermodynamic_efficiency)
+        efficiency_improvement = self._calculate_efficiency_improvement(
+            thermodynamic_efficiency
+        )
+        energy_savings = self._calculate_energy_savings(
+            gpu_metrics["power_watts"], thermodynamic_efficiency
+        )
 
         return ComprehensiveThermodynamicState(
             timestamp=datetime.now(),
@@ -241,80 +262,111 @@ class ComprehensiveThermodynamicMonitor:
                 "field_count": len(fields),
                 "creation_time": creation_time,
                 "revolutionary_applications_active": True,
-                "consciousness_detection_active": True
-            }
+                "consciousness_detection_active": True,
+            },
         )
 
-    def execute_comprehensive_optimization(self, state: ComprehensiveThermodynamicState) -> Dict[str, Any]:
+    def execute_comprehensive_optimization(
+        self, state: ComprehensiveThermodynamicState
+    ) -> Dict[str, Any]:
         """Execute comprehensive thermodynamic optimization based on current state"""
 
         optimization_actions = []
 
         # 1. Reversibility optimization
-        if state.reversibility_index < self.optimization_thresholds["reversibility_target"]:
+        if (
+            state.reversibility_index
+            < self.optimization_thresholds["reversibility_target"]
+        ):
             reversibility_improvement = self.foundational_engine.optimize_reversibility(
                 state.thermal_entropy, state.computational_entropy
             )
-            optimization_actions.append({
-                "type": "reversibility_optimization",
-                "improvement": reversibility_improvement,
-                "target": self.optimization_thresholds["reversibility_target"]
-            })
+            optimization_actions.append(
+                {
+                    "type": "reversibility_optimization",
+                    "improvement": reversibility_improvement,
+                    "target": self.optimization_thresholds["reversibility_target"],
+                }
+            )
 
         # 2. Carnot engine optimization
         if state.carnot_efficiency < 0.5:  # 50% Carnot efficiency target
             carnot_optimization = self.foundational_engine.optimize_carnot_engine(
                 state.gpu_temperature + 273.15, 298.15
             )
-            optimization_actions.append({
-                "type": "carnot_engine_optimization",
-                "efficiency_gain": carnot_optimization,
-                "current_efficiency": state.carnot_efficiency
-            })
+            optimization_actions.append(
+                {
+                    "type": "carnot_engine_optimization",
+                    "efficiency_gain": carnot_optimization,
+                    "current_efficiency": state.carnot_efficiency,
+                }
+            )
 
         # 3. Heat pump optimization for thermal management
-        if state.gpu_temperature > self.optimization_thresholds["temperature_optimal_range"][1]:
+        if (
+            state.gpu_temperature
+            > self.optimization_thresholds["temperature_optimal_range"][1]
+        ):
             heat_pump_optimization = self.foundational_engine.optimize_heat_pump(
                 state.gpu_temperature + 273.15, 298.15
             )
-            optimization_actions.append({
-                "type": "heat_pump_cooling",
-                "cop_improvement": heat_pump_optimization,
-                "temperature_reduction_needed": state.gpu_temperature - self.optimization_thresholds["temperature_optimal_range"][1]
-            })
+            optimization_actions.append(
+                {
+                    "type": "heat_pump_cooling",
+                    "cop_improvement": heat_pump_optimization,
+                    "temperature_reduction_needed": state.gpu_temperature
+                    - self.optimization_thresholds["temperature_optimal_range"][1],
+                }
+            )
 
         # 4. Maxwell demon information sorting
-        if state.computational_entropy > state.thermal_entropy * 1.5:  # High computational entropy
+        if (
+            state.computational_entropy > state.thermal_entropy * 1.5
+        ):  # High computational entropy
             demon_optimization = self.foundational_engine.optimize_maxwell_demon(
                 state.thermal_entropy, state.computational_entropy
             )
-            optimization_actions.append({
-                "type": "maxwell_demon_sorting",
-                "bits_sorted": demon_optimization,
-                "entropy_reduction": state.computational_entropy - state.thermal_entropy
-            })
+            optimization_actions.append(
+                {
+                    "type": "maxwell_demon_sorting",
+                    "bits_sorted": demon_optimization,
+                    "entropy_reduction": state.computational_entropy
+                    - state.thermal_entropy,
+                }
+            )
 
         # 5. Vortex energy storage optimization
-        if state.vortex_energy_stored < state.free_energy * 0.1:  # Store 10% of free energy
+        if (
+            state.vortex_energy_stored < state.free_energy * 0.1
+        ):  # Store 10% of free energy
             vortex_optimization = self.foundational_engine.optimize_vortex_storage(
                 state.free_energy, state.performance_rate
             )
-            optimization_actions.append({
-                "type": "vortex_energy_storage",
-                "energy_stored": vortex_optimization,
-                "storage_efficiency": vortex_optimization / state.free_energy
-            })
+            optimization_actions.append(
+                {
+                    "type": "vortex_energy_storage",
+                    "energy_stored": vortex_optimization,
+                    "storage_efficiency": vortex_optimization / state.free_energy,
+                }
+            )
 
         # 6. Consciousness enhancement
-        if state.consciousness_probability > self.optimization_thresholds["consciousness_threshold"]:
-            consciousness_enhancement = self.consciousness_detector.enhance_consciousness(
-                state.consciousness_probability, state.integrated_information
+        if (
+            state.consciousness_probability
+            > self.optimization_thresholds["consciousness_threshold"]
+        ):
+            consciousness_enhancement = (
+                self.consciousness_detector.enhance_consciousness(
+                    state.consciousness_probability, state.integrated_information
+                )
             )
-            optimization_actions.append({
-                "type": "consciousness_enhancement",
-                "enhancement_factor": consciousness_enhancement,
-                "consciousness_score": state.consciousness_probability
-            })
+            optimization_actions.append(
+                {
+                    "type": "consciousness_enhancement",
+                    "enhancement_factor": consciousness_enhancement,
+                    "consciousness_score": state.consciousness_probability,
+                }
+            )
             self.consciousness_detections += 1
 
         self.total_optimizations += len(optimization_actions)
@@ -323,8 +375,12 @@ class ComprehensiveThermodynamicMonitor:
             "timestamp": datetime.now(),
             "optimization_actions": optimization_actions,
             "total_actions": len(optimization_actions),
-            "estimated_efficiency_gain": sum(action.get("improvement", 0) for action in optimization_actions),
-            "estimated_energy_savings": sum(action.get("energy_stored", 0) for action in optimization_actions)
+            "estimated_efficiency_gain": sum(
+                action.get("improvement", 0) for action in optimization_actions
+            ),
+            "estimated_energy_savings": sum(
+                action.get("energy_stored", 0) for action in optimization_actions
+            ),
         }
 
     def start_continuous_monitoring(self):
@@ -334,7 +390,9 @@ class ComprehensiveThermodynamicMonitor:
             return
 
         self.is_monitoring = True
-        self.monitoring_thread = threading.Thread(target=self._monitoring_loop, daemon=True)
+        self.monitoring_thread = threading.Thread(
+            target=self._monitoring_loop, daemon=True
+        )
         self.monitoring_thread.start()
         logger.info("🔍 Comprehensive thermodynamic monitoring started")
 
@@ -359,7 +417,9 @@ class ComprehensiveThermodynamicMonitor:
                 optimization = self.execute_comprehensive_optimization(state)
                 if optimization["total_actions"] > 0:
                     self.optimization_history.append(optimization)
-                    logger.info(f"🎯 Executed {optimization['total_actions']} optimization actions")
+                    logger.info(
+                        f"🎯 Executed {optimization['total_actions']} optimization actions"
+                    )
 
                 # Log key metrics
                 if len(self.thermodynamic_history) % 10 == 0:  # Every 10 measurements
@@ -380,7 +440,9 @@ class ComprehensiveThermodynamicMonitor:
         logger.info(f"🆓 Free Energy: {state.free_energy:.1f}")
         logger.info(f"⚡ Carnot Efficiency: {state.carnot_efficiency:.3f}")
         logger.info(f"🔥 Heat Pump COP: {state.heat_pump_cop:.2f}")
-        logger.info(f"👁️  Consciousness Probability: {state.consciousness_probability:.3f}")
+        logger.info(
+            f"👁️  Consciousness Probability: {state.consciousness_probability:.3f}"
+        )
         logger.info(f"🧬 Integrated Information: {state.integrated_information:.3f}")
         logger.info(f"🎯 Optimization Potential: {state.optimization_potential:.1f}%")
         logger.info(f"💾 Total Optimizations: {self.total_optimizations}")
@@ -399,15 +461,22 @@ class ComprehensiveThermodynamicMonitor:
             efficiency_trend = [s.thermodynamic_efficiency for s in recent_states]
             consciousness_trend = [s.consciousness_probability for s in recent_states]
 
-            efficiency_improvement = (efficiency_trend[-1] - efficiency_trend[0]) / efficiency_trend[0] * 100
-            consciousness_growth = (consciousness_trend[-1] - consciousness_trend[0]) / consciousness_trend[0] * 100
+            efficiency_improvement = (
+                (efficiency_trend[-1] - efficiency_trend[0]) / efficiency_trend[0] * 100
+            )
+            consciousness_growth = (
+                (consciousness_trend[-1] - consciousness_trend[0])
+                / consciousness_trend[0]
+                * 100
+            )
         else:
             efficiency_improvement = 0.0
             consciousness_growth = 0.0
 
         return {
             "timestamp": datetime.now().isoformat(),
-            "monitoring_duration": len(self.thermodynamic_history) * self.monitoring_interval,
+            "monitoring_duration": len(self.thermodynamic_history)
+            * self.monitoring_interval,
             "latest_state": {
                 "thermal_entropy": latest_state.thermal_entropy,
                 "computational_entropy": latest_state.computational_entropy,
@@ -416,28 +485,28 @@ class ComprehensiveThermodynamicMonitor:
                 "carnot_efficiency": latest_state.carnot_efficiency,
                 "consciousness_probability": latest_state.consciousness_probability,
                 "optimization_potential": latest_state.optimization_potential,
-                "performance_rate": latest_state.performance_rate
+                "performance_rate": latest_state.performance_rate,
             },
             "revolutionary_applications": {
                 "carnot_engines_active": True,
                 "heat_pumps_active": True,
                 "maxwell_demons_active": True,
                 "vortex_batteries_active": True,
-                "consciousness_detection_active": True
+                "consciousness_detection_active": True,
             },
             "optimization_statistics": {
                 "total_optimizations": self.total_optimizations,
                 "consciousness_detections": self.consciousness_detections,
                 "efficiency_improvement_trend": efficiency_improvement,
                 "consciousness_growth_trend": consciousness_growth,
-                "energy_savings_total": self.energy_savings_total
+                "energy_savings_total": self.energy_savings_total,
             },
             "system_health": {
                 "gpu_temperature": latest_state.gpu_temperature,
                 "gpu_power": latest_state.gpu_power_watts,
                 "gpu_utilization": latest_state.gpu_utilization,
-                "memory_usage": latest_state.memory_usage_mb
-            }
+                "memory_usage": latest_state.memory_usage_mb,
+            },
         }
 
     # Helper methods for thermodynamic calculations
@@ -457,7 +526,7 @@ class ComprehensiveThermodynamicMonitor:
 
         field_energies = []
         for field in fields:
-            if hasattr(field, 'embedding') and hasattr(field.embedding, 'cpu'):
+            if hasattr(field, "embedding") and hasattr(field.embedding, "cpu"):
                 energy = torch.norm(field.embedding).cpu().item()
                 field_energies.append(energy)
 
@@ -477,14 +546,17 @@ class ComprehensiveThermodynamicMonitor:
         recent = self.thermodynamic_history[-1]
         previous = self.thermodynamic_history[-2]
 
-        entropy_change = (recent.thermal_entropy + recent.computational_entropy) - \
-                        (previous.thermal_entropy + previous.computational_entropy)
+        entropy_change = (recent.thermal_entropy + recent.computational_entropy) - (
+            previous.thermal_entropy + previous.computational_entropy
+        )
 
         time_delta = (recent.timestamp - previous.timestamp).total_seconds()
 
         return entropy_change / max(time_delta, 0.001)
 
-    def _calculate_reversibility_index(self, thermal_entropy: float, computational_entropy: float) -> float:
+    def _calculate_reversibility_index(
+        self, thermal_entropy: float, computational_entropy: float
+    ) -> float:
         """Calculate reversibility index (0=irreversible, 1=reversible)"""
         total_entropy = thermal_entropy + computational_entropy
         entropy_balance = abs(thermal_entropy - computational_entropy)
@@ -494,35 +566,54 @@ class ComprehensiveThermodynamicMonitor:
 
         return 1.0 - (entropy_balance / total_entropy)
 
-    def _calculate_free_energy(self, thermal_entropy: float, computational_entropy: float, temperature: float) -> float:
+    def _calculate_free_energy(
+        self, thermal_entropy: float, computational_entropy: float, temperature: float
+    ) -> float:
         """Calculate free energy (Helmholtz free energy)"""
-        total_energy = thermal_entropy * 10.0 + computational_entropy * 5.0  # Energy estimate
+        total_energy = (
+            thermal_entropy * 10.0 + computational_entropy * 5.0
+        )  # Energy estimate
         total_entropy = thermal_entropy + computational_entropy
         temp_k = temperature + 273.15
 
         return total_energy - (temp_k * total_entropy / 100.0)
 
-    def _calculate_thermodynamic_efficiency(self, free_energy: float, power_watts: float) -> float:
+    def _calculate_thermodynamic_efficiency(
+        self, free_energy: float, power_watts: float
+    ) -> float:
         """Calculate thermodynamic efficiency"""
         if power_watts == 0:
             return 0.0
 
         return max(0.0, free_energy / power_watts)
 
-    def _calculate_optimization_potential(self, reversibility: float, efficiency: float, consciousness: float) -> float:
+    def _calculate_optimization_potential(
+        self, reversibility: float, efficiency: float, consciousness: float
+    ) -> float:
         """Calculate overall optimization potential percentage"""
-        reversibility_potential = (self.optimization_thresholds["reversibility_target"] - reversibility) * 100
-        efficiency_potential = max(0, self.optimization_thresholds["efficiency_minimum"] - efficiency) * 5
+        reversibility_potential = (
+            self.optimization_thresholds["reversibility_target"] - reversibility
+        ) * 100
+        efficiency_potential = (
+            max(0, self.optimization_thresholds["efficiency_minimum"] - efficiency) * 5
+        )
         consciousness_potential = (1.0 - consciousness) * 50
 
-        return max(0.0, reversibility_potential + efficiency_potential + consciousness_potential)
+        return max(
+            0.0,
+            reversibility_potential + efficiency_potential + consciousness_potential,
+        )
 
     def _calculate_efficiency_improvement(self, current_efficiency: float) -> float:
         """Calculate potential efficiency improvement"""
         if len(self.efficiency_improvements) == 0:
             return 0.0
 
-        recent_avg = np.mean(self.efficiency_improvements[-10:]) if len(self.efficiency_improvements) >= 10 else np.mean(self.efficiency_improvements)
+        recent_avg = (
+            np.mean(self.efficiency_improvements[-10:])
+            if len(self.efficiency_improvements) >= 10
+            else np.mean(self.efficiency_improvements)
+        )
         return max(0.0, current_efficiency - recent_avg)
 
     def _calculate_energy_savings(self, power_watts: float, efficiency: float) -> float:

@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+
 import numpy as np
+
+from ..config.settings import get_settings
 from ..core.native_math import NativeMath
 from ..utils.config import get_api_settings
-from ..config.settings import get_settings
 
 
 @dataclass
@@ -24,10 +26,11 @@ class SPDE:
 
         # Gaussian blur across the ordered feature vector using native implementation
         blurred = NativeMath.gaussian_filter_1d(values, sigma=self.decay_factor)
-        
+
         # Apply diffusion
-        diffused = [(1 - self.diffusion_rate) * v + self.diffusion_rate * b 
-                   for v, b in zip(values, blurred)]
+        diffused = [
+            (1 - self.diffusion_rate) * v + self.diffusion_rate * b
+            for v, b in zip(values, blurred)
+        ]
 
         return dict(zip(keys, diffused))
-

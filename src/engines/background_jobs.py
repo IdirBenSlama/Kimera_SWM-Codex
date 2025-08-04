@@ -1,15 +1,15 @@
 from __future__ import annotations
 
-from apscheduler.schedulers.background import BackgroundScheduler
-from datetime import datetime, timedelta
 from collections import defaultdict
+from datetime import datetime, timedelta
 from typing import Callable, Optional
 
+from apscheduler.schedulers.background import BackgroundScheduler
 from sqlalchemy.orm import Session
 
-from ..vault.database import SessionLocal, ScarDB, GeoidDB
-from ..utils.config import get_api_settings
 from ..config.settings import get_settings
+from ..utils.config import get_api_settings
+from ..vault.database import GeoidDB, ScarDB, SessionLocal
 
 scheduler = BackgroundScheduler()
 _embedding_fn: Optional[Callable[[str], list[float]]] = None
@@ -56,14 +56,14 @@ def crystallization_job() -> None:
         new_geoid = GeoidDB(
             geoid_id=geoid_id,
             symbolic_state={
-                'type': 'crystallized_scar', 
-                'principle': scar.reason,
-                'timestamp': datetime.now(timezone.utc).isoformat()
+                "type": "crystallized_scar",
+                "principle": scar.reason,
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             },
             metadata_json={
-                'source_scar_id': scar.scar_id, 
-                'crystallization_date': datetime.now(timezone.utc).isoformat(),
-                'created_by': 'crystallization_process'
+                "source_scar_id": scar.scar_id,
+                "crystallization_date": datetime.now(timezone.utc).isoformat(),
+                "created_by": "crystallization_process",
             },
             semantic_state_json={},
             semantic_vector=vector,
@@ -86,4 +86,3 @@ def start_background_jobs(embedding_fn: Callable[[str], list[float]]) -> None:
 def stop_background_jobs() -> None:
     if scheduler.running:
         scheduler.shutdown(wait=False)
-

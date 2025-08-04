@@ -6,15 +6,19 @@ EthicalGovernor.
 This class is in its own file to prevent circular dependencies between
 the Governor, Heart, and other cognitive engines.
 """
+
 from dataclasses import dataclass, field
-from typing import Dict, Any
+from typing import Any, Dict
+
+
 @dataclass
 class ActionProposal:
     """
     A structured representation of an action proposed by a system component.
     This object is passed to the EthicalGovernor for adjudication.
     """
+
     source_engine: str
     description: str
     logical_analysis: Dict[str, Any]
-    associated_data: Dict[str, Any] = field(default_factory=dict) 
+    associated_data: Dict[str, Any] = field(default_factory=dict)

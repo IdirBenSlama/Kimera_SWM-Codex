@@ -5,8 +5,10 @@ representing a generated insight (e.g., analogy, hypothesis).
 
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import List, Dict, Any, Literal
-InsightStatus = Literal['provisional', 'active', 'strengthened', 'deprecated']
+from typing import Any, Dict, List, Literal
+
+InsightStatus = Literal["provisional", "active", "strengthened", "deprecated"]
+
 
 @dataclass
 class InsightScar:
@@ -16,24 +18,27 @@ class InsightScar:
     This structure captures not only the insight itself but also its
     origin, its impact (entropy reduction), and its lifecycle state.
     """
+
     insight_id: str
-    insight_type: Literal['ANALOGY', 'HYPOTHESIS', 'FRAMEWORK', 'SOLUTION']
+    insight_type: Literal["ANALOGY", "HYPOTHESIS", "FRAMEWORK", "SOLUTION"]
     source_resonance_id: str
-    
+
     # Core insight data
     echoform_repr: Dict[str, Any]
     confidence: float
     entropy_reduction: float
     application_domains: List[str] = field(default_factory=list)
-    
+
     # Metrics and Lifecycle
     utility_score: float = 0.0
-    status: InsightStatus = 'provisional'
-    
+    status: InsightStatus = "provisional"
+
     # Timestamps and Provenance
-    created_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    created_at: str = field(
+        default_factory=lambda: datetime.now(timezone.utc).isoformat()
+    )
     last_reinforced_cycle: int = 0
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Serializes the InsightScar to a dictionary."""
         return {
@@ -48,4 +53,4 @@ class InsightScar:
             "status": self.status,
             "created_at": self.created_at,
             "last_reinforced_cycle": self.last_reinforced_cycle,
-        } 
+        }

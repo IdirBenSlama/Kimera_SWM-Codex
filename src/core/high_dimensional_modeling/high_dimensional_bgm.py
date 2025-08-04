@@ -24,39 +24,48 @@ Performance optimizations:
 - Integration with Kimera's cognitive architecture
 """
 
-import torch
-import torch.nn as nn
-import numpy as np
 import logging
-from typing import Dict, List, Optional, Tuple, Any
+import time
 from dataclasses import dataclass
 from datetime import datetime
-import time
+from typing import Any, Dict, List, Optional, Tuple
+
+import numpy as np
+import torch
+import torch.nn as nn
 
 from src.core.cognitive_field_dynamics import CognitiveFieldDynamics
+
 try:
     from monitoring.metrics_collector import get_metrics_collector
 except ImportError:
     # Create placeholders for monitoring.metrics_collector
-        def get_metrics_collector(*args, **kwargs): return None
+    def get_metrics_collector(*args, **kwargs):
+        return None
+
 
 logger = logging.getLogger(__name__)
 
 # GPU Configuration
-DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 DTYPE = torch.float32
+
 
 @dataclass
 class BGMConfig:
     """Configuration for high-dimensional BGM simulation"""
-    dimension: int = 1024  # Validated through aerospace-grade testing: 128D→256D→512D→1024D
+
+    dimension: int = (
+        1024  # Validated through aerospace-grade testing: 128D→256D→512D→1024D
+    )
     time_horizon: float = 1.0
     dt: float = 1.0 / 252.0  # Daily steps
     batch_size: int = 1000
     use_antithetic_variates: bool = True
     use_moment_matching: bool = True
-    device: str = 'cuda' if torch.cuda.is_available() else 'cpu'
+    device: str = "cuda" if torch.cuda.is_available() else "cpu"
     dtype: torch.dtype = torch.float32
+
 
 class HighDimensionalBGM:
     """
@@ -91,18 +100,22 @@ class HighDimensionalBGM:
 
         # Performance tracking
         self.simulation_stats = {
-            'total_simulations': 0,
-            'total_time': 0.0,
-            'avg_time_per_simulation': 0.0,
-            'memory_usage': 0.0
+            "total_simulations": 0,
+            "total_time": 0.0,
+            "avg_time_per_simulation": 0.0,
+            "memory_usage": 0.0,
         }
 
-        logger.info(f"🚀 High-Dimensional BGM initialized: {config.dimension}D on {self.device}")
+        logger.info(
+            f"🚀 High-Dimensional BGM initialized: {config.dimension}D on {self.device}"
+        )
 
-    def set_parameters(self,
-                      drift: torch.Tensor,
-                      volatility: torch.Tensor,
-                      correlation: Optional[torch.Tensor] = None):
+    def set_parameters(
+        self,
+        drift: torch.Tensor,
+        volatility: torch.Tensor,
+        correlation: Optional[torch.Tensor] = None,
+    ):
         """
         Set BGM parameters.
 
@@ -115,7 +128,9 @@ class HighDimensionalBGM:
 
         if volatility.dim() == 1:
             # Diagonal volatility matrix
-            self.volatility_matrix = torch.diag(volatility).to(self.device, dtype=self.dtype)
+            self.volatility_matrix = torch.diag(volatility).to(
+                self.device, dtype=self.dtype
+            )
         else:
             # Full volatility matrix
             self.volatility_matrix = volatility.to(self.device, dtype=self.dtype)
@@ -126,18 +141,24 @@ class HighDimensionalBGM:
             try:
                 self.cholesky_factor = torch.linalg.cholesky(self.correlation_matrix)
             except RuntimeError as e:
-                logger.warning(f"Cholesky decomposition failed: {e}. Using identity matrix.")
-                self.cholesky_factor = torch.eye(self.config.dimension,
-                                               device=self.device, dtype=self.dtype)
+                logger.warning(
+                    f"Cholesky decomposition failed: {e}. Using identity matrix."
+                )
+                self.cholesky_factor = torch.eye(
+                    self.config.dimension, device=self.device, dtype=self.dtype
+                )
         else:
             # No correlation - use identity
-            self.cholesky_factor = torch.eye(self.config.dimension,
-                                           device=self.device, dtype=self.dtype)
+            self.cholesky_factor = torch.eye(
+                self.config.dimension, device=self.device, dtype=self.dtype
+            )
 
-    def simulate_paths(self,
-                      initial_values: torch.Tensor,
-                      num_paths: int = 1000,
-                      num_steps: Optional[int] = None) -> torch.Tensor:
+    def simulate_paths(
+        self,
+        initial_values: torch.Tensor,
+        num_paths: int = 1000,
+        num_steps: Optional[int] = None,
+    ) -> torch.Tensor:
         """
         Simulate multiple BGM paths using GPU acceleration.
 
@@ -155,8 +176,13 @@ class HighDimensionalBGM:
         start_time = time.time()
 
         # Initialize path tensor
-        paths = torch.zeros(num_paths, num_steps + 1, self.config.dimension,
-                          device=self.device, dtype=self.dtype)
+        paths = torch.zeros(
+            num_paths,
+            num_steps + 1,
+            self.config.dimension,
+            device=self.device,
+            dtype=self.dtype,
+        )
 
         # Ensure initial_values is on the correct device and broadcasted properly
         initial_values_device = initial_values.to(self.device, dtype=self.dtype)
@@ -164,7 +190,9 @@ class HighDimensionalBGM:
 
         # Pre-compute constants
         drift_dt = self.drift_vector * self.config.dt
-        sqrt_dt = torch.sqrt(torch.tensor(self.config.dt, device=self.device, dtype=self.dtype))
+        sqrt_dt = torch.sqrt(
+            torch.tensor(self.config.dt, device=self.device, dtype=self.dtype)
+        )
 
         # Handle volatility matrix scaling
         if self.volatility_matrix.dim() == 2:
@@ -180,8 +208,12 @@ class HighDimensionalBGM:
                 dW = -dW_prev
             else:
                 # Standard multivariate normal
-                dW_uncorr = torch.randn(num_paths, self.config.dimension,
-                                      device=self.device, dtype=self.dtype)
+                dW_uncorr = torch.randn(
+                    num_paths,
+                    self.config.dimension,
+                    device=self.device,
+                    dtype=self.dtype,
+                )
                 dW = torch.matmul(dW_uncorr, self.cholesky_factor.T)
                 if self.config.use_antithetic_variates:
                     dW_prev = dW.clone()
@@ -209,17 +241,22 @@ class HighDimensionalBGM:
 
         # Update performance statistics
         simulation_time = time.time() - start_time
-        self.simulation_stats['total_simulations'] += num_paths
-        self.simulation_stats['total_time'] += simulation_time
-        self.simulation_stats['avg_time_per_simulation'] = (
-            self.simulation_stats['total_time'] / self.simulation_stats['total_simulations']
+        self.simulation_stats["total_simulations"] += num_paths
+        self.simulation_stats["total_time"] += simulation_time
+        self.simulation_stats["avg_time_per_simulation"] = (
+            self.simulation_stats["total_time"]
+            / self.simulation_stats["total_simulations"]
         )
 
         # Memory usage
         if torch.cuda.is_available():
-            self.simulation_stats['memory_usage'] = torch.cuda.memory_allocated() / 1024**2  # MB
+            self.simulation_stats["memory_usage"] = (
+                torch.cuda.memory_allocated() / 1024**2
+            )  # MB
 
-        logger.info(f"📊 BGM simulation completed: {num_paths} paths × {num_steps} steps × {self.config.dimension}D in {simulation_time:.2f}s")
+        logger.info(
+            f"📊 BGM simulation completed: {num_paths} paths × {num_steps} steps × {self.config.dimension}D in {simulation_time:.2f}s"
+        )
 
         return paths
 
@@ -237,11 +274,11 @@ class HighDimensionalBGM:
         final_values = paths[:, -1, :]
 
         moments = {
-            'mean': torch.mean(final_values, dim=0),
-            'variance': torch.var(final_values, dim=0),
-            'std': torch.std(final_values, dim=0),
-            'skewness': self._compute_skewness(final_values),
-            'kurtosis': self._compute_kurtosis(final_values)
+            "mean": torch.mean(final_values, dim=0),
+            "variance": torch.var(final_values, dim=0),
+            "std": torch.std(final_values, dim=0),
+            "skewness": self._compute_skewness(final_values),
+            "kurtosis": self._compute_kurtosis(final_values),
         }
 
         return moments
@@ -262,9 +299,11 @@ class HighDimensionalBGM:
         kurtosis = torch.mean((centered / std) ** 4, dim=0) - 3  # Excess kurtosis
         return kurtosis
 
-    def integrate_with_cognitive_field(self,
-                                     market_data: Dict[str, Any],
-                                     cognitive_weights: Optional[torch.Tensor] = None) -> torch.Tensor:
+    def integrate_with_cognitive_field(
+        self,
+        market_data: Dict[str, Any],
+        cognitive_weights: Optional[torch.Tensor] = None,
+    ) -> torch.Tensor:
         """
         Integrate BGM simulation with cognitive field dynamics.
 
@@ -283,6 +322,7 @@ class HighDimensionalBGM:
         try:
             # This would be async in real implementation
             import asyncio
+
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
 
@@ -291,29 +331,37 @@ class HighDimensionalBGM:
             )
 
             # Extract cognitive insights
-            sentiment_score = cognitive_analysis.get('sentiment_score', 0.5)
-            technical_alignment = cognitive_analysis.get('technical_alignment', 0.5)
-            cognitive_pressure = cognitive_analysis.get('cognitive_pressure', 0.5)
+            sentiment_score = cognitive_analysis.get("sentiment_score", 0.5)
+            technical_alignment = cognitive_analysis.get("technical_alignment", 0.5)
+            cognitive_pressure = cognitive_analysis.get("cognitive_pressure", 0.5)
 
             # Adjust drift based on cognitive insights
-            cognitive_factor = torch.tensor([
-                sentiment_score * 2 - 1,  # Convert to [-1, 1]
-                technical_alignment * 2 - 1,
-                cognitive_pressure * 2 - 1
-            ], device=self.device, dtype=self.dtype)
+            cognitive_factor = torch.tensor(
+                [
+                    sentiment_score * 2 - 1,  # Convert to [-1, 1]
+                    technical_alignment * 2 - 1,
+                    cognitive_pressure * 2 - 1,
+                ],
+                device=self.device,
+                dtype=self.dtype,
+            )
 
             # Expand to full dimension
             if self.config.dimension > 3:
-                additional_factors = torch.zeros(self.config.dimension - 3, device=self.device, dtype=self.dtype)
+                additional_factors = torch.zeros(
+                    self.config.dimension - 3, device=self.device, dtype=self.dtype
+                )
                 cognitive_factor = torch.cat([cognitive_factor, additional_factors])
             elif self.config.dimension < 3:
-                cognitive_factor = cognitive_factor[:self.config.dimension]
+                cognitive_factor = cognitive_factor[: self.config.dimension]
 
             # Combine with base drift
             enhanced_drift = self.drift_vector + 0.1 * cognitive_factor
 
-            logger.info(f"🧠 Cognitive-enhanced drift computed: sentiment={sentiment_score:.3f}, "
-                       f"technical={technical_alignment:.3f}, pressure={cognitive_pressure:.3f}")
+            logger.info(
+                f"🧠 Cognitive-enhanced drift computed: sentiment={sentiment_score:.3f}, "
+                f"technical={technical_alignment:.3f}, pressure={cognitive_pressure:.3f}"
+            )
 
             return enhanced_drift
 
@@ -321,9 +369,9 @@ class HighDimensionalBGM:
             logger.error(f"Cognitive integration failed: {e}")
             return self.drift_vector
 
-    def generate_market_scenarios(self,
-                                initial_prices: torch.Tensor,
-                                num_scenarios: int = 1000) -> Dict[str, torch.Tensor]:
+    def generate_market_scenarios(
+        self, initial_prices: torch.Tensor, num_scenarios: int = 1000
+    ) -> Dict[str, torch.Tensor]:
         """
         Generate comprehensive market scenarios for risk management.
 
@@ -348,41 +396,50 @@ class HighDimensionalBGM:
         portfolio_returns = torch.mean(returns, dim=1)  # Equal-weighted portfolio
 
         risk_metrics = {
-            'scenarios': scenarios,
-            'final_prices': final_prices,
-            'returns': returns,
-            'portfolio_returns': portfolio_returns,
-            'var_95': torch.quantile(portfolio_returns, 0.05),
-            'var_99': torch.quantile(portfolio_returns, 0.01),
-            'expected_shortfall_95': torch.mean(portfolio_returns[portfolio_returns <= torch.quantile(portfolio_returns, 0.05)]),
-            'max_drawdown': torch.min(portfolio_returns),
-            'volatility': torch.std(portfolio_returns)
+            "scenarios": scenarios,
+            "final_prices": final_prices,
+            "returns": returns,
+            "portfolio_returns": portfolio_returns,
+            "var_95": torch.quantile(portfolio_returns, 0.05),
+            "var_99": torch.quantile(portfolio_returns, 0.01),
+            "expected_shortfall_95": torch.mean(
+                portfolio_returns[
+                    portfolio_returns <= torch.quantile(portfolio_returns, 0.05)
+                ]
+            ),
+            "max_drawdown": torch.min(portfolio_returns),
+            "volatility": torch.std(portfolio_returns),
         }
 
-        logger.info(f"📈 Market scenarios generated: {num_scenarios} scenarios, "
-                   f"VaR(95%)={risk_metrics['var_95']:.4f}, Vol={risk_metrics['volatility']:.4f}")
+        logger.info(
+            f"📈 Market scenarios generated: {num_scenarios} scenarios, "
+            f"VaR(95%)={risk_metrics['var_95']:.4f}, Vol={risk_metrics['volatility']:.4f}"
+        )
 
         return risk_metrics
 
     def get_performance_stats(self) -> Dict[str, Any]:
         """Get BGM engine performance statistics"""
         return {
-            'config': {
-                'dimension': self.config.dimension,
-                'device': str(self.device),
-                'dtype': str(self.dtype)
+            "config": {
+                "dimension": self.config.dimension,
+                "device": str(self.device),
+                "dtype": str(self.dtype),
             },
-            'simulation_stats': self.simulation_stats,
-            'cognitive_integration': self.cognitive_field is not None,
-            'gpu_available': torch.cuda.is_available(),
-            'memory_usage_mb': self.simulation_stats['memory_usage']
+            "simulation_stats": self.simulation_stats,
+            "cognitive_integration": self.cognitive_field is not None,
+            "gpu_available": torch.cuda.is_available(),
+            "memory_usage_mb": self.simulation_stats["memory_usage"],
         }
 
+
 # Factory function for easy instantiation
-def create_high_dimensional_bgm(dimension: int = 512,
-                              time_horizon: float = 1.0,
-                              dt: float = 1.0/252.0,
-                              batch_size: int = 1000) -> HighDimensionalBGM:
+def create_high_dimensional_bgm(
+    dimension: int = 512,
+    time_horizon: float = 1.0,
+    dt: float = 1.0 / 252.0,
+    batch_size: int = 1000,
+) -> HighDimensionalBGM:
     """
     Factory function to create high-dimensional BGM engine.
 
@@ -396,13 +453,11 @@ def create_high_dimensional_bgm(dimension: int = 512,
         Initialized HighDimensionalBGM engine
     """
     config = BGMConfig(
-        dimension=dimension,
-        time_horizon=time_horizon,
-        dt=dt,
-        batch_size=batch_size
+        dimension=dimension, time_horizon=time_horizon, dt=dt, batch_size=batch_size
     )
 
     return HighDimensionalBGM(config)
+
 
 # Example usage and testing
 if __name__ == "__main__":
@@ -437,14 +492,12 @@ if __name__ == "__main__":
 
         logger.info(f"   Mean final price: {torch.mean(moments['mean']):.2f}")
         logger.info(f"   Std final price: {torch.mean(moments['std']):.2f}")
-        logger.info(f"   Performance: {bgm.get_performance_stats()['simulation_stats']['avg_time_per_simulation']:.6f}s per path")
+        logger.info(
+            f"   Performance: {bgm.get_performance_stats()['simulation_stats']['avg_time_per_simulation']:.6f}s per path"
+        )
 
         # Test cognitive integration
-        market_data = {
-            'price': 100.0,
-            'volume': 1000000,
-            'change_24h': 0.02
-        }
+        market_data = {"price": 100.0, "volume": 1000000, "change_24h": 0.02}
 
         enhanced_drift = bgm.integrate_with_cognitive_field(market_data)
         logger.info(f"   Cognitive enhancement: {torch.mean(enhanced_drift):.6f}")

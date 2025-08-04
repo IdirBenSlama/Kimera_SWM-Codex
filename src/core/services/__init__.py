@@ -27,8 +27,8 @@ from .background_job_manager import BackgroundJobManager, get_job_manager
 from .clip_service_integration import CLIPServiceIntegration, get_clip_service
 
 __all__ = [
-    'BackgroundJobManager',
-    'get_job_manager',
-    'CLIPServiceIntegration', 
-    'get_clip_service'
+    "BackgroundJobManager",
+    "get_job_manager",
+    "CLIPServiceIntegration",
+    "get_clip_service",
 ]

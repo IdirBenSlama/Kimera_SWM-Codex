@@ -10,15 +10,15 @@ Version: 1.0.0 - DO-178C Level A Compliant
 """
 
 from .quantum_thermodynamic_signal_processor import (
-    QuantumThermodynamicSignalProcessor,
+    CorrectionResult,
     QuantumSignalSuperposition,
+    QuantumThermodynamicSignalProcessor,
     SignalDecoherenceController,
-    CorrectionResult
 )
 
 __all__ = [
     "QuantumThermodynamicSignalProcessor",
     "QuantumSignalSuperposition",
     "SignalDecoherenceController",
-    "CorrectionResult"
+    "CorrectionResult",
 ]

@@ -5,13 +5,16 @@ This engine is responsible for the core creative process of SWM's Step 3.
 It takes a resonance event, follows activation paths through the knowledge
 graph, and synthesizes the patterns into a new composite Geoid, or "Mosaic".
 """
-from typing import List, Dict, Any
-from ..utils.config import get_api_settings
+
+from typing import Any, Dict, List
+
 from ..config.settings import get_settings
+from ..utils.config import get_api_settings
 
 # Assuming these data structures are defined elsewhere
 # from ..core.geoid import Geoid
 # from ..core.resonance import ResonanceEvent
+
 
 # Placeholder classes for demonstration
 class Geoid:
@@ -21,26 +24,35 @@ class Geoid:
         self.geoid_id = geoid_id
         self.neighbors = neighbors or []
 
+
 class ResonanceEvent:
     def __init__(self, source_geoids: List[str]):
         self.settings = get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
         self.source_geoids = source_geoids
 
+
 class GeoidMosaic:
-    def __init__(self, source_ids: List[str], combined_features: Dict[str, Any], cost: float):
+    def __init__(
+        self, source_ids: List[str], combined_features: Dict[str, Any], cost: float
+    ):
         self.settings = get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
         self.source_ids = source_ids
         self.combined_features = combined_features
         self.synthesis_cost = cost
         self.archetype = None  # Will be determined during synthesis
-        self.paradox = None    # Will be detected during synthesis
+        self.paradox = None  # Will be detected during synthesis
 
-def trigger_activation_cascade(resonance_event: ResonanceEvent, knowledge_graph: Dict[str, Geoid], max_depth: int = 2) -> List[str]:
+
+def trigger_activation_cascade(
+    resonance_event: ResonanceEvent,
+    knowledge_graph: Dict[str, Geoid],
+    max_depth: int = 2,
+) -> List[str]:
     """
     Simulates a spreading activation cascade from the source geoids.
-    
+
     Args:
         resonance_event: The event that triggered the synthesis.
         knowledge_graph: The current map of all Geoids.
@@ -51,7 +63,7 @@ def trigger_activation_cascade(resonance_event: ResonanceEvent, knowledge_graph:
     """
     activated_set = set(resonance_event.source_geoids)
     queue = list(resonance_event.source_geoids)
-    
+
     for depth in range(max_depth):
         next_queue = []
         for geoid_id in queue:
@@ -63,8 +75,9 @@ def trigger_activation_cascade(resonance_event: ResonanceEvent, knowledge_graph:
         queue = next_queue
         if not queue:
             break
-            
+
     return list(activated_set)
+
 
 def synthesize_patterns(activated_geoids: List[Geoid]) -> GeoidMosaic:
     """
@@ -87,18 +100,16 @@ def synthesize_patterns(activated_geoids: List[Geoid]) -> GeoidMosaic:
     combined_features = {"synthesized": True}
     source_ids = []
     total_complexity = 0
-    
+
     for geoid in activated_geoids:
         source_ids.append(geoid.geoid_id)
         # Mock complexity score for each geoid
-        total_complexity += len(geoid.neighbors) 
+        total_complexity += len(geoid.neighbors)
 
     # The synthesis_cost is a function of the number of geoids involved
     # and their combined complexity.
     synthesis_cost = len(activated_geoids) * total_complexity
-    
+
     return GeoidMosaic(
-        source_ids=source_ids,
-        combined_features=combined_features,
-        cost=synthesis_cost
-    ) 
+        source_ids=source_ids, combined_features=combined_features, cost=synthesis_cost
+    )

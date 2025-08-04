@@ -1,7 +1,10 @@
 import asyncio
-from kimera_trading.core.engine import CognitiveThermodynamicTradingEngine
 import logging
+
+from kimera_trading.core.engine import CognitiveThermodynamicTradingEngine
+
 logger = logging.getLogger(__name__)
+
 
 async def run_backtest():
     engine = CognitiveThermodynamicTradingEngine()
@@ -12,6 +15,7 @@ async def run_backtest():
     # results = await engine.backtest(historical_data)
     # Print results
     # logger.info(results)
+
 
 if __name__ == "__main__":
     asyncio.run(run_backtest())

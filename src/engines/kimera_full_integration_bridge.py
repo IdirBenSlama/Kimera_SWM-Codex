@@ -12,36 +12,38 @@ contribute to the overall system state. This bridge ensures no component
 is architecturally orphaned.
 """
 
-import logging
 import asyncio
-from typing import Dict, Any, Optional, Tuple
-import torch
+import logging
+from typing import Any, Dict, Optional, Tuple
+
 import numpy as np
+import torch
 
 # Import all integration components
 from .kimera_advanced_integration_fix import AdvancedKimeraIntegrator
-
 from .kimera_cognitive_response_system import (
-    get_cognitive_response_system,
     CognitiveMetrics,
     ResponseType,
-    create_cognitive_metrics_from_features
+    create_cognitive_metrics_from_features,
+    get_cognitive_response_system,
 )
-
-from .universal_translator_hub import (
-    UniversalTranslationRequest,
-    UniversalTranslationResult,
-    TranslationEngine,
-    TranslationModality,
-    DiffusionMode
-)
-
 from .kimera_text_diffusion_engine import (
-from ..utils.config import get_api_settings
-from ..config.settings import get_settings
     DiffusionRequest,
     DiffusionResult,
-    KimeraTextDiffusionEngine
+    KimeraTextDiffusionEngine,
+    ..config.settings,
+    ..utils.config,
+    from,
+    get_api_settings,
+    get_settings,
+    import,
+)
+from .universal_translator_hub import (
+    DiffusionMode,
+    TranslationEngine,
+    TranslationModality,
+    UniversalTranslationRequest,
+    UniversalTranslationResult,
 )
 
 logger = logging.getLogger(__name__)

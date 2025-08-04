@@ -5,9 +5,9 @@ Phase 4, Weeks 12-13: Security Hardening
 """
 
 import logging
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
-from sqlalchemy import text, bindparam
+from sqlalchemy import bindparam, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 logger = logging.getLogger(__name__)
@@ -17,38 +17,40 @@ class SafeQueryBuilder:
     """
     Builds and executes safe, parameterized SQL queries
     """
-    
+
     def __init__(self, session: AsyncSession):
         self.session = session
-    
-    async def execute_query(self, query: str, params: Dict[str, Any]) -> List[Dict[str, Any]]:
+
+    async def execute_query(
+        self, query: str, params: Dict[str, Any]
+    ) -> List[Dict[str, Any]]:
         """
         Execute a safe, parameterized query
-        
+
         Args:
             query: The SQL query with named bind parameters (e.g., :param_name)
             params: A dictionary of parameters
-            
+
         Returns:
             A list of result rows as dictionaries
         """
         try:
             # Create bind parameters
             bind_params = [bindparam(key, value) for key, value in params.items()]
-            
+
             # Create a text clause with bind parameters
             stmt = text(query).bindparams(*bind_params)
-            
+
             # Execute the query
             result = await self.session.execute(stmt)
-            
+
             # Fetch results
             return [row._asdict() for row in result.fetchall()]
-        
+
         except Exception as e:
             logger.error(f"Error executing safe query: {e}")
             raise
-    
+
     async def get_user_by_username(self, username: str) -> List[Dict[str, Any]]:
         """
         Example of a safe query to get a user by username
@@ -56,8 +58,10 @@ class SafeQueryBuilder:
         query = "SELECT * FROM users WHERE username = :username"
         params = {"username": username}
         return await self.execute_query(query, params)
-    
-    async def search_documents(self, search_term: str, user_id: int) -> List[Dict[str, Any]]:
+
+    async def search_documents(
+        self, search_term: str, user_id: int
+    ) -> List[Dict[str, Any]]:
         """
         Example of a safe query with multiple parameters
         """
@@ -65,10 +69,7 @@ class SafeQueryBuilder:
             SELECT * FROM documents 
             WHERE user_id = :user_id AND content LIKE :search_term
         """
-        params = {
-            "user_id": user_id,
-            "search_term": f"%{search_term}%"
-        }
+        params = {"user_id": user_id, "search_term": f"%{search_term}%"}
         return await self.execute_query(query, params)
 
 
@@ -76,7 +77,7 @@ class SafeQueryBuilder:
 # This would typically be used within your data access layer
 
 # from src.core.database_optimization import get_db_optimization
-# 
+#
 # async def get_user_data(username: str):
 #     async with get_db_optimization().optimized_session() as session:
 #         query_builder = SafeQueryBuilder(session)

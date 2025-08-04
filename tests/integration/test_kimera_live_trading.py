@@ -20,13 +20,13 @@ Usage:
 """
 
 import asyncio
+import json
 import logging
 import os
 import sys
-from pathlib import Path
-from typing import Dict, Any
 from datetime import datetime, timedelta
-import json
+from pathlib import Path
+from typing import Any, Dict
 
 # Add project root to path
 project_root = Path(__file__).parent
@@ -44,15 +44,17 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-# Import Kimera components
-from src.trading.kimera_trading_integration import (
-    KimeraTradingIntegration,
-    KimeraTradingConfig,
-    create_kimera_trading_system
-)
+from dotenv import load_dotenv
+
 from src.trading.api.binance_connector import BinanceConnector
 from src.trading.autonomous_kimera_trader import CognitiveSignal
-from dotenv import load_dotenv
+
+# Import Kimera components
+from src.trading.kimera_trading_integration import (
+    KimeraTradingConfig,
+    KimeraTradingIntegration,
+    create_kimera_trading_system,
+)
 
 # Load environment variables
 load_dotenv()

@@ -1,5 +1,8 @@
 import logging
+
 logger = logging.getLogger(__name__)
+
+
 class EntropyLogger:
     """A logger that is aware of the system's entropy."""
 

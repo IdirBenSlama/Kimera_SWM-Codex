@@ -1,33 +1,35 @@
+import logging
 import os
 import sys
-import logging
 
 logger = logging.getLogger(__name__)
+
 
 # Check PyTorch version compatibility for CVE-2025-32434
 def is_torch_safe():
     """Check if PyTorch version is safe from CVE-2025-32434"""
     try:
         import torch
-        version_parts = torch.__version__.split('.')
+
+        version_parts = torch.__version__.split(".")
         major = int(version_parts[0])
         minor = int(version_parts[1])
-        
+
         # PyTorch 2.6+ is required for safe torch.load
         if major > 2 or (major == 2 and minor >= 6):
             return True
         else:
-            logger.warning(f"PyTorch {torch.__version__} detected - CVE-2025-32434 vulnerability present")
+            logger.warning(
+                f"PyTorch {torch.__version__} detected - CVE-2025-32434 vulnerability present"
+            )
             return False
     except Exception as e:
         logger.warning(f"Could not check PyTorch version: {e}")
         return False
 
+
 # Use lightweight fallback if torch is unsafe or LIGHTWEIGHT_CLIP is set
-use_lightweight = (
-    os.getenv("LIGHTWEIGHT_CLIP", "0") == "1" or 
-    not is_torch_safe()
-)
+use_lightweight = os.getenv("LIGHTWEIGHT_CLIP", "0") == "1" or not is_torch_safe()
 
 if use_lightweight:
     logger.info("Using lightweight CLIP fallback (no heavy model loading)")
@@ -36,8 +38,9 @@ if use_lightweight:
     torch = None  # type: ignore
 else:
     try:
-        from transformers import CLIPProcessor, CLIPModel
         import torch
+        from transformers import CLIPModel, CLIPProcessor
+
         logger.info("Heavy CLIP models available - using full functionality")
     except Exception as e:  # pragma: no cover - allow tests without heavy deps
         logger.warning(f"Could not import CLIP models: {e}")
@@ -45,21 +48,24 @@ else:
         CLIPModel = None  # type: ignore
         torch = None  # type: ignore
 
-from PIL import Image
 import numpy as np
-from ..utils.config import get_api_settings
+from PIL import Image
+
 from ..config.settings import get_settings
+from ..utils.config import get_api_settings
 
 
 class CLIPService:
     """Wrapper around OpenAI's CLIP model with graceful fallbacks and security considerations."""
 
     def __init__(self, model_name: str = "openai/clip-vit-base-patch32") -> None:
-        self.device = "cuda" if torch is not None and torch.cuda.is_available() else "cpu"
+        self.device = (
+            "cuda" if torch is not None and torch.cuda.is_available() else "cpu"
+        )
         self.model_name = model_name
         self.model = None
         self.processor = None
-        
+
         # Only load models if safe and available
         if CLIPModel is not None and torch is not None:
             try:
@@ -73,14 +79,16 @@ class CLIPService:
                 self.model = None
                 self.processor = None
         else:  # pragma: no cover - lightweight fallback
-            logger.info("🪶 CLIP service running in lightweight mode (security/performance)")
+            logger.info(
+                "🪶 CLIP service running in lightweight mode (security/performance)"
+            )
 
     def get_image_embedding(self, image: Image.Image) -> np.ndarray:
         """Get image embedding with fallback to zeros if model unavailable"""
         if self.model is None or self.processor is None or torch is None:
             logger.debug("Using fallback image embedding (zeros)")
             return np.zeros(512)
-            
+
         try:
             inputs = self.processor(images=image, return_tensors="pt").to(self.device)
             with torch.no_grad():
@@ -96,7 +104,7 @@ class CLIPService:
         if self.model is None or self.processor is None or torch is None:
             logger.debug("Using fallback text embedding (zeros)")
             return np.zeros(512)
-            
+
         try:
             inputs = self.processor(text=text, return_tensors="pt").to(self.device)
             with torch.no_grad():
@@ -116,9 +124,11 @@ class CLIPService:
         return {
             "available": self.is_available(),
             "device": self.device,
-            "model_name": self.model_name if self.is_available() else "lightweight_fallback",
+            "model_name": (
+                self.model_name if self.is_available() else "lightweight_fallback"
+            ),
             "torch_safe": is_torch_safe(),
-            "lightweight_mode": not self.is_available()
+            "lightweight_mode": not self.is_available(),
         }
 
 
@@ -130,4 +140,3 @@ except Exception as e:
     logger.error(f"Failed to initialize CLIP service: {e}")
     # Create minimal fallback service
     clip_service = CLIPService()
-

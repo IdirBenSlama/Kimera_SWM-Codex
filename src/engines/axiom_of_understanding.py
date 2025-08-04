@@ -22,18 +22,21 @@ The Axiom of Understanding should be the minimal mathematical statement from
 which all forms of genuine understanding can be derived.
 """
 
-import numpy as np
-from typing import Dict, List, Tuple, Any, Optional, Set
+import asyncio
+import json
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from datetime import datetime
-import json
-import asyncio
-from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional, Set, Tuple
+
+import numpy as np
 
 # Initialize structured logger
 from src.utils.kimera_logger import get_system_logger
-from ..utils.config import get_api_settings
+
 from ..config.settings import get_settings
+from ..utils.config import get_api_settings
+
 logger = get_system_logger(__name__)
 
 
@@ -46,6 +49,7 @@ PI = np.pi  # Cyclical nature of comprehension
 @dataclass
 class MathematicalAxiom:
     """Represents a mathematical axiom in the understanding framework"""
+
     axiom_id: str
     statement: str
     formal_notation: str
@@ -59,6 +63,7 @@ class MathematicalAxiom:
 @dataclass
 class UnderstandingSpace:
     """Mathematical space where understanding operations occur"""
+
     dimension: int
     metric_tensor: np.ndarray
     curvature: float
@@ -69,6 +74,7 @@ class UnderstandingSpace:
 @dataclass
 class SemanticTensor:
     """Tensor representation of semantic relationships"""
+
     tensor: np.ndarray
     rank: int
     symmetries: List[str]
@@ -201,7 +207,7 @@ class AxiomDiscoveryEngine:
             metric_tensor=metric_tensor,
             curvature=curvature,
             topology=topology,
-            basis_vectors=basis_vectors
+            basis_vectors=basis_vectors,
         )
 
     def propose_axiom_candidates(self) -> List[MathematicalAxiom]:
@@ -209,81 +215,93 @@ class AxiomDiscoveryEngine:
         candidates = []
 
         # Axiom 1: Conservation of Semantic Information
-        candidates.append(MathematicalAxiom(
-            axiom_id="AX_CONSERVATION",
-            statement="Semantic information is conserved under understanding transformations",
-            formal_notation="∀U ∈ Understanding, ∀s ∈ Semantic: I(U(s)) = I(s)",
-            dependencies=[],
-            derivable_theorems=["information_preservation", "semantic_invariance"],
-            consistency_score=0.0,
-            completeness_score=0.0,
-            independence_score=0.0
-        ))
+        candidates.append(
+            MathematicalAxiom(
+                axiom_id="AX_CONSERVATION",
+                statement="Semantic information is conserved under understanding transformations",
+                formal_notation="∀U ∈ Understanding, ∀s ∈ Semantic: I(U(s)) = I(s)",
+                dependencies=[],
+                derivable_theorems=["information_preservation", "semantic_invariance"],
+                consistency_score=0.0,
+                completeness_score=0.0,
+                independence_score=0.0,
+            )
+        )
 
         # Axiom 2: Compositional Closure
-        candidates.append(MathematicalAxiom(
-            axiom_id="AX_COMPOSITION",
-            statement="Understanding of compositions equals composition of understandings",
-            formal_notation="U(A ∘ B) = U(A) ∘ U(B) for compatible A, B",
-            dependencies=[],
-            derivable_theorems=["compositional_semantics", "modular_understanding"],
-            consistency_score=0.0,
-            completeness_score=0.0,
-            independence_score=0.0
-        ))
+        candidates.append(
+            MathematicalAxiom(
+                axiom_id="AX_COMPOSITION",
+                statement="Understanding of compositions equals composition of understandings",
+                formal_notation="U(A ∘ B) = U(A) ∘ U(B) for compatible A, B",
+                dependencies=[],
+                derivable_theorems=["compositional_semantics", "modular_understanding"],
+                consistency_score=0.0,
+                completeness_score=0.0,
+                independence_score=0.0,
+            )
+        )
 
         # Axiom 3: Causal Coherence
-        candidates.append(MathematicalAxiom(
-            axiom_id="AX_CAUSALITY",
-            statement="Understanding preserves causal relationships",
-            formal_notation="A → B ⟹ U(A) → U(B)",
-            dependencies=[],
-            derivable_theorems=["causal_inference", "temporal_consistency"],
-            consistency_score=0.0,
-            completeness_score=0.0,
-            independence_score=0.0
-        ))
+        candidates.append(
+            MathematicalAxiom(
+                axiom_id="AX_CAUSALITY",
+                statement="Understanding preserves causal relationships",
+                formal_notation="A → B ⟹ U(A) → U(B)",
+                dependencies=[],
+                derivable_theorems=["causal_inference", "temporal_consistency"],
+                consistency_score=0.0,
+                completeness_score=0.0,
+                independence_score=0.0,
+            )
+        )
 
         # Axiom 4: Reflexive Awareness
-        candidates.append(MathematicalAxiom(
-            axiom_id="AX_REFLEXIVITY",
-            statement="Understanding can understand itself",
-            formal_notation="∃U: U(U) is well-defined and meaningful",
-            dependencies=["AX_CONSERVATION"],
-            derivable_theorems=["self_awareness", "meta_understanding"],
-            consistency_score=0.0,
-            completeness_score=0.0,
-            independence_score=0.0
-        ))
+        candidates.append(
+            MathematicalAxiom(
+                axiom_id="AX_REFLEXIVITY",
+                statement="Understanding can understand itself",
+                formal_notation="∃U: U(U) is well-defined and meaningful",
+                dependencies=["AX_CONSERVATION"],
+                derivable_theorems=["self_awareness", "meta_understanding"],
+                consistency_score=0.0,
+                completeness_score=0.0,
+                independence_score=0.0,
+            )
+        )
 
         # Axiom 5: Semantic Continuity
-        candidates.append(MathematicalAxiom(
-            axiom_id="AX_CONTINUITY",
-            statement="Small changes in input produce small changes in understanding",
-            formal_notation="∀ε>0, ∃δ>0: d(x,y)<δ ⟹ d(U(x),U(y))<ε",
-            dependencies=[],
-            derivable_theorems=["robustness", "stability"],
-            consistency_score=0.0,
-            completeness_score=0.0,
-            independence_score=0.0
-        ))
+        candidates.append(
+            MathematicalAxiom(
+                axiom_id="AX_CONTINUITY",
+                statement="Small changes in input produce small changes in understanding",
+                formal_notation="∀ε>0, ∃δ>0: d(x,y)<δ ⟹ d(U(x),U(y))<ε",
+                dependencies=[],
+                derivable_theorems=["robustness", "stability"],
+                consistency_score=0.0,
+                completeness_score=0.0,
+                independence_score=0.0,
+            )
+        )
 
         # The Fundamental Axiom: Understanding as Entropy Reduction
-        candidates.append(MathematicalAxiom(
-            axiom_id="AX_FUNDAMENTAL",
-            statement="Understanding reduces semantic entropy while preserving information",
-            formal_notation="U: S → S' where H(S') < H(S) and I(S') = I(S)",
-            dependencies=[],
-            derivable_theorems=[
-                "all_other_axioms",
-                "consciousness_emergence",
-                "insight_generation",
-                "knowledge_crystallization"
-            ],
-            consistency_score=0.0,
-            completeness_score=0.0,
-            independence_score=0.0
-        ))
+        candidates.append(
+            MathematicalAxiom(
+                axiom_id="AX_FUNDAMENTAL",
+                statement="Understanding reduces semantic entropy while preserving information",
+                formal_notation="U: S → S' where H(S') < H(S) and I(S') = I(S)",
+                dependencies=[],
+                derivable_theorems=[
+                    "all_other_axioms",
+                    "consciousness_emergence",
+                    "insight_generation",
+                    "knowledge_crystallization",
+                ],
+                consistency_score=0.0,
+                completeness_score=0.0,
+                independence_score=0.0,
+            )
+        )
 
         self.candidate_axioms = candidates
         return candidates
@@ -322,12 +340,16 @@ class AxiomDiscoveryEngine:
             if self._can_derive_theorem(axiom, theorem):
                 derivable_count += 1
 
-        completeness_score = derivable_count / total_theorems if total_theorems > 0 else 0
+        completeness_score = (
+            derivable_count / total_theorems if total_theorems > 0 else 0
+        )
         axiom.completeness_score = completeness_score
 
         return completeness_score
 
-    def test_axiom_independence(self, axiom: MathematicalAxiom, other_axioms: List[MathematicalAxiom]) -> float:
+    def test_axiom_independence(
+        self, axiom: MathematicalAxiom, other_axioms: List[MathematicalAxiom]
+    ) -> float:
         """Test if an axiom is independent (not derivable from others)"""
         # Check if axiom can be derived from combinations of other axioms
         can_be_derived = False
@@ -371,7 +393,7 @@ class AxiomDiscoveryEngine:
             "preserves" in axiom.statement,
             "consistent" in axiom.statement,
             "well-defined" in axiom.statement,
-            "=" in axiom.formal_notation or "≡" in axiom.formal_notation
+            "=" in axiom.formal_notation or "≡" in axiom.formal_notation,
         ]
 
         return sum(coherence_indicators) / len(coherence_indicators)
@@ -393,7 +415,7 @@ class AxiomDiscoveryEngine:
             "all_other_axioms": ["entropy", "information", "fundamental"],
             "consciousness_emergence": ["reflexive", "entropy", "emergence"],
             "insight_generation": ["entropy", "reduction", "information"],
-            "knowledge_crystallization": ["entropy", "structure", "preservation"]
+            "knowledge_crystallization": ["entropy", "structure", "preservation"],
         }
 
         if theorem not in theorem_derivations:
@@ -405,7 +427,9 @@ class AxiomDiscoveryEngine:
         matches = sum(1 for concept in required_concepts if concept in axiom_text)
         return matches >= len(required_concepts) / 2
 
-    def _is_derivable_from(self, target_axiom: MathematicalAxiom, source_axioms: List[MathematicalAxiom]) -> bool:
+    def _is_derivable_from(
+        self, target_axiom: MathematicalAxiom, source_axioms: List[MathematicalAxiom]
+    ) -> bool:
         """Check if target axiom can be derived from source axioms"""
         # Combine concepts from source axioms
         combined_concepts = set()
@@ -414,17 +438,29 @@ class AxiomDiscoveryEngine:
             combined_concepts.update(concepts)
 
         # Check if target axiom concepts are covered
-        target_concepts = (target_axiom.statement + " " + target_axiom.formal_notation).lower().split()
-        target_key_concepts = [c for c in target_concepts if len(c) > 3]  # Filter out small words
+        target_concepts = (
+            (target_axiom.statement + " " + target_axiom.formal_notation)
+            .lower()
+            .split()
+        )
+        target_key_concepts = [
+            c for c in target_concepts if len(c) > 3
+        ]  # Filter out small words
 
-        covered = sum(1 for concept in target_key_concepts if concept in combined_concepts)
-        coverage_ratio = covered / len(target_key_concepts) if target_key_concepts else 0
+        covered = sum(
+            1 for concept in target_key_concepts if concept in combined_concepts
+        )
+        coverage_ratio = (
+            covered / len(target_key_concepts) if target_key_concepts else 0
+        )
 
         return coverage_ratio > 0.7
 
     async def discover_fundamental_axiom(self) -> MathematicalAxiom:
         """Discover the fundamental axiom of understanding"""
-        logger.debug("🔬 Beginning mathematical search for the Axiom of Understanding...")
+        logger.debug(
+            "🔬 Beginning mathematical search for the Axiom of Understanding..."
+        )
 
         # Generate candidate axioms
         candidates = self.propose_axiom_candidates()
@@ -559,7 +595,12 @@ class AxiomDiscoveryEngine:
             for j in range(dim):
                 for k in range(dim):
                     # Γ^i_jk = 1/2 * g^il * (∂g_lj/∂x^k + ∂g_lk/∂x^j - ∂g_jk/∂x^l)
-                    christoffel[i, j, k] = 0.5 * self.understanding_space.curvature * (i + j + k) / (dim * dim)
+                    christoffel[i, j, k] = (
+                        0.5
+                        * self.understanding_space.curvature
+                        * (i + j + k)
+                        / (dim * dim)
+                    )
 
         # Riemann curvature tensor (simplified)
         riemann = np.zeros((dim, dim, dim, dim))
@@ -588,7 +629,7 @@ class AxiomDiscoveryEngine:
             "euler_characteristic": 2 - 2 * int(dim / 2),  # Simplified
             "is_einstein_manifold": abs(ricci_scalar) < 0.1,
             "geodesic_completeness": True,  # Assumed for bounded understanding
-            "holonomy_group": "SO(" + str(dim) + ")"  # Rotation group
+            "holonomy_group": "SO(" + str(dim) + ")",  # Rotation group
         }
 
 
@@ -623,16 +664,24 @@ async def main():
             logger.info(f"   {prop}: {value}")
 
     logger.info("\n" + "=" * 80)
-    logger.info("CONCLUSION: The Axiom of Understanding has been mathematically derived!")
-    logger.info("Understanding is fundamentally about reducing entropy while preserving information.")
-    logger.info("This creates a bridge between thermodynamics, information theory, and consciousness.")
+    logger.info(
+        "CONCLUSION: The Axiom of Understanding has been mathematically derived!"
+    )
+    logger.info(
+        "Understanding is fundamentally about reducing entropy while preserving information."
+    )
+    logger.info(
+        "This creates a bridge between thermodynamics, information theory, and consciousness."
+    )
     logger.info("=" * 80)
 
     return {
         "fundamental_axiom": fundamental_axiom,
         "equation": equation,
         "eigenvalues": eigenvalues.tolist(),
-        "manifold": {k: v for k, v in manifold.items() if isinstance(v, (int, float, bool, str))}
+        "manifold": {
+            k: v for k, v in manifold.items() if isinstance(v, (int, float, bool, str))
+        },
     }
 
 
@@ -642,16 +691,20 @@ if __name__ == "__main__":
 
     # Save results
     with open("axiom_of_understanding_results.json", "w") as f:
-        json.dump({
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-            "axiom_id": result["fundamental_axiom"].axiom_id,
-            "axiom_statement": result["fundamental_axiom"].statement,
-            "formal_notation": result["fundamental_axiom"].formal_notation,
-            "scores": {
-                "consistency": result["fundamental_axiom"].consistency_score,
-                "completeness": result["fundamental_axiom"].completeness_score,
-                "independence": result["fundamental_axiom"].independence_score
+        json.dump(
+            {
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "axiom_id": result["fundamental_axiom"].axiom_id,
+                "axiom_statement": result["fundamental_axiom"].statement,
+                "formal_notation": result["fundamental_axiom"].formal_notation,
+                "scores": {
+                    "consistency": result["fundamental_axiom"].consistency_score,
+                    "completeness": result["fundamental_axiom"].completeness_score,
+                    "independence": result["fundamental_axiom"].independence_score,
+                },
+                "eigenvalues": result["eigenvalues"],
+                "manifold_properties": result["manifold"],
             },
-            "eigenvalues": result["eigenvalues"],
-            "manifold_properties": result["manifold"]
-        }, f, indent=2)
+            f,
+            indent=2,
+        )

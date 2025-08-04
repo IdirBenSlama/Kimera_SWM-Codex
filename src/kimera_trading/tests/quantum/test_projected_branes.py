@@ -1,5 +1,7 @@
 import pytest
+
 from kimera_trading.quantum.projected_branes import ProjectedBranes
+
 
 def test_projected_branes():
     branes = ProjectedBranes()

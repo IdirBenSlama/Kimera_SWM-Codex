@@ -23,55 +23,65 @@ Failure Rate Requirement: ≤ 1×10⁻⁹ per hour
 """
 
 from __future__ import annotations
+
 import logging
-from datetime import datetime, timedelta, timezone
-from typing import Dict, Any, List, Optional, Union, Tuple
-from enum import Enum
 import threading
 import time
+from datetime import datetime, timedelta, timezone
+from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple, Union
+
 import numpy as np
 import torch
 
-# Import the core quantum security and complexity components
-from .crypto_systems.quantum_resistant_crypto import (
-    QuantumResistantCrypto,
-    LatticeParams,
-    DilithiumParams,
-    CryptographicResult
-)
-
-from .complexity_analysis.quantum_thermodynamic_complexity_analyzer import (
-    QuantumThermodynamicComplexityAnalyzer,
-    ComplexityState,
-    ThermodynamicSignature,
-    ComplexityAnalysisResult
-)
-
 # KIMERA core imports
-from src.core.constants import DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD, DO_178C_LEVEL_A_SAFETY_LEVEL
+from src.core.constants import (
+    DO_178C_LEVEL_A_SAFETY_LEVEL,
+    DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD,
+)
 from src.utilities.health_status import HealthStatus, get_system_uptime
 from src.utilities.performance_metrics import PerformanceMetrics
 from src.utilities.safety_assessment import SafetyAssessment
 from src.utilities.system_recommendations import SystemRecommendations
 
+from .complexity_analysis.quantum_thermodynamic_complexity_analyzer import (
+    ComplexityAnalysisResult,
+    ComplexityState,
+    QuantumThermodynamicComplexityAnalyzer,
+    ThermodynamicSignature,
+)
+
+# Import the core quantum security and complexity components
+from .crypto_systems.quantum_resistant_crypto import (
+    CryptographicResult,
+    DilithiumParams,
+    LatticeParams,
+    QuantumResistantCrypto,
+)
+
 # Configure aerospace-grade logging
 logger = logging.getLogger(__name__)
 
+
 class QuantumSecurityMode(Enum):
     """Quantum security operational modes"""
+
     STANDARD = "standard"
     HIGH_SECURITY = "high_security"
     RESEARCH = "research"
     PERFORMANCE = "performance"
     SAFETY_FALLBACK = "safety_fallback"
 
+
 class ComplexityAnalysisMode(Enum):
     """Complexity analysis operational modes"""
+
     REAL_TIME = "real_time"
     BATCH_ANALYSIS = "batch_analysis"
     CONTINUOUS_MONITORING = "continuous_monitoring"
     THRESHOLD_DETECTION = "threshold_detection"
     SAFETY_CRITICAL = "safety_critical"
+
 
 class QuantumSecurityComplexityIntegrator:
     """
@@ -84,7 +94,7 @@ class QuantumSecurityComplexityIntegrator:
     Failure Rate Requirement: ≤ 1×10⁻⁹ per hour
     """
 
-    _instance: Optional['QuantumSecurityComplexityIntegrator'] = None
+    _instance: Optional["QuantumSecurityComplexityIntegrator"] = None
     _lock: threading.Lock = threading.Lock()
 
     def __new__(cls, *args, **kwargs):
@@ -96,11 +106,13 @@ class QuantumSecurityComplexityIntegrator:
                     cls._instance._initialized = False
         return cls._instance
 
-    def __init__(self,
-                 crypto_device_id: int = 0,
-                 complexity_dimensions: int = 1024,
-                 adaptive_mode: bool = True,
-                 safety_level: str = "catastrophic"):
+    def __init__(
+        self,
+        crypto_device_id: int = 0,
+        complexity_dimensions: int = 1024,
+        adaptive_mode: bool = True,
+        safety_level: str = "catastrophic",
+    ):
         """
         Initialize quantum security and complexity integrator with DO-178C Level A safety protocols
 
@@ -110,10 +122,12 @@ class QuantumSecurityComplexityIntegrator:
             adaptive_mode: Enable adaptive optimization
             safety_level: Safety criticality level (catastrophic, hazardous, major, minor, no_effect)
         """
-        if hasattr(self, '_initialized') and self._initialized:
+        if hasattr(self, "_initialized") and self._initialized:
             return
 
-        logger.info("🔬 Initializing DO-178C Level A Quantum Security and Complexity Integrator...")
+        logger.info(
+            "🔬 Initializing DO-178C Level A Quantum Security and Complexity Integrator..."
+        )
 
         # Core configuration
         self.crypto_device_id = crypto_device_id
@@ -142,22 +156,30 @@ class QuantumSecurityComplexityIntegrator:
             self.health_status = HealthStatus.OPERATIONAL
             self._initialized = True
 
-            logger.info("✅ DO-178C Level A Quantum Security and Complexity Integrator initialized")
+            logger.info(
+                "✅ DO-178C Level A Quantum Security and Complexity Integrator initialized"
+            )
             logger.info(f"   Safety Level: {self.safety_level.upper()}")
             logger.info(f"   Crypto Device: {self.crypto_device_id}")
             logger.info(f"   Complexity Dimensions: {self.complexity_dimensions}")
-            logger.info(f"   Components: Crypto={self.quantum_crypto is not None}, Analyzer={self.complexity_analyzer is not None}")
+            logger.info(
+                f"   Components: Crypto={self.quantum_crypto is not None}, Analyzer={self.complexity_analyzer is not None}"
+            )
             logger.info("   Compliance: DO-178C Level A")
 
         except Exception as e:
             self.health_status = HealthStatus.FAILED
-            logger.error(f"❌ Failed to initialize Quantum Security and Complexity Integrator: {e}")
+            logger.error(
+                f"❌ Failed to initialize Quantum Security and Complexity Integrator: {e}"
+            )
             raise
 
     def _initialize_quantum_crypto(self) -> None:
         """Initialize quantum-resistant cryptography system with safety validation"""
         try:
-            self.quantum_crypto = QuantumResistantCrypto(device_id=self.crypto_device_id)
+            self.quantum_crypto = QuantumResistantCrypto(
+                device_id=self.crypto_device_id
+            )
             logger.info("✅ Quantum-Resistant Crypto initialized")
         except Exception as e:
             logger.error(f"❌ Failed to initialize Quantum Crypto: {e}")
@@ -178,12 +200,31 @@ class QuantumSecurityComplexityIntegrator:
 
         # Component availability checks
         safety_checks.append(("crypto_available", self.quantum_crypto is not None))
-        safety_checks.append(("analyzer_available", self.complexity_analyzer is not None))
+        safety_checks.append(
+            ("analyzer_available", self.complexity_analyzer is not None)
+        )
 
         # Safety protocol checks
-        safety_checks.append(("safety_level_valid", self.safety_level in ["catastrophic", "hazardous", "major", "minor", "no_effect"]))
-        safety_checks.append(("device_id_valid", isinstance(self.crypto_device_id, int) and self.crypto_device_id >= 0))
-        safety_checks.append(("dimensions_valid", isinstance(self.complexity_dimensions, int) and self.complexity_dimensions > 0))
+        safety_checks.append(
+            (
+                "safety_level_valid",
+                self.safety_level
+                in ["catastrophic", "hazardous", "major", "minor", "no_effect"],
+            )
+        )
+        safety_checks.append(
+            (
+                "device_id_valid",
+                isinstance(self.crypto_device_id, int) and self.crypto_device_id >= 0,
+            )
+        )
+        safety_checks.append(
+            (
+                "dimensions_valid",
+                isinstance(self.complexity_dimensions, int)
+                and self.complexity_dimensions > 0,
+            )
+        )
 
         failed_checks = [name for name, passed in safety_checks if not passed]
 
@@ -192,9 +233,11 @@ class QuantumSecurityComplexityIntegrator:
 
         logger.info("✅ Integration safety validation completed successfully")
 
-    def perform_secure_encryption(self,
-                                  data: Union[bytes, str],
-                                  security_mode: QuantumSecurityMode = QuantumSecurityMode.STANDARD) -> Optional[CryptographicResult]:
+    def perform_secure_encryption(
+        self,
+        data: Union[bytes, str],
+        security_mode: QuantumSecurityMode = QuantumSecurityMode.STANDARD,
+    ) -> Optional[CryptographicResult]:
         """
         Perform quantum-resistant encryption with DO-178C Level A safety monitoring
 
@@ -209,13 +252,15 @@ class QuantumSecurityComplexityIntegrator:
             self._perform_pre_operation_safety_check("secure_encryption")
 
             if self.quantum_crypto is None:
-                raise RuntimeError("Quantum-Resistant Crypto not available - safety fallback required")
+                raise RuntimeError(
+                    "Quantum-Resistant Crypto not available - safety fallback required"
+                )
 
             start_time = time.time()
 
             # Convert data to bytes if needed
             if isinstance(data, str):
-                data_bytes = data.encode('utf-8')
+                data_bytes = data.encode("utf-8")
             else:
                 data_bytes = data
 
@@ -232,11 +277,12 @@ class QuantumSecurityComplexityIntegrator:
 
             # Create result object
             from .crypto_systems.quantum_resistant_crypto import CryptographicResult
+
             result = CryptographicResult(
                 ciphertext=ciphertext,
                 public_key=public_key,
                 private_key=private_key,
-                success=True
+                success=True,
             )
 
             processing_time = time.time() - start_time
@@ -244,7 +290,9 @@ class QuantumSecurityComplexityIntegrator:
             self.operations_count += 1
             self.success_count += 1
 
-            logger.info(f"✅ Secure encryption completed in {processing_time*1000:.2f}ms")
+            logger.info(
+                f"✅ Secure encryption completed in {processing_time*1000:.2f}ms"
+            )
             logger.info(f"   Security Mode: {security_mode.value}")
             logger.info(f"   Data Size: {len(data_bytes)} bytes")
 
@@ -255,9 +303,11 @@ class QuantumSecurityComplexityIntegrator:
             logger.error(f"❌ Secure encryption failed: {e}")
             return None
 
-    def analyze_system_complexity(self,
-                                  system_state: Dict[str, Any],
-                                  analysis_mode: ComplexityAnalysisMode = ComplexityAnalysisMode.REAL_TIME) -> Optional[ComplexityAnalysisResult]:
+    def analyze_system_complexity(
+        self,
+        system_state: Dict[str, Any],
+        analysis_mode: ComplexityAnalysisMode = ComplexityAnalysisMode.REAL_TIME,
+    ) -> Optional[ComplexityAnalysisResult]:
         """
         Analyze quantum thermodynamic complexity with DO-178C Level A safety monitoring
 
@@ -272,7 +322,9 @@ class QuantumSecurityComplexityIntegrator:
             self._perform_pre_operation_safety_check("complexity_analysis")
 
             if self.complexity_analyzer is None:
-                raise RuntimeError("Quantum Thermodynamic Complexity Analyzer not available - safety fallback required")
+                raise RuntimeError(
+                    "Quantum Thermodynamic Complexity Analyzer not available - safety fallback required"
+                )
 
             start_time = time.time()
 
@@ -281,8 +333,13 @@ class QuantumSecurityComplexityIntegrator:
             # result = self.complexity_analyzer.analyze_complexity(system_state)
 
             # Create a proper result object
-            from .complexity_analysis.quantum_thermodynamic_complexity_analyzer import ComplexityAnalysisResult, ThermodynamicSignature, ComplexityState
             from datetime import datetime, timezone
+
+            from .complexity_analysis.quantum_thermodynamic_complexity_analyzer import (
+                ComplexityAnalysisResult,
+                ComplexityState,
+                ThermodynamicSignature,
+            )
 
             # Mock result for demonstration
             result = ComplexityAnalysisResult(
@@ -296,9 +353,9 @@ class QuantumSecurityComplexityIntegrator:
                     free_energy=0.45,
                     coherence=0.68,
                     complexity_measure=0.75,
-                    timestamp=datetime.now(timezone.utc)
+                    timestamp=datetime.now(timezone.utc),
                 ),
-                analysis_timestamp=datetime.now(timezone.utc)
+                analysis_timestamp=datetime.now(timezone.utc),
             )
 
             processing_time = time.time() - start_time
@@ -306,9 +363,13 @@ class QuantumSecurityComplexityIntegrator:
             self.operations_count += 1
             self.success_count += 1
 
-            logger.info(f"✅ Complexity analysis completed in {processing_time*1000:.2f}ms")
+            logger.info(
+                f"✅ Complexity analysis completed in {processing_time*1000:.2f}ms"
+            )
             logger.info(f"   Analysis Mode: {analysis_mode.value}")
-            logger.info(f"   Complexity State: {result.complexity_state if result else 'Unknown'}")
+            logger.info(
+                f"   Complexity State: {result.complexity_state if result else 'Unknown'}"
+            )
 
             return result
 
@@ -317,11 +378,13 @@ class QuantumSecurityComplexityIntegrator:
             logger.error(f"❌ Complexity analysis failed: {e}")
             return None
 
-    def perform_integrated_security_analysis(self,
-                                           data: Union[bytes, str],
-                                           system_state: Dict[str, Any],
-                                           security_mode: QuantumSecurityMode = QuantumSecurityMode.STANDARD,
-                                           analysis_mode: ComplexityAnalysisMode = ComplexityAnalysisMode.REAL_TIME) -> Dict[str, Any]:
+    def perform_integrated_security_analysis(
+        self,
+        data: Union[bytes, str],
+        system_state: Dict[str, Any],
+        security_mode: QuantumSecurityMode = QuantumSecurityMode.STANDARD,
+        analysis_mode: ComplexityAnalysisMode = ComplexityAnalysisMode.REAL_TIME,
+    ) -> Dict[str, Any]:
         """
         Perform integrated quantum security and complexity analysis
 
@@ -337,7 +400,9 @@ class QuantumSecurityComplexityIntegrator:
         try:
             self._perform_pre_operation_safety_check("integrated_security_analysis")
 
-            logger.info("🔐 Performing integrated quantum security and complexity analysis...")
+            logger.info(
+                "🔐 Performing integrated quantum security and complexity analysis..."
+            )
 
             start_time = time.time()
 
@@ -345,7 +410,9 @@ class QuantumSecurityComplexityIntegrator:
             encryption_result = self.perform_secure_encryption(data, security_mode)
 
             # Perform complexity analysis
-            complexity_result = self.analyze_system_complexity(system_state, analysis_mode)
+            complexity_result = self.analyze_system_complexity(
+                system_state, analysis_mode
+            )
 
             total_time = time.time() - start_time
 
@@ -356,12 +423,17 @@ class QuantumSecurityComplexityIntegrator:
                 "processing_time_ms": total_time * 1000,
                 "timestamp": datetime.now(timezone.utc),
                 "safety_validated": True,
-                "integration_successful": encryption_result is not None and complexity_result is not None
+                "integration_successful": encryption_result is not None
+                and complexity_result is not None,
             }
 
             logger.info(f"✅ Integrated analysis completed in {total_time*1000:.2f}ms")
-            logger.info(f"   Encryption: {'Success' if encryption_result else 'Failed'}")
-            logger.info(f"   Complexity: {'Success' if complexity_result else 'Failed'}")
+            logger.info(
+                f"   Encryption: {'Success' if encryption_result else 'Failed'}"
+            )
+            logger.info(
+                f"   Complexity: {'Success' if complexity_result else 'Failed'}"
+            )
 
             return integrated_results
 
@@ -374,14 +446,16 @@ class QuantumSecurityComplexityIntegrator:
                 "timestamp": datetime.now(timezone.utc),
                 "safety_validated": False,
                 "integration_successful": False,
-                "error": str(e)
+                "error": str(e),
             }
 
     def _perform_pre_operation_safety_check(self, operation_type: str) -> None:
         """Perform pre-operation safety checks according to DO-178C Level A standards"""
         try:
             if self.health_status != HealthStatus.OPERATIONAL:
-                raise RuntimeError(f"System not operational: {self.health_status.value}")
+                raise RuntimeError(
+                    f"System not operational: {self.health_status.value}"
+                )
 
             # Update health status
             self._update_health_status()
@@ -405,7 +479,9 @@ class QuantumSecurityComplexityIntegrator:
                 self.health_status = HealthStatus.OPERATIONAL
             elif crypto_available or analyzer_available:
                 self.health_status = HealthStatus.DEGRADED
-                logger.warning("⚠️ System in degraded mode - partial component availability")
+                logger.warning(
+                    "⚠️ System in degraded mode - partial component availability"
+                )
             else:
                 self.health_status = HealthStatus.FAILED
                 logger.error("❌ System failed - no components available")
@@ -428,13 +504,19 @@ class QuantumSecurityComplexityIntegrator:
             "quantum_crypto": {
                 "available": self.quantum_crypto is not None,
                 "device_id": self.crypto_device_id,
-                "status": "operational" if self.quantum_crypto is not None else "unavailable"
+                "status": (
+                    "operational" if self.quantum_crypto is not None else "unavailable"
+                ),
             },
             "complexity_analyzer": {
                 "available": self.complexity_analyzer is not None,
                 "dimensions": self.complexity_dimensions,
-                "status": "operational" if self.complexity_analyzer is not None else "unavailable"
-            }
+                "status": (
+                    "operational"
+                    if self.complexity_analyzer is not None
+                    else "unavailable"
+                ),
+            },
         }
 
         # Performance metrics
@@ -448,18 +530,32 @@ class QuantumSecurityComplexityIntegrator:
 
         # Safety assessment
         safety_assessment = SafetyAssessment()
-        safety_assessment.safety_score = max(0.75, success_rate) if success_rate > 0.5 else 0.5
+        safety_assessment.safety_score = (
+            max(0.75, success_rate) if success_rate > 0.5 else 0.5
+        )
         safety_assessment.safety_level = self.safety_level
-        safety_assessment.compliance_status = "COMPLIANT" if self.health_status == HealthStatus.OPERATIONAL else "DEGRADED"
+        safety_assessment.compliance_status = (
+            "COMPLIANT"
+            if self.health_status == HealthStatus.OPERATIONAL
+            else "DEGRADED"
+        )
         safety_assessment.safety_interventions = self.safety_interventions
         safety_assessment.last_safety_check = self.last_health_check
 
         # System recommendations
         recommendations = SystemRecommendations()
         if not component_status["quantum_crypto"]["available"]:
-            recommendations.add_recommendation("Quantum Crypto unavailable", "critical", "Initialize quantum cryptography system")
+            recommendations.add_recommendation(
+                "Quantum Crypto unavailable",
+                "critical",
+                "Initialize quantum cryptography system",
+            )
         if not component_status["complexity_analyzer"]["available"]:
-            recommendations.add_recommendation("Complexity Analyzer unavailable", "critical", "Initialize complexity analysis system")
+            recommendations.add_recommendation(
+                "Complexity Analyzer unavailable",
+                "critical",
+                "Initialize complexity analysis system",
+            )
 
         return {
             "module": "QuantumSecurityComplexityIntegrator",
@@ -471,7 +567,7 @@ class QuantumSecurityComplexityIntegrator:
             "performance_metrics": performance_metrics.__dict__,
             "safety_assessment": safety_assessment.__dict__,
             "recommendations": recommendations.get_recommendations(),
-            "last_updated": datetime.now(timezone.utc).isoformat()
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
     def get_integration_metrics(self) -> Dict[str, Any]:
@@ -484,10 +580,10 @@ class QuantumSecurityComplexityIntegrator:
             "success_rate": self.success_count / max(self.operations_count, 1),
             "component_availability": {
                 "quantum_crypto": self.quantum_crypto is not None,
-                "complexity_analyzer": self.complexity_analyzer is not None
+                "complexity_analyzer": self.complexity_analyzer is not None,
             },
             "system_uptime": get_system_uptime(),
-            "last_health_check": self.last_health_check.isoformat()
+            "last_health_check": self.last_health_check.isoformat(),
         }
 
 
@@ -495,7 +591,7 @@ def create_quantum_security_complexity_integrator(
     crypto_device_id: int = 0,
     complexity_dimensions: int = 1024,
     adaptive_mode: bool = True,
-    safety_level: str = "catastrophic"
+    safety_level: str = "catastrophic",
 ) -> QuantumSecurityComplexityIntegrator:
     """
     Factory function to create DO-178C Level A Quantum Security and Complexity Integrator
@@ -509,11 +605,13 @@ def create_quantum_security_complexity_integrator(
     Returns:
         QuantumSecurityComplexityIntegrator instance
     """
-    logger.info("🏗️ Creating DO-178C Level A Quantum Security and Complexity Integrator...")
+    logger.info(
+        "🏗️ Creating DO-178C Level A Quantum Security and Complexity Integrator..."
+    )
 
     return QuantumSecurityComplexityIntegrator(
         crypto_device_id=crypto_device_id,
         complexity_dimensions=complexity_dimensions,
         adaptive_mode=adaptive_mode,
-        safety_level=safety_level
+        safety_level=safety_level,
     )

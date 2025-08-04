@@ -11,14 +11,16 @@ Date: June 2025
 Status: Production-Ready
 """
 
+import logging
+from typing import Any, Dict, Optional, Tuple
+
+import numpy as np
 import torch
 import triton
 import triton.language as tl
-from typing import Tuple, Optional, Dict, Any
-import numpy as np
-import logging
-from ..utils.config import get_api_settings
+
 from ..config.settings import get_settings
+from ..utils.config import get_api_settings
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -28,15 +30,18 @@ logger = logging.getLogger(__name__)
 @triton.jit
 def cognitive_field_fusion_kernel(
     # Input pointers
-    field_a_ptr, field_b_ptr,
+    field_a_ptr,
+    field_b_ptr,
     # Output pointer
     output_ptr,
     # Fusion parameters
-    alpha, beta, gamma,
+    alpha,
+    beta,
+    gamma,
     # Tensor dimensions
     n_elements,
     # Block size
-    BLOCK_SIZE: tl.constexpr
+    BLOCK_SIZE: tl.constexpr,
 ):
     """Triton kernel for cognitive field fusion with non-linear dynamics
 
@@ -75,7 +80,11 @@ def cognitive_field_fusion_kernel(
     activated = tl.sigmoid(gamma * linear_mix)
 
     # Coherence-preserving transformation
-    output = weight_a * field_a + weight_b * field_b + (1.0 - weight_a - weight_b) * activated
+    output = (
+        weight_a * field_a
+        + weight_b * field_b
+        + (1.0 - weight_a - weight_b) * activated
+    )
 
     # Safety clipping
     output = tl.minimum(tl.maximum(output, -10.0), 10.0)
@@ -87,15 +96,18 @@ def cognitive_field_fusion_kernel(
 @triton.jit
 def quantum_inspired_superposition_kernel(
     # Input states
-    state1_ptr, state2_ptr,
+    state1_ptr,
+    state2_ptr,
     # Quantum parameters
-    phase_ptr, amplitude_ptr,
+    phase_ptr,
+    amplitude_ptr,
     # Output
-    output_real_ptr, output_imag_ptr,
+    output_real_ptr,
+    output_imag_ptr,
     # Dimensions
     n_elements,
     # Block size
-    BLOCK_SIZE: tl.constexpr
+    BLOCK_SIZE: tl.constexpr,
 ):
     """Triton kernel for quantum-inspired state superposition
 
@@ -141,19 +153,23 @@ def quantum_inspired_superposition_kernel(
 @triton.jit
 def entropy_guided_attention_kernel(
     # Input tensors
-    query_ptr, key_ptr, value_ptr,
+    query_ptr,
+    key_ptr,
+    value_ptr,
     # Entropy guidance
     entropy_ptr,
     # Output
     output_ptr,
     # Attention parameters
-    temperature, entropy_weight,
+    temperature,
+    entropy_weight,
     # Dimensions
-    seq_len, d_model,
+    seq_len,
+    d_model,
     # Block sizes
     BLOCK_SIZE_M: tl.constexpr,
     BLOCK_SIZE_N: tl.constexpr,
-    BLOCK_SIZE_K: tl.constexpr
+    BLOCK_SIZE_K: tl.constexpr,
 ):
     """Triton kernel for entropy-guided attention mechanism
 
@@ -176,14 +192,16 @@ def entropy_guided_attention_kernel(
     # Compute attention scores with tiling
     for k in range(0, d_model, BLOCK_SIZE_K):
         # Load query block
-        q_offsets = (m_start + tl.arange(0, BLOCK_SIZE_M))[:, None] * d_model + \
-                   (k + tl.arange(0, BLOCK_SIZE_K))[None, :]
+        q_offsets = (m_start + tl.arange(0, BLOCK_SIZE_M))[:, None] * d_model + (
+            k + tl.arange(0, BLOCK_SIZE_K)
+        )[None, :]
         q_mask = (m_start + tl.arange(0, BLOCK_SIZE_M))[:, None] < seq_len
         q = tl.load(query_ptr + q_offsets, mask=q_mask, other=0.0)
 
         # Load key block (transposed)
-        k_offsets = (n_start + tl.arange(0, BLOCK_SIZE_N))[:, None] * d_model + \
-                   (k + tl.arange(0, BLOCK_SIZE_K))[None, :]
+        k_offsets = (n_start + tl.arange(0, BLOCK_SIZE_N))[:, None] * d_model + (
+            k + tl.arange(0, BLOCK_SIZE_K)
+        )[None, :]
         k_mask = (n_start + tl.arange(0, BLOCK_SIZE_N))[:, None] < seq_len
         k_block = tl.load(key_ptr + k_offsets, mask=k_mask, other=0.0)
 
@@ -196,7 +214,9 @@ def entropy_guided_attention_kernel(
     # Load entropy values for guidance
     entropy_offsets = n_start + tl.arange(0, BLOCK_SIZE_N)
     entropy_mask = entropy_offsets < seq_len
-    entropy_values = tl.load(entropy_ptr + entropy_offsets, mask=entropy_mask, other=0.0)
+    entropy_values = tl.load(
+        entropy_ptr + entropy_offsets, mask=entropy_mask, other=0.0
+    )
 
     # Apply entropy-guided modulation
     entropy_factor = 1.0 + entropy_weight * entropy_values[None, :]
@@ -213,20 +233,22 @@ def entropy_guided_attention_kernel(
 
     for n in range(0, seq_len, BLOCK_SIZE_N):
         # Load value block
-        v_offsets = (n + tl.arange(0, BLOCK_SIZE_N))[:, None] * d_model + \
-                   tl.arange(0, d_model)[None, :]
+        v_offsets = (n + tl.arange(0, BLOCK_SIZE_N))[:, None] * d_model + tl.arange(
+            0, d_model
+        )[None, :]
         v_mask = (n + tl.arange(0, BLOCK_SIZE_N))[:, None] < seq_len
         v = tl.load(value_ptr + v_offsets, mask=v_mask, other=0.0)
 
         # Get attention weights for this block
-        attn_block = attention_weights[:, n:n+BLOCK_SIZE_N]
+        attn_block = attention_weights[:, n : n + BLOCK_SIZE_N]
 
         # Accumulate weighted values
         output += tl.dot(attn_block, v)
 
     # Store output
-    output_offsets = (m_start + tl.arange(0, BLOCK_SIZE_M))[:, None] * d_model + \
-                    tl.arange(0, d_model)[None, :]
+    output_offsets = (m_start + tl.arange(0, BLOCK_SIZE_M))[
+        :, None
+    ] * d_model + tl.arange(0, d_model)[None, :]
     output_mask = (m_start + tl.arange(0, BLOCK_SIZE_M))[:, None] < seq_len
     tl.store(output_ptr + output_offsets, output, mask=output_mask)
 
@@ -237,11 +259,15 @@ def hierarchical_pooling_kernel(
     output_ptr,
     pool_indices_ptr,
     # Pooling parameters
-    pool_size, stride,
+    pool_size,
+    stride,
     # Dimensions
-    batch_size, channels, height, width,
+    batch_size,
+    channels,
+    height,
+    width,
     # Block configuration
-    BLOCK_SIZE: tl.constexpr
+    BLOCK_SIZE: tl.constexpr,
 ):
     """Triton kernel for hierarchical cognitive pooling
 
@@ -254,8 +280,9 @@ def hierarchical_pooling_kernel(
     pid = tl.program_id(axis=0)
 
     # Calculate which pooling window this thread handles
-    total_pools = ((height - pool_size) // stride + 1) * \
-                  ((width - pool_size) // stride + 1)
+    total_pools = ((height - pool_size) // stride + 1) * (
+        (width - pool_size) // stride + 1
+    )
 
     if pid >= total_pools:
         return
@@ -270,7 +297,7 @@ def hierarchical_pooling_kernel(
     x_start = pool_x * stride
 
     # Initialize accumulators for different pooling strategies
-    max_val = -float('inf')
+    max_val = -float("inf")
     sum_val = 0.0
     sum_sq = 0.0
     count = 0
@@ -313,11 +340,14 @@ def cognitive_graph_convolution_kernel(
     # Output
     output_ptr,
     # Graph parameters
-    num_nodes, num_edges, feature_dim,
+    num_nodes,
+    num_edges,
+    feature_dim,
     # Aggregation parameters
-    self_weight, neighbor_weight,
+    self_weight,
+    neighbor_weight,
     # Block configuration
-    BLOCK_SIZE: tl.constexpr
+    BLOCK_SIZE: tl.constexpr,
 ):
     """Triton kernel for cognitive graph convolution
 
@@ -375,7 +405,7 @@ def cognitive_graph_convolution_kernel(
 class TritonCognitiveKernels:
     """High-performance cognitive processing using Triton kernels"""
 
-    def __init__(self, device: str = 'cuda:0'):
+    def __init__(self, device: str = "cuda:0"):
         self.settings = get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
 
@@ -394,9 +424,14 @@ class TritonCognitiveKernels:
         logger.info(f"Compute Capability: {gpu_props.major}.{gpu_props.minor}")
         logger.info(f"Total Memory: {gpu_props.total_memory / 1e9:.2f} GB")
 
-    def cognitive_field_fusion(self, field_a: torch.Tensor, field_b: torch.Tensor,
-                             alpha: float = 0.5, beta: float = 0.5,
-                             gamma: float = 1.0) -> torch.Tensor:
+    def cognitive_field_fusion(
+        self,
+        field_a: torch.Tensor,
+        field_b: torch.Tensor,
+        alpha: float = 0.5,
+        beta: float = 0.5,
+        gamma: float = 1.0,
+    ) -> torch.Tensor:
         """Fuse two cognitive fields using Triton kernel
 
         Args:
@@ -421,17 +456,25 @@ class TritonCognitiveKernels:
 
         # Launch kernel
         cognitive_field_fusion_kernel[grid](
-            field_a, field_b, output,
-            alpha, beta, gamma,
+            field_a,
+            field_b,
+            output,
+            alpha,
+            beta,
+            gamma,
             n_elements,
-            BLOCK_SIZE=BLOCK_SIZE
+            BLOCK_SIZE=BLOCK_SIZE,
         )
 
         return output
 
-    def quantum_superposition(self, state1: torch.Tensor, state2: torch.Tensor,
-                            phase: Optional[torch.Tensor] = None,
-                            amplitude: Optional[torch.Tensor] = None) -> Tuple[torch.Tensor, torch.Tensor]:
+    def quantum_superposition(
+        self,
+        state1: torch.Tensor,
+        state2: torch.Tensor,
+        phase: Optional[torch.Tensor] = None,
+        amplitude: Optional[torch.Tensor] = None,
+    ) -> Tuple[torch.Tensor, torch.Tensor]:
         """Apply quantum-inspired superposition
 
         Args:
@@ -461,18 +504,27 @@ class TritonCognitiveKernels:
 
         # Launch kernel
         quantum_inspired_superposition_kernel[grid](
-            state1, state2, phase, amplitude,
-            output_real, output_imag,
+            state1,
+            state2,
+            phase,
+            amplitude,
+            output_real,
+            output_imag,
             n_elements,
-            BLOCK_SIZE=BLOCK_SIZE
+            BLOCK_SIZE=BLOCK_SIZE,
         )
 
         return output_real, output_imag
 
-    def entropy_guided_attention(self, query: torch.Tensor, key: torch.Tensor,
-                               value: torch.Tensor, entropy: torch.Tensor,
-                               temperature: float = 1.0,
-                               entropy_weight: float = 0.1) -> torch.Tensor:
+    def entropy_guided_attention(
+        self,
+        query: torch.Tensor,
+        key: torch.Tensor,
+        value: torch.Tensor,
+        entropy: torch.Tensor,
+        temperature: float = 1.0,
+        entropy_weight: float = 0.1,
+    ) -> torch.Tensor:
         """Compute entropy-guided attention
 
         Args:
@@ -496,23 +548,30 @@ class TritonCognitiveKernels:
 
         grid = lambda meta: (
             triton.cdiv(seq_len, BLOCK_SIZE_M),
-            triton.cdiv(seq_len, BLOCK_SIZE_N)
+            triton.cdiv(seq_len, BLOCK_SIZE_N),
         )
 
         # Launch kernel
         entropy_guided_attention_kernel[grid](
-            query, key, value, entropy, output,
-            temperature, entropy_weight,
-            seq_len, d_model,
+            query,
+            key,
+            value,
+            entropy,
+            output,
+            temperature,
+            entropy_weight,
+            seq_len,
+            d_model,
             BLOCK_SIZE_M=BLOCK_SIZE_M,
             BLOCK_SIZE_N=BLOCK_SIZE_N,
-            BLOCK_SIZE_K=BLOCK_SIZE_K
+            BLOCK_SIZE_K=BLOCK_SIZE_K,
         )
 
         return output
 
-    def hierarchical_pooling(self, input_tensor: torch.Tensor,
-                           pool_size: int = 2, stride: int = 2) -> Tuple[torch.Tensor, torch.Tensor]:
+    def hierarchical_pooling(
+        self, input_tensor: torch.Tensor, pool_size: int = 2, stride: int = 2
+    ) -> Tuple[torch.Tensor, torch.Tensor]:
         """Apply hierarchical pooling
 
         Args:
@@ -531,10 +590,16 @@ class TritonCognitiveKernels:
         total_pools = out_height * out_width
 
         # Allocate outputs
-        output = torch.empty((batch_size, channels, out_height, out_width),
-                           device=input_tensor.device, dtype=input_tensor.dtype)
-        pool_indices = torch.empty((batch_size, channels, total_pools),
-                                 device=input_tensor.device, dtype=torch.int32)
+        output = torch.empty(
+            (batch_size, channels, out_height, out_width),
+            device=input_tensor.device,
+            dtype=input_tensor.dtype,
+        )
+        pool_indices = torch.empty(
+            (batch_size, channels, total_pools),
+            device=input_tensor.device,
+            dtype=torch.int32,
+        )
 
         # Process each batch and channel
         for b in range(batch_size):
@@ -548,18 +613,25 @@ class TritonCognitiveKernels:
                     input_tensor[b, c].contiguous(),
                     output[b, c].contiguous(),
                     pool_indices[b, c].contiguous(),
-                    pool_size, stride,
-                    batch_size, channels, height, width,
-                    BLOCK_SIZE=BLOCK_SIZE
+                    pool_size,
+                    stride,
+                    batch_size,
+                    channels,
+                    height,
+                    width,
+                    BLOCK_SIZE=BLOCK_SIZE,
                 )
 
         return output, pool_indices
 
-    def graph_convolution(self, node_features: torch.Tensor,
-                         edge_indices: torch.Tensor,
-                         edge_weights: Optional[torch.Tensor] = None,
-                         self_weight: float = 0.5,
-                         neighbor_weight: float = 0.5) -> torch.Tensor:
+    def graph_convolution(
+        self,
+        node_features: torch.Tensor,
+        edge_indices: torch.Tensor,
+        edge_weights: Optional[torch.Tensor] = None,
+        self_weight: float = 0.5,
+        neighbor_weight: float = 0.5,
+    ) -> torch.Tensor:
         """Apply graph convolution for cognitive networks
 
         Args:
@@ -588,10 +660,16 @@ class TritonCognitiveKernels:
 
         # Launch kernel
         cognitive_graph_convolution_kernel[grid](
-            node_features, edge_indices, edge_weights, output,
-            num_nodes, num_edges, feature_dim,
-            self_weight, neighbor_weight,
-            BLOCK_SIZE=BLOCK_SIZE
+            node_features,
+            edge_indices,
+            edge_weights,
+            output,
+            num_nodes,
+            num_edges,
+            feature_dim,
+            self_weight,
+            neighbor_weight,
+            BLOCK_SIZE=BLOCK_SIZE,
         )
 
         return output
@@ -633,9 +711,9 @@ class TritonCognitiveKernels:
             gb_processed = (3 * size * 4) / 1e9  # 3 tensors, 4 bytes each
             throughput_gb_s = gb_processed / (time_ms / 1000)
 
-            results[f'fusion_size_{size}'] = {
-                'time_ms': time_ms,
-                'throughput_gb_s': throughput_gb_s
+            results[f"fusion_size_{size}"] = {
+                "time_ms": time_ms,
+                "throughput_gb_s": throughput_gb_s,
             }
 
         return results
@@ -648,25 +726,27 @@ if __name__ == "__main__":
 
     # Test cognitive field fusion
     logger.info("Testing cognitive field fusion...")
-    field_a = torch.randn(10000, device='cuda')
-    field_b = torch.randn(10000, device='cuda')
+    field_a = torch.randn(10000, device="cuda")
+    field_b = torch.randn(10000, device="cuda")
     fused = kernels.cognitive_field_fusion(field_a, field_b)
     logger.info(f"Fused field stats: mean={fused.mean():.4f}")
 
     # Test quantum superposition
     logger.info("\nTesting quantum superposition...")
-    state1 = torch.randn(5000, device='cuda')
-    state2 = torch.randn(5000, device='cuda')
+    state1 = torch.randn(5000, device="cuda")
+    state2 = torch.randn(5000, device="cuda")
     real_part, imag_part = kernels.quantum_superposition(state1, state2)
-    logger.info(f"Superposition magnitude: {torch.sqrt(real_part**2 + imag_part**2):.4f}")
+    logger.info(
+        f"Superposition magnitude: {torch.sqrt(real_part**2 + imag_part**2):.4f}"
+    )
 
     # Test entropy-guided attention
     logger.info("\nTesting entropy-guided attention...")
     seq_len, d_model = 128, 64
-    query = torch.randn(seq_len, d_model, device='cuda')
-    key = torch.randn(seq_len, d_model, device='cuda')
-    value = torch.randn(seq_len, d_model, device='cuda')
-    entropy = torch.rand(seq_len, device='cuda')
+    query = torch.randn(seq_len, d_model, device="cuda")
+    key = torch.randn(seq_len, d_model, device="cuda")
+    value = torch.randn(seq_len, d_model, device="cuda")
+    entropy = torch.rand(seq_len, device="cuda")
     attention_out = kernels.entropy_guided_attention(query, key, value, entropy)
     logger.info(f"Attention output shape: {attention_out.shape}")
 
@@ -674,4 +754,6 @@ if __name__ == "__main__":
     logger.info("\nBenchmarking Triton kernels...")
     benchmarks = kernels.benchmark_performance()
     for test, metrics in benchmarks.items():
-        logger.info(f"{test}: {metrics['time_ms']:.3f}ms, {metrics['throughput_gb_s']:.1f} GB/s")
+        logger.info(
+            f"{test}: {metrics['time_ms']:.3f}ms, {metrics['throughput_gb_s']:.1f} GB/s"
+        )

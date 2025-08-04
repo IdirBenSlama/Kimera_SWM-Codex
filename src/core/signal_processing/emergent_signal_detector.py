@@ -11,15 +11,17 @@ Safety Requirements: 71 objectives, 30 with independence
 """
 
 from __future__ import annotations
-from dataclasses import dataclass, field
-from typing import Dict, Any, List, Optional, Tuple
-from collections import deque
-import numpy as np
-import logging
+
 import asyncio
-import time
-from concurrent.futures import ThreadPoolExecutor
+import logging
 import threading
+import time
+from collections import deque
+from concurrent.futures import ThreadPoolExecutor
+from dataclasses import dataclass, field
+from typing import Any, Dict, List, Optional, Tuple
+
+import numpy as np
 
 # Formal verification imports
 try:
@@ -30,9 +32,11 @@ except ImportError:
 
 logger = logging.getLogger(__name__)
 
+
 @dataclass
 class EmergenceMetrics:
     """Formal verification of emergence detection metrics."""
+
     complexity_score: float  # [0.0, 1.0] - System complexity measure
     organization_score: float  # [0.0, 1.0] - Self-organization degree
     information_integration: float  # [0.0, 1.0] - Information integration measure
@@ -45,14 +49,22 @@ class EmergenceMetrics:
         """DO-178C Level A validation of metrics."""
         assert 0.0 <= self.complexity_score <= 1.0, "Complexity score out of bounds"
         assert 0.0 <= self.organization_score <= 1.0, "Organization score out of bounds"
-        assert 0.0 <= self.information_integration <= 1.0, "Information integration out of bounds"
+        assert (
+            0.0 <= self.information_integration <= 1.0
+        ), "Information integration out of bounds"
         assert 0.0 <= self.temporal_coherence <= 1.0, "Temporal coherence out of bounds"
-        assert 0.0 <= self.emergence_confidence <= 1.0, "Emergence confidence out of bounds"
-        assert 0.0 <= self.consciousness_threshold <= 1.0, "Consciousness threshold out of bounds"
+        assert (
+            0.0 <= self.emergence_confidence <= 1.0
+        ), "Emergence confidence out of bounds"
+        assert (
+            0.0 <= self.consciousness_threshold <= 1.0
+        ), "Consciousness threshold out of bounds"
+
 
 @dataclass
 class SignalPattern:
     """Represents a detected signal pattern with formal validation."""
+
     pattern_id: str
     timestamp: float
     signal_vector: np.ndarray
@@ -67,6 +79,7 @@ class SignalPattern:
         assert len(self.signal_vector) > 0, "Signal vector cannot be empty"
         assert 0.0 <= self.complexity_measure <= 1.0, "Complexity measure out of bounds"
         assert 0.0 <= self.coherence_measure <= 1.0, "Coherence measure out of bounds"
+
 
 class SignalPatternMemory:
     """
@@ -98,7 +111,9 @@ class SignalPatternMemory:
 
                 # Check for duplicates
                 if pattern.pattern_id in self.pattern_index:
-                    logger.debug(f"Pattern already exists, updating: {pattern.pattern_id}")
+                    logger.debug(
+                        f"Pattern already exists, updating: {pattern.pattern_id}"
+                    )
 
                 # Store pattern
                 self.memory.append(pattern)
@@ -116,8 +131,9 @@ class SignalPatternMemory:
             logger.error(f"❌ Failed to store pattern: {e}")
             return False
 
-    def find_similar_patterns(self, target_vector: np.ndarray,
-                            similarity_threshold: float = 0.8) -> List[SignalPattern]:
+    def find_similar_patterns(
+        self, target_vector: np.ndarray, similarity_threshold: float = 0.8
+    ) -> List[SignalPattern]:
         """
         Find patterns similar to target vector using cosine similarity.
         Aerospace principle: Deterministic, bounded computation.
@@ -156,7 +172,9 @@ class SignalPatternMemory:
                             similar_patterns.append(pattern)
 
                     except Exception as e:
-                        logger.warning(f"⚠️ Error processing pattern {pattern.pattern_id}: {e}")
+                        logger.warning(
+                            f"⚠️ Error processing pattern {pattern.pattern_id}: {e}"
+                        )
                         continue
 
                 logger.debug(f"✅ Found {len(similar_patterns)} similar patterns")
@@ -202,10 +220,14 @@ class SignalPatternMemory:
                     corrupted_count += 1
 
             if corrupted_count > 0:
-                logger.warning(f"⚠️ Found {corrupted_count} corrupted patterns in memory")
+                logger.warning(
+                    f"⚠️ Found {corrupted_count} corrupted patterns in memory"
+                )
                 return False
 
-            logger.debug(f"✅ Integrity check passed: {len(self.memory)} patterns verified")
+            logger.debug(
+                f"✅ Integrity check passed: {len(self.memory)} patterns verified"
+            )
             return True
 
         except Exception as e:
@@ -216,12 +238,13 @@ class SignalPatternMemory:
         """Get memory statistics for monitoring."""
         with self.lock:
             return {
-                'total_patterns': len(self.memory),
-                'capacity': self.capacity,
-                'utilization': len(self.memory) / self.capacity,
-                'access_count': self.access_count,
-                'corruption_checks': self.corruption_checks
+                "total_patterns": len(self.memory),
+                "capacity": self.capacity,
+                "utilization": len(self.memory) / self.capacity,
+                "access_count": self.access_count,
+                "corruption_checks": self.corruption_checks,
             }
+
 
 class EmergentSignalIntelligenceDetector:
     """
@@ -234,11 +257,13 @@ class EmergentSignalIntelligenceDetector:
     - Formal verification: Provable correctness of detection algorithms
     """
 
-    def __init__(self,
-                 consciousness_threshold: float = 0.7,
-                 history_length: int = 1000,
-                 safety_mode: bool = True,
-                 verification_enabled: bool = True):
+    def __init__(
+        self,
+        consciousness_threshold: float = 0.7,
+        history_length: int = 1000,
+        safety_mode: bool = True,
+        verification_enabled: bool = True,
+    ):
         """
         Initialize with aerospace-grade safety parameters.
 
@@ -249,7 +274,9 @@ class EmergentSignalIntelligenceDetector:
             verification_enabled: Enable formal verification of detection
         """
         # Validate inputs
-        assert 0.0 <= consciousness_threshold <= 1.0, "Consciousness threshold out of bounds"
+        assert (
+            0.0 <= consciousness_threshold <= 1.0
+        ), "Consciousness threshold out of bounds"
         assert history_length > 0, "History length must be positive"
 
         self.consciousness_threshold = consciousness_threshold
@@ -272,9 +299,13 @@ class EmergentSignalIntelligenceDetector:
 
         # Thread safety
         self.lock = threading.RLock()
-        self.executor = ThreadPoolExecutor(max_workers=2, thread_name_prefix="EmergenceDetector")
+        self.executor = ThreadPoolExecutor(
+            max_workers=2, thread_name_prefix="EmergenceDetector"
+        )
 
-        logger.info(f"✅ EmergentSignalIntelligenceDetector initialized - Threshold: {consciousness_threshold}")
+        logger.info(
+            f"✅ EmergentSignalIntelligenceDetector initialized - Threshold: {consciousness_threshold}"
+        )
 
     def _verify_signal_state(self, signal_state: Dict[str, Any]) -> bool:
         """
@@ -289,12 +320,12 @@ class EmergentSignalIntelligenceDetector:
             solver = Solver()
 
             # Define constraints for valid signal state
-            state_valid = Bool('state_valid')
-            has_required_fields = Bool('has_required_fields')
-            values_in_bounds = Bool('values_in_bounds')
+            state_valid = Bool("state_valid")
+            has_required_fields = Bool("has_required_fields")
+            values_in_bounds = Bool("values_in_bounds")
 
             # Check required fields
-            required_fields = ['timestamp', 'signal_vector', 'metadata']
+            required_fields = ["timestamp", "signal_vector", "metadata"]
             fields_present = all(field in signal_state for field in required_fields)
 
             # Define constraints
@@ -309,7 +340,9 @@ class EmergentSignalIntelligenceDetector:
                 logger.debug(f"✅ Signal state verification: {result}")
                 return result
             else:
-                logger.error("❌ Signal state verification failed: constraints unsatisfiable")
+                logger.error(
+                    "❌ Signal state verification failed: constraints unsatisfiable"
+                )
                 return False
 
         except Exception as e:
@@ -334,7 +367,9 @@ class EmergentSignalIntelligenceDetector:
 
             # Calculate approximate entropy as complexity measure
             # Use histogram-based entropy estimation
-            hist, _ = np.histogram(normalized_signal, bins=min(50, len(signal_vector)//2))
+            hist, _ = np.histogram(
+                normalized_signal, bins=min(50, len(signal_vector) // 2)
+            )
             hist = hist + 1e-12  # Avoid log(0)
             probabilities = hist / np.sum(hist)
             entropy = -np.sum(probabilities * np.log2(probabilities))
@@ -377,8 +412,9 @@ class EmergentSignalIntelligenceDetector:
             logger.warning(f"⚠️ Organization calculation error: {e}")
             return 0.0
 
-    def _calculate_information_integration(self, current_state: Dict[str, Any],
-                                         evolution_history: List[Dict[str, Any]]) -> float:
+    def _calculate_information_integration(
+        self, current_state: Dict[str, Any], evolution_history: List[Dict[str, Any]]
+    ) -> float:
         """
         Calculate information integration measure using mutual information.
         """
@@ -389,16 +425,16 @@ class EmergentSignalIntelligenceDetector:
             # Extract signal vectors from history
             vectors = []
             for state in evolution_history[-10:]:  # Last 10 states
-                if 'signal_vector' in state:
-                    vectors.append(state['signal_vector'])
+                if "signal_vector" in state:
+                    vectors.append(state["signal_vector"])
 
             if len(vectors) < 2:
                 return 0.0
 
             # Calculate average pairwise correlation as integration measure
             correlations = []
-            for i in range(len(vectors)-1):
-                for j in range(i+1, len(vectors)):
+            for i in range(len(vectors) - 1):
+                for j in range(i + 1, len(vectors)):
                     try:
                         if len(vectors[i]) == len(vectors[j]):
                             corr = np.corrcoef(vectors[i], vectors[j])[0, 1]
@@ -417,7 +453,9 @@ class EmergentSignalIntelligenceDetector:
             logger.warning(f"⚠️ Information integration calculation error: {e}")
             return 0.0
 
-    def _calculate_temporal_coherence(self, evolution_history: List[Dict[str, Any]]) -> float:
+    def _calculate_temporal_coherence(
+        self, evolution_history: List[Dict[str, Any]]
+    ) -> float:
         """
         Calculate temporal coherence of signal evolution.
         """
@@ -428,8 +466,8 @@ class EmergentSignalIntelligenceDetector:
             # Extract timestamps and calculate time differences
             timestamps = []
             for state in evolution_history[-20:]:  # Last 20 states
-                if 'timestamp' in state:
-                    timestamps.append(state['timestamp'])
+                if "timestamp" in state:
+                    timestamps.append(state["timestamp"])
 
             if len(timestamps) < 3:
                 return 0.0
@@ -473,11 +511,11 @@ class EmergentSignalIntelligenceDetector:
                         temporal_coherence=0.0,
                         emergence_confidence=0.0,
                         intelligence_detected=False,
-                        consciousness_threshold=self.consciousness_threshold
+                        consciousness_threshold=self.consciousness_threshold,
                     )
 
                 # Extract signal vector safely
-                signal_vector = signal_state.get('signal_vector', np.array([]))
+                signal_vector = signal_state.get("signal_vector", np.array([]))
                 if not isinstance(signal_vector, np.ndarray):
                     signal_vector = np.array(signal_vector)
 
@@ -497,23 +535,25 @@ class EmergentSignalIntelligenceDetector:
                 # Calculate overall emergence confidence
                 # Weighted combination of all metrics
                 emergence_confidence = (
-                    0.3 * complexity_score +
-                    0.25 * organization_score +
-                    0.25 * information_integration +
-                    0.2 * temporal_coherence
+                    0.3 * complexity_score
+                    + 0.25 * organization_score
+                    + 0.25 * information_integration
+                    + 0.2 * temporal_coherence
                 )
 
                 # Determine if intelligence is detected
-                intelligence_detected = emergence_confidence >= self.consciousness_threshold
+                intelligence_detected = (
+                    emergence_confidence >= self.consciousness_threshold
+                )
 
                 # Create pattern for memory storage
                 pattern = SignalPattern(
                     pattern_id=f"pattern_{int(time.time()*1000)}_{self.detection_count}",
-                    timestamp=signal_state.get('timestamp', time.time()),
+                    timestamp=signal_state.get("timestamp", time.time()),
                     signal_vector=signal_vector,
-                    metadata=signal_state.get('metadata', {}),
+                    metadata=signal_state.get("metadata", {}),
                     complexity_measure=complexity_score,
-                    coherence_measure=temporal_coherence
+                    coherence_measure=temporal_coherence,
                 )
 
                 # Store pattern in memory
@@ -527,15 +567,17 @@ class EmergentSignalIntelligenceDetector:
                     temporal_coherence=temporal_coherence,
                     emergence_confidence=emergence_confidence,
                     intelligence_detected=intelligence_detected,
-                    consciousness_threshold=self.consciousness_threshold
+                    consciousness_threshold=self.consciousness_threshold,
                 )
 
                 # Store detection result
-                self.emergence_detections.append({
-                    'timestamp': time.time(),
-                    'metrics': metrics,
-                    'processing_time': time.time() - start_time
-                })
+                self.emergence_detections.append(
+                    {
+                        "timestamp": time.time(),
+                        "metrics": metrics,
+                        "processing_time": time.time() - start_time,
+                    }
+                )
 
                 # Update performance metrics
                 self.detection_count += 1
@@ -544,8 +586,10 @@ class EmergentSignalIntelligenceDetector:
                 if len(self.detection_times) > 100:
                     self.detection_times.pop(0)
 
-                logger.info(f"✅ Emergence detection complete: confidence={emergence_confidence:.3f}, "
-                          f"intelligence={intelligence_detected}, time={processing_time:.3f}s")
+                logger.info(
+                    f"✅ Emergence detection complete: confidence={emergence_confidence:.3f}, "
+                    f"intelligence={intelligence_detected}, time={processing_time:.3f}s"
+                )
 
                 return metrics
 
@@ -561,7 +605,7 @@ class EmergentSignalIntelligenceDetector:
                 temporal_coherence=0.0,
                 emergence_confidence=0.0,
                 intelligence_detected=False,
-                consciousness_threshold=self.consciousness_threshold
+                consciousness_threshold=self.consciousness_threshold,
             )
 
     def get_system_health(self) -> Dict[str, Any]:
@@ -570,30 +614,44 @@ class EmergentSignalIntelligenceDetector:
         DO-178C requirement: Continuous system health monitoring.
         """
         with self.lock:
-            avg_detection_time = np.mean(self.detection_times) if self.detection_times else 0.0
-            recent_detections = len([d for d in self.emergence_detections
-                                   if d['timestamp'] > time.time() - 300])  # Last 5 minutes
+            avg_detection_time = (
+                np.mean(self.detection_times) if self.detection_times else 0.0
+            )
+            recent_detections = len(
+                [
+                    d
+                    for d in self.emergence_detections
+                    if d["timestamp"] > time.time() - 300
+                ]
+            )  # Last 5 minutes
 
             intelligence_detection_rate = 0.0
             if self.emergence_detections:
-                recent_detections = list(self.emergence_detections)[-20:]  # Convert deque to list for slicing
-                recent_intelligence = len([d for d in recent_detections
-                                         if d['metrics'].intelligence_detected])
-                intelligence_detection_rate = recent_intelligence / min(20, len(self.emergence_detections))
+                recent_detections = list(self.emergence_detections)[
+                    -20:
+                ]  # Convert deque to list for slicing
+                recent_intelligence = len(
+                    [d for d in recent_detections if d["metrics"].intelligence_detected]
+                )
+                intelligence_detection_rate = recent_intelligence / min(
+                    20, len(self.emergence_detections)
+                )
 
             memory_stats = self.pattern_memory.get_memory_stats()
 
             return {
-                'status': 'healthy' if self.error_count < self.max_errors else 'degraded',
-                'error_count': self.error_count,
-                'total_detections': self.detection_count,
-                'recent_detections': recent_detections,
-                'average_detection_time': avg_detection_time,
-                'intelligence_detection_rate': intelligence_detection_rate,
-                'consciousness_threshold': self.consciousness_threshold,
-                'pattern_memory': memory_stats,
-                'safety_mode': self.safety_mode,
-                'verification_enabled': self.verification_enabled
+                "status": (
+                    "healthy" if self.error_count < self.max_errors else "degraded"
+                ),
+                "error_count": self.error_count,
+                "total_detections": self.detection_count,
+                "recent_detections": recent_detections,
+                "average_detection_time": avg_detection_time,
+                "intelligence_detection_rate": intelligence_detection_rate,
+                "consciousness_threshold": self.consciousness_threshold,
+                "pattern_memory": memory_stats,
+                "safety_mode": self.safety_mode,
+                "verification_enabled": self.verification_enabled,
             }
 
     def shutdown(self):

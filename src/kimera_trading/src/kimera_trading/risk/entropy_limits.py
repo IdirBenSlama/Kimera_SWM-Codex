@@ -12,8 +12,7 @@ class EntropyBasedRiskManager:
         self.thermodynamic_engine = thermodynamic_engine
         self.entropy_scale = 1.0
 
-    def calculate_position_size_by_entropy(self,
-                                         base_position: float) -> float:
+    def calculate_position_size_by_entropy(self, base_position: float) -> float:
         """Calculate position size based on market entropy and consciousness."""
 
         market_entropy = self.thermodynamic_engine.current_entropy
@@ -37,11 +36,11 @@ class EntropyBasedRiskManager:
         """Ensure position respects energy conservation."""
 
         # This is a placeholder for a more complex energy model
-        required_energy = position_size # Assume energy is proportional to size
+        required_energy = position_size  # Assume energy is proportional to size
         available_energy = self.get_available_energy()
 
         if required_energy > available_energy:
-            position_size *= (available_energy / required_energy)
+            position_size *= available_energy / required_energy
 
         return position_size
 

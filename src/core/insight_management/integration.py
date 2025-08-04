@@ -18,30 +18,31 @@ ARCHITECTURE:
 """
 
 import asyncio
+import logging
 import time
-from typing import Dict, List, Optional, Any, Tuple
+from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime
+from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple
+
 import numpy as np
 import torch
-import logging
-from collections import deque
-from enum import Enum
 
 from .information_integration_analyzer import (
-    InformationIntegrationAnalyzer,
+    ComplexitySignature,
     ComplexityState,
-    ComplexitySignature
+    InformationIntegrationAnalyzer,
 )
 from .insight_entropy import (
+    calculate_adaptive_entropy_threshold,
     validate_insight_entropy_reduction,
-    calculate_adaptive_entropy_threshold
 )
-from .insight_feedback import InsightFeedbackEngine, EngagementType
+from .insight_feedback import EngagementType, InsightFeedbackEngine
 from .insight_lifecycle import (
-    update_utility_score,
+    FeedbackEvent,
     manage_insight_lifecycle,
-    FeedbackEvent
+    update_utility_score,
 )
 
 # DO-178C requires explicit typing
@@ -57,6 +58,7 @@ except ImportError:
             def create_default():
                 return {}
 
+
 try:
     from src.core.insight import InsightScar
 except ImportError:
@@ -67,6 +69,7 @@ except ImportError:
         class InsightScar:
             def __init__(self, **kwargs):
                 self.__dict__.update(kwargs)
+
 
 logger = logging.getLogger(__name__)
 
@@ -80,6 +83,7 @@ INSIGHT_GENERATION_TIMEOUT = 0.1  # 100ms per PR-4.10.1
 
 class ValidationStatus(Enum):
     """DO-178C compliant validation states"""
+
     PENDING = "pending"
     VALIDATED = "validated"
     REJECTED = "rejected"
@@ -89,6 +93,7 @@ class ValidationStatus(Enum):
 @dataclass
 class InsightValidationResult:
     """Comprehensive validation result for DO-178C traceability"""
+
     insight_id: str
     status: ValidationStatus
     entropy_score: float
@@ -102,6 +107,7 @@ class InsightValidationResult:
 @dataclass
 class SystemHealthMetrics:
     """Real-time system health for safety monitoring"""
+
     total_insights: int
     validated_insights: int
     rejected_insights: int
@@ -151,7 +157,7 @@ class InsightManagementIntegrator:
             average_coherence=0.0,
             memory_usage_mb=0.0,
             feedback_gain=1.0,
-            last_update=datetime.now()
+            last_update=datetime.now(),
         )
 
         # Feedback loop safety limiter
@@ -161,13 +167,15 @@ class InsightManagementIntegrator:
         logger.info("🧠 Insight Management Integrator initialized (DO-178C Level A)")
         logger.info(f"   Device: {device}")
         logger.info(f"   Max insights: {MAX_INSIGHTS_IN_MEMORY}")
-        logger.info(f"   Safety thresholds: entropy>{ENTROPY_VALIDATION_THRESHOLD}, coherence>{COHERENCE_MINIMUM}")
+        logger.info(
+            f"   Safety thresholds: entropy>{ENTROPY_VALIDATION_THRESHOLD}, coherence>{COHERENCE_MINIMUM}"
+        )
 
     async def process_insight(
         self,
         insight: InsightScar,
         geoid_state: GeoidState,
-        system_state: Dict[str, Any]
+        system_state: Dict[str, Any],
     ) -> InsightValidationResult:
         """
         Process and validate an insight with full safety checks.
@@ -215,7 +223,7 @@ class InsightManagementIntegrator:
                 confidence=confidence,
                 timestamp=datetime.now(),
                 validation_time_ms=validation_time,
-                rejection_reason=rejection_reason
+                rejection_reason=rejection_reason,
             )
 
             # 6. Update metrics and cache
@@ -240,47 +248,39 @@ class InsightManagementIntegrator:
                 confidence=0.0,
                 timestamp=datetime.now(),
                 validation_time_ms=(time.time() - start_time) * 1000,
-                rejection_reason=f"Processing error: {str(e)}"
+                rejection_reason=f"Processing error: {str(e)}",
             )
 
     async def _validate_entropy(
-        self,
-        insight: InsightScar,
-        system_state: Dict[str, Any]
+        self, insight: InsightScar, system_state: Dict[str, Any]
     ) -> Tuple[bool, float]:
         """Validate insight entropy reduction with adaptive thresholds"""
         # Calculate adaptive threshold
         threshold = calculate_adaptive_entropy_threshold(
             system_entropy=self.system_entropy,
             system_complexity=self.system_complexity,
-            recent_performance=self._calculate_recent_performance()
+            recent_performance=self._calculate_recent_performance(),
         )
 
         # Validate entropy reduction
-        is_valid = validate_insight_entropy_reduction(
-            insight, system_state, threshold
-        )
+        is_valid = validate_insight_entropy_reduction(insight, system_state, threshold)
 
         # Calculate entropy score (normalized)
-        entropy_score = insight.confidence_score if hasattr(insight, 'confidence_score') else 0.5
+        entropy_score = (
+            insight.confidence_score if hasattr(insight, "confidence_score") else 0.5
+        )
 
         return is_valid, entropy_score
 
     def _calculate_confidence(
-        self,
-        entropy_score: float,
-        coherence_score: float,
-        entropy_valid: bool
+        self, entropy_score: float, coherence_score: float, entropy_valid: bool
     ) -> float:
         """Calculate overall confidence with safety bounds"""
         if not entropy_valid:
             return 0.0
 
         # Weighted combination
-        confidence = (
-            0.4 * entropy_score +
-            0.6 * coherence_score
-        )
+        confidence = 0.4 * entropy_score + 0.6 * coherence_score
 
         # Apply feedback gain with safety limit (SR-4.10.3)
         confidence *= min(self._feedback_gain_limiter, MAX_FEEDBACK_GAIN)
@@ -304,12 +304,12 @@ class InsightManagementIntegrator:
         # Update rolling averages
         alpha = 0.1  # Exponential moving average factor
         self.health_metrics.average_entropy_reduction = (
-            alpha * result.entropy_score +
-            (1 - alpha) * self.health_metrics.average_entropy_reduction
+            alpha * result.entropy_score
+            + (1 - alpha) * self.health_metrics.average_entropy_reduction
         )
         self.health_metrics.average_coherence = (
-            alpha * result.coherence_score +
-            (1 - alpha) * self.health_metrics.average_coherence
+            alpha * result.coherence_score
+            + (1 - alpha) * self.health_metrics.average_coherence
         )
 
         # Memory usage
@@ -324,21 +324,23 @@ class InsightManagementIntegrator:
         if self.health_metrics.total_insights == 0:
             return 0.8  # Default
 
-        return self.health_metrics.validated_insights / self.health_metrics.total_insights
+        return (
+            self.health_metrics.validated_insights / self.health_metrics.total_insights
+        )
 
     async def process_feedback(
         self,
         insight_id: str,
         feedback_type: FeedbackEvent,
-        user_id: Optional[str] = None
+        user_id: Optional[str] = None,
     ) -> None:
         """
         Process feedback with safety-bounded gain adjustment (SR-4.10.3).
         """
         # Record feedback
-        if feedback_type == 'user_explored':
+        if feedback_type == "user_explored":
             engagement = EngagementType.EXPLORED
-        elif feedback_type == 'user_dismissed':
+        elif feedback_type == "user_dismissed":
             engagement = EngagementType.DISMISSED
         else:
             engagement = EngagementType.EXPLORED  # Default
@@ -346,7 +348,7 @@ class InsightManagementIntegrator:
         await self.feedback_engine.track_engagement(
             insight_id=insight_id,
             engagement_type=engagement,
-            user_id=user_id or "system"
+            user_id=user_id or "system",
         )
 
         # Update feedback gain with safety bounds
@@ -365,8 +367,9 @@ class InsightManagementIntegrator:
 
         # Calculate gain adjustment
         positive_feedback = sum(
-            1 for f in self._feedback_history
-            if f in ['user_explored', 'system_reinforced']
+            1
+            for f in self._feedback_history
+            if f in ["user_explored", "system_reinforced"]
         )
         total_feedback = len(self._feedback_history)
 
@@ -374,9 +377,7 @@ class InsightManagementIntegrator:
             positive_ratio = positive_feedback / total_feedback
             # Adjust gain within safe bounds
             self._feedback_gain_limiter = np.clip(
-                0.5 + positive_ratio,  # Range: 0.5 to 1.5
-                0.5,
-                MAX_FEEDBACK_GAIN
+                0.5 + positive_ratio, 0.5, MAX_FEEDBACK_GAIN  # Range: 0.5 to 1.5
             )
 
         self.health_metrics.feedback_gain = self._feedback_gain_limiter
@@ -409,8 +410,7 @@ class InsightManagementIntegrator:
         logger.info(f"🧹 Cleaned up {len(expired_keys)} expired validations")
 
     async def analyze_information_integration(
-        self,
-        geoid_states: List[GeoidState]
+        self, geoid_states: List[GeoidState]
     ) -> Dict[str, Any]:
         """
         Analyze information integration across multiple geoid states.
@@ -437,15 +437,19 @@ class InsightManagementIntegrator:
             "average_coherence": float(avg_coherence),
             "complexity_distribution": complexity_distribution,
             "total_analyzed": len(results),
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     def shutdown(self) -> None:
         """Clean shutdown for DO-178C compliance"""
         logger.info("🛑 Shutting down Insight Management Integrator")
-        logger.info(f"   Total insights processed: {self.health_metrics.total_insights}")
+        logger.info(
+            f"   Total insights processed: {self.health_metrics.total_insights}"
+        )
         logger.info(f"   Validation rate: {self._calculate_recent_performance():.2%}")
-        logger.info(f"   Final memory usage: {self.health_metrics.memory_usage_mb:.2f}MB")
+        logger.info(
+            f"   Final memory usage: {self.health_metrics.memory_usage_mb:.2f}MB"
+        )
 
 
 def get_integrator() -> InsightManagementIntegrator:
@@ -471,4 +475,4 @@ def initialize() -> InsightManagementIntegrator:
 
 
 # Export integrator for KimeraSystem initialization
-__all__ = ['InsightManagementIntegrator', 'get_integrator', 'initialize']
+__all__ = ["InsightManagementIntegrator", "get_integrator", "initialize"]

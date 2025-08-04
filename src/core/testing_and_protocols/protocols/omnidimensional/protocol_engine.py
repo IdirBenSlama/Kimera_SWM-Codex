@@ -17,32 +17,33 @@ Version: 1.0.0 (DO-178C Level A)
 """
 
 import asyncio
+import hashlib
 import json
+import queue
+import struct
+import sys
+import threading
 import time
 import uuid
-from dataclasses import dataclass, field
-from typing import Dict, List, Any, Optional, Callable, Union, Tuple
-from enum import Enum
-import hashlib
-import struct
-from datetime import datetime, timedelta
-import threading
-import queue
 import weakref
-import sys
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from enum import Enum
 from pathlib import Path
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 # Add src to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent.parent.parent.parent))
 
-from utils.kimera_logger import get_logger, LogCategory
-from utils.kimera_exceptions import KimeraValidationError, KimeraCognitiveError
+from utils.kimera_exceptions import KimeraCognitiveError, KimeraValidationError
+from utils.kimera_logger import LogCategory, get_logger
 
 logger = get_logger(__name__, LogCategory.SYSTEM)
 
 
 class ProtocolVersion(Enum):
     """Protocol version enumeration"""
+
     V1_0 = "1.0"
     V1_1 = "1.1"
     V2_0 = "2.0"  # Future version
@@ -50,6 +51,7 @@ class ProtocolVersion(Enum):
 
 class MessageType(Enum):
     """Message type enumeration"""
+
     DATA_TRANSFER = "data_transfer"
     CONTROL_COMMAND = "control_command"
     STATUS_REPORT = "status_report"
@@ -64,22 +66,25 @@ class MessageType(Enum):
 
 class MessagePriority(Enum):
     """Message priority levels"""
-    CRITICAL = 1    # System-critical messages
-    HIGH = 2        # High priority operations
-    NORMAL = 3      # Standard communications
-    LOW = 4         # Background data exchange
-    BULK = 5        # Large data transfers
+
+    CRITICAL = 1  # System-critical messages
+    HIGH = 2  # High priority operations
+    NORMAL = 3  # Standard communications
+    LOW = 4  # Background data exchange
+    BULK = 5  # Large data transfers
 
 
 class DeliveryGuarantee(Enum):
     """Message delivery guarantee levels"""
-    AT_MOST_ONCE = "at_most_once"      # Fire and forget
-    AT_LEAST_ONCE = "at_least_once"    # Ensure delivery
-    EXACTLY_ONCE = "exactly_once"      # Prevent duplicates
+
+    AT_MOST_ONCE = "at_most_once"  # Fire and forget
+    AT_LEAST_ONCE = "at_least_once"  # Ensure delivery
+    EXACTLY_ONCE = "exactly_once"  # Prevent duplicates
 
 
 class SystemDimension(Enum):
     """Cognitive system dimensions"""
+
     COGNITIVE_RESPONSE = "cognitive_response"
     BARENHOLTZ_ARCHITECTURE = "barenholtz_architecture"
     HIGH_DIMENSIONAL_MODELING = "high_dimensional_modeling"
@@ -95,6 +100,7 @@ class SystemDimension(Enum):
 @dataclass
 class MessageHeader:
     """Protocol message header"""
+
     version: ProtocolVersion
     message_id: str
     correlation_id: Optional[str]
@@ -115,6 +121,7 @@ class MessageHeader:
 @dataclass
 class MessagePayload:
     """Protocol message payload"""
+
     content_type: str
     content_encoding: str
     data: Union[bytes, str, Dict[str, Any]]
@@ -127,6 +134,7 @@ class MessagePayload:
 @dataclass
 class ProtocolMessage:
     """Complete protocol message"""
+
     header: MessageHeader
     payload: MessagePayload
 
@@ -143,9 +151,9 @@ class ProtocolMessage:
         if isinstance(self.payload.data, bytes):
             data_bytes = self.payload.data
         elif isinstance(self.payload.data, str):
-            data_bytes = self.payload.data.encode('utf-8')
+            data_bytes = self.payload.data.encode("utf-8")
         else:
-            data_bytes = json.dumps(self.payload.data, sort_keys=True).encode('utf-8')
+            data_bytes = json.dumps(self.payload.data, sort_keys=True).encode("utf-8")
 
         return hashlib.sha256(data_bytes).hexdigest()[:16]
 
@@ -153,10 +161,12 @@ class ProtocolMessage:
 class MessageRoute:
     """Message routing information"""
 
-    def __init__(self,
-                 source: SystemDimension,
-                 destination: SystemDimension,
-                 hops: Optional[List[SystemDimension]] = None):
+    def __init__(
+        self,
+        source: SystemDimension,
+        destination: SystemDimension,
+        hops: Optional[List[SystemDimension]] = None,
+    ):
         self.source = source
         self.destination = destination
         self.hops = hops or []
@@ -164,7 +174,7 @@ class MessageRoute:
         self.performance_metrics = {
             "average_latency": 0.0,
             "success_rate": 1.0,
-            "last_update": datetime.now()
+            "last_update": datetime.now(),
         }
 
     def _calculate_route_hash(self) -> str:
@@ -190,17 +200,19 @@ class DimensionRegistry:
         self.last_heartbeat: Dict[SystemDimension, datetime] = {}
         self.registry_lock = threading.RLock()
 
-    def register_dimension(self,
-                         dimension: SystemDimension,
-                         capabilities: List[str],
-                         metadata: Dict[str, Any]) -> bool:
+    def register_dimension(
+        self,
+        dimension: SystemDimension,
+        capabilities: List[str],
+        metadata: Dict[str, Any],
+    ) -> bool:
         """Register a cognitive dimension with its capabilities"""
         with self.registry_lock:
             try:
                 self.dimensions[dimension] = {
                     "registration_time": datetime.now(),
                     "metadata": metadata.copy(),
-                    "status": "active"
+                    "status": "active",
                 }
 
                 self.capabilities[dimension] = set(capabilities)
@@ -208,12 +220,14 @@ class DimensionRegistry:
                 self.health_status[dimension] = {
                     "status": "healthy",
                     "last_check": datetime.now(),
-                    "metrics": {}
+                    "metrics": {},
                 }
 
                 self.last_heartbeat[dimension] = datetime.now()
 
-                logger.info(f"🔗 Registered dimension: {dimension.value} with {len(capabilities)} capabilities")
+                logger.info(
+                    f"🔗 Registered dimension: {dimension.value} with {len(capabilities)} capabilities"
+                )
                 return True
 
             except Exception as e:
@@ -240,7 +254,9 @@ class DimensionRegistry:
                 logger.error(f"Failed to unregister dimension {dimension.value}: {e}")
                 return False
 
-    def update_heartbeat(self, dimension: SystemDimension, health_metrics: Dict[str, Any]) -> None:
+    def update_heartbeat(
+        self, dimension: SystemDimension, health_metrics: Dict[str, Any]
+    ) -> None:
         """Update heartbeat and health metrics for dimension"""
         with self.registry_lock:
             if dimension in self.dimensions:
@@ -249,7 +265,9 @@ class DimensionRegistry:
                     self.health_status[dimension]["metrics"] = health_metrics
                     self.health_status[dimension]["last_check"] = datetime.now()
 
-    def get_dimension_info(self, dimension: SystemDimension) -> Optional[Dict[str, Any]]:
+    def get_dimension_info(
+        self, dimension: SystemDimension
+    ) -> Optional[Dict[str, Any]]:
         """Get information about a specific dimension"""
         with self.registry_lock:
             if dimension not in self.dimensions:
@@ -260,7 +278,7 @@ class DimensionRegistry:
                 "registration": self.dimensions[dimension],
                 "capabilities": list(self.capabilities.get(dimension, [])),
                 "health": self.health_status.get(dimension, {}),
-                "last_heartbeat": self.last_heartbeat.get(dimension)
+                "last_heartbeat": self.last_heartbeat.get(dimension),
             }
 
     def find_dimensions_by_capability(self, capability: str) -> List[SystemDimension]:
@@ -272,7 +290,9 @@ class DimensionRegistry:
                     matching_dimensions.append(dimension)
             return matching_dimensions
 
-    def get_healthy_dimensions(self, max_age_seconds: int = 30) -> List[SystemDimension]:
+    def get_healthy_dimensions(
+        self, max_age_seconds: int = 30
+    ) -> List[SystemDimension]:
         """Get list of dimensions with recent heartbeats"""
         with self.registry_lock:
             cutoff_time = datetime.now() - timedelta(seconds=max_age_seconds)
@@ -294,8 +314,12 @@ class DimensionRegistry:
                 "total_dimensions": total_count,
                 "healthy_dimensions": healthy_count,
                 "unhealthy_dimensions": total_count - healthy_count,
-                "total_capabilities": sum(len(caps) for caps in self.capabilities.values()),
-                "last_update": max(self.last_heartbeat.values()) if self.last_heartbeat else None
+                "total_capabilities": sum(
+                    len(caps) for caps in self.capabilities.values()
+                ),
+                "last_update": (
+                    max(self.last_heartbeat.values()) if self.last_heartbeat else None
+                ),
             }
 
 
@@ -310,14 +334,18 @@ class MessageRouter:
     def __init__(self, registry: DimensionRegistry):
         self.registry = registry
         self.routes: Dict[str, MessageRoute] = {}
-        self.route_cache: Dict[Tuple[SystemDimension, SystemDimension], List[MessageRoute]] = {}
+        self.route_cache: Dict[
+            Tuple[SystemDimension, SystemDimension], List[MessageRoute]
+        ] = {}
         self.performance_history: Dict[str, List[Dict[str, float]]] = {}
         self.router_lock = threading.RLock()
 
-    def find_route(self,
-                  source: SystemDimension,
-                  destination: SystemDimension,
-                  requirements: Optional[Dict[str, Any]] = None) -> Optional[MessageRoute]:
+    def find_route(
+        self,
+        source: SystemDimension,
+        destination: SystemDimension,
+        requirements: Optional[Dict[str, Any]] = None,
+    ) -> Optional[MessageRoute]:
         """Find optimal route between dimensions"""
         with self.router_lock:
             # Check cache first
@@ -337,10 +365,12 @@ class MessageRouter:
             # Return best route
             return self._select_best_route(routes, requirements) if routes else None
 
-    def _calculate_routes(self,
-                         source: SystemDimension,
-                         destination: SystemDimension,
-                         requirements: Optional[Dict[str, Any]]) -> List[MessageRoute]:
+    def _calculate_routes(
+        self,
+        source: SystemDimension,
+        destination: SystemDimension,
+        requirements: Optional[Dict[str, Any]],
+    ) -> List[MessageRoute]:
         """Calculate possible routes between dimensions"""
         routes = []
 
@@ -366,15 +396,17 @@ class MessageRouter:
         healthy_dimensions = self.registry.get_healthy_dimensions()
         return dimension in healthy_dimensions
 
-    def _can_route(self, intermediate: SystemDimension, destination: SystemDimension) -> bool:
+    def _can_route(
+        self, intermediate: SystemDimension, destination: SystemDimension
+    ) -> bool:
         """Check if intermediate dimension can route to destination"""
         # For now, assume all healthy dimensions can route to each other
         # In future, this could check routing capabilities
         return self._is_dimension_available(destination)
 
-    def _select_best_route(self,
-                          routes: List[MessageRoute],
-                          requirements: Optional[Dict[str, Any]]) -> Optional[MessageRoute]:
+    def _select_best_route(
+        self, routes: List[MessageRoute], requirements: Optional[Dict[str, Any]]
+    ) -> Optional[MessageRoute]:
         """Select best route based on performance and requirements"""
         if not routes:
             return None
@@ -390,9 +422,9 @@ class MessageRouter:
 
         return scored_routes[0][1]
 
-    def _calculate_route_score(self,
-                              route: MessageRoute,
-                              requirements: Optional[Dict[str, Any]]) -> float:
+    def _calculate_route_score(
+        self, route: MessageRoute, requirements: Optional[Dict[str, Any]]
+    ) -> float:
         """Calculate route quality score"""
         base_score = 100.0
 
@@ -401,7 +433,7 @@ class MessageRouter:
             base_score += 50.0
         else:
             # Penalize for each hop
-            base_score -= (len(route.hops) * 10.0)
+            base_score -= len(route.hops) * 10.0
 
         # Factor in performance metrics
         base_score += route.performance_metrics["success_rate"] * 30.0
@@ -420,10 +452,9 @@ class MessageRouter:
 
         return max(0.0, base_score)
 
-    def update_route_performance(self,
-                               route_hash: str,
-                               latency: float,
-                               success: bool) -> None:
+    def update_route_performance(
+        self, route_hash: str, latency: float, success: bool
+    ) -> None:
         """Update route performance metrics"""
         with self.router_lock:
             if route_hash not in self.performance_history:
@@ -433,13 +464,15 @@ class MessageRouter:
             measurement = {
                 "timestamp": time.time(),
                 "latency": latency,
-                "success": success
+                "success": success,
             }
             self.performance_history[route_hash].append(measurement)
 
             # Trim history to last 100 measurements
             if len(self.performance_history[route_hash]) > 100:
-                self.performance_history[route_hash] = self.performance_history[route_hash][-100:]
+                self.performance_history[route_hash] = self.performance_history[
+                    route_hash
+                ][-100:]
 
             # Update route metrics
             self._recalculate_route_metrics(route_hash)
@@ -463,11 +496,13 @@ class MessageRouter:
         for routes in self.route_cache.values():
             for route in routes:
                 if route.route_hash == route_hash:
-                    route.performance_metrics.update({
-                        "average_latency": average_latency,
-                        "success_rate": success_rate,
-                        "last_update": datetime.now()
-                    })
+                    route.performance_metrics.update(
+                        {
+                            "average_latency": average_latency,
+                            "success_rate": success_rate,
+                            "last_update": datetime.now(),
+                        }
+                    )
 
     def clear_route_cache(self) -> None:
         """Clear route cache to force recalculation"""
@@ -507,7 +542,7 @@ class ProtocolEngine:
             "messages_failed": 0,
             "bytes_transferred": 0,
             "average_latency": 0.0,
-            "start_time": datetime.now()
+            "start_time": datetime.now(),
         }
 
         # Thread safety
@@ -516,7 +551,9 @@ class ProtocolEngine:
         # Register self
         self._register_self()
 
-        logger.info(f"🌐 Omnidimensional Protocol Engine initialized for {local_dimension.value}")
+        logger.info(
+            f"🌐 Omnidimensional Protocol Engine initialized for {local_dimension.value}"
+        )
 
     def _register_self(self) -> None:
         """Register this engine instance with the registry"""
@@ -525,7 +562,7 @@ class ProtocolEngine:
             "data_transfer",
             "heartbeat_monitoring",
             "error_recovery",
-            "protocol_adaptation"
+            "protocol_adaptation",
         ]
 
         metadata = {
@@ -533,17 +570,17 @@ class ProtocolEngine:
             "supported_protocols": ["omnidimensional_v1.0"],
             "max_message_size": 10 * 1024 * 1024,  # 10MB
             "compression_supported": True,
-            "encryption_supported": True
+            "encryption_supported": True,
         }
 
         success = self.registry.register_dimension(
-            self.local_dimension,
-            capabilities,
-            metadata
+            self.local_dimension, capabilities, metadata
         )
 
         if not success:
-            raise KimeraValidationError(f"Failed to register dimension {self.local_dimension.value}")
+            raise KimeraValidationError(
+                f"Failed to register dimension {self.local_dimension.value}"
+            )
 
     def start(self) -> None:
         """Start the protocol engine"""
@@ -554,8 +591,7 @@ class ProtocolEngine:
             # Start heartbeat monitoring
             self.heartbeat_active = True
             self.heartbeat_thread = threading.Thread(
-                target=self._heartbeat_loop,
-                daemon=True
+                target=self._heartbeat_loop, daemon=True
             )
             self.heartbeat_thread.start()
 
@@ -598,12 +634,16 @@ class ProtocolEngine:
     def _collect_health_metrics(self) -> Dict[str, Any]:
         """Collect health metrics for heartbeat"""
         return {
-            "messages_processed": self.statistics["messages_sent"] + self.statistics["messages_received"],
-            "error_rate": self.statistics["messages_failed"] / max(1, self.statistics["messages_sent"]),
+            "messages_processed": self.statistics["messages_sent"]
+            + self.statistics["messages_received"],
+            "error_rate": self.statistics["messages_failed"]
+            / max(1, self.statistics["messages_sent"]),
             "average_latency": self.statistics["average_latency"],
             "queue_size": self.message_queue.qsize(),
             "connections": len(self.connections),
-            "uptime_seconds": (datetime.now() - self.statistics["start_time"]).total_seconds()
+            "uptime_seconds": (
+                datetime.now() - self.statistics["start_time"]
+            ).total_seconds(),
         }
 
     def _send_heartbeats(self) -> None:
@@ -612,30 +652,34 @@ class ProtocolEngine:
             destination=self.local_dimension,  # Will be updated per connection
             message_type=MessageType.HEARTBEAT,
             data={"timestamp": datetime.now().isoformat(), "status": "healthy"},
-            priority=MessagePriority.LOW
+            priority=MessagePriority.LOW,
         )
 
         for dimension in self.connections:
             try:
                 heartbeat_message.header.destination_dimension = dimension
-                heartbeat_message.header.message_id = str(uuid.uuid4())  # New ID per recipient
+                heartbeat_message.header.message_id = str(
+                    uuid.uuid4()
+                )  # New ID per recipient
                 self._send_message_internal(heartbeat_message)
             except Exception as e:
                 logger.debug(f"Failed to send heartbeat to {dimension.value}: {e}")
 
-    def create_message(self,
-                      destination: SystemDimension,
-                      message_type: MessageType,
-                      data: Union[str, bytes, Dict[str, Any]],
-                      priority: MessagePriority = MessagePriority.NORMAL,
-                      delivery_guarantee: DeliveryGuarantee = DeliveryGuarantee.AT_LEAST_ONCE,
-                      ttl_seconds: int = 300,
-                      metadata: Optional[Dict[str, Any]] = None) -> ProtocolMessage:
+    def create_message(
+        self,
+        destination: SystemDimension,
+        message_type: MessageType,
+        data: Union[str, bytes, Dict[str, Any]],
+        priority: MessagePriority = MessagePriority.NORMAL,
+        delivery_guarantee: DeliveryGuarantee = DeliveryGuarantee.AT_LEAST_ONCE,
+        ttl_seconds: int = 300,
+        metadata: Optional[Dict[str, Any]] = None,
+    ) -> ProtocolMessage:
         """Create a protocol message"""
 
         # Prepare payload data
         if isinstance(data, (dict, list)):
-            content_data = json.dumps(data, separators=(',', ':'))
+            content_data = json.dumps(data, separators=(",", ":"))
             content_type = "application/json"
             content_encoding = "utf-8"
         elif isinstance(data, str):
@@ -665,7 +709,7 @@ class ProtocolEngine:
             total_parts=1,
             part_number=1,
             security_context={},
-            routing_hints={}
+            routing_hints={},
         )
 
         # Create payload
@@ -675,8 +719,10 @@ class ProtocolEngine:
             data=content_data,
             metadata=metadata or {},
             checksum="",  # Will be calculated in __post_init__
-            size_bytes=len(content_data) if isinstance(content_data, (str, bytes)) else 0,
-            compression_used=False
+            size_bytes=(
+                len(content_data) if isinstance(content_data, (str, bytes)) else 0
+            ),
+            compression_used=False,
         )
 
         return ProtocolMessage(header=header, payload=payload)
@@ -695,7 +741,9 @@ class ProtocolEngine:
                 self.statistics["messages_sent"] += 1
                 self.statistics["bytes_transferred"] += message.payload.size_bytes
 
-                logger.debug(f"Sent message {message_id} to {message.header.destination_dimension.value}")
+                logger.debug(
+                    f"Sent message {message_id} to {message.header.destination_dimension.value}"
+                )
 
                 return message_id
 
@@ -727,8 +775,7 @@ class ProtocolEngine:
         try:
             # Find route to destination
             route = self.router.find_route(
-                message.header.source_dimension,
-                message.header.destination_dimension
+                message.header.source_dimension, message.header.destination_dimension
             )
 
             if not route:
@@ -756,12 +803,14 @@ class ProtocolEngine:
         except Exception as e:
             # Update route performance for failure
             latency = time.time() - start_time
-            if 'route' in locals():
+            if "route" in locals():
                 self.router.update_route_performance(route.route_hash, latency, False)
 
             raise
 
-    def _simulate_message_transmission(self, message: ProtocolMessage, route: MessageRoute) -> None:
+    def _simulate_message_transmission(
+        self, message: ProtocolMessage, route: MessageRoute
+    ) -> None:
         """
         Simulate message transmission through route
 
@@ -772,6 +821,7 @@ class ProtocolEngine:
         hop_delay = len(route.hops) * 0.002  # 2ms per hop
 
         import random
+
         jitter = random.uniform(0.0, 0.001)  # Up to 1ms jitter
 
         total_delay = base_delay + hop_delay + jitter
@@ -781,8 +831,10 @@ class ProtocolEngine:
         if random.random() < 0.001:
             raise KimeraCognitiveError("Simulated transmission failure")
 
-        logger.debug(f"Simulated transmission: {message.header.message_id} "
-                    f"via {len(route.hops)} hops in {total_delay:.4f}s")
+        logger.debug(
+            f"Simulated transmission: {message.header.message_id} "
+            f"via {len(route.hops)} hops in {total_delay:.4f}s"
+        )
 
     def _update_average_latency(self, latency: float) -> None:
         """Update running average latency"""
@@ -794,11 +846,13 @@ class ProtocolEngine:
         else:
             # Exponential moving average
             alpha = 0.1
-            self.statistics["average_latency"] = (alpha * latency) + ((1 - alpha) * current_avg)
+            self.statistics["average_latency"] = (alpha * latency) + (
+                (1 - alpha) * current_avg
+            )
 
-    def register_message_handler(self,
-                                message_type: MessageType,
-                                handler: Callable[[ProtocolMessage], None]) -> None:
+    def register_message_handler(
+        self, message_type: MessageType, handler: Callable[[ProtocolMessage], None]
+    ) -> None:
         """Register a handler for specific message type"""
         if message_type not in self.message_handlers:
             self.message_handlers[message_type] = []
@@ -825,8 +879,10 @@ class ProtocolEngine:
                     except Exception as e:
                         logger.error(f"Message handler error: {e}")
 
-                logger.debug(f"Received message {message.header.message_id} "
-                           f"from {message.header.source_dimension.value}")
+                logger.debug(
+                    f"Received message {message.header.message_id} "
+                    f"from {message.header.source_dimension.value}"
+                )
 
             except Exception as e:
                 logger.error(f"Failed to handle received message: {e}")
@@ -836,7 +892,9 @@ class ProtocolEngine:
         # Check TTL
         age = (datetime.now() - message.header.timestamp).total_seconds()
         if age > message.header.ttl_seconds:
-            raise KimeraValidationError(f"Message expired (age: {age:.1f}s, TTL: {message.header.ttl_seconds}s)")
+            raise KimeraValidationError(
+                f"Message expired (age: {age:.1f}s, TTL: {message.header.ttl_seconds}s)"
+            )
 
         # Verify checksum
         expected_checksum = message._calculate_checksum()
@@ -859,7 +917,7 @@ class ProtocolEngine:
             "registered": True,
             "last_heartbeat": dimension_info["last_heartbeat"],
             "capabilities": dimension_info["capabilities"],
-            "health_metrics": dimension_info["health"].get("metrics", {})
+            "health_metrics": dimension_info["health"].get("metrics", {}),
         }
 
     def get_engine_statistics(self) -> Dict[str, Any]:
@@ -873,26 +931,33 @@ class ProtocolEngine:
                 "sent": self.statistics["messages_sent"],
                 "received": self.statistics["messages_received"],
                 "failed": self.statistics["messages_failed"],
-                "success_rate": 1.0 - (self.statistics["messages_failed"] / max(1, self.statistics["messages_sent"]))
+                "success_rate": 1.0
+                - (
+                    self.statistics["messages_failed"]
+                    / max(1, self.statistics["messages_sent"])
+                ),
             },
             "performance": {
                 "bytes_transferred": self.statistics["bytes_transferred"],
                 "average_latency": self.statistics["average_latency"],
-                "throughput_bytes_per_second": self.statistics["bytes_transferred"] / max(1, uptime)
+                "throughput_bytes_per_second": self.statistics["bytes_transferred"]
+                / max(1, uptime),
             },
             "connections": {
                 "active_connections": len(self.connections),
                 "registered_dimensions": len(self.registry.dimensions),
-                "healthy_dimensions": len(self.registry.get_healthy_dimensions())
+                "healthy_dimensions": len(self.registry.get_healthy_dimensions()),
             },
             "queue_status": {
                 "pending_messages": len(self.pending_messages),
-                "queue_size": self.message_queue.qsize()
+                "queue_size": self.message_queue.qsize(),
             },
-            "registry_status": self.registry.get_registry_status()
+            "registry_status": self.registry.get_registry_status(),
         }
 
-    def get_route_information(self, destination: SystemDimension) -> Optional[Dict[str, Any]]:
+    def get_route_information(
+        self, destination: SystemDimension
+    ) -> Optional[Dict[str, Any]]:
         """Get routing information for specific destination"""
         route = self.router.find_route(self.local_dimension, destination)
 
@@ -904,7 +969,7 @@ class ProtocolEngine:
             "route_hash": route.route_hash,
             "hops": [hop.value for hop in route.hops],
             "performance_metrics": route.performance_metrics,
-            "direct_route": len(route.hops) == 0
+            "direct_route": len(route.hops) == 0,
         }
 
 
@@ -912,12 +977,14 @@ class ProtocolEngine:
 _engines: Dict[SystemDimension, ProtocolEngine] = {}
 _registry: Optional[DimensionRegistry] = None
 
+
 def get_protocol_engine(dimension: SystemDimension) -> ProtocolEngine:
     """Get protocol engine instance for specific dimension"""
     global _engines
     if dimension not in _engines:
         _engines[dimension] = ProtocolEngine(dimension)
     return _engines[dimension]
+
 
 def get_global_registry() -> DimensionRegistry:
     """Get global dimension registry"""

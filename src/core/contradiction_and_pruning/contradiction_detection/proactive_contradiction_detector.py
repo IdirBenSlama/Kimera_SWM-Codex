@@ -18,16 +18,19 @@ References:
 """
 
 from __future__ import annotations
-from typing import List, Dict, Tuple, Optional, Any
+
+import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-import numpy as np
-import logging
 from enum import Enum, auto
+from typing import Any, Dict, List, Optional, Tuple
+
+import numpy as np
 
 # Conditional imports with graceful degradation
 try:
     from sqlalchemy.orm import Session
+
     SQLALCHEMY_AVAILABLE = True
 except ImportError:
     Session = None
@@ -35,25 +38,31 @@ except ImportError:
 
 try:
     from sklearn.cluster import KMeans
+
     SKLEARN_AVAILABLE = True
 except ImportError:
     SKLEARN_AVAILABLE = False
 
 logger = logging.getLogger(__name__)
 
+
 class DetectionStrategy(Enum):
     """Enumeration of available detection strategies."""
+
     CLUSTER_BASED = auto()
     TEMPORAL_ANALYSIS = auto()
     CROSS_TYPE_DETECTION = auto()
     UNDERUTILIZED_ANALYSIS = auto()
 
+
 class HealthStatus(Enum):
     """System health enumeration following aerospace standards."""
+
     OPERATIONAL = auto()
     DEGRADED = auto()
     CRITICAL = auto()
     OFFLINE = auto()
+
 
 def sanitize_for_json(obj: Any) -> Any:
     """
@@ -72,9 +81,10 @@ def sanitize_for_json(obj: Any) -> Any:
         return {k: sanitize_for_json(v) for k, v in obj.items()}
     elif isinstance(obj, list):
         return [sanitize_for_json(item) for item in obj]
-    elif hasattr(obj, '__dict__'):
+    elif hasattr(obj, "__dict__"):
         return {k: sanitize_for_json(v) for k, v in obj.__dict__.items()}
     return obj
+
 
 @dataclass
 class ProactiveDetectionConfig:
@@ -84,6 +94,7 @@ class ProactiveDetectionConfig:
     DO-178C Requirement: All configuration parameters must be
     explicitly defined and validated.
     """
+
     batch_size: int = 50
     similarity_threshold: float = 0.7  # For clustering similar geoids
     scan_interval_hours: int = 6
@@ -101,6 +112,7 @@ class ProactiveDetectionConfig:
         if not 1 <= self.scan_interval_hours <= 168:  # Max 1 week
             raise ValueError("scan_interval_hours must be between 1 and 168")
 
+
 @dataclass
 class TensionGradient:
     """
@@ -109,6 +121,7 @@ class TensionGradient:
     Nuclear Engineering Principle: Positive confirmation of system state
     rather than assumption-based detection.
     """
+
     geoid_a_id: str
     geoid_b_id: str
     tension_score: float
@@ -125,6 +138,7 @@ class TensionGradient:
         if not 0.0 <= self.evidence_strength <= 1.0:
             raise ValueError("evidence_strength must be between 0.0 and 1.0")
 
+
 class GeoidState:
     """
     Simplified Geoid representation for analysis.
@@ -132,9 +146,15 @@ class GeoidState:
     Safety Requirement SR-4.15.2: All geoid states must be
     immutable during analysis to prevent race conditions.
     """
-    def __init__(self, geoid_id: str, semantic_state: Dict,
-                 symbolic_state: Dict, embedding_vector: List[float],
-                 metadata: Dict):
+
+    def __init__(
+        self,
+        geoid_id: str,
+        semantic_state: Dict,
+        symbolic_state: Dict,
+        embedding_vector: List[float],
+        metadata: Dict,
+    ):
         self.geoid_id = geoid_id
         self.semantic_state = semantic_state.copy()  # Defensive copy
         self.symbolic_state = symbolic_state.copy()  # Defensive copy
@@ -146,11 +166,12 @@ class GeoidState:
     def is_valid(self) -> bool:
         """Validate geoid state integrity."""
         return (
-            bool(self.geoid_id) and
-            isinstance(self.semantic_state, dict) and
-            isinstance(self.symbolic_state, dict) and
-            isinstance(self.embedding_vector, list)
+            bool(self.geoid_id)
+            and isinstance(self.semantic_state, dict)
+            and isinstance(self.symbolic_state, dict)
+            and isinstance(self.embedding_vector, list)
         )
+
 
 class ProactiveContradictionDetector:
     """
@@ -174,10 +195,10 @@ class ProactiveContradictionDetector:
         self.last_scan_time: Optional[datetime] = None
         self.health_status = HealthStatus.OPERATIONAL
         self.performance_metrics = {
-            'scans_completed': 0,
-            'tensions_detected': 0,
-            'average_scan_time': 0.0,
-            'errors_encountered': 0
+            "scans_completed": 0,
+            "tensions_detected": 0,
+            "average_scan_time": 0.0,
+            "errors_encountered": 0,
         }
 
         # Initialize optional dependencies with graceful degradation
@@ -185,6 +206,7 @@ class ProactiveContradictionDetector:
         if SQLALCHEMY_AVAILABLE:
             try:
                 from src.engines.contradiction_engine import ContradictionEngine
+
                 self.contradiction_engine = ContradictionEngine(tension_threshold=0.3)
                 logger.info("✅ ContradictionEngine initialized")
             except ImportError:
@@ -202,22 +224,24 @@ class ProactiveContradictionDetector:
         with positive confirmation of operational status.
         """
         return {
-            'status': self.health_status.name,
-            'last_scan': self.last_scan_time.isoformat() if self.last_scan_time else None,
-            'performance_metrics': self.performance_metrics.copy(),
-            'configuration': {
-                'batch_size': self.config.batch_size,
-                'scan_interval': self.config.scan_interval_hours,
-                'strategies_enabled': {
-                    'clustering': self.config.enable_clustering,
-                    'temporal': self.config.enable_temporal_analysis
-                }
+            "status": self.health_status.name,
+            "last_scan": (
+                self.last_scan_time.isoformat() if self.last_scan_time else None
+            ),
+            "performance_metrics": self.performance_metrics.copy(),
+            "configuration": {
+                "batch_size": self.config.batch_size,
+                "scan_interval": self.config.scan_interval_hours,
+                "strategies_enabled": {
+                    "clustering": self.config.enable_clustering,
+                    "temporal": self.config.enable_temporal_analysis,
+                },
             },
-            'dependencies': {
-                'sqlalchemy': SQLALCHEMY_AVAILABLE,
-                'sklearn': SKLEARN_AVAILABLE,
-                'contradiction_engine': self.contradiction_engine is not None
-            }
+            "dependencies": {
+                "sqlalchemy": SQLALCHEMY_AVAILABLE,
+                "sklearn": SKLEARN_AVAILABLE,
+                "contradiction_engine": self.contradiction_engine is not None,
+            },
         }
 
     def should_run_scan(self) -> bool:
@@ -234,9 +258,13 @@ class ProactiveContradictionDetector:
             return True
 
         time_since_last = datetime.now(timezone.utc) - self.last_scan_time
-        return time_since_last.total_seconds() > (self.config.scan_interval_hours * 3600)
+        return time_since_last.total_seconds() > (
+            self.config.scan_interval_hours * 3600
+        )
 
-    def run_proactive_scan(self, geoids: Optional[List[GeoidState]] = None) -> Dict[str, Any]:
+    def run_proactive_scan(
+        self, geoids: Optional[List[GeoidState]] = None
+    ) -> Dict[str, Any]:
         """
         Run a comprehensive proactive contradiction scan.
 
@@ -254,7 +282,10 @@ class ProactiveContradictionDetector:
             return {
                 "status": "skipped",
                 "reason": "scan_interval_not_met",
-                "next_scan_time": (self.last_scan_time + timedelta(hours=self.config.scan_interval_hours)).isoformat()
+                "next_scan_time": (
+                    self.last_scan_time
+                    + timedelta(hours=self.config.scan_interval_hours)
+                ).isoformat(),
             }
 
         scan_start = datetime.now(timezone.utc)
@@ -268,7 +299,7 @@ class ProactiveContradictionDetector:
             "geoids_scanned": 0,
             "potential_scars": 0,
             "strategies_used": [],
-            "health_status": self.health_status.name
+            "health_status": self.health_status.name,
         }
 
         try:
@@ -288,7 +319,9 @@ class ProactiveContradictionDetector:
                 return {
                     "status": "insufficient_data",
                     "geoids_found": len(valid_geoids),
-                    "scan_duration": (datetime.now(timezone.utc) - scan_start).total_seconds()
+                    "scan_duration": (
+                        datetime.now(timezone.utc) - scan_start
+                    ).total_seconds(),
                 }
 
             # Strategy 1: Cluster-based analysis
@@ -299,44 +332,57 @@ class ProactiveContradictionDetector:
 
             # Strategy 2: Temporal pattern analysis
             if self.config.enable_temporal_analysis:
-                temporal_tensions = self._analyze_temporal_patterns(valid_geoids, results)
+                temporal_tensions = self._analyze_temporal_patterns(
+                    valid_geoids, results
+                )
                 results["tensions_found"].extend(temporal_tensions)
                 results["strategies_used"].append("temporal_analysis")
 
             # Strategy 3: Cross-type contradiction detection
-            cross_type_tensions = self._analyze_cross_type_contradictions(valid_geoids, results)
+            cross_type_tensions = self._analyze_cross_type_contradictions(
+                valid_geoids, results
+            )
             results["tensions_found"].extend(cross_type_tensions)
             results["strategies_used"].append("cross_type_detection")
 
             # Strategy 4: Underutilized geoid analysis
-            underutilized_tensions = self._analyze_underutilized_geoids(valid_geoids, results)
+            underutilized_tensions = self._analyze_underutilized_geoids(
+                valid_geoids, results
+            )
             results["tensions_found"].extend(underutilized_tensions)
             results["strategies_used"].append("underutilized_analysis")
 
             # Update performance metrics
-            self.performance_metrics['scans_completed'] += 1
-            self.performance_metrics['tensions_detected'] += len(results["tensions_found"])
+            self.performance_metrics["scans_completed"] += 1
+            self.performance_metrics["tensions_detected"] += len(
+                results["tensions_found"]
+            )
 
             scan_duration = (datetime.now(timezone.utc) - scan_start).total_seconds()
-            self.performance_metrics['average_scan_time'] = (
-                (self.performance_metrics['average_scan_time'] * (self.performance_metrics['scans_completed'] - 1) + scan_duration) /
-                self.performance_metrics['scans_completed']
-            )
+            self.performance_metrics["average_scan_time"] = (
+                self.performance_metrics["average_scan_time"]
+                * (self.performance_metrics["scans_completed"] - 1)
+                + scan_duration
+            ) / self.performance_metrics["scans_completed"]
 
             self.last_scan_time = scan_start
             results["scan_duration"] = scan_duration
             results["potential_scars"] = len(results["tensions_found"])
             results["status"] = "completed"
 
-            logger.info(f"✅ Scan completed: {len(results['tensions_found'])} tensions found in {scan_duration:.2f}s")
+            logger.info(
+                f"✅ Scan completed: {len(results['tensions_found'])} tensions found in {scan_duration:.2f}s"
+            )
 
         except Exception as e:
-            self.performance_metrics['errors_encountered'] += 1
+            self.performance_metrics["errors_encountered"] += 1
             self.health_status = HealthStatus.DEGRADED
             logger.error(f"❌ Scan failed: {e}")
             results["status"] = "error"
             results["error"] = str(e)
-            results["scan_duration"] = (datetime.now(timezone.utc) - scan_start).total_seconds()
+            results["scan_duration"] = (
+                datetime.now(timezone.utc) - scan_start
+            ).total_seconds()
 
         # Sanitize all numpy types for JSON serialization
         return sanitize_for_json(results)
@@ -354,7 +400,7 @@ class ProactiveContradictionDetector:
 
         try:
             # Dynamic import to avoid circular dependencies
-            from src.vault.database import SessionLocal, GeoidDB
+            from src.vault.database import GeoidDB, SessionLocal
 
             with SessionLocal() as db:
                 geoid_rows = db.query(GeoidDB).limit(self.config.batch_size * 2).all()
@@ -366,8 +412,12 @@ class ProactiveContradictionDetector:
                             geoid_id=row.geoid_id,
                             semantic_state=row.semantic_state_json or {},
                             symbolic_state=row.symbolic_state or {},
-                            embedding_vector=row.semantic_vector if row.semantic_vector is not None else [],
-                            metadata=row.metadata_json or {}
+                            embedding_vector=(
+                                row.semantic_vector
+                                if row.semantic_vector is not None
+                                else []
+                            ),
+                            metadata=row.metadata_json or {},
                         )
                         geoids.append(geoid)
                     except Exception as e:
@@ -389,12 +439,17 @@ class ProactiveContradictionDetector:
                 semantic_state={"content": f"mock content {i}", "domain": "test"},
                 symbolic_state={"symbols": [f"symbol_{i}"]},
                 embedding_vector=[float(j) for j in range(10)],  # Simple vector
-                metadata={"created": datetime.now(timezone.utc).isoformat(), "mock": True}
+                metadata={
+                    "created": datetime.now(timezone.utc).isoformat(),
+                    "mock": True,
+                },
             )
             mock_geoids.append(geoid)
         return mock_geoids
 
-    def _analyze_clusters(self, geoids: List[GeoidState], results: Dict) -> List[TensionGradient]:
+    def _analyze_clusters(
+        self, geoids: List[GeoidState], results: Dict
+    ) -> List[TensionGradient]:
         """
         Analyze geoids in semantic clusters for contradictions.
 
@@ -435,18 +490,28 @@ class ProactiveContradictionDetector:
 
             # Analyze contradictions within clusters
             for cluster_id in range(n_clusters):
-                cluster_geoids = [valid_geoids[i] for i, label in enumerate(cluster_labels) if label == cluster_id]
+                cluster_geoids = [
+                    valid_geoids[i]
+                    for i, label in enumerate(cluster_labels)
+                    if label == cluster_id
+                ]
                 if len(cluster_geoids) >= 2:
-                    cluster_tensions = self._find_contradictions_in_cluster(cluster_geoids)
+                    cluster_tensions = self._find_contradictions_in_cluster(
+                        cluster_geoids
+                    )
                     tensions.extend(cluster_tensions)
-                    results["comparisons_made"] += len(cluster_geoids) * (len(cluster_geoids) - 1) // 2
+                    results["comparisons_made"] += (
+                        len(cluster_geoids) * (len(cluster_geoids) - 1) // 2
+                    )
 
         except Exception as e:
             logger.error(f"❌ Clustering analysis failed: {e}")
 
         return tensions
 
-    def _find_contradictions_in_cluster(self, cluster_geoids: List[GeoidState]) -> List[TensionGradient]:
+    def _find_contradictions_in_cluster(
+        self, cluster_geoids: List[GeoidState]
+    ) -> List[TensionGradient]:
         """Find contradictions within a semantic cluster."""
         tensions = []
 
@@ -470,15 +535,17 @@ class ProactiveContradictionDetector:
                             "cluster_similarity": True,
                             "semantic_domains": [
                                 geoid_a.semantic_state.get("domain", "unknown"),
-                                geoid_b.semantic_state.get("domain", "unknown")
-                            ]
-                        }
+                                geoid_b.semantic_state.get("domain", "unknown"),
+                            ],
+                        },
                     )
                     tensions.append(tension)
 
         return tensions
 
-    def _calculate_semantic_tension(self, geoid_a: GeoidState, geoid_b: GeoidState) -> float:
+    def _calculate_semantic_tension(
+        self, geoid_a: GeoidState, geoid_b: GeoidState
+    ) -> float:
         """
         Calculate semantic tension between two geoids.
 
@@ -513,8 +580,12 @@ class ProactiveContradictionDetector:
 
             if content_a and content_b:
                 # Simple string-based tension
-                common_words = len(set(content_a.lower().split()) & set(content_b.lower().split()))
-                total_words = len(set(content_a.lower().split()) | set(content_b.lower().split()))
+                common_words = len(
+                    set(content_a.lower().split()) & set(content_b.lower().split())
+                )
+                total_words = len(
+                    set(content_a.lower().split()) | set(content_b.lower().split())
+                )
 
                 if total_words > 0:
                     similarity = common_words / total_words
@@ -527,7 +598,9 @@ class ProactiveContradictionDetector:
             logger.debug(f"Tension calculation error: {e}")
             return 0.5  # Conservative fallback
 
-    def _analyze_temporal_patterns(self, geoids: List[GeoidState], results: Dict) -> List[TensionGradient]:
+    def _analyze_temporal_patterns(
+        self, geoids: List[GeoidState], results: Dict
+    ) -> List[TensionGradient]:
         """Analyze temporal patterns for contradiction detection."""
         tensions = []
 
@@ -550,7 +623,9 @@ class ProactiveContradictionDetector:
                             geoid_a, geoid_b = group_geoids[i], group_geoids[j]
 
                             # Temporal contradiction detection
-                            tension_score = self._calculate_temporal_tension(geoid_a, geoid_b)
+                            tension_score = self._calculate_temporal_tension(
+                                geoid_a, geoid_b
+                            )
 
                             if tension_score > 0.6:  # Higher threshold for temporal
                                 tension = TensionGradient(
@@ -563,8 +638,13 @@ class ProactiveContradictionDetector:
                                     timestamp=datetime.now(timezone.utc),
                                     metadata={
                                         "time_group": hour,
-                                        "temporal_distance": abs((geoid_a._creation_time - geoid_b._creation_time).total_seconds())
-                                    }
+                                        "temporal_distance": abs(
+                                            (
+                                                geoid_a._creation_time
+                                                - geoid_b._creation_time
+                                            ).total_seconds()
+                                        ),
+                                    },
                                 )
                                 tensions.append(tension)
                                 results["comparisons_made"] += 1
@@ -574,11 +654,15 @@ class ProactiveContradictionDetector:
 
         return tensions
 
-    def _calculate_temporal_tension(self, geoid_a: GeoidState, geoid_b: GeoidState) -> float:
+    def _calculate_temporal_tension(
+        self, geoid_a: GeoidState, geoid_b: GeoidState
+    ) -> float:
         """Calculate temporal-based tension between geoids."""
         try:
             # Time-based patterns
-            time_diff = abs((geoid_a._creation_time - geoid_b._creation_time).total_seconds())
+            time_diff = abs(
+                (geoid_a._creation_time - geoid_b._creation_time).total_seconds()
+            )
 
             # If very close in time but semantically different, higher tension
             if time_diff < 300:  # 5 minutes
@@ -591,7 +675,9 @@ class ProactiveContradictionDetector:
         except Exception:
             return 0.3  # Conservative fallback
 
-    def _analyze_cross_type_contradictions(self, geoids: List[GeoidState], results: Dict) -> List[TensionGradient]:
+    def _analyze_cross_type_contradictions(
+        self, geoids: List[GeoidState], results: Dict
+    ) -> List[TensionGradient]:
         """Analyze contradictions across different geoid types."""
         tensions = []
 
@@ -612,12 +698,14 @@ class ProactiveContradictionDetector:
                     group_a, group_b = domain_groups[domain_a], domain_groups[domain_b]
 
                     # Sample from each group for analysis
-                    sample_a = group_a[:min(3, len(group_a))]
-                    sample_b = group_b[:min(3, len(group_b))]
+                    sample_a = group_a[: min(3, len(group_a))]
+                    sample_b = group_b[: min(3, len(group_b))]
 
                     for geoid_a in sample_a:
                         for geoid_b in sample_b:
-                            tension_score = self._calculate_cross_domain_tension(geoid_a, geoid_b)
+                            tension_score = self._calculate_cross_domain_tension(
+                                geoid_a, geoid_b
+                            )
 
                             if tension_score > 0.7:
                                 tension = TensionGradient(
@@ -631,8 +719,8 @@ class ProactiveContradictionDetector:
                                     metadata={
                                         "domain_a": domain_a,
                                         "domain_b": domain_b,
-                                        "cross_domain": True
-                                    }
+                                        "cross_domain": True,
+                                    },
                                 )
                                 tensions.append(tension)
                                 results["comparisons_made"] += 1
@@ -642,7 +730,9 @@ class ProactiveContradictionDetector:
 
         return tensions
 
-    def _calculate_cross_domain_tension(self, geoid_a: GeoidState, geoid_b: GeoidState) -> float:
+    def _calculate_cross_domain_tension(
+        self, geoid_a: GeoidState, geoid_b: GeoidState
+    ) -> float:
         """Calculate tension between geoids from different domains."""
         try:
             base_tension = self._calculate_semantic_tension(geoid_a, geoid_b)
@@ -659,7 +749,9 @@ class ProactiveContradictionDetector:
         except Exception:
             return 0.4  # Conservative fallback
 
-    def _analyze_underutilized_geoids(self, geoids: List[GeoidState], results: Dict) -> List[TensionGradient]:
+    def _analyze_underutilized_geoids(
+        self, geoids: List[GeoidState], results: Dict
+    ) -> List[TensionGradient]:
         """Analyze underutilized geoids for potential SCAR formation."""
         tensions = []
 
@@ -673,12 +765,16 @@ class ProactiveContradictionDetector:
 
             # Find potential pairs for SCAR formation
             for i in range(len(underutilized)):
-                for j in range(i + 1, min(i + 5, len(underutilized))):  # Limit comparisons
+                for j in range(
+                    i + 1, min(i + 5, len(underutilized))
+                ):  # Limit comparisons
                     geoid_a, score_a = underutilized[i]
                     geoid_b, score_b = underutilized[j]
 
                     # Calculate complementary potential
-                    tension_score = self._calculate_underutilization_tension(geoid_a, geoid_b, score_a, score_b)
+                    tension_score = self._calculate_underutilization_tension(
+                        geoid_a, geoid_b, score_a, score_b
+                    )
 
                     if tension_score > 0.5:
                         tension = TensionGradient(
@@ -692,8 +788,8 @@ class ProactiveContradictionDetector:
                             metadata={
                                 "utilization_a": score_a,
                                 "utilization_b": score_b,
-                                "underutilized": True
-                            }
+                                "underutilized": True,
+                            },
                         )
                         tensions.append(tension)
                         results["comparisons_made"] += 1
@@ -713,7 +809,9 @@ class ProactiveContradictionDetector:
 
             # Recent access patterns
             if metadata.get("last_accessed"):
-                last_access = datetime.fromisoformat(metadata["last_accessed"].replace('Z', '+00:00'))
+                last_access = datetime.fromisoformat(
+                    metadata["last_accessed"].replace("Z", "+00:00")
+                )
                 days_since_access = (datetime.now(timezone.utc) - last_access).days
                 score += max(0.0, 1.0 - days_since_access / 30.0) * 0.4
 
@@ -730,8 +828,9 @@ class ProactiveContradictionDetector:
         except Exception:
             return 0.2  # Conservative default
 
-    def _calculate_underutilization_tension(self, geoid_a: GeoidState, geoid_b: GeoidState,
-                                          score_a: float, score_b: float) -> float:
+    def _calculate_underutilization_tension(
+        self, geoid_a: GeoidState, geoid_b: GeoidState, score_a: float, score_b: float
+    ) -> float:
         """Calculate tension score for underutilized geoid pairs."""
         try:
             # Base semantic tension
@@ -748,7 +847,10 @@ class ProactiveContradictionDetector:
         except Exception:
             return 0.3  # Conservative fallback
 
-def create_proactive_contradiction_detector(config: Optional[ProactiveDetectionConfig] = None) -> ProactiveContradictionDetector:
+
+def create_proactive_contradiction_detector(
+    config: Optional[ProactiveDetectionConfig] = None,
+) -> ProactiveContradictionDetector:
     """
     Factory function for creating detector instances.
 
@@ -763,13 +865,14 @@ def create_proactive_contradiction_detector(config: Optional[ProactiveDetectionC
         logger.error(f"❌ Failed to create detector: {e}")
         raise
 
+
 # Export safety-critical components
 __all__ = [
-    'ProactiveContradictionDetector',
-    'ProactiveDetectionConfig',
-    'TensionGradient',
-    'GeoidState',
-    'DetectionStrategy',
-    'HealthStatus',
-    'create_proactive_contradiction_detector'
+    "ProactiveContradictionDetector",
+    "ProactiveDetectionConfig",
+    "TensionGradient",
+    "GeoidState",
+    "DetectionStrategy",
+    "HealthStatus",
+    "create_proactive_contradiction_detector",
 ]

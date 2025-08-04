@@ -8,10 +8,12 @@ by reusing pre-allocated memory blocks.
 """
 
 from __future__ import annotations
-import cupy as cp
+
 import logging
-from typing import Dict, List, Optional, Any
 from threading import Lock
+from typing import Any, Dict, List, Optional
+
+import cupy as cp
 
 # Configuration Management
 try:
@@ -26,6 +28,8 @@ except ImportError:
             # Emergency fallback
             def get_api_settings():
                 return {"gpu": {"memory_limit": 8192}}
+
+
 try:
     from src.config.settings import get_settings
 except ImportError:
@@ -39,7 +43,9 @@ except ImportError:
             def get_settings():
                 return {"gpu": {"enabled": False}}
 
+
 logger = logging.getLogger(__name__)
+
 
 class TCSignalMemoryPool:
     """
@@ -51,7 +57,13 @@ class TCSignalMemoryPool:
     When memory is no longer needed, it's returned to the pool instead of being
     freed, making it instantly available for the next request of the same size.
     """
-    def __init__(self, initial_blocks: int = 10, block_size: int = 1024 * 1024 * 32, device_id: int = 0):
+
+    def __init__(
+        self,
+        initial_blocks: int = 10,
+        block_size: int = 1024 * 1024 * 32,
+        device_id: int = 0,
+    ):
         """
         Initializes the memory pool.
 
@@ -74,12 +86,16 @@ class TCSignalMemoryPool:
 
         # Check CUDA availability
         if not cp.cuda.is_available():
-            raise RuntimeError("CUDA is not available - GPU memory pool cannot be initialized")
+            raise RuntimeError(
+                "CUDA is not available - GPU memory pool cannot be initialized"
+            )
 
         # Validate device ID
         num_devices = cp.cuda.runtime.getDeviceCount()
         if device_id >= num_devices:
-            raise ValueError(f"Invalid device ID {device_id}. Available devices: 0-{num_devices-1}")
+            raise ValueError(
+                f"Invalid device ID {device_id}. Available devices: 0-{num_devices-1}"
+            )
 
         self.device_id = device_id
         self.block_size = block_size
@@ -88,18 +104,30 @@ class TCSignalMemoryPool:
         try:
             with cp.cuda.Device(device_id):
                 # Log device information
-                device_name = cp.cuda.runtime.getDeviceProperties(device_id)['name'].decode()
+                device_name = cp.cuda.runtime.getDeviceProperties(device_id)[
+                    "name"
+                ].decode()
                 free_memory, total_memory = cp.cuda.runtime.memGetInfo()
-                logger.info(f"🖥️ GPU Memory Pool: Initializing on {device_name} (Device {device_id})")
-                logger.info(f"   GPU Memory: {free_memory / 1024**3:.1f}GB free / {total_memory / 1024**3:.1f}GB total")
+                logger.info(
+                    f"🖥️ GPU Memory Pool: Initializing on {device_name} (Device {device_id})"
+                )
+                logger.info(
+                    f"   GPU Memory: {free_memory / 1024**3:.1f}GB free / {total_memory / 1024**3:.1f}GB total"
+                )
 
-                self.pool: Dict[int, List[cp.ndarray]] = {} # size -> list of available blocks
+                self.pool: Dict[int, List[cp.ndarray]] = (
+                    {}
+                )  # size -> list of available blocks
                 self._preallocate_blocks(initial_blocks, block_size)
 
-                logger.info(f"🧠 TCSignalMemoryPool initialized on device {device_id} with {initial_blocks} blocks of {block_size // 1024**2}MB.")
+                logger.info(
+                    f"🧠 TCSignalMemoryPool initialized on device {device_id} with {initial_blocks} blocks of {block_size // 1024**2}MB."
+                )
 
         except cp.cuda.runtime.CudaError as e:
-            logger.error(f"Failed to initialize GPU memory pool on device {device_id}: {e}")
+            logger.error(
+                f"Failed to initialize GPU memory pool on device {device_id}: {e}"
+            )
             raise RuntimeError(f"GPU memory pool initialization failed: {e}") from e
 
     def _preallocate_blocks(self, num_blocks: int, size: int):
@@ -111,7 +139,9 @@ class TCSignalMemoryPool:
                 block = cp.empty(size, dtype=cp.uint8)
                 self.pool[size].append(block)
         except cp.cuda.runtime.CudaError as e:
-            logger.error(f"Failed to pre-allocate {num_blocks} blocks of size {size}: {e}")
+            logger.error(
+                f"Failed to pre-allocate {num_blocks} blocks of size {size}: {e}"
+            )
             raise
 
     def get_block(self, size: int) -> Optional[cp.ndarray]:
@@ -137,7 +167,9 @@ class TCSignalMemoryPool:
                     block = cp.empty(size, dtype=cp.uint8)
                     return block
                 except cp.cuda.runtime.CudaError as e:
-                    logger.critical(f"Failed to allocate new GPU memory block of size {size}: {e}")
+                    logger.critical(
+                        f"Failed to allocate new GPU memory block of size {size}: {e}"
+                    )
                     return None
 
     def release_block(self, block: cp.ndarray):
@@ -161,7 +193,7 @@ class TCSignalMemoryPool:
             stats = {
                 "total_blocks": 0,
                 "total_pooled_memory_mb": 0,
-                "pool_breakdown": {}
+                "pool_breakdown": {},
             }
             for size, blocks in self.pool.items():
                 num_blocks = len(blocks)

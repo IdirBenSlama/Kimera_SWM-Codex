@@ -14,20 +14,24 @@ Safety Requirements: SR-4.21.1 through SR-4.21.12
 """
 
 from __future__ import annotations
-import logging
+
 import asyncio
-import time
 import json
-from pathlib import Path
-from typing import Dict, Any, Optional, List, Tuple
+import logging
+import time
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple
+
 import numpy as np
 
 logger = logging.getLogger(__name__)
 
+
 @dataclass
 class SymbolicAnalysis:
     """Symbolic analysis result with formal verification."""
+
     dominant_theme: Optional[str]
     archetype: Optional[str]
     paradox: Optional[str]
@@ -40,21 +44,28 @@ class SymbolicAnalysis:
 
     def __post_init__(self):
         """Validate symbolic analysis result."""
-        assert 0.0 <= self.symbolic_complexity <= 1.0, "Symbolic complexity must be in [0,1]"
-        assert 0.0 <= self.archetypal_resonance <= 1.0, "Archetypal resonance must be in [0,1]"
+        assert (
+            0.0 <= self.symbolic_complexity <= 1.0
+        ), "Symbolic complexity must be in [0,1]"
+        assert (
+            0.0 <= self.archetypal_resonance <= 1.0
+        ), "Archetypal resonance must be in [0,1]"
         assert 0.0 <= self.paradox_strength <= 1.0, "Paradox strength must be in [0,1]"
         assert 0.0 <= self.confidence <= 1.0, "Confidence must be in [0,1]"
         assert self.processing_time >= 0.0, "Processing time must be non-negative"
 
+
 @dataclass
 class GeoidMosaic:
     """Enhanced GeoidMosaic for symbolic processing."""
+
     source_ids: List[str]
     combined_features: Dict[str, Any]
     synthesis_cost: float
     archetype: Optional[str] = None
     paradox: Optional[str] = None
     symbolic_enrichment: Optional[Dict[str, Any]] = None
+
 
 class SymbolicProcessor:
     """
@@ -115,39 +126,87 @@ class SymbolicProcessor:
             "creator": {
                 "archetype": "The Creator - Divine architect of reality",
                 "paradox": "Creation from void - something from nothing",
-                "keywords": ["create", "build", "make", "design", "construct", "form", "generate"],
-                "resonance_strength": 0.9
+                "keywords": [
+                    "create",
+                    "build",
+                    "make",
+                    "design",
+                    "construct",
+                    "form",
+                    "generate",
+                ],
+                "resonance_strength": 0.9,
             },
             "explorer": {
                 "archetype": "The Explorer - Seeker of hidden truths",
                 "paradox": "Journey without destination - seeking the unfindable",
-                "keywords": ["explore", "discover", "seek", "find", "journey", "search", "investigate"],
-                "resonance_strength": 0.8
+                "keywords": [
+                    "explore",
+                    "discover",
+                    "seek",
+                    "find",
+                    "journey",
+                    "search",
+                    "investigate",
+                ],
+                "resonance_strength": 0.8,
             },
             "sage": {
                 "archetype": "The Sage - Keeper of ancient wisdom",
                 "paradox": "Knowledge of unknowing - wisdom through ignorance",
-                "keywords": ["wisdom", "knowledge", "understand", "teach", "learn", "insight", "truth"],
-                "resonance_strength": 0.85
+                "keywords": [
+                    "wisdom",
+                    "knowledge",
+                    "understand",
+                    "teach",
+                    "learn",
+                    "insight",
+                    "truth",
+                ],
+                "resonance_strength": 0.85,
             },
             "warrior": {
                 "archetype": "The Warrior - Guardian of principles",
                 "paradox": "Victory through surrender - strength in vulnerability",
-                "keywords": ["fight", "defend", "protect", "battle", "courage", "strength", "victory"],
-                "resonance_strength": 0.7
+                "keywords": [
+                    "fight",
+                    "defend",
+                    "protect",
+                    "battle",
+                    "courage",
+                    "strength",
+                    "victory",
+                ],
+                "resonance_strength": 0.7,
             },
             "healer": {
                 "archetype": "The Healer - Restorer of wholeness",
                 "paradox": "Healing through wounding - growth through pain",
-                "keywords": ["heal", "restore", "cure", "mend", "fix", "recover", "wellness"],
-                "resonance_strength": 0.8
+                "keywords": [
+                    "heal",
+                    "restore",
+                    "cure",
+                    "mend",
+                    "fix",
+                    "recover",
+                    "wellness",
+                ],
+                "resonance_strength": 0.8,
             },
             "lover": {
                 "archetype": "The Lover - Bridge between hearts",
                 "paradox": "Unity through separation - connection via distance",
-                "keywords": ["love", "connection", "unity", "passion", "beauty", "harmony", "devotion"],
-                "resonance_strength": 0.75
-            }
+                "keywords": [
+                    "love",
+                    "connection",
+                    "unity",
+                    "passion",
+                    "beauty",
+                    "harmony",
+                    "devotion",
+                ],
+                "resonance_strength": 0.75,
+            },
         }
 
     async def _load_paradox_patterns(self) -> Dict[str, Any]:
@@ -156,45 +215,139 @@ class SymbolicProcessor:
             "temporal_paradox": {
                 "pattern": ["time", "past", "future", "now", "eternal", "moment"],
                 "strength_multiplier": 0.9,
-                "description": "Temporal contradictions and time-based paradoxes"
+                "description": "Temporal contradictions and time-based paradoxes",
             },
             "logical_paradox": {
-                "pattern": ["true", "false", "both", "neither", "impossible", "contradiction"],
+                "pattern": [
+                    "true",
+                    "false",
+                    "both",
+                    "neither",
+                    "impossible",
+                    "contradiction",
+                ],
                 "strength_multiplier": 0.8,
-                "description": "Logical contradictions and reasoning paradoxes"
+                "description": "Logical contradictions and reasoning paradoxes",
             },
             "existence_paradox": {
                 "pattern": ["being", "nothing", "exist", "void", "reality", "illusion"],
                 "strength_multiplier": 0.85,
-                "description": "Ontological and existential paradoxes"
+                "description": "Ontological and existential paradoxes",
             },
             "knowledge_paradox": {
-                "pattern": ["know", "unknown", "ignorance", "wisdom", "mystery", "revelation"],
+                "pattern": [
+                    "know",
+                    "unknown",
+                    "ignorance",
+                    "wisdom",
+                    "mystery",
+                    "revelation",
+                ],
                 "strength_multiplier": 0.7,
-                "description": "Epistemological paradoxes and knowledge contradictions"
-            }
+                "description": "Epistemological paradoxes and knowledge contradictions",
+            },
         }
 
     async def _load_thematic_keywords(self) -> Dict[str, List[str]]:
         """Load thematic keyword mappings."""
         return {
-            "creation": ["create", "make", "build", "form", "generate", "construct", "design"],
-            "destruction": ["destroy", "break", "end", "demolish", "ruin", "collapse", "dissolve"],
-            "transformation": ["change", "transform", "evolve", "metamorphosis", "shift", "convert"],
-            "connection": ["connect", "link", "unite", "bond", "join", "merge", "integrate"],
-            "separation": ["separate", "divide", "split", "disconnect", "isolate", "fragment"],
-            "growth": ["grow", "expand", "develop", "flourish", "bloom", "increase", "advance"],
-            "decay": ["decay", "deteriorate", "decline", "degrade", "diminish", "wither"],
-            "mystery": ["mystery", "unknown", "hidden", "secret", "enigma", "puzzle", "riddle"],
-            "revelation": ["reveal", "discover", "uncover", "expose", "illuminate", "show"],
-            "chaos": ["chaos", "disorder", "confusion", "turbulence", "randomness", "entropy"],
-            "order": ["order", "structure", "pattern", "organization", "harmony", "system"]
+            "creation": [
+                "create",
+                "make",
+                "build",
+                "form",
+                "generate",
+                "construct",
+                "design",
+            ],
+            "destruction": [
+                "destroy",
+                "break",
+                "end",
+                "demolish",
+                "ruin",
+                "collapse",
+                "dissolve",
+            ],
+            "transformation": [
+                "change",
+                "transform",
+                "evolve",
+                "metamorphosis",
+                "shift",
+                "convert",
+            ],
+            "connection": [
+                "connect",
+                "link",
+                "unite",
+                "bond",
+                "join",
+                "merge",
+                "integrate",
+            ],
+            "separation": [
+                "separate",
+                "divide",
+                "split",
+                "disconnect",
+                "isolate",
+                "fragment",
+            ],
+            "growth": [
+                "grow",
+                "expand",
+                "develop",
+                "flourish",
+                "bloom",
+                "increase",
+                "advance",
+            ],
+            "decay": [
+                "decay",
+                "deteriorate",
+                "decline",
+                "degrade",
+                "diminish",
+                "wither",
+            ],
+            "mystery": [
+                "mystery",
+                "unknown",
+                "hidden",
+                "secret",
+                "enigma",
+                "puzzle",
+                "riddle",
+            ],
+            "revelation": [
+                "reveal",
+                "discover",
+                "uncover",
+                "expose",
+                "illuminate",
+                "show",
+            ],
+            "chaos": [
+                "chaos",
+                "disorder",
+                "confusion",
+                "turbulence",
+                "randomness",
+                "entropy",
+            ],
+            "order": [
+                "order",
+                "structure",
+                "pattern",
+                "organization",
+                "harmony",
+                "system",
+            ],
         }
 
     async def analyze_symbolic_content(
-        self,
-        content: Any,
-        context: Optional[str] = None
+        self, content: Any, context: Optional[str] = None
     ) -> SymbolicAnalysis:
         """
         Analyze symbolic content with aerospace-grade safety validation.
@@ -221,7 +374,9 @@ class SymbolicProcessor:
             thematic_keywords = await self._extract_thematic_keywords(content_text)
 
             # Archetypal mapping
-            archetype, archetypal_resonance = await self._map_archetype(content_text, dominant_theme)
+            archetype, archetypal_resonance = await self._map_archetype(
+                content_text, dominant_theme
+            )
 
             # Paradox identification
             paradox, paradox_strength = await self._identify_paradox(content_text)
@@ -240,7 +395,9 @@ class SymbolicProcessor:
 
             # Safety validation: processing time check
             if processing_time > self._max_processing_time:
-                logger.warning(f"⚠️ Processing time {processing_time:.2f}s exceeds limit")
+                logger.warning(
+                    f"⚠️ Processing time {processing_time:.2f}s exceeds limit"
+                )
 
             analysis = SymbolicAnalysis(
                 dominant_theme=dominant_theme,
@@ -251,7 +408,7 @@ class SymbolicProcessor:
                 archetypal_resonance=archetypal_resonance,
                 paradox_strength=paradox_strength,
                 processing_time=processing_time,
-                confidence=confidence
+                confidence=confidence,
             )
 
             # Update performance metrics
@@ -272,10 +429,10 @@ class SymbolicProcessor:
             return content
         elif isinstance(content, dict):
             return json.dumps(content, indent=2)
-        elif hasattr(content, 'combined_features'):
+        elif hasattr(content, "combined_features"):
             # GeoidMosaic or similar structure
             return json.dumps(content.combined_features, indent=2)
-        elif hasattr(content, '__dict__'):
+        elif hasattr(content, "__dict__"):
             return json.dumps(content.__dict__, indent=2)
         else:
             return str(content)
@@ -308,7 +465,9 @@ class SymbolicProcessor:
 
         return found_keywords
 
-    async def _map_archetype(self, content_text: str, dominant_theme: Optional[str]) -> Tuple[Optional[str], float]:
+    async def _map_archetype(
+        self, content_text: str, dominant_theme: Optional[str]
+    ) -> Tuple[Optional[str], float]:
         """Map content to archetypal patterns."""
         content_lower = content_text.lower()
         archetype_scores = {}
@@ -365,7 +524,7 @@ class SymbolicProcessor:
         content_text: str,
         thematic_keywords: List[str],
         archetypal_resonance: float,
-        paradox_strength: float
+        paradox_strength: float,
     ) -> float:
         """Calculate symbolic complexity score."""
         # Base complexity from content diversity
@@ -378,10 +537,10 @@ class SymbolicProcessor:
 
         # Combined complexity
         complexity = (
-            0.4 * word_diversity +
-            0.3 * thematic_complexity +
-            0.2 * archetypal_resonance +
-            0.1 * paradox_strength
+            0.4 * word_diversity
+            + 0.3 * thematic_complexity
+            + 0.2 * archetypal_resonance
+            + 0.1 * paradox_strength
         )
 
         return max(0.0, min(complexity, 1.0))
@@ -391,7 +550,7 @@ class SymbolicProcessor:
         dominant_theme: Optional[str],
         archetype: Optional[str],
         paradox: Optional[str],
-        keyword_count: int
+        keyword_count: int,
     ) -> float:
         """Calculate analysis confidence."""
         # Base confidence factors
@@ -401,7 +560,12 @@ class SymbolicProcessor:
         keyword_confidence = min(keyword_count / 10.0, 0.3)
 
         # Combined confidence
-        confidence = theme_confidence + archetype_confidence + paradox_confidence + keyword_confidence
+        confidence = (
+            theme_confidence
+            + archetype_confidence
+            + paradox_confidence
+            + keyword_confidence
+        )
 
         # Ensure minimum confidence for any processing
         return max(0.1, min(confidence, 1.0))
@@ -421,10 +585,12 @@ class SymbolicProcessor:
                 "symbolic_complexity": analysis.symbolic_complexity,
                 "archetypal_resonance": analysis.archetypal_resonance,
                 "paradox_strength": analysis.paradox_strength,
-                "confidence": analysis.confidence
+                "confidence": analysis.confidence,
             }
 
-            logger.debug(f"🎭 GeoidMosaic enriched: theme={analysis.dominant_theme}, archetype={analysis.archetype}")
+            logger.debug(
+                f"🎭 GeoidMosaic enriched: theme={analysis.dominant_theme}, archetype={analysis.archetype}"
+            )
             return mosaic
 
         except Exception as e:
@@ -433,11 +599,11 @@ class SymbolicProcessor:
 
     def get_health_metrics(self) -> Dict[str, Any]:
         """Get processor health metrics."""
-        avg_processing_time = (
-            self._total_processing_time / max(self._analysis_count, 1)
-        )
+        avg_processing_time = self._total_processing_time / max(self._analysis_count, 1)
 
-        error_rate = self._error_count / max(self._analysis_count + self._error_count, 1)
+        error_rate = self._error_count / max(
+            self._analysis_count + self._error_count, 1
+        )
 
         return {
             "initialized": self._initialized,
@@ -450,8 +616,8 @@ class SymbolicProcessor:
             "knowledge_bases": {
                 "archetypes": len(self._archetypes),
                 "paradox_patterns": len(self._paradox_patterns),
-                "thematic_keywords": len(self._thematic_keywords)
-            }
+                "thematic_keywords": len(self._thematic_keywords),
+            },
         }
 
     async def shutdown(self) -> None:

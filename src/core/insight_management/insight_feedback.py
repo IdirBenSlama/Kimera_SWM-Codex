@@ -11,28 +11,36 @@ can be exercised by the existing test-suite without introducing new storage
 requirements.  Repositories that require persistence can inject a subclass of
 `BaseFeedbackStore` later.
 """
+
 from __future__ import annotations
 
+import logging
 from dataclasses import dataclass, field
 from enum import Enum
 from statistics import mean
-from typing import Dict, List, Protocol, Any
+from typing import Any, Dict, List, Protocol
 
-import logging
 try:
     from src.utils.config import get_api_settings
 except ImportError:
     try:
         from utils.config import get_api_settings
     except ImportError:
-        def get_api_settings(): return {}
+
+        def get_api_settings():
+            return {}
+
+
 try:
     from src.config.settings import get_settings
 except ImportError:
     try:
         from config.settings import get_settings
     except ImportError:
-        def get_settings(): return {}
+
+        def get_settings():
+            return {}
+
 
 # --- Setup Logging ---
 logging.basicConfig(level=logging.INFO)
@@ -42,12 +50,13 @@ log = logging.getLogger(__name__)
 # Data-structures
 # ---------------------------------------------------------------------------
 
+
 class EngagementType(str, Enum):
     """Enumerates the kinds of engagement events we recognise."""
 
-    EXPLORED = "explored"          # User opened / inspected the insight
-    DISMISSED = "dismissed"        # User discarded or hid the insight
-    ELABORATED = "elaborated"      # User extended / built upon the insight
+    EXPLORED = "explored"  # User opened / inspected the insight
+    DISMISSED = "dismissed"  # User discarded or hid the insight
+    ELABORATED = "elaborated"  # User extended / built upon the insight
     SYSTEM_REINFORCED = "reinforced"  # Subsequent automated process used the insight
 
 
@@ -115,9 +124,9 @@ class InsightFeedbackEngine:
         """
         if insight_id not in self.engagement_data:
             self.engagement_data[insight_id] = {
-                'explored': 0,
-                'dismissed': 0,
-                'elaborated': 0
+                "explored": 0,
+                "dismissed": 0,
+                "elaborated": 0,
             }
 
         if user_action in self.engagement_data[insight_id]:
@@ -126,7 +135,9 @@ class InsightFeedbackEngine:
         else:
             log.warning(f"Unknown user action '{user_action}' for insight {insight_id}")
 
-    def adjust_synthesis_parameters(self, feedback_data: Dict[str, Any]) -> Dict[str, Any]:
+    def adjust_synthesis_parameters(
+        self, feedback_data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """
         Adjusts synthesis engine parameters based on collective feedback.
 
@@ -142,17 +153,27 @@ class InsightFeedbackEngine:
 
         # Placeholder heuristic: if insights are dismissed more than explored,
         # increase the 'exploration_factor' to encourage diversity.
-        total_explored = sum(d.get('explored', 0) for d in self.engagement_data.values())
-        total_dismissed = sum(d.get('dismissed', 0) for d in self.engagement_data.values())
+        total_explored = sum(
+            d.get("explored", 0) for d in self.engagement_data.values()
+        )
+        total_dismissed = sum(
+            d.get("dismissed", 0) for d in self.engagement_data.values()
+        )
 
-        new_params = {'exploration_factor': 1.0} # Default value
+        new_params = {"exploration_factor": 1.0}  # Default value
 
         if total_dismissed > total_explored:
-            new_params['exploration_factor'] = 1.2 # Increase exploration
-            log.info("Feedback indicates low engagement; increasing exploration factor.")
+            new_params["exploration_factor"] = 1.2  # Increase exploration
+            log.info(
+                "Feedback indicates low engagement; increasing exploration factor."
+            )
         elif total_explored > total_dismissed * 2:
-            new_params['exploration_factor'] = 0.8 # Decrease exploration, focus on quality
-            log.info("Feedback indicates high engagement; decreasing exploration factor.")
+            new_params["exploration_factor"] = (
+                0.8  # Decrease exploration, focus on quality
+            )
+            log.info(
+                "Feedback indicates high engagement; decreasing exploration factor."
+            )
 
         return new_params
 

@@ -1,4 +1,3 @@
-
 """
 GPU Management and Optimization Integration
 ===========================================
@@ -14,19 +13,22 @@ Key Responsibilities:
 """
 
 import logging
-from typing import Dict, Any
+from typing import Any, Dict
+
+from src.utils.gpu_foundation import GPUFoundation
 
 from .gpu_memory_pool import TCSignalMemoryPool
 from .gpu_signal_memory import GPUSignalMemoryManager
 from .gpu_thermodynamic_integrator import GPUThermodynamicIntegrator
-from src.utils.gpu_foundation import GPUFoundation
 
 logger = logging.getLogger(__name__)
+
 
 class GPUManagementIntegrator:
     """
     Integrates all GPU management and optimization engines.
     """
+
     def __init__(self, device_id: int = 0):
         self.gpu_foundation = GPUFoundation()
         self.memory_pool = TCSignalMemoryPool(device_id=device_id)
@@ -39,7 +41,9 @@ class GPUManagementIntegrator:
         Collects and analyzes the thermodynamic state of the GPU.
         """
         gpu_metrics = self.thermodynamic_integrator.collect_gpu_metrics()
-        return self.thermodynamic_integrator.analyze_gpu_thermodynamics(gpu_metrics, geoids, performance_rate)
+        return self.thermodynamic_integrator.analyze_gpu_thermodynamics(
+            gpu_metrics, geoids, performance_rate
+        )
 
     def get_memory_pool_stats(self) -> Dict[str, Any]:
         """
@@ -52,6 +56,7 @@ class GPUManagementIntegrator:
         Returns statistics about the GPU signal memory manager.
         """
         return self.signal_memory_manager.get_statistics()
+
 
 async def main():
     """
@@ -75,6 +80,8 @@ async def main():
     logger.info("\nSignal Memory Stats:")
     logger.info(signal_stats)
 
+
 if __name__ == "__main__":
     import asyncio
+
     asyncio.run(main())

@@ -17,25 +17,25 @@ Status: Production-Ready
 """
 
 import asyncio
+import json
+import logging
+import random
+import statistics
 import time
-import numpy as np
-import torch
-import torch.nn.functional as F
-from typing import Dict, List, Any, Optional, Tuple, Union
+import traceback
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-import json
-import logging
-import statistics
 from pathlib import Path
-from concurrent.futures import ThreadPoolExecutor
-import random
-from scipy import stats
-from sklearn.metrics import accuracy_score, f1_score
-from scipy.stats import ttest_ind
+from typing import Any, Dict, List, Optional, Tuple, Union
 
-import traceback
+import numpy as np
+import torch
+import torch.nn.functional as F
+from scipy import stats
+from scipy.stats import ttest_ind
+from sklearn.metrics import accuracy_score, f1_score
 
 # Kimera imports
 try:
@@ -45,8 +45,11 @@ except ImportError:
         from utils.kimera_logger import get_logger
     except ImportError:
         import logging
+
         def get_logger(name):
             return logging.getLogger(name)
+
+
 from ...utils.kimera_exceptions import KimeraException
 from ..constants import EPSILON
 
@@ -55,6 +58,7 @@ logger = get_logger(__name__)
 
 class CognitiveTestType(Enum):
     """Types of cognitive validation tests"""
+
     STROOP = "stroop_test"
     DUAL_TASK = "dual_task_interference"
     ATTENTION_SWITCHING = "attention_switching"
@@ -65,6 +69,7 @@ class CognitiveTestType(Enum):
 
 class CongruencyType(Enum):
     """Stroop test congruency types"""
+
     CONGRUENT = "congruent"
     INCONGRUENT = "incongruent"
     NEUTRAL = "neutral"
@@ -73,6 +78,7 @@ class CongruencyType(Enum):
 @dataclass
 class CognitiveTestStimulus:
     """Individual test stimulus with validation"""
+
     test_type: CognitiveTestType
     stimulus_text: str
     expected_response: str
@@ -81,12 +87,15 @@ class CognitiveTestStimulus:
     metadata: Dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
-        assert 1 <= self.difficulty_level <= 5, f"Invalid difficulty: {self.difficulty_level}"
+        assert (
+            1 <= self.difficulty_level <= 5
+        ), f"Invalid difficulty: {self.difficulty_level}"
 
 
 @dataclass
 class CognitiveTestResult:
     """Result from cognitive test with metrics"""
+
     test_type: CognitiveTestType
     stimulus: CognitiveTestStimulus
     response: str
@@ -100,6 +109,7 @@ class CognitiveTestResult:
 @dataclass
 class ValidationBatteryResult:
     """Complete validation battery results with statistics"""
+
     stroop_results: List[CognitiveTestResult]
     dual_task_results: List[CognitiveTestResult]
     attention_switching_results: List[CognitiveTestResult]
@@ -135,7 +145,9 @@ class CognitiveValidationFramework:
     - Fault tolerance
     """
 
-    def __init__(self, processor: Union[KimeraBarenholtzProcessor, UltimateBarenholtzProcessor]):
+    def __init__(
+        self, processor: Union[KimeraBarenholtzProcessor, UltimateBarenholtzProcessor]
+    ):
         self.processor = processor
 
         # Test generators
@@ -151,20 +163,22 @@ class CognitiveValidationFramework:
 
         # Monitoring
         self.performance_metrics = {
-            'total_tests': 0,
-            'validation_failures': 0,
-            'average_accuracy': 0.0,
-            'average_time': 0.0
+            "total_tests": 0,
+            "validation_failures": 0,
+            "average_accuracy": 0.0,
+            "average_time": 0.0,
         }
 
         logger.info("🧠 Cognitive Validation Framework initialized")
 
-    async def run_complete_validation_battery(self,
-                                            n_stroop: int = 60,
-                                            n_dual_task: int = 40,
-                                            n_attention: int = 48,
-                                            n_memory: int = 30,
-                                            n_priming: int = 40) -> ValidationBatteryResult:
+    async def run_complete_validation_battery(
+        self,
+        n_stroop: int = 60,
+        n_dual_task: int = 40,
+        n_attention: int = 48,
+        n_memory: int = 30,
+        n_priming: int = 40,
+    ) -> ValidationBatteryResult:
         """
         Run complete validation battery with monitoring.
         """
@@ -175,9 +189,15 @@ class CognitiveValidationFramework:
         try:
             # Generate batteries
             stroop_stimuli = self.stroop_generator.generate_stroop_battery(n_stroop)
-            dual_task_stimuli = self.dual_task_generator.generate_dual_task_battery(n_dual_task)
-            attention_stimuli = self.attention_generator.generate_switching_battery(n_attention)
-            memory_stimuli = self.memory_generator.generate_working_memory_battery(n_memory)
+            dual_task_stimuli = self.dual_task_generator.generate_dual_task_battery(
+                n_dual_task
+            )
+            attention_stimuli = self.attention_generator.generate_switching_battery(
+                n_attention
+            )
+            memory_stimuli = self.memory_generator.generate_working_memory_battery(
+                n_memory
+            )
             priming_stimuli = self.priming_generator.generate_priming_battery(n_priming)
 
             # Run tests in parallel
@@ -187,7 +207,7 @@ class CognitiveValidationFramework:
                 self._run_attention_switching_test(attention_stimuli),
                 self._run_working_memory_test(memory_stimuli),
                 self._run_semantic_priming_test(priming_stimuli),
-                self._run_nlp_benchmarks()
+                self._run_nlp_benchmarks(),
             ]
 
             results = await asyncio.gather(*tasks, return_exceptions=True)
@@ -196,55 +216,77 @@ class CognitiveValidationFramework:
             for res in results:
                 if isinstance(res, Exception):
                     logger.error(f"Test battery failed: {res}")
-                    self.performance_metrics['validation_failures'] += 1
+                    self.performance_metrics["validation_failures"] += 1
 
             # Unpack results
-            stroop_results, dual_task_results, attention_results, memory_results, priming_results, nlp_results = results
+            (
+                stroop_results,
+                dual_task_results,
+                attention_results,
+                memory_results,
+                priming_results,
+                nlp_results,
+            ) = results
 
             # Compute statistics
             validation_result = self._compute_validation_statistics(
-                stroop_results, dual_task_results, attention_results,
-                memory_results, priming_results, nlp_results
+                stroop_results,
+                dual_task_results,
+                attention_results,
+                memory_results,
+                priming_results,
+                nlp_results,
             )
 
             # Update metrics
             total_time = time.time() - start_time
-            self.performance_metrics['total_tests'] += 1
-            self.performance_metrics['average_accuracy'] = validation_result.overall_accuracy
-            self.performance_metrics['average_time'] = total_time
+            self.performance_metrics["total_tests"] += 1
+            self.performance_metrics["average_accuracy"] = (
+                validation_result.overall_accuracy
+            )
+            self.performance_metrics["average_time"] = total_time
 
             async with self._results_lock:
                 self.validation_results.append(validation_result)
 
-            logger.info(f"✅ Validation complete - Accuracy: {validation_result.overall_accuracy:.2f}")
+            logger.info(
+                f"✅ Validation complete - Accuracy: {validation_result.overall_accuracy:.2f}"
+            )
             return validation_result
 
         except Exception as e:
             logger.error(f"Validation battery failed: {e}")
             raise KimeraException(f"Validation error: {e}")
 
-    async def _run_stroop_test(self, stimuli: List[CognitiveTestStimulus]) -> List[CognitiveTestResult]:
+    async def _run_stroop_test(
+        self, stimuli: List[CognitiveTestStimulus]
+    ) -> List[CognitiveTestResult]:
         """Run Stroop test with monitoring"""
         results = []
         for stimulus in stimuli:
             try:
                 start_time = time.time()
                 dual_result = await self.processor.process_dual_system(
-                    stimulus.stimulus_text,
-                    context={"test_type": "stroop"}
+                    stimulus.stimulus_text, context={"test_type": "stroop"}
                 )
                 processing_time = time.time() - start_time
 
                 response = self._extract_color_response(dual_result, stimulus)
-                accuracy = 1.0 if response.upper() == stimulus.expected_response.upper() else 0.0
+                accuracy = (
+                    1.0
+                    if response.upper() == stimulus.expected_response.upper()
+                    else 0.0
+                )
 
-                results.append(CognitiveTestResult(
-                    test_type=stimulus.test_type,
-                    stimulus=stimulus,
-                    response=response,
-                    processing_time=processing_time,
-                    accuracy=accuracy
-                ))
+                results.append(
+                    CognitiveTestResult(
+                        test_type=stimulus.test_type,
+                        stimulus=stimulus,
+                        response=response,
+                        processing_time=processing_time,
+                        accuracy=accuracy,
+                    )
+                )
             except Exception as e:
                 logger.warning(f"Stroop trial failed: {e}")
         return results

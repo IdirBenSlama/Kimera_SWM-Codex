@@ -22,37 +22,40 @@ Version: 1.0.0 - DO-178C Level A Compliant
 Safety Level: Catastrophic (Level A)
 """
 
-import pytest
 import asyncio
 import time
-import numpy as np
-import torch
-from typing import Dict, Any, List
 from datetime import datetime, timezone
+from typing import Any, Dict, List
+
+import numpy as np
+import pytest
+import torch
+
+# Import test utilities
+from src.core.constants import (
+    DO_178C_LEVEL_A_SAFETY_LEVEL,
+    DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD,
+)
 
 # Import the integration system
 from src.core.quantum_thermodynamics.integration import (
     QuantumThermodynamicsIntegrator,
     SignalProcessingMode,
     TruthMonitoringMode,
-    create_quantum_thermodynamics_integrator
+    create_quantum_thermodynamics_integrator,
 )
 
 # Import components
 from src.core.quantum_thermodynamics.signal_processing.quantum_thermodynamic_signal_processor import (
-    QuantumThermodynamicSignalProcessor,
     QuantumSignalSuperposition,
-    SignalDecoherenceController
+    QuantumThermodynamicSignalProcessor,
+    SignalDecoherenceController,
 )
-
 from src.core.quantum_thermodynamics.truth_monitoring.quantum_truth_monitor import (
     QuantumTruthMonitor,
     QuantumTruthState,
-    TruthMonitoringResult
+    TruthMonitoringResult,
 )
-
-# Import test utilities
-from src.core.constants import DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD, DO_178C_LEVEL_A_SAFETY_LEVEL
 from src.utilities.health_status import HealthStatus
 
 
@@ -68,7 +71,7 @@ class TestQuantumThermodynamicsIntegration:
             max_signals=1000,
             max_claims=1000,
             adaptive_mode=True,
-            safety_level="catastrophic"
+            safety_level="catastrophic",
         )
 
     @pytest.fixture
@@ -82,18 +85,33 @@ class TestQuantumThermodynamicsIntegration:
             "thermal_noise": 0.1,
             "quantum_phase": 0.25,
             "system_entropy": 1.8,
-            "free_energy": -0.5
+            "free_energy": -0.5,
         }
 
     @pytest.fixture
     def sample_truth_claims(self):
         """Sample truth claims for testing monitoring operations"""
         return [
-            {"id": "claim_001", "text": "The cognitive architecture demonstrates emergent intelligence"},
-            {"id": "claim_002", "text": "Quantum coherence is maintained in neural processing"},
-            {"id": "claim_003", "text": "Thermodynamic efficiency optimizes information processing"},
-            {"id": "claim_004", "text": "Epistemic uncertainty is quantifiable through quantum mechanics"},
-            {"id": "claim_005", "text": "Truth states can exist in quantum superposition"}
+            {
+                "id": "claim_001",
+                "text": "The cognitive architecture demonstrates emergent intelligence",
+            },
+            {
+                "id": "claim_002",
+                "text": "Quantum coherence is maintained in neural processing",
+            },
+            {
+                "id": "claim_003",
+                "text": "Thermodynamic efficiency optimizes information processing",
+            },
+            {
+                "id": "claim_004",
+                "text": "Epistemic uncertainty is quantifiable through quantum mechanics",
+            },
+            {
+                "id": "claim_005",
+                "text": "Truth states can exist in quantum superposition",
+            },
         ]
 
     def test_integrator_initialization_safety(self, integrator):
@@ -125,27 +143,29 @@ class TestQuantumThermodynamicsIntegration:
 
         print("✅ Test 1: Integrator initialization and safety validation passed")
 
-    def test_quantum_thermodynamic_signal_processing(self, integrator, sample_signal_data):
+    def test_quantum_thermodynamic_signal_processing(
+        self, integrator, sample_signal_data
+    ):
         """Test 2: Quantum thermodynamic signal processing operations"""
         print("🌡️ Test 2: Quantum Thermodynamic Signal Processing")
 
         # Test standard signal processing
         result = integrator.process_thermodynamic_signals(
             signal_data=sample_signal_data,
-            processing_mode=SignalProcessingMode.STANDARD
+            processing_mode=SignalProcessingMode.STANDARD,
         )
 
         assert result is not None
         assert isinstance(result, QuantumSignalSuperposition)
-        assert hasattr(result, 'signal_coherence')
-        assert hasattr(result, 'entanglement_strength')
+        assert hasattr(result, "signal_coherence")
+        assert hasattr(result, "entanglement_strength")
         assert 0.0 <= result.signal_coherence <= 1.0
         assert 0.0 <= result.entanglement_strength <= 1.0
 
         # Test high coherence processing
         high_coherence_result = integrator.process_thermodynamic_signals(
             signal_data=sample_signal_data,
-            processing_mode=SignalProcessingMode.HIGH_COHERENCE
+            processing_mode=SignalProcessingMode.HIGH_COHERENCE,
         )
 
         assert high_coherence_result is not None
@@ -154,7 +174,7 @@ class TestQuantumThermodynamicsIntegration:
         # Test performance mode processing
         performance_result = integrator.process_thermodynamic_signals(
             signal_data=sample_signal_data,
-            processing_mode=SignalProcessingMode.PERFORMANCE
+            processing_mode=SignalProcessingMode.PERFORMANCE,
         )
 
         assert performance_result is not None
@@ -171,8 +191,7 @@ class TestQuantumThermodynamicsIntegration:
 
         # Test real-time monitoring
         results = integrator.monitor_truth_claims(
-            claims=sample_truth_claims,
-            monitoring_mode=TruthMonitoringMode.REAL_TIME
+            claims=sample_truth_claims, monitoring_mode=TruthMonitoringMode.REAL_TIME
         )
 
         assert results is not None
@@ -180,17 +199,19 @@ class TestQuantumThermodynamicsIntegration:
 
         for result in results:
             assert isinstance(result, TruthMonitoringResult)
-            assert hasattr(result, 'claim_id')
-            assert hasattr(result, 'truth_state')
-            assert hasattr(result, 'probability_true')
-            assert hasattr(result, 'probability_false')
-            assert hasattr(result, 'coherence_measure')
-            assert hasattr(result, 'epistemic_uncertainty')
+            assert hasattr(result, "claim_id")
+            assert hasattr(result, "truth_state")
+            assert hasattr(result, "probability_true")
+            assert hasattr(result, "probability_false")
+            assert hasattr(result, "coherence_measure")
+            assert hasattr(result, "epistemic_uncertainty")
 
             # Verify probability constraints
             assert 0.0 <= result.probability_true <= 1.0
             assert 0.0 <= result.probability_false <= 1.0
-            assert abs(result.probability_true + result.probability_false - 1.0) < 0.1  # Allow some tolerance
+            assert (
+                abs(result.probability_true + result.probability_false - 1.0) < 0.1
+            )  # Allow some tolerance
 
             # Verify truth state is valid
             assert isinstance(result.truth_state, QuantumTruthState)
@@ -199,7 +220,7 @@ class TestQuantumThermodynamicsIntegration:
         # Test epistemic validation monitoring
         epistemic_results = integrator.monitor_truth_claims(
             claims=sample_truth_claims[:3],
-            monitoring_mode=TruthMonitoringMode.EPISTEMIC_VALIDATION
+            monitoring_mode=TruthMonitoringMode.EPISTEMIC_VALIDATION,
         )
 
         assert epistemic_results is not None
@@ -208,7 +229,7 @@ class TestQuantumThermodynamicsIntegration:
         # Test safety critical monitoring
         safety_results = integrator.monitor_truth_claims(
             claims=sample_truth_claims[:2],
-            monitoring_mode=TruthMonitoringMode.SAFETY_CRITICAL
+            monitoring_mode=TruthMonitoringMode.SAFETY_CRITICAL,
         )
 
         assert safety_results is not None
@@ -216,7 +237,9 @@ class TestQuantumThermodynamicsIntegration:
 
         print("✅ Test 3: Quantum truth monitoring passed")
 
-    def test_integrated_quantum_thermodynamics_operations(self, integrator, sample_signal_data, sample_truth_claims):
+    def test_integrated_quantum_thermodynamics_operations(
+        self, integrator, sample_signal_data, sample_truth_claims
+    ):
         """Test 4: Integrated quantum thermodynamics operations"""
         print("🔗 Test 4: Integrated Quantum Thermodynamics Operations")
 
@@ -225,7 +248,7 @@ class TestQuantumThermodynamicsIntegration:
             signal_data=sample_signal_data,
             claims=sample_truth_claims,
             signal_mode=SignalProcessingMode.STANDARD,
-            truth_mode=TruthMonitoringMode.REAL_TIME
+            truth_mode=TruthMonitoringMode.REAL_TIME,
         )
 
         assert result is not None
@@ -243,11 +266,13 @@ class TestQuantumThermodynamicsIntegration:
         assert result["processing_time_ms"] > 0
 
         # Test high coherence integrated analysis
-        high_coherence_result = integrator.perform_integrated_quantum_thermodynamics_analysis(
-            signal_data=sample_signal_data,
-            claims=sample_truth_claims[:3],
-            signal_mode=SignalProcessingMode.HIGH_COHERENCE,
-            truth_mode=TruthMonitoringMode.EPISTEMIC_VALIDATION
+        high_coherence_result = (
+            integrator.perform_integrated_quantum_thermodynamics_analysis(
+                signal_data=sample_signal_data,
+                claims=sample_truth_claims[:3],
+                signal_mode=SignalProcessingMode.HIGH_COHERENCE,
+                truth_mode=TruthMonitoringMode.EPISTEMIC_VALIDATION,
+            )
         )
 
         assert high_coherence_result["integration_successful"] is True
@@ -278,7 +303,9 @@ class TestQuantumThermodynamicsIntegration:
 
         # Verify DO-178C Level A requirements
         assert health["safety_level"] == "catastrophic"
-        assert safety_assessment["safety_score"] >= DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD
+        assert (
+            safety_assessment["safety_score"] >= DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD
+        )
         assert safety_assessment["safety_level"] == DO_178C_LEVEL_A_SAFETY_LEVEL
         assert safety_assessment["compliance_status"] in ["COMPLIANT", "DEGRADED"]
 
@@ -292,7 +319,9 @@ class TestQuantumThermodynamicsIntegration:
 
         print("✅ Test 5: Safety compliance and validation passed")
 
-    def test_performance_benchmarks_requirements(self, integrator, sample_signal_data, sample_truth_claims):
+    def test_performance_benchmarks_requirements(
+        self, integrator, sample_signal_data, sample_truth_claims
+    ):
         """Test 6: Performance benchmarks and requirements validation"""
         print("⚡ Test 6: Performance Benchmarks and Requirements")
 
@@ -300,7 +329,7 @@ class TestQuantumThermodynamicsIntegration:
         start_time = time.time()
         signal_result = integrator.process_thermodynamic_signals(
             signal_data=sample_signal_data,
-            processing_mode=SignalProcessingMode.PERFORMANCE
+            processing_mode=SignalProcessingMode.PERFORMANCE,
         )
         signal_time = (time.time() - start_time) * 1000  # Convert to ms
 
@@ -310,8 +339,7 @@ class TestQuantumThermodynamicsIntegration:
         # Test truth monitoring performance
         start_time = time.time()
         truth_results = integrator.monitor_truth_claims(
-            claims=sample_truth_claims,
-            monitoring_mode=TruthMonitoringMode.REAL_TIME
+            claims=sample_truth_claims, monitoring_mode=TruthMonitoringMode.REAL_TIME
         )
         monitoring_time = (time.time() - start_time) * 1000  # Convert to ms
 
@@ -321,11 +349,13 @@ class TestQuantumThermodynamicsIntegration:
 
         # Test integrated operation performance
         start_time = time.time()
-        integrated_result = integrator.perform_integrated_quantum_thermodynamics_analysis(
-            signal_data=sample_signal_data,
-            claims=sample_truth_claims,
-            signal_mode=SignalProcessingMode.STANDARD,
-            truth_mode=TruthMonitoringMode.REAL_TIME
+        integrated_result = (
+            integrator.perform_integrated_quantum_thermodynamics_analysis(
+                signal_data=sample_signal_data,
+                claims=sample_truth_claims,
+                signal_mode=SignalProcessingMode.STANDARD,
+                truth_mode=TruthMonitoringMode.REAL_TIME,
+            )
         )
         integrated_time = (time.time() - start_time) * 1000  # Convert to ms
 
@@ -379,10 +409,12 @@ class TestQuantumThermodynamicsIntegration:
         assert 0.0 <= safety_score <= 1.0  # Safety score bounded
 
         # Verify component state consistency
-        components_available = sum([
-            health["component_status"]["signal_processor"]["available"],
-            health["component_status"]["truth_monitor"]["available"]
-        ])
+        components_available = sum(
+            [
+                health["component_status"]["signal_processor"]["available"],
+                health["component_status"]["truth_monitor"]["available"],
+            ]
+        )
 
         if components_available == 2:
             assert health["health_status"] == "operational"
@@ -393,7 +425,9 @@ class TestQuantumThermodynamicsIntegration:
 
         print("✅ Test 7: Formal verification capabilities passed")
 
-    def test_failure_mode_analysis_recovery(self, integrator, sample_signal_data, sample_truth_claims):
+    def test_failure_mode_analysis_recovery(
+        self, integrator, sample_signal_data, sample_truth_claims
+    ):
         """Test 8: Failure mode analysis and recovery"""
         print("⚠️ Test 8: Failure Mode Analysis and Recovery")
 
@@ -408,7 +442,7 @@ class TestQuantumThermodynamicsIntegration:
             # This should handle gracefully with safety fallback
             result = integrator.process_thermodynamic_signals(
                 signal_data=sample_signal_data,
-                processing_mode=SignalProcessingMode.SAFETY_FALLBACK
+                processing_mode=SignalProcessingMode.SAFETY_FALLBACK,
             )
 
             # Should fail gracefully
@@ -420,7 +454,7 @@ class TestQuantumThermodynamicsIntegration:
             # This should handle gracefully
             truth_results = integrator.monitor_truth_claims(
                 claims=sample_truth_claims,
-                monitoring_mode=TruthMonitoringMode.SAFETY_CRITICAL
+                monitoring_mode=TruthMonitoringMode.SAFETY_CRITICAL,
             )
 
             # Should fail gracefully
@@ -443,7 +477,7 @@ class TestQuantumThermodynamicsIntegration:
         if integrator.signal_processor:
             result = integrator.process_thermodynamic_signals(
                 signal_data=sample_signal_data,
-                processing_mode=SignalProcessingMode.SAFETY_FALLBACK
+                processing_mode=SignalProcessingMode.SAFETY_FALLBACK,
             )
 
             # Safety fallback should always succeed
@@ -458,7 +492,7 @@ class TestQuantumThermodynamicsIntegration:
         try:
             from src.core.kimera_system import KimeraSystem
 
-                        # Get KimeraSystem instance and initialize it
+            # Get KimeraSystem instance and initialize it
             kimera = KimeraSystem()
             kimera.initialize()  # Initialize the system to load all components
 
@@ -484,10 +518,10 @@ class TestQuantumThermodynamicsIntegration:
 
 def test_quantum_thermodynamics_integration_suite():
     """Run the complete quantum thermodynamics integration test suite"""
-    print("\n" + "="*80)
+    print("\n" + "=" * 80)
     print("🌡️ QUANTUM THERMODYNAMICS INTEGRATION TEST SUITE")
     print("DO-178C Level A Compliance Validation")
-    print("="*80)
+    print("=" * 80)
 
     # Run all tests
     test_instance = TestQuantumThermodynamicsIntegration()
@@ -501,33 +535,53 @@ def test_quantum_thermodynamics_integration_suite():
         "thermal_noise": 0.1,
         "quantum_phase": 0.25,
         "system_entropy": 1.8,
-        "free_energy": -0.5
+        "free_energy": -0.5,
     }
     sample_truth_claims = [
-        {"id": "claim_001", "text": "The cognitive architecture demonstrates emergent intelligence"},
-        {"id": "claim_002", "text": "Quantum coherence is maintained in neural processing"},
-        {"id": "claim_003", "text": "Thermodynamic efficiency optimizes information processing"},
-        {"id": "claim_004", "text": "Epistemic uncertainty is quantifiable through quantum mechanics"},
-        {"id": "claim_005", "text": "Truth states can exist in quantum superposition"}
+        {
+            "id": "claim_001",
+            "text": "The cognitive architecture demonstrates emergent intelligence",
+        },
+        {
+            "id": "claim_002",
+            "text": "Quantum coherence is maintained in neural processing",
+        },
+        {
+            "id": "claim_003",
+            "text": "Thermodynamic efficiency optimizes information processing",
+        },
+        {
+            "id": "claim_004",
+            "text": "Epistemic uncertainty is quantifiable through quantum mechanics",
+        },
+        {"id": "claim_005", "text": "Truth states can exist in quantum superposition"},
     ]
 
     # Execute all test methods
     test_instance.test_integrator_initialization_safety(integrator)
-    test_instance.test_quantum_thermodynamic_signal_processing(integrator, sample_signal_data)
+    test_instance.test_quantum_thermodynamic_signal_processing(
+        integrator, sample_signal_data
+    )
     test_instance.test_quantum_truth_monitoring(integrator, sample_truth_claims)
-    test_instance.test_integrated_quantum_thermodynamics_operations(integrator, sample_signal_data, sample_truth_claims)
+    test_instance.test_integrated_quantum_thermodynamics_operations(
+        integrator, sample_signal_data, sample_truth_claims
+    )
     test_instance.test_safety_compliance_validation(integrator)
-    test_instance.test_performance_benchmarks_requirements(integrator, sample_signal_data, sample_truth_claims)
+    test_instance.test_performance_benchmarks_requirements(
+        integrator, sample_signal_data, sample_truth_claims
+    )
     test_instance.test_formal_verification_capabilities(integrator)
-    test_instance.test_failure_mode_analysis_recovery(integrator, sample_signal_data, sample_truth_claims)
+    test_instance.test_failure_mode_analysis_recovery(
+        integrator, sample_signal_data, sample_truth_claims
+    )
     test_instance.test_integration_with_kimera_system()
 
-    print("\n" + "="*80)
+    print("\n" + "=" * 80)
     print("🎉 ALL QUANTUM THERMODYNAMICS INTEGRATION TESTS PASSED")
     print("✅ DO-178C Level A Compliance Verified")
     print("✅ Nuclear Engineering Safety Principles Validated")
     print("✅ Aerospace-Grade Requirements Met")
-    print("="*80)
+    print("=" * 80)
 
 
 if __name__ == "__main__":

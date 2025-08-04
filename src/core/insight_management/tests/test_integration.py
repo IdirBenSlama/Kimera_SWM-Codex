@@ -6,27 +6,28 @@ Test ID: T-4.10.2
 Coverage: Integration paths, safety requirements, performance
 """
 
-import pytest
 import asyncio
-import torch
-import numpy as np
-from datetime import datetime
 import time
-from unittest.mock import Mock, AsyncMock, patch
+from datetime import datetime
+from unittest.mock import AsyncMock, Mock, patch
 
-from ..integration import (
-    InsightManagementIntegrator,
-    ValidationStatus,
-    InsightValidationResult,
-    SystemHealthMetrics,
-    ENTROPY_VALIDATION_THRESHOLD,
-    COHERENCE_MINIMUM,
-    MAX_FEEDBACK_GAIN,
-    MAX_INSIGHTS_IN_MEMORY
-)
-from ..insight_lifecycle import FeedbackEvent
+import numpy as np
+import pytest
+import torch
+
 from ....core.geoid import GeoidState
 from ....core.insight import InsightScar
+from ..insight_lifecycle import FeedbackEvent
+from ..integration import (
+    COHERENCE_MINIMUM,
+    ENTROPY_VALIDATION_THRESHOLD,
+    MAX_FEEDBACK_GAIN,
+    MAX_INSIGHTS_IN_MEMORY,
+    InsightManagementIntegrator,
+    InsightValidationResult,
+    SystemHealthMetrics,
+    ValidationStatus,
+)
 
 
 class TestInsightManagementIntegrator:
@@ -66,7 +67,9 @@ class TestInsightManagementIntegrator:
         assert integrator._feedback_gain_limiter == 1.0
 
     @pytest.mark.asyncio
-    async def test_sr_4_10_1_entropy_validation(self, integrator, mock_insight, mock_geoid_state):
+    async def test_sr_4_10_1_entropy_validation(
+        self, integrator, mock_insight, mock_geoid_state
+    ):
         """Test SR-4.10.1: All insights must pass entropy validation"""
         system_state = {"entropy": 2.0, "complexity": 50.0}
 
@@ -89,7 +92,9 @@ class TestInsightManagementIntegrator:
             assert result.status == ValidationStatus.REJECTED
 
     @pytest.mark.asyncio
-    async def test_sr_4_10_2_coherence_requirement(self, integrator, mock_insight, mock_geoid_state):
+    async def test_sr_4_10_2_coherence_requirement(
+        self, integrator, mock_insight, mock_geoid_state
+    ):
         """Test SR-4.10.2: Information integration must maintain coherence > 0.8"""
         system_state = {"entropy": 2.0, "complexity": 50.0}
 
@@ -107,14 +112,14 @@ class TestInsightManagementIntegrator:
         """Test SR-4.10.3: Feedback loops must have bounded gains < 2.0"""
         # Simulate many positive feedbacks
         for _ in range(100):
-            integrator._update_feedback_gain('user_explored')
+            integrator._update_feedback_gain("user_explored")
 
         assert integrator._feedback_gain_limiter <= MAX_FEEDBACK_GAIN
         assert integrator.health_metrics.feedback_gain <= MAX_FEEDBACK_GAIN
 
         # Simulate negative feedbacks
         for _ in range(100):
-            integrator._update_feedback_gain('user_dismissed')
+            integrator._update_feedback_gain("user_dismissed")
 
         assert integrator._feedback_gain_limiter >= 0.5
 
@@ -130,7 +135,9 @@ class TestInsightManagementIntegrator:
         assert len(integrator.insights_memory) <= MAX_INSIGHTS_IN_MEMORY
 
     @pytest.mark.asyncio
-    async def test_pr_4_10_1_performance_requirement(self, integrator, mock_insight, mock_geoid_state):
+    async def test_pr_4_10_1_performance_requirement(
+        self, integrator, mock_insight, mock_geoid_state
+    ):
         """Test PR-4.10.1: Insight generation < 100ms"""
         system_state = {"entropy": 2.0, "complexity": 50.0}
 
@@ -159,9 +166,9 @@ class TestInsightManagementIntegrator:
     async def test_feedback_processing(self, integrator):
         """Test feedback processing with safety bounds"""
         # Process various feedback types
-        await integrator.process_feedback("insight-1", 'user_explored')
-        await integrator.process_feedback("insight-2", 'user_dismissed')
-        await integrator.process_feedback("insight-3", 'system_reinforced')
+        await integrator.process_feedback("insight-1", "user_explored")
+        await integrator.process_feedback("insight-2", "user_dismissed")
+        await integrator.process_feedback("insight-3", "system_reinforced")
 
         # Verify feedback was tracked
         assert len(integrator._feedback_history) == 3
@@ -180,7 +187,7 @@ class TestInsightManagementIntegrator:
             coherence_score=0.9,
             confidence=0.85,
             timestamp=datetime.now(),
-            validation_time_ms=50.0
+            validation_time_ms=50.0,
         )
 
         integrator._update_metrics(result)
@@ -202,7 +209,7 @@ class TestInsightManagementIntegrator:
                 coherence_score=0.9,
                 confidence=0.85,
                 timestamp=datetime.now(),
-                validation_time_ms=50.0
+                validation_time_ms=50.0,
             )
 
         assert len(integrator.validation_cache) == 10
@@ -263,9 +270,7 @@ class TestPerformanceBenchmarks:
             tasks = []
             for i in range(100):
                 insight.id = f"bench-{i}"
-                task = integrator.process_insight(
-                    insight, geoid_state, system_state
-                )
+                task = integrator.process_insight(insight, geoid_state, system_state)
                 tasks.append(task)
 
             results = await asyncio.gather(*tasks)

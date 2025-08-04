@@ -10,32 +10,34 @@ DO-178C Level A compliant test suite validating:
 - Cross-system analysis capabilities
 """
 
-import pytest
 import asyncio
-import time
-from unittest.mock import Mock, AsyncMock
-from pathlib import Path
 import sys
+import time
+from pathlib import Path
+from unittest.mock import AsyncMock, Mock
+
+import pytest
 
 # Add project root to path
 project_root = Path(__file__).parent.parent.parent.parent
 sys.path.insert(0, str(project_root))
 
 from src.core.symbolic_and_tcse.integration import (
-    SymbolicTCSEIntegrator,
     ProcessingMode,
-    UnifiedProcessingResult
+    SymbolicTCSEIntegrator,
+    UnifiedProcessingResult,
 )
 from src.core.symbolic_and_tcse.symbolic_engine import (
-    SymbolicProcessor,
+    GeoidMosaic,
     SymbolicAnalysis,
-    GeoidMosaic
+    SymbolicProcessor,
 )
 from src.core.symbolic_and_tcse.tcse_engine import (
-    TCSEProcessor,
+    GeoidState,
     TCSEAnalysis,
-    GeoidState
+    TCSEProcessor,
 )
+
 
 class TestSymbolicTCSEIntegrator:
     """Test suite for SymbolicTCSEIntegrator."""
@@ -43,10 +45,7 @@ class TestSymbolicTCSEIntegrator:
     @pytest.fixture
     async def integrator(self):
         """Create integrator instance for testing."""
-        integrator = SymbolicTCSEIntegrator(
-            device="cpu",
-            mode=ProcessingMode.PARALLEL
-        )
+        integrator = SymbolicTCSEIntegrator(device="cpu", mode=ProcessingMode.PARALLEL)
         await integrator.initialize()
         yield integrator
         await integrator.shutdown()
@@ -62,11 +61,15 @@ class TestSymbolicTCSEIntegrator:
 
         # Validate components initialized
         assert integrator._initialized, "Integrator should be marked as initialized"
-        assert all(integrator._components_initialized.values()), "All components should be initialized"
+        assert all(
+            integrator._components_initialized.values()
+        ), "All components should be initialized"
 
         # Test health metrics
         health = integrator.get_health_metrics()
-        assert health['integration_metrics']['initialized'], "Health metrics should show initialized"
+        assert health["integration_metrics"][
+            "initialized"
+        ], "Health metrics should show initialized"
 
         await integrator.shutdown()
 
@@ -76,10 +79,16 @@ class TestSymbolicTCSEIntegrator:
 
         # Test None input
         result = await integrator.process_content(None)
-        assert result.status in ["error", "safety_fallback"], "Should handle None input gracefully"
+        assert result.status in [
+            "error",
+            "safety_fallback",
+        ], "Should handle None input gracefully"
 
         # Test valid symbolic content
-        symbolic_content = {"story": "The creator explores mysteries", "theme": "creation"}
+        symbolic_content = {
+            "story": "The creator explores mysteries",
+            "theme": "creation",
+        }
         result = await integrator.process_content(symbolic_content)
         assert isinstance(result, UnifiedProcessingResult)
 
@@ -98,21 +107,22 @@ class TestSymbolicTCSEIntegrator:
         processing_time = time.time() - start_time
 
         # Validate processing time is within bounds
-        assert processing_time <= integrator._max_processing_time, "Processing time should be within bounds"
-        assert result.processing_time <= integrator._max_processing_time, "Result processing time should be within bounds"
+        assert (
+            processing_time <= integrator._max_processing_time
+        ), "Processing time should be within bounds"
+        assert (
+            result.processing_time <= integrator._max_processing_time
+        ), "Result processing time should be within bounds"
 
     @pytest.mark.asyncio
     async def test_parallel_processing_mode(self, integrator):
         """Test parallel processing mode functionality."""
         content = {
             "narrative": "The creator explores quantum consciousness through thermodynamic evolution",
-            "symbols": ["creation", "exploration", "quantum"]
+            "symbols": ["creation", "exploration", "quantum"],
         }
 
-        result = await integrator.process_content(
-            content,
-            mode=ProcessingMode.PARALLEL
-        )
+        result = await integrator.process_content(content, mode=ProcessingMode.PARALLEL)
 
         assert result.status == "success", "Parallel processing should succeed"
         # Note: Due to mock implementations, both analyses may or may not be present
@@ -121,11 +131,12 @@ class TestSymbolicTCSEIntegrator:
     @pytest.mark.asyncio
     async def test_sequential_processing_mode(self, integrator):
         """Test sequential processing mode functionality."""
-        content = {"wisdom": "The sage understands paradoxes of thermodynamic consciousness"}
+        content = {
+            "wisdom": "The sage understands paradoxes of thermodynamic consciousness"
+        }
 
         result = await integrator.process_content(
-            content,
-            mode=ProcessingMode.SEQUENTIAL
+            content, mode=ProcessingMode.SEQUENTIAL
         )
 
         assert result.status == "success", "Sequential processing should succeed"
@@ -133,14 +144,18 @@ class TestSymbolicTCSEIntegrator:
     @pytest.mark.asyncio
     async def test_symbolic_only_mode(self, integrator):
         """Test symbolic-only processing mode."""
-        content = {"archetype": "The creator builds divine architecture", "paradox": "creation from void"}
+        content = {
+            "archetype": "The creator builds divine architecture",
+            "paradox": "creation from void",
+        }
 
         result = await integrator.process_content(
-            content,
-            mode=ProcessingMode.SYMBOLIC_ONLY
+            content, mode=ProcessingMode.SYMBOLIC_ONLY
         )
 
-        assert result.status == "symbolic_only", "Should indicate symbolic-only processing"
+        assert (
+            result.status == "symbolic_only"
+        ), "Should indicate symbolic-only processing"
         assert result.symbolic_analysis is not None, "Should have symbolic analysis"
         assert result.tcse_analysis is None, "Should not have TCSE analysis"
 
@@ -148,13 +163,18 @@ class TestSymbolicTCSEIntegrator:
     async def test_tcse_only_mode(self, integrator):
         """Test TCSE-only processing mode."""
         content = [
-            GeoidState(id="signal1", semantic_state={"consciousness": 0.8, "evolution": "rising"}),
-            GeoidState(id="signal2", semantic_state={"consciousness": 0.6, "evolution": "stable"})
+            GeoidState(
+                id="signal1",
+                semantic_state={"consciousness": 0.8, "evolution": "rising"},
+            ),
+            GeoidState(
+                id="signal2",
+                semantic_state={"consciousness": 0.6, "evolution": "stable"},
+            ),
         ]
 
         result = await integrator.process_content(
-            content,
-            mode=ProcessingMode.TCSE_ONLY
+            content, mode=ProcessingMode.TCSE_ONLY
         )
 
         assert result.status == "tcse_only", "Should indicate TCSE-only processing"
@@ -168,8 +188,7 @@ class TestSymbolicTCSEIntegrator:
         # Content with symbolic indicators
         symbolic_content = "Archetypal patterns and symbolic meaning"
         result = await integrator.process_content(
-            symbolic_content,
-            mode=ProcessingMode.ADAPTIVE
+            symbolic_content, mode=ProcessingMode.ADAPTIVE
         )
         # Should process successfully regardless of specific mode chosen
         assert result.status in ["success", "symbolic_only", "tcse_only"]
@@ -177,8 +196,7 @@ class TestSymbolicTCSEIntegrator:
         # Content with TCSE indicators
         tcse_content = [GeoidState(id="test", semantic_state={"signal": "evolution"})]
         result = await integrator.process_content(
-            tcse_content,
-            mode=ProcessingMode.ADAPTIVE
+            tcse_content, mode=ProcessingMode.ADAPTIVE
         )
         assert result.status in ["success", "symbolic_only", "tcse_only"]
 
@@ -188,21 +206,22 @@ class TestSymbolicTCSEIntegrator:
         content = "Any content"
 
         result = await integrator.process_content(
-            content,
-            mode=ProcessingMode.SAFETY_FALLBACK
+            content, mode=ProcessingMode.SAFETY_FALLBACK
         )
 
         assert result.status == "safety_fallback", "Should indicate safety fallback"
         assert result.symbolic_analysis is None, "Should not have symbolic analysis"
         assert result.tcse_analysis is None, "Should not have TCSE analysis"
-        assert result.safety_validation["fallback_mode"], "Should indicate fallback mode"
+        assert result.safety_validation[
+            "fallback_mode"
+        ], "Should indicate fallback mode"
 
     @pytest.mark.asyncio
     async def test_cross_system_correlations(self, integrator):
         """Test SR-4.21.8: Cross-system validation consistency."""
         content = {
             "archetypal_theme": "The creator builds quantum consciousness through thermodynamic evolution",
-            "complexity": 0.8
+            "complexity": 0.8,
         }
 
         result = await integrator.process_content(content)
@@ -221,11 +240,13 @@ class TestSymbolicTCSEIntegrator:
             GeoidState(
                 id="thermal_test",
                 semantic_state={"temperature": 0.7},
-                thermal_properties={"temperature": 0.7, "entropy": 0.3}
+                thermal_properties={"temperature": 0.7, "entropy": 0.3},
             )
         ]
 
-        result = await integrator.process_content(content, mode=ProcessingMode.TCSE_ONLY)
+        result = await integrator.process_content(
+            content, mode=ProcessingMode.TCSE_ONLY
+        )
 
         # Thermal compliance should be validated
         if result.tcse_analysis:
@@ -237,10 +258,12 @@ class TestSymbolicTCSEIntegrator:
         """Test SR-4.21.10: Symbolic coherence preservation."""
         content = {
             "archetypal_story": "The sage discovers wisdom through paradoxical understanding",
-            "symbols": ["wisdom", "paradox", "understanding"]
+            "symbols": ["wisdom", "paradox", "understanding"],
         }
 
-        result = await integrator.process_content(content, mode=ProcessingMode.SYMBOLIC_ONLY)
+        result = await integrator.process_content(
+            content, mode=ProcessingMode.SYMBOLIC_ONLY
+        )
 
         if result.symbolic_analysis:
             # Symbolic coherence should be preserved
@@ -276,16 +299,22 @@ class TestSymbolicTCSEIntegrator:
         health = integrator.get_health_metrics()
 
         # Validate health metrics structure
-        assert 'integration_metrics' in health, "Should have integration metrics"
-        assert 'symbolic_processor' in health, "Should have symbolic processor metrics"
-        assert 'tcse_processor' in health, "Should have TCSE processor metrics"
+        assert "integration_metrics" in health, "Should have integration metrics"
+        assert "symbolic_processor" in health, "Should have symbolic processor metrics"
+        assert "tcse_processor" in health, "Should have TCSE processor metrics"
 
         # Validate key health indicators
-        integration_metrics = health['integration_metrics']
-        assert integration_metrics['initialized'], "Should be initialized"
-        assert integration_metrics['total_processing'] > 0, "Should have processing count"
-        assert integration_metrics['error_rate'] >= 0.0, "Error rate should be non-negative"
-        assert integration_metrics['safety_violation_rate'] >= 0.0, "Safety violation rate should be non-negative"
+        integration_metrics = health["integration_metrics"]
+        assert integration_metrics["initialized"], "Should be initialized"
+        assert (
+            integration_metrics["total_processing"] > 0
+        ), "Should have processing count"
+        assert (
+            integration_metrics["error_rate"] >= 0.0
+        ), "Error rate should be non-negative"
+        assert (
+            integration_metrics["safety_violation_rate"] >= 0.0
+        ), "Safety violation rate should be non-negative"
 
     @pytest.mark.asyncio
     async def test_graceful_degradation(self, integrator):
@@ -293,19 +322,26 @@ class TestSymbolicTCSEIntegrator:
         # Test with complex content that might stress the system
         complex_content = {
             "complex_narrative": "The explorer journeys through archetypal landscapes where quantum consciousness evolves through thermodynamic paradoxes while maintaining symbolic coherence across multiple dimensional frameworks",
-            "metadata": {"complexity": 0.9, "length": 1000}
+            "metadata": {"complexity": 0.9, "length": 1000},
         }
 
         result = await integrator.process_content(complex_content)
 
         # Even with complex content, should provide meaningful result
         assert result is not None, "Should provide result even with complex content"
-        assert result.status in ["success", "symbolic_only", "tcse_only", "safety_fallback"], "Should have valid status"
+        assert result.status in [
+            "success",
+            "symbolic_only",
+            "tcse_only",
+            "safety_fallback",
+        ], "Should have valid status"
 
     @pytest.mark.asyncio
     async def test_performance_requirements(self, integrator):
         """Test performance requirements."""
-        content = {"performance_test": "symbolic and TCSE performance validation content"}
+        content = {
+            "performance_test": "symbolic and TCSE performance validation content"
+        }
 
         # Test multiple iterations to verify consistent performance
         times = []
@@ -315,7 +351,9 @@ class TestSymbolicTCSEIntegrator:
             processing_time = time.time() - start_time
             times.append(processing_time)
 
-            assert result.processing_time <= 45.0, "Should complete within maximum time limit"
+            assert (
+                result.processing_time <= 45.0
+            ), "Should complete within maximum time limit"
 
         # Verify consistent performance
         avg_time = sum(times) / len(times)
@@ -326,7 +364,9 @@ class TestSymbolicTCSEIntegrator:
         integrator = SymbolicTCSEIntegrator()
 
         assert integrator._safety_margins == 0.1, "Should have 10% safety margins"
-        assert integrator._max_processing_time == 45.0, "Should have reasonable processing time limit"
+        assert (
+            integrator._max_processing_time == 45.0
+        ), "Should have reasonable processing time limit"
 
     @pytest.mark.asyncio
     async def test_unified_insights_generation(self, integrator):
@@ -334,20 +374,26 @@ class TestSymbolicTCSEIntegrator:
         content = {
             "integrated_content": "Archetypal wisdom emerges through quantum signal evolution and thermodynamic consciousness",
             "symbolic_elements": ["archetype", "wisdom"],
-            "tcse_elements": ["quantum", "evolution", "consciousness"]
+            "tcse_elements": ["quantum", "evolution", "consciousness"],
         }
 
         result = await integrator.process_content(content)
 
         assert result.unified_insights is not None, "Should generate unified insights"
-        assert isinstance(result.unified_insights, dict), "Insights should be dictionary"
+        assert isinstance(
+            result.unified_insights, dict
+        ), "Insights should be dictionary"
 
         # Should have some meaningful insights
-        insights_with_values = [k for k, v in result.unified_insights.items()
-                              if isinstance(v, (int, float)) and v > 0]
+        insights_with_values = [
+            k
+            for k, v in result.unified_insights.items()
+            if isinstance(v, (int, float)) and v > 0
+        ]
 
         # Allow for various insight types since content preparation may vary
         assert len(result.unified_insights) > 0, "Should have some insights"
+
 
 class TestSymbolicProcessor:
     """Test suite for SymbolicProcessor."""
@@ -368,8 +414,12 @@ class TestSymbolicProcessor:
         result = await processor.analyze_symbolic_content(content)
 
         assert isinstance(result, SymbolicAnalysis), "Should return SymbolicAnalysis"
-        assert 0.0 <= result.symbolic_complexity <= 1.0, "Complexity should be in valid range"
-        assert 0.0 <= result.archetypal_resonance <= 1.0, "Resonance should be in valid range"
+        assert (
+            0.0 <= result.symbolic_complexity <= 1.0
+        ), "Complexity should be in valid range"
+        assert (
+            0.0 <= result.archetypal_resonance <= 1.0
+        ), "Resonance should be in valid range"
         assert 0.0 <= result.confidence <= 1.0, "Confidence should be in valid range"
 
     @pytest.mark.asyncio
@@ -380,7 +430,9 @@ class TestSymbolicProcessor:
         result = await processor.analyze_symbolic_content(creator_content)
 
         # Should detect creator-related themes
-        assert result.dominant_theme is not None or result.archetype is not None, "Should detect archetypal patterns"
+        assert (
+            result.dominant_theme is not None or result.archetype is not None
+        ), "Should detect archetypal patterns"
         assert result.confidence >= 0.1, "Should have reasonable confidence"
 
     @pytest.mark.asyncio
@@ -393,6 +445,7 @@ class TestSymbolicProcessor:
         # Should detect paradoxical elements
         assert result.confidence >= 0.1, "Should have reasonable confidence"
         assert result.symbolic_complexity >= 0.1, "Should detect complexity"
+
 
 class TestTCSEProcessor:
     """Test suite for TCSEProcessor."""
@@ -412,22 +465,28 @@ class TestTCSEProcessor:
             GeoidState(
                 id="test1",
                 semantic_state={"consciousness": 0.7, "signal": "evolution"},
-                thermal_properties={"temperature": 0.6, "entropy": 0.3}
+                thermal_properties={"temperature": 0.6, "entropy": 0.3},
             ),
             GeoidState(
                 id="test2",
                 semantic_state={"consciousness": 0.5, "signal": "stable"},
-                thermal_properties={"temperature": 0.4, "entropy": 0.2}
-            )
+                thermal_properties={"temperature": 0.4, "entropy": 0.2},
+            ),
         ]
 
         result = await processor.process_tcse_pipeline(content)
 
         assert isinstance(result, TCSEAnalysis), "Should return TCSEAnalysis"
-        assert 0.0 <= result.quantum_coherence <= 1.0, "Quantum coherence should be in valid range"
-        assert 0.0 <= result.consciousness_score <= 1.0, "Consciousness score should be in valid range"
+        assert (
+            0.0 <= result.quantum_coherence <= 1.0
+        ), "Quantum coherence should be in valid range"
+        assert (
+            0.0 <= result.consciousness_score <= 1.0
+        ), "Consciousness score should be in valid range"
         assert 0.0 <= result.confidence <= 1.0, "Confidence should be in valid range"
-        assert isinstance(result.thermal_compliance, bool), "Thermal compliance should be boolean"
+        assert isinstance(
+            result.thermal_compliance, bool
+        ), "Thermal compliance should be boolean"
 
     @pytest.mark.asyncio
     async def test_signal_evolution_processing(self, processor):
@@ -436,7 +495,7 @@ class TestTCSEProcessor:
             GeoidState(
                 id="evolving_signal",
                 semantic_state={"evolution": "active", "complexity": 0.8},
-                thermal_properties={"temperature": 0.7, "entropy": 0.4}
+                thermal_properties={"temperature": 0.7, "entropy": 0.4},
             )
         ]
 
@@ -444,7 +503,9 @@ class TestTCSEProcessor:
 
         # Should process signal evolution
         assert len(result.evolved_signals) > 0, "Should have evolved signals"
-        assert result.signal_evolution_accuracy >= 0.0, "Should calculate evolution accuracy"
+        assert (
+            result.signal_evolution_accuracy >= 0.0
+        ), "Should calculate evolution accuracy"
 
     @pytest.mark.asyncio
     async def test_consciousness_analysis(self, processor):
@@ -453,7 +514,7 @@ class TestTCSEProcessor:
             GeoidState(
                 id="conscious_signal",
                 semantic_state={"consciousness": 0.9, "awareness": "high"},
-                consciousness_indicators={"integration": 0.8, "coherence": 0.9}
+                consciousness_indicators={"integration": 0.8, "coherence": 0.9},
             )
         ]
 
@@ -461,7 +522,10 @@ class TestTCSEProcessor:
 
         # Should analyze consciousness
         assert result.consciousness_score >= 0.0, "Should calculate consciousness score"
-        assert result.global_workspace_coherence >= 0.0, "Should calculate workspace coherence"
+        assert (
+            result.global_workspace_coherence >= 0.0
+        ), "Should calculate workspace coherence"
+
 
 # Test execution
 if __name__ == "__main__":

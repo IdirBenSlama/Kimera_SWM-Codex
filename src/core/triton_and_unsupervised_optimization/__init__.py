@@ -20,7 +20,4 @@ Integration follows DO-178C Level A standards with:
 from .triton_cognitive_kernels import TritonCognitiveKernels
 from .unsupervised_test_optimization import UnsupervisedTestOptimization
 
-__all__ = [
-    'TritonCognitiveKernels',
-    'UnsupervisedTestOptimization'
-]
+__all__ = ["TritonCognitiveKernels", "UnsupervisedTestOptimization"]

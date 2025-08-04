@@ -13,11 +13,12 @@ minimal (``KNOWLEDGE_BASE_DIR``, ``list_vaults``, ``get_vault_metadata``).
 """
 
 from __future__ import annotations
-from pathlib import Path
-from typing import Dict, List, Any
-import logging
 
 import json
+import logging
+from pathlib import Path
+from typing import Any, Dict, List
+
 logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
@@ -32,6 +33,7 @@ logger.debug("Knowledge-base directory set to %s", KNOWLEDGE_BASE_DIR)
 # ---------------------------------------------------------------------------
 # Public helper functions
 # ---------------------------------------------------------------------------
+
 
 def list_vaults() -> List[str]:  # noqa: D401
     """Return the names of all vault directories inside :pydata:`KNOWLEDGE_BASE_DIR`."""
@@ -64,4 +66,4 @@ def get_vault_metadata(vault_name: str) -> Dict[str, Any]:  # noqa: D401
         return data
     except Exception as exc:  # pragma: no cover
         logger.exception("Failed to read metadata for vault '%s': %s", vault_name, exc)
-        return {"name": vault_name, "error": str(exc)} 
+        return {"name": vault_name, "error": str(exc)}

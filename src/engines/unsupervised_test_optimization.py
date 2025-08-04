@@ -24,35 +24,39 @@ PHARMACEUTICAL INTEGRATION:
 
 import asyncio
 import logging
+import threading
 import time
-import numpy as np
-import torch
-import torch.nn.functional as F
-from typing import Dict, List, Any, Optional, Tuple, Set
+from collections import defaultdict, deque
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from collections import defaultdict, deque
-import threading
-from concurrent.futures import ThreadPoolExecutor
+from typing import Any, Dict, List, Optional, Set, Tuple
+
+import numpy as np
+import torch
+import torch.nn.functional as F
 from scipy import optimize, stats
 from sklearn.gaussian_process import GaussianProcessRegressor
-from sklearn.gaussian_process.kernels import Matern, RBF, ConstantKernel as C
+from sklearn.gaussian_process.kernels import RBF
+from sklearn.gaussian_process.kernels import ConstantKernel as C
+from sklearn.gaussian_process.kernels import Matern
+
+from ..monitoring.cognitive_field_metrics import get_metrics_collector
+from ..pharmaceutical.analysis.dissolution_analyzer import DissolutionAnalyzer
+from ..pharmaceutical.core.kcl_testing_engine import KClTestingEngine
+from ..pharmaceutical.validation.pharmaceutical_validator import PharmaceuticalValidator
+from ..utils.kimera_exceptions import KimeraBaseException as KimeraException
+from ..utils.kimera_logger import get_logger
+from .cognitive_field_dynamics import CognitiveFieldDynamics
 
 # Core Kimera imports
 from .unsupervised_cognitive_learning_engine import (
-    UnsupervisedCognitiveLearningEngine,
-    LearningPhase,
     LearningEvent,
-    LearningInsight
+    LearningInsight,
+    LearningPhase,
+    UnsupervisedCognitiveLearningEngine,
 )
-from .cognitive_field_dynamics import CognitiveFieldDynamics
-from ..pharmaceutical.core.kcl_testing_engine import KClTestingEngine
-from ..pharmaceutical.analysis.dissolution_analyzer import DissolutionAnalyzer
-from ..pharmaceutical.validation.pharmaceutical_validator import PharmaceuticalValidator
-from ..monitoring.cognitive_field_metrics import get_metrics_collector
-from ..utils.kimera_logger import get_logger
-from ..utils.kimera_exceptions import KimeraBaseException as KimeraException
 
 logger = get_logger(__name__)
 
@@ -625,9 +629,10 @@ class UnsupervisedTestOptimization:
                                            method: str = "cognitive") -> LearningInsight:
         """Generate cognitive insight from optimization progress."""
         from ..engines.unsupervised_cognitive_learning_engine import LearningInsight, LearningEvent, LearningPhase
-from ..utils.config import get_api_settings
+
 from ..config.settings import get_settings
-        
+from ..utils.config import get_api_settings
+
         insight_id = f"opt_insight_{method}_{iteration}_{int(time.time())}"
         
         # Determine insight quality based on objective improvement

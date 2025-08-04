@@ -20,4 +20,4 @@ for _name in _submodules:
         # Submodule might be generated later; ignore for now.
         pass
 
-__all__ = list(_submodules) 
+__all__ = list(_submodules)

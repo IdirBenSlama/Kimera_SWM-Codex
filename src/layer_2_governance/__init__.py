@@ -16,12 +16,12 @@ if str(parent_dir) not in sys.path:
     sys.path.insert(0, str(parent_dir))
 
 # Import the real modules that should appear under ``layer_2_governance``.
-from src import monitoring, security, core, utils
+from src import core, monitoring, security, utils
 
 # Expose them under the legacy package namespace for backwards compatibility.
-sys.modules['src.layer_2_governance.monitoring'] = monitoring
-sys.modules['src.layer_2_governance.security'] = security
-sys.modules['src.layer_2_governance.core'] = core
-sys.modules['src.layer_2_governance.utils'] = utils
+sys.modules["src.layer_2_governance.monitoring"] = monitoring
+sys.modules["src.layer_2_governance.security"] = security
+sys.modules["src.layer_2_governance.core"] = core
+sys.modules["src.layer_2_governance.utils"] = utils
 
-__all__ = ['monitoring', 'security', 'core', 'utils']
+__all__ = ["monitoring", "security", "core", "utils"]

@@ -17,32 +17,36 @@ Version: 1.0.0 (DO-178C Level A)
 """
 
 import asyncio
-import threading
-from dataclasses import dataclass, field
-from typing import Dict, List, Any, Optional, Callable
-from datetime import datetime
-import time
 import sys
+import threading
+import time
+from dataclasses import dataclass, field
+from datetime import datetime
 from pathlib import Path
+from typing import Any, Callable, Dict, List, Optional
 
 # Add src to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
-from utils.kimera_logger import get_logger, LogCategory
-from utils.kimera_exceptions import KimeraValidationError, KimeraCognitiveError
+from utils.kimera_exceptions import KimeraCognitiveError, KimeraValidationError
+from utils.kimera_logger import LogCategory, get_logger
+
+# Protocol engine imports
+from .protocols.omnidimensional.protocol_engine import (
+    MessagePriority,
+    MessageType,
+    ProtocolMessage,
+    SystemDimension,
+    get_global_registry,
+    get_protocol_engine,
+)
+from .testing.configurations.cognitive_contexts import get_cognitive_context_manager
 
 # Testing framework imports
 from .testing.configurations.complexity_levels import get_complexity_manager
 from .testing.configurations.input_types import get_input_generator
-from .testing.configurations.cognitive_contexts import get_cognitive_context_manager
 from .testing.configurations.matrix_validator import get_matrix_validator
 from .testing.framework.test_orchestrator import get_test_orchestrator
-
-# Protocol engine imports
-from .protocols.omnidimensional.protocol_engine import (
-    get_protocol_engine, get_global_registry, SystemDimension,
-    MessageType, MessagePriority, ProtocolMessage
-)
 
 logger = get_logger(__name__, LogCategory.SYSTEM)
 
@@ -50,6 +54,7 @@ logger = get_logger(__name__, LogCategory.SYSTEM)
 @dataclass
 class TestingAndProtocolsConfig:
     """Configuration for testing and protocols integration"""
+
     # Testing configuration
     enable_large_scale_testing: bool = True
     max_parallel_tests: int = 8
@@ -72,6 +77,7 @@ class TestingAndProtocolsConfig:
 @dataclass
 class SystemHealthReport:
     """Comprehensive system health report"""
+
     timestamp: datetime
     testing_framework_status: Dict[str, Any]
     protocol_engine_status: Dict[str, Any]
@@ -121,7 +127,7 @@ class TestingAndProtocolsIntegrator:
             "total_messages_received": 0,
             "average_test_execution_time": 0.0,
             "average_message_latency": 0.0,
-            "system_uptime": 0.0
+            "system_uptime": 0.0,
         }
 
         # Event callbacks
@@ -130,13 +136,15 @@ class TestingAndProtocolsIntegrator:
             "integration_stopped": [],
             "test_matrix_completed": [],
             "health_alert": [],
-            "performance_threshold_exceeded": []
+            "performance_threshold_exceeded": [],
         }
 
         logger.info("🔬 Testing and Protocols Integrator initialized (DO-178C Level A)")
         logger.info(f"   Local dimension: {self.config.local_dimension.value}")
         logger.info(f"   Testing enabled: {self.config.enable_large_scale_testing}")
-        logger.info(f"   Protocols enabled: {self.config.enable_omnidimensional_protocols}")
+        logger.info(
+            f"   Protocols enabled: {self.config.enable_omnidimensional_protocols}"
+        )
 
     async def initialize(self) -> None:
         """Initialize the complete integration system"""
@@ -197,7 +205,9 @@ class TestingAndProtocolsIntegrator:
         def handle_test_result(message: ProtocolMessage) -> None:
             try:
                 if self.config.enable_test_result_broadcasting:
-                    logger.debug(f"Received test result from {message.header.source_dimension.value}")
+                    logger.debug(
+                        f"Received test result from {message.header.source_dimension.value}"
+                    )
                     # Process test result message
                     self._process_test_result_message(message)
             except Exception as e:
@@ -206,7 +216,9 @@ class TestingAndProtocolsIntegrator:
         # Handler for health status
         def handle_health_status(message: ProtocolMessage) -> None:
             try:
-                logger.debug(f"Received health status from {message.header.source_dimension.value}")
+                logger.debug(
+                    f"Received health status from {message.header.source_dimension.value}"
+                )
                 # Process health status message
                 self._process_health_status_message(message)
             except Exception as e:
@@ -215,16 +227,24 @@ class TestingAndProtocolsIntegrator:
         # Handler for system alerts
         def handle_system_alert(message: ProtocolMessage) -> None:
             try:
-                logger.warning(f"Received system alert from {message.header.source_dimension.value}")
+                logger.warning(
+                    f"Received system alert from {message.header.source_dimension.value}"
+                )
                 # Process system alert
                 self._process_system_alert_message(message)
             except Exception as e:
                 logger.error(f"Failed to handle system alert: {e}")
 
         # Register handlers
-        self.protocol_engine.register_message_handler(MessageType.DATA_TRANSFER, handle_test_result)
-        self.protocol_engine.register_message_handler(MessageType.STATUS_REPORT, handle_health_status)
-        self.protocol_engine.register_message_handler(MessageType.SYSTEM_ALERT, handle_system_alert)
+        self.protocol_engine.register_message_handler(
+            MessageType.DATA_TRANSFER, handle_test_result
+        )
+        self.protocol_engine.register_message_handler(
+            MessageType.STATUS_REPORT, handle_health_status
+        )
+        self.protocol_engine.register_message_handler(
+            MessageType.SYSTEM_ALERT, handle_system_alert
+        )
 
         logger.debug("Protocol message handlers registered")
 
@@ -237,15 +257,15 @@ class TestingAndProtocolsIntegrator:
                 "test_orchestration",
                 "result_aggregation",
                 "performance_monitoring",
-                "protocol_communication"
+                "protocol_communication",
             ],
             "status": "active",
             "timestamp": datetime.now().isoformat(),
             "config": {
                 "max_parallel_tests": self.config.max_parallel_tests,
                 "testing_enabled": self.config.enable_large_scale_testing,
-                "protocols_enabled": self.config.enable_omnidimensional_protocols
-            }
+                "protocols_enabled": self.config.enable_omnidimensional_protocols,
+            },
         }
 
         # Broadcast to all known dimensions
@@ -256,7 +276,7 @@ class TestingAndProtocolsIntegrator:
                         destination=dimension,
                         message_type=MessageType.REGISTRATION,
                         data=announcement_data,
-                        priority=MessagePriority.HIGH
+                        priority=MessagePriority.HIGH,
                     )
                     self.protocol_engine.send_message(message)
                 except Exception as e:
@@ -273,7 +293,9 @@ class TestingAndProtocolsIntegrator:
         validation_report = self.matrix_validator.validate_complete_matrix()
 
         if validation_report.invalid_configurations > 0:
-            logger.warning(f"Found {validation_report.invalid_configurations} invalid configurations")
+            logger.warning(
+                f"Found {validation_report.invalid_configurations} invalid configurations"
+            )
 
         # Setup test orchestrator
         self.test_orchestrator.setup_test_execution(test_configurations)
@@ -281,7 +303,9 @@ class TestingAndProtocolsIntegrator:
         # Register test event callbacks
         self._register_test_callbacks()
 
-        logger.info(f"✅ Testing framework initialized with {len(test_configurations)} test configurations")
+        logger.info(
+            f"✅ Testing framework initialized with {len(test_configurations)} test configurations"
+        )
 
     def _register_test_callbacks(self) -> None:
         """Register callbacks for test execution events"""
@@ -302,7 +326,9 @@ class TestingAndProtocolsIntegrator:
         def on_test_failed(context):
             """Handle test failure"""
             try:
-                logger.warning(f"Test {context.configuration.config_id} failed: {context.error_message}")
+                logger.warning(
+                    f"Test {context.configuration.config_id} failed: {context.error_message}"
+                )
 
                 # Broadcast failure alert if severe
                 if context.retry_count >= context.max_retries:
@@ -328,7 +354,9 @@ class TestingAndProtocolsIntegrator:
         # Register callbacks with test orchestrator
         self.test_orchestrator.add_event_callback("test_completed", on_test_completed)
         self.test_orchestrator.add_event_callback("test_failed", on_test_failed)
-        self.test_orchestrator.add_event_callback("orchestration_completed", on_orchestration_completed)
+        self.test_orchestrator.add_event_callback(
+            "orchestration_completed", on_orchestration_completed
+        )
 
     async def _setup_inter_component_communication(self) -> None:
         """Setup communication between testing and protocol components"""
@@ -358,11 +386,16 @@ class TestingAndProtocolsIntegrator:
 
                 except Exception as e:
                     logger.warning(f"❌ Failed to validate {dimension.value}: {e}")
-                    validation_results[dimension.value] = {"status": "error", "error": str(e)}
+                    validation_results[dimension.value] = {
+                        "status": "error",
+                        "error": str(e),
+                    }
 
-        logger.info(f"Cross-dimensional validation completed: "
-                   f"{sum(1 for r in validation_results.values() if r.get('status') == 'healthy')}"
-                   f"/{len(validation_results)} connections healthy")
+        logger.info(
+            f"Cross-dimensional validation completed: "
+            f"{sum(1 for r in validation_results.values() if r.get('status') == 'healthy')}"
+            f"/{len(validation_results)} connections healthy"
+        )
 
     def _start_monitoring(self) -> None:
         """Start system monitoring in background thread"""
@@ -372,8 +405,7 @@ class TestingAndProtocolsIntegrator:
         self.monitoring_active = True
         self._stop_monitoring.clear()
         self.monitoring_thread = threading.Thread(
-            target=self._monitoring_loop,
-            daemon=True
+            target=self._monitoring_loop, daemon=True
         )
         self.monitoring_thread.start()
 
@@ -414,7 +446,7 @@ class TestingAndProtocolsIntegrator:
                 "orchestrator_active": self.test_orchestrator.orchestration_active,
                 "current_metrics": self.test_orchestrator.get_current_metrics(),
                 "complexity_manager_status": self.complexity_manager.get_status_report(),
-                "context_manager_status": self.context_manager.get_comprehensive_report()
+                "context_manager_status": self.context_manager.get_comprehensive_report(),
             }
 
         # Get protocol engine status
@@ -423,24 +455,32 @@ class TestingAndProtocolsIntegrator:
             protocol_status = self.protocol_engine.get_engine_statistics()
 
         # Calculate integration metrics
-        uptime = (current_time - self.start_time).total_seconds() if self.start_time else 0.0
+        uptime = (
+            (current_time - self.start_time).total_seconds() if self.start_time else 0.0
+        )
 
         integration_metrics = {
             "uptime_seconds": uptime,
             "integration_active": self.integration_active,
             "monitoring_active": self.monitoring_active,
             "performance_metrics": self.performance_metrics.copy(),
-            "health_history_entries": len(self.health_history)
+            "health_history_entries": len(self.health_history),
         }
 
         # Calculate overall health score
-        health_score = self._calculate_health_score(testing_status, protocol_status, integration_metrics)
+        health_score = self._calculate_health_score(
+            testing_status, protocol_status, integration_metrics
+        )
 
         # Generate recommendations
-        recommendations = self._generate_recommendations(testing_status, protocol_status, health_score)
+        recommendations = self._generate_recommendations(
+            testing_status, protocol_status, health_score
+        )
 
         # Check for alerts
-        alerts = self._detect_alerts(testing_status, protocol_status, integration_metrics)
+        alerts = self._detect_alerts(
+            testing_status, protocol_status, integration_metrics
+        )
 
         return SystemHealthReport(
             timestamp=current_time,
@@ -449,13 +489,15 @@ class TestingAndProtocolsIntegrator:
             integration_metrics=integration_metrics,
             overall_health_score=health_score,
             recommendations=recommendations,
-            alerts=alerts
+            alerts=alerts,
         )
 
-    def _calculate_health_score(self,
-                              testing_status: Dict[str, Any],
-                              protocol_status: Dict[str, Any],
-                              integration_metrics: Dict[str, Any]) -> float:
+    def _calculate_health_score(
+        self,
+        testing_status: Dict[str, Any],
+        protocol_status: Dict[str, Any],
+        integration_metrics: Dict[str, Any],
+    ) -> float:
         """Calculate overall system health score (0.0 to 1.0)"""
         score = 1.0
 
@@ -476,7 +518,9 @@ class TestingAndProtocolsIntegrator:
                 score -= 0.2 * (0.9 - success_rate)
 
             connections = protocol_status.get("connections", {})
-            healthy_ratio = connections.get("healthy_dimensions", 0) / max(1, connections.get("registered_dimensions", 1))
+            healthy_ratio = connections.get("healthy_dimensions", 0) / max(
+                1, connections.get("registered_dimensions", 1)
+            )
             if healthy_ratio < 0.8:
                 score -= 0.3 * (0.8 - healthy_ratio)
 
@@ -486,75 +530,100 @@ class TestingAndProtocolsIntegrator:
 
         return max(0.0, min(1.0, score))
 
-    def _generate_recommendations(self,
-                                testing_status: Dict[str, Any],
-                                protocol_status: Dict[str, Any],
-                                health_score: float) -> List[str]:
+    def _generate_recommendations(
+        self,
+        testing_status: Dict[str, Any],
+        protocol_status: Dict[str, Any],
+        health_score: float,
+    ) -> List[str]:
         """Generate system recommendations based on current status"""
         recommendations = []
 
         if health_score < 0.7:
-            recommendations.append("System health below optimal - investigate issues immediately")
+            recommendations.append(
+                "System health below optimal - investigate issues immediately"
+            )
 
         # Testing framework recommendations
         if self.config.enable_large_scale_testing and testing_status:
             current_metrics = testing_status.get("current_metrics")
             if current_metrics:
                 if current_metrics.success_rate < 0.8:
-                    recommendations.append("Test success rate low - review test configurations and system resources")
+                    recommendations.append(
+                        "Test success rate low - review test configurations and system resources"
+                    )
 
                 if current_metrics.throughput_per_minute < 5.0:
-                    recommendations.append("Test throughput low - consider increasing parallelism or optimizing tests")
+                    recommendations.append(
+                        "Test throughput low - consider increasing parallelism or optimizing tests"
+                    )
 
         # Protocol recommendations
         if self.config.enable_omnidimensional_protocols and protocol_status:
             performance = protocol_status.get("performance", {})
             if performance.get("average_latency", 0) > 0.1:  # 100ms
-                recommendations.append("High message latency detected - check network and routing efficiency")
+                recommendations.append(
+                    "High message latency detected - check network and routing efficiency"
+                )
 
             connections = protocol_status.get("connections", {})
-            if connections.get("healthy_dimensions", 0) < connections.get("registered_dimensions", 0) * 0.8:
-                recommendations.append("Multiple unhealthy connections - investigate dimension health")
+            if (
+                connections.get("healthy_dimensions", 0)
+                < connections.get("registered_dimensions", 0) * 0.8
+            ):
+                recommendations.append(
+                    "Multiple unhealthy connections - investigate dimension health"
+                )
 
         return recommendations
 
-    def _detect_alerts(self,
-                      testing_status: Dict[str, Any],
-                      protocol_status: Dict[str, Any],
-                      integration_metrics: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _detect_alerts(
+        self,
+        testing_status: Dict[str, Any],
+        protocol_status: Dict[str, Any],
+        integration_metrics: Dict[str, Any],
+    ) -> List[Dict[str, Any]]:
         """Detect system alerts based on current status"""
         alerts = []
 
         # High severity alerts
         if not integration_metrics.get("integration_active", False):
-            alerts.append({
-                "severity": "CRITICAL",
-                "type": "system_failure",
-                "message": "Integration system not active",
-                "timestamp": datetime.now()
-            })
+            alerts.append(
+                {
+                    "severity": "CRITICAL",
+                    "type": "system_failure",
+                    "message": "Integration system not active",
+                    "timestamp": datetime.now(),
+                }
+            )
 
         # Testing alerts
         if self.config.enable_large_scale_testing and testing_status:
             current_metrics = testing_status.get("current_metrics")
             if current_metrics and current_metrics.success_rate < 0.5:
-                alerts.append({
-                    "severity": "HIGH",
-                    "type": "test_failure_rate",
-                    "message": f"Test success rate critically low: {current_metrics.success_rate:.1%}",
-                    "timestamp": datetime.now()
-                })
+                alerts.append(
+                    {
+                        "severity": "HIGH",
+                        "type": "test_failure_rate",
+                        "message": f"Test success rate critically low: {current_metrics.success_rate:.1%}",
+                        "timestamp": datetime.now(),
+                    }
+                )
 
         # Protocol alerts
         if self.config.enable_omnidimensional_protocols and protocol_status:
             messages = protocol_status.get("messages", {})
-            if messages.get("failed", 0) > messages.get("sent", 1) * 0.1:  # >10% failure rate
-                alerts.append({
-                    "severity": "MEDIUM",
-                    "type": "message_failure_rate",
-                    "message": f"High message failure rate: {messages.get('failed', 0)} failures",
-                    "timestamp": datetime.now()
-                })
+            if (
+                messages.get("failed", 0) > messages.get("sent", 1) * 0.1
+            ):  # >10% failure rate
+                alerts.append(
+                    {
+                        "severity": "MEDIUM",
+                        "type": "message_failure_rate",
+                        "message": f"High message failure rate: {messages.get('failed', 0)} failures",
+                        "timestamp": datetime.now(),
+                    }
+                )
 
         return alerts
 
@@ -605,17 +674,20 @@ class TestingAndProtocolsIntegrator:
                 "success": result.success,
                 "execution_time": result.execution_time,
                 "accuracy_score": result.accuracy_score,
-                "timestamp": result.timestamp.isoformat()
+                "timestamp": result.timestamp.isoformat(),
             }
 
             # Send to relevant dimensions
-            for dimension in [SystemDimension.COGNITIVE_RESPONSE, SystemDimension.SYSTEM_MONITOR]:
+            for dimension in [
+                SystemDimension.COGNITIVE_RESPONSE,
+                SystemDimension.SYSTEM_MONITOR,
+            ]:
                 if dimension != self.config.local_dimension:
                     message = self.protocol_engine.create_message(
                         destination=dimension,
                         message_type=MessageType.DATA_TRANSFER,
                         data=result_data,
-                        priority=MessagePriority.LOW
+                        priority=MessagePriority.LOW,
                     )
                     self.protocol_engine.send_message(message)
 
@@ -630,7 +702,7 @@ class TestingAndProtocolsIntegrator:
                 "summary": results.get("summary", {}),
                 "dimension_analysis": results.get("dimension_analysis", {}),
                 "timestamp": datetime.now().isoformat(),
-                "source": self.config.local_dimension.value
+                "source": self.config.local_dimension.value,
             }
 
             # Broadcast to all dimensions
@@ -640,7 +712,7 @@ class TestingAndProtocolsIntegrator:
                         destination=dimension,
                         message_type=MessageType.DATA_TRANSFER,
                         data=completion_data,
-                        priority=MessagePriority.NORMAL
+                        priority=MessagePriority.NORMAL,
                     )
                     self.protocol_engine.send_message(message)
 
@@ -659,7 +731,7 @@ class TestingAndProtocolsIntegrator:
                 "error_message": context.error_message,
                 "retry_count": context.retry_count,
                 "timestamp": datetime.now().isoformat(),
-                "severity": "HIGH"
+                "severity": "HIGH",
             }
 
             # Send to system monitor
@@ -667,7 +739,7 @@ class TestingAndProtocolsIntegrator:
                 destination=SystemDimension.SYSTEM_MONITOR,
                 message_type=MessageType.SYSTEM_ALERT,
                 data=alert_data,
-                priority=MessagePriority.HIGH
+                priority=MessagePriority.HIGH,
             )
             self.protocol_engine.send_message(message)
 
@@ -698,7 +770,9 @@ class TestingAndProtocolsIntegrator:
         current_avg = self.performance_metrics["average_test_execution_time"]
         total_tests = self.performance_metrics["total_tests_executed"]
 
-        new_avg = ((current_avg * (total_tests - 1)) + result.execution_time) / total_tests
+        new_avg = (
+            (current_avg * (total_tests - 1)) + result.execution_time
+        ) / total_tests
         self.performance_metrics["average_test_execution_time"] = new_avg
 
     def _generate_completion_report(self, results: Dict[str, Any]) -> None:
@@ -711,7 +785,7 @@ class TestingAndProtocolsIntegrator:
                 "resource_utilization": results.get("resource_usage", {}),
                 "quality_assessment": results.get("quality_assessment", {}),
                 "integration_metrics": self.performance_metrics.copy(),
-                "generation_timestamp": datetime.now().isoformat()
+                "generation_timestamp": datetime.now().isoformat(),
             }
 
             logger.info("📊 Test matrix completion report generated")
@@ -744,12 +818,22 @@ class TestingAndProtocolsIntegrator:
             "config": {
                 "testing_enabled": self.config.enable_large_scale_testing,
                 "protocols_enabled": self.config.enable_omnidimensional_protocols,
-                "monitoring_enabled": self.config.enable_performance_monitoring
+                "monitoring_enabled": self.config.enable_performance_monitoring,
             },
-            "uptime_seconds": (datetime.now() - self.start_time).total_seconds() if self.start_time else 0,
+            "uptime_seconds": (
+                (datetime.now() - self.start_time).total_seconds()
+                if self.start_time
+                else 0
+            ),
             "performance_metrics": self.performance_metrics.copy(),
-            "health_score": self.health_history[-1].overall_health_score if self.health_history else 0.0,
-            "latest_health_report": self.health_history[-1] if self.health_history else None
+            "health_score": (
+                self.health_history[-1].overall_health_score
+                if self.health_history
+                else 0.0
+            ),
+            "latest_health_report": (
+                self.health_history[-1] if self.health_history else None
+            ),
         }
 
     def get_latest_health_report(self) -> Optional[SystemHealthReport]:
@@ -791,7 +875,10 @@ class TestingAndProtocolsIntegrator:
 # Global instance for module access
 _integrator: Optional[TestingAndProtocolsIntegrator] = None
 
-def get_testing_and_protocols_integrator(config: Optional[TestingAndProtocolsConfig] = None) -> TestingAndProtocolsIntegrator:
+
+def get_testing_and_protocols_integrator(
+    config: Optional[TestingAndProtocolsConfig] = None,
+) -> TestingAndProtocolsIntegrator:
     """Get global testing and protocols integrator instance"""
     global _integrator
     if _integrator is None:

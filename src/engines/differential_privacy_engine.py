@@ -11,15 +11,16 @@ Date: June 2025
 Status: Production-Ready
 """
 
-import numpy as np
+import logging
+import math
+from dataclasses import dataclass
+from enum import Enum
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+
 import cupy as cp
+import numpy as np
 import torch
 from numba import cuda
-from typing import Tuple, Optional, Dict, Any, Union, List, Callable
-import logging
-from dataclasses import dataclass
-import math
-from enum import Enum
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -514,9 +515,10 @@ class DifferentialPrivacyEngine:
             Performance metrics
         """
         import time
-from ..utils.config import get_api_settings
+
 from ..config.settings import get_settings
-        
+from ..utils.config import get_api_settings
+
         results = {}
         sizes = [1000, 10000, 100000, 1000000]
         

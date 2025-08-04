@@ -1,13 +1,16 @@
 from __future__ import annotations
-from dataclasses import dataclass, field
-from typing import Dict, Any, List
-from collections import Counter
+
 import logging
-from ..utils.config import get_api_settings
+from collections import Counter
+from dataclasses import dataclass, field
+from typing import Any, Dict, List
+
 from ..config.settings import get_settings
+from ..utils.config import get_api_settings
 
 # Assuming InsightScar is defined in a reachable path.
-# from ..core.insight import InsightScar 
+# from ..core.insight import InsightScar
+
 
 # Placeholder for InsightScar until it's properly defined and imported.
 @dataclass
@@ -16,6 +19,7 @@ class InsightScar:
     insight_type: str
     application_domains: List[str] = field(default_factory=list)
     echoform_repr: str = ""
+
 
 # --- Setup Logging ---
 logging.basicConfig(level=logging.INFO)
@@ -29,9 +33,11 @@ class MetaInsightEngine:
     Implements Task 3.5 from the Re-Contextualization roadmap.
     """
 
-    min_pattern_frequency: int = 3 # Minimum occurrences to be considered a pattern
+    min_pattern_frequency: int = 3  # Minimum occurrences to be considered a pattern
 
-    def scan_recent_insights(self, insight_scars: List[InsightScar]) -> List[InsightScar]:
+    def scan_recent_insights(
+        self, insight_scars: List[InsightScar]
+    ) -> List[InsightScar]:
         """
         Scans a list of recent insights to detect recurring patterns and generate meta-insights.
 
@@ -45,27 +51,45 @@ class MetaInsightEngine:
             return []
 
         log.info(f"Scanning {len(insight_scars)} insights for meta-patterns.")
-        
+
         patterns = self.detect_recurring_patterns(insight_scars)
         meta_insights = self._generate_meta_insights_from_patterns(patterns)
-        
+
         return meta_insights
 
-    def detect_recurring_patterns(self, insight_scars: List[InsightScar]) -> Dict[str, Counter]:
+    def detect_recurring_patterns(
+        self, insight_scars: List[InsightScar]
+    ) -> Dict[str, Counter]:
         """
         Detects recurring patterns in insight types and application domains.
         """
         type_counter = Counter(s.insight_type for s in insight_scars)
-        domain_counter = Counter(d for s in insight_scars for d in s.application_domains)
+        domain_counter = Counter(
+            d for s in insight_scars for d in s.application_domains
+        )
 
         significant_patterns = {
-            "insight_types": Counter({t: c for t, c in type_counter.items() if c >= self.min_pattern_frequency}),
-            "application_domains": Counter({d: c for d, c in domain_counter.items() if c >= self.min_pattern_frequency})
+            "insight_types": Counter(
+                {
+                    t: c
+                    for t, c in type_counter.items()
+                    if c >= self.min_pattern_frequency
+                }
+            ),
+            "application_domains": Counter(
+                {
+                    d: c
+                    for d, c in domain_counter.items()
+                    if c >= self.min_pattern_frequency
+                }
+            ),
         }
-        
+
         return significant_patterns
 
-    def _generate_meta_insights_from_patterns(self, patterns: Dict[str, Counter]) -> List[InsightScar]:
+    def _generate_meta_insights_from_patterns(
+        self, patterns: Dict[str, Counter]
+    ) -> List[InsightScar]:
         """
         Generates new META_FRAMEWORK InsightScars from detected patterns.
         """
@@ -76,7 +100,7 @@ class MetaInsightEngine:
             meta_insight = InsightScar(
                 insight_id=f"META_{insight_type.upper()}_PATTERN",
                 insight_type="META_FRAMEWORK",
-                echoform_repr=f"The system frequently generates '{insight_type}' insights, suggesting a process bias or high utility for this pattern."
+                echoform_repr=f"The system frequently generates '{insight_type}' insights, suggesting a process bias or high utility for this pattern.",
             )
             meta_insights.append(meta_insight)
             log.info(f"Generated meta-insight for recurring type: '{insight_type}'")
@@ -86,9 +110,9 @@ class MetaInsightEngine:
             meta_insight = InsightScar(
                 insight_id=f"META_{domain.upper()}_DOMAIN_FOCUS",
                 insight_type="META_FRAMEWORK",
-                echoform_repr=f"The application domain '{domain}' is a frequent target for insights, indicating a strong contextual focus."
+                echoform_repr=f"The application domain '{domain}' is a frequent target for insights, indicating a strong contextual focus.",
             )
             meta_insights.append(meta_insight)
             log.info(f"Generated meta-insight for recurring domain: '{domain}'")
 
-        return meta_insights 
+        return meta_insights

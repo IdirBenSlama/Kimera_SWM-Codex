@@ -21,9 +21,10 @@ Integration Points:
 import asyncio
 import threading
 import time
-from typing import Dict, Any, Optional, List, Tuple, Union
 from dataclasses import dataclass
 from datetime import datetime, timezone
+from typing import Any, Dict, List, Optional, Tuple, Union
+
 import numpy as np
 
 # Kimera imports with robust fallback handling
@@ -34,8 +35,10 @@ except ImportError:
         from utils.kimera_logger import get_system_logger
     except ImportError:
         import logging
+
         def get_system_logger(*args, **kwargs):
             return logging.getLogger(__name__)
+
 
 try:
     from src.core.constants import EPSILON, MAX_ITERATIONS, PHI
@@ -52,6 +55,7 @@ except ImportError:
 try:
     import scipy.integrate
     import scipy.optimize
+
     SCIPY_AVAILABLE = True
 except ImportError:
     SCIPY_AVAILABLE = False
@@ -67,6 +71,7 @@ logger = get_system_logger(__name__)
 @dataclass
 class VortexDynamicsMetrics:
     """Comprehensive metrics for vortex dynamics and energy storage system."""
+
     vortex_stability_index: float = 0.0
     energy_storage_efficiency: float = 0.0
     thermodynamic_consistency: float = 0.0
@@ -142,12 +147,17 @@ class VortexDynamicsIntegrator:
         self._initialized = True
         self.metrics.health_status = "OPERATIONAL"
 
-        logger.info("🌀 Vortex Dynamics and Energy Storage Integrator initialized successfully (DO-178C Level A)")
+        logger.info(
+            "🌀 Vortex Dynamics and Energy Storage Integrator initialized successfully (DO-178C Level A)"
+        )
 
     def _start_health_monitoring(self) -> None:
         """Start health monitoring thread with nuclear-grade protocols."""
+
         def health_monitor():
-            while not self._stop_health_monitoring.wait(0.2):  # SR-4.24.6: 200ms intervals
+            while not self._stop_health_monitoring.wait(
+                0.2
+            ):  # SR-4.24.6: 200ms intervals
                 try:
                     self._update_health_metrics()
                 except Exception as e:
@@ -167,51 +177,65 @@ class VortexDynamicsIntegrator:
             if self.vortex_dynamics:
                 components_operational += 1
                 # Vortex stability monitoring (SR-4.24.1)
-                if hasattr(self.vortex_dynamics, 'vortices'):
-                    vortices = getattr(self.vortex_dynamics, 'vortices', [])
+                if hasattr(self.vortex_dynamics, "vortices"):
+                    vortices = getattr(self.vortex_dynamics, "vortices", [])
                     self.metrics.active_vortices = len(vortices)
 
                     if vortices:
                         # Calculate stability index
                         stability_scores = []
                         for vortex in vortices:
-                            if hasattr(vortex, 'circulation') and hasattr(vortex, 'position'):
-                                circulation = getattr(vortex, 'circulation', 0.0)
+                            if hasattr(vortex, "circulation") and hasattr(
+                                vortex, "position"
+                            ):
+                                circulation = getattr(vortex, "circulation", 0.0)
                                 if circulation != 0:
                                     stability = 1.0 / (1.0 + abs(circulation - 1.0))
                                     stability_scores.append(stability)
 
                         if stability_scores:
-                            self.metrics.vortex_stability_index = np.mean(stability_scores)
+                            self.metrics.vortex_stability_index = np.mean(
+                                stability_scores
+                            )
 
             if self.energy_storage:
                 components_operational += 1
                 # Energy storage efficiency monitoring (SR-4.24.2)
-                if hasattr(self.energy_storage, 'stored_energy'):
-                    stored_energy = getattr(self.energy_storage, 'stored_energy', 0.0)
+                if hasattr(self.energy_storage, "stored_energy"):
+                    stored_energy = getattr(self.energy_storage, "stored_energy", 0.0)
                     self.metrics.total_energy_stored = stored_energy
 
-                if hasattr(self.energy_storage, 'efficiency'):
-                    efficiency = getattr(self.energy_storage, 'efficiency', 0.0)
+                if hasattr(self.energy_storage, "efficiency"):
+                    efficiency = getattr(self.energy_storage, "efficiency", 0.0)
                     self.metrics.energy_storage_efficiency = efficiency
 
             if self.thermodynamic_battery:
                 components_operational += 1
                 # Thermodynamic consistency monitoring (SR-4.24.3)
-                if hasattr(self.thermodynamic_battery, 'temperature'):
-                    temperature = getattr(self.thermodynamic_battery, 'temperature', 300.0)
+                if hasattr(self.thermodynamic_battery, "temperature"):
+                    temperature = getattr(
+                        self.thermodynamic_battery, "temperature", 300.0
+                    )
                     # Temperature stability within reasonable bounds
                     temp_stability = 1.0 - abs(temperature - 300.0) / 1000.0
                     self.metrics.temperature_stability = max(0.0, temp_stability)
 
-                if hasattr(self.thermodynamic_battery, 'energy_conservation_ratio'):
-                    conservation = getattr(self.thermodynamic_battery, 'energy_conservation_ratio', 1.0)
-                    self.metrics.energy_conservation_score = 1.0 - abs(1.0 - conservation)
+                if hasattr(self.thermodynamic_battery, "energy_conservation_ratio"):
+                    conservation = getattr(
+                        self.thermodynamic_battery, "energy_conservation_ratio", 1.0
+                    )
+                    self.metrics.energy_conservation_score = 1.0 - abs(
+                        1.0 - conservation
+                    )
 
             # Overall health assessment
             health_ratio = components_operational / total_components
-            stability_ok = self.metrics.vortex_stability_index >= 0.95  # 5% tolerance (SR-4.24.1)
-            conservation_ok = self.metrics.energy_conservation_score >= 0.999  # 0.1% tolerance (SR-4.24.2)
+            stability_ok = (
+                self.metrics.vortex_stability_index >= 0.95
+            )  # 5% tolerance (SR-4.24.1)
+            conservation_ok = (
+                self.metrics.energy_conservation_score >= 0.999
+            )  # 0.1% tolerance (SR-4.24.2)
 
             if health_ratio >= 0.8 and stability_ok and conservation_ok:
                 self.metrics.health_status = "OPTIMAL"
@@ -222,7 +246,9 @@ class VortexDynamicsIntegrator:
 
             self.metrics.last_update = datetime.now(timezone.utc)
 
-    async def simulate_vortex_dynamics(self, initial_conditions: Dict[str, Any]) -> Dict[str, Any]:
+    async def simulate_vortex_dynamics(
+        self, initial_conditions: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """
         Simulate vortex dynamics with stability guarantees.
 
@@ -245,13 +271,15 @@ class VortexDynamicsIntegrator:
                 return await self._simplified_vortex_simulation(initial_conditions)
 
             # Computational limit enforcement (SR-4.24.4)
-            max_vortices = initial_conditions.get('max_vortices', 100)
+            max_vortices = initial_conditions.get("max_vortices", 100)
             if max_vortices > 1000:
                 logger.warning("Vortex count exceeds safety limit, capping at 1000")
                 max_vortices = 1000
 
             # Execute vortex simulation
-            simulation_result = await self._execute_vortex_simulation(initial_conditions, max_vortices)
+            simulation_result = await self._execute_vortex_simulation(
+                initial_conditions, max_vortices
+            )
 
             # Triple stability validation (SR-4.24.7)
             validations_passed = 0
@@ -270,7 +298,9 @@ class VortexDynamicsIntegrator:
 
             # Require all 3 validations for safety
             if validations_passed < 3:
-                logger.warning(f"Vortex simulation failed validation ({validations_passed}/3), using safe fallback")
+                logger.warning(
+                    f"Vortex simulation failed validation ({validations_passed}/3), using safe fallback"
+                )
                 return await self._simplified_vortex_simulation(initial_conditions)
 
             elapsed = time.time() - start_time
@@ -282,15 +312,21 @@ class VortexDynamicsIntegrator:
             logger.error(f"Vortex dynamics simulation failed: {e}")
             return await self._simplified_vortex_simulation(initial_conditions)
 
-    async def _execute_vortex_simulation(self, initial_conditions: Dict[str, Any], max_vortices: int) -> Dict[str, Any]:
+    async def _execute_vortex_simulation(
+        self, initial_conditions: Dict[str, Any], max_vortices: int
+    ) -> Dict[str, Any]:
         """Execute vortex simulation with safety protocols."""
         try:
             # Extract simulation parameters
-            time_steps = min(initial_conditions.get('time_steps', 100), 1000)  # Safety limit
-            dt = initial_conditions.get('dt', 0.01)
+            time_steps = min(
+                initial_conditions.get("time_steps", 100), 1000
+            )  # Safety limit
+            dt = initial_conditions.get("dt", 0.01)
 
             # Initialize vortex field
-            vortex_field = self._initialize_vortex_field(initial_conditions, max_vortices)
+            vortex_field = self._initialize_vortex_field(
+                initial_conditions, max_vortices
+            )
 
             # Time evolution simulation
             simulation_history = []
@@ -300,10 +336,13 @@ class VortexDynamicsIntegrator:
 
                 # Record state
                 state = {
-                    'time': step * dt,
-                    'vortex_count': len(vortex_field.get('vortices', [])),
-                    'total_circulation': sum(v.get('circulation', 0.0) for v in vortex_field.get('vortices', [])),
-                    'kinetic_energy': self._calculate_kinetic_energy(vortex_field)
+                    "time": step * dt,
+                    "vortex_count": len(vortex_field.get("vortices", [])),
+                    "total_circulation": sum(
+                        v.get("circulation", 0.0)
+                        for v in vortex_field.get("vortices", [])
+                    ),
+                    "kinetic_energy": self._calculate_kinetic_energy(vortex_field),
                 }
                 simulation_history.append(state)
 
@@ -311,80 +350,86 @@ class VortexDynamicsIntegrator:
                 if step % 10 == 0:
                     stability = self._calculate_stability_metric(vortex_field)
                     if stability < 0.5:  # Stability threshold
-                        logger.warning(f"Simulation instability detected at step {step}, terminating")
+                        logger.warning(
+                            f"Simulation instability detected at step {step}, terminating"
+                        )
                         break
 
             return {
-                'vortex_field': vortex_field,
-                'simulation_history': simulation_history,
-                'final_stability': self._calculate_stability_metric(vortex_field),
-                'status': 'completed'
+                "vortex_field": vortex_field,
+                "simulation_history": simulation_history,
+                "final_stability": self._calculate_stability_metric(vortex_field),
+                "status": "completed",
             }
 
         except Exception as e:
             logger.error(f"Vortex simulation execution failed: {e}")
             raise
 
-    def _initialize_vortex_field(self, initial_conditions: Dict[str, Any], max_vortices: int) -> Dict[str, Any]:
+    def _initialize_vortex_field(
+        self, initial_conditions: Dict[str, Any], max_vortices: int
+    ) -> Dict[str, Any]:
         """Initialize vortex field from initial conditions."""
         vortices = []
-        vortex_specs = initial_conditions.get('vortices', [])
+        vortex_specs = initial_conditions.get("vortices", [])
 
         for i, spec in enumerate(vortex_specs[:max_vortices]):  # Limit enforcement
             vortex = {
-                'id': i,
-                'position': spec.get('position', [0.0, 0.0]),
-                'circulation': spec.get('circulation', 1.0),
-                'core_radius': spec.get('core_radius', 0.1),
-                'velocity': [0.0, 0.0]
+                "id": i,
+                "position": spec.get("position", [0.0, 0.0]),
+                "circulation": spec.get("circulation", 1.0),
+                "core_radius": spec.get("core_radius", 0.1),
+                "velocity": [0.0, 0.0],
             }
             vortices.append(vortex)
 
         return {
-            'vortices': vortices,
-            'domain_size': initial_conditions.get('domain_size', 10.0),
-            'viscosity': initial_conditions.get('viscosity', 0.01)
+            "vortices": vortices,
+            "domain_size": initial_conditions.get("domain_size", 10.0),
+            "viscosity": initial_conditions.get("viscosity", 0.01),
         }
 
-    def _evolve_vortex_step(self, vortex_field: Dict[str, Any], dt: float) -> Dict[str, Any]:
+    def _evolve_vortex_step(
+        self, vortex_field: Dict[str, Any], dt: float
+    ) -> Dict[str, Any]:
         """Evolve vortex field by one time step."""
-        vortices = vortex_field['vortices']
-        viscosity = vortex_field.get('viscosity', 0.01)
+        vortices = vortex_field["vortices"]
+        viscosity = vortex_field.get("viscosity", 0.01)
 
         # Calculate velocities due to other vortices
         for i, vortex_i in enumerate(vortices):
             velocity = [0.0, 0.0]
-            pos_i = vortex_i['position']
+            pos_i = vortex_i["position"]
 
             for j, vortex_j in enumerate(vortices):
                 if i == j:
                     continue
 
-                pos_j = vortex_j['position']
-                circulation_j = vortex_j['circulation']
+                pos_j = vortex_j["position"]
+                circulation_j = vortex_j["circulation"]
 
                 # Distance vector
                 dx = pos_j[0] - pos_i[0]
                 dy = pos_j[1] - pos_i[1]
-                r_squared = dx*dx + dy*dy + EPSILON
+                r_squared = dx * dx + dy * dy + EPSILON
 
                 # Velocity induced by vortex j on vortex i
                 velocity[0] += -circulation_j * dy / (2 * np.pi * r_squared)
                 velocity[1] += circulation_j * dx / (2 * np.pi * r_squared)
 
-            vortex_i['velocity'] = velocity
+            vortex_i["velocity"] = velocity
 
         # Update positions
         for vortex in vortices:
-            velocity = vortex['velocity']
-            position = vortex['position']
+            velocity = vortex["velocity"]
+            position = vortex["position"]
 
             # Euler integration with viscous damping
             position[0] += velocity[0] * dt * (1.0 - viscosity * dt)
             position[1] += velocity[1] * dt * (1.0 - viscosity * dt)
 
             # Apply periodic boundary conditions
-            domain_size = vortex_field.get('domain_size', 10.0)
+            domain_size = vortex_field.get("domain_size", 10.0)
             position[0] = position[0] % domain_size
             position[1] = position[1] % domain_size
 
@@ -393,11 +438,11 @@ class VortexDynamicsIntegrator:
     def _calculate_kinetic_energy(self, vortex_field: Dict[str, Any]) -> float:
         """Calculate total kinetic energy of vortex field."""
         total_energy = 0.0
-        vortices = vortex_field.get('vortices', [])
+        vortices = vortex_field.get("vortices", [])
 
         for vortex in vortices:
-            circulation = vortex.get('circulation', 0.0)
-            core_radius = vortex.get('core_radius', 0.1)
+            circulation = vortex.get("circulation", 0.0)
+            core_radius = vortex.get("core_radius", 0.1)
 
             # Kinetic energy per unit mass for a vortex
             energy = (circulation**2) / (8 * np.pi * core_radius**2)
@@ -407,44 +452,48 @@ class VortexDynamicsIntegrator:
 
     def _calculate_stability_metric(self, vortex_field: Dict[str, Any]) -> float:
         """Calculate stability metric for vortex field."""
-        vortices = vortex_field.get('vortices', [])
+        vortices = vortex_field.get("vortices", [])
         if not vortices:
             return 1.0
 
         # Stability based on circulation conservation and spatial distribution
-        total_circulation = sum(abs(v.get('circulation', 0.0)) for v in vortices)
+        total_circulation = sum(abs(v.get("circulation", 0.0)) for v in vortices)
         if total_circulation < EPSILON:
             return 1.0
 
         # Check for vortex clustering (instability indicator)
-        positions = [v.get('position', [0.0, 0.0]) for v in vortices]
-        min_distance = float('inf')
+        positions = [v.get("position", [0.0, 0.0]) for v in vortices]
+        min_distance = float("inf")
 
         for i in range(len(positions)):
-            for j in range(i+1, len(positions)):
+            for j in range(i + 1, len(positions)):
                 dx = positions[i][0] - positions[j][0]
                 dy = positions[i][1] - positions[j][1]
-                distance = np.sqrt(dx*dx + dy*dy)
+                distance = np.sqrt(dx * dx + dy * dy)
                 min_distance = min(min_distance, distance)
 
         # Stability inversely related to clustering
         stability = min(1.0, min_distance / 0.1)  # 0.1 is minimum safe distance
         return stability
 
-    def _validate_circulation_conservation(self, simulation_result: Dict[str, Any]) -> bool:
+    def _validate_circulation_conservation(
+        self, simulation_result: Dict[str, Any]
+    ) -> bool:
         """Validate circulation conservation throughout simulation."""
         try:
-            history = simulation_result.get('simulation_history', [])
+            history = simulation_result.get("simulation_history", [])
             if len(history) < 2:
                 return True  # Too short to validate
 
-            initial_circulation = history[0].get('total_circulation', 0.0)
-            final_circulation = history[-1].get('total_circulation', 0.0)
+            initial_circulation = history[0].get("total_circulation", 0.0)
+            final_circulation = history[-1].get("total_circulation", 0.0)
 
             if abs(initial_circulation) < EPSILON:
                 return abs(final_circulation) < EPSILON
 
-            conservation_error = abs(final_circulation - initial_circulation) / abs(initial_circulation)
+            conservation_error = abs(final_circulation - initial_circulation) / abs(
+                initial_circulation
+            )
             return conservation_error < 0.05  # 5% tolerance
 
         except Exception:
@@ -453,15 +502,17 @@ class VortexDynamicsIntegrator:
     def _validate_energy_conservation(self, simulation_result: Dict[str, Any]) -> bool:
         """Validate energy conservation (with dissipation allowed)."""
         try:
-            history = simulation_result.get('simulation_history', [])
+            history = simulation_result.get("simulation_history", [])
             if len(history) < 2:
                 return True
 
-            initial_energy = history[0].get('kinetic_energy', 0.0)
-            final_energy = history[-1].get('kinetic_energy', 0.0)
+            initial_energy = history[0].get("kinetic_energy", 0.0)
+            final_energy = history[-1].get("kinetic_energy", 0.0)
 
             # Energy should not increase (can decrease due to viscosity)
-            return final_energy <= initial_energy * 1.01  # 1% tolerance for numerical error
+            return (
+                final_energy <= initial_energy * 1.01
+            )  # 1% tolerance for numerical error
 
         except Exception:
             return False
@@ -469,43 +520,47 @@ class VortexDynamicsIntegrator:
     def _validate_stability_bounds(self, simulation_result: Dict[str, Any]) -> bool:
         """Validate stability remains within bounds (SR-4.24.1)."""
         try:
-            final_stability = simulation_result.get('final_stability', 0.0)
+            final_stability = simulation_result.get("final_stability", 0.0)
             return final_stability >= 0.95  # 5% tolerance as per SR-4.24.1
 
         except Exception:
             return False
 
-    async def _simplified_vortex_simulation(self, initial_conditions: Dict[str, Any]) -> Dict[str, Any]:
+    async def _simplified_vortex_simulation(
+        self, initial_conditions: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Simplified vortex simulation for fallback mode."""
         logger.debug("Using simplified vortex simulation")
 
         try:
             # Basic vortex evolution without complex dynamics
-            vortex_count = len(initial_conditions.get('vortices', []))
-            time_steps = min(initial_conditions.get('time_steps', 100), 100)
+            vortex_count = len(initial_conditions.get("vortices", []))
+            time_steps = min(initial_conditions.get("time_steps", 100), 100)
 
             simulation_history = []
             for step in range(time_steps):
                 state = {
-                    'time': step * 0.01,
-                    'vortex_count': vortex_count,
-                    'total_circulation': vortex_count * 1.0,  # Simplified circulation
-                    'kinetic_energy': vortex_count * 0.5  # Simplified energy
+                    "time": step * 0.01,
+                    "vortex_count": vortex_count,
+                    "total_circulation": vortex_count * 1.0,  # Simplified circulation
+                    "kinetic_energy": vortex_count * 0.5,  # Simplified energy
                 }
                 simulation_history.append(state)
 
             return {
-                'vortex_field': {'vortices': initial_conditions.get('vortices', [])},
-                'simulation_history': simulation_history,
-                'final_stability': 1.0,  # Simplified simulation is always stable
-                'status': 'completed_simplified'
+                "vortex_field": {"vortices": initial_conditions.get("vortices", [])},
+                "simulation_history": simulation_history,
+                "final_stability": 1.0,  # Simplified simulation is always stable
+                "status": "completed_simplified",
             }
 
         except Exception as e:
             logger.error(f"Simplified vortex simulation failed: {e}")
-            return {'status': 'failed', 'error': str(e)}
+            return {"status": "failed", "error": str(e)}
 
-    async def store_energy(self, energy_amount: float, storage_parameters: Dict[str, Any]) -> Dict[str, Any]:
+    async def store_energy(
+        self, energy_amount: float, storage_parameters: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """
         Store energy in vortex-based storage system.
 
@@ -527,7 +582,7 @@ class VortexDynamicsIntegrator:
             safety_checks_passed = 0
 
             # Safety check 1: Energy bounds validation
-            max_storage = storage_parameters.get('max_capacity', 1000.0)
+            max_storage = storage_parameters.get("max_capacity", 1000.0)
             if energy_amount <= max_storage:
                 safety_checks_passed += 1
 
@@ -540,21 +595,30 @@ class VortexDynamicsIntegrator:
                 safety_checks_passed += 1
 
             if safety_checks_passed < 2:  # Require at least 2/3 safety checks
-                logger.error(f"Energy storage safety validation failed ({safety_checks_passed}/3)")
+                logger.error(
+                    f"Energy storage safety validation failed ({safety_checks_passed}/3)"
+                )
                 return {"status": "failed", "reason": "safety_validation_failed"}
 
             # Execute energy storage with conservation monitoring
             initial_total_energy = self._get_total_system_energy()
 
-            storage_result = self.energy_storage.store_energy(energy_amount, **storage_parameters)
+            storage_result = self.energy_storage.store_energy(
+                energy_amount, **storage_parameters
+            )
 
             final_total_energy = self._get_total_system_energy()
 
             # Energy conservation validation (SR-4.24.2)
-            energy_conservation_error = abs((final_total_energy - initial_total_energy) - energy_amount) / energy_amount
+            energy_conservation_error = (
+                abs((final_total_energy - initial_total_energy) - energy_amount)
+                / energy_amount
+            )
 
             if energy_conservation_error > 0.001:  # 0.1% tolerance
-                logger.error(f"Energy conservation violated: {energy_conservation_error:.1%}")
+                logger.error(
+                    f"Energy conservation violated: {energy_conservation_error:.1%}"
+                )
                 # Attempt to revert storage operation
                 self._revert_energy_storage(storage_result)
                 return {"status": "failed", "reason": "conservation_violation"}
@@ -564,35 +628,39 @@ class VortexDynamicsIntegrator:
                 self.metrics.storage_cycles += 1
                 self.metrics.total_energy_stored += energy_amount
 
-            logger.info(f"Energy storage successful: {energy_amount:.3f} units, conservation error: {energy_conservation_error:.1%}")
+            logger.info(
+                f"Energy storage successful: {energy_amount:.3f} units, conservation error: {energy_conservation_error:.1%}"
+            )
 
             return {
                 "status": "success",
                 "energy_stored": energy_amount,
                 "conservation_error": energy_conservation_error,
-                "storage_efficiency": storage_result.get('efficiency', 0.0),
-                "total_stored": self.metrics.total_energy_stored
+                "storage_efficiency": storage_result.get("efficiency", 0.0),
+                "total_stored": self.metrics.total_energy_stored,
             }
 
         except Exception as e:
             logger.error(f"Energy storage operation failed: {e}")
             return {"status": "failed", "reason": str(e)}
 
-    def _validate_thermodynamic_storage(self, energy_amount: float, parameters: Dict[str, Any]) -> bool:
+    def _validate_thermodynamic_storage(
+        self, energy_amount: float, parameters: Dict[str, Any]
+    ) -> bool:
         """Validate thermodynamic consistency of storage operation."""
         try:
             # Temperature bounds check
-            temperature = parameters.get('temperature', 300.0)
+            temperature = parameters.get("temperature", 300.0)
             if temperature < 0 or temperature > 2000:  # Reasonable bounds
                 return False
 
             # Entropy validation
-            entropy_change = parameters.get('entropy_change', 0.0)
+            entropy_change = parameters.get("entropy_change", 0.0)
             if entropy_change < -EPSILON:  # Entropy cannot decrease significantly
                 return False
 
             # Pressure bounds
-            pressure = parameters.get('pressure', 101325.0)  # Standard atmospheric
+            pressure = parameters.get("pressure", 101325.0)  # Standard atmospheric
             if pressure < 0 or pressure > 1e9:  # Reasonable bounds
                 return False
 
@@ -607,9 +675,9 @@ class VortexDynamicsIntegrator:
             if not self.thermodynamic_battery:
                 return False
 
-            if hasattr(self.thermodynamic_battery, 'get_health_status'):
+            if hasattr(self.thermodynamic_battery, "get_health_status"):
                 health = self.thermodynamic_battery.get_health_status()
-                return health.get('status') in ['OPTIMAL', 'OPERATIONAL']
+                return health.get("status") in ["OPTIMAL", "OPERATIONAL"]
 
             return True  # Assume healthy if we can't check
 
@@ -621,11 +689,15 @@ class VortexDynamicsIntegrator:
         total_energy = 0.0
 
         try:
-            if self.energy_storage and hasattr(self.energy_storage, 'stored_energy'):
-                total_energy += getattr(self.energy_storage, 'stored_energy', 0.0)
+            if self.energy_storage and hasattr(self.energy_storage, "stored_energy"):
+                total_energy += getattr(self.energy_storage, "stored_energy", 0.0)
 
-            if self.thermodynamic_battery and hasattr(self.thermodynamic_battery, 'stored_energy'):
-                total_energy += getattr(self.thermodynamic_battery, 'stored_energy', 0.0)
+            if self.thermodynamic_battery and hasattr(
+                self.thermodynamic_battery, "stored_energy"
+            ):
+                total_energy += getattr(
+                    self.thermodynamic_battery, "stored_energy", 0.0
+                )
 
         except Exception as e:
             logger.error(f"Error calculating total system energy: {e}")
@@ -635,11 +707,13 @@ class VortexDynamicsIntegrator:
     def _revert_energy_storage(self, storage_result: Dict[str, Any]) -> None:
         """Attempt to revert energy storage operation."""
         try:
-            if self.energy_storage and hasattr(self.energy_storage, 'revert_storage'):
+            if self.energy_storage and hasattr(self.energy_storage, "revert_storage"):
                 self.energy_storage.revert_storage(storage_result)
                 logger.info("Energy storage operation reverted")
             else:
-                logger.warning("Cannot revert energy storage - revert method not available")
+                logger.warning(
+                    "Cannot revert energy storage - revert method not available"
+                )
 
         except Exception as e:
             logger.error(f"Failed to revert energy storage: {e}")
@@ -670,8 +744,8 @@ class VortexDynamicsIntegrator:
                 "components": {
                     "vortex_dynamics": self.vortex_dynamics is not None,
                     "energy_storage": self.energy_storage is not None,
-                    "thermodynamic_battery": self.thermodynamic_battery is not None
-                }
+                    "thermodynamic_battery": self.thermodynamic_battery is not None,
+                },
             }
 
     def shutdown(self) -> None:
@@ -684,7 +758,7 @@ class VortexDynamicsIntegrator:
             self._health_thread.join(timeout=5.0)
 
         # Safe energy storage shutdown
-        if self.energy_storage and hasattr(self.energy_storage, 'safe_shutdown'):
+        if self.energy_storage and hasattr(self.energy_storage, "safe_shutdown"):
             try:
                 self.energy_storage.safe_shutdown()
                 logger.debug("✅ Energy storage safe shutdown complete")
@@ -692,9 +766,9 @@ class VortexDynamicsIntegrator:
                 logger.error(f"❌ Energy storage shutdown error: {e}")
 
         # Shutdown other components
-        for component_name in ['vortex_dynamics', 'thermodynamic_battery']:
+        for component_name in ["vortex_dynamics", "thermodynamic_battery"]:
             component = getattr(self, component_name, None)
-            if component and hasattr(component, 'shutdown'):
+            if component and hasattr(component, "shutdown"):
                 try:
                     component.shutdown()
                     logger.debug(f"✅ {component_name} shutdown complete")
@@ -702,7 +776,9 @@ class VortexDynamicsIntegrator:
                     logger.error(f"❌ {component_name} shutdown error: {e}")
 
         self.metrics.health_status = "SHUTDOWN"
-        logger.info("🌀 Vortex Dynamics and Energy Storage Integrator shutdown complete")
+        logger.info(
+            "🌀 Vortex Dynamics and Energy Storage Integrator shutdown complete"
+        )
 
 
 def get_integrator() -> VortexDynamicsIntegrator:
@@ -728,4 +804,4 @@ def initialize() -> VortexDynamicsIntegrator:
 
 
 # Export integrator for KimeraSystem initialization
-__all__ = ['VortexDynamicsIntegrator', 'get_integrator', 'initialize']
+__all__ = ["VortexDynamicsIntegrator", "get_integrator", "initialize"]

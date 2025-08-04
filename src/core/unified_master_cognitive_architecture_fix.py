@@ -9,14 +9,16 @@ def patch_unified_architecture():
     try:
         import sys
         from pathlib import Path
-        
+
         # Patch the UnifiedMasterCognitiveArchitecture class
         src_path = Path(__file__).parent.parent.parent
         sys.path.insert(0, str(src_path))
         
         try:
             from src.core.unified_master_cognitive_architecture import UnifiedMasterCognitiveArchitecture
+
 import logging
+
 logger = logging.getLogger(__name__)
         except ImportError as e:
             logger.info(f"Cannot import UnifiedMasterCognitiveArchitecture: {e}")

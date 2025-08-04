@@ -8,45 +8,48 @@ providing system health, performance metrics, and operational insights.
 """
 
 import asyncio
-import time
 import json
-from datetime import datetime, timezone
-from typing import Dict, List, Any, Optional
+import logging
+import time
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from typing import Any, Dict, List, Optional
+
+import uvicorn
 
 # Dashboard framework
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request
+from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-import uvicorn
-import logging
+
 logger = logging.getLogger(__name__)
 
 
 @dataclass
 class SystemMetrics:
     """Real-time system metrics"""
+
     timestamp: str
     system_id: str
     state: str
     uptime: float
-    
+
     # Performance metrics
     total_operations: int = 0
     successful_operations: int = 0
     failed_operations: int = 0
     average_processing_time: float = 0.0
     requests_per_second: float = 0.0
-    
+
     # Resource metrics
     memory_usage: float = 0.0
     gpu_utilization: float = 0.0
     cpu_utilization: float = 0.0
-    
+
     # Component metrics
     active_components: int = 0
     component_health: Dict[str, float] = field(default_factory=dict)
-    
+
     # Cognitive metrics
     insights_generated: int = 0
     patterns_learned: int = 0
@@ -56,50 +59,54 @@ class SystemMetrics:
 
 class CognitiveDashboard:
     """Real-time cognitive monitoring dashboard"""
-    
+
     def __init__(self):
         self.app = FastAPI(
             title="Kimera SWM Cognitive Dashboard",
             description="Real-time monitoring for Kimera SWM Cognitive Architecture",
-            version="5.0.0"
+            version="5.0.0",
         )
-        
+
         # WebSocket connections
         self.active_connections: List[WebSocket] = []
-        
+
         # Metrics storage
         self.current_metrics: Optional[SystemMetrics] = None
         self.metrics_history: List[SystemMetrics] = []
         self.max_history = 1000
-        
+
         # Setup routes
         self._setup_routes()
-    
+
     def _setup_routes(self):
         """Setup dashboard routes"""
-        
+
         @self.app.get("/", response_class=HTMLResponse)
         async def dashboard_home():
             return self._get_dashboard_html()
-        
+
         @self.app.get("/api/metrics")
         async def get_current_metrics():
             """Get current system metrics"""
             if self.current_metrics:
                 return self.current_metrics
             return {"error": "No metrics available"}
-        
+
         @self.app.get("/api/metrics/history")
         async def get_metrics_history(hours: int = 1):
             """Get metrics history"""
             # Filter metrics by time range
             cutoff_time = time.time() - (hours * 3600)
             recent_metrics = [
-                m for m in self.metrics_history
-                if datetime.fromisoformat(m.timestamp.replace('Z', '+00:00')).timestamp() > cutoff_time
+                m
+                for m in self.metrics_history
+                if datetime.fromisoformat(
+                    m.timestamp.replace("Z", "+00:00")
+                ).timestamp()
+                > cutoff_time
             ]
             return {"metrics": recent_metrics, "count": len(recent_metrics)}
-        
+
         @self.app.get("/api/status")
         async def dashboard_status():
             """Dashboard status"""
@@ -107,65 +114,67 @@ class CognitiveDashboard:
                 "dashboard": "active",
                 "connections": len(self.active_connections),
                 "metrics_count": len(self.metrics_history),
-                "last_update": self.current_metrics.timestamp if self.current_metrics else None
+                "last_update": (
+                    self.current_metrics.timestamp if self.current_metrics else None
+                ),
             }
-        
+
         @self.app.websocket("/ws")
         async def websocket_endpoint(websocket: WebSocket):
             await self.connect_websocket(websocket)
-    
+
     async def connect_websocket(self, websocket: WebSocket):
         """Handle WebSocket connection for real-time updates"""
         await websocket.accept()
         self.active_connections.append(websocket)
-        
+
         try:
             # Send current metrics immediately
             if self.current_metrics:
-                await websocket.send_json({
-                    "type": "metrics_update",
-                    "data": self.current_metrics.__dict__
-                })
-            
+                await websocket.send_json(
+                    {"type": "metrics_update", "data": self.current_metrics.__dict__}
+                )
+
             # Keep connection alive and handle messages
             while True:
                 try:
                     # Wait for messages (ping/pong for keep-alive)
-                    message = await asyncio.wait_for(websocket.receive_text(), timeout=30.0)
-                    
+                    message = await asyncio.wait_for(
+                        websocket.receive_text(), timeout=30.0
+                    )
+
                     if message == "ping":
                         await websocket.send_text("pong")
-                    
+
                 except asyncio.TimeoutError:
                     # Send periodic updates
                     if self.current_metrics:
-                        await websocket.send_json({
-                            "type": "heartbeat",
-                            "timestamp": datetime.now(timezone.utc).isoformat()
-                        })
-                
+                        await websocket.send_json(
+                            {
+                                "type": "heartbeat",
+                                "timestamp": datetime.now(timezone.utc).isoformat(),
+                            }
+                        )
+
         except WebSocketDisconnect:
             pass
         finally:
             if websocket in self.active_connections:
                 self.active_connections.remove(websocket)
-    
+
     async def update_metrics(self, metrics: SystemMetrics):
         """Update system metrics and broadcast to connected clients"""
         self.current_metrics = metrics
-        
+
         # Add to history
         self.metrics_history.append(metrics)
         if len(self.metrics_history) > self.max_history:
-            self.metrics_history = self.metrics_history[-self.max_history:]
-        
+            self.metrics_history = self.metrics_history[-self.max_history :]
+
         # Broadcast to WebSocket clients
         if self.active_connections:
-            message = {
-                "type": "metrics_update",
-                "data": metrics.__dict__
-            }
-            
+            message = {"type": "metrics_update", "data": metrics.__dict__}
+
             # Send to all connected clients
             disconnected = []
             for connection in self.active_connections:
@@ -175,12 +184,12 @@ class CognitiveDashboard:
                     logger.error(f"Error in cognitive_dashboard.py: {e}", exc_info=True)
                     raise  # Re-raise for proper error handling
                     disconnected.append(connection)
-            
+
             # Remove disconnected clients
             for conn in disconnected:
                 if conn in self.active_connections:
                     self.active_connections.remove(conn)
-    
+
     def _get_dashboard_html(self) -> str:
         """Generate dashboard HTML"""
         return """
@@ -512,18 +521,16 @@ class CognitiveDashboard:
 </html>
         """
 
+
 # Global dashboard instance
 cognitive_dashboard = CognitiveDashboard()
+
 
 # Convenience function to start dashboard
 def start_dashboard(host: str = "0.0.0.0", port: int = 8001):
     """Start the cognitive dashboard server"""
-    uvicorn.run(
-        cognitive_dashboard.app,
-        host=host,
-        port=port,
-        log_level="info"
-    )
+    uvicorn.run(cognitive_dashboard.app, host=host, port=port, log_level="info")
+
 
 if __name__ == "__main__":
     logger.info("🖥️  Starting Kimera SWM Cognitive Dashboard...")

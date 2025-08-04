@@ -11,14 +11,16 @@ Safety Requirements: 71 objectives, 30 with independence
 """
 
 from __future__ import annotations
-import logging
-import torch
-import numpy as np
-from typing import Dict, Any, Optional, Union
-from dataclasses import dataclass
+
 import asyncio
-from concurrent.futures import ThreadPoolExecutor
+import logging
 import time
+from concurrent.futures import ThreadPoolExecutor
+from dataclasses import dataclass
+from typing import Any, Dict, Optional, Union
+
+import numpy as np
+import torch
 
 # Formal verification imports
 try:
@@ -29,9 +31,11 @@ except ImportError:
 
 logger = logging.getLogger(__name__)
 
+
 @dataclass
 class ResponseQualityMetrics:
     """Formal verification of response quality parameters."""
+
     coherence_score: float  # [0.0, 1.0]
     directness_score: float  # [0.0, 1.0] - inverse of meta-commentary
     relevance_score: float  # [0.0, 1.0]
@@ -46,6 +50,7 @@ class ResponseQualityMetrics:
         assert 0.0 <= self.length_adequacy <= 1.0, "Length adequacy out of bounds"
         assert self.safety_compliance is True, "Safety compliance required"
 
+
 class DiffusionResponseEngine:
     """
     Aerospace-grade diffusion response engine with formal verification.
@@ -57,10 +62,12 @@ class DiffusionResponseEngine:
     - Real-time monitoring: Continuous system health assessment
     """
 
-    def __init__(self,
-                 safety_mode: bool = True,
-                 verification_enabled: bool = True,
-                 max_response_length: int = 2048):
+    def __init__(
+        self,
+        safety_mode: bool = True,
+        verification_enabled: bool = True,
+        max_response_length: int = 2048,
+    ):
         """
         Initialize with aerospace-grade safety parameters.
 
@@ -84,7 +91,9 @@ class DiffusionResponseEngine:
         self.quality_metrics_history = []
 
         # Thread safety
-        self.executor = ThreadPoolExecutor(max_workers=2, thread_name_prefix="DiffusionResponse")
+        self.executor = ThreadPoolExecutor(
+            max_workers=2, thread_name_prefix="DiffusionResponse"
+        )
 
         # Meta-commentary elimination patterns (formally verified)
         self.meta_patterns = {
@@ -98,24 +107,25 @@ class DiffusionResponseEngine:
             "neural networks": "understanding",
             "algorithms": "thinking",
             "processing": "consideration",
-
             # Self-referential removal
             "I am analyzing": "I understand",
             "I am processing": "I see",
             "I will now": "",
             "Let me analyze": "",
             "My response is": "",
-
             # Conversation artifacts
             "Here's my response:": "",
             "Response:": "",
             "My answer:": "",
         }
 
-        logger.info(f"✅ DiffusionResponseEngine initialized - Safety: {safety_mode}, Verification: {verification_enabled}")
+        logger.info(
+            f"✅ DiffusionResponseEngine initialized - Safety: {safety_mode}, Verification: {verification_enabled}"
+        )
 
-    def _verify_inputs(self, grounded_concepts: Dict[str, Any],
-                      semantic_features: Dict[str, Any]) -> bool:
+    def _verify_inputs(
+        self, grounded_concepts: Dict[str, Any], semantic_features: Dict[str, Any]
+    ) -> bool:
         """
         Formal verification of input parameters using Z3 SMT solver.
         DO-178C Level A requirement: All inputs must be verified.
@@ -128,8 +138,8 @@ class DiffusionResponseEngine:
             solver = Solver()
 
             # Define constraints for valid inputs
-            concepts_valid = Bool('concepts_valid')
-            features_valid = Bool('features_valid')
+            concepts_valid = Bool("concepts_valid")
+            features_valid = Bool("features_valid")
 
             # Input validation constraints
             solver.add(concepts_valid == (grounded_concepts is not None))
@@ -162,7 +172,9 @@ class DiffusionResponseEngine:
 
         # Check if circuit breaker should trip
         if self.error_count >= self.max_errors:
-            logger.warning(f"🔴 Circuit breaker OPEN: {self.error_count} errors in {self.error_cooldown}s")
+            logger.warning(
+                f"🔴 Circuit breaker OPEN: {self.error_count} errors in {self.error_cooldown}s"
+            )
             return False
 
         return True
@@ -190,43 +202,59 @@ class DiffusionResponseEngine:
 
         # Remove multiple spaces and normalize
         import re
-        cleaned_text = re.sub(r'\s+', ' ', cleaned_text).strip()
+
+        cleaned_text = re.sub(r"\s+", " ", cleaned_text).strip()
 
         # Verify cleaning didn't destroy content (safety check)
         if len(cleaned_text) < original_length * 0.3:
-            logger.warning("⚠️ Meta-commentary cleaning removed too much content, reverting")
+            logger.warning(
+                "⚠️ Meta-commentary cleaning removed too much content, reverting"
+            )
             return text
 
-        logger.debug(f"✅ Meta-commentary cleaned: {original_length} -> {len(cleaned_text)} chars")
+        logger.debug(
+            f"✅ Meta-commentary cleaned: {original_length} -> {len(cleaned_text)} chars"
+        )
         return cleaned_text
 
-    def _calculate_quality_metrics(self, response: str,
-                                  grounded_concepts: Dict[str, Any],
-                                  semantic_features: Dict[str, Any]) -> ResponseQualityMetrics:
+    def _calculate_quality_metrics(
+        self,
+        response: str,
+        grounded_concepts: Dict[str, Any],
+        semantic_features: Dict[str, Any],
+    ) -> ResponseQualityMetrics:
         """
         Calculate response quality metrics for DO-178C compliance.
         """
         try:
             # Coherence score based on semantic features
-            coherence = min(1.0, semantic_features.get('cognitive_coherence', 0.5) * 2.0)
+            coherence = min(
+                1.0, semantic_features.get("cognitive_coherence", 0.5) * 2.0
+            )
 
             # Directness score (inverse of meta-commentary indicators)
-            meta_indicators = ['analysis', 'processing', 'algorithm', 'model', 'system']
-            meta_count = sum(1 for indicator in meta_indicators if indicator.lower() in response.lower())
+            meta_indicators = ["analysis", "processing", "algorithm", "model", "system"]
+            meta_count = sum(
+                1
+                for indicator in meta_indicators
+                if indicator.lower() in response.lower()
+            )
             directness = max(0.0, 1.0 - (meta_count / len(meta_indicators)))
 
             # Relevance score from grounded concepts
-            relevance = min(1.0, grounded_concepts.get('relevance_score', 0.7))
+            relevance = min(1.0, grounded_concepts.get("relevance_score", 0.7))
 
             # Length adequacy (20-2048 characters)
-            length_score = 1.0 if 20 <= len(response) <= self.max_response_length else 0.0
+            length_score = (
+                1.0 if 20 <= len(response) <= self.max_response_length else 0.0
+            )
 
             # Safety compliance check
             safety_ok = (
-                len(response) > 0 and
-                len(response) <= self.max_response_length and
-                coherence >= 0.3 and
-                directness >= 0.3
+                len(response) > 0
+                and len(response) <= self.max_response_length
+                and coherence >= 0.3
+                and directness >= 0.3
             )
 
             metrics = ResponseQualityMetrics(
@@ -234,7 +262,7 @@ class DiffusionResponseEngine:
                 directness_score=directness,
                 relevance_score=relevance,
                 length_adequacy=length_score,
-                safety_compliance=safety_ok
+                safety_compliance=safety_ok,
             )
 
             # Store metrics for trend analysis
@@ -252,34 +280,39 @@ class DiffusionResponseEngine:
                 directness_score=0.5,
                 relevance_score=0.5,
                 length_adequacy=0.5,
-                safety_compliance=True
+                safety_compliance=True,
             )
 
-    def _generate_fallback_response(self, semantic_features: Dict[str, Any],
-                                  grounded_concepts: Dict[str, Any]) -> str:
+    def _generate_fallback_response(
+        self, semantic_features: Dict[str, Any], grounded_concepts: Dict[str, Any]
+    ) -> str:
         """
         Generate fallback response for fault tolerance.
         Nuclear engineering principle: Always have a safe fallback.
         """
         try:
-            complexity = semantic_features.get('complexity_score', 0.5)
-            topic = grounded_concepts.get('primary_topic', 'the subject')
+            complexity = semantic_features.get("complexity_score", 0.5)
+            topic = grounded_concepts.get("primary_topic", "the subject")
 
             if complexity > 0.7:
                 return f"This involves complex considerations regarding {topic}. Let me provide a thoughtful perspective."
             elif complexity > 0.4:
                 return f"Regarding {topic}, there are several important aspects to consider."
             else:
-                return f"I understand your question about {topic}. Here's my perspective."
+                return (
+                    f"I understand your question about {topic}. Here's my perspective."
+                )
 
         except Exception:
             # Ultimate fallback - always works
             return "I understand your question and will provide a thoughtful response."
 
-    async def generate_response(self,
-                              grounded_concepts: Dict[str, Any],
-                              semantic_features: Dict[str, Any],
-                              persona_prompt: str = "") -> Dict[str, Any]:
+    async def generate_response(
+        self,
+        grounded_concepts: Dict[str, Any],
+        semantic_features: Dict[str, Any],
+        persona_prompt: str = "",
+    ) -> Dict[str, Any]:
         """
         Generate response with DO-178C Level A compliance.
 
@@ -292,31 +325,35 @@ class DiffusionResponseEngine:
             # Circuit breaker check
             if not self._circuit_breaker_check():
                 logger.error("🔴 Circuit breaker OPEN - using fallback response")
-                fallback = self._generate_fallback_response(semantic_features, grounded_concepts)
+                fallback = self._generate_fallback_response(
+                    semantic_features, grounded_concepts
+                )
                 return {
-                    'response': fallback,
-                    'status': 'circuit_breaker_fallback',
-                    'quality_metrics': None,
-                    'processing_time': time.time() - start_time
+                    "response": fallback,
+                    "status": "circuit_breaker_fallback",
+                    "quality_metrics": None,
+                    "processing_time": time.time() - start_time,
                 }
 
             # Input verification (DO-178C requirement)
             if not self._verify_inputs(grounded_concepts, semantic_features):
                 logger.error("❌ Input verification failed")
                 self._record_error()
-                fallback = self._generate_fallback_response(semantic_features, grounded_concepts)
+                fallback = self._generate_fallback_response(
+                    semantic_features, grounded_concepts
+                )
                 return {
-                    'response': fallback,
-                    'status': 'input_verification_failed',
-                    'quality_metrics': None,
-                    'processing_time': time.time() - start_time
+                    "response": fallback,
+                    "status": "input_verification_failed",
+                    "quality_metrics": None,
+                    "processing_time": time.time() - start_time,
                 }
 
             # Extract parameters safely
-            complexity = semantic_features.get('complexity_score', 0.5)
-            density = semantic_features.get('information_density', 1.0)
-            coherence = grounded_concepts.get('cognitive_coherence', 0.5)
-            primary_topic = grounded_concepts.get('primary_topic', '')
+            complexity = semantic_features.get("complexity_score", 0.5)
+            density = semantic_features.get("information_density", 1.0)
+            coherence = grounded_concepts.get("cognitive_coherence", 0.5)
+            primary_topic = grounded_concepts.get("primary_topic", "")
 
             # Build direct response content
             response_parts = []
@@ -337,8 +374,8 @@ class DiffusionResponseEngine:
                 response_parts.append(f"Regarding {primary_topic}:")
 
             # Add substantive content based on grounded concepts
-            if 'key_insights' in grounded_concepts:
-                insights = grounded_concepts['key_insights']
+            if "key_insights" in grounded_concepts:
+                insights = grounded_concepts["key_insights"]
                 if isinstance(insights, list) and insights:
                     response_parts.extend(insights[:3])  # Limit to top 3 insights
 
@@ -348,11 +385,15 @@ class DiffusionResponseEngine:
 
             # Ensure minimum quality
             if not cleaned_response or len(cleaned_response) < 20:
-                cleaned_response = self._generate_fallback_response(semantic_features, grounded_concepts)
+                cleaned_response = self._generate_fallback_response(
+                    semantic_features, grounded_concepts
+                )
 
             # Apply length safety limit
             if len(cleaned_response) > self.max_response_length:
-                cleaned_response = cleaned_response[:self.max_response_length-3] + "..."
+                cleaned_response = (
+                    cleaned_response[: self.max_response_length - 3] + "..."
+                )
 
             # Calculate quality metrics
             quality_metrics = self._calculate_quality_metrics(
@@ -365,14 +406,18 @@ class DiffusionResponseEngine:
             if len(self.response_times) > 100:
                 self.response_times.pop(0)
 
-            logger.info(f"✅ Response generated: {len(cleaned_response)} chars, {processing_time:.3f}s")
+            logger.info(
+                f"✅ Response generated: {len(cleaned_response)} chars, {processing_time:.3f}s"
+            )
 
             return {
-                'response': cleaned_response,
-                'status': 'success',
-                'quality_metrics': quality_metrics,
-                'processing_time': processing_time,
-                'verification_status': 'passed' if self.verification_enabled else 'disabled'
+                "response": cleaned_response,
+                "status": "success",
+                "quality_metrics": quality_metrics,
+                "processing_time": processing_time,
+                "verification_status": (
+                    "passed" if self.verification_enabled else "disabled"
+                ),
             }
 
         except Exception as e:
@@ -380,13 +425,15 @@ class DiffusionResponseEngine:
             self._record_error()
 
             # Always return a safe fallback
-            fallback = self._generate_fallback_response(semantic_features, grounded_concepts)
+            fallback = self._generate_fallback_response(
+                semantic_features, grounded_concepts
+            )
             return {
-                'response': fallback,
-                'status': 'error_fallback',
-                'error': str(e),
-                'quality_metrics': None,
-                'processing_time': time.time() - start_time
+                "response": fallback,
+                "status": "error_fallback",
+                "error": str(e),
+                "quality_metrics": None,
+                "processing_time": time.time() - start_time,
             }
 
     def get_system_health(self) -> Dict[str, Any]:
@@ -401,20 +448,24 @@ class DiffusionResponseEngine:
             recent_metrics = self.quality_metrics_history[-10:]  # Last 10 responses
             scores = []
             for m in recent_metrics:
-                avg_score = (m.coherence_score + m.directness_score +
-                           m.relevance_score + m.length_adequacy) / 4.0
+                avg_score = (
+                    m.coherence_score
+                    + m.directness_score
+                    + m.relevance_score
+                    + m.length_adequacy
+                ) / 4.0
                 scores.append(avg_score)
             avg_quality = np.mean(scores)
 
         return {
-            'status': 'healthy' if self.error_count < self.max_errors else 'degraded',
-            'error_count': self.error_count,
-            'circuit_breaker_open': not self._circuit_breaker_check(),
-            'average_response_time': avg_response_time,
-            'average_quality_score': avg_quality,
-            'total_responses': len(self.response_times),
-            'safety_mode': self.safety_mode,
-            'verification_enabled': self.verification_enabled
+            "status": "healthy" if self.error_count < self.max_errors else "degraded",
+            "error_count": self.error_count,
+            "circuit_breaker_open": not self._circuit_breaker_check(),
+            "average_response_time": avg_response_time,
+            "average_quality_score": avg_quality,
+            "total_responses": len(self.response_times),
+            "safety_mode": self.safety_mode,
+            "verification_enabled": self.verification_enabled,
         }
 
     def shutdown(self):

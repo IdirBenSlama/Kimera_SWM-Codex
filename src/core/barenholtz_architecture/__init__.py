@@ -11,43 +11,38 @@ processing (System 2) through a metacognitive control layer.
 Safety Critical: All components must meet DO-178C Level A requirements.
 """
 
+from .core.metacognitive import ArbitrationResult, MetacognitiveController
+from .core.system1 import IntuitionResult, System1Processor
+from .core.system2 import AnalysisResult, System2Processor
 from .integration.unified_engine import (
     BarenholtzDualSystemIntegrator,
     DualSystemOutput,
     ProcessingConstraints,
-    SystemMode
+    SystemMode,
 )
-
-from .core.system1 import System1Processor, IntuitionResult
-from .core.system2 import System2Processor, AnalysisResult
-from .core.metacognitive import MetacognitiveController, ArbitrationResult
-
-from .utils.memory_manager import WorkingMemoryManager
 from .utils.conflict_resolver import ConflictResolver
+from .utils.memory_manager import WorkingMemoryManager
 
 __all__ = [
     # Main integration
-    'BarenholtzDualSystemIntegrator',
-    'DualSystemOutput',
-    'ProcessingConstraints',
-    'SystemMode',
-
+    "BarenholtzDualSystemIntegrator",
+    "DualSystemOutput",
+    "ProcessingConstraints",
+    "SystemMode",
     # Core systems
-    'System1Processor',
-    'System2Processor',
-    'MetacognitiveController',
-
+    "System1Processor",
+    "System2Processor",
+    "MetacognitiveController",
     # Results
-    'IntuitionResult',
-    'AnalysisResult',
-    'ArbitrationResult',
-
+    "IntuitionResult",
+    "AnalysisResult",
+    "ArbitrationResult",
     # Utilities
-    'WorkingMemoryManager',
-    'ConflictResolver'
+    "WorkingMemoryManager",
+    "ConflictResolver",
 ]
 
 # Version and compliance information
-__version__ = '1.0.0'
-__standard__ = 'DO-178C Level A'
-__certification__ = 'Pending'
+__version__ = "1.0.0"
+__standard__ = "DO-178C Level A"
+__certification__ = "Pending"

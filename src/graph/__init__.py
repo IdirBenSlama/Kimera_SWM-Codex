@@ -22,15 +22,15 @@ except ImportError:
     def get_geoid(*args, **kwargs): return None
 """
 
-from .session import get_driver, get_session, driver_liveness_check
-from .models import create_geoid, get_geoid, create_scar, get_scar
+from .models import create_geoid, create_scar, get_geoid, get_scar
+from .session import driver_liveness_check, get_driver, get_session
 
 __all__ = [
     "get_driver",
-    "get_session", 
+    "get_session",
     "driver_liveness_check",
     "create_geoid",
     "get_geoid",
-    "create_scar", 
-    "get_scar"
+    "create_scar",
+    "get_scar",
 ]

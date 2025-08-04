@@ -10,13 +10,14 @@ This engine implements vortex dynamics that represent:
 - Emergent spiral structures in thought patterns
 """
 
-import numpy as np
-import torch
 import logging
-from typing import Dict, List, Tuple, Optional, Any, Union
 from dataclasses import dataclass
 from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple, Union
+
+import numpy as np
 import scipy.ndimage as ndimage
+import torch
 from scipy.integrate import odeint
 
 logger = logging.getLogger(__name__)
@@ -452,8 +453,9 @@ class VortexDynamicsEngine:
 
         # Interpolate field values
         from scipy.interpolate import RegularGridInterpolator
-from ..utils.config import get_api_settings
+
 from ..config.settings import get_settings
+from ..utils.config import get_api_settings
 
         x_1d = np.linspace(0, self.domain_size, self.grid_size)
         y_1d = np.linspace(0, self.domain_size, self.grid_size)

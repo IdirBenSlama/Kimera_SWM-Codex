@@ -1,18 +1,20 @@
-from ..core.consciousness import ConsciousnessStateManager
+import asyncio
+
+from ..cognitive.bridge import KimeraCognitiveBridge
 from ..cognitive.linguistic_market import LinguisticMarketAnalyzer
-from ..cognitive.meta_insight import MetaInsightGenerator
 from ..cognitive.living_neutrality import LivingNeutralityTradingZone
-from ..thermodynamic.entropy_engine import ThermodynamicEngine, MarketEntropyCalculator
-from ..thermodynamic.energy_flow import EnergyGradientDetector
-from ..quantum.superposition import QuantumStateManager
+from ..cognitive.meta_insight import MetaInsightGenerator
+from ..core.consciousness import ConsciousnessStateManager
+from ..data.market import DataFetcher
 from ..execution.schrodinger_orders import SchrodingerOrderSystem
 from ..quantum.entanglement import MarketEntanglementDetector
-from ..cognitive.bridge import KimeraCognitiveBridge
+from ..quantum.superposition import QuantumStateManager
 from ..risk.entropy_limits import EntropyBasedRiskManager
 from ..risk.self_healing import SelfHealingRiskComponent
 from ..strategies.evolutionary import CognitiveEvolutionEngine
-from ..data.market import DataFetcher
-import asyncio
+from ..thermodynamic.energy_flow import EnergyGradientDetector
+from ..thermodynamic.entropy_engine import MarketEntropyCalculator, ThermodynamicEngine
+
 
 class CognitiveThermodynamicTradingEngine:
     """
@@ -136,7 +138,9 @@ class CognitiveThermodynamicTradingEngine:
     async def generate_trading_signal(self, market_data):
         # Placeholder for signal generation
         import numpy as np
+
 import logging
+
 logger = logging.getLogger(__name__)
         if np.random.rand() > 0.5:
             return {"price": 100, "action": "buy"} # Dummy price

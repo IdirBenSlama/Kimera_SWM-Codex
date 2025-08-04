@@ -1,14 +1,14 @@
-
 import asyncio
 import logging
 import unittest
 
 from src.core.gpu_management.integration import GPUManagementIntegrator
 
+
 class TestGpuManagementIntegration(unittest.TestCase):
 
     def test_integration_initialization(self):
-        """Test that the GPUManagementIntegrator initializes correctly.""" 
+        """Test that the GPUManagementIntegrator initializes correctly."""
         try:
             integrator = GPUManagementIntegrator()
             self.assertIsNotNone(integrator.memory_pool)
@@ -45,6 +45,7 @@ class TestGpuManagementIntegration(unittest.TestCase):
         self.assertIn("managed_fields_count", stats)
         self.assertIn("total_memory_overhead_bytes", stats)
         logging.info(f"Signal memory stats: {stats}")
+
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

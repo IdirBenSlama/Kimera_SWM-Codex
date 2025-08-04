@@ -7,15 +7,15 @@ This module re-exports request hardening components from src.security
 from src.security.request_hardening import (
     RateLimiter,
     RateLimitMiddleware,
-    security_middleware,
+    RequestValidator,
     get_validated_data,
-    RequestValidator
+    security_middleware,
 )
 
 __all__ = [
-    'RateLimiter',
-    'RateLimitMiddleware',
-    'security_middleware',
-    'get_validated_data',
-    'RequestValidator'
-] 
+    "RateLimiter",
+    "RateLimitMiddleware",
+    "security_middleware",
+    "get_validated_data",
+    "RequestValidator",
+]

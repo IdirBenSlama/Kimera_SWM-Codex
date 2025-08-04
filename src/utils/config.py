@@ -59,6 +59,7 @@ def get_api_settings() -> KimeraSettings:  # noqa: D401
 # Convenience helpers – these are optional and may be extended later
 # ---------------------------------------------------------------------------
 
+
 def reload_settings() -> KimeraSettings:  # noqa: D401
     """Force reload the settings from scratch and update the cache."""
     _cached_settings.cache_clear()
@@ -81,15 +82,17 @@ def get_setting(path: str, default: Any | None = None) -> Any:  # noqa: D401
         return obj
     except AttributeError:
         logger.warning("Requested unknown config path: %s", path)
-        return default 
+        return default
+
 
 def get_config():
     """
     Get the current configuration settings.
     This is a compatibility wrapper for the new settings system.
-    
+
     Returns:
         KimeraSettings: The current configuration
     """
     from src.config.settings import get_settings
+
     return get_settings()

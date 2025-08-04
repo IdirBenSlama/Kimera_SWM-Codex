@@ -21,8 +21,4 @@ from .vortex_dynamics import VortexDynamicsEngine
 from .vortex_energy_storage import VortexEnergyStorage
 from .vortex_thermodynamic_battery import VortexThermodynamicBattery
 
-__all__ = [
-    'VortexDynamicsEngine',
-    'VortexEnergyStorage',
-    'VortexThermodynamicBattery'
-]
+__all__ = ["VortexDynamicsEngine", "VortexEnergyStorage", "VortexThermodynamicBattery"]

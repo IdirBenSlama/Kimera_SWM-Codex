@@ -2,32 +2,46 @@
 Enhanced API Routes
 ==================
 
-New API endpoints that integrate Context Field Selector and 
+New API endpoints that integrate Context Field Selector and
 Anthropomorphic Language Profiler for improved processing control
 and security.
 """
 
-from fastapi import APIRouter, HTTPException, Request, Depends
-from pydantic import BaseModel
-from typing import Dict, List, Set, Any, Optional
 import logging
 from datetime import datetime
+from typing import Any, Dict, List, Optional, Set
 
-from ..core.context_field_selector import (
-    ContextFieldSelector, ContextFieldConfig, FieldCategory, 
-    ProcessingLevel, create_minimal_selector, create_standard_selector,
-    create_enhanced_selector, create_domain_selector
-)
+import torch
+from fastapi import APIRouter, Depends, HTTPException, Request
+from pydantic import BaseModel
+
 from ..core.anthropomorphic_profiler import (
-    AnthropomorphicProfiler, PersonalityProfile, InteractionAnalysis,
-    create_default_profiler, create_strict_profiler
+    AnthropomorphicProfiler,
+    InteractionAnalysis,
+    PersonalityProfile,
+    create_default_profiler,
+    create_strict_profiler,
+)
+from ..core.context_field_selector import (
+    ContextFieldConfig,
+    ContextFieldSelector,
+    FieldCategory,
+    ProcessingLevel,
+    create_domain_selector,
+    create_enhanced_selector,
+    create_minimal_selector,
+    create_standard_selector,
 )
 from ..core.gyroscopic_security import (
-    GyroscopicSecurityCore, EquilibriumState, ManipulationVector,
-    create_maximum_security_core, create_balanced_security_core
+    EquilibriumState,
+    GyroscopicSecurityCore,
+    ManipulationVector,
+    create_balanced_security_core,
+    create_maximum_security_core,
 )
-from ..layer_2_governance.monitoring.psychiatric_stability_monitor import CognitiveCoherenceMonitor
-import torch
+from ..layer_2_governance.monitoring.psychiatric_stability_monitor import (
+    CognitiveCoherenceMonitor,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -36,16 +50,18 @@ router = APIRouter(prefix="/cognitive-control", tags=["cognitive-control"])
 # Initialize the global context_selector variable
 context_selector = None
 
+
 def initialize_enhanced_services(app):
     """Initializes the enhanced services and attaches them to the app state."""
     logger.info("Creating default Anthropomorphic Profiler...")
     app.state.anthropomorphic_profiler = create_strict_profiler()
-    
+
     logger.info("Creating default Gyroscopic Security Core...")
     app.state.gyroscopic_security = create_balanced_security_core()
 
     logger.info("Creating Cognitive Coherence Monitor...")
     app.state.coherence_monitor = CognitiveCoherenceMonitor()
+
 
 # Pydantic models for API requests
 class ContextFieldConfigRequest(BaseModel):
@@ -128,19 +144,23 @@ async def configure_context_selector(config: ContextFieldConfigRequest):
     """Configure the context field selector"""
     # This remains a global for session-based configuration, not part of app state
     global context_selector
-    
+
     try:
         # Convert string enums to actual enums
         processing_level = ProcessingLevel(config.processing_level)
-        
+
         included_categories = set()
         if config.included_categories:
-            included_categories = {FieldCategory(cat) for cat in config.included_categories}
-        
+            included_categories = {
+                FieldCategory(cat) for cat in config.included_categories
+            }
+
         excluded_categories = set()
         if config.excluded_categories:
-            excluded_categories = {FieldCategory(cat) for cat in config.excluded_categories}
-        
+            excluded_categories = {
+                FieldCategory(cat) for cat in config.excluded_categories
+            }
+
         # Create configuration
         field_config = ContextFieldConfig(
             processing_level=processing_level,
@@ -155,23 +175,25 @@ async def configure_context_selector(config: ContextFieldConfigRequest):
             limit_embedding_dimensions=config.limit_embedding_dimensions,
             max_semantic_features=config.max_semantic_features,
             domain_focus=config.domain_focus,
-            language_priority=config.language_priority or []
+            language_priority=config.language_priority or [],
         )
-        
+
         # Create selector
         context_selector = ContextFieldSelector(field_config)
-        
-        logger.info(f"Context Field Selector configured with {processing_level.value} level")
-        
+
+        logger.info(
+            f"Context Field Selector configured with {processing_level.value} level"
+        )
+
         return {
             "status": "configured",
             "processing_level": processing_level.value,
             "included_categories": [cat.value for cat in included_categories],
             "excluded_categories": [cat.value for cat in excluded_categories],
             "domain_focus": config.domain_focus,
-            "performance_optimizations": config.skip_expensive_calculations
+            "performance_optimizations": config.skip_expensive_calculations,
         }
-        
+
     except ValueError as e:
         raise HTTPException(status_code=400, detail=f"Invalid configuration: {str(e)}")
     except Exception as e:
@@ -183,7 +205,7 @@ async def configure_context_selector(config: ContextFieldConfigRequest):
 async def load_context_preset(preset_name: str):
     """Load a predefined context selector preset"""
     global context_selector
-    
+
     try:
         if preset_name == "minimal":
             context_selector = create_minimal_selector()
@@ -195,17 +217,19 @@ async def load_context_preset(preset_name: str):
             domain = preset_name.replace("domain_", "")
             context_selector = create_domain_selector(domain)
         else:
-            raise HTTPException(status_code=400, detail=f"Unknown preset: {preset_name}")
-        
+            raise HTTPException(
+                status_code=400, detail=f"Unknown preset: {preset_name}"
+            )
+
         logger.info(f"Context Field Selector loaded preset: {preset_name}")
-        
+
         return {
             "status": "loaded",
             "preset": preset_name,
             "processing_level": context_selector.config.processing_level.value,
-            "domain_focus": context_selector.config.domain_focus
+            "domain_focus": context_selector.config.domain_focus,
         }
-        
+
     except Exception as e:
         logger.error(f"Preset loading failed: {e}")
         raise HTTPException(status_code=500, detail=f"Preset loading failed: {str(e)}")
@@ -215,21 +239,26 @@ async def load_context_preset(preset_name: str):
 async def get_context_selector_status():
     """Get current context selector status and statistics"""
     global context_selector
-    
+
     if not context_selector:
-        return {"status": "not_configured", "message": "Context Field Selector not initialized"}
-    
+        return {
+            "status": "not_configured",
+            "message": "Context Field Selector not initialized",
+        }
+
     try:
         summary = context_selector.get_processing_summary()
         return {
             "status": "active",
             "summary": summary,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
-        
+
     except Exception as e:
         logger.error(f"Context status retrieval failed: {e}")
-        raise HTTPException(status_code=500, detail=f"Status retrieval failed: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Status retrieval failed: {str(e)}"
+        )
 
 
 # Anthropomorphic Profiler Endpoints
@@ -239,7 +268,7 @@ async def configure_profiler(request: Request, profile: PersonalityProfileReques
     profiler = request.app.state.anthropomorphic_profiler
     if not profiler:
         raise HTTPException(status_code=503, detail="Profiler not available")
-    
+
     try:
         # Create personality profile
         personality_profile = PersonalityProfile(
@@ -258,14 +287,16 @@ async def configure_profiler(request: Request, profile: PersonalityProfileReques
             drift_window_size=profile.drift_window_size,
             prevent_role_playing=profile.prevent_role_playing,
             prevent_persona_switching=profile.prevent_persona_switching,
-            maintain_professional_boundary=profile.maintain_professional_boundary
+            maintain_professional_boundary=profile.maintain_professional_boundary,
         )
-        
+
         # Re-create profiler with new config
-        request.app.state.anthropomorphic_profiler = AnthropomorphicProfiler(personality_profile)
-        
+        request.app.state.anthropomorphic_profiler = AnthropomorphicProfiler(
+            personality_profile
+        )
+
         logger.info("Anthropomorphic Language Profiler re-configured")
-        
+
         return {"status": "re-configured"}
 
     except Exception as e:
@@ -286,12 +317,14 @@ async def load_profiler_preset(request: Request, preset_name: str):
         elif preset_name == "strict":
             request.app.state.anthropomorphic_profiler = create_strict_profiler()
         else:
-            raise HTTPException(status_code=400, detail=f"Unknown preset: {preset_name}")
-        
+            raise HTTPException(
+                status_code=400, detail=f"Unknown preset: {preset_name}"
+            )
+
         logger.info(f"Profiler loaded preset: {preset_name}")
-        
+
         return {"status": "loaded", "preset": preset_name}
-        
+
     except Exception as e:
         logger.error(f"Preset loading failed: {e}")
         raise HTTPException(status_code=500, detail=f"Preset loading failed: {str(e)}")
@@ -303,7 +336,7 @@ async def analyze_message(req: Request, analysis_request: ProfilerAnalysisReques
     profiler = req.app.state.anthropomorphic_profiler
     if not profiler:
         raise HTTPException(status_code=503, detail="Profiler not available")
-        
+
     try:
         analysis = profiler.analyze_interaction(analysis_request.message)
         return analysis.to_dict()
@@ -324,11 +357,13 @@ async def get_profiler_status(request: Request):
             "status": "active",
             "profile": profiler.baseline_profile.to_dict(),
             "drift_window_size": profiler.baseline_profile.drift_window_size,
-            "recent_interactions": len(profiler.interaction_history)
+            "recent_interactions": len(profiler.interaction_history),
         }
     except Exception as e:
         logger.error(f"Profiler status retrieval failed: {e}")
-        raise HTTPException(status_code=500, detail=f"Status retrieval failed: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Status retrieval failed: {str(e)}"
+        )
 
 
 @router.get("/profiler/drift/trend")
@@ -337,17 +372,19 @@ async def get_drift_trend(request: Request, window_size: Optional[int] = None):
     profiler = request.app.state.anthropomorphic_profiler
     if not profiler:
         raise HTTPException(status_code=503, detail="Profiler not available")
-    
+
     try:
         drift_trend = profiler.get_drift_trend(window_size)
         return {
             "drift_trend": drift_trend,
             "window_size": window_size or profiler.drift_window_size,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
     except Exception as e:
         logger.error(f"Drift trend analysis failed: {e}")
-        raise HTTPException(status_code=500, detail=f"Drift trend analysis failed: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Drift trend analysis failed: {str(e)}"
+        )
 
 
 @router.post("/coherence/assess")
@@ -356,20 +393,24 @@ async def assess_coherence(request: Request, coherence_request: CoherenceRequest
     monitor = request.app.state.coherence_monitor
     if not monitor:
         raise HTTPException(status_code=503, detail="Coherence Monitor not available")
-    
+
     try:
-        coherence_score = monitor.assess_coherence(torch.tensor(coherence_request.cognitive_state))
-        
+        coherence_score = monitor.assess_coherence(
+            torch.tensor(coherence_request.cognitive_state)
+        )
+
         return {
             "coherence_score": coherence_score,
             "is_coherent": coherence_score > monitor.coherence_threshold,
             "threshold": monitor.coherence_threshold,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
-        
+
     except Exception as e:
         logger.error(f"Coherence assessment failed: {e}")
-        raise HTTPException(status_code=500, detail=f"Coherence assessment failed: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Coherence assessment failed: {str(e)}"
+        )
 
 
 # Gyroscopic Security Endpoints
@@ -393,11 +434,11 @@ async def configure_gyroscopic_security(req: Request, config: EquilibriumConfigR
             role_rigidity=config.role_rigidity,
             boundary_hardness=config.boundary_hardness,
             restoration_rate=config.restoration_rate,
-            stability_threshold=config.stability_threshold
+            stability_threshold=config.stability_threshold,
         )
         # Re-create security core with new config
         req.app.state.gyroscopic_security = GyroscopicSecurityCore(equilibrium_state)
-        
+
         logger.info("Gyroscopic Security Core re-configured")
         return {"status": "re-configured"}
 
@@ -419,11 +460,13 @@ async def load_security_preset(req: Request, preset_name: str):
         elif preset_name == "maximum":
             req.app.state.gyroscopic_security = create_maximum_security_core()
         else:
-            raise HTTPException(status_code=400, detail=f"Unknown preset: {preset_name}")
-        
+            raise HTTPException(
+                status_code=400, detail=f"Unknown preset: {preset_name}"
+            )
+
         logger.info(f"Security Core loaded preset: {preset_name}")
         return {"status": "loaded", "preset": preset_name}
-        
+
     except Exception as e:
         logger.error(f"Security preset loading failed: {e}")
         raise HTTPException(status_code=500, detail=f"Preset loading failed: {str(e)}")
@@ -445,7 +488,9 @@ async def analyze_input_security(req: Request, security_request: Dict[str, str])
         return threat_analysis.to_dict()
     except Exception as e:
         logger.error(f"Security analysis failed: {e}")
-        raise HTTPException(status_code=500, detail=f"Security analysis failed: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Security analysis failed: {str(e)}"
+        )
 
 
 @router.get("/security/status")
@@ -454,12 +499,14 @@ async def get_security_status(request: Request):
     security_core = request.app.state.gyroscopic_security
     if not security_core:
         raise HTTPException(status_code=503, detail="Security Core not available")
-        
+
     try:
         return security_core.get_status()
     except Exception as e:
         logger.error(f"Security status retrieval failed: {e}")
-        raise HTTPException(status_code=500, detail=f"Status retrieval failed: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Status retrieval failed: {str(e)}"
+        )
 
 
 @router.get("/security/threats")
@@ -468,7 +515,7 @@ async def get_threat_analysis(request: Request):
     security_core = request.app.state.gyroscopic_security
     if not security_core:
         raise HTTPException(status_code=503, detail="Security Core not available")
-        
+
     try:
         # In a real scenario, this would analyze a history of inputs
         # For a demo, we'll return the current equilibrium state
@@ -476,16 +523,20 @@ async def get_threat_analysis(request: Request):
             "threat_level": security_core.current_threat_level,
             "equilibrium_state": security_core.state.to_dict(),
             "threat_vector_analysis": security_core.last_threat_vector,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
     except Exception as e:
         logger.error(f"Threat analysis retrieval failed: {e}")
-        raise HTTPException(status_code=500, detail=f"Threat analysis retrieval failed: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Threat analysis retrieval failed: {str(e)}"
+        )
 
 
 # Main processing endpoint
 @router.post("/process/secure")
-async def secure_enhanced_processing(req: Request, process_request: SecureProcessingRequest):
+async def secure_enhanced_processing(
+    req: Request, process_request: SecureProcessingRequest
+):
     """
     Process input text using a combination of the context selector,
     profiler, and gyroscopic security core.
@@ -495,20 +546,24 @@ async def secure_enhanced_processing(req: Request, process_request: SecureProces
     security_core = req.app.state.gyroscopic_security
 
     if process_request.use_profiler and not profiler:
-        raise HTTPException(status_code=503, detail="Profiler requested but not available")
+        raise HTTPException(
+            status_code=503, detail="Profiler requested but not available"
+        )
     if process_request.use_gyroscopic_security and not security_core:
-        raise HTTPException(status_code=503, detail="Security Core requested but not available")
+        raise HTTPException(
+            status_code=503, detail="Security Core requested but not available"
+        )
 
     # 1. Security Analysis
     if process_request.use_gyroscopic_security:
         threat_analysis = security_core.analyze_input(process_request.input_text)
         if threat_analysis.threat_detected:
             raise HTTPException(
-                status_code=403, 
+                status_code=403,
                 detail={
                     "message": "Processing blocked due to detected security threat",
-                    "analysis": threat_analysis.to_dict()
-                }
+                    "analysis": threat_analysis.to_dict(),
+                },
             )
 
     # 2. Profiler Analysis
@@ -516,7 +571,9 @@ async def secure_enhanced_processing(req: Request, process_request: SecureProces
         interaction_analysis = profiler.analyze_interaction(process_request.input_text)
         if interaction_analysis.is_drift_detected:
             # This can be configured to either warn or block
-            logger.warning(f"Persona drift detected: {interaction_analysis.drift_details}")
+            logger.warning(
+                f"Persona drift detected: {interaction_analysis.drift_details}"
+            )
 
     # 3. Context Selection
     if not context_selector:
@@ -528,7 +585,9 @@ async def secure_enhanced_processing(req: Request, process_request: SecureProces
         # (This logic would be more complex in a real multi-user system)
         try:
             temp_config = ContextFieldConfig(
-                processing_level=ProcessingLevel(process_request.context_config.processing_level),
+                processing_level=ProcessingLevel(
+                    process_request.context_config.processing_level
+                ),
                 # ... simplified for brevity ...
             )
             processing_selector = ContextFieldSelector(temp_config)
@@ -542,9 +601,11 @@ async def secure_enhanced_processing(req: Request, process_request: SecureProces
         # Use the selector to get relevant context
         # This part is highly dependent on the actual cognitive core,
         # so we'll simulate the output.
-        
+
         # Simulate selecting context based on input
-        selected_context = processing_selector.select_context(process_request.input_text)
+        selected_context = processing_selector.select_context(
+            process_request.input_text
+        )
 
         # Simulate a response
         response_text = f"Processed '{process_request.input_text[:20]}...' with {len(selected_context.get('semantic_features',[]))} features."
@@ -553,8 +614,12 @@ async def secure_enhanced_processing(req: Request, process_request: SecureProces
             "status": "processed_securely",
             "response": response_text,
             "security_status": "clear",
-            "profiler_status": "stable" if not interaction_analysis.is_drift_detected else "drift_detected",
-            "context_summary": processing_selector.get_processing_summary()
+            "profiler_status": (
+                "stable"
+                if not interaction_analysis.is_drift_detected
+                else "drift_detected"
+            ),
+            "context_summary": processing_selector.get_processing_summary(),
         }
 
     except Exception as e:
@@ -573,8 +638,17 @@ async def get_enhanced_system_status(request: Request):
         try:
             profiler_status = {
                 "status": "active",
-                "profile": profiler.baseline_profile.to_dict() if hasattr(profiler, 'baseline_profile') and hasattr(profiler.baseline_profile, 'to_dict') else "configured",
-                "interaction_count": len(profiler.interaction_history) if hasattr(profiler, 'interaction_history') else 0
+                "profile": (
+                    profiler.baseline_profile.to_dict()
+                    if hasattr(profiler, "baseline_profile")
+                    and hasattr(profiler.baseline_profile, "to_dict")
+                    else "configured"
+                ),
+                "interaction_count": (
+                    len(profiler.interaction_history)
+                    if hasattr(profiler, "interaction_history")
+                    else 0
+                ),
             }
         except Exception as e:
             logger.error(f"Error getting profiler status: {e}")
@@ -583,7 +657,11 @@ async def get_enhanced_system_status(request: Request):
     security_status = "not_initialized"
     if security_core:
         try:
-            security_status = security_core.get_status() if hasattr(security_core, 'get_status') else "active"
+            security_status = (
+                security_core.get_status()
+                if hasattr(security_core, "get_status")
+                else "active"
+            )
         except Exception as e:
             logger.error(f"Error getting security status: {e}")
             security_status = "error"
@@ -591,7 +669,11 @@ async def get_enhanced_system_status(request: Request):
     context_status = "not_configured"
     if context_selector:
         try:
-            context_status = context_selector.get_processing_summary() if hasattr(context_selector, 'get_processing_summary') else "configured"
+            context_status = (
+                context_selector.get_processing_summary()
+                if hasattr(context_selector, "get_processing_summary")
+                else "configured"
+            )
         except Exception as e:
             logger.error(f"Error getting context selector status: {e}")
             context_status = "error"
@@ -599,7 +681,7 @@ async def get_enhanced_system_status(request: Request):
     return {
         "profiler": profiler_status,
         "security_core": security_status,
-        "context_selector": context_status
+        "context_selector": context_status,
     }
 
 
@@ -608,11 +690,11 @@ async def reset_enhanced_components(request: Request):
     """Reset all enhanced components to their default states."""
     global context_selector
     context_selector = None
-    
+
     # Re-initialize from the functions that create defaults
     request.app.state.anthropomorphic_profiler = create_default_profiler()
     request.app.state.gyroscopic_security = create_balanced_security_core()
-    
+
     logger.info("All enhanced components have been reset to default states.")
     return {"status": "reset_complete"}
 
@@ -626,10 +708,10 @@ async def enhanced_health_check(request: Request):
     status = {
         "profiler_status": "ok" if profiler else "error",
         "security_core_status": "ok" if security_core else "error",
-        "overall_status": "ok" if profiler and security_core else "error"
+        "overall_status": "ok" if profiler and security_core else "error",
     }
-    
+
     if status["overall_status"] == "error":
         raise HTTPException(status_code=503, detail=status)
-        
-    return status 
+
+    return status

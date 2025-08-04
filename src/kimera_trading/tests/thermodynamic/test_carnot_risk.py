@@ -1,5 +1,7 @@
 import pytest
+
 from kimera_trading.thermodynamic.carnot_risk import CarnotCycleRiskModel
+
 
 def test_carnot_cycle_risk_model():
     model = CarnotCycleRiskModel()

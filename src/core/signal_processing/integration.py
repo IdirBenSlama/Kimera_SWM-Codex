@@ -11,23 +11,30 @@ Safety Requirements: 71 objectives, 30 with independence
 """
 
 from __future__ import annotations
-import logging
+
 import asyncio
-import time
-from typing import Dict, Any, Optional, List
-from dataclasses import dataclass
+import logging
 import threading
-from concurrent.futures import ThreadPoolExecutor, Future
+import time
+from concurrent.futures import Future, ThreadPoolExecutor
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional
+
 import numpy as np
 
 from .diffusion_response_engine import DiffusionResponseEngine, ResponseQualityMetrics
-from .emergent_signal_detector import EmergentSignalIntelligenceDetector, EmergenceMetrics
+from .emergent_signal_detector import (
+    EmergenceMetrics,
+    EmergentSignalIntelligenceDetector,
+)
 
 logger = logging.getLogger(__name__)
+
 
 @dataclass
 class SignalProcessingResult:
     """Unified result from signal processing operations."""
+
     response: str
     emergence_metrics: EmergenceMetrics
     quality_metrics: Optional[ResponseQualityMetrics]
@@ -41,6 +48,7 @@ class SignalProcessingResult:
         assert self.processing_time >= 0.0, "Processing time must be non-negative"
         assert self.timestamp > 0, "Timestamp must be positive"
 
+
 class SignalProcessingIntegration:
     """
     Aerospace-grade integration of advanced signal processing engines.
@@ -53,10 +61,12 @@ class SignalProcessingIntegration:
     - DO-178C compliance: Full traceability and verification
     """
 
-    def __init__(self,
-                 consciousness_threshold: float = 0.7,
-                 safety_mode: bool = True,
-                 max_concurrent_operations: int = 10):
+    def __init__(
+        self,
+        consciousness_threshold: float = 0.7,
+        safety_mode: bool = True,
+        max_concurrent_operations: int = 10,
+    ):
         """
         Initialize signal processing integration with aerospace-grade parameters.
 
@@ -71,20 +81,18 @@ class SignalProcessingIntegration:
 
         # Initialize engines
         self.diffusion_engine = DiffusionResponseEngine(
-            safety_mode=safety_mode,
-            verification_enabled=True
+            safety_mode=safety_mode, verification_enabled=True
         )
 
         self.emergence_detector = EmergentSignalIntelligenceDetector(
             consciousness_threshold=consciousness_threshold,
             safety_mode=safety_mode,
-            verification_enabled=True
+            verification_enabled=True,
         )
 
         # Concurrency management
         self.executor = ThreadPoolExecutor(
-            max_workers=max_concurrent_operations,
-            thread_name_prefix="SignalProcessing"
+            max_workers=max_concurrent_operations, thread_name_prefix="SignalProcessing"
         )
         self.semaphore = asyncio.Semaphore(max_concurrent_operations)
         self.active_operations = 0
@@ -101,14 +109,18 @@ class SignalProcessingIntegration:
         self.response_generations = 0
         self.concurrent_operations_peak = 0
 
-        logger.info(f"✅ SignalProcessingIntegration initialized - Safety: {safety_mode}, "
-                   f"Consciousness threshold: {consciousness_threshold}")
+        logger.info(
+            f"✅ SignalProcessingIntegration initialized - Safety: {safety_mode}, "
+            f"Consciousness threshold: {consciousness_threshold}"
+        )
 
-    async def process_signal(self,
-                           grounded_concepts: Dict[str, Any],
-                           semantic_features: Dict[str, Any],
-                           persona_prompt: str = "",
-                           detect_emergence: bool = True) -> SignalProcessingResult:
+    async def process_signal(
+        self,
+        grounded_concepts: Dict[str, Any],
+        semantic_features: Dict[str, Any],
+        persona_prompt: str = "",
+        detect_emergence: bool = True,
+    ) -> SignalProcessingResult:
         """
         Unified signal processing with parallel response generation and emergence detection.
 
@@ -128,8 +140,7 @@ class SignalProcessingIntegration:
                 with self.lock:
                     self.active_operations += 1
                     self.concurrent_operations_peak = max(
-                        self.concurrent_operations_peak,
-                        self.active_operations
+                        self.concurrent_operations_peak, self.active_operations
                     )
 
                 # Prepare signal state for emergence detection
@@ -173,18 +184,19 @@ class SignalProcessingIntegration:
 
                 # Extract response text
                 if response_result and isinstance(response_result, dict):
-                    response_text = response_result.get('response', '')
-                    quality_metrics = response_result.get('quality_metrics')
-                    response_status = response_result.get('status', 'unknown')
+                    response_text = response_result.get("response", "")
+                    quality_metrics = response_result.get("quality_metrics")
+                    response_status = response_result.get("status", "unknown")
                 else:
                     response_text = "I understand your question and will provide a thoughtful response."
                     quality_metrics = None
-                    response_status = 'fallback'
+                    response_status = "fallback"
 
                 # Handle emergence detection results
                 if emergence_result is None:
                     # Create default emergence metrics
                     from .emergent_signal_detector import EmergenceMetrics
+
                     emergence_result = EmergenceMetrics(
                         complexity_score=0.0,
                         organization_score=0.0,
@@ -192,7 +204,7 @@ class SignalProcessingIntegration:
                         temporal_coherence=0.0,
                         emergence_confidence=0.0,
                         intelligence_detected=False,
-                        consciousness_threshold=self.consciousness_threshold
+                        consciousness_threshold=self.consciousness_threshold,
                     )
 
                 # Update statistics
@@ -214,13 +226,15 @@ class SignalProcessingIntegration:
                     quality_metrics=quality_metrics,
                     processing_time=time.time() - start_time,
                     status=response_status,
-                    timestamp=time.time()
+                    timestamp=time.time(),
                 )
 
-                logger.info(f"✅ Signal processing complete: response={len(response_text)} chars, "
-                          f"emergence={emergence_result.emergence_confidence:.3f}, "
-                          f"intelligence={emergence_result.intelligence_detected}, "
-                          f"time={result.processing_time:.3f}s")
+                logger.info(
+                    f"✅ Signal processing complete: response={len(response_text)} chars, "
+                    f"emergence={emergence_result.emergence_confidence:.3f}, "
+                    f"intelligence={emergence_result.intelligence_detected}, "
+                    f"time={result.processing_time:.3f}s"
+                )
 
                 return result
 
@@ -230,6 +244,7 @@ class SignalProcessingIntegration:
 
                 # Return safe fallback result
                 from .emergent_signal_detector import EmergenceMetrics
+
                 fallback_emergence = EmergenceMetrics(
                     complexity_score=0.0,
                     organization_score=0.0,
@@ -237,7 +252,7 @@ class SignalProcessingIntegration:
                     temporal_coherence=0.0,
                     emergence_confidence=0.0,
                     intelligence_detected=False,
-                    consciousness_threshold=self.consciousness_threshold
+                    consciousness_threshold=self.consciousness_threshold,
                 )
 
                 return SignalProcessingResult(
@@ -245,17 +260,17 @@ class SignalProcessingIntegration:
                     emergence_metrics=fallback_emergence,
                     quality_metrics=None,
                     processing_time=time.time() - start_time,
-                    status='error_fallback',
-                    timestamp=time.time()
+                    status="error_fallback",
+                    timestamp=time.time(),
                 )
 
             finally:
                 with self.lock:
                     self.active_operations -= 1
 
-    def _prepare_signal_state(self,
-                            grounded_concepts: Dict[str, Any],
-                            semantic_features: Dict[str, Any]) -> Dict[str, Any]:
+    def _prepare_signal_state(
+        self, grounded_concepts: Dict[str, Any], semantic_features: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """
         Prepare signal state for emergence detection from semantic inputs.
         """
@@ -264,12 +279,12 @@ class SignalProcessingIntegration:
             signal_vector = None
 
             # Try to extract from semantic features
-            if 'signal_vector' in semantic_features:
-                signal_vector = semantic_features['signal_vector']
-            elif 'embedding' in semantic_features:
-                signal_vector = semantic_features['embedding']
-            elif 'feature_vector' in semantic_features:
-                signal_vector = semantic_features['feature_vector']
+            if "signal_vector" in semantic_features:
+                signal_vector = semantic_features["signal_vector"]
+            elif "embedding" in semantic_features:
+                signal_vector = semantic_features["embedding"]
+            elif "feature_vector" in semantic_features:
+                signal_vector = semantic_features["feature_vector"]
 
             # If no vector found, create one from available features
             if signal_vector is None:
@@ -286,7 +301,9 @@ class SignalProcessingIntegration:
 
                 # Ensure minimum vector size
                 while len(features) < 10:
-                    features.append(0.5 + 0.1 * len(features))  # Generate reasonable defaults
+                    features.append(
+                        0.5 + 0.1 * len(features)
+                    )  # Generate reasonable defaults
 
                 signal_vector = np.array(features)
 
@@ -296,13 +313,17 @@ class SignalProcessingIntegration:
 
             # Create signal state
             signal_state = {
-                'timestamp': time.time(),
-                'signal_vector': signal_vector,
-                'metadata': {
-                    'grounded_concepts': grounded_concepts,
-                    'semantic_features': semantic_features,
-                    'vector_source': 'extracted' if 'signal_vector' in semantic_features else 'generated'
-                }
+                "timestamp": time.time(),
+                "signal_vector": signal_vector,
+                "metadata": {
+                    "grounded_concepts": grounded_concepts,
+                    "semantic_features": semantic_features,
+                    "vector_source": (
+                        "extracted"
+                        if "signal_vector" in semantic_features
+                        else "generated"
+                    ),
+                },
             }
 
             return signal_state
@@ -311,18 +332,17 @@ class SignalProcessingIntegration:
             logger.warning(f"⚠️ Signal state preparation error: {e}")
             # Return minimal valid signal state
             return {
-                'timestamp': time.time(),
-                'signal_vector': np.array([0.5] * 10),  # Default vector
-                'metadata': {
-                    'error': str(e),
-                    'fallback': True
-                }
+                "timestamp": time.time(),
+                "signal_vector": np.array([0.5] * 10),  # Default vector
+                "metadata": {"error": str(e), "fallback": True},
             }
 
-    async def generate_response_only(self,
-                                   grounded_concepts: Dict[str, Any],
-                                   semantic_features: Dict[str, Any],
-                                   persona_prompt: str = "") -> Dict[str, Any]:
+    async def generate_response_only(
+        self,
+        grounded_concepts: Dict[str, Any],
+        semantic_features: Dict[str, Any],
+        persona_prompt: str = "",
+    ) -> Dict[str, Any]:
         """
         Generate response without emergence detection for faster operation.
         """
@@ -333,13 +353,15 @@ class SignalProcessingIntegration:
         except Exception as e:
             logger.error(f"❌ Response generation failed: {e}")
             return {
-                'response': "I understand your question and will provide a thoughtful response.",
-                'status': 'error_fallback',
-                'error': str(e),
-                'processing_time': 0.0
+                "response": "I understand your question and will provide a thoughtful response.",
+                "status": "error_fallback",
+                "error": str(e),
+                "processing_time": 0.0,
             }
 
-    async def detect_emergence_only(self, signal_state: Dict[str, Any]) -> EmergenceMetrics:
+    async def detect_emergence_only(
+        self, signal_state: Dict[str, Any]
+    ) -> EmergenceMetrics:
         """
         Perform emergence detection without response generation.
         """
@@ -348,6 +370,7 @@ class SignalProcessingIntegration:
         except Exception as e:
             logger.error(f"❌ Emergence detection failed: {e}")
             from .emergent_signal_detector import EmergenceMetrics
+
             return EmergenceMetrics(
                 complexity_score=0.0,
                 organization_score=0.0,
@@ -355,7 +378,7 @@ class SignalProcessingIntegration:
                 temporal_coherence=0.0,
                 emergence_confidence=0.0,
                 intelligence_detected=False,
-                consciousness_threshold=self.consciousness_threshold
+                consciousness_threshold=self.consciousness_threshold,
             )
 
     def get_comprehensive_health(self) -> Dict[str, Any]:
@@ -365,34 +388,38 @@ class SignalProcessingIntegration:
         """
         with self.lock:
             uptime = time.time() - self.start_time
-            avg_processing_time = np.mean(self.processing_times) if self.processing_times else 0.0
+            avg_processing_time = (
+                np.mean(self.processing_times) if self.processing_times else 0.0
+            )
 
             # Calculate rates
             operations_per_second = self.operation_count / uptime if uptime > 0 else 0.0
             error_rate = self.error_count / max(1, self.operation_count)
-            intelligence_detection_rate = self.intelligence_detections / max(1, self.response_generations)
+            intelligence_detection_rate = self.intelligence_detections / max(
+                1, self.response_generations
+            )
 
             # Get individual engine health
             diffusion_health = self.diffusion_engine.get_system_health()
             emergence_health = self.emergence_detector.get_system_health()
 
             return {
-                'integration_status': 'healthy' if error_rate < 0.1 else 'degraded',
-                'uptime_seconds': uptime,
-                'total_operations': self.operation_count,
-                'error_count': self.error_count,
-                'error_rate': error_rate,
-                'operations_per_second': operations_per_second,
-                'average_processing_time': avg_processing_time,
-                'active_operations': self.active_operations,
-                'concurrent_operations_peak': self.concurrent_operations_peak,
-                'intelligence_detections': self.intelligence_detections,
-                'intelligence_detection_rate': intelligence_detection_rate,
-                'response_generations': self.response_generations,
-                'consciousness_threshold': self.consciousness_threshold,
-                'safety_mode': self.safety_mode,
-                'diffusion_engine': diffusion_health,
-                'emergence_detector': emergence_health
+                "integration_status": "healthy" if error_rate < 0.1 else "degraded",
+                "uptime_seconds": uptime,
+                "total_operations": self.operation_count,
+                "error_count": self.error_count,
+                "error_rate": error_rate,
+                "operations_per_second": operations_per_second,
+                "average_processing_time": avg_processing_time,
+                "active_operations": self.active_operations,
+                "concurrent_operations_peak": self.concurrent_operations_peak,
+                "intelligence_detections": self.intelligence_detections,
+                "intelligence_detection_rate": intelligence_detection_rate,
+                "response_generations": self.response_generations,
+                "consciousness_threshold": self.consciousness_threshold,
+                "safety_mode": self.safety_mode,
+                "diffusion_engine": diffusion_health,
+                "emergence_detector": emergence_health,
             }
 
     def update_consciousness_threshold(self, new_threshold: float) -> bool:
@@ -410,7 +437,9 @@ class SignalProcessingIntegration:
             # Update detector threshold
             self.emergence_detector.consciousness_threshold = new_threshold
 
-            logger.info(f"✅ Consciousness threshold updated: {old_threshold} -> {new_threshold}")
+            logger.info(
+                f"✅ Consciousness threshold updated: {old_threshold} -> {new_threshold}"
+            )
             return True
 
         except Exception as e:
@@ -428,13 +457,20 @@ class SignalProcessingIntegration:
             shutdown_timeout = 30  # seconds
             start_shutdown = time.time()
 
-            while self.active_operations > 0 and (time.time() - start_shutdown) < shutdown_timeout:
-                logger.info(f"⏳ Waiting for {self.active_operations} active operations to complete...")
+            while (
+                self.active_operations > 0
+                and (time.time() - start_shutdown) < shutdown_timeout
+            ):
+                logger.info(
+                    f"⏳ Waiting for {self.active_operations} active operations to complete..."
+                )
                 await asyncio.sleep(0.5)
 
             # Force shutdown if timeout exceeded
             if self.active_operations > 0:
-                logger.warning(f"⚠️ Forced shutdown with {self.active_operations} active operations")
+                logger.warning(
+                    f"⚠️ Forced shutdown with {self.active_operations} active operations"
+                )
 
             # Shutdown individual engines
             self.diffusion_engine.shutdown()
@@ -448,9 +484,11 @@ class SignalProcessingIntegration:
         except Exception as e:
             logger.error(f"❌ Error during shutdown: {e}")
 
+
 # Global instance for system-wide access
 _signal_processing_instance: Optional[SignalProcessingIntegration] = None
 _instance_lock = threading.Lock()
+
 
 def get_signal_processing_system() -> SignalProcessingIntegration:
     """
@@ -466,6 +504,7 @@ def get_signal_processing_system() -> SignalProcessingIntegration:
                 logger.info("✅ Global signal processing system initialized")
 
     return _signal_processing_instance
+
 
 async def shutdown_signal_processing_system():
     """

@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class QuantumStateManager:
     """Manages the quantum state of the trading system."""
 
@@ -9,7 +10,9 @@ class QuantumStateManager:
 
     def initialize_superposition(self):
         """Initializes the system in a superposition of all states."""
-        self.state_vector = np.ones(self.num_states, dtype=complex) / np.sqrt(self.num_states)
+        self.state_vector = np.ones(self.num_states, dtype=complex) / np.sqrt(
+            self.num_states
+        )
 
     def collapse_state(self):
         """Collapses the quantum state to a single classical state."""

@@ -25,46 +25,46 @@ Version: 1.0.0 (DO-178C Level A)
 
 # Main integration interface
 from .integration.output_and_portals_integrator import (
-    OutputAndPortalsIntegrator,
-    OutputAndPortalsConfig,
     IntegratedSystemHealthReport,
-    get_output_and_portals_integrator
+    OutputAndPortalsConfig,
+    OutputAndPortalsIntegrator,
+    get_output_and_portals_integrator,
+)
+
+# Unified integration components
+from .integration.unified_integration_manager import (
+    IntegratedWorkflowRequest,
+    IntegratedWorkflowResult,
+    IntegrationMode,
+    SystemHealthStatus,
+    UnifiedIntegrationManager,
+    WorkflowType,
+    get_unified_integration_manager,
 )
 
 # Output generation components
 from .output_generation.multi_modal_output_generator import (
     MultiModalOutputGenerator,
-    OutputModality,
-    OutputQuality,
     OutputArtifact,
     OutputMetadata,
-    ScientificNomenclatureEngine,
+    OutputModality,
+    OutputQuality,
     OutputVerificationEngine,
-    get_multi_modal_output_generator
+    ScientificNomenclatureEngine,
+    get_multi_modal_output_generator,
 )
 
 # Portal management components
 from .portal_management.interdimensional_portal_manager import (
-    InterdimensionalPortalManager,
-    DimensionalSpace,
-    PortalType,
-    PortalStability,
-    PortalSafetyLevel,
-    PortalState,
     DimensionalSafetyAnalyzer,
+    DimensionalSpace,
+    InterdimensionalPortalManager,
+    PortalSafetyLevel,
+    PortalStability,
     PortalStabilityPredictor,
-    get_interdimensional_portal_manager
-)
-
-# Unified integration components
-from .integration.unified_integration_manager import (
-    UnifiedIntegrationManager,
-    IntegrationMode,
-    WorkflowType,
-    IntegratedWorkflowRequest,
-    IntegratedWorkflowResult,
-    SystemHealthStatus,
-    get_unified_integration_manager
+    PortalState,
+    PortalType,
+    get_interdimensional_portal_manager,
 )
 
 # Version and metadata
@@ -185,9 +185,15 @@ def validate_module_installation() -> bool:
     """Validate module installation and dependencies"""
     try:
         # Test core component imports
-        from .integration.output_and_portals_integrator import OutputAndPortalsIntegrator
-        from .output_generation.multi_modal_output_generator import MultiModalOutputGenerator
-        from .portal_management.interdimensional_portal_manager import InterdimensionalPortalManager
+        from .integration.output_and_portals_integrator import (
+            OutputAndPortalsIntegrator,
+        )
+        from .output_generation.multi_modal_output_generator import (
+            MultiModalOutputGenerator,
+        )
+        from .portal_management.interdimensional_portal_manager import (
+            InterdimensionalPortalManager,
+        )
 
         # Test component creation
         output_generator = get_multi_modal_output_generator()
@@ -223,7 +229,9 @@ if __name__ == "__main__":
         logger.info("❌ Module installation validation failed")
 
     import json
+
 import logging
+
 logger = logging.getLogger(__name__)
     logger.info("\nModule Information:")
     logger.info(json.dumps(get_module_info(), indent=2))

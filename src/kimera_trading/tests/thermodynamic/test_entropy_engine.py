@@ -1,5 +1,7 @@
 import pytest
+
 from kimera_trading.thermodynamic.entropy_engine import MarketEntropyCalculator
+
 
 def test_market_entropy_calculator():
     calculator = MarketEntropyCalculator()

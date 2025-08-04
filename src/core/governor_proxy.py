@@ -19,13 +19,15 @@ Key features
 """
 
 from __future__ import annotations
-from typing import Optional
-import logging
 
-from src.utils.kimera_exceptions import KimeraCognitiveError, ErrorSeverity
 import importlib
+import logging
+from typing import Optional
 
-from .ethical_governor import EthicalGovernor, ActionProposal, Verdict
+from src.utils.kimera_exceptions import ErrorSeverity, KimeraCognitiveError
+
+from .ethical_governor import ActionProposal, EthicalGovernor, Verdict
+
 logger = logging.getLogger(__name__)
 
 __all__ = [
@@ -37,6 +39,7 @@ __all__ = [
 # ---------------------------------------------------------------------------
 # Exception definitions
 # ---------------------------------------------------------------------------
+
 
 class UnconstitutionalActionError(KimeraCognitiveError):
     """Raised when an action is deemed unconstitutional by the Ethical Governor."""
@@ -53,6 +56,7 @@ class UnconstitutionalActionError(KimeraCognitiveError):
                 "Revise the action to align with the Prime Directive of Unity and"
                 " the Law of Transformative Connection."
             )
+
 
 # ---------------------------------------------------------------------------
 # Singleton handling
@@ -97,6 +101,7 @@ def get_governor() -> EthicalGovernor:
 # Helper utilities
 # ---------------------------------------------------------------------------
 
+
 def require_constitutional(
     proposal: ActionProposal,
     governor: Optional[EthicalGovernor] = None,
@@ -134,4 +139,4 @@ def require_constitutional(
         "Action '%s' approved by EthicalGovernor (CONSTITUTIONAL).",
         proposal.description,
     )
-    return verdict 
+    return verdict

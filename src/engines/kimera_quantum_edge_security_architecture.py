@@ -12,11 +12,13 @@ Version: 1.0.0
 
 import asyncio
 import logging
-from typing import Dict, Any
-from ..utils.config import get_api_settings
+from typing import Any, Dict
+
 from ..config.settings import get_settings
+from ..utils.config import get_api_settings
 
 logger = logging.getLogger(__name__)
+
 
 class KimeraQuantumEdgeSecurityArchitecture:
     """Quantum Edge Security Architecture for KIMERA"""
@@ -26,13 +28,15 @@ class KimeraQuantumEdgeSecurityArchitecture:
         logger.debug(f"   Environment: {self.settings.environment}")
         logger.info("Initializing KIMERA Quantum Edge Security Architecture")
 
-    async def process_with_quantum_protection(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_with_quantum_protection(
+        self, data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Process data with quantum-level security protection."""
         logger.info("Processing with quantum protection")
         # In a real implementation, this would involve complex quantum computations.
         # For now, we return a mock response.
         return {
-            'threat_level': 'MINIMAL',
-            'overall_security_score': 0.95,
-            'details': 'No quantum threats detected'
+            "threat_level": "MINIMAL",
+            "overall_security_score": 0.95,
+            "details": "No quantum threats detected",
         }

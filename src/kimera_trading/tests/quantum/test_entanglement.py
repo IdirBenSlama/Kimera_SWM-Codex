@@ -1,5 +1,7 @@
 import pytest
+
 from kimera_trading.quantum.entanglement import MarketEntanglementDetector
+
 
 def test_market_entanglement_detector():
     detector = MarketEntanglementDetector()

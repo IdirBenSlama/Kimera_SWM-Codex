@@ -19,38 +19,50 @@ This engine excludes all financial, trading, and market-related processing.
 import asyncio
 import logging
 import time
-import torch
-from typing import Dict, List, Any, Optional, Union, Tuple
 from dataclasses import dataclass, field
-from enum import Enum
 from datetime import datetime
+from enum import Enum
 from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple, Union
+
+import torch
+
+# Configuration
+from ..config.settings import get_settings
+from ..core.context_field_selector import (
+    ContextFieldConfig,
+    ContextFieldSelector,
+    ProcessingLevel,
+)
 
 # Core linguistic components
 from ..core.embedding_utils import (
     encode_text,
     extract_semantic_features,
     get_embedding_model,
-    initialize_embedding_model
+    initialize_embedding_model,
 )
-from ..core.context_field_selector import ContextFieldSelector, ContextFieldConfig, ProcessingLevel
 from ..core.relevance_assessment import RelevanceAssessmentEngine
-from ..linguistic.grammar import ECHOFORM_VOCABULARY, CORE_EVENT_TYPES, INSIGHT_SUB_TYPES
-from ..linguistic.echoform import parse_echoform
-from ..linguistic.entropy_formulas import calculate_linguistic_complexity, calculate_multiscale_entropy
 
 # Translation and communication systems
 from ..engines.gyroscopic_universal_translator import (
     GyroscopicUniversalTranslator,
     TranslationModality,
     TranslationRequest,
-    TranslationResult
+    TranslationResult,
 )
-from ..engines.meta_commentary_eliminator import MetaCommentaryEliminator
 from ..engines.human_interface import HumanInterface
-
-# Configuration
-from ..config.settings import get_settings
+from ..engines.meta_commentary_eliminator import MetaCommentaryEliminator
+from ..linguistic.echoform import parse_echoform
+from ..linguistic.entropy_formulas import (
+    calculate_linguistic_complexity,
+    calculate_multiscale_entropy,
+)
+from ..linguistic.grammar import (
+    CORE_EVENT_TYPES,
+    ECHOFORM_VOCABULARY,
+    INSIGHT_SUB_TYPES,
+)
 from ..utils.config import get_api_settings
 
 logger = logging.getLogger(__name__)
@@ -58,6 +70,7 @@ logger = logging.getLogger(__name__)
 
 class LinguisticCapability(Enum):
     """Core linguistic processing capabilities"""
+
     SEMANTIC_EMBEDDING = "semantic_embedding"
     UNIVERSAL_TRANSLATION = "universal_translation"
     GRAMMAR_ANALYSIS = "grammar_analysis"
@@ -137,7 +150,9 @@ class LinguisticEngineConfig:
     processing_level: ProcessingLevel = ProcessingLevel.STANDARD
 
     # Translation settings
-    default_translation_modality: TranslationModality = TranslationModality.NATURAL_LANGUAGE
+    default_translation_modality: TranslationModality = (
+        TranslationModality.NATURAL_LANGUAGE
+    )
     enable_polyglot_processing: bool = True
 
     # Quality settings
@@ -174,13 +189,13 @@ class LinguisticIntelligenceEngine:
 
         # Performance tracking
         self.performance_stats = {
-            'total_analyses': 0,
-            'total_processing_time': 0.0,
-            'average_processing_time': 0.0,
-            'successful_analyses': 0,
-            'failed_analyses': 0,
-            'cache_hits': 0,
-            'cache_misses': 0
+            "total_analyses": 0,
+            "total_processing_time": 0.0,
+            "average_processing_time": 0.0,
+            "successful_analyses": 0,
+            "failed_analyses": 0,
+            "cache_hits": 0,
+            "cache_misses": 0,
         }
 
         # Component status
@@ -192,8 +207,12 @@ class LinguisticIntelligenceEngine:
         self._initialization_lock = asyncio.Lock()
 
         logger.info("🧠 Linguistic Intelligence Engine created")
-        logger.info(f"   Configuration: {self.config.processing_level.value} processing level")
-        logger.info(f"   Capabilities enabled: {sum(1 for k, v in self.config.__dict__.items() if k.startswith('enable_') and v)}")
+        logger.info(
+            f"   Configuration: {self.config.processing_level.value} processing level"
+        )
+        logger.info(
+            f"   Capabilities enabled: {sum(1 for k, v in self.config.__dict__.items() if k.startswith('enable_') and v)}"
+        )
 
     async def initialize(self) -> Dict[str, Any]:
         """Initialize all linguistic components"""
@@ -218,8 +237,12 @@ class LinguisticIntelligenceEngine:
             self._initialized = True
             initialization_time = time.time() - start_time
 
-            logger.info(f"✅ Linguistic Intelligence Engine initialized in {initialization_time:.2f}s")
-            logger.info(f"   Active capabilities: {[k for k, v in self.component_status.items() if v]}")
+            logger.info(
+                f"✅ Linguistic Intelligence Engine initialized in {initialization_time:.2f}s"
+            )
+            logger.info(
+                f"   Active capabilities: {[k for k, v in self.component_status.items() if v]}"
+            )
 
             return self.component_status
 
@@ -230,7 +253,9 @@ class LinguisticIntelligenceEngine:
                 # Initialize BGE-M3 embedding model
                 initialize_embedding_model()
                 self._embedding_model = get_embedding_model()
-                self.component_status[LinguisticCapability.SEMANTIC_EMBEDDING.value] = True
+                self.component_status[LinguisticCapability.SEMANTIC_EMBEDDING.value] = (
+                    True
+                )
                 logger.info("✅ Semantic embedding system initialized")
         except Exception as e:
             logger.error(f"❌ Failed to initialize embedding system: {e}")
@@ -242,11 +267,15 @@ class LinguisticIntelligenceEngine:
             if self.config.enable_universal_translation:
                 self._universal_translator = GyroscopicUniversalTranslator()
                 await self._universal_translator.initialize_cognitive_systems()
-                self.component_status[LinguisticCapability.UNIVERSAL_TRANSLATION.value] = True
+                self.component_status[
+                    LinguisticCapability.UNIVERSAL_TRANSLATION.value
+                ] = True
                 logger.info("✅ Universal translator initialized")
         except Exception as e:
             logger.error(f"❌ Failed to initialize universal translator: {e}")
-            self.component_status[LinguisticCapability.UNIVERSAL_TRANSLATION.value] = False
+            self.component_status[LinguisticCapability.UNIVERSAL_TRANSLATION.value] = (
+                False
+            )
 
     async def _initialize_context_processing(self):
         """Initialize context processing system"""
@@ -255,10 +284,12 @@ class LinguisticIntelligenceEngine:
                 context_config = ContextFieldConfig(
                     processing_level=self.config.processing_level,
                     include_confidence_scores=True,
-                    include_processing_metadata=True
+                    include_processing_metadata=True,
                 )
                 self._context_selector = ContextFieldSelector(context_config)
-                self.component_status[LinguisticCapability.CONTEXT_PROCESSING.value] = True
+                self.component_status[LinguisticCapability.CONTEXT_PROCESSING.value] = (
+                    True
+                )
                 logger.info("✅ Context processing system initialized")
         except Exception as e:
             logger.error(f"❌ Failed to initialize context processing: {e}")
@@ -269,38 +300,52 @@ class LinguisticIntelligenceEngine:
         try:
             if self.config.enable_relevance_assessment:
                 self._relevance_assessor = RelevanceAssessmentEngine()
-                self.component_status[LinguisticCapability.RELEVANCE_ASSESSMENT.value] = True
+                self.component_status[
+                    LinguisticCapability.RELEVANCE_ASSESSMENT.value
+                ] = True
                 logger.info("✅ Relevance assessment system initialized")
         except Exception as e:
             logger.error(f"❌ Failed to initialize relevance assessment: {e}")
-            self.component_status[LinguisticCapability.RELEVANCE_ASSESSMENT.value] = False
+            self.component_status[LinguisticCapability.RELEVANCE_ASSESSMENT.value] = (
+                False
+            )
 
     async def _initialize_meta_commentary_elimination(self):
         """Initialize meta-commentary elimination system"""
         try:
             if self.config.enable_meta_commentary_elimination:
                 self._meta_eliminator = MetaCommentaryEliminator()
-                self.component_status[LinguisticCapability.META_COMMENTARY_ELIMINATION.value] = True
+                self.component_status[
+                    LinguisticCapability.META_COMMENTARY_ELIMINATION.value
+                ] = True
                 logger.info("✅ Meta-commentary elimination initialized")
         except Exception as e:
             logger.error(f"❌ Failed to initialize meta-commentary elimination: {e}")
-            self.component_status[LinguisticCapability.META_COMMENTARY_ELIMINATION.value] = False
+            self.component_status[
+                LinguisticCapability.META_COMMENTARY_ELIMINATION.value
+            ] = False
 
     async def _initialize_human_interface(self):
         """Initialize human interface optimization"""
         try:
             if self.config.enable_human_optimization:
                 self._human_interface = HumanInterface()
-                self.component_status[LinguisticCapability.HUMAN_INTERFACE_OPTIMIZATION.value] = True
+                self.component_status[
+                    LinguisticCapability.HUMAN_INTERFACE_OPTIMIZATION.value
+                ] = True
                 logger.info("✅ Human interface optimization initialized")
         except Exception as e:
             logger.error(f"❌ Failed to initialize human interface: {e}")
-            self.component_status[LinguisticCapability.HUMAN_INTERFACE_OPTIMIZATION.value] = False
+            self.component_status[
+                LinguisticCapability.HUMAN_INTERFACE_OPTIMIZATION.value
+            ] = False
 
-    async def analyze_text(self,
-                          text: str,
-                          context: Optional[Dict[str, Any]] = None,
-                          capabilities: Optional[List[LinguisticCapability]] = None) -> LinguisticAnalysis:
+    async def analyze_text(
+        self,
+        text: str,
+        context: Optional[Dict[str, Any]] = None,
+        capabilities: Optional[List[LinguisticCapability]] = None,
+    ) -> LinguisticAnalysis:
         """
         Perform comprehensive linguistic analysis on input text
 
@@ -320,23 +365,26 @@ class LinguisticIntelligenceEngine:
 
         # Create analysis object
         analysis = LinguisticAnalysis(
-            input_text=text,
-            input_length=len(text),
-            processing_stages=[]
+            input_text=text, input_length=len(text), processing_stages=[]
         )
 
         try:
             # Validate input
             if len(text) > self.config.max_input_length:
-                text = text[:self.config.max_input_length]
-                logger.warning(f"Input truncated to {self.config.max_input_length} characters")
+                text = text[: self.config.max_input_length]
+                logger.warning(
+                    f"Input truncated to {self.config.max_input_length} characters"
+                )
 
             analysis.processing_stages.append("input_validation")
 
             # Determine which capabilities to use
             if capabilities is None:
-                capabilities = [cap for cap in LinguisticCapability
-                              if self.component_status.get(cap.value, False)]
+                capabilities = [
+                    cap
+                    for cap in LinguisticCapability
+                    if self.component_status.get(cap.value, False)
+                ]
 
             analysis.capabilities_used = [cap.value for cap in capabilities]
 
@@ -380,30 +428,32 @@ class LinguisticIntelligenceEngine:
             processing_time = time.time() - start_time
             analysis.processing_time_ms = processing_time * 1000
             analysis.performance_metrics = {
-                'total_time_ms': analysis.processing_time_ms,
-                'stages_completed': len(analysis.processing_stages),
-                'capabilities_used': len(analysis.capabilities_used)
+                "total_time_ms": analysis.processing_time_ms,
+                "stages_completed": len(analysis.processing_stages),
+                "capabilities_used": len(analysis.capabilities_used),
             }
 
             # Update performance stats
-            self.performance_stats['total_analyses'] += 1
-            self.performance_stats['total_processing_time'] += processing_time
-            self.performance_stats['average_processing_time'] = (
-                self.performance_stats['total_processing_time'] /
-                self.performance_stats['total_analyses']
+            self.performance_stats["total_analyses"] += 1
+            self.performance_stats["total_processing_time"] += processing_time
+            self.performance_stats["average_processing_time"] = (
+                self.performance_stats["total_processing_time"]
+                / self.performance_stats["total_analyses"]
             )
-            self.performance_stats['successful_analyses'] += 1
+            self.performance_stats["successful_analyses"] += 1
 
             logger.debug(f"✅ Linguistic analysis completed in {processing_time:.3f}s")
             return analysis
 
         except Exception as e:
-            self.performance_stats['failed_analyses'] += 1
+            self.performance_stats["failed_analyses"] += 1
             logger.error(f"❌ Linguistic analysis failed: {e}", exc_info=True)
             analysis.processing_time_ms = (time.time() - start_time) * 1000
             return analysis
 
-    async def _perform_semantic_analysis(self, analysis: LinguisticAnalysis, text: str, context: Dict[str, Any]):
+    async def _perform_semantic_analysis(
+        self, analysis: LinguisticAnalysis, text: str, context: Dict[str, Any]
+    ):
         """Perform semantic embedding analysis"""
         try:
             analysis.processing_stages.append("semantic_analysis")
@@ -433,18 +483,21 @@ class LinguisticIntelligenceEngine:
             # Check for EchoForm vocabulary matches
             text_lower = text.lower()
             analysis.vocabulary_matches = [
-                word for word in ECHOFORM_VOCABULARY
-                if word.lower() in text_lower
+                word for word in ECHOFORM_VOCABULARY if word.lower() in text_lower
             ]
 
             # Basic grammar analysis
             analysis.grammar_analysis = {
-                'vocabulary_matches': len(analysis.vocabulary_matches),
-                'contains_event_types': any(event in text_lower for event in CORE_EVENT_TYPES),
-                'contains_insights': any(insight in text_lower for insight in INSIGHT_SUB_TYPES),
-                'sentence_count': text.count('.') + text.count('!') + text.count('?'),
-                'word_count': len(text.split()),
-                'character_count': len(text)
+                "vocabulary_matches": len(analysis.vocabulary_matches),
+                "contains_event_types": any(
+                    event in text_lower for event in CORE_EVENT_TYPES
+                ),
+                "contains_insights": any(
+                    insight in text_lower for insight in INSIGHT_SUB_TYPES
+                ),
+                "sentence_count": text.count(".") + text.count("!") + text.count("?"),
+                "word_count": len(text.split()),
+                "character_count": len(text),
             }
 
             logger.debug("✅ Grammar analysis completed")
@@ -464,7 +517,9 @@ class LinguisticIntelligenceEngine:
             except (ValueError, SyntaxError):
                 # Not valid EchoForm, which is normal for natural language
                 analysis.echoform_parsed = None
-                logger.debug("📝 Text is not valid EchoForm (normal for natural language)")
+                logger.debug(
+                    "📝 Text is not valid EchoForm (normal for natural language)"
+                )
 
         except Exception as e:
             logger.error(f"❌ EchoForm analysis failed: {e}")
@@ -482,11 +537,13 @@ class LinguisticIntelligenceEngine:
                 # Convert text to numeric data for entropy analysis
                 char_values = [ord(c) for c in text if c.isprintable()]
                 if len(char_values) > 10:
-                    entropy_scales = calculate_multiscale_entropy(char_values, max_scale=5)
+                    entropy_scales = calculate_multiscale_entropy(
+                        char_values, max_scale=5
+                    )
                     analysis.entropy_analysis = {
-                        'multiscale_entropy': entropy_scales,
-                        'average_entropy': sum(entropy_scales) / len(entropy_scales),
-                        'entropy_complexity': max(entropy_scales) - min(entropy_scales)
+                        "multiscale_entropy": entropy_scales,
+                        "average_entropy": sum(entropy_scales) / len(entropy_scales),
+                        "entropy_complexity": max(entropy_scales) - min(entropy_scales),
                     }
 
             logger.debug("✅ Entropy analysis completed")
@@ -494,7 +551,9 @@ class LinguisticIntelligenceEngine:
         except Exception as e:
             logger.error(f"❌ Entropy analysis failed: {e}")
 
-    async def _perform_context_analysis(self, analysis: LinguisticAnalysis, text: str, context: Dict[str, Any]):
+    async def _perform_context_analysis(
+        self, analysis: LinguisticAnalysis, text: str, context: Dict[str, Any]
+    ):
         """Perform context processing analysis"""
         try:
             analysis.processing_stages.append("context_analysis")
@@ -502,14 +561,16 @@ class LinguisticIntelligenceEngine:
             if self._context_selector:
                 # Create semantic state for context processing
                 semantic_state = {
-                    'text': text,
-                    'length': len(text),
-                    'context': context,
-                    'semantic_features': analysis.semantic_features or {}
+                    "text": text,
+                    "length": len(text),
+                    "context": context,
+                    "semantic_features": analysis.semantic_features or {},
                 }
 
                 # Filter semantic state through context selector
-                filtered_state = self._context_selector.filter_semantic_state(semantic_state)
+                filtered_state = self._context_selector.filter_semantic_state(
+                    semantic_state
+                )
                 analysis.context_assessment = filtered_state
 
             logger.debug("✅ Context analysis completed")
@@ -517,40 +578,52 @@ class LinguisticIntelligenceEngine:
         except Exception as e:
             logger.error(f"❌ Context analysis failed: {e}")
 
-    async def _perform_relevance_analysis(self, analysis: LinguisticAnalysis, text: str, context: Dict[str, Any]):
+    async def _perform_relevance_analysis(
+        self, analysis: LinguisticAnalysis, text: str, context: Dict[str, Any]
+    ):
         """Perform relevance assessment"""
         try:
             analysis.processing_stages.append("relevance_analysis")
 
             if self._relevance_assessor:
                 # Assess context relevance
-                assessment = self._relevance_assessor.assess_context_relevance(text, context)
-                analysis.relevance_score = assessment.get('relevance_score', 0.0)
-                analysis.context_type = assessment.get('context_type')
+                assessment = self._relevance_assessor.assess_context_relevance(
+                    text, context
+                )
+                analysis.relevance_score = assessment.get("relevance_score", 0.0)
+                analysis.context_type = assessment.get("context_type")
 
             logger.debug("✅ Relevance analysis completed")
 
         except Exception as e:
             logger.error(f"❌ Relevance analysis failed: {e}")
 
-    async def _perform_meta_commentary_analysis(self, analysis: LinguisticAnalysis, text: str):
+    async def _perform_meta_commentary_analysis(
+        self, analysis: LinguisticAnalysis, text: str
+    ):
         """Perform meta-commentary detection and elimination"""
         try:
             analysis.processing_stages.append("meta_commentary_analysis")
 
             if self._meta_eliminator:
-                detection_result = await self._meta_eliminator.detect_meta_commentary(text)
+                detection_result = await self._meta_eliminator.detect_meta_commentary(
+                    text
+                )
                 analysis.meta_commentary_detected = detection_result.has_dissociation
 
                 if analysis.meta_commentary_detected:
-                    analysis.cleaned_response = await self._meta_eliminator.eliminate_meta_commentary(text)
+                    analysis.cleaned_response = (
+                        await self._meta_eliminator.eliminate_meta_commentary(text)
+                    )
 
             logger.debug("✅ Meta-commentary analysis completed")
 
         except Exception as e:
             logger.error(f"❌ Meta-commentary analysis failed: {e}")
 
-    async def _perform_human_optimization(self, analysis: LinguisticAnalysis, text: str):
+    async def _perform_human_optimization(
+        self, analysis: LinguisticAnalysis, text: str
+    ):
         """Perform human interface optimization"""
         try:
             analysis.processing_stages.append("human_optimization")
@@ -567,7 +640,9 @@ class LinguisticIntelligenceEngine:
         except Exception as e:
             logger.error(f"❌ Human optimization failed: {e}")
 
-    async def _assess_translation_capabilities(self, analysis: LinguisticAnalysis, text: str):
+    async def _assess_translation_capabilities(
+        self, analysis: LinguisticAnalysis, text: str
+    ):
         """Assess universal translation capabilities"""
         try:
             analysis.processing_stages.append("translation_assessment")
@@ -578,29 +653,35 @@ class LinguisticIntelligenceEngine:
 
                 # Check for natural language
                 if any(c.isalpha() for c in text):
-                    available_modalities.append(TranslationModality.NATURAL_LANGUAGE.value)
+                    available_modalities.append(
+                        TranslationModality.NATURAL_LANGUAGE.value
+                    )
 
                 # Check for mathematical content
-                if any(c in text for c in '+-*/=()[]{}^∂∇∆∑∏∫'):
+                if any(c in text for c in "+-*/=()[]{}^∂∇∆∑∏∫"):
                     available_modalities.append(TranslationModality.MATHEMATICAL.value)
 
                 # Check for EchoForm structure
-                if '(' in text and ')' in text:
+                if "(" in text and ")" in text:
                     available_modalities.append(TranslationModality.ECHOFORM.value)
 
                 analysis.translation_modalities = available_modalities
-                analysis.translation_confidence = min(0.9, len(available_modalities) * 0.3)
+                analysis.translation_confidence = min(
+                    0.9, len(available_modalities) * 0.3
+                )
 
             logger.debug("✅ Translation assessment completed")
 
         except Exception as e:
             logger.error(f"❌ Translation assessment failed: {e}")
 
-    async def translate_text(self,
-                           text: str,
-                           source_modality: TranslationModality,
-                           target_modality: TranslationModality,
-                           context: Optional[Dict[str, Any]] = None) -> TranslationResult:
+    async def translate_text(
+        self,
+        text: str,
+        source_modality: TranslationModality,
+        target_modality: TranslationModality,
+        context: Optional[Dict[str, Any]] = None,
+    ) -> TranslationResult:
         """
         Translate text between different linguistic modalities
 
@@ -623,7 +704,7 @@ class LinguisticIntelligenceEngine:
             content=text,
             source_modality=source_modality,
             target_modality=target_modality,
-            context=context or {}
+            context=context or {},
         )
 
         return await self._universal_translator.translate(request)
@@ -632,14 +713,15 @@ class LinguisticIntelligenceEngine:
         """Get performance statistics"""
         return {
             **self.performance_stats,
-            'component_status': self.component_status,
-            'configuration': {
-                'processing_level': self.config.processing_level.value,
-                'enabled_capabilities': [
-                    k for k, v in self.config.__dict__.items()
-                    if k.startswith('enable_') and v
-                ]
-            }
+            "component_status": self.component_status,
+            "configuration": {
+                "processing_level": self.config.processing_level.value,
+                "enabled_capabilities": [
+                    k
+                    for k, v in self.config.__dict__.items()
+                    if k.startswith("enable_") and v
+                ],
+            },
         }
 
     def get_component_status(self) -> Dict[str, bool]:
@@ -661,9 +743,12 @@ class LinguisticIntelligenceEngine:
 
 
 # Factory functions for easy integration
-def create_linguistic_engine(config: Optional[LinguisticEngineConfig] = None) -> LinguisticIntelligenceEngine:
+def create_linguistic_engine(
+    config: Optional[LinguisticEngineConfig] = None,
+) -> LinguisticIntelligenceEngine:
     """Create a new linguistic intelligence engine"""
     return LinguisticIntelligenceEngine(config)
+
 
 def create_lightweight_linguistic_engine() -> LinguisticIntelligenceEngine:
     """Create a lightweight linguistic engine for testing"""
@@ -671,9 +756,10 @@ def create_lightweight_linguistic_engine() -> LinguisticIntelligenceEngine:
         lightweight_mode=True,
         processing_level=ProcessingLevel.MINIMAL,
         enable_universal_translation=False,
-        enable_entropy_analysis=False
+        enable_entropy_analysis=False,
     )
     return LinguisticIntelligenceEngine(config)
+
 
 def create_comprehensive_linguistic_engine() -> LinguisticIntelligenceEngine:
     """Create a comprehensive linguistic engine with all capabilities"""
@@ -685,13 +771,15 @@ def create_comprehensive_linguistic_engine() -> LinguisticIntelligenceEngine:
         enable_entropy_analysis=True,
         enable_context_processing=True,
         enable_meta_commentary_elimination=True,
-        enable_relevance_assessment=True
+        enable_relevance_assessment=True,
     )
     return LinguisticIntelligenceEngine(config)
+
 
 # Global instance for easy access
 _global_linguistic_engine: Optional[LinguisticIntelligenceEngine] = None
 _linguistic_engine_lock = asyncio.Lock()
+
 
 async def get_linguistic_engine() -> LinguisticIntelligenceEngine:
     """Get the global linguistic intelligence engine instance"""

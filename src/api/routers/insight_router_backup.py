@@ -9,28 +9,33 @@ This includes generation, retrieval, feedback, and lineage tracing.
 
 import logging
 from datetime import datetime
+from typing import Any, Dict, Optional
+
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from typing import Optional, Dict, Any
 
 from ...engines.insight_lifecycle import FeedbackEvent
 from ...engines.output_generator import generate_insight_scar
-from ...vault.database import SessionLocal, ScarDB
+from ...vault.database import ScarDB, SessionLocal
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
 
 # --- Pydantic Models ---
 
+
 class GenerateInsightRequest(BaseModel):
     source_geoid: str
     target_domain: Optional[str] = None
     focus: Optional[str] = None
 
+
 class InsightFeedbackRequest(BaseModel):
     feedback_event: FeedbackEvent
 
+
 # --- API Endpoints ---
+
 
 @router.post("/insights/generate", tags=["Insights"])
 async def generate_insight(request: GenerateInsightRequest):
@@ -38,6 +43,7 @@ async def generate_insight(request: GenerateInsightRequest):
     Generates a new insight (as a Scar) from a source Geoid.
     """
     from ...core.kimera_system import kimera_singleton
+
     vault_manager = kimera_singleton.get_vault_manager()
     if not vault_manager:
         raise HTTPException(status_code=503, detail="Vault Manager not available")
@@ -49,44 +55,47 @@ async def generate_insight(request: GenerateInsightRequest):
 
         # The actual insight generation logic
         insight_scar = await generate_insight_scar(
-            source_geoid_db,
-            request.target_domain,
-            request.focus
+            source_geoid_db, request.target_domain, request.focus
         )
-        
+
         vault_manager.add_scar(insight_scar)
         # Store insight in a temporary dict (not persisted)
-        if not hasattr(vault_manager, '_insights'):
+        if not hasattr(vault_manager, "_insights"):
             vault_manager._insights = {}
         vault_manager._insights[insight_scar.scar_id] = insight_scar
-        
+
         return insight_scar.to_dict()
     except Exception as e:
         logger.error(f"Failed to generate insight: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail="Failed to generate insight")
 
+
 @router.get("/insights/{insight_id}", tags=["Insights"])
 async def get_insight(insight_id: str):
     """Retrieves a specific insight by its ID."""
     from ...core.kimera_system import kimera_singleton
+
     vault_manager = kimera_singleton.get_vault_manager()
-    
-    if vault_manager and hasattr(vault_manager, '_insights'):
+
+    if vault_manager and hasattr(vault_manager, "_insights"):
         insight = vault_manager._insights.get(insight_id)
         if insight:
             return insight.to_dict()
-    
+
     raise HTTPException(status_code=404, detail="Insight not found")
+
 
 @router.get("/insights", tags=["Insights"])
 async def list_insights(type: Optional[str] = None, domain: Optional[str] = None):
     """Lists all available insights, with optional filtering."""
     from ...core.kimera_system import kimera_singleton
+
     vault_manager = kimera_singleton.get_vault_manager()
-    
-    if vault_manager and hasattr(vault_manager, '_insights'):
+
+    if vault_manager and hasattr(vault_manager, "_insights"):
         return list(vault_manager._insights.values())
     return []
+
 
 @router.post("/insights/{insight_id}/feedback", tags=["Insights"])
 async def feedback_insight(insight_id: str, request: InsightFeedbackRequest):
@@ -97,22 +106,24 @@ async def feedback_insight(insight_id: str, request: InsightFeedbackRequest):
     from ...engines.insight_lifecycle import update_utility_score
 
     vault_manager = kimera_singleton.get_vault_manager()
-    if not vault_manager or not hasattr(vault_manager, '_insights'):
+    if not vault_manager or not hasattr(vault_manager, "_insights"):
         raise HTTPException(status_code=404, detail="Insight not found")
-    
+
     insight = vault_manager._insights.get(insight_id)
     if not insight:
         raise HTTPException(status_code=404, detail="Insight not found")
 
     updated_insight = update_utility_score(insight, request.feedback_event)
     vault_manager._insights[insight_id] = updated_insight
-    
+
     return updated_insight.to_dict()
+
 
 @router.get("/insights/{insight_id}/lineage", tags=["Insights"])
 async def get_insight_lineage(insight_id: str):
     """Traces the lineage of an insight back to its source Geoids."""
     from ...core.kimera_system import kimera_singleton
+
     vault_manager = kimera_singleton.get_vault_manager()
     if not vault_manager:
         raise HTTPException(status_code=503, detail="Vault Manager not available")
@@ -122,11 +133,12 @@ async def get_insight_lineage(insight_id: str):
         raise HTTPException(status_code=404, detail="Insight (Scar) not found in vault")
 
     source_geoids = [vault_manager.get_geoid(gid) for gid in insight.geoid_ids]
-    
+
     return {
         "insight_id": insight_id,
-        "source_geoids": [g.to_dict() for g in source_geoids if g]
+        "source_geoids": [g.to_dict() for g in source_geoids if g],
     }
+
 
 @router.post("/insights/auto_generate", tags=["Insights"])
 async def auto_generate_insights():
@@ -134,6 +146,7 @@ async def auto_generate_insights():
     Automatically generates insights from recent, high-potential Scars.
     """
     from ...core.kimera_system import kimera_singleton
+
     vault_manager = kimera_singleton.get_vault_manager()
     if not vault_manager:
         raise HTTPException(status_code=503, detail="Vault Manager not available")
@@ -141,37 +154,48 @@ async def auto_generate_insights():
     session = SessionLocal()
     try:
         # Find recent scars with high tension scores to serve as insight candidates
-        recent_scars = session.query(ScarDB).order_by(ScarDB.created_at.desc()).limit(10).all()
-        
+        recent_scars = (
+            session.query(ScarDB).order_by(ScarDB.created_at.desc()).limit(10).all()
+        )
+
         generated_insights = []
         for scar in recent_scars:
-            if scar.tension_gradient.get('tension_score', 0) > 0.7: # Threshold for insight
+            if (
+                scar.tension_gradient.get("tension_score", 0) > 0.7
+            ):  # Threshold for insight
                 if not scar.geoid_ids:
                     continue
-                
+
                 # Use the first geoid as a source for simplicity
                 source_geoid_db = vault_manager.get_geoid(scar.geoid_ids[0])
                 if source_geoid_db:
-                    insight_scar = await generate_insight_scar(source_geoid_db, "auto", "emergent_pattern")
+                    insight_scar = await generate_insight_scar(
+                        source_geoid_db, "auto", "emergent_pattern"
+                    )
                     vault_manager.add_scar(insight_scar)
-                    if not hasattr(vault_manager, '_insights'):
+                    if not hasattr(vault_manager, "_insights"):
                         vault_manager._insights = {}
                     vault_manager._insights[insight_scar.scar_id] = insight_scar
                     generated_insights.append(insight_scar.to_dict())
 
-        return {"status": "success", "generated_insights": len(generated_insights), "insights": generated_insights}
+        return {
+            "status": "success",
+            "generated_insights": len(generated_insights),
+            "insights": generated_insights,
+        }
     finally:
         session.close()
+
 
 @router.get("/insights/status", tags=["Insights"])
 async def get_insight_engine_status():
     """Get the status of the insight engine."""
     from ...core.kimera_system import kimera_singleton
-    
+
     try:
         # Check if insight generation is available
         vault_manager = kimera_singleton.get_vault_manager()
-        
+
         status = {
             "engine": "insight_generation",
             "status": "operational" if vault_manager else "degraded",
@@ -179,33 +203,29 @@ async def get_insight_engine_status():
                 "generate_insights",
                 "track_lineage",
                 "feedback_processing",
-                "auto_generation"
+                "auto_generation",
             ],
-            "vault_available": vault_manager is not None
+            "vault_available": vault_manager is not None,
         }
-        
+
         # Get insight statistics if available
-        if vault_manager and hasattr(vault_manager, '_insights'):
+        if vault_manager and hasattr(vault_manager, "_insights"):
             insights = vault_manager._insights
             status["statistics"] = {
                 "total_insights": len(insights),
-                "recent_insights": len([i for i in insights.values() if hasattr(i, 'created_at')])
+                "recent_insights": len(
+                    [i for i in insights.values() if hasattr(i, "created_at")]
+                ),
             }
         else:
-            status["statistics"] = {
-                "total_insights": 0,
-                "recent_insights": 0
-            }
-        
+            status["statistics"] = {"total_insights": 0, "recent_insights": 0}
+
         return status
-        
+
     except Exception as e:
         logger.error(f"Failed to get insight engine status: {e}")
-        return {
-            "engine": "insight_generation",
-            "status": "error",
-            "error": str(e)
-        }
+        return {"engine": "insight_generation", "status": "error", "error": str(e)}
+
 
 @router.post("/insights/generate_simple", tags=["Insights"])
 async def generate_insight_simple(request: dict):
@@ -214,11 +234,11 @@ async def generate_insight_simple(request: dict):
     """
     context = request.get("context", {})
     depth = request.get("depth", "shallow")
-    
+
     try:
         # Generate a mock insight based on context
         insight_id = f"insight_{hash(str(context)) % 1000000}"
-        
+
         insight = {
             "insight_id": insight_id,
             "type": "emergent_pattern",
@@ -226,19 +246,22 @@ async def generate_insight_simple(request: dict):
             "confidence": 0.75 if depth == "deep" else 0.5,
             "context": context,
             "depth": depth,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
-        
+
         # Store in vault manager
         from ...core.kimera_system import kimera_singleton
+
         vault_manager = kimera_singleton.get_vault_manager()
         if vault_manager:
-            if not hasattr(vault_manager, '_insights'):
+            if not hasattr(vault_manager, "_insights"):
                 vault_manager._insights = {}
             vault_manager._insights[insight_id] = insight
-        
+
         return insight
-        
+
     except Exception as e:
         logger.error(f"Insight generation failed: {e}")
-        raise HTTPException(status_code=500, detail=f"Failed to generate insight: {str(e)}") 
+        raise HTTPException(
+            status_code=500, detail=f"Failed to generate insight: {str(e)}"
+        )

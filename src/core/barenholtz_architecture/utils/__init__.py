@@ -3,10 +3,7 @@ Utility Components for Barenholtz Architecture
 ==============================================
 """
 
-from .memory_manager import WorkingMemoryManager
 from .conflict_resolver import ConflictResolver
+from .memory_manager import WorkingMemoryManager
 
-__all__ = [
-    'WorkingMemoryManager',
-    'ConflictResolver'
-]
+__all__ = ["WorkingMemoryManager", "ConflictResolver"]

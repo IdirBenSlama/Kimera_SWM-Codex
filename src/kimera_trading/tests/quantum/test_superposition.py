@@ -1,5 +1,7 @@
 import pytest
+
 from kimera_trading.quantum.superposition import QuantumStateManager
+
 
 def test_quantum_state_manager():
     manager = QuantumStateManager()

@@ -1,5 +1,7 @@
-from ..core.types import ConsciousnessState
 import numpy as np
+
+from ..core.types import ConsciousnessState
+
 
 class ConsciousnessStateManager:
     """Manages the consciousness state of the trading system."""
@@ -9,7 +11,7 @@ class ConsciousnessStateManager:
             level=0.1,  # Start with low consciousness
             coherence=0.5,
             awareness_vector=np.zeros(10),  # 10-dimensional awareness
-            synchronization=0.0
+            synchronization=0.0,
         )
         self.kimera_bridge = None
 
@@ -19,7 +21,7 @@ class ConsciousnessStateManager:
     async def calibrate(self, kimera_bridge):
         self.kimera_bridge = kimera_bridge
         # More sophisticated calibration logic to be added here
-        self.current_state.level = 0.2 # Calibrated level
+        self.current_state.level = 0.2  # Calibrated level
 
     async def update_consciousness(self, market_data):
         """Update consciousness based on market data and internal state."""
@@ -37,5 +39,9 @@ class ConsciousnessStateManager:
     def synchronize_consciousness(self, market_consciousness):
         """Synchronize system consciousness with the market."""
         # Simple synchronization model
-        self.current_state.synchronization = (self.current_state.synchronization + market_consciousness) / 2
-        self.current_state.level = self.current_state.level * 0.9 + self.current_state.synchronization * 0.1
+        self.current_state.synchronization = (
+            self.current_state.synchronization + market_consciousness
+        ) / 2
+        self.current_state.level = (
+            self.current_state.level * 0.9 + self.current_state.synchronization * 0.1
+        )

@@ -17,33 +17,39 @@ Design Principles:
 """
 
 from __future__ import annotations
-import logging
-import asyncio
-import time
-from typing import Dict, Any, Optional, List, Union
-from dataclasses import dataclass
-import threading
-from concurrent.futures import ThreadPoolExecutor, Future
-import numpy as np
-from enum import Enum
 
-from .symbolic_engine import SymbolicProcessor, SymbolicAnalysis, GeoidMosaic
-from .tcse_engine import TCSEProcessor, TCSEAnalysis, GeoidState
+import asyncio
+import logging
+import threading
+import time
+from concurrent.futures import Future, ThreadPoolExecutor
+from dataclasses import dataclass
+from enum import Enum
+from typing import Any, Dict, List, Optional, Union
+
+import numpy as np
+
+from .symbolic_engine import GeoidMosaic, SymbolicAnalysis, SymbolicProcessor
+from .tcse_engine import GeoidState, TCSEAnalysis, TCSEProcessor
 
 logger = logging.getLogger(__name__)
 
+
 class ProcessingMode(Enum):
     """Processing modes with safety specifications."""
+
     SYMBOLIC_ONLY = "symbolic_only"
     TCSE_ONLY = "tcse_only"
-    PARALLEL = "parallel"               # Process both simultaneously
-    SEQUENTIAL = "sequential"           # Process symbolic then TCSE
-    ADAPTIVE = "adaptive"               # Choose based on content analysis
-    SAFETY_FALLBACK = "safety_fallback" # Minimal processing for safety
+    PARALLEL = "parallel"  # Process both simultaneously
+    SEQUENTIAL = "sequential"  # Process symbolic then TCSE
+    ADAPTIVE = "adaptive"  # Choose based on content analysis
+    SAFETY_FALLBACK = "safety_fallback"  # Minimal processing for safety
+
 
 @dataclass
 class UnifiedProcessingResult:
     """Unified result from symbolic and TCSE processing."""
+
     symbolic_analysis: Optional[SymbolicAnalysis]
     tcse_analysis: Optional[TCSEAnalysis]
     unified_insights: Dict[str, Any]
@@ -57,7 +63,10 @@ class UnifiedProcessingResult:
         """Validate unified processing result."""
         assert self.processing_time >= 0.0, "Processing time must be non-negative"
         assert self.timestamp >= 0, "Timestamp must be non-negative"
-        assert isinstance(self.safety_validation, dict), "Safety validation must be dict"
+        assert isinstance(
+            self.safety_validation, dict
+        ), "Safety validation must be dict"
+
 
 class SymbolicTCSEIntegrator:
     """
@@ -97,7 +106,9 @@ class SymbolicTCSEIntegrator:
     - SR-4.21.24: System coherence validation
     """
 
-    def __init__(self, device: str = "cpu", mode: ProcessingMode = ProcessingMode.PARALLEL):
+    def __init__(
+        self, device: str = "cpu", mode: ProcessingMode = ProcessingMode.PARALLEL
+    ):
         """Initialize integrator with aerospace-grade safety validation."""
         self.device = device
         self.mode = mode
@@ -109,7 +120,7 @@ class SymbolicTCSEIntegrator:
         self._components_initialized = {
             "symbolic_processor": False,
             "tcse_processor": False,
-            "integration_layer": False
+            "integration_layer": False,
         }
 
         # Performance and health tracking
@@ -119,9 +130,13 @@ class SymbolicTCSEIntegrator:
         self._safety_violations = 0
 
         # Thread pool for parallel processing
-        self._thread_pool = ThreadPoolExecutor(max_workers=2, thread_name_prefix="SymbTCSE")
+        self._thread_pool = ThreadPoolExecutor(
+            max_workers=2, thread_name_prefix="SymbTCSE"
+        )
 
-        logger.info(f"🎭🌡️ SymbolicTCSEIntegrator initialized on {device} in {mode.value} mode")
+        logger.info(
+            f"🎭🌡️ SymbolicTCSEIntegrator initialized on {device} in {mode.value} mode"
+        )
 
     async def initialize(self) -> bool:
         """
@@ -147,7 +162,9 @@ class SymbolicTCSEIntegrator:
             self._components_initialized["tcse_processor"] = tcse_init
 
             # Initialize integration layer
-            self._cross_system_correlations = self._initialize_cross_system_correlations()
+            self._cross_system_correlations = (
+                self._initialize_cross_system_correlations()
+            )
             self._unified_insights_templates = self._initialize_unified_insights()
             self._safety_validators = self._initialize_safety_validators()
             self._components_initialized["integration_layer"] = True
@@ -155,7 +172,9 @@ class SymbolicTCSEIntegrator:
             # Validate all components initialized
             all_initialized = all(self._components_initialized.values())
             if not all_initialized:
-                failed_components = [k for k, v in self._components_initialized.items() if not v]
+                failed_components = [
+                    k for k, v in self._components_initialized.items() if not v
+                ]
                 logger.error(f"❌ Component initialization failed: {failed_components}")
                 return False
 
@@ -166,7 +185,9 @@ class SymbolicTCSEIntegrator:
                 return False
 
             self._initialized = True
-            logger.info(f"✅ SymbolicTCSEIntegrator initialization successful ({initialization_time:.2f}s)")
+            logger.info(
+                f"✅ SymbolicTCSEIntegrator initialization successful ({initialization_time:.2f}s)"
+            )
 
             # SR-4.21.11: Formal mathematical validation
             validation_result = await self._validate_mathematical_consistency()
@@ -185,21 +206,33 @@ class SymbolicTCSEIntegrator:
         """Initialize cross-system correlation patterns."""
         return {
             "symbolic_tcse_mapping": {
-                "archetypal_themes": ["consciousness_patterns", "signal_evolution", "thermal_dynamics"],
-                "paradox_indicators": ["quantum_coherence", "signal_superposition", "thermal_paradox"],
-                "thematic_signals": ["evolution_patterns", "consciousness_emergence", "workspace_dynamics"]
+                "archetypal_themes": [
+                    "consciousness_patterns",
+                    "signal_evolution",
+                    "thermal_dynamics",
+                ],
+                "paradox_indicators": [
+                    "quantum_coherence",
+                    "signal_superposition",
+                    "thermal_paradox",
+                ],
+                "thematic_signals": [
+                    "evolution_patterns",
+                    "consciousness_emergence",
+                    "workspace_dynamics",
+                ],
             },
             "tcse_symbolic_mapping": {
                 "quantum_coherence": ["archetypal_unity", "paradox_resolution"],
                 "consciousness_score": ["thematic_complexity", "symbolic_depth"],
                 "thermal_compliance": ["archetypal_stability", "paradox_balance"],
-                "signal_evolution": ["thematic_evolution", "symbolic_transformation"]
+                "signal_evolution": ["thematic_evolution", "symbolic_transformation"],
             },
             "correlation_weights": {
                 "high_correlation": 0.8,
                 "medium_correlation": 0.5,
-                "low_correlation": 0.2
-            }
+                "low_correlation": 0.2,
+            },
         }
 
     def _initialize_unified_insights(self) -> Dict[str, Any]:
@@ -208,23 +241,23 @@ class SymbolicTCSEIntegrator:
             "cognitive_coherence": {
                 "symbolic_weight": 0.4,
                 "tcse_weight": 0.6,
-                "integration_factor": 0.3
+                "integration_factor": 0.3,
             },
             "evolutionary_dynamics": {
                 "symbolic_evolution": 0.3,
                 "signal_evolution": 0.7,
-                "archetypal_progression": 0.4
+                "archetypal_progression": 0.4,
             },
             "consciousness_emergence": {
                 "symbolic_consciousness": 0.4,
                 "tcse_consciousness": 0.6,
-                "integrated_awareness": 0.5
+                "integrated_awareness": 0.5,
             },
             "thermodynamic_symbolism": {
                 "thermal_archetypes": 0.5,
                 "paradox_thermodynamics": 0.5,
-                "symbolic_heat": 0.3
-            }
+                "symbolic_heat": 0.3,
+            },
         }
 
     def _initialize_safety_validators(self) -> Dict[str, Any]:
@@ -233,14 +266,14 @@ class SymbolicTCSEIntegrator:
             "processing_time_validator": lambda t: t <= self._max_processing_time,
             "result_consistency_validator": self._validate_result_consistency,
             "thermal_compliance_validator": self._validate_thermal_compliance,
-            "symbolic_coherence_validator": self._validate_symbolic_coherence
+            "symbolic_coherence_validator": self._validate_symbolic_coherence,
         }
 
     async def process_content(
         self,
         content: Any,
         context: Optional[str] = None,
-        mode: Optional[ProcessingMode] = None
+        mode: Optional[ProcessingMode] = None,
     ) -> UnifiedProcessingResult:
         """
         Process content with unified symbolic and TCSE analysis.
@@ -280,7 +313,9 @@ class SymbolicTCSEIntegrator:
                     return await self._process_safety_fallback(content, context)
 
             # Process with timeout
-            result = await asyncio.wait_for(timed_processing(), timeout=self._max_processing_time)
+            result = await asyncio.wait_for(
+                timed_processing(), timeout=self._max_processing_time
+            )
 
             # SR-4.21.8: Cross-system validation consistency
             safety_validation = await self._perform_safety_validation(result)
@@ -299,7 +334,9 @@ class SymbolicTCSEIntegrator:
             self._processing_count += 1
             self._total_processing_time += result.processing_time
 
-            logger.debug(f"🎭🌡️ Unified processing completed in {result.processing_time:.3f}s")
+            logger.debug(
+                f"🎭🌡️ Unified processing completed in {result.processing_time:.3f}s"
+            )
             return result
 
         except asyncio.TimeoutError:
@@ -310,12 +347,12 @@ class SymbolicTCSEIntegrator:
         except Exception as e:
             self._error_count += 1
             logger.error(f"❌ Unified processing failed: {e}")
-            return await self._create_error_result(content, str(e), time.time() - start_time)
+            return await self._create_error_result(
+                content, str(e), time.time() - start_time
+            )
 
     async def _process_parallel(
-        self,
-        content: Any,
-        context: Optional[str]
+        self, content: Any, context: Optional[str]
     ) -> UnifiedProcessingResult:
         """Process content with parallel symbolic and TCSE analysis."""
 
@@ -363,13 +400,11 @@ class SymbolicTCSEIntegrator:
             processing_time=0.0,  # Will be set by caller
             status="success",
             timestamp=time.time(),
-            safety_validation={}  # Will be set by caller
+            safety_validation={},  # Will be set by caller
         )
 
     async def _process_sequential(
-        self,
-        content: Any,
-        context: Optional[str]
+        self, content: Any, context: Optional[str]
     ) -> UnifiedProcessingResult:
         """Process content sequentially: symbolic then TCSE."""
 
@@ -409,13 +444,11 @@ class SymbolicTCSEIntegrator:
             processing_time=0.0,
             status="success",
             timestamp=time.time(),
-            safety_validation={}
+            safety_validation={},
         )
 
     async def _process_symbolic_only(
-        self,
-        content: Any,
-        context: Optional[str]
+        self, content: Any, context: Optional[str]
     ) -> UnifiedProcessingResult:
         """Process content with symbolic analysis only."""
 
@@ -435,13 +468,11 @@ class SymbolicTCSEIntegrator:
             processing_time=0.0,
             status="symbolic_only",
             timestamp=time.time(),
-            safety_validation={}
+            safety_validation={},
         )
 
     async def _process_tcse_only(
-        self,
-        content: Any,
-        context: Optional[str]
+        self, content: Any, context: Optional[str]
     ) -> UnifiedProcessingResult:
         """Process content with TCSE analysis only."""
 
@@ -461,32 +492,46 @@ class SymbolicTCSEIntegrator:
             processing_time=0.0,
             status="tcse_only",
             timestamp=time.time(),
-            safety_validation={}
+            safety_validation={},
         )
 
     async def _process_adaptive(
-        self,
-        content: Any,
-        context: Optional[str]
+        self, content: Any, context: Optional[str]
     ) -> UnifiedProcessingResult:
         """Adaptively choose processing mode based on content analysis."""
 
         # Quick content analysis to determine optimal mode
         content_str = str(content).lower()
 
-        has_symbolic_indicators = any(word in content_str for word in [
-            "archetype", "symbol", "theme", "paradox", "meaning", "metaphor"
-        ])
+        has_symbolic_indicators = any(
+            word in content_str
+            for word in [
+                "archetype",
+                "symbol",
+                "theme",
+                "paradox",
+                "meaning",
+                "metaphor",
+            ]
+        )
 
-        has_tcse_indicators = any(word in content_str for word in [
-            "signal", "evolution", "thermal", "quantum", "consciousness", "workspace"
-        ])
+        has_tcse_indicators = any(
+            word in content_str
+            for word in [
+                "signal",
+                "evolution",
+                "thermal",
+                "quantum",
+                "consciousness",
+                "workspace",
+            ]
+        )
 
         # Check if content looks like GeoidState list (for TCSE)
         is_geoid_list = (
-            isinstance(content, list) and
-            len(content) > 0 and
-            hasattr(content[0], 'semantic_state')
+            isinstance(content, list)
+            and len(content) > 0
+            and hasattr(content[0], "semantic_state")
         )
 
         # Choose mode based on content characteristics
@@ -501,9 +546,7 @@ class SymbolicTCSEIntegrator:
             return await self._process_parallel(content, context)
 
     async def _process_safety_fallback(
-        self,
-        content: Any,
-        context: Optional[str]
+        self, content: Any, context: Optional[str]
     ) -> UnifiedProcessingResult:
         """Minimal processing for safety fallback mode."""
 
@@ -511,7 +554,7 @@ class SymbolicTCSEIntegrator:
             "safety_mode": True,
             "minimal_processing": "basic content acknowledgment",
             "content_type": type(content).__name__,
-            "has_context": context is not None
+            "has_context": context is not None,
         }
 
         return UnifiedProcessingResult(
@@ -522,7 +565,7 @@ class SymbolicTCSEIntegrator:
             processing_time=0.0,
             status="safety_fallback",
             timestamp=time.time(),
-            safety_validation={"fallback_mode": True}
+            safety_validation={"fallback_mode": True},
         )
 
     async def _prepare_symbolic_content(self, content: Any) -> Any:
@@ -533,7 +576,9 @@ class SymbolicTCSEIntegrator:
     async def _prepare_tcse_content(self, content: Any) -> List[GeoidState]:
         """Prepare content for TCSE processing."""
         # Convert content to GeoidState list for TCSE processor
-        if isinstance(content, list) and all(isinstance(item, GeoidState) for item in content):
+        if isinstance(content, list) and all(
+            isinstance(item, GeoidState) for item in content
+        ):
             return content
         elif isinstance(content, GeoidState):
             return [content]
@@ -542,7 +587,7 @@ class SymbolicTCSEIntegrator:
             semantic_state = {
                 "content": str(content),
                 "type": type(content).__name__,
-                "timestamp": time.time()
+                "timestamp": time.time(),
             }
             return [GeoidState(id="generated_geoid", semantic_state=semantic_state)]
 
@@ -550,7 +595,7 @@ class SymbolicTCSEIntegrator:
         self,
         symbolic_analysis: Optional[SymbolicAnalysis],
         tcse_analysis: Optional[TCSEAnalysis],
-        context: Optional[str]
+        context: Optional[str],
     ) -> Dict[str, Any]:
         """Generate unified insights from both analyses."""
 
@@ -563,9 +608,10 @@ class SymbolicTCSEIntegrator:
             tcse_coherence = tcse_analysis.quantum_coherence
 
             insights["cognitive_coherence"] = (
-                cog_coherence["symbolic_weight"] * symbolic_coherence +
-                cog_coherence["tcse_weight"] * tcse_coherence +
-                cog_coherence["integration_factor"] * min(symbolic_coherence, tcse_coherence)
+                cog_coherence["symbolic_weight"] * symbolic_coherence
+                + cog_coherence["tcse_weight"] * tcse_coherence
+                + cog_coherence["integration_factor"]
+                * min(symbolic_coherence, tcse_coherence)
             )
 
             # Evolutionary dynamics
@@ -574,23 +620,29 @@ class SymbolicTCSEIntegrator:
             signal_evolution = tcse_analysis.signal_evolution_accuracy
 
             insights["evolutionary_dynamics"] = (
-                evo_dynamics["symbolic_evolution"] * symbolic_complexity +
-                evo_dynamics["signal_evolution"] * signal_evolution
+                evo_dynamics["symbolic_evolution"] * symbolic_complexity
+                + evo_dynamics["signal_evolution"] * signal_evolution
             )
 
             # Consciousness emergence
             consciousness = self._unified_insights_templates["consciousness_emergence"]
             insights["consciousness_emergence"] = (
-                consciousness["symbolic_consciousness"] * symbolic_analysis.confidence +
-                consciousness["tcse_consciousness"] * tcse_analysis.consciousness_score
+                consciousness["symbolic_consciousness"] * symbolic_analysis.confidence
+                + consciousness["tcse_consciousness"]
+                * tcse_analysis.consciousness_score
             )
 
             # Thermodynamic symbolism
-            thermo_symbolism = self._unified_insights_templates["thermodynamic_symbolism"]
+            thermo_symbolism = self._unified_insights_templates[
+                "thermodynamic_symbolism"
+            ]
             insights["thermodynamic_symbolism"] = (
-                thermo_symbolism["thermal_archetypes"] * (1.0 if symbolic_analysis.archetype else 0.0) +
-                thermo_symbolism["paradox_thermodynamics"] * symbolic_analysis.paradox_strength +
-                thermo_symbolism["symbolic_heat"] * (1.0 if tcse_analysis.thermal_compliance else 0.0)
+                thermo_symbolism["thermal_archetypes"]
+                * (1.0 if symbolic_analysis.archetype else 0.0)
+                + thermo_symbolism["paradox_thermodynamics"]
+                * symbolic_analysis.paradox_strength
+                + thermo_symbolism["symbolic_heat"]
+                * (1.0 if tcse_analysis.thermal_compliance else 0.0)
             )
 
         elif symbolic_analysis:
@@ -610,7 +662,7 @@ class SymbolicTCSEIntegrator:
     async def _calculate_cross_system_correlations(
         self,
         symbolic_analysis: Optional[SymbolicAnalysis],
-        tcse_analysis: Optional[TCSEAnalysis]
+        tcse_analysis: Optional[TCSEAnalysis],
     ) -> Dict[str, float]:
         """Calculate correlations between symbolic and TCSE elements."""
 
@@ -619,46 +671,74 @@ class SymbolicTCSEIntegrator:
         if symbolic_analysis and tcse_analysis:
             # Archetypal-Consciousness correlation
             if symbolic_analysis.archetype and tcse_analysis.consciousness_score > 0.5:
-                correlations["archetypal_consciousness"] = self._cross_system_correlations["correlation_weights"]["high_correlation"]
+                correlations["archetypal_consciousness"] = (
+                    self._cross_system_correlations["correlation_weights"][
+                        "high_correlation"
+                    ]
+                )
 
             # Paradox-Quantum correlation
             if symbolic_analysis.paradox and tcse_analysis.quantum_coherence > 0.7:
-                correlations["paradox_quantum"] = self._cross_system_correlations["correlation_weights"]["high_correlation"]
+                correlations["paradox_quantum"] = self._cross_system_correlations[
+                    "correlation_weights"
+                ]["high_correlation"]
 
             # Theme-Signal correlation
-            if symbolic_analysis.dominant_theme and tcse_analysis.signal_evolution_accuracy > 0.8:
-                correlations["theme_signal"] = self._cross_system_correlations["correlation_weights"]["medium_correlation"]
+            if (
+                symbolic_analysis.dominant_theme
+                and tcse_analysis.signal_evolution_accuracy > 0.8
+            ):
+                correlations["theme_signal"] = self._cross_system_correlations[
+                    "correlation_weights"
+                ]["medium_correlation"]
 
             # Complexity correlation
-            complexity_diff = abs(symbolic_analysis.symbolic_complexity - tcse_analysis.consciousness_score)
+            complexity_diff = abs(
+                symbolic_analysis.symbolic_complexity
+                - tcse_analysis.consciousness_score
+            )
             correlations["complexity_alignment"] = 1.0 - complexity_diff
 
             # Confidence correlation
-            confidence_diff = abs(symbolic_analysis.confidence - tcse_analysis.confidence)
+            confidence_diff = abs(
+                symbolic_analysis.confidence - tcse_analysis.confidence
+            )
             correlations["confidence_alignment"] = 1.0 - confidence_diff
 
         return correlations
 
-    async def _perform_safety_validation(self, result: UnifiedProcessingResult) -> Dict[str, bool]:
+    async def _perform_safety_validation(
+        self, result: UnifiedProcessingResult
+    ) -> Dict[str, bool]:
         """Perform comprehensive safety validation."""
 
         validation = {}
 
         # SR-4.21.3: Processing time validation
-        validation["processing_time_ok"] = result.processing_time <= self._max_processing_time
+        validation["processing_time_ok"] = (
+            result.processing_time <= self._max_processing_time
+        )
 
         # SR-4.21.8: Result consistency validation
-        validation["result_consistency"] = await self._validate_result_consistency(result)
+        validation["result_consistency"] = await self._validate_result_consistency(
+            result
+        )
 
         # SR-4.21.9: Thermal compliance validation
-        validation["thermal_compliance"] = await self._validate_thermal_compliance(result)
+        validation["thermal_compliance"] = await self._validate_thermal_compliance(
+            result
+        )
 
         # SR-4.21.10: Symbolic coherence validation
-        validation["symbolic_coherence"] = await self._validate_symbolic_coherence(result)
+        validation["symbolic_coherence"] = await self._validate_symbolic_coherence(
+            result
+        )
 
         return validation
 
-    async def _validate_result_consistency(self, result: UnifiedProcessingResult) -> bool:
+    async def _validate_result_consistency(
+        self, result: UnifiedProcessingResult
+    ) -> bool:
         """Validate consistency between symbolic and TCSE analyses."""
         if not (result.symbolic_analysis and result.tcse_analysis):
             return True  # No consistency check needed for single-mode results
@@ -670,16 +750,22 @@ class SymbolicTCSEIntegrator:
 
         return confidence_diff <= 0.5  # Allow 50% difference
 
-    async def _validate_thermal_compliance(self, result: UnifiedProcessingResult) -> bool:
+    async def _validate_thermal_compliance(
+        self, result: UnifiedProcessingResult
+    ) -> bool:
         """Validate thermal compliance of results."""
         if result.tcse_analysis:
             return result.tcse_analysis.thermal_compliance
         return True  # No thermal requirements for symbolic-only
 
-    async def _validate_symbolic_coherence(self, result: UnifiedProcessingResult) -> bool:
+    async def _validate_symbolic_coherence(
+        self, result: UnifiedProcessingResult
+    ) -> bool:
         """Validate symbolic coherence of results."""
         if result.symbolic_analysis:
-            return result.symbolic_analysis.confidence >= 0.1  # Minimum confidence threshold
+            return (
+                result.symbolic_analysis.confidence >= 0.1
+            )  # Minimum confidence threshold
         return True  # No symbolic requirements for TCSE-only
 
     async def _validate_mathematical_consistency(self) -> bool:
@@ -687,43 +773,71 @@ class SymbolicTCSEIntegrator:
         try:
             # Test mathematical consistency with simple validation
             test_content = {"test": "symbolic and TCSE integration validation"}
-            test_result = await self.process_content(test_content, mode=ProcessingMode.PARALLEL)
+            test_result = await self.process_content(
+                test_content, mode=ProcessingMode.PARALLEL
+            )
 
             # Validate that processing completed successfully or degraded gracefully
-            if test_result.status not in ["success", "symbolic_only", "tcse_only", "safety_fallback"]:
-                logger.error(f"Mathematical validation failed: Invalid status {test_result.status}")
+            if test_result.status not in [
+                "success",
+                "symbolic_only",
+                "tcse_only",
+                "safety_fallback",
+            ]:
+                logger.error(
+                    f"Mathematical validation failed: Invalid status {test_result.status}"
+                )
                 return False
 
             # Validate confidence thresholds if both analyses present
-            if test_result.symbolic_analysis and test_result.symbolic_analysis.confidence < 0.05:
-                logger.error(f"Mathematical validation failed: Low symbolic confidence {test_result.symbolic_analysis.confidence}")
+            if (
+                test_result.symbolic_analysis
+                and test_result.symbolic_analysis.confidence < 0.05
+            ):
+                logger.error(
+                    f"Mathematical validation failed: Low symbolic confidence {test_result.symbolic_analysis.confidence}"
+                )
                 return False
 
-            if test_result.tcse_analysis and test_result.tcse_analysis.confidence < 0.05:
-                logger.error(f"Mathematical validation failed: Low TCSE confidence {test_result.tcse_analysis.confidence}")
+            if (
+                test_result.tcse_analysis
+                and test_result.tcse_analysis.confidence < 0.05
+            ):
+                logger.error(
+                    f"Mathematical validation failed: Low TCSE confidence {test_result.tcse_analysis.confidence}"
+                )
                 return False
 
-            logger.info(f"✅ Mathematical validation passed: status={test_result.status}")
+            logger.info(
+                f"✅ Mathematical validation passed: status={test_result.status}"
+            )
             return True
 
         except Exception as e:
             logger.error(f"❌ Mathematical validation failed: {e}")
             return False
 
-    async def _create_timeout_result(self, content: Any, processing_time: float) -> UnifiedProcessingResult:
+    async def _create_timeout_result(
+        self, content: Any, processing_time: float
+    ) -> UnifiedProcessingResult:
         """Create result for timeout scenarios."""
         return UnifiedProcessingResult(
             symbolic_analysis=None,
             tcse_analysis=None,
-            unified_insights={"error": "processing_timeout", "content_type": type(content).__name__},
+            unified_insights={
+                "error": "processing_timeout",
+                "content_type": type(content).__name__,
+            },
             cross_system_correlations={},
             processing_time=processing_time,
             status="timeout",
             timestamp=time.time(),
-            safety_validation={"timeout_occurred": True}
+            safety_validation={"timeout_occurred": True},
         )
 
-    async def _create_error_result(self, content: Any, error: str, processing_time: float) -> UnifiedProcessingResult:
+    async def _create_error_result(
+        self, content: Any, error: str, processing_time: float
+    ) -> UnifiedProcessingResult:
         """Create result for error scenarios."""
         return UnifiedProcessingResult(
             symbolic_analysis=None,
@@ -733,21 +847,31 @@ class SymbolicTCSEIntegrator:
             processing_time=processing_time,
             status="error",
             timestamp=time.time(),
-            safety_validation={"error_occurred": True}
+            safety_validation={"error_occurred": True},
         )
 
     def get_health_metrics(self) -> Dict[str, Any]:
         """Get comprehensive health metrics."""
-        avg_processing_time = (
-            self._total_processing_time / max(self._processing_count, 1)
+        avg_processing_time = self._total_processing_time / max(
+            self._processing_count, 1
         )
 
-        error_rate = self._error_count / max(self._processing_count + self._error_count, 1)
+        error_rate = self._error_count / max(
+            self._processing_count + self._error_count, 1
+        )
         safety_violation_rate = self._safety_violations / max(self._processing_count, 1)
 
         # Component health
-        symbolic_health = self._symbolic_processor.get_health_metrics() if hasattr(self, '_symbolic_processor') else {}
-        tcse_health = self._tcse_processor.get_health_metrics() if hasattr(self, '_tcse_processor') else {}
+        symbolic_health = (
+            self._symbolic_processor.get_health_metrics()
+            if hasattr(self, "_symbolic_processor")
+            else {}
+        )
+        tcse_health = (
+            self._tcse_processor.get_health_metrics()
+            if hasattr(self, "_tcse_processor")
+            else {}
+        )
 
         return {
             "integration_metrics": {
@@ -760,10 +884,10 @@ class SymbolicTCSEIntegrator:
                 "max_processing_time": self._max_processing_time,
                 "safety_margins": self._safety_margins,
                 "device": self.device,
-                "mode": self.mode.value
+                "mode": self.mode.value,
             },
             "symbolic_processor": symbolic_health,
-            "tcse_processor": tcse_health
+            "tcse_processor": tcse_health,
         }
 
     async def shutdown(self) -> None:
@@ -776,10 +900,10 @@ class SymbolicTCSEIntegrator:
             logger.info(f"Final integration metrics: {metrics['integration_metrics']}")
 
             # Shutdown components
-            if hasattr(self, '_symbolic_processor'):
+            if hasattr(self, "_symbolic_processor"):
                 await self._symbolic_processor.shutdown()
 
-            if hasattr(self, '_tcse_processor'):
+            if hasattr(self, "_tcse_processor"):
                 await self._tcse_processor.shutdown()
 
             # Shutdown thread pool

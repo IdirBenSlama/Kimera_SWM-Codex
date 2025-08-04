@@ -1,6 +1,8 @@
-from typing import List, Dict, Optional
+from typing import Dict, List, Optional
 
 from pydantic import BaseModel
+
+
 class LinguisticGeoid(BaseModel):
     primary_statement: str
     confidence_score: float
@@ -8,4 +10,3 @@ class LinguisticGeoid(BaseModel):
     supporting_scars: List[Dict] = []
     potential_ambiguities: List[str] = []
     explanation_lineage: str
-

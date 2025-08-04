@@ -15,23 +15,23 @@ Safety Compliance: DO-178C Level A
 """
 
 from .proactive_contradiction_detector import (
+    DetectionStrategy,
+    GeoidState,
+    HealthStatus,
     ProactiveContradictionDetector,
     ProactiveDetectionConfig,
     TensionGradient,
-    GeoidState,
-    DetectionStrategy,
-    HealthStatus,
     create_proactive_contradiction_detector,
-    sanitize_for_json
+    sanitize_for_json,
 )
 
 __all__ = [
-    'ProactiveContradictionDetector',
-    'ProactiveDetectionConfig',
-    'TensionGradient',
-    'GeoidState',
-    'DetectionStrategy',
-    'HealthStatus',
-    'create_proactive_contradiction_detector',
-    'sanitize_for_json'
+    "ProactiveContradictionDetector",
+    "ProactiveDetectionConfig",
+    "TensionGradient",
+    "GeoidState",
+    "DetectionStrategy",
+    "HealthStatus",
+    "create_proactive_contradiction_detector",
+    "sanitize_for_json",
 ]

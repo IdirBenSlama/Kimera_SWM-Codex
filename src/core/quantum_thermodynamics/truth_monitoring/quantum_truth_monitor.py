@@ -16,26 +16,30 @@ Features:
 """
 
 import asyncio
-import numpy as np
-import time
 import json
-from typing import Dict, List, Any, Optional, Callable
-from dataclasses import dataclass, field, asdict
+import logging
+import threading
+import time
+from collections import deque
+from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import logging
 from pathlib import Path
-import threading
-from collections import deque
-from src.utils.config import get_api_settings
+from typing import Any, Callable, Dict, List, Optional
+
+import numpy as np
+
 from src.config.settings import get_settings
+from src.utils.config import get_api_settings
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 class QuantumTruthState(Enum):
     """Quantum truth states for claims"""
+
     TRUE_SUPERPOSITION = "true_superposition"
     FALSE_SUPERPOSITION = "false_superposition"
     UNDETERMINED_SUPERPOSITION = "undetermined_superposition"
@@ -44,9 +48,11 @@ class QuantumTruthState(Enum):
     ENTANGLED = "entangled"
     DECOHERENT = "decoherent"
 
+
 @dataclass
 class ClaimTruthEvolution:
     """Evolution of a claim's truth state over time"""
+
     claim_id: str
     claim_text: str
     measurements: List = field(default_factory=list)
@@ -55,9 +61,11 @@ class ClaimTruthEvolution:
     entangled_claims: List[str] = field(default_factory=list)
     last_measurement: Optional[datetime] = None
 
+
 @dataclass
 class TruthMonitoringResult:
     """Result of truth monitoring operation"""
+
     claim_id: str
     truth_state: QuantumTruthState
     probability_true: float
@@ -68,9 +76,11 @@ class TruthMonitoringResult:
     monitoring_successful: bool = True
     error_message: Optional[str] = None
 
+
 @dataclass
 class QuantumMeasurement:
     """Single quantum measurement of a claim's truth state"""
+
     timestamp: datetime
     claim_id: str
     truth_probability: float
@@ -80,9 +90,11 @@ class QuantumMeasurement:
     measurement_disturbance: float
     epistemic_confidence: float
 
+
 @dataclass
 class ClaimTruthEvolution:
     """Tracks evolution of a claim's truth state over time"""
+
     claim_id: str
     claim_text: str
     measurements: deque = field(default_factory=lambda: deque(maxlen=1000))
@@ -100,7 +112,9 @@ class ClaimTruthEvolution:
         if self.current_state != measurement.quantum_state:
             if self.current_state and self.coherence_start_time:
                 # Calculate coherence time for previous state
-                coherence_duration = (measurement.timestamp - self.coherence_start_time).total_seconds()
+                coherence_duration = (
+                    measurement.timestamp - self.coherence_start_time
+                ).total_seconds()
                 self.total_coherence_time += coherence_duration
 
                 # Check for decoherence
@@ -113,7 +127,9 @@ class ClaimTruthEvolution:
     def get_average_truth_probability(self, time_window_minutes: int = 60) -> float:
         """Get average truth probability over time window"""
         cutoff_time = datetime.now() - timedelta(minutes=time_window_minutes)
-        recent_measurements = [m for m in self.measurements if m.timestamp >= cutoff_time]
+        recent_measurements = [
+            m for m in self.measurements if m.timestamp >= cutoff_time
+        ]
 
         if not recent_measurements:
             return 0.5  # Default uncertainty
@@ -133,17 +149,20 @@ class ClaimTruthEvolution:
         stability = max(0.0, 1.0 - variance)
         return stability
 
+
 class QuantumTruthMonitor:
     """
     Revolutionary quantum truth monitoring system with real-time
     measurement, coherence tracking, and epistemic validation.
     """
 
-    def __init__(self,
-                 measurement_interval: int = 50,  # ms
-                 coherence_threshold: float = 0.7,
-                 decoherence_alerts: bool = True,
-                 max_claims: int = 1000):
+    def __init__(
+        self,
+        measurement_interval: int = 50,  # ms
+        coherence_threshold: float = 0.7,
+        decoherence_alerts: bool = True,
+        max_claims: int = 1000,
+    ):
         self.settings = get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
         """Initialize quantum truth monitor"""
@@ -180,8 +199,7 @@ class QuantumTruthMonitor:
         """Register a new claim for monitoring"""
         if claim_id not in self.claim_evolutions:
             self.claim_evolutions[claim_id] = ClaimTruthEvolution(
-                claim_id=claim_id,
-                claim_text=claim_text
+                claim_id=claim_id, claim_text=claim_text
             )
             logger.info(f"📝 Registered claim for monitoring: {claim_id}")
 
@@ -222,7 +240,9 @@ class QuantumTruthMonitor:
         coherence_time = self._calculate_coherence_time(evolution)
 
         # Calculate uncertainty bounds
-        uncertainty_bounds = self._calculate_uncertainty_bounds(truth_probability, evolution)
+        uncertainty_bounds = self._calculate_uncertainty_bounds(
+            truth_probability, evolution
+        )
 
         # Calculate epistemic confidence
         epistemic_confidence = self._calculate_epistemic_confidence(evolution)
@@ -235,7 +255,7 @@ class QuantumTruthMonitor:
             coherence_time=coherence_time,
             uncertainty_bounds=uncertainty_bounds,
             measurement_disturbance=abs(measurement_disturbance),
-            epistemic_confidence=epistemic_confidence
+            epistemic_confidence=epistemic_confidence,
         )
 
         # Update evolution
@@ -255,12 +275,16 @@ class QuantumTruthMonitor:
 
         return measurement
 
-    def _determine_quantum_state(self, truth_prob: float, evolution: ClaimTruthEvolution) -> QuantumTruthState:
+    def _determine_quantum_state(
+        self, truth_prob: float, evolution: ClaimTruthEvolution
+    ) -> QuantumTruthState:
         """Determine quantum state based on probability and history"""
 
         # Check for decoherence (rapid state changes)
         if len(evolution.measurements) > 5:
-            recent_probs = [m.truth_probability for m in list(evolution.measurements)[-5:]]
+            recent_probs = [
+                m.truth_probability for m in list(evolution.measurements)[-5:]
+            ]
             variance = np.var(recent_probs)
             if variance > 0.1:  # High variance indicates decoherence
                 return QuantumTruthState.DECOHERENT
@@ -283,7 +307,9 @@ class QuantumTruthMonitor:
             return (datetime.now() - evolution.coherence_start_time).total_seconds()
         return 0.0
 
-    def _calculate_uncertainty_bounds(self, truth_prob: float, evolution: ClaimTruthEvolution) -> tuple:
+    def _calculate_uncertainty_bounds(
+        self, truth_prob: float, evolution: ClaimTruthEvolution
+    ) -> tuple:
         """Calculate epistemic uncertainty bounds"""
 
         # Base uncertainty from quantum mechanics
@@ -291,7 +317,9 @@ class QuantumTruthMonitor:
 
         # Additional uncertainty from measurement history
         if len(evolution.measurements) > 1:
-            recent_probs = [m.truth_probability for m in list(evolution.measurements)[-10:]]
+            recent_probs = [
+                m.truth_probability for m in list(evolution.measurements)[-10:]
+            ]
             historical_variance = np.var(recent_probs)
             total_uncertainty = min(0.5, quantum_uncertainty + historical_variance)
         else:
@@ -314,17 +342,23 @@ class QuantumTruthMonitor:
         # Decoherence penalty
         decoherence_penalty = evolution.decoherence_events * 0.1
 
-        confidence = (measurement_confidence + stability_confidence) / 2.0 - decoherence_penalty
+        confidence = (
+            measurement_confidence + stability_confidence
+        ) / 2.0 - decoherence_penalty
         return max(0.0, min(1.0, confidence))
 
-    async def _handle_decoherence_event(self, claim_id: str, measurement: QuantumMeasurement):
+    async def _handle_decoherence_event(
+        self, claim_id: str, measurement: QuantumMeasurement
+    ):
         """Handle decoherence event"""
         self.decoherence_events += 1
 
         if self.decoherence_alerts:
             logger.warning(f"🌊 DECOHERENCE DETECTED: Claim {claim_id}")
             logger.warning(f"   Truth Probability: {measurement.truth_probability:.3f}")
-            logger.warning(f"   Measurement Disturbance: {measurement.measurement_disturbance:.3f}")
+            logger.warning(
+                f"   Measurement Disturbance: {measurement.measurement_disturbance:.3f}"
+            )
 
         # Trigger decoherence handlers
         for handler in self.decoherence_handlers:
@@ -333,10 +367,15 @@ class QuantumTruthMonitor:
             except Exception as e:
                 logger.error(f"Decoherence handler error: {e}")
 
-    def detect_entanglement(self, claim_id_1: str, claim_id_2: str, correlation_threshold: float = 0.8) -> bool:
+    def detect_entanglement(
+        self, claim_id_1: str, claim_id_2: str, correlation_threshold: float = 0.8
+    ) -> bool:
         """Detect quantum entanglement between claims"""
 
-        if claim_id_1 not in self.claim_evolutions or claim_id_2 not in self.claim_evolutions:
+        if (
+            claim_id_1 not in self.claim_evolutions
+            or claim_id_2 not in self.claim_evolutions
+        ):
             return False
 
         evolution_1 = self.claim_evolutions[claim_id_1]
@@ -379,7 +418,9 @@ class QuantumTruthMonitor:
         logger.info("🚀 Starting quantum truth monitoring")
 
         # Start monitoring thread
-        self.monitor_thread = threading.Thread(target=self._monitoring_loop, daemon=True)
+        self.monitor_thread = threading.Thread(
+            target=self._monitoring_loop, daemon=True
+        )
         self.monitor_thread.start()
 
     def stop_monitoring(self):
@@ -402,7 +443,7 @@ class QuantumTruthMonitor:
                     # Check for entanglement between all claim pairs
                     claim_ids = list(self.claim_evolutions.keys())
                     for i, claim_1 in enumerate(claim_ids):
-                        for claim_2 in claim_ids[i+1:]:
+                        for claim_2 in claim_ids[i + 1 :]:
                             self.detect_entanglement(claim_1, claim_2)
 
                     # Wait for next measurement interval
@@ -429,32 +470,38 @@ class QuantumTruthMonitor:
         total_decoherence = 0
 
         if self.claim_evolutions:
-            coherence_times = [e.total_coherence_time for e in self.claim_evolutions.values()]
+            coherence_times = [
+                e.total_coherence_time for e in self.claim_evolutions.values()
+            ]
             avg_coherence_time = np.mean(coherence_times)
 
             if self.total_measurements > 0:
                 recent_measurements = []
                 for evolution in self.claim_evolutions.values():
                     if evolution.measurements:
-                        recent_measurements.append(evolution.measurements[-1].epistemic_confidence)
+                        recent_measurements.append(
+                            evolution.measurements[-1].epistemic_confidence
+                        )
 
                 if recent_measurements:
                     avg_epistemic_confidence = np.mean(recent_measurements)
 
-            total_decoherence = sum(e.decoherence_events for e in self.claim_evolutions.values())
+            total_decoherence = sum(
+                e.decoherence_events for e in self.claim_evolutions.values()
+            )
 
         return {
-            'monitoring_active': self.monitoring_active,
-            'uptime_seconds': uptime,
-            'total_claims': len(self.claim_evolutions),
-            'total_measurements': self.total_measurements,
-            'measurement_rate': self.total_measurements / uptime if uptime > 0 else 0,
-            'decoherence_events': total_decoherence,
-            'entanglement_events': self.entanglement_events,
-            'average_coherence_time': avg_coherence_time,
-            'average_epistemic_confidence': avg_epistemic_confidence,
-            'measurement_interval_ms': self.measurement_interval * 1000,
-            'coherence_threshold': self.coherence_threshold
+            "monitoring_active": self.monitoring_active,
+            "uptime_seconds": uptime,
+            "total_claims": len(self.claim_evolutions),
+            "total_measurements": self.total_measurements,
+            "measurement_rate": self.total_measurements / uptime if uptime > 0 else 0,
+            "decoherence_events": total_decoherence,
+            "entanglement_events": self.entanglement_events,
+            "average_coherence_time": avg_coherence_time,
+            "average_epistemic_confidence": avg_epistemic_confidence,
+            "measurement_interval_ms": self.measurement_interval * 1000,
+            "coherence_threshold": self.coherence_threshold,
         }
 
     def get_claim_status(self, claim_id: str) -> Optional[Dict[str, Any]]:
@@ -466,39 +513,44 @@ class QuantumTruthMonitor:
         evolution = self.claim_evolutions[claim_id]
 
         # Get latest measurement
-        latest_measurement = evolution.measurements[-1] if evolution.measurements else None
+        latest_measurement = (
+            evolution.measurements[-1] if evolution.measurements else None
+        )
 
         return {
-            'claim_id': claim_id,
-            'claim_text': evolution.claim_text,
-            'current_state': evolution.current_state.value if evolution.current_state else None,
-            'total_measurements': len(evolution.measurements),
-            'coherence_time_seconds': self._calculate_coherence_time(evolution),
-            'total_coherence_time': evolution.total_coherence_time,
-            'decoherence_events': evolution.decoherence_events,
-            'entangled_claims': evolution.entangled_claims,
-            'coherence_stability': evolution.get_coherence_stability(),
-            'average_truth_probability': evolution.get_average_truth_probability(),
-            'latest_measurement': asdict(latest_measurement) if latest_measurement else None
+            "claim_id": claim_id,
+            "claim_text": evolution.claim_text,
+            "current_state": (
+                evolution.current_state.value if evolution.current_state else None
+            ),
+            "total_measurements": len(evolution.measurements),
+            "coherence_time_seconds": self._calculate_coherence_time(evolution),
+            "total_coherence_time": evolution.total_coherence_time,
+            "decoherence_events": evolution.decoherence_events,
+            "entangled_claims": evolution.entangled_claims,
+            "coherence_stability": evolution.get_coherence_stability(),
+            "average_truth_probability": evolution.get_average_truth_probability(),
+            "latest_measurement": (
+                asdict(latest_measurement) if latest_measurement else None
+            ),
         }
 
     def export_data(self, filepath: str) -> None:
         """Export all monitoring data to JSON file"""
 
-        export_data = {
-            'system_status': self.get_system_status(),
-            'claims': {}
-        }
+        export_data = {"system_status": self.get_system_status(), "claims": {}}
 
         for claim_id in self.claim_evolutions:
-            export_data['claims'][claim_id] = self.get_claim_status(claim_id)
+            export_data["claims"][claim_id] = self.get_claim_status(claim_id)
 
-        with open(filepath, 'w', encoding='utf-8') as f:
+        with open(filepath, "w", encoding="utf-8") as f:
             json.dump(export_data, f, indent=2, default=str, ensure_ascii=False)
 
         logger.info(f"📁 Monitoring data exported to: {filepath}")
 
+
 # === USAGE EXAMPLE ===
+
 
 async def example_usage():
     """Example usage of Quantum Truth Monitor"""
@@ -507,7 +559,7 @@ async def example_usage():
     monitor = QuantumTruthMonitor(
         measurement_interval=100,  # 100ms
         coherence_threshold=0.8,
-        decoherence_alerts=True
+        decoherence_alerts=True,
     )
 
     # Register some claims
@@ -517,10 +569,14 @@ async def example_usage():
 
     # Add event handlers
     async def on_measurement(measurement: QuantumMeasurement):
-        logger.info(f"📊 Measurement: {measurement.claim_id} = {measurement.truth_probability:.3f}")
+        logger.info(
+            f"📊 Measurement: {measurement.claim_id} = {measurement.truth_probability:.3f}"
+        )
 
     async def on_decoherence(claim_id: str, measurement: QuantumMeasurement):
-        logger.warning(f"🌊 Decoherence: {claim_id} disturbed by {measurement.measurement_disturbance:.3f}")
+        logger.warning(
+            f"🌊 Decoherence: {claim_id} disturbed by {measurement.measurement_disturbance:.3f}"
+        )
 
     monitor.add_measurement_handler(on_measurement)
     monitor.add_decoherence_handler(on_decoherence)
@@ -540,6 +596,7 @@ async def example_usage():
 
     # Stop monitoring
     monitor.stop_monitoring()
+
 
 if __name__ == "__main__":
     asyncio.run(example_usage())

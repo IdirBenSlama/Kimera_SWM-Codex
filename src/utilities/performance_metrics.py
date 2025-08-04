@@ -9,8 +9,9 @@ Version: 1.0.0
 """
 
 import time
-from typing import Dict, Any, List
 from datetime import datetime
+from typing import Any, Dict, List
+
 
 class PerformanceMetrics:
     """Performance metrics collection and tracking"""
@@ -27,17 +28,14 @@ class PerformanceMetrics:
         if name not in self.metrics:
             self.metrics[name] = []
 
-        self.metrics[name].append({
-            'value': value,
-            'timestamp': timestamp
-        })
+        self.metrics[name].append({"value": value, "timestamp": timestamp})
 
     def get_metric_average(self, name: str) -> float:
         """Get average value for a metric"""
         if name not in self.metrics:
             return 0.0
 
-        values = [m['value'] for m in self.metrics[name]]
+        values = [m["value"] for m in self.metrics[name]]
         return sum(values) / len(values) if values else 0.0
 
     def get_all_metrics(self) -> Dict[str, Any]:

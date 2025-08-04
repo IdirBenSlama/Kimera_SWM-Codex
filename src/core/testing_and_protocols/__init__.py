@@ -25,60 +25,56 @@ Version: 1.0.0 (DO-178C Level A)
 
 # Main integration interface
 from .integration import (
-    TestingAndProtocolsIntegrator,
-    TestingAndProtocolsConfig,
     SystemHealthReport,
-    get_testing_and_protocols_integrator
-)
-
-# Testing framework components
-from .testing.framework.test_orchestrator import (
-    TestOrchestrator,
-    TestExecutionStatus,
-    TestPriority,
-    TestResult,
-    get_test_orchestrator
-)
-
-from .testing.configurations.matrix_validator import (
-    TestConfiguration,
-    MatrixValidationReport,
-    TestMatrixValidator,
-    get_matrix_validator
-)
-
-from .testing.configurations.complexity_levels import (
-    ComplexityLevel,
-    ComplexityConfiguration,
-    ComplexityLevelManager,
-    get_complexity_manager
-)
-
-from .testing.configurations.input_types import (
-    InputType,
-    InputSample,
-    InputGenerator,
-    get_input_generator
-)
-
-from .testing.configurations.cognitive_contexts import (
-    CognitiveContext,
-    ContextTestConfiguration,
-    CognitiveContextManager,
-    get_cognitive_context_manager
+    TestingAndProtocolsConfig,
+    TestingAndProtocolsIntegrator,
+    get_testing_and_protocols_integrator,
 )
 
 # Protocol engine components
 from .protocols.omnidimensional.protocol_engine import (
-    ProtocolEngine,
-    ProtocolMessage,
-    MessageType,
-    MessagePriority,
-    SystemDimension,
     DeliveryGuarantee,
     DimensionRegistry,
+    MessagePriority,
+    MessageType,
+    ProtocolEngine,
+    ProtocolMessage,
+    SystemDimension,
+    get_global_registry,
     get_protocol_engine,
-    get_global_registry
+)
+from .testing.configurations.cognitive_contexts import (
+    CognitiveContext,
+    CognitiveContextManager,
+    ContextTestConfiguration,
+    get_cognitive_context_manager,
+)
+from .testing.configurations.complexity_levels import (
+    ComplexityConfiguration,
+    ComplexityLevel,
+    ComplexityLevelManager,
+    get_complexity_manager,
+)
+from .testing.configurations.input_types import (
+    InputGenerator,
+    InputSample,
+    InputType,
+    get_input_generator,
+)
+from .testing.configurations.matrix_validator import (
+    MatrixValidationReport,
+    TestConfiguration,
+    TestMatrixValidator,
+    get_matrix_validator,
+)
+
+# Testing framework components
+from .testing.framework.test_orchestrator import (
+    TestExecutionStatus,
+    TestOrchestrator,
+    TestPriority,
+    TestResult,
+    get_test_orchestrator,
 )
 
 # Version and metadata
@@ -203,12 +199,12 @@ def validate_module_installation() -> bool:
     try:
         # Test core component imports
         from .integration import TestingAndProtocolsIntegrator
-        from .testing.framework.test_orchestrator import TestOrchestrator
         from .protocols.omnidimensional.protocol_engine import ProtocolEngine
+        from .testing.configurations.complexity_levels import get_complexity_manager
 
         # Test configuration managers
         from .testing.configurations.matrix_validator import get_matrix_validator
-        from .testing.configurations.complexity_levels import get_complexity_manager
+        from .testing.framework.test_orchestrator import TestOrchestrator
 
         # Validate matrix generation capability
         validator = get_matrix_validator(seed=42)
@@ -240,7 +236,9 @@ if __name__ == "__main__":
         logger.info("❌ Module installation validation failed")
 
     import json
+
 import logging
+
 logger = logging.getLogger(__name__)
     logger.info("\nModule Information:")
     logger.info(json.dumps(get_module_info(), indent=2))

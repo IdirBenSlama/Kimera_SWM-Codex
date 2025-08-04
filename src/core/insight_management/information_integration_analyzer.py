@@ -26,15 +26,16 @@ All measurements based on rigorous information theory and statistical mechanics.
 """
 
 import asyncio
+import logging
 import math
-import numpy as np
-import torch
-from typing import Dict, List, Any, Optional, Tuple
+import uuid
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-import uuid
-import logging
+from typing import Any, Dict, List, Optional, Tuple
+
+import numpy as np
+import torch
 
 # Kimera core imports
 try:
@@ -43,41 +44,60 @@ except ImportError:
     try:
         from core.geoid import GeoidState
     except ImportError:
+
         class GeoidState:
             @staticmethod
-            def create_default(): return {}
+            def create_default():
+                return {}
+
+
 try:
-    from src.utils.kimera_logger import get_logger, LogCategory
+    from src.utils.kimera_logger import LogCategory, get_logger
 except ImportError:
     try:
-        from utils.kimera_logger import get_logger, LogCategory
+        from utils.kimera_logger import LogCategory, get_logger
     except ImportError:
         import logging
-        def get_logger(*args, **kwargs): return logging.getLogger(__name__)
+
+        def get_logger(*args, **kwargs):
+            return logging.getLogger(__name__)
+
         class LogCategory:
             SYSTEM = "system"
+
+
 try:
     from src.utils.kimera_exceptions import KimeraCognitiveError
 except ImportError:
     try:
         from utils.kimera_exceptions import KimeraCognitiveError
     except ImportError:
+
         class KimeraCognitiveError(Exception):
             pass
+
+
 try:
     from src.utils.config import get_api_settings
 except ImportError:
     try:
         from utils.config import get_api_settings
     except ImportError:
-        def get_api_settings(): return {}
+
+        def get_api_settings():
+            return {}
+
+
 try:
     from src.config.settings import get_settings
 except ImportError:
     try:
         from config.settings import get_settings
     except ImportError:
-        def get_settings(): return {}
+
+        def get_settings():
+            return {}
+
 
 logger = get_logger(__name__, LogCategory.SYSTEM)
 
@@ -88,24 +108,30 @@ ENTROPY_PRODUCTION_THRESHOLD = 0.1  # Maximum entropy production for organized s
 INFORMATION_GRADIENT_THRESHOLD = 0.3
 TRANSITION_POINT_THRESHOLD = 0.8
 
+
 class ComplexityState(Enum):
     """Information integration complexity states"""
+
     LOW_INTEGRATION = "low_integration"
     MODERATE_INTEGRATION = "moderate_integration"
     HIGH_INTEGRATION = "high_integration"
     VERY_HIGH_INTEGRATION = "very_high_integration"
     MAXIMUM_INTEGRATION = "maximum_integration"
 
+
 class TransitionType(Enum):
     """Types of complexity transitions"""
+
     ORDER_DISORDER = "order_disorder"
     INTEGRATION_EMERGENCE = "integration_emergence"
     COHERENCE_COLLAPSE = "coherence_collapse"
     INFORMATION_SURGE = "information_surge"
 
+
 @dataclass
 class ComplexitySignature:
     """Information-theoretic complexity signature using Integrated Information Theory"""
+
     analysis_id: str
     complexity_state: ComplexityState
     integrated_information: float  # Φ (phi)
@@ -117,9 +143,11 @@ class ComplexitySignature:
     integration_score: float
     timestamp: datetime
 
+
 @dataclass
 class TransitionEvent:
     """Information integration transition event"""
+
     event_id: str
     transition_type: TransitionType
     timestamp: datetime
@@ -128,6 +156,7 @@ class TransitionEvent:
     coherence_change: float
     complexity_change: float
     transition_strength: float
+
 
 class InformationIntegrationAnalyzer:
     """
@@ -218,7 +247,7 @@ class InformationIntegrationAnalyzer:
             transition_point_proximity=transition_proximity,
             computational_complexity=complexity,
             integration_score=integration_score,
-            timestamp=datetime.now()
+            timestamp=datetime.now(),
         )
 
         self.detected_signatures.append(signature)
@@ -264,7 +293,9 @@ class InformationIntegrationAnalyzer:
             if geoid.semantic_state:
                 geoid_activations = list(geoid.semantic_state.values())
                 if geoid_activations:
-                    geoid_probs = np.abs(geoid_activations) / (np.sum(np.abs(geoid_activations)) + 1e-10)
+                    geoid_probs = np.abs(geoid_activations) / (
+                        np.sum(np.abs(geoid_activations)) + 1e-10
+                    )
                     geoid_entropy = -np.sum(geoid_probs * np.log2(geoid_probs + 1e-10))
                     parts_entropy += geoid_entropy
 
@@ -296,7 +327,9 @@ class InformationIntegrationAnalyzer:
                 # Calculate overlap between geoid states
                 if geoid_i.semantic_state and geoid_j.semantic_state:
                     # Find common keys
-                    common_keys = set(geoid_i.semantic_state.keys()) & set(geoid_j.semantic_state.keys())
+                    common_keys = set(geoid_i.semantic_state.keys()) & set(
+                        geoid_j.semantic_state.keys()
+                    )
                     if common_keys:
                         overlap = 0.0
                         for key in common_keys:
@@ -385,7 +418,9 @@ class InformationIntegrationAnalyzer:
 
         for geoid in geoids:
             # Information as sum of activations
-            information = sum(geoid.semantic_state.values()) if geoid.semantic_state else 0.0
+            information = (
+                sum(geoid.semantic_state.values()) if geoid.semantic_state else 0.0
+            )
             entropy = geoid.calculate_entropy()
 
             information_values.append(information)
@@ -422,7 +457,9 @@ class InformationIntegrationAnalyzer:
 
         for geoid in geoids:
             entropy = geoid.calculate_entropy()
-            activation = sum(geoid.semantic_state.values()) if geoid.semantic_state else 1.0
+            activation = (
+                sum(geoid.semantic_state.values()) if geoid.semantic_state else 1.0
+            )
 
             temperature = activation / (entropy + 0.1)
             free_energy = activation - temperature * entropy
@@ -439,8 +476,10 @@ class InformationIntegrationAnalyzer:
 
         # Calculate second derivative using finite differences
         second_derivatives = []
-        for i in range(1, len(temps)-1):
-            d2F_dT2 = (energies[i+1] - 2*energies[i] + energies[i-1]) / ((temps[i+1] - temps[i-1])**2 + 1e-10)
+        for i in range(1, len(temps) - 1):
+            d2F_dT2 = (energies[i + 1] - 2 * energies[i] + energies[i - 1]) / (
+                (temps[i + 1] - temps[i - 1]) ** 2 + 1e-10
+            )
             second_derivatives.append(abs(d2F_dT2))
 
         # Proximity to transition point (smaller second derivative = closer to transition)
@@ -452,41 +491,63 @@ class InformationIntegrationAnalyzer:
 
         return min(proximity, 1.0)
 
-    def _calculate_computational_complexity(self, phi: float, coherence: float,
-                                          entropy_production: float, info_gradient: float,
-                                          transition_proximity: float) -> float:
+    def _calculate_computational_complexity(
+        self,
+        phi: float,
+        coherence: float,
+        entropy_production: float,
+        info_gradient: float,
+        transition_proximity: float,
+    ) -> float:
         """Calculate overall computational complexity measure"""
 
         # Weighted combination of all measures
         complexity = (
-            self.phi_weight * phi +
-            self.coherence_weight * coherence +
-            self.entropy_weight * (1.0 - entropy_production) +  # Low entropy production is good
-            self.information_weight * info_gradient +
-            self.transition_weight * transition_proximity
+            self.phi_weight * phi
+            + self.coherence_weight * coherence
+            + self.entropy_weight
+            * (1.0 - entropy_production)  # Low entropy production is good
+            + self.information_weight * info_gradient
+            + self.transition_weight * transition_proximity
         )
 
         return min(complexity, 1.0)
 
-    def _classify_complexity_state(self, phi: float, coherence: float,
-                                    entropy_production: float, info_gradient: float,
-                                    transition_proximity: float) -> ComplexityState:
+    def _classify_complexity_state(
+        self,
+        phi: float,
+        coherence: float,
+        entropy_production: float,
+        info_gradient: float,
+        transition_proximity: float,
+    ) -> ComplexityState:
         """Classify complexity state based on information-theoretic signatures"""
 
         # Decision tree based on scientific thresholds
-        if phi >= PHI_THRESHOLD and coherence >= COHERENCE_THRESHOLD and transition_proximity >= TRANSITION_POINT_THRESHOLD:
+        if (
+            phi >= PHI_THRESHOLD
+            and coherence >= COHERENCE_THRESHOLD
+            and transition_proximity >= TRANSITION_POINT_THRESHOLD
+        ):
             return ComplexityState.MAXIMUM_INTEGRATION
-        elif phi >= PHI_THRESHOLD * 1.5 and entropy_production <= ENTROPY_PRODUCTION_THRESHOLD:
+        elif (
+            phi >= PHI_THRESHOLD * 1.5
+            and entropy_production <= ENTROPY_PRODUCTION_THRESHOLD
+        ):
             return ComplexityState.VERY_HIGH_INTEGRATION
-        elif phi >= PHI_THRESHOLD and entropy_production <= ENTROPY_PRODUCTION_THRESHOLD * 2:
+        elif (
+            phi >= PHI_THRESHOLD
+            and entropy_production <= ENTROPY_PRODUCTION_THRESHOLD * 2
+        ):
             return ComplexityState.HIGH_INTEGRATION
         elif phi >= PHI_THRESHOLD * 0.5:
             return ComplexityState.MODERATE_INTEGRATION
         else:
             return ComplexityState.LOW_INTEGRATION
 
-    def _calculate_integration_score(self, phi: float, coherence: float,
-                                   transition_proximity: float) -> float:
+    def _calculate_integration_score(
+        self, phi: float, coherence: float, transition_proximity: float
+    ) -> float:
         """Calculate probability of high information integration"""
 
         # Sigmoid function combining key factors
@@ -501,16 +562,28 @@ class InformationIntegrationAnalyzer:
             return {}
 
         # Calculate averages
-        avg_phi = np.mean([sig.integrated_information for sig in self.detected_signatures])
-        avg_coherence = np.mean([sig.system_coherence for sig in self.detected_signatures])
-        avg_entropy_production = np.mean([sig.entropy_production_rate for sig in self.detected_signatures])
-        avg_complexity = np.mean([sig.computational_complexity for sig in self.detected_signatures])
-        avg_integration_score = np.mean([sig.integration_score for sig in self.detected_signatures])
+        avg_phi = np.mean(
+            [sig.integrated_information for sig in self.detected_signatures]
+        )
+        avg_coherence = np.mean(
+            [sig.system_coherence for sig in self.detected_signatures]
+        )
+        avg_entropy_production = np.mean(
+            [sig.entropy_production_rate for sig in self.detected_signatures]
+        )
+        avg_complexity = np.mean(
+            [sig.computational_complexity for sig in self.detected_signatures]
+        )
+        avg_integration_score = np.mean(
+            [sig.integration_score for sig in self.detected_signatures]
+        )
 
         # Count states
         state_counts = {}
         for state in ComplexityState:
-            count = sum(1 for sig in self.detected_signatures if sig.complexity_state == state)
+            count = sum(
+                1 for sig in self.detected_signatures if sig.complexity_state == state
+            )
             state_counts[state.value] = count
 
         return {
@@ -522,7 +595,11 @@ class InformationIntegrationAnalyzer:
             "average_integration_score": avg_integration_score,
             "state_distribution": state_counts,
             "transition_events": len(self.transition_events),
-            "latest_state": self.detected_signatures[-1].complexity_state.value if self.detected_signatures else None
+            "latest_state": (
+                self.detected_signatures[-1].complexity_state.value
+                if self.detected_signatures
+                else None
+            ),
         }
 
 
@@ -541,7 +618,7 @@ async def demonstrate_complexity_analysis():
         ("moderate_integration", 0.3, 0.4),
         ("high_integration", 0.6, 0.7),
         ("very_high_integration", 0.8, 0.9),
-        ("maximum_integration", 0.95, 0.98)
+        ("maximum_integration", 0.95, 0.98),
     ]
 
     signatures = []
@@ -557,7 +634,10 @@ async def demonstrate_complexity_analysis():
             geoid = GeoidState(
                 geoid_id=f"{level_name.upper()}_GEOID_{i}",
                 semantic_state=semantic_state,
-                symbolic_state={"complexity_level": level_name, "complexity": complexity}
+                symbolic_state={
+                    "complexity_level": level_name,
+                    "complexity": complexity,
+                },
             )
             geoids.append(geoid)
 
@@ -574,7 +654,9 @@ async def demonstrate_complexity_analysis():
     report = analyzer.get_complexity_statistics()
     logger.info(f"\n📊 COMPLEXITY ANALYSIS REPORT:")
     logger.info(f"   State distribution: {report['state_distribution']}")
-    logger.info(f"   Average integration score: {report['average_integration_score']:.3f}")
+    logger.info(
+        f"   Average integration score: {report['average_integration_score']:.3f}"
+    )
     logger.info(f"   Analyses completed: {report['total_analyses']}")
     logger.info(f"   Average Φ: {report['average_phi']:.3f}")
     logger.info(f"   Average coherence: {report['average_coherence']:.3f}")

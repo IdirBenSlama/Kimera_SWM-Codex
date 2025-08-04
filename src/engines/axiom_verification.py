@@ -18,23 +18,27 @@ Verification Process:
    understanding, cognition, and related fields.
 """
 
-import numpy as np
-from typing import List, Dict, Any
-from dataclasses import dataclass
 import asyncio
-from src.engines.axiom_of_understanding import MathematicalAxiom, AxiomDiscoveryEngine
+from dataclasses import dataclass
+from typing import Any, Dict, List
+
+import numpy as np
+
+from src.engines.axiom_of_understanding import AxiomDiscoveryEngine, MathematicalAxiom
 
 # Initialize structured logger
 from src.utils.kimera_logger import get_system_logger
-from ..utils.config import get_api_settings
-from ..config.settings import get_settings
-logger = get_system_logger(__name__)
 
+from ..config.settings import get_settings
+from ..utils.config import get_api_settings
+
+logger = get_system_logger(__name__)
 
 
 @dataclass
 class VerificationResult:
     """Represents the result of an axiom verification test"""
+
     axiom_id: str
     consistency_score: float
     empirical_score: float
@@ -74,7 +78,7 @@ class AxiomVerificationEngine:
             empirical_score=empirical_score,
             theoretical_score=theoretical_score,
             overall_score=overall_score,
-            passed=passed
+            passed=passed,
         )
 
         self.verification_results.append(result)
@@ -110,7 +114,9 @@ async def main_verification():
     verification_engine = AxiomVerificationEngine()
 
     # Discover the fundamental axiom
-    fundamental_axiom = await verification_engine.discovery_engine.discover_fundamental_axiom()
+    fundamental_axiom = (
+        await verification_engine.discovery_engine.discover_fundamental_axiom()
+    )
 
     # Verify the fundamental axiom
     result = verification_engine.verify_axiom(fundamental_axiom)

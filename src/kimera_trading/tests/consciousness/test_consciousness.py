@@ -1,5 +1,7 @@
 import pytest
+
 from kimera_trading.core.consciousness import ConsciousnessStateManager
+
 
 @pytest.mark.asyncio
 async def test_consciousness_state_manager():

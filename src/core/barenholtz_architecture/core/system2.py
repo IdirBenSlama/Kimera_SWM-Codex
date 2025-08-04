@@ -14,40 +14,46 @@ Safety Requirements:
 - Sequential processing with working memory
 """
 
-import time
-import torch
-import numpy as np
-from typing import Dict, List, Optional, Any, Tuple, Set
-from dataclasses import dataclass, field
-from datetime import datetime
 import asyncio
 import logging
-from enum import Enum
+import time
 from collections import deque
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
+from typing import Any, Dict, List, Optional, Set, Tuple
+
+import numpy as np
+import torch
 
 # Robust import fallback for kimera utilities
 try:
-    from src.utils.kimera_logger import get_logger, LogCategory
     from src.utils.kimera_exceptions import KimeraCognitiveError
+    from src.utils.kimera_logger import LogCategory, get_logger
 except ImportError:
     try:
-        from utils.kimera_logger import get_logger, LogCategory
         from utils.kimera_exceptions import KimeraCognitiveError
+        from utils.kimera_logger import LogCategory, get_logger
     except ImportError:
         import logging
+
         # Fallback logger and exception
         def get_logger(name, category=None):
             return logging.getLogger(name)
+
         class LogCategory:
             DUAL_SYSTEM = "dual_system"
+
         class KimeraCognitiveError(Exception):
             pass
+
 
 logger = get_logger(__name__, LogCategory.DUAL_SYSTEM)
 
 
 class ReasoningType(Enum):
     """Types of analytical reasoning"""
+
     DEDUCTIVE = "deductive"
     INDUCTIVE = "inductive"
     ABDUCTIVE = "abductive"
@@ -58,6 +64,7 @@ class ReasoningType(Enum):
 @dataclass
 class LogicalStep:
     """Single step in logical reasoning chain"""
+
     premise: str
     operation: str
     conclusion: str
@@ -69,6 +76,7 @@ class LogicalStep:
 @dataclass
 class AnalysisResult:
     """Result from System 2 analytical processing"""
+
     reasoning_chain: List[LogicalStep]
     conclusions: List[Dict[str, Any]]
     working_memory_trace: List[Dict[str, Any]]
@@ -80,9 +88,9 @@ class AnalysisResult:
     def is_valid(self) -> bool:
         """Validate result meets safety requirements"""
         return (
-            0.0 <= self.confidence <= 1.0 and
-            self.processing_time < 1.000 and  # 1000ms requirement
-            len(self.reasoning_chain) > 0
+            0.0 <= self.confidence <= 1.0
+            and self.processing_time < 1.000  # 1000ms requirement
+            and len(self.reasoning_chain) > 0
         )
 
 
@@ -104,22 +112,20 @@ class WorkingMemory:
     def add_item(self, item: Dict[str, Any], item_type: str = "central"):
         """Add item to working memory"""
         timestamp = datetime.now()
-        wrapped_item = {
-            'content': item,
-            'timestamp': timestamp,
-            'access_count': 0
-        }
+        wrapped_item = {"content": item, "timestamp": timestamp, "access_count": 0}
 
         if item_type == "phonological":
             self.phonological_loop.append(wrapped_item)
         elif item_type == "visuospatial":
             # Spatial items use coordinate keys
-            key = item.get('spatial_key', str(timestamp))
+            key = item.get("spatial_key", str(timestamp))
             self.visuospatial_sketchpad[key] = wrapped_item
             # Limit size
             if len(self.visuospatial_sketchpad) > self.capacity:
-                oldest = min(self.visuospatial_sketchpad.keys(),
-                           key=lambda k: self.visuospatial_sketchpad[k]['timestamp'])
+                oldest = min(
+                    self.visuospatial_sketchpad.keys(),
+                    key=lambda k: self.visuospatial_sketchpad[k]["timestamp"],
+                )
                 del self.visuospatial_sketchpad[oldest]
         else:
             self.central_executive.append(wrapped_item)
@@ -137,32 +143,34 @@ class WorkingMemory:
         all_items.extend(self.visuospatial_sketchpad.values())
 
         # Sort by timestamp
-        all_items.sort(key=lambda x: x['timestamp'], reverse=True)
+        all_items.sort(key=lambda x: x["timestamp"], reverse=True)
 
         # Update access counts
         for item in all_items[:n]:
-            item['access_count'] += 1
+            item["access_count"] += 1
 
-        return [item['content'] for item in all_items[:n]]
+        return [item["content"] for item in all_items[:n]]
 
     def get_trace(self) -> List[Dict[str, Any]]:
         """Get full working memory trace for analysis"""
         return [
             {
-                'store': 'central_executive',
-                'items': [item['content'] for item in self.central_executive],
-                'size': len(self.central_executive)
+                "store": "central_executive",
+                "items": [item["content"] for item in self.central_executive],
+                "size": len(self.central_executive),
             },
             {
-                'store': 'phonological_loop',
-                'items': [item['content'] for item in self.phonological_loop],
-                'size': len(self.phonological_loop)
+                "store": "phonological_loop",
+                "items": [item["content"] for item in self.phonological_loop],
+                "size": len(self.phonological_loop),
             },
             {
-                'store': 'visuospatial_sketchpad',
-                'items': [item['content'] for item in self.visuospatial_sketchpad.values()],
-                'size': len(self.visuospatial_sketchpad)
-            }
+                "store": "visuospatial_sketchpad",
+                "items": [
+                    item["content"] for item in self.visuospatial_sketchpad.values()
+                ],
+                "size": len(self.visuospatial_sketchpad),
+            },
         ]
 
 
@@ -175,15 +183,16 @@ class LogicalReasoner:
 
     def __init__(self):
         self.inference_rules = {
-            'modus_ponens': self._modus_ponens,
-            'modus_tollens': self._modus_tollens,
-            'syllogism': self._syllogism,
-            'analogy': self._analogy,
-            'induction': self._induction
+            "modus_ponens": self._modus_ponens,
+            "modus_tollens": self._modus_tollens,
+            "syllogism": self._syllogism,
+            "analogy": self._analogy,
+            "induction": self._induction,
         }
 
-    def reason(self, premises: List[Dict[str, Any]],
-              reasoning_type: ReasoningType) -> List[LogicalStep]:
+    def reason(
+        self, premises: List[Dict[str, Any]], reasoning_type: ReasoningType
+    ) -> List[LogicalStep]:
         """Apply logical reasoning to premises"""
         steps = []
 
@@ -228,13 +237,15 @@ class LogicalReasoner:
         # Look for patterns
         pattern = self._find_pattern(premises)
         if pattern:
-            return [LogicalStep(
-                premise=str(premises),
-                operation="pattern_generalization",
-                conclusion=pattern,
-                confidence=0.7,  # Induction is less certain
-                reasoning_type=ReasoningType.INDUCTIVE
-            )]
+            return [
+                LogicalStep(
+                    premise=str(premises),
+                    operation="pattern_generalization",
+                    conclusion=pattern,
+                    confidence=0.7,  # Induction is less certain
+                    reasoning_type=ReasoningType.INDUCTIVE,
+                )
+            ]
 
         return []
 
@@ -244,14 +255,16 @@ class LogicalReasoner:
         explanations = self._generate_explanations(premises)
 
         if explanations:
-            best = max(explanations, key=lambda x: x['likelihood'])
-            return [LogicalStep(
-                premise=str(premises),
-                operation="best_explanation",
-                conclusion=best['explanation'],
-                confidence=best['likelihood'],
-                reasoning_type=ReasoningType.ABDUCTIVE
-            )]
+            best = max(explanations, key=lambda x: x["likelihood"])
+            return [
+                LogicalStep(
+                    premise=str(premises),
+                    operation="best_explanation",
+                    conclusion=best["explanation"],
+                    confidence=best["likelihood"],
+                    reasoning_type=ReasoningType.ABDUCTIVE,
+                )
+            ]
 
         return []
 
@@ -262,17 +275,21 @@ class LogicalReasoner:
         # Look for causal relationships
         for i in range(len(premises) - 1):
             if self._is_causal_relation(premises[i], premises[i + 1]):
-                steps.append(LogicalStep(
-                    premise=str(premises[i]),
-                    operation="causes",
-                    conclusion=str(premises[i + 1]),
-                    confidence=0.8,
-                    reasoning_type=ReasoningType.CAUSAL
-                ))
+                steps.append(
+                    LogicalStep(
+                        premise=str(premises[i]),
+                        operation="causes",
+                        conclusion=str(premises[i + 1]),
+                        confidence=0.8,
+                        reasoning_type=ReasoningType.CAUSAL,
+                    )
+                )
 
         return steps
 
-    def _analogical_reasoning(self, premises: List[Dict[str, Any]]) -> List[LogicalStep]:
+    def _analogical_reasoning(
+        self, premises: List[Dict[str, Any]]
+    ) -> List[LogicalStep]:
         """Reasoning by analogy"""
         if len(premises) < 2:
             return []
@@ -284,37 +301,45 @@ class LogicalReasoner:
             LogicalStep(
                 premise=f"{a['source']} is like {a['target']}",
                 operation="analogy_transfer",
-                conclusion=a['inference'],
-                confidence=a['similarity'],
-                reasoning_type=ReasoningType.ANALOGICAL
+                conclusion=a["inference"],
+                confidence=a["similarity"],
+                reasoning_type=ReasoningType.ANALOGICAL,
             )
             for a in analogies
         ]
 
     # Helper methods for specific inference rules
 
-    def _modus_ponens(self, p1: Dict[str, Any], p2: Dict[str, Any]) -> Optional[LogicalStep]:
+    def _modus_ponens(
+        self, p1: Dict[str, Any], p2: Dict[str, Any]
+    ) -> Optional[LogicalStep]:
         """If P then Q; P; therefore Q"""
-        if p1.get('type') == 'conditional' and p2.get('content') == p1.get('antecedent'):
+        if p1.get("type") == "conditional" and p2.get("content") == p1.get(
+            "antecedent"
+        ):
             return LogicalStep(
                 premise=f"If {p1['antecedent']} then {p1['consequent']}; {p2['content']}",
                 operation="modus_ponens",
-                conclusion=p1['consequent'],
+                conclusion=p1["consequent"],
                 confidence=0.95,
-                reasoning_type=ReasoningType.DEDUCTIVE
+                reasoning_type=ReasoningType.DEDUCTIVE,
             )
         return None
 
-    def _modus_tollens(self, p1: Dict[str, Any], p2: Dict[str, Any]) -> Optional[LogicalStep]:
+    def _modus_tollens(
+        self, p1: Dict[str, Any], p2: Dict[str, Any]
+    ) -> Optional[LogicalStep]:
         """If P then Q; not Q; therefore not P"""
-        if (p1.get('type') == 'conditional' and
-            p2.get('content') == f"not {p1.get('consequent')}"):
+        if (
+            p1.get("type") == "conditional"
+            and p2.get("content") == f"not {p1.get('consequent')}"
+        ):
             return LogicalStep(
                 premise=f"If {p1['antecedent']} then {p1['consequent']}; not {p1['consequent']}",
                 operation="modus_tollens",
                 conclusion=f"not {p1['antecedent']}",
                 confidence=0.95,
-                reasoning_type=ReasoningType.DEDUCTIVE
+                reasoning_type=ReasoningType.DEDUCTIVE,
             )
         return None
 
@@ -327,19 +352,21 @@ class LogicalReasoner:
                 operation="syllogism",
                 conclusion="derived_conclusion",
                 confidence=0.9,
-                reasoning_type=ReasoningType.DEDUCTIVE
+                reasoning_type=ReasoningType.DEDUCTIVE,
             )
         return None
 
-    def _analogy(self, source: Dict[str, Any], target: Dict[str, Any]) -> Optional[LogicalStep]:
+    def _analogy(
+        self, source: Dict[str, Any], target: Dict[str, Any]
+    ) -> Optional[LogicalStep]:
         """Analogical reasoning"""
-        if source.get('structure') and target.get('structure'):
+        if source.get("structure") and target.get("structure"):
             return LogicalStep(
                 rule="analogy",
                 premises=[source, target],
                 conclusion={"mapped": f"Structure mapped from {source} to {target}"},
                 confidence=0.7,
-                reasoning_type=ReasoningType.ABDUCTIVE
+                reasoning_type=ReasoningType.ABDUCTIVE,
             )
         return None
 
@@ -353,7 +380,7 @@ class LogicalReasoner:
                     premises=examples,
                     conclusion={"generalization": pattern},
                     confidence=0.6,
-                    reasoning_type=ReasoningType.INDUCTIVE
+                    reasoning_type=ReasoningType.INDUCTIVE,
                 )
         return None
 
@@ -362,25 +389,29 @@ class LogicalReasoner:
         # This would involve more sophisticated pattern detection
         return "observed_pattern"
 
-    def _generate_explanations(self, observations: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def _generate_explanations(
+        self, observations: List[Dict[str, Any]]
+    ) -> List[Dict[str, Any]]:
         """Generate possible explanations (simplified)"""
         return [
-            {'explanation': 'hypothesis_1', 'likelihood': 0.7},
-            {'explanation': 'hypothesis_2', 'likelihood': 0.5}
+            {"explanation": "hypothesis_1", "likelihood": 0.7},
+            {"explanation": "hypothesis_2", "likelihood": 0.5},
         ]
 
-    def _is_causal_relation(self, event1: Dict[str, Any], event2: Dict[str, Any]) -> bool:
+    def _is_causal_relation(
+        self, event1: Dict[str, Any], event2: Dict[str, Any]
+    ) -> bool:
         """Check if events have causal relation (simplified)"""
-        return event1.get('timestamp', 0) < event2.get('timestamp', 1)
+        return event1.get("timestamp", 0) < event2.get("timestamp", 1)
 
     def _find_analogies(self, items: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """Find analogical relationships (simplified)"""
         return [
             {
-                'source': items[0],
-                'target': items[1],
-                'similarity': 0.8,
-                'inference': 'analogical_conclusion'
+                "source": items[0],
+                "target": items[1],
+                "similarity": 0.8,
+                "inference": "analogical_conclusion",
             }
         ]
 
@@ -402,10 +433,10 @@ class System2Processor:
 
         # Performance monitoring
         self.performance_stats = {
-            'total_calls': 0,
-            'avg_response_time': 0.0,
-            'max_response_time': 0.0,
-            'timeout_count': 0
+            "total_calls": 0,
+            "avg_response_time": 0.0,
+            "max_response_time": 0.0,
+            "timeout_count": 0,
         }
 
         # Safety limits
@@ -415,10 +446,12 @@ class System2Processor:
 
         logger.info("🧠 System 2 Processor initialized (slow/analytical)")
 
-    async def process(self,
-                     input_data: torch.Tensor,
-                     context: Optional[Dict[str, Any]] = None,
-                     required_reasoning: Optional[List[ReasoningType]] = None) -> AnalysisResult:
+    async def process(
+        self,
+        input_data: torch.Tensor,
+        context: Optional[Dict[str, Any]] = None,
+        required_reasoning: Optional[List[ReasoningType]] = None,
+    ) -> AnalysisResult:
         """
         Main System 2 processing function
 
@@ -463,7 +496,7 @@ class System2Processor:
                 # Apply reasoning
                 steps = await asyncio.wait_for(
                     self._async_reason(premises, reasoning_type),
-                    timeout=self.MAX_RESPONSE_TIME - elapsed
+                    timeout=self.MAX_RESPONSE_TIME - elapsed,
                 )
 
                 all_steps.extend(steps)
@@ -473,8 +506,8 @@ class System2Processor:
                 # Add conclusions to working memory for further reasoning
                 for step in steps:
                     self.working_memory.add_item(
-                        {'conclusion': step.conclusion, 'confidence': step.confidence},
-                        "central"
+                        {"conclusion": step.conclusion, "confidence": step.confidence},
+                        "central",
                     )
 
             # Extract final conclusions
@@ -494,7 +527,7 @@ class System2Processor:
                 working_memory_trace=self.working_memory.get_trace(),
                 confidence=confidence,
                 processing_time=processing_time,
-                reasoning_types_used=reasoning_types_used
+                reasoning_types_used=reasoning_types_used,
             )
 
             # Safety validation
@@ -506,7 +539,7 @@ class System2Processor:
             return result
 
         except asyncio.TimeoutError:
-            self.performance_stats['timeout_count'] += 1
+            self.performance_stats["timeout_count"] += 1
             logger.error("System 2 processing timeout exceeded")
 
             # Return degraded result
@@ -516,27 +549,24 @@ class System2Processor:
                 working_memory_trace=self.working_memory.get_trace(),
                 confidence=0.0,
                 processing_time=self.MAX_RESPONSE_TIME,
-                reasoning_types_used=set()
+                reasoning_types_used=set(),
             )
 
         except Exception as e:
             logger.error(f"System 2 processing error: {e}")
             raise KimeraCognitiveError(f"System 2 processing failed: {e}")
 
-    async def _async_reason(self,
-                           premises: List[Dict[str, Any]],
-                           reasoning_type: ReasoningType) -> List[LogicalStep]:
+    async def _async_reason(
+        self, premises: List[Dict[str, Any]], reasoning_type: ReasoningType
+    ) -> List[LogicalStep]:
         """Asynchronous reasoning execution"""
         return await asyncio.get_event_loop().run_in_executor(
-            None,
-            self.logical_reasoner.reason,
-            premises,
-            reasoning_type
+            None, self.logical_reasoner.reason, premises, reasoning_type
         )
 
-    def _extract_premises(self,
-                         input_data: torch.Tensor,
-                         context: Optional[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def _extract_premises(
+        self, input_data: torch.Tensor, context: Optional[Dict[str, Any]]
+    ) -> List[Dict[str, Any]]:
         """Extract logical premises from input"""
         premises = []
 
@@ -544,33 +574,39 @@ class System2Processor:
         data_np = input_data.cpu().numpy()
 
         # Extract features as premises
-        premises.append({
-            'type': 'observation',
-            'content': f"data_mean={np.mean(data_np):.3f}",
-            'confidence': 1.0
-        })
+        premises.append(
+            {
+                "type": "observation",
+                "content": f"data_mean={np.mean(data_np):.3f}",
+                "confidence": 1.0,
+            }
+        )
 
-        premises.append({
-            'type': 'observation',
-            'content': f"data_variance={np.var(data_np):.3f}",
-            'confidence': 1.0
-        })
+        premises.append(
+            {
+                "type": "observation",
+                "content": f"data_variance={np.var(data_np):.3f}",
+                "confidence": 1.0,
+            }
+        )
 
         # Add context as premises
         if context:
             for key, value in context.items():
                 if isinstance(value, (str, int, float, bool)):
-                    premises.append({
-                        'type': 'context',
-                        'content': f"{key}={value}",
-                        'confidence': 0.9
-                    })
+                    premises.append(
+                        {
+                            "type": "context",
+                            "content": f"{key}={value}",
+                            "confidence": 0.9,
+                        }
+                    )
 
         return premises
 
-    def _select_reasoning_types(self,
-                               premises: List[Dict[str, Any]],
-                               context: Optional[Dict[str, Any]]) -> List[ReasoningType]:
+    def _select_reasoning_types(
+        self, premises: List[Dict[str, Any]], context: Optional[Dict[str, Any]]
+    ) -> List[ReasoningType]:
         """Select appropriate reasoning types based on problem"""
         selected = []
 
@@ -582,11 +618,11 @@ class System2Processor:
             selected.append(ReasoningType.INDUCTIVE)
 
         # If context suggests causality, add causal reasoning
-        if context and any(k in context for k in ['cause', 'effect', 'temporal']):
+        if context and any(k in context for k in ["cause", "effect", "temporal"]):
             selected.append(ReasoningType.CAUSAL)
 
         # If context suggests explanation needed, add abductive
-        if context and any(k in context for k in ['explain', 'why', 'hypothesis']):
+        if context and any(k in context for k in ["explain", "why", "hypothesis"]):
             selected.append(ReasoningType.ABDUCTIVE)
 
         return selected
@@ -601,37 +637,39 @@ class System2Processor:
             key = step.conclusion
             if key not in conclusion_map:
                 conclusion_map[key] = {
-                    'conclusion': key,
-                    'supporting_steps': [],
-                    'average_confidence': 0.0,
-                    'reasoning_types': set()
+                    "conclusion": key,
+                    "supporting_steps": [],
+                    "average_confidence": 0.0,
+                    "reasoning_types": set(),
                 }
 
-            conclusion_map[key]['supporting_steps'].append(step)
-            conclusion_map[key]['reasoning_types'].add(step.reasoning_type.value)
+            conclusion_map[key]["supporting_steps"].append(step)
+            conclusion_map[key]["reasoning_types"].add(step.reasoning_type.value)
 
         # Calculate average confidence for each conclusion
         for data in conclusion_map.values():
-            confidences = [step.confidence for step in data['supporting_steps']]
-            data['average_confidence'] = np.mean(confidences)
-            data['reasoning_types'] = list(data['reasoning_types'])
-            data['support_count'] = len(data['supporting_steps'])
+            confidences = [step.confidence for step in data["supporting_steps"]]
+            data["average_confidence"] = np.mean(confidences)
+            data["reasoning_types"] = list(data["reasoning_types"])
+            data["support_count"] = len(data["supporting_steps"])
 
-            conclusions.append({
-                'conclusion': data['conclusion'],
-                'confidence': data['average_confidence'],
-                'support_count': data['support_count'],
-                'reasoning_types': data['reasoning_types']
-            })
+            conclusions.append(
+                {
+                    "conclusion": data["conclusion"],
+                    "confidence": data["average_confidence"],
+                    "support_count": data["support_count"],
+                    "reasoning_types": data["reasoning_types"],
+                }
+            )
 
         # Sort by confidence
-        conclusions.sort(key=lambda x: x['confidence'], reverse=True)
+        conclusions.sort(key=lambda x: x["confidence"], reverse=True)
 
         return conclusions
 
-    def _calculate_confidence(self,
-                            steps: List[LogicalStep],
-                            conclusions: List[Dict[str, Any]]) -> float:
+    def _calculate_confidence(
+        self, steps: List[LogicalStep], conclusions: List[Dict[str, Any]]
+    ) -> float:
         """Calculate overall analytical confidence"""
         if not steps:
             return 0.0
@@ -642,7 +680,7 @@ class System2Processor:
             ReasoningType.CAUSAL: 0.85,
             ReasoningType.ANALOGICAL: 0.75,
             ReasoningType.INDUCTIVE: 0.70,
-            ReasoningType.ABDUCTIVE: 0.65
+            ReasoningType.ABDUCTIVE: 0.65,
         }
 
         weighted_sum = 0.0
@@ -660,10 +698,14 @@ class System2Processor:
 
         # Adjust by conclusion consistency
         if conclusions:
-            top_confidence = conclusions[0]['confidence']
-            consistency_factor = min(len(conclusions) / 10.0, 1.0)  # More conclusions = more confident
+            top_confidence = conclusions[0]["confidence"]
+            consistency_factor = min(
+                len(conclusions) / 10.0, 1.0
+            )  # More conclusions = more confident
 
-            confidence = base_confidence * 0.7 + top_confidence * 0.3 * consistency_factor
+            confidence = (
+                base_confidence * 0.7 + top_confidence * 0.3 * consistency_factor
+            )
         else:
             confidence = base_confidence * 0.5
 
@@ -672,6 +714,7 @@ class System2Processor:
     def _check_memory_usage(self) -> float:
         """Check current memory usage in GB"""
         import psutil
+
         process = psutil.Process()
         return process.memory_info().rss / 1024 / 1024 / 1024
 
@@ -682,6 +725,7 @@ class System2Processor:
 
         # Force garbage collection
         import gc
+
         gc.collect()
 
         if torch.cuda.is_available():
@@ -689,28 +733,29 @@ class System2Processor:
 
     def _update_stats(self, processing_time: float):
         """Update performance statistics"""
-        self.performance_stats['total_calls'] += 1
+        self.performance_stats["total_calls"] += 1
 
         # Update average
-        n = self.performance_stats['total_calls']
-        old_avg = self.performance_stats['avg_response_time']
-        self.performance_stats['avg_response_time'] = (
-            (old_avg * (n - 1) + processing_time) / n
-        )
+        n = self.performance_stats["total_calls"]
+        old_avg = self.performance_stats["avg_response_time"]
+        self.performance_stats["avg_response_time"] = (
+            old_avg * (n - 1) + processing_time
+        ) / n
 
         # Update max
-        self.performance_stats['max_response_time'] = max(
-            self.performance_stats['max_response_time'],
-            processing_time
+        self.performance_stats["max_response_time"] = max(
+            self.performance_stats["max_response_time"], processing_time
         )
 
     def get_performance_report(self) -> Dict[str, Any]:
         """Get performance statistics for monitoring"""
         return {
             **self.performance_stats,
-            'compliance': {
-                'response_time_ok': self.performance_stats['max_response_time'] < self.MAX_RESPONSE_TIME,
-                'memory_ok': self._check_memory_usage() < self.MAX_MEMORY_GB,
-                'timeout_rate': self.performance_stats['timeout_count'] / max(self.performance_stats['total_calls'], 1)
-            }
+            "compliance": {
+                "response_time_ok": self.performance_stats["max_response_time"]
+                < self.MAX_RESPONSE_TIME,
+                "memory_ok": self._check_memory_usage() < self.MAX_MEMORY_GB,
+                "timeout_rate": self.performance_stats["timeout_count"]
+                / max(self.performance_stats["total_calls"], 1),
+            },
         }

@@ -1,5 +1,8 @@
 import logging
+
 logger = logging.getLogger(__name__)
+
+
 class TransparencyLayer:
     """Provides complete transparency into the cognitive-thermodynamic trading system."""
 

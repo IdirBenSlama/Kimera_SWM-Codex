@@ -8,8 +8,9 @@ Author: KIMERA Development Team
 Version: 1.0.0
 """
 
-from typing import Dict, Any, List
 from datetime import datetime
+from typing import Any, Dict, List
+
 
 class SafetyAssessment:
     """Safety assessment and validation utilities"""
@@ -18,7 +19,9 @@ class SafetyAssessment:
         self.safety_checks = []
         self.violation_count = 0
 
-    def perform_safety_check(self, check_name: str, result: bool, details: str = "") -> bool:
+    def perform_safety_check(
+        self, check_name: str, result: bool, details: str = ""
+    ) -> bool:
         """
         Perform a safety check and record the result
 
@@ -31,10 +34,10 @@ class SafetyAssessment:
             bool: The check result
         """
         check_record = {
-            'name': check_name,
-            'result': result,
-            'details': details,
-            'timestamp': datetime.now()
+            "name": check_name,
+            "result": result,
+            "details": details,
+            "timestamp": datetime.now(),
         }
 
         self.safety_checks.append(check_record)
@@ -54,12 +57,12 @@ class SafetyAssessment:
         if not self.safety_checks:
             return 1.0
 
-        successful_checks = sum(1 for check in self.safety_checks if check['result'])
+        successful_checks = sum(1 for check in self.safety_checks if check["result"])
         return successful_checks / len(self.safety_checks)
 
     def get_violations(self) -> List[Dict[str, Any]]:
         """Get list of safety violations"""
-        return [check for check in self.safety_checks if not check['result']]
+        return [check for check in self.safety_checks if not check["result"]]
 
     def reset_checks(self):
         """Reset all safety checks"""

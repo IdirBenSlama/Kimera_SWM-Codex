@@ -1,5 +1,6 @@
 from ..core.types import MarketPhase
 
+
 class MarketPhaseDetector:
     """Detects the thermodynamic phase of the market."""
 

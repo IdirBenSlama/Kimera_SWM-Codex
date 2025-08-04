@@ -14,32 +14,36 @@ This validates Barenholtz's theory across diverse symbolic modalities.
 """
 
 import asyncio
+import json
+import re
 import time
-import numpy as np
-import torch
-import torch.nn.functional as F
-from typing import Dict, List, Any, Optional, Tuple, Union
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-import json
-import re
 from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple, Union
+
+import numpy as np
+import torch
+import torch.nn.functional as F
+
+from ..config.settings import get_settings
+from ..core.optimizing_selective_feedback_interpreter import (
+    OptimizingSelectiveFeedbackInterpreter,
+)
+from ..engines.cognitive_field_dynamics import CognitiveFieldDynamics
+from ..semantic_grounding.embodied_semantic_engine import EmbodiedSemanticEngine
+from ..utils.config import get_api_settings
+from ..utils.kimera_logger import get_system_logger
 
 # Kimera imports
 from .kimera_barenholtz_core import (
-    KimeraBarenholtzProcessor, 
+    DualSystemResult,
+    EmbeddingAlignmentBridge,
+    KimeraBarenholtzProcessor,
     LinguisticProcessor,
     PerceptualProcessor,
-    EmbeddingAlignmentBridge,
-    DualSystemResult
 )
-from ..core.optimizing_selective_feedback_interpreter import OptimizingSelectiveFeedbackInterpreter
-from ..engines.cognitive_field_dynamics import CognitiveFieldDynamics
-from ..semantic_grounding.embodied_semantic_engine import EmbodiedSemanticEngine
-from ..utils.kimera_logger import get_system_logger
-from ..utils.config import get_api_settings
-from ..config.settings import get_settings
 
 logger = get_system_logger(__name__)
 

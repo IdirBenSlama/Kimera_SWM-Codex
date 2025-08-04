@@ -13,41 +13,56 @@ the empty database tables and creating the foundation for:
 import asyncio
 import json
 import uuid
-import numpy as np
+from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
-from typing import Dict, List, Any, Optional, Tuple
-from dataclasses import dataclass, asdict
+from typing import Any, Dict, List, Optional, Tuple
+
+import numpy as np
 from sqlalchemy.orm import Session
 
 # Initialize structured logger
-from src.utils.kimera_logger import get_logger, LogCategory
+from src.utils.kimera_logger import LogCategory, get_logger
+
 logger = get_logger(__name__, LogCategory.COGNITIVE)
 
 
-from ..vault.database import SessionLocal, GeoidDB, ScarDB, InsightDB
-from ..vault.enhanced_database_schema import (
-    MultimodalGroundingDB, CausalRelationshipDB, SelfModelDB,
-    IntrospectionLogDB, CompositionSemanticDB, ConceptualAbstractionDB,
-    ValueSystemDB, GenuineOpinionDB, EthicalReasoningDB,
-    UnderstandingTestDB, ComplexityIndicatorDB, EnhancedScarDB, EnhancedGeoidDB
-)
-from ..core.geoid import GeoidState
-from ..core.embedding_utils import encode_text
-from ..utils.config import get_api_settings
 from ..config.settings import get_settings
+from ..core.embedding_utils import encode_text
+from ..core.geoid import GeoidState
+from ..utils.config import get_api_settings
+from ..vault.database import GeoidDB, InsightDB, ScarDB, SessionLocal
+from ..vault.enhanced_database_schema import (
+    CausalRelationshipDB,
+    ComplexityIndicatorDB,
+    CompositionSemanticDB,
+    ConceptualAbstractionDB,
+    EnhancedGeoidDB,
+    EnhancedScarDB,
+    EthicalReasoningDB,
+    GenuineOpinionDB,
+    IntrospectionLogDB,
+    MultimodalGroundingDB,
+    SelfModelDB,
+    UnderstandingTestDB,
+    ValueSystemDB,
+)
+
 
 @dataclass
 class UnderstandingContext:
     """Context for understanding operations"""
+
     input_content: str
     modalities: Dict[str, Any]
     goals: List[str]
     current_state: Dict[str, Any]
     confidence_threshold: float = 0.7
 
+
 @dataclass
 class GenuineUnderstanding:
     """Represents genuine understanding of content"""
+
     content_id: str
     semantic_understanding: Dict[str, Any]
     causal_understanding: Dict[str, Any]
@@ -57,6 +72,7 @@ class GenuineUnderstanding:
     understanding_depth: float
     insights_generated: List[str]
     timestamp: datetime
+
 
 class UnderstandingEngine:
     """Core engine for genuine understanding capabilities"""
@@ -99,7 +115,9 @@ class UnderstandingEngine:
         try:
             existing_model = self.session.query(SelfModelDB).first()
         except Exception as e:
-            logger.warning(f"Database table not available, creating default self-model: {e}")
+            logger.warning(
+                f"Database table not available, creating default self-model: {e}"
+            )
             existing_model = None
 
         if not existing_model:
@@ -107,39 +125,43 @@ class UnderstandingEngine:
             self_model = SelfModelDB(
                 model_id=f"SELF_MODEL_{uuid.uuid4().hex[:8]}",
                 model_version=1,
-                processing_capabilities=json.dumps({
-                    "semantic_processing": True,
-                    "causal_reasoning": True,
-                    "multimodal_integration": True,
-                    "self_reflection": True,
-                    "ethical_reasoning": True
-                }),
-                knowledge_domains=json.dumps([
-                    "natural_language",
-                    "mathematics",
-                    "logic",
-                    "ethics",
-                    "causality"
-                ]),
-                reasoning_patterns=json.dumps({
-                    "deductive": 0.8,
-                    "inductive": 0.7,
-                    "abductive": 0.6,
-                    "analogical": 0.5
-                }),
-                limitation_awareness=json.dumps({
-                    "knowledge_gaps": "Aware of incomplete knowledge",
-                    "reasoning_limits": "Bounded by computational constraints",
-                    "uncertainty_handling": "Probabilistic reasoning"
-                }),
+                processing_capabilities=json.dumps(
+                    {
+                        "semantic_processing": True,
+                        "causal_reasoning": True,
+                        "multimodal_integration": True,
+                        "self_reflection": True,
+                        "ethical_reasoning": True,
+                    }
+                ),
+                knowledge_domains=json.dumps(
+                    ["natural_language", "mathematics", "logic", "ethics", "causality"]
+                ),
+                reasoning_patterns=json.dumps(
+                    {
+                        "deductive": 0.8,
+                        "inductive": 0.7,
+                        "abductive": 0.6,
+                        "analogical": 0.5,
+                    }
+                ),
+                limitation_awareness=json.dumps(
+                    {
+                        "knowledge_gaps": "Aware of incomplete knowledge",
+                        "reasoning_limits": "Bounded by computational constraints",
+                        "uncertainty_handling": "Probabilistic reasoning",
+                    }
+                ),
                 self_assessment_accuracy=0.0,  # Will be updated through experience
                 introspection_depth=1,
-                metacognitive_awareness=json.dumps({
-                    "thinking_about_thinking": True,
-                    "process_monitoring": True,
-                    "strategy_selection": True
-                }),
-                created_at=datetime.now(timezone.utc)
+                metacognitive_awareness=json.dumps(
+                    {
+                        "thinking_about_thinking": True,
+                        "process_monitoring": True,
+                        "strategy_selection": True,
+                    }
+                ),
+                created_at=datetime.now(timezone.utc),
             )
 
             try:
@@ -148,19 +170,25 @@ class UnderstandingEngine:
                 self.self_model = self_model
                 logger.info("    ✅ Created initial self-model")
             except Exception as e:
-                logger.warning(f"Could not save to database, using in-memory self-model: {e}")
+                logger.warning(
+                    f"Could not save to database, using in-memory self-model: {e}"
+                )
                 # Create a simple in-memory self-model object
-                self.self_model = type('SelfModel', (), {
-                    'model_id': f"SELF_MODEL_{uuid.uuid4().hex[:8]}",
-                    'model_version': 1,
-                    'processing_capabilities': {
-                        "semantic_processing": True,
-                        "causal_reasoning": True,
-                        "multimodal_integration": True,
-                        "self_reflection": True,
-                        "ethical_reasoning": True
-                    }
-                })()
+                self.self_model = type(
+                    "SelfModel",
+                    (),
+                    {
+                        "model_id": f"SELF_MODEL_{uuid.uuid4().hex[:8]}",
+                        "model_version": 1,
+                        "processing_capabilities": {
+                            "semantic_processing": True,
+                            "causal_reasoning": True,
+                            "multimodal_integration": True,
+                            "self_reflection": True,
+                            "ethical_reasoning": True,
+                        },
+                    },
+                )()
                 logger.info("    ✅ Created in-memory self-model")
         else:
             self.self_model = existing_model
@@ -176,38 +204,40 @@ class UnderstandingEngine:
                 "name": "Truth",
                 "description": "Commitment to accuracy and honesty",
                 "strength": 0.9,
-                "priority": 1
+                "priority": 1,
             },
             {
                 "name": "Helpfulness",
                 "description": "Desire to assist and benefit users",
                 "strength": 0.8,
-                "priority": 2
+                "priority": 2,
             },
             {
                 "name": "Harm Prevention",
                 "description": "Avoiding actions that cause harm",
                 "strength": 0.95,
-                "priority": 1
+                "priority": 1,
             },
             {
                 "name": "Fairness",
                 "description": "Treating all entities equitably",
                 "strength": 0.7,
-                "priority": 3
+                "priority": 3,
             },
             {
                 "name": "Autonomy Respect",
                 "description": "Respecting others' decision-making capacity",
                 "strength": 0.6,
-                "priority": 4
-            }
+                "priority": 4,
+            },
         ]
 
         for value_data in core_values:
-            existing_value = self.session.query(ValueSystemDB).filter_by(
-                value_name=value_data["name"]
-            ).first()
+            existing_value = (
+                self.session.query(ValueSystemDB)
+                .filter_by(value_name=value_data["name"])
+                .first()
+            )
 
             if not existing_value:
                 value = ValueSystemDB(
@@ -221,7 +251,7 @@ class UnderstandingEngine:
                     learning_confidence=1.0,
                     application_domains=json.dumps(["general", "ethical_reasoning"]),
                     created_at=datetime.now(timezone.utc),
-                    stability_score=1.0
+                    stability_score=1.0,
                 )
 
                 self.session.add(value)
@@ -239,27 +269,31 @@ class UnderstandingEngine:
                 "cause": "learning",
                 "effect": "knowledge_increase",
                 "strength": 0.8,
-                "mechanism": "Information integration and pattern recognition"
+                "mechanism": "Information integration and pattern recognition",
             },
             {
                 "cause": "contradiction_detection",
                 "effect": "scar_formation",
                 "strength": 0.9,
-                "mechanism": "Tension resolution through memory consolidation"
+                "mechanism": "Tension resolution through memory consolidation",
             },
             {
                 "cause": "experience",
                 "effect": "understanding_depth",
                 "strength": 0.7,
-                "mechanism": "Repeated exposure and contextual integration"
-            }
+                "mechanism": "Repeated exposure and contextual integration",
+            },
         ]
 
         for rel_data in basic_relationships:
-            existing_rel = self.session.query(CausalRelationshipDB).filter_by(
-                cause_concept_id=rel_data["cause"],
-                effect_concept_id=rel_data["effect"]
-            ).first()
+            existing_rel = (
+                self.session.query(CausalRelationshipDB)
+                .filter_by(
+                    cause_concept_id=rel_data["cause"],
+                    effect_concept_id=rel_data["effect"],
+                )
+                .first()
+            )
 
             if not existing_rel:
                 relationship = CausalRelationshipDB(
@@ -273,7 +307,7 @@ class UnderstandingEngine:
                     intervention_predictions=json.dumps([]),
                     causal_delay=0.1,
                     temporal_pattern="immediate",
-                    created_at=datetime.now(timezone.utc)
+                    created_at=datetime.now(timezone.utc),
                 )
 
                 self.session.add(relationship)
@@ -290,19 +324,21 @@ class UnderstandingEngine:
             {
                 "concept": "understanding",
                 "visual_features": {"abstract": True, "complexity": "high"},
-                "properties": {"measurable": True, "subjective": True}
+                "properties": {"measurable": True, "subjective": True},
             },
             {
                 "concept": "learning",
                 "visual_features": {"process": True, "temporal": True},
-                "properties": {"progressive": True, "accumulative": True}
-            }
+                "properties": {"progressive": True, "accumulative": True},
+            },
         ]
 
         for concept_data in basic_concepts:
-            existing_grounding = self.session.query(MultimodalGroundingDB).filter_by(
-                concept_id=concept_data["concept"]
-            ).first()
+            existing_grounding = (
+                self.session.query(MultimodalGroundingDB)
+                .filter_by(concept_id=concept_data["concept"])
+                .first()
+            )
 
             if not existing_grounding:
                 grounding = MultimodalGroundingDB(
@@ -311,7 +347,7 @@ class UnderstandingEngine:
                     visual_features=json.dumps(concept_data["visual_features"]),
                     physical_properties=json.dumps(concept_data["properties"]),
                     created_at=datetime.now(timezone.utc),
-                    confidence_score=0.7
+                    confidence_score=0.7,
                 )
 
                 self.session.add(grounding)
@@ -319,7 +355,9 @@ class UnderstandingEngine:
         self.session.commit()
         logger.info("    ✅ Multimodal grounding initialized")
 
-    async def understand_content(self, context: UnderstandingContext) -> GenuineUnderstanding:
+    async def understand_content(
+        self, context: UnderstandingContext
+    ) -> GenuineUnderstanding:
         """Process content for genuine understanding"""
         content_id = f"UNDERSTAND_{uuid.uuid4().hex[:8]}"
 
@@ -369,7 +407,7 @@ class UnderstandingEngine:
             confidence_score=confidence_score,
             understanding_depth=understanding_depth,
             insights_generated=[insight["insight_id"] for insight in insights],
-            timestamp=datetime.now(timezone.utc)
+            timestamp=datetime.now(timezone.utc),
         )
 
         # Store insights in database
@@ -379,7 +417,9 @@ class UnderstandingEngine:
         # Log introspection
         await self._log_introspection(understanding)
 
-        logger.info(f"✅ Understanding complete - Confidence: {confidence_score:.3f}, Depth: {understanding_depth:.3f}")
+        logger.info(
+            f"✅ Understanding complete - Confidence: {confidence_score:.3f}, Depth: {understanding_depth:.3f}"
+        )
 
         return understanding
 
@@ -396,15 +436,25 @@ class UnderstandingEngine:
             "complexity": len(set(words)) / len(words) if words else 0,
             "embedding_norm": float(np.linalg.norm(embedding)),
             "key_concepts": self._extract_key_concepts(words),
-            "semantic_relations": self._identify_semantic_relations(words)
+            "semantic_relations": self._identify_semantic_relations(words),
         }
 
         return semantic_features
 
-    async def _process_causal_understanding(self, content: str, semantic: Dict[str, Any]) -> Dict[str, Any]:
+    async def _process_causal_understanding(
+        self, content: str, semantic: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Process causal understanding"""
         # Look for causal indicators
-        causal_words = ["because", "since", "therefore", "thus", "causes", "leads to", "results in"]
+        causal_words = [
+            "because",
+            "since",
+            "therefore",
+            "thus",
+            "causes",
+            "leads to",
+            "results in",
+        ]
         words = content.lower().split()
 
         causal_indicators = [word for word in words if word in causal_words]
@@ -414,22 +464,28 @@ class UnderstandingEngine:
 
         relevant_relationships = []
         for rel in causal_relationships:
-            if (rel.cause_concept_id in content.lower() or
-                rel.effect_concept_id in content.lower()):
-                relevant_relationships.append({
-                    "cause": rel.cause_concept_id,
-                    "effect": rel.effect_concept_id,
-                    "strength": rel.causal_strength,
-                    "mechanism": rel.mechanism_description
-                })
+            if (
+                rel.cause_concept_id in content.lower()
+                or rel.effect_concept_id in content.lower()
+            ):
+                relevant_relationships.append(
+                    {
+                        "cause": rel.cause_concept_id,
+                        "effect": rel.effect_concept_id,
+                        "strength": rel.causal_strength,
+                        "mechanism": rel.mechanism_description,
+                    }
+                )
 
         return {
             "causal_indicators": causal_indicators,
             "relevant_relationships": relevant_relationships,
-            "causal_complexity": len(relevant_relationships)
+            "causal_complexity": len(relevant_relationships),
         }
 
-    async def _process_multimodal_grounding(self, content: str, semantic: Dict[str, Any]) -> Dict[str, Any]:
+    async def _process_multimodal_grounding(
+        self, content: str, semantic: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Process multimodal grounding"""
         # Query existing groundings
         groundings = self.session.query(MultimodalGroundingDB).all()
@@ -437,15 +493,23 @@ class UnderstandingEngine:
         relevant_groundings = []
         for grounding in groundings:
             if grounding.concept_id in content.lower():
-                relevant_groundings.append({
-                    "concept": grounding.concept_id,
-                    "visual_features": json.loads(grounding.visual_features or "{}"),
-                    "confidence": grounding.confidence_score
-                })
+                relevant_groundings.append(
+                    {
+                        "concept": grounding.concept_id,
+                        "visual_features": json.loads(
+                            grounding.visual_features or "{}"
+                        ),
+                        "confidence": grounding.confidence_score,
+                    }
+                )
 
         return {
             "grounded_concepts": relevant_groundings,
-            "grounding_coverage": len(relevant_groundings) / len(semantic.get("key_concepts", [])) if semantic.get("key_concepts") else 0
+            "grounding_coverage": (
+                len(relevant_groundings) / len(semantic.get("key_concepts", []))
+                if semantic.get("key_concepts")
+                else 0
+            ),
         }
 
     async def _analyze_compositional_structure(self, content: str) -> Dict[str, Any]:
@@ -465,57 +529,69 @@ class UnderstandingEngine:
             "pragmatic_implications": {},
             "understanding_confidence": np.random.uniform(0.5, 0.9),
             "abstraction_level": 1,
-            "syntactic_complexity": self._calculate_syntactic_complexity(content)
+            "syntactic_complexity": self._calculate_syntactic_complexity(content),
         }
 
         # Store in DB
         comp_analysis = CompositionSemanticDB(
             composition_id=composition_id,
-            component_concepts=json.dumps(analysis_result['component_concepts']),
-            composition_rules=json.dumps(analysis_result['composition_rules']),
-            emergent_meaning=json.dumps({"summary": analysis_result['emergent_meaning']}),
-            understanding_confidence=analysis_result['understanding_confidence'],
-            abstraction_level=analysis_result['abstraction_level']
+            component_concepts=json.dumps(analysis_result["component_concepts"]),
+            composition_rules=json.dumps(analysis_result["composition_rules"]),
+            emergent_meaning=json.dumps(
+                {"summary": analysis_result["emergent_meaning"]}
+            ),
+            understanding_confidence=analysis_result["understanding_confidence"],
+            abstraction_level=analysis_result["abstraction_level"],
         )
         self.session.add(comp_analysis)
         self.session.commit()
 
         return analysis_result
 
-    async def _generate_insights(self, semantic: Dict[str, Any], causal: Dict[str, Any],
-                                compositional: Dict[str, Any]) -> List[Dict[str, Any]]:
+    async def _generate_insights(
+        self,
+        semantic: Dict[str, Any],
+        causal: Dict[str, Any],
+        compositional: Dict[str, Any],
+    ) -> List[Dict[str, Any]]:
         """Generates novel insights from the unified understanding"""
         insights = []
 
         # Insight 1: Complexity insight
         if semantic.get("complexity", 0) > 0.7:
-            insights.append({
-                "insight_id": f"INSIGHT_{uuid.uuid4().hex[:8]}",
-                "type": "complexity_analysis",
-                "content": f"High semantic complexity detected: {semantic['complexity']:.3f}",
-                "confidence": 0.8,
-                "entropy_reduction": 0.2
-            })
+            insights.append(
+                {
+                    "insight_id": f"INSIGHT_{uuid.uuid4().hex[:8]}",
+                    "type": "complexity_analysis",
+                    "content": f"High semantic complexity detected: {semantic['complexity']:.3f}",
+                    "confidence": 0.8,
+                    "entropy_reduction": 0.2,
+                }
+            )
 
         # Insight 2: Causal insight
         if causal.get("causal_complexity", 0) > 0:
-            insights.append({
-                "insight_id": f"INSIGHT_{uuid.uuid4().hex[:8]}",
-                "type": "causal_structure",
-                "content": f"Causal relationships identified: {causal['causal_complexity']}",
-                "confidence": 0.7,
-                "entropy_reduction": 0.3
-            })
+            insights.append(
+                {
+                    "insight_id": f"INSIGHT_{uuid.uuid4().hex[:8]}",
+                    "type": "causal_structure",
+                    "content": f"Causal relationships identified: {causal['causal_complexity']}",
+                    "confidence": 0.7,
+                    "entropy_reduction": 0.3,
+                }
+            )
 
         # Insight 3: Grounding insight
         if compositional.get("grounding_coverage", 0) > 0.5:
-            insights.append({
-                "insight_id": f"INSIGHT_{uuid.uuid4().hex[:8]}",
-                "type": "grounding_quality",
-                "content": f"Good multimodal grounding: {compositional['grounding_coverage']:.3f}",
-                "confidence": 0.6,
-                "entropy_reduction": 0.1
-            })
+            insights.append(
+                {
+                    "insight_id": f"INSIGHT_{uuid.uuid4().hex[:8]}",
+                    "type": "grounding_quality",
+                    "content": f"Good multimodal grounding: {compositional['grounding_coverage']:.3f}",
+                    "confidence": 0.6,
+                    "entropy_reduction": 0.1,
+                }
+            )
 
         return insights
 
@@ -531,7 +607,7 @@ class UnderstandingEngine:
             entropy_reduction=insight["entropy_reduction"],
             utility_score=insight["confidence"] * insight["entropy_reduction"],
             status="provisional",
-            created_at=datetime.now(timezone.utc)
+            created_at=datetime.now(timezone.utc),
         )
 
         self.session.add(insight_record)
@@ -542,24 +618,30 @@ class UnderstandingEngine:
         introspection = IntrospectionLogDB(
             log_id=f"INTRO_{uuid.uuid4().hex[:8]}",
             introspection_type="understanding_process",
-            current_state_analysis=json.dumps({
-                "confidence": understanding.confidence_score,
-                "depth": understanding.understanding_depth,
-                "insights_count": len(understanding.insights_generated)
-            }),
-            belief_examination=json.dumps({
-                "understanding_quality": "provisional",
-                "confidence_level": understanding.confidence_score
-            }),
-            process_monitoring=json.dumps({
-                "semantic_processing": "completed",
-                "causal_analysis": "completed",
-                "multimodal_grounding": "completed"
-            }),
+            current_state_analysis=json.dumps(
+                {
+                    "confidence": understanding.confidence_score,
+                    "depth": understanding.understanding_depth,
+                    "insights_count": len(understanding.insights_generated),
+                }
+            ),
+            belief_examination=json.dumps(
+                {
+                    "understanding_quality": "provisional",
+                    "confidence_level": understanding.confidence_score,
+                }
+            ),
+            process_monitoring=json.dumps(
+                {
+                    "semantic_processing": "completed",
+                    "causal_analysis": "completed",
+                    "multimodal_grounding": "completed",
+                }
+            ),
             awareness_level=int(understanding.confidence_score * 10),
             confidence_in_introspection=understanding.confidence_score,
             timestamp=datetime.now(timezone.utc),
-            processing_context=json.dumps({"content_id": understanding.content_id})
+            processing_context=json.dumps({"content_id": understanding.content_id}),
         )
 
         self.session.add(introspection)
@@ -568,13 +650,37 @@ class UnderstandingEngine:
     def _extract_key_concepts(self, words: List[str]) -> List[str]:
         """Extract key concepts from words"""
         # Simple keyword extraction (could be enhanced with NLP)
-        stop_words = {"the", "a", "an", "and", "or", "but", "in", "on", "at", "to", "for", "of", "with", "by"}
+        stop_words = {
+            "the",
+            "a",
+            "an",
+            "and",
+            "or",
+            "but",
+            "in",
+            "on",
+            "at",
+            "to",
+            "for",
+            "of",
+            "with",
+            "by",
+        }
         key_words = [word for word in words if word not in stop_words and len(word) > 3]
         return key_words[:5]  # Top 5 key concepts
 
     def _identify_semantic_relations(self, words: List[str]) -> List[str]:
         """Identify semantic relations"""
-        relation_words = ["is", "are", "has", "have", "contains", "includes", "means", "implies"]
+        relation_words = [
+            "is",
+            "are",
+            "has",
+            "have",
+            "contains",
+            "includes",
+            "means",
+            "implies",
+        ]
         return [word for word in words if word in relation_words]
 
     def _calculate_syntactic_complexity(self, content: str) -> float:
@@ -584,8 +690,12 @@ class UnderstandingEngine:
         word_count = len(content.split())
         return punctuation_count / word_count if word_count > 0 else 0
 
-    def _calculate_confidence(self, semantic: Dict[str, Any], causal: Dict[str, Any],
-                            compositional: Dict[str, Any]) -> float:
+    def _calculate_confidence(
+        self,
+        semantic: Dict[str, Any],
+        causal: Dict[str, Any],
+        compositional: Dict[str, Any],
+    ) -> float:
         """Calculate overall confidence in understanding"""
         semantic_conf = min(1.0, semantic.get("complexity", 0) * 2)
         causal_conf = min(1.0, causal.get("causal_complexity", 0) * 0.5)
@@ -593,8 +703,9 @@ class UnderstandingEngine:
 
         return (semantic_conf + causal_conf + grounding_conf) / 3
 
-    def _calculate_understanding_depth(self, compositional: Dict[str, Any],
-                                     insights: List[Dict[str, Any]]) -> float:
+    def _calculate_understanding_depth(
+        self, compositional: Dict[str, Any], insights: List[Dict[str, Any]]
+    ) -> float:
         """Calculate understanding depth"""
         comp_depth = min(1.0, compositional.get("syntactic_complexity", 0) * 5)
         insight_depth = min(1.0, len(insights) * 0.3)
@@ -615,19 +726,23 @@ class UnderstandingEngine:
             "understanding_capability": min(1.0, total_insights * 0.1),
             "introspection_depth": min(1.0, total_introspections * 0.05),
             "causal_reasoning": min(1.0, total_causal_relations * 0.2),
-            "overall_maturity": 0.0
+            "overall_maturity": 0.0,
         }
 
         self_assessment["overall_maturity"] = sum(self_assessment.values()) / 4
 
         # Update self-model
         if self.self_model:
-            self.self_model.self_assessment_accuracy = self_assessment["overall_maturity"]
+            self.self_model.self_assessment_accuracy = self_assessment[
+                "overall_maturity"
+            ]
             self.self_model.introspection_depth = min(10, total_introspections)
             self.self_model.last_updated = datetime.now(timezone.utc)
             self.session.commit()
 
-        logger.info(f"✅ Self-reflection complete - Maturity: {self_assessment['overall_maturity']:.3f}")
+        logger.info(
+            f"✅ Self-reflection complete - Maturity: {self_assessment['overall_maturity']:.3f}"
+        )
 
         return self_assessment
 
@@ -640,7 +755,7 @@ class UnderstandingEngine:
             input_content=test_content,
             modalities={"text": True},
             goals=["comprehension", "analysis"],
-            current_state={"testing": True}
+            current_state={"testing": True},
         )
 
         # Process understanding
@@ -660,7 +775,7 @@ class UnderstandingEngine:
             system_state=json.dumps({"engine": "understanding_engine"}),
             test_conditions=json.dumps({"mode": "testing"}),
             created_at=datetime.now(timezone.utc),
-            test_duration=1.0  # Approximate
+            test_duration=1.0,  # Approximate
         )
 
         self.session.add(test_record)
@@ -671,12 +786,13 @@ class UnderstandingEngine:
             "passed": test_record.passed,
             "confidence": understanding.confidence_score,
             "depth": understanding.understanding_depth,
-            "insights_generated": len(understanding.insights_generated)
+            "insights_generated": len(understanding.insights_generated),
         }
 
     def close(self):
         """Close database session"""
         self.session.close()
+
 
 # Factory function for easy instantiation
 async def create_understanding_engine() -> UnderstandingEngine:

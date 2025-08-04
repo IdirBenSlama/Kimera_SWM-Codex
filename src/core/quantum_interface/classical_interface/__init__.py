@@ -10,11 +10,11 @@ Version: 1.0.0 - DO-178C Level A Compliant
 """
 
 from .quantum_classical_bridge import (
-    QuantumClassicalBridge,
     HybridProcessingMode,
     HybridProcessingResult,
     InterfaceMetrics,
-    create_quantum_classical_bridge
+    QuantumClassicalBridge,
+    create_quantum_classical_bridge,
 )
 
 __all__ = [
@@ -22,5 +22,5 @@ __all__ = [
     "HybridProcessingMode",
     "HybridProcessingResult",
     "InterfaceMetrics",
-    "create_quantum_classical_bridge"
+    "create_quantum_classical_bridge",
 ]

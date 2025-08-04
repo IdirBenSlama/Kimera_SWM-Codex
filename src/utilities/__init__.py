@@ -18,5 +18,5 @@ __all__ = [
     "get_system_uptime",
     "PerformanceMetrics",
     "SafetyAssessment",
-    "SystemRecommendations"
+    "SystemRecommendations",
 ]

@@ -6,23 +6,27 @@ This engine is responsible for managing the lifecycle of an InsightScar,
 promoting, or deprecating it based on utility and feedback.
 """
 from typing import Literal
+
+from ..config.settings import get_settings
 from ..core.insight import InsightScar
 from ..utils.config import get_api_settings
-from ..config.settings import get_settings
 
 # Define feedback event types
-FeedbackEvent = Literal['user_explored', 'user_dismissed', 'system_reinforced']
+FeedbackEvent = Literal["user_explored", "user_dismissed", "system_reinforced"]
 
 UTILITY_SCORE_MAP = {
-    'user_explored': 0.1,
-    'user_dismissed': -0.2,
-    'system_reinforced': 0.05, # e.g., if the insight leads to another valid insight
+    "user_explored": 0.1,
+    "user_dismissed": -0.2,
+    "system_reinforced": 0.05,  # e.g., if the insight leads to another valid insight
 }
 
 STATUS_PROMOTION_THRESHOLD = 0.5
 STATUS_DEPRECATION_THRESHOLD = -0.3
 
-def update_utility_score(insight: InsightScar, feedback_event: FeedbackEvent, current_cycle: int) -> InsightScar:
+
+def update_utility_score(
+    insight: InsightScar, feedback_event: FeedbackEvent, current_cycle: int
+) -> InsightScar:
     """
     Modifies an insight's utility score based on a feedback event.
 
@@ -37,8 +41,9 @@ def update_utility_score(insight: InsightScar, feedback_event: FeedbackEvent, cu
     score_change = UTILITY_SCORE_MAP.get(feedback_event, 0)
     insight.utility_score += score_change
     insight.last_reinforced_cycle = current_cycle
-    
+
     return insight
+
 
 def manage_insight_lifecycle(insight: InsightScar) -> InsightScar:
     """
@@ -53,12 +58,18 @@ def manage_insight_lifecycle(insight: InsightScar) -> InsightScar:
     Returns:
         The InsightScar with its potentially updated status.
     """
-    if insight.status == 'active' and insight.utility_score >= STATUS_PROMOTION_THRESHOLD:
-        insight.status = 'strengthened'
+    if (
+        insight.status == "active"
+        and insight.utility_score >= STATUS_PROMOTION_THRESHOLD
+    ):
+        insight.status = "strengthened"
         # logger.info(f"Insight {insight.insight_id} promoted to 'strengthened'.")
-    
-    elif insight.status in ['active', 'strengthened'] and insight.utility_score <= STATUS_DEPRECATION_THRESHOLD:
-        insight.status = 'deprecated'
+
+    elif (
+        insight.status in ["active", "strengthened"]
+        and insight.utility_score <= STATUS_DEPRECATION_THRESHOLD
+    ):
+        insight.status = "deprecated"
         # logger.warning(f"Insight {insight.insight_id} deprecated due to low utility score.")
-        
-    return insight 
+
+    return insight

@@ -14,28 +14,31 @@ Scientific Principles:
 - Security-conscious error exposure
 """
 
-from datetime import datetime
-from fastapi.responses import JSONResponse
-from typing import Any, Callable, Dict, Optional, Type, Union
 import asyncio
 import logging
+import traceback
+from datetime import datetime
+from functools import wraps
+from typing import Any, Callable, Dict, Optional, Type, Union
 
 from fastapi import HTTPException, Request, Response
-from functools import wraps
+from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 from sqlalchemy.exc import SQLAlchemyError
-import traceback
 
-from .exception_handling import (
-    ErrorContext, ErrorSeverity, RecoveryStrategy,
-    error_registry, safe_operation
-)
 from ..utils.kimera_exceptions import (
     KimeraBaseException,
-    KimeraValidationError,
+    KimeraCognitiveError,
     KimeraResourceError,
     KimeraSecurityError,
-    KimeraCognitiveError
+    KimeraValidationError,
+)
+from .exception_handling import (
+    ErrorContext,
+    ErrorSeverity,
+    RecoveryStrategy,
+    error_registry,
+    safe_operation,
 )
 
 logger = logging.getLogger(__name__)
@@ -43,65 +46,65 @@ logger = logging.getLogger(__name__)
 
 class ErrorResponseBuilder:
     """Builds consistent error responses for API endpoints."""
-    
+
     @staticmethod
     def build_error_response(
         error: Exception,
         operation: str,
         request_id: Optional[str] = None,
-        additional_context: Optional[Dict[str, Any]] = None
+        additional_context: Optional[Dict[str, Any]] = None,
     ) -> JSONResponse:
         """Build a standardized error response."""
-        
+
         # Determine error type and severity
         if isinstance(error, KimeraSecurityError):
             status_code = 403
             error_type = "security_error"
             severity = ErrorSeverity.CRITICAL
             user_message = "Security validation failed"
-            
+
         elif isinstance(error, KimeraValidationError):
             status_code = 400
             error_type = "validation_error"
             severity = ErrorSeverity.LOW
             user_message = str(error)
-            
+
         elif isinstance(error, KimeraResourceError):
             status_code = 503
             error_type = "resource_error"
             severity = ErrorSeverity.HIGH
             user_message = "Resource temporarily unavailable"
-            
+
         elif isinstance(error, KimeraCognitiveError):
             status_code = 500
             error_type = "cognitive_error"
             severity = ErrorSeverity.HIGH
             user_message = "Cognitive processing error"
-            
+
         elif isinstance(error, ValidationError):
             status_code = 422
             error_type = "validation_error"
             severity = ErrorSeverity.LOW
             user_message = "Invalid request data"
-            
+
         elif isinstance(error, SQLAlchemyError):
             status_code = 503
             error_type = "database_error"
             severity = ErrorSeverity.HIGH
             user_message = "Database operation failed"
-            
+
         elif isinstance(error, HTTPException):
             status_code = error.status_code
             error_type = "http_error"
             severity = ErrorSeverity.MEDIUM
             user_message = error.detail
-            
+
         else:
             status_code = 500
             error_type = "internal_error"
             severity = ErrorSeverity.HIGH
             user_message = "An unexpected error occurred"
-        
+
         # Build error response
         error_response = {
             "error": {
@@ -109,27 +112,27 @@ class ErrorResponseBuilder:
                 "message": user_message,
                 "operation": operation,
                 "timestamp": datetime.now().isoformat(),
-                "request_id": request_id
+                "request_id": request_id,
             },
-            "status": "error"
+            "status": "error",
         }
-        
+
         # Add debug information in development mode
         if logger.isEnabledFor(logging.DEBUG):
             error_response["error"]["debug"] = {
                 "exception_type": type(error).__name__,
                 "exception_message": str(error),
-                "severity": severity.value
+                "severity": severity.value,
             }
-            
+
             # Add validation errors detail
             if isinstance(error, ValidationError):
                 error_response["error"]["validation_errors"] = error.errors()
-        
+
         # Add additional context if provided
         if additional_context:
             error_response["error"]["context"] = additional_context
-        
+
         # Log the error
         logger.error(
             f"API Error in {operation}",
@@ -139,57 +142,55 @@ class ErrorResponseBuilder:
                 "status_code": status_code,
                 "severity": severity.value,
                 "request_id": request_id,
-                "operation": operation
-            }
+                "operation": operation,
+            },
         )
-        
-        return JSONResponse(
-            status_code=status_code,
-            content=error_response
-        )
+
+        return JSONResponse(status_code=status_code, content=error_response)
 
 
 def handle_router_errors(
     operation: str,
     severity: Optional[ErrorSeverity] = None,
     fallback_response: Optional[Any] = None,
-    include_request_id: bool = True
+    include_request_id: bool = True,
 ):
     """
     Decorator for handling errors in router endpoints.
-    
+
     Args:
         operation: Name of the operation for logging
         severity: Override error severity
         fallback_response: Response to return on non-critical errors
         include_request_id: Whether to include request ID in response
     """
+
     def decorator(func: Callable) -> Callable:
         @wraps(func)
         async def async_wrapper(request: Request, *args, **kwargs):
             request_id = None
-            
+
             try:
                 # Extract request ID if available
                 if include_request_id:
-                    request_id = request.headers.get("X-Request-ID") or \
-                                request.headers.get("X-Correlation-ID")
-                
+                    request_id = request.headers.get(
+                        "X-Request-ID"
+                    ) or request.headers.get("X-Correlation-ID")
+
                 # Execute the endpoint function
                 result = await func(request, *args, **kwargs)
                 return result
-                
+
             except Exception as e:
                 # Check if we should use fallback
-                if fallback_response is not None and not isinstance(e, (
-                    KimeraSecurityError,
-                    HTTPException
-                )):
+                if fallback_response is not None and not isinstance(
+                    e, (KimeraSecurityError, HTTPException)
+                ):
                     logger.warning(
                         f"Using fallback response for {operation} due to error: {e}"
                     )
                     return fallback_response
-                
+
                 # Build error response
                 return ErrorResponseBuilder.build_error_response(
                     error=e,
@@ -197,35 +198,35 @@ def handle_router_errors(
                     request_id=request_id,
                     additional_context={
                         "path": str(request.url.path),
-                        "method": request.method
-                    }
+                        "method": request.method,
+                    },
                 )
-        
+
         @wraps(func)
         def sync_wrapper(request: Request, *args, **kwargs):
             request_id = None
-            
+
             try:
                 # Extract request ID if available
                 if include_request_id:
-                    request_id = request.headers.get("X-Request-ID") or \
-                                request.headers.get("X-Correlation-ID")
-                
+                    request_id = request.headers.get(
+                        "X-Request-ID"
+                    ) or request.headers.get("X-Correlation-ID")
+
                 # Execute the endpoint function
                 result = func(request, *args, **kwargs)
                 return result
-                
+
             except Exception as e:
                 # Check if we should use fallback
-                if fallback_response is not None and not isinstance(e, (
-                    KimeraSecurityError,
-                    HTTPException
-                )):
+                if fallback_response is not None and not isinstance(
+                    e, (KimeraSecurityError, HTTPException)
+                ):
                     logger.warning(
                         f"Using fallback response for {operation} due to error: {e}"
                     )
                     return fallback_response
-                
+
                 # Build error response
                 return ErrorResponseBuilder.build_error_response(
                     error=e,
@@ -233,22 +234,22 @@ def handle_router_errors(
                     request_id=request_id,
                     additional_context={
                         "path": str(request.url.path),
-                        "method": request.method
-                    }
+                        "method": request.method,
+                    },
                 )
-        
+
         # Return appropriate wrapper
         if asyncio.iscoroutinefunction(func):
             return async_wrapper
         else:
             return sync_wrapper
-    
+
     return decorator
 
 
 def register_router_error_handlers(app):
     """Register global exception handlers for the FastAPI app."""
-    
+
     @app.exception_handler(KimeraBaseException)
     async def kimera_exception_handler(request: Request, exc: KimeraBaseException):
         """Handle KIMERA-specific exceptions."""
@@ -258,10 +259,10 @@ def register_router_error_handlers(app):
             request_id=request.headers.get("X-Request-ID"),
             additional_context={
                 "path": str(request.url.path),
-                "method": request.method
-            }
+                "method": request.method,
+            },
         )
-    
+
     @app.exception_handler(ValidationError)
     async def validation_exception_handler(request: Request, exc: ValidationError):
         """Handle Pydantic validation errors."""
@@ -271,10 +272,10 @@ def register_router_error_handlers(app):
             request_id=request.headers.get("X-Request-ID"),
             additional_context={
                 "path": str(request.url.path),
-                "method": request.method
-            }
+                "method": request.method,
+            },
         )
-    
+
     @app.exception_handler(SQLAlchemyError)
     async def database_exception_handler(request: Request, exc: SQLAlchemyError):
         """Handle database errors."""
@@ -284,10 +285,10 @@ def register_router_error_handlers(app):
             request_id=request.headers.get("X-Request-ID"),
             additional_context={
                 "path": str(request.url.path),
-                "method": request.method
-            }
+                "method": request.method,
+            },
         )
-    
+
     @app.exception_handler(Exception)
     async def general_exception_handler(request: Request, exc: Exception):
         """Handle all other exceptions."""
@@ -298,22 +299,23 @@ def register_router_error_handlers(app):
             extra={
                 "path": str(request.url.path),
                 "method": request.method,
-                "traceback": traceback.format_exc()
-            }
+                "traceback": traceback.format_exc(),
+            },
         )
-        
+
         return ErrorResponseBuilder.build_error_response(
             error=exc,
             operation="unexpected_error",
             request_id=request.headers.get("X-Request-ID"),
             additional_context={
                 "path": str(request.url.path),
-                "method": request.method
-            }
+                "method": request.method,
+            },
         )
 
 
 # Utility functions for common error scenarios
+
 
 def validate_required_component(component: Any, component_name: str) -> None:
     """Validate that a required component is available."""
@@ -321,7 +323,7 @@ def validate_required_component(component: Any, component_name: str) -> None:
         raise KimeraResourceError(
             f"{component_name} is not initialized or unavailable",
             resource_type=component_name,
-            required_action="initialization"
+            required_action="initialization",
         )
 
 
@@ -331,15 +333,12 @@ def validate_request_data(data: Dict[str, Any], required_fields: list) -> None:
     if missing_fields:
         raise KimeraValidationError(
             f"Missing required fields: {', '.join(missing_fields)}",
-            validation_errors={"missing_fields": missing_fields}
+            validation_errors={"missing_fields": missing_fields},
         )
 
 
 def handle_cognitive_operation(
-    operation_name: str,
-    operation_func: Callable,
-    *args,
-    **kwargs
+    operation_name: str, operation_func: Callable, *args, **kwargs
 ) -> Any:
     """Handle cognitive operations with proper error handling."""
     try:
@@ -348,7 +347,7 @@ def handle_cognitive_operation(
         raise KimeraCognitiveError(
             f"Cognitive operation '{operation_name}' failed: {str(e)}",
             operation=operation_name,
-            original_error=str(e)
+            original_error=str(e),
         )
 
 

@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class MarketEntropyCalculator:
     """Calculates the entropy of the market."""
 
@@ -7,10 +8,14 @@ class MarketEntropyCalculator:
         # Placeholder for entropy calculation
         # This could be based on price volatility, order book depth, etc.
         # For now, return a random value for demonstration
-        if 'price_history' in market_data and len(market_data['price_history']) > 1:
-            returns = np.diff(market_data['price_history']) / market_data['price_history'][:-1]
-            return -np.sum(returns * np.log2(np.abs(returns) + 1e-9)) # Shannon entropy
+        if "price_history" in market_data and len(market_data["price_history"]) > 1:
+            returns = (
+                np.diff(market_data["price_history"])
+                / market_data["price_history"][:-1]
+            )
+            return -np.sum(returns * np.log2(np.abs(returns) + 1e-9))  # Shannon entropy
         return np.random.rand()
+
 
 class ThermodynamicEngine:
     """Manages the thermodynamic state of the trading system."""

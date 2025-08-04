@@ -14,41 +14,48 @@ Safety Requirements:
 - Must provide traceable decision rationale
 """
 
-import time
-import torch
-import numpy as np
-from typing import Dict, List, Optional, Any, Tuple
-from dataclasses import dataclass, field
-from datetime import datetime
 import asyncio
 import logging
+import time
+from dataclasses import dataclass, field
+from datetime import datetime
 from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple
+
+import numpy as np
+import torch
 
 from .system1 import IntuitionResult
 from .system2 import AnalysisResult, ReasoningType
+
 # Robust import fallback for kimera utilities
 try:
-    from src.utils.kimera_logger import get_logger, LogCategory
     from src.utils.kimera_exceptions import KimeraCognitiveError
+    from src.utils.kimera_logger import LogCategory, get_logger
 except ImportError:
     try:
-        from utils.kimera_logger import get_logger, LogCategory
         from utils.kimera_exceptions import KimeraCognitiveError
+        from utils.kimera_logger import LogCategory, get_logger
     except ImportError:
         import logging
+
         # Fallback logger and exception
         def get_logger(name, category=None):
             return logging.getLogger(name)
+
         class LogCategory:
             DUAL_SYSTEM = "dual_system"
+
         class KimeraCognitiveError(Exception):
             pass
+
 
 logger = get_logger(__name__, LogCategory.DUAL_SYSTEM)
 
 
 class ArbitrationStrategy(Enum):
     """Strategies for resolving System 1/2 conflicts"""
+
     CONFIDENCE_WEIGHTED = "confidence_weighted"
     SYSTEM2_OVERRIDE = "system2_override"
     CONTEXT_DEPENDENT = "context_dependent"
@@ -58,6 +65,7 @@ class ArbitrationStrategy(Enum):
 
 class ProcessingMode(Enum):
     """Overall processing mode selection"""
+
     SYSTEM1_ONLY = "system1_only"
     SYSTEM2_ONLY = "system2_only"
     PARALLEL_COMPETITIVE = "parallel_competitive"
@@ -68,6 +76,7 @@ class ProcessingMode(Enum):
 @dataclass
 class MetacognitiveState:
     """Current state of metacognitive monitoring"""
+
     cognitive_load: float  # 0-1, current load on working memory
     time_pressure: float  # 0-1, urgency of response
     task_complexity: float  # 0-1, estimated complexity
@@ -80,6 +89,7 @@ class MetacognitiveState:
 @dataclass
 class ArbitrationResult:
     """Result of metacognitive arbitration between systems"""
+
     selected_response: Dict[str, Any]
     system_contributions: Dict[str, float]  # Weights of each system
     arbitration_strategy: ArbitrationStrategy
@@ -92,9 +102,9 @@ class ArbitrationResult:
     def is_valid(self) -> bool:
         """Validate arbitration result"""
         return (
-            0.0 <= self.confidence <= 1.0 and
-            sum(self.system_contributions.values()) > 0.99 and  # Weights sum to ~1
-            self.selected_response is not None
+            0.0 <= self.confidence <= 1.0
+            and sum(self.system_contributions.values()) > 0.99  # Weights sum to ~1
+            and self.selected_response is not None
         )
 
 
@@ -105,9 +115,9 @@ class ConflictDetector:
         self.conflict_threshold = 0.3  # Minimum difference to constitute conflict
         self.conflict_history = []
 
-    def detect_conflict(self,
-                       system1_result: IntuitionResult,
-                       system2_result: AnalysisResult) -> Dict[str, Any]:
+    def detect_conflict(
+        self, system1_result: IntuitionResult, system2_result: AnalysisResult
+    ) -> Dict[str, Any]:
         """Detect and characterize conflicts between systems"""
 
         # Extract comparable features
@@ -123,23 +133,20 @@ class ConflictDetector:
         conclusion_conflict = self._semantic_distance(s1_main, s2_main)
 
         has_conflict = (
-            confidence_conflict > self.conflict_threshold or
-            conclusion_conflict > self.conflict_threshold
+            confidence_conflict > self.conflict_threshold
+            or conclusion_conflict > self.conflict_threshold
         )
 
         conflict_data = {
-            'has_conflict': has_conflict,
-            'confidence_difference': confidence_conflict,
-            'conclusion_difference': conclusion_conflict,
-            'type': self._classify_conflict(confidence_conflict, conclusion_conflict),
-            'severity': max(confidence_conflict, conclusion_conflict)
+            "has_conflict": has_conflict,
+            "confidence_difference": confidence_conflict,
+            "conclusion_difference": conclusion_conflict,
+            "type": self._classify_conflict(confidence_conflict, conclusion_conflict),
+            "severity": max(confidence_conflict, conclusion_conflict),
         }
 
         # Record for learning
-        self.conflict_history.append({
-            'timestamp': datetime.now(),
-            **conflict_data
-        })
+        self.conflict_history.append({"timestamp": datetime.now(), **conflict_data})
 
         return conflict_data
 
@@ -153,7 +160,7 @@ class ConflictDetector:
         else:  # AnalysisResult
             # Use top conclusion
             if result.conclusions:
-                return result.conclusions[0]['conclusion']
+                return result.conclusions[0]["conclusion"]
             return "no_conclusion"
 
     def _semantic_distance(self, conclusion1: str, conclusion2: str) -> float:
@@ -182,21 +189,25 @@ class ResourceMonitor:
     def __init__(self):
         self.load_history = []
         self.resource_limits = {
-            'working_memory': 7,  # Miller's number
-            'attention_span': 20.0,  # seconds
-            'processing_threads': 4
+            "working_memory": 7,  # Miller's number
+            "attention_span": 20.0,  # seconds
+            "processing_threads": 4,
         }
 
-    def assess_cognitive_load(self,
-                            system1_result: Optional[IntuitionResult],
-                            system2_result: Optional[AnalysisResult]) -> float:
+    def assess_cognitive_load(
+        self,
+        system1_result: Optional[IntuitionResult],
+        system2_result: Optional[AnalysisResult],
+    ) -> float:
         """Assess current cognitive load (0-1)"""
         load_factors = []
 
         # System 2 working memory usage
         if system2_result:
-            wm_items = sum(len(store['items']) for store in system2_result.working_memory_trace)
-            wm_load = min(wm_items / self.resource_limits['working_memory'], 1.0)
+            wm_items = sum(
+                len(store["items"]) for store in system2_result.working_memory_trace
+            )
+            wm_load = min(wm_items / self.resource_limits["working_memory"], 1.0)
             load_factors.append(wm_load)
 
         # Processing time as proxy for load
@@ -212,10 +223,9 @@ class ResourceMonitor:
         cognitive_load = np.mean(load_factors) if load_factors else 0.5
 
         # Record history
-        self.load_history.append({
-            'timestamp': datetime.now(),
-            'cognitive_load': cognitive_load
-        })
+        self.load_history.append(
+            {"timestamp": datetime.now(), "cognitive_load": cognitive_load}
+        )
 
         return float(cognitive_load)
 
@@ -224,9 +234,10 @@ class ResourceMonitor:
         import psutil
 
         return {
-            'cpu_available': 1.0 - (psutil.cpu_percent() / 100.0),
-            'memory_available': psutil.virtual_memory().available / psutil.virtual_memory().total,
-            'gpu_available': self._get_gpu_availability()
+            "cpu_available": 1.0 - (psutil.cpu_percent() / 100.0),
+            "memory_available": psutil.virtual_memory().available
+            / psutil.virtual_memory().total,
+            "gpu_available": self._get_gpu_availability(),
         }
 
     def _get_gpu_availability(self) -> float:
@@ -257,10 +268,10 @@ class MetacognitiveController:
 
         # Performance monitoring
         self.arbitration_stats = {
-            'total_arbitrations': 0,
-            'conflicts_resolved': 0,
-            'avg_arbitration_time': 0.0,
-            'strategy_usage': {s.value: 0 for s in ArbitrationStrategy}
+            "total_arbitrations": 0,
+            "conflicts_resolved": 0,
+            "avg_arbitration_time": 0.0,
+            "strategy_usage": {s.value: 0 for s in ArbitrationStrategy},
         }
 
         # Safety limits
@@ -268,10 +279,12 @@ class MetacognitiveController:
 
         logger.info("🧠 Metacognitive Controller initialized")
 
-    async def arbitrate(self,
-                       system1_result: Optional[IntuitionResult],
-                       system2_result: Optional[AnalysisResult],
-                       context: Optional[Dict[str, Any]] = None) -> ArbitrationResult:
+    async def arbitrate(
+        self,
+        system1_result: Optional[IntuitionResult],
+        system2_result: Optional[AnalysisResult],
+        context: Optional[Dict[str, Any]] = None,
+    ) -> ArbitrationResult:
         """
         Main arbitration function between System 1 and System 2
 
@@ -296,10 +309,13 @@ class MetacognitiveController:
             # Perform arbitration with timeout
             result = await asyncio.wait_for(
                 self._perform_arbitration(
-                    system1_result, system2_result,
-                    strategy, processing_mode, meta_state
+                    system1_result,
+                    system2_result,
+                    strategy,
+                    processing_mode,
+                    meta_state,
                 ),
-                timeout=self.MAX_ARBITRATION_TIME
+                timeout=self.MAX_ARBITRATION_TIME,
             )
 
             # Update statistics
@@ -321,10 +337,12 @@ class MetacognitiveController:
             logger.error(f"Metacognitive arbitration error: {e}")
             raise KimeraCognitiveError(f"Arbitration failed: {e}")
 
-    async def _build_metacognitive_state(self,
-                                       system1_result: Optional[IntuitionResult],
-                                       system2_result: Optional[AnalysisResult],
-                                       context: Optional[Dict[str, Any]]) -> MetacognitiveState:
+    async def _build_metacognitive_state(
+        self,
+        system1_result: Optional[IntuitionResult],
+        system2_result: Optional[AnalysisResult],
+        context: Optional[Dict[str, Any]],
+    ) -> MetacognitiveState:
         """Build current metacognitive state"""
 
         # Assess cognitive load
@@ -333,7 +351,7 @@ class MetacognitiveController:
         )
 
         # Extract time pressure from context
-        time_pressure = context.get('time_pressure', 0.3) if context else 0.3
+        time_pressure = context.get("time_pressure", 0.3) if context else 0.3
 
         # Estimate task complexity
         task_complexity = self._estimate_task_complexity(
@@ -354,13 +372,15 @@ class MetacognitiveController:
             task_complexity=task_complexity,
             confidence_threshold=self.confidence_threshold,
             error_likelihood=error_likelihood,
-            resource_availability=resources
+            resource_availability=resources,
         )
 
-    def _select_processing_mode(self,
-                              meta_state: MetacognitiveState,
-                              system1_result: Optional[IntuitionResult],
-                              system2_result: Optional[AnalysisResult]) -> ProcessingMode:
+    def _select_processing_mode(
+        self,
+        meta_state: MetacognitiveState,
+        system1_result: Optional[IntuitionResult],
+        system2_result: Optional[AnalysisResult],
+    ) -> ProcessingMode:
         """Select appropriate processing mode"""
 
         # High time pressure -> System 1 only
@@ -382,14 +402,14 @@ class MetacognitiveController:
 
         return ProcessingMode.DEFAULT_INTERVENTIONIST
 
-    def _select_strategy(self,
-                        meta_state: MetacognitiveState,
-                        context: Optional[Dict[str, Any]]) -> ArbitrationStrategy:
+    def _select_strategy(
+        self, meta_state: MetacognitiveState, context: Optional[Dict[str, Any]]
+    ) -> ArbitrationStrategy:
         """Select arbitration strategy based on metacognitive state"""
 
         # Override from context
-        if context and 'arbitration_strategy' in context:
-            return ArbitrationStrategy(context['arbitration_strategy'])
+        if context and "arbitration_strategy" in context:
+            return ArbitrationStrategy(context["arbitration_strategy"])
 
         # High time pressure -> Time pressure strategy
         if meta_state.time_pressure > 0.7:
@@ -406,20 +426,26 @@ class MetacognitiveController:
         # Default to hybrid
         return ArbitrationStrategy.HYBRID
 
-    async def _perform_arbitration(self,
-                                 system1_result: Optional[IntuitionResult],
-                                 system2_result: Optional[AnalysisResult],
-                                 strategy: ArbitrationStrategy,
-                                 mode: ProcessingMode,
-                                 meta_state: MetacognitiveState) -> ArbitrationResult:
+    async def _perform_arbitration(
+        self,
+        system1_result: Optional[IntuitionResult],
+        system2_result: Optional[AnalysisResult],
+        strategy: ArbitrationStrategy,
+        mode: ProcessingMode,
+        meta_state: MetacognitiveState,
+    ) -> ArbitrationResult:
         """Perform actual arbitration based on strategy"""
 
         # Handle single-system modes
         if mode == ProcessingMode.SYSTEM1_ONLY:
-            return self._create_result_from_system1(system1_result, strategy, meta_state)
+            return self._create_result_from_system1(
+                system1_result, strategy, meta_state
+            )
 
         if mode == ProcessingMode.SYSTEM2_ONLY:
-            return self._create_result_from_system2(system2_result, strategy, meta_state)
+            return self._create_result_from_system2(
+                system2_result, strategy, meta_state
+            )
 
         # Both systems available - check for conflicts
         conflict_data = self.conflict_detector.detect_conflict(
@@ -452,11 +478,13 @@ class MetacognitiveController:
                 system1_result, system2_result, conflict_data, meta_state
             )
 
-    def _confidence_weighted_arbitration(self,
-                                       s1: IntuitionResult,
-                                       s2: AnalysisResult,
-                                       conflict: Dict[str, Any],
-                                       meta_state: MetacognitiveState) -> ArbitrationResult:
+    def _confidence_weighted_arbitration(
+        self,
+        s1: IntuitionResult,
+        s2: AnalysisResult,
+        conflict: Dict[str, Any],
+        meta_state: MetacognitiveState,
+    ) -> ArbitrationResult:
         """Arbitrate based on confidence weighting"""
 
         # Normalize confidences
@@ -490,19 +518,21 @@ class MetacognitiveController:
 
         return ArbitrationResult(
             selected_response=selected,
-            system_contributions={'system1': s1_weight, 'system2': s2_weight},
+            system_contributions={"system1": s1_weight, "system2": s2_weight},
             arbitration_strategy=ArbitrationStrategy.CONFIDENCE_WEIGHTED,
             processing_mode=ProcessingMode.PARALLEL_COMPETITIVE,
             confidence=s1.confidence * s1_weight + s2.confidence * s2_weight,
             rationale=rationale,
-            monitoring_data={'conflict': conflict, 'meta_state': meta_state.__dict__}
+            monitoring_data={"conflict": conflict, "meta_state": meta_state.__dict__},
         )
 
-    def _system2_override_arbitration(self,
-                                    s1: IntuitionResult,
-                                    s2: AnalysisResult,
-                                    conflict: Dict[str, Any],
-                                    meta_state: MetacognitiveState) -> ArbitrationResult:
+    def _system2_override_arbitration(
+        self,
+        s1: IntuitionResult,
+        s2: AnalysisResult,
+        conflict: Dict[str, Any],
+        meta_state: MetacognitiveState,
+    ) -> ArbitrationResult:
         """System 2 overrides System 1 when available"""
 
         # System 2 takes precedence if it has any confidence
@@ -518,19 +548,21 @@ class MetacognitiveController:
 
         return ArbitrationResult(
             selected_response=selected,
-            system_contributions={'system1': 1 - s2_weight, 'system2': s2_weight},
+            system_contributions={"system1": 1 - s2_weight, "system2": s2_weight},
             arbitration_strategy=ArbitrationStrategy.SYSTEM2_OVERRIDE,
             processing_mode=ProcessingMode.DEFAULT_INTERVENTIONIST,
             confidence=s2.confidence if s2_weight > 0.5 else s1.confidence,
             rationale=rationale,
-            monitoring_data={'conflict': conflict, 'meta_state': meta_state.__dict__}
+            monitoring_data={"conflict": conflict, "meta_state": meta_state.__dict__},
         )
 
-    def _context_dependent_arbitration(self,
-                                     s1: IntuitionResult,
-                                     s2: AnalysisResult,
-                                     conflict: Dict[str, Any],
-                                     meta_state: MetacognitiveState) -> ArbitrationResult:
+    def _context_dependent_arbitration(
+        self,
+        s1: IntuitionResult,
+        s2: AnalysisResult,
+        conflict: Dict[str, Any],
+        meta_state: MetacognitiveState,
+    ) -> ArbitrationResult:
         """Arbitrate based on context and task characteristics"""
 
         # Determine which system is more appropriate for the context
@@ -552,26 +584,32 @@ class MetacognitiveController:
         # Select response
         if s1_weight > s2_weight:
             selected = self._extract_response(s1)
-            rationale = f"System 1 more appropriate for context (weight={s1_weight:.2f})"
+            rationale = (
+                f"System 1 more appropriate for context (weight={s1_weight:.2f})"
+            )
         else:
             selected = self._extract_response(s2)
-            rationale = f"System 2 more appropriate for context (weight={s2_weight:.2f})"
+            rationale = (
+                f"System 2 more appropriate for context (weight={s2_weight:.2f})"
+            )
 
         return ArbitrationResult(
             selected_response=selected,
-            system_contributions={'system1': s1_weight, 'system2': s2_weight},
+            system_contributions={"system1": s1_weight, "system2": s2_weight},
             arbitration_strategy=ArbitrationStrategy.CONTEXT_DEPENDENT,
             processing_mode=ProcessingMode.PARALLEL_COMPETITIVE,
             confidence=s1.confidence * s1_weight + s2.confidence * s2_weight,
             rationale=rationale,
-            monitoring_data={'conflict': conflict, 'meta_state': meta_state.__dict__}
+            monitoring_data={"conflict": conflict, "meta_state": meta_state.__dict__},
         )
 
-    def _time_pressure_arbitration(self,
-                                 s1: IntuitionResult,
-                                 s2: AnalysisResult,
-                                 conflict: Dict[str, Any],
-                                 meta_state: MetacognitiveState) -> ArbitrationResult:
+    def _time_pressure_arbitration(
+        self,
+        s1: IntuitionResult,
+        s2: AnalysisResult,
+        conflict: Dict[str, Any],
+        meta_state: MetacognitiveState,
+    ) -> ArbitrationResult:
         """Arbitrate based on time pressure"""
 
         # Strong preference for System 1 under time pressure
@@ -590,19 +628,21 @@ class MetacognitiveController:
 
         return ArbitrationResult(
             selected_response=selected,
-            system_contributions={'system1': s1_weight, 'system2': s2_weight},
+            system_contributions={"system1": s1_weight, "system2": s2_weight},
             arbitration_strategy=ArbitrationStrategy.TIME_PRESSURE,
             processing_mode=ProcessingMode.PARALLEL_COMPETITIVE,
             confidence=s1.confidence * s1_weight + s2.confidence * s2_weight,
             rationale=rationale,
-            monitoring_data={'conflict': conflict, 'meta_state': meta_state.__dict__}
+            monitoring_data={"conflict": conflict, "meta_state": meta_state.__dict__},
         )
 
-    def _hybrid_arbitration(self,
-                          s1: IntuitionResult,
-                          s2: AnalysisResult,
-                          conflict: Dict[str, Any],
-                          meta_state: MetacognitiveState) -> ArbitrationResult:
+    def _hybrid_arbitration(
+        self,
+        s1: IntuitionResult,
+        s2: AnalysisResult,
+        conflict: Dict[str, Any],
+        meta_state: MetacognitiveState,
+    ) -> ArbitrationResult:
         """Sophisticated hybrid arbitration combining multiple factors"""
 
         # Base weights from confidence
@@ -610,12 +650,12 @@ class MetacognitiveController:
         conf_s2 = s2.confidence
 
         # Adjust for conflict
-        if conflict['has_conflict']:
+        if conflict["has_conflict"]:
             # Reduce weight of lower confidence system
             if conf_s1 < conf_s2:
-                conf_s1 *= (1 - 0.3 * conflict['severity'])
+                conf_s1 *= 1 - 0.3 * conflict["severity"]
             else:
-                conf_s2 *= (1 - 0.3 * conflict['severity'])
+                conf_s2 *= 1 - 0.3 * conflict["severity"]
 
         # Adjust for cognitive load
         load_factor = 1.0 - meta_state.cognitive_load
@@ -624,7 +664,7 @@ class MetacognitiveController:
         # Adjust for time pressure
         time_factor = 1.0 - meta_state.time_pressure
         conf_s2 *= time_factor  # System 2 needs time
-        conf_s1 *= (1 + 0.2 * meta_state.time_pressure)  # System 1 benefits
+        conf_s1 *= 1 + 0.2 * meta_state.time_pressure  # System 1 benefits
 
         # Normalize
         total = conf_s1 + conf_s2
@@ -650,101 +690,111 @@ class MetacognitiveController:
 
         return ArbitrationResult(
             selected_response=selected,
-            system_contributions={'system1': s1_weight, 'system2': s2_weight},
+            system_contributions={"system1": s1_weight, "system2": s2_weight},
             arbitration_strategy=ArbitrationStrategy.HYBRID,
             processing_mode=ProcessingMode.PARALLEL_COMPETITIVE,
             confidence=s1.confidence * s1_weight + s2.confidence * s2_weight,
             rationale=rationale,
             monitoring_data={
-                'conflict': conflict,
-                'meta_state': meta_state.__dict__,
-                'adjustments': {
-                    'conflict_adjustment': conflict['severity'] if conflict['has_conflict'] else 0,
-                    'load_adjustment': 1 - load_factor,
-                    'time_adjustment': 1 - time_factor
-                }
-            }
+                "conflict": conflict,
+                "meta_state": meta_state.__dict__,
+                "adjustments": {
+                    "conflict_adjustment": (
+                        conflict["severity"] if conflict["has_conflict"] else 0
+                    ),
+                    "load_adjustment": 1 - load_factor,
+                    "time_adjustment": 1 - time_factor,
+                },
+            },
         )
 
-    def _create_result_from_system1(self,
-                                  s1: IntuitionResult,
-                                  strategy: ArbitrationStrategy,
-                                  meta_state: MetacognitiveState) -> ArbitrationResult:
+    def _create_result_from_system1(
+        self,
+        s1: IntuitionResult,
+        strategy: ArbitrationStrategy,
+        meta_state: MetacognitiveState,
+    ) -> ArbitrationResult:
         """Create arbitration result when only System 1 available"""
         return ArbitrationResult(
             selected_response=self._extract_response(s1),
-            system_contributions={'system1': 1.0, 'system2': 0.0},
+            system_contributions={"system1": 1.0, "system2": 0.0},
             arbitration_strategy=strategy,
             processing_mode=ProcessingMode.SYSTEM1_ONLY,
             confidence=s1.confidence,
             rationale="System 1 only - fast intuitive response",
-            monitoring_data={'meta_state': meta_state.__dict__}
+            monitoring_data={"meta_state": meta_state.__dict__},
         )
 
-    def _create_result_from_system2(self,
-                                  s2: AnalysisResult,
-                                  strategy: ArbitrationStrategy,
-                                  meta_state: MetacognitiveState) -> ArbitrationResult:
+    def _create_result_from_system2(
+        self,
+        s2: AnalysisResult,
+        strategy: ArbitrationStrategy,
+        meta_state: MetacognitiveState,
+    ) -> ArbitrationResult:
         """Create arbitration result when only System 2 available"""
         return ArbitrationResult(
             selected_response=self._extract_response(s2),
-            system_contributions={'system1': 0.0, 'system2': 1.0},
+            system_contributions={"system1": 0.0, "system2": 1.0},
             arbitration_strategy=strategy,
             processing_mode=ProcessingMode.SYSTEM2_ONLY,
             confidence=s2.confidence,
             rationale="System 2 only - analytical response",
-            monitoring_data={'meta_state': meta_state.__dict__}
+            monitoring_data={"meta_state": meta_state.__dict__},
         )
 
     def _extract_response(self, result) -> Dict[str, Any]:
         """Extract standardized response from either system"""
         if isinstance(result, IntuitionResult):
             return {
-                'type': 'intuitive',
-                'content': result.pattern_matches[0] if result.pattern_matches else {},
-                'features': result.features_detected,
-                'associations': result.associations
+                "type": "intuitive",
+                "content": result.pattern_matches[0] if result.pattern_matches else {},
+                "features": result.features_detected,
+                "associations": result.associations,
             }
         else:  # AnalysisResult
             return {
-                'type': 'analytical',
-                'content': result.conclusions[0] if result.conclusions else {},
-                'reasoning': [
-                    {'step': step.operation, 'conclusion': step.conclusion}
+                "type": "analytical",
+                "content": result.conclusions[0] if result.conclusions else {},
+                "reasoning": [
+                    {"step": step.operation, "conclusion": step.conclusion}
                     for step in result.reasoning_chain[:3]  # Top 3 steps
-                ]
+                ],
             }
 
-    def _merge_responses(self,
-                        s1: IntuitionResult,
-                        s2: AnalysisResult,
-                        s1_weight: float,
-                        s2_weight: float) -> Dict[str, Any]:
+    def _merge_responses(
+        self,
+        s1: IntuitionResult,
+        s2: AnalysisResult,
+        s1_weight: float,
+        s2_weight: float,
+    ) -> Dict[str, Any]:
         """Merge responses from both systems"""
         return {
-            'type': 'integrated',
-            'intuitive_component': self._extract_response(s1),
-            'analytical_component': self._extract_response(s2),
-            'weights': {'system1': s1_weight, 'system2': s2_weight},
-            'integration_method': 'weighted_combination'
+            "type": "integrated",
+            "intuitive_component": self._extract_response(s1),
+            "analytical_component": self._extract_response(s2),
+            "weights": {"system1": s1_weight, "system2": s2_weight},
+            "integration_method": "weighted_combination",
         }
 
-    def _estimate_task_complexity(self,
-                                s1: Optional[IntuitionResult],
-                                s2: Optional[AnalysisResult],
-                                context: Optional[Dict[str, Any]]) -> float:
+    def _estimate_task_complexity(
+        self,
+        s1: Optional[IntuitionResult],
+        s2: Optional[AnalysisResult],
+        context: Optional[Dict[str, Any]],
+    ) -> float:
         """Estimate task complexity from available information"""
         complexity_factors = []
 
         # Context-based complexity
         if context:
-            if 'task_complexity' in context:
-                return float(context['task_complexity'])
+            if "task_complexity" in context:
+                return float(context["task_complexity"])
 
             # Heuristics based on context
-            if any(k in context for k in ['mathematical', 'logical', 'analytical']):
+            if any(k in context for k in ["mathematical", "logical", "analytical"]):
                 complexity_factors.append(0.8)
-            if any(k in context for k in ['creative', 'novel', 'ambiguous']):
+            if any(k in context for k in ["creative", "novel", "ambiguous"]):
                 complexity_factors.append(0.7)
 
         # System 2 reasoning complexity
@@ -763,10 +813,12 @@ class MetacognitiveController:
 
         return float(np.mean(complexity_factors)) if complexity_factors else 0.5
 
-    def _estimate_error_likelihood(self,
-                                 s1: Optional[IntuitionResult],
-                                 s2: Optional[AnalysisResult],
-                                 task_complexity: float) -> float:
+    def _estimate_error_likelihood(
+        self,
+        s1: Optional[IntuitionResult],
+        s2: Optional[AnalysisResult],
+        task_complexity: float,
+    ) -> float:
         """Estimate likelihood of error"""
         error_factors = []
 
@@ -782,8 +834,8 @@ class MetacognitiveController:
         # Conflict between systems suggests error possibility
         if s1 and s2:
             conflict = self.conflict_detector.detect_conflict(s1, s2)
-            if conflict['has_conflict']:
-                error_factors.append(conflict['severity'] * 0.4)
+            if conflict["has_conflict"]:
+                error_factors.append(conflict["severity"] * 0.4)
 
         return float(np.mean(error_factors)) if error_factors else 0.3
 
@@ -805,69 +857,79 @@ class MetacognitiveController:
 
         return float(np.clip(appropriateness, 0.0, 1.0))
 
-    def _emergency_fallback(self,
-                          s1: Optional[IntuitionResult],
-                          s2: Optional[AnalysisResult]) -> ArbitrationResult:
+    def _emergency_fallback(
+        self, s1: Optional[IntuitionResult], s2: Optional[AnalysisResult]
+    ) -> ArbitrationResult:
         """Emergency fallback when arbitration fails"""
         if s1:
             return ArbitrationResult(
                 selected_response=self._extract_response(s1),
-                system_contributions={'system1': 1.0, 'system2': 0.0},
+                system_contributions={"system1": 1.0, "system2": 0.0},
                 arbitration_strategy=ArbitrationStrategy.TIME_PRESSURE,
                 processing_mode=ProcessingMode.SYSTEM1_ONLY,
                 confidence=s1.confidence * 0.5,  # Reduced due to emergency
                 rationale="Emergency fallback to System 1",
-                monitoring_data={'emergency': True}
+                monitoring_data={"emergency": True},
             )
         elif s2:
             return ArbitrationResult(
                 selected_response=self._extract_response(s2),
-                system_contributions={'system1': 0.0, 'system2': 1.0},
+                system_contributions={"system1": 0.0, "system2": 1.0},
                 arbitration_strategy=ArbitrationStrategy.SYSTEM2_OVERRIDE,
                 processing_mode=ProcessingMode.SYSTEM2_ONLY,
                 confidence=s2.confidence * 0.5,
                 rationale="Emergency fallback to System 2",
-                monitoring_data={'emergency': True}
+                monitoring_data={"emergency": True},
             )
         else:
             # No results available - return empty
             return ArbitrationResult(
-                selected_response={'type': 'empty', 'error': 'No results available'},
-                system_contributions={'system1': 0.0, 'system2': 0.0},
+                selected_response={"type": "empty", "error": "No results available"},
+                system_contributions={"system1": 0.0, "system2": 0.0},
                 arbitration_strategy=ArbitrationStrategy.HYBRID,
                 processing_mode=ProcessingMode.PARALLEL_COMPETITIVE,
                 confidence=0.0,
                 rationale="Emergency: No results from either system",
-                monitoring_data={'emergency': True, 'critical_failure': True}
+                monitoring_data={"emergency": True, "critical_failure": True},
             )
 
     def _update_stats(self, strategy: ArbitrationStrategy, arbitration_time: float):
         """Update arbitration statistics"""
-        self.arbitration_stats['total_arbitrations'] += 1
-        self.arbitration_stats['strategy_usage'][strategy.value] += 1
+        self.arbitration_stats["total_arbitrations"] += 1
+        self.arbitration_stats["strategy_usage"][strategy.value] += 1
 
         # Update average time
-        n = self.arbitration_stats['total_arbitrations']
-        old_avg = self.arbitration_stats['avg_arbitration_time']
-        self.arbitration_stats['avg_arbitration_time'] = (
-            (old_avg * (n - 1) + arbitration_time) / n
-        )
+        n = self.arbitration_stats["total_arbitrations"]
+        old_avg = self.arbitration_stats["avg_arbitration_time"]
+        self.arbitration_stats["avg_arbitration_time"] = (
+            old_avg * (n - 1) + arbitration_time
+        ) / n
 
     def get_performance_report(self) -> Dict[str, Any]:
         """Get metacognitive performance statistics"""
         return {
             **self.arbitration_stats,
-            'conflict_rate': (
-                len([c for c in self.conflict_detector.conflict_history if c['has_conflict']]) /
-                max(len(self.conflict_detector.conflict_history), 1)
-            ),
-            'avg_cognitive_load': (
-                np.mean([h['cognitive_load'] for h in self.resource_monitor.load_history])
-                if self.resource_monitor.load_history else 0.5
-            ),
-            'compliance': {
-                'arbitration_time_ok': (
-                    self.arbitration_stats['avg_arbitration_time'] < self.MAX_ARBITRATION_TIME
+            "conflict_rate": (
+                len(
+                    [
+                        c
+                        for c in self.conflict_detector.conflict_history
+                        if c["has_conflict"]
+                    ]
                 )
-            }
+                / max(len(self.conflict_detector.conflict_history), 1)
+            ),
+            "avg_cognitive_load": (
+                np.mean(
+                    [h["cognitive_load"] for h in self.resource_monitor.load_history]
+                )
+                if self.resource_monitor.load_history
+                else 0.5
+            ),
+            "compliance": {
+                "arbitration_time_ok": (
+                    self.arbitration_stats["avg_arbitration_time"]
+                    < self.MAX_ARBITRATION_TIME
+                )
+            },
         }

@@ -9,45 +9,59 @@ and an adaptive evolution rate based on the GPU's thermal budget.
 """
 
 from __future__ import annotations
-from dataclasses import dataclass, field
-from typing import Dict, Any, List, AsyncIterator
-from collections import deque
+
 import asyncio
 import logging
+from collections import deque
+from dataclasses import dataclass, field
+from typing import Any, AsyncIterator, Dict, List
 
 # Conceptual imports - these would link to real monitoring and GPU systems
 try:
-    from src.utils.gpu_foundation import GPUFoundation as GPUThermodynamicIntegrator  # Available alternative
+    from src.utils.gpu_foundation import (
+        GPUFoundation as GPUThermodynamicIntegrator,  # Available alternative
+    )
 except ImportError:
     # Mock integrator for demonstration
     class GPUThermodynamicIntegrator:
         def get_current_gpu_temperature(self):
             return 65.0  # Mock temperature
+
+
 try:
-    from src.engines.thermodynamic_signal_evolution import ThermodynamicSignalEvolutionEngine
+    from src.engines.thermodynamic_signal_evolution import (
+        ThermodynamicSignalEvolutionEngine,
+    )
+
     # Remove the SignalEvolutionResult import since we've defined it locally
 except ImportError:
     # Mock engine for demonstration
     class ThermodynamicSignalEvolutionEngine:
         def process_geoid_batch(self, geoids):
             return []
+
+
+from src.config.settings import get_settings
 from src.core.geoid import GeoidState
 from src.utils.config import get_api_settings
-from src.config.settings import get_settings
 
 logger = logging.getLogger(__name__)
+
 
 @dataclass
 class GeoidStreamProcessor:
     """Processor for GeoidState streams with performance metrics"""
+
     processed_count: int = 0
     evolution_time_ms: float = 0.0
     thermal_adjustments: int = 0
     batch_efficiency: float = 1.0
 
+
 @dataclass
 class SignalEvolutionResult:
     """Result of signal evolution processing"""
+
     geoid_state: Any  # GeoidState after evolution
     evolution_success: bool
     processing_time_ms: float
@@ -55,20 +69,34 @@ class SignalEvolutionResult:
     batch_id: str = ""
     timestamp: Any = None  # datetime
 
+
 # Make sure this is available for imports
-__all__ = ["RealTimeSignalEvolutionEngine", "ThermalBudgetSignalController", "SignalEvolutionResult", "GeoidStreamProcessor"]
+__all__ = [
+    "RealTimeSignalEvolutionEngine",
+    "ThermalBudgetSignalController",
+    "SignalEvolutionResult",
+    "GeoidStreamProcessor",
+]
+
 
 class ThermalBudgetSignalController:
     """
     Adjusts the signal evolution rate based on the available GPU thermal budget.
     This prevents overheating and ensures system stability under heavy load.
     """
-    def __init__(self, gpu_integrator: GPUThermodynamicIntegrator, thermal_budget_threshold_c: float = 75.0):
+
+    def __init__(
+        self,
+        gpu_integrator: GPUThermodynamicIntegrator,
+        thermal_budget_threshold_c: float = 75.0,
+    ):
         self.settings = get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
         self.gpu_integrator = gpu_integrator
         self.thermal_budget_threshold = thermal_budget_threshold_c
-        logger.info(f"ThermalBudgetSignalController initialized with a {thermal_budget_threshold_c}°C threshold.")
+        logger.info(
+            f"ThermalBudgetSignalController initialized with a {thermal_budget_threshold_c}°C threshold."
+        )
 
     def calculate_adaptive_evolution_rate(self) -> float:
         """
@@ -91,18 +119,24 @@ class ThermalBudgetSignalController:
             return 0.3
         else:
             # No budget -> halt evolution to cool down
-            logger.warning(f"GPU temperature {current_temp}°C exceeds threshold. Halting evolution.")
+            logger.warning(
+                f"GPU temperature {current_temp}°C exceeds threshold. Halting evolution."
+            )
             return 0.0
+
 
 class RealTimeSignalEvolutionEngine:
     """
     Processes a stream of GeoidStates in real-time, applying thermodynamic
     signal evolution in batches and adapting to system load.
     """
-    def __init__(self,
-                 tcse_engine: ThermodynamicSignalEvolutionEngine,
-                 thermal_controller: ThermalBudgetSignalController,
-                 batch_size: int = 32):
+
+    def __init__(
+        self,
+        tcse_engine: ThermodynamicSignalEvolutionEngine,
+        thermal_controller: ThermalBudgetSignalController,
+        batch_size: int = 32,
+    ):
         self.settings = get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
         self.tcse_engine = tcse_engine
@@ -110,10 +144,13 @@ class RealTimeSignalEvolutionEngine:
         self.batch_size = batch_size
         # In a full implementation, this would be a more sophisticated GPU pipeline manager.
         self.evolution_pipeline = asyncio.Queue()
-        logger.info(f"RealTimeSignalEvolutionEngine initialized with batch size {batch_size}.")
+        logger.info(
+            f"RealTimeSignalEvolutionEngine initialized with batch size {batch_size}."
+        )
 
-    async def process_signal_evolution_stream(self,
-                                            geoid_stream: AsyncIterator[GeoidState]) -> AsyncIterator[SignalEvolutionResult]:
+    async def process_signal_evolution_stream(
+        self, geoid_stream: AsyncIterator[GeoidState]
+    ) -> AsyncIterator[SignalEvolutionResult]:
         """
         Processes an asynchronous stream of geoids, yielding evolution results.
         """
@@ -137,7 +174,9 @@ class RealTimeSignalEvolutionEngine:
             for result in evolved_batch:
                 yield result
 
-    async def _evolve_signal_batch(self, geoid_batch: List[GeoidState]) -> List[SignalEvolutionResult]:
+    async def _evolve_signal_batch(
+        self, geoid_batch: List[GeoidState]
+    ) -> List[SignalEvolutionResult]:
         """
         Evolves a batch of geoids, applying the adaptive evolution rate.
         """
@@ -146,7 +185,17 @@ class RealTimeSignalEvolutionEngine:
 
         if adaptive_rate == 0.0:
             # If evolution is halted, return failure results for the batch.
-            return [SignalEvolutionResult(g.geoid_id, False, g.calculate_entropy(), g.calculate_entropy(), 0, "Evolution halted due to thermal constraints.") for g in geoid_batch]
+            return [
+                SignalEvolutionResult(
+                    g.geoid_id,
+                    False,
+                    g.calculate_entropy(),
+                    g.calculate_entropy(),
+                    0,
+                    "Evolution halted due to thermal constraints.",
+                )
+                for g in geoid_batch
+            ]
 
         results = []
         for geoid in geoid_batch:

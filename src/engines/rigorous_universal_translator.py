@@ -13,36 +13,45 @@ and validating every claim through mathematical proof and empirical testing.
 """
 
 import asyncio
+import json
 import logging
+import math
 import time
 import uuid
+from abc import ABC, abstractmethod
+from collections import deque
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+
 import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from typing import Dict, List, Any, Optional, Tuple, Union, Callable
-from dataclasses import dataclass, field
-from enum import Enum
-from datetime import datetime
-from collections import deque
-import json
-import math
-from abc import ABC, abstractmethod
 
 # Scientific computing imports
 from scipy import linalg as la
-from scipy.stats import entropy
 from scipy.spatial.distance import cosine
+from scipy.stats import entropy
+
+from ..config.settings import get_settings
+from ..core.embedding_utils import encode_text
 
 # KIMERA Core Imports
-from ..core.gyroscopic_security import GyroscopicSecurityCore, EquilibriumState, ManipulationVector
-from ..core.embedding_utils import encode_text
-from ..linguistic.echoform import parse_echoform
+from ..core.gyroscopic_security import (
+    EquilibriumState,
+    GyroscopicSecurityCore,
+    ManipulationVector,
+)
 from ..engines.complexity_analysis_engine import ComplexityAnalysisEngine
+from ..engines.quantum_cognitive_engine import (
+    QuantumCognitiveEngine,
+    QuantumCognitiveState,
+)
 from ..engines.understanding_engine import UnderstandingEngine
-from ..engines.quantum_cognitive_engine import QuantumCognitiveEngine, QuantumCognitiveState
+from ..linguistic.echoform import parse_echoform
 from ..utils.config import get_api_settings
-from ..config.settings import get_settings
 
 logger = logging.getLogger(__name__)
 
@@ -55,6 +64,7 @@ SEMANTIC_PLANCK = 6.62607015e-34  # Planck constant for semantic quantization
 @dataclass
 class SemanticVector:
     """Mathematically rigorous representation of semantic content"""
+
     representation: np.ndarray
     meaning_space: str
     entropy: float
@@ -77,6 +87,7 @@ class SemanticVector:
 @dataclass
 class TranslationModality:
     """Rigorous definition of translation modalities"""
+
     name: str
     dimension: int
     basis_functions: List[Callable]
@@ -132,10 +143,11 @@ class SemanticSpace:
                 for k in range(self.dimension):
                     # Christoffel symbol computation (simplified)
                     connection[i, j, k] = 0.5 * sum(
-                        metric_inv[i, l] * (
-                            self._metric_derivative(l, j, k) +
-                            self._metric_derivative(l, k, j) -
-                            self._metric_derivative(j, k, l)
+                        metric_inv[i, l]
+                        * (
+                            self._metric_derivative(l, j, k)
+                            + self._metric_derivative(l, k, j)
+                            - self._metric_derivative(j, k, l)
                         )
                         for l in range(self.dimension)
                     )
@@ -158,15 +170,14 @@ class SemanticSpace:
         transported = vector.copy()
 
         for i in range(len(path) - 1):
-            tangent = path[i+1] - path[i]
+            tangent = path[i + 1] - path[i]
             # Transport equation: dv/dt + Γ(v,tangent) = 0
             correction = np.zeros_like(transported)
             for j in range(self.dimension):
                 for k in range(self.dimension):
                     for l in range(self.dimension):
                         correction[j] += (
-                            self.connection[j, k, l] *
-                            transported[k] * tangent[l]
+                            self.connection[j, k, l] * transported[k] * tangent[l]
                         )
 
             transported -= 0.01 * correction  # Small step integration
@@ -230,10 +241,10 @@ class UnderstandingOperator:
             temperature=new_temperature,
             metadata={
                 **semantic_vector.metadata,
-                'understanding_applied': True,
-                'original_entropy': original_entropy,
-                'entropy_reduction': original_entropy - new_entropy
-            }
+                "understanding_applied": True,
+                "original_entropy": original_entropy,
+                "entropy_reduction": original_entropy - new_entropy,
+            },
         )
 
 
@@ -277,18 +288,23 @@ class CompositionOperator:
             coherence=composed_coherence,
             temperature=composed_temperature,
             metadata={
-                'composition_of': [a.metadata.get('id', 'unknown'),
-                                 b.metadata.get('id', 'unknown')],
-                'composition_type': 'tensor_product_svd'
-            }
+                "composition_of": [
+                    a.metadata.get("id", "unknown"),
+                    b.metadata.get("id", "unknown"),
+                ],
+                "composition_type": "tensor_product_svd",
+            },
         )
 
 
 class AxiomValidator:
     """Validates the fundamental axiom: U(A ∘ B) = U(A) ∘ U(B)"""
 
-    def __init__(self, understanding_op: UnderstandingOperator,
-                 composition_op: CompositionOperator):
+    def __init__(
+        self,
+        understanding_op: UnderstandingOperator,
+        composition_op: CompositionOperator,
+    ):
         self.settings = get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
         self.understanding_op = understanding_op
@@ -316,20 +332,21 @@ class AxiomValidator:
         magnitude = max(
             np.linalg.norm(left_side.representation),
             np.linalg.norm(right_side.representation),
-            1e-8
+            1e-8,
         )
         relative_error = difference / magnitude
 
         # Validation result
         validation_result = {
-            'axiom_holds': relative_error < 1e-6,
-            'absolute_error': difference,
-            'relative_error': relative_error,
-            'left_entropy': left_side.entropy,
-            'right_entropy': right_side.entropy,
-            'entropy_consistency': abs(left_side.entropy - right_side.entropy) < 1e-3,
-            'coherence_consistency': abs(left_side.coherence - right_side.coherence) < 1e-3,
-            'timestamp': datetime.now().isoformat()
+            "axiom_holds": relative_error < 1e-6,
+            "absolute_error": difference,
+            "relative_error": relative_error,
+            "left_entropy": left_side.entropy,
+            "right_entropy": right_side.entropy,
+            "entropy_consistency": abs(left_side.entropy - right_side.entropy) < 1e-3,
+            "coherence_consistency": abs(left_side.coherence - right_side.coherence)
+            < 1e-3,
+            "timestamp": datetime.now().isoformat(),
         }
 
         self.validation_history.append(validation_result)
@@ -351,11 +368,13 @@ class RigorousUniversalTranslator:
         self.settings = get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
         logger.debug(f"   Environment: {self.settings.environment}")
-# Mathematical foundations
+        # Mathematical foundations
         self.semantic_space = SemanticSpace(dimension)
         self.understanding_op = UnderstandingOperator(self.semantic_space)
         self.composition_op = CompositionOperator(self.semantic_space)
-        self.axiom_validator = AxiomValidator(self.understanding_op, self.composition_op)
+        self.axiom_validator = AxiomValidator(
+            self.understanding_op, self.composition_op
+        )
 
         # Gyroscopic security core
         self.gyroscopic_core = GyroscopicSecurityCore()
@@ -367,16 +386,18 @@ class RigorousUniversalTranslator:
         # Translation validation
         self.validation_history = []
         self.performance_metrics = {
-            'total_translations': 0,
-            'successful_translations': 0,
-            'axiom_violations': 0,
-            'average_coherence': 0.0,
-            'equilibrium_stability': 0.0
+            "total_translations": 0,
+            "successful_translations": 0,
+            "axiom_violations": 0,
+            "average_coherence": 0.0,
+            "equilibrium_stability": 0.0,
         }
 
         logger.info("🔬 Rigorous Universal Translator initialized")
         logger.info(f"   Semantic space dimension: {dimension}")
-        logger.info(f"   Gyroscopic equilibrium: {self.equilibrium_state.equilibrium_level}")
+        logger.info(
+            f"   Gyroscopic equilibrium: {self.equilibrium_state.equilibrium_level}"
+        )
 
     def _initialize_modalities(self) -> Dict[str, TranslationModality]:
         """Initialize rigorously defined translation modalities"""
@@ -386,62 +407,65 @@ class RigorousUniversalTranslator:
 
         def validate_mathematical(content):
             # Check for mathematical expressions
-            math_indicators = ['=', '+', '-', '*', '/', '^', 'x', 'y', 'z', '∫', '∑']
+            math_indicators = ["=", "+", "-", "*", "/", "^", "x", "y", "z", "∫", "∑"]
             return any(indicator in str(content) for indicator in math_indicators)
 
         def validate_echoform(content):
             # Check for EchoForm structure
-            return (isinstance(content, str) and
-                   content.strip().startswith('(') and
-                   content.strip().endswith(')'))
+            return (
+                isinstance(content, str)
+                and content.strip().startswith("(")
+                and content.strip().endswith(")")
+            )
 
         # Natural language basis functions (simplified)
         nl_basis = [
             lambda x: np.sum([ord(c) for c in str(x)[:100]]),  # Character sum
             lambda x: len(str(x).split()),  # Word count
-            lambda x: str(x).count('.'),  # Sentence count
+            lambda x: str(x).count("."),  # Sentence count
         ]
 
         # Mathematical basis functions
         math_basis = [
-            lambda x: str(x).count('='),  # Equation count
-            lambda x: str(x).count('+') + str(x).count('-'),  # Operation count
+            lambda x: str(x).count("="),  # Equation count
+            lambda x: str(x).count("+") + str(x).count("-"),  # Operation count
             lambda x: len([c for c in str(x) if c.isdigit()]),  # Number count
         ]
 
         # EchoForm basis functions
         echo_basis = [
-            lambda x: str(x).count('('),  # Nesting depth
+            lambda x: str(x).count("("),  # Nesting depth
             lambda x: len(str(x).split()),  # Symbol count
-            lambda x: str(x).count(':'),  # Attribute count
+            lambda x: str(x).count(":"),  # Attribute count
         ]
 
         return {
-            'natural_language': TranslationModality(
-                name='natural_language',
+            "natural_language": TranslationModality(
+                name="natural_language",
                 dimension=512,
                 basis_functions=nl_basis,
                 metric_tensor=np.eye(512),
-                validation_function=validate_natural_language
+                validation_function=validate_natural_language,
             ),
-            'mathematical': TranslationModality(
-                name='mathematical',
+            "mathematical": TranslationModality(
+                name="mathematical",
                 dimension=512,
                 basis_functions=math_basis,
                 metric_tensor=np.eye(512),
-                validation_function=validate_mathematical
+                validation_function=validate_mathematical,
             ),
-            'echoform': TranslationModality(
-                name='echoform',
+            "echoform": TranslationModality(
+                name="echoform",
                 dimension=512,
                 basis_functions=echo_basis,
                 metric_tensor=np.eye(512),
-                validation_function=validate_echoform
-            )
+                validation_function=validate_echoform,
+            ),
         }
 
-    async def translate(self, content: Any, source_modality: str,
-                       target_modality: str) -> Dict[str, Any]:
+    async def translate(
+        self, content: Any, source_modality: str, target_modality: str
+    ) -> Dict[str, Any]:
         """
         Rigorously translate content between modalities
 
@@ -479,7 +503,7 @@ class RigorousUniversalTranslator:
                 meaning_space=semantic_vector.meaning_space,
                 entropy=1.0,
                 coherence=0.5,
-                temperature=1.0
+                temperature=1.0,
             )
 
             axiom_result = self.axiom_validator.validate_axiom(
@@ -495,43 +519,44 @@ class RigorousUniversalTranslator:
             stability = self._measure_gyroscopic_stability()
 
             # Update performance metrics
-            self.performance_metrics['total_translations'] += 1
-            if axiom_result['axiom_holds']:
-                self.performance_metrics['successful_translations'] += 1
+            self.performance_metrics["total_translations"] += 1
+            if axiom_result["axiom_holds"]:
+                self.performance_metrics["successful_translations"] += 1
             else:
-                self.performance_metrics['axiom_violations'] += 1
+                self.performance_metrics["axiom_violations"] += 1
 
-            self.performance_metrics['average_coherence'] = (
-                (self.performance_metrics['average_coherence'] *
-                 (self.performance_metrics['total_translations'] - 1) +
-                 understood_vector.coherence) /
-                self.performance_metrics['total_translations']
-            )
+            self.performance_metrics["average_coherence"] = (
+                self.performance_metrics["average_coherence"]
+                * (self.performance_metrics["total_translations"] - 1)
+                + understood_vector.coherence
+            ) / self.performance_metrics["total_translations"]
 
-            self.performance_metrics['equilibrium_stability'] = stability
+            self.performance_metrics["equilibrium_stability"] = stability
 
             # Create result
             result = {
-                'translated_content': translated_content,
-                'confidence_score': understood_vector.coherence,
-                'semantic_entropy': understood_vector.entropy,
-                'semantic_temperature': understood_vector.temperature,
-                'axiom_validated': axiom_result['axiom_holds'],
-                'gyroscopic_stability': stability,
-                'processing_time': time.time() - start_time,
-                'source_modality': source_modality,
-                'target_modality': target_modality,
-                'validation_details': axiom_result,
-                'metadata': {
-                    'semantic_dimension': self.semantic_space.dimension,
-                    'understanding_applied': True,
-                    'mathematical_rigor': 'validated'
-                }
+                "translated_content": translated_content,
+                "confidence_score": understood_vector.coherence,
+                "semantic_entropy": understood_vector.entropy,
+                "semantic_temperature": understood_vector.temperature,
+                "axiom_validated": axiom_result["axiom_holds"],
+                "gyroscopic_stability": stability,
+                "processing_time": time.time() - start_time,
+                "source_modality": source_modality,
+                "target_modality": target_modality,
+                "validation_details": axiom_result,
+                "metadata": {
+                    "semantic_dimension": self.semantic_space.dimension,
+                    "understanding_applied": True,
+                    "mathematical_rigor": "validated",
+                },
             }
 
             self.validation_history.append(result)
 
-            logger.info(f"✅ Translation completed: {source_modality} → {target_modality}")
+            logger.info(
+                f"✅ Translation completed: {source_modality} → {target_modality}"
+            )
             logger.info(f"   Confidence: {understood_vector.coherence:.3f}")
             logger.info(f"   Axiom validated: {axiom_result['axiom_holds']}")
             logger.info(f"   Stability: {stability:.3f}")
@@ -541,9 +566,9 @@ class RigorousUniversalTranslator:
         except Exception as e:
             logger.error(f"❌ Translation failed: {str(e)}")
             return {
-                'error': str(e),
-                'success': False,
-                'processing_time': time.time() - start_time
+                "error": str(e),
+                "success": False,
+                "processing_time": time.time() - start_time,
             }
 
     async def _encode_content(self, content: Any, modality: str) -> SemanticVector:
@@ -566,7 +591,7 @@ class RigorousUniversalTranslator:
         if len(features) < self.semantic_space.dimension:
             features.extend([0.0] * (self.semantic_space.dimension - len(features)))
         else:
-            features = features[:self.semantic_space.dimension]
+            features = features[: self.semantic_space.dimension]
 
         # Create representation vector
         representation = np.array(features, dtype=np.float64)
@@ -580,7 +605,9 @@ class RigorousUniversalTranslator:
         # Use probability distribution from normalized absolute values
         abs_repr = np.abs(representation)
         prob_dist = abs_repr / (np.sum(abs_repr) + 1e-8)
-        semantic_entropy = entropy(prob_dist + 1e-8)  # Add small constant to avoid log(0)
+        semantic_entropy = entropy(
+            prob_dist + 1e-8
+        )  # Add small constant to avoid log(0)
 
         # Calculate coherence (inverse of entropy normalized)
         max_entropy = np.log(len(representation))
@@ -588,7 +615,9 @@ class RigorousUniversalTranslator:
 
         # Calculate semantic temperature
         variance = np.var(representation)
-        temperature = variance * len(representation)  # Higher variance = higher temperature
+        temperature = variance * len(
+            representation
+        )  # Higher variance = higher temperature
 
         return SemanticVector(
             representation=representation,
@@ -597,14 +626,15 @@ class RigorousUniversalTranslator:
             coherence=max(0.0, min(1.0, coherence)),
             temperature=temperature,
             metadata={
-                'source_content': str(content)[:100],  # Truncated for storage
-                'encoding_method': 'basis_function_extraction',
-                'modality': modality
-            }
+                "source_content": str(content)[:100],  # Truncated for storage
+                "encoding_method": "basis_function_extraction",
+                "modality": modality,
+            },
         )
 
-    async def _decode_content(self, semantic_vector: SemanticVector,
-                            target_modality: str) -> str:
+    async def _decode_content(
+        self, semantic_vector: SemanticVector, target_modality: str
+    ) -> str:
         """Decode semantic vector to target modality content"""
 
         # Extract key features from semantic vector
@@ -614,7 +644,7 @@ class RigorousUniversalTranslator:
         coherence_level = semantic_vector.coherence
 
         # Generate content based on target modality
-        if target_modality == 'natural_language':
+        if target_modality == "natural_language":
             # Generate natural language based on semantic properties
             if coherence_level > 0.8:
                 clarity = "clearly"
@@ -630,23 +660,29 @@ class RigorousUniversalTranslator:
             else:
                 complexity = "simple"
 
-            return (f"This {clarity} expresses a {complexity} concept "
-                   f"with semantic coherence of {coherence_level:.3f} "
-                   f"and entropy of {entropy_level:.3f}.")
+            return (
+                f"This {clarity} expresses a {complexity} concept "
+                f"with semantic coherence of {coherence_level:.3f} "
+                f"and entropy of {entropy_level:.3f}."
+            )
 
-        elif target_modality == 'mathematical':
+        elif target_modality == "mathematical":
             # Generate mathematical expression
-            return (f"f(x) = {repr_mean:.3f} + {repr_std:.3f}*x, "
-                   f"H = {entropy_level:.3f}, "
-                   f"C = {coherence_level:.3f}")
+            return (
+                f"f(x) = {repr_mean:.3f} + {repr_std:.3f}*x, "
+                f"H = {entropy_level:.3f}, "
+                f"C = {coherence_level:.3f}"
+            )
 
-        elif target_modality == 'echoform':
+        elif target_modality == "echoform":
             # Generate EchoForm representation
-            return (f"(semantic-content "
-                   f"(coherence {coherence_level:.3f}) "
-                   f"(entropy {entropy_level:.3f}) "
-                   f"(temperature {semantic_vector.temperature:.3f}) "
-                   f"(meaning-space {semantic_vector.meaning_space}))")
+            return (
+                f"(semantic-content "
+                f"(coherence {coherence_level:.3f}) "
+                f"(entropy {entropy_level:.3f}) "
+                f"(temperature {semantic_vector.temperature:.3f}) "
+                f"(meaning-space {semantic_vector.meaning_space}))"
+            )
 
         else:
             return f"Content in {target_modality} format (coherence: {coherence_level:.3f})"
@@ -666,37 +702,42 @@ class RigorousUniversalTranslator:
     def get_performance_report(self) -> Dict[str, Any]:
         """Generate comprehensive performance report"""
 
-        success_rate = (
-            self.performance_metrics['successful_translations'] /
-            max(1, self.performance_metrics['total_translations'])
+        success_rate = self.performance_metrics["successful_translations"] / max(
+            1, self.performance_metrics["total_translations"]
         )
 
         axiom_compliance_rate = (
-            (self.performance_metrics['total_translations'] -
-             self.performance_metrics['axiom_violations']) /
-            max(1, self.performance_metrics['total_translations'])
-        )
+            self.performance_metrics["total_translations"]
+            - self.performance_metrics["axiom_violations"]
+        ) / max(1, self.performance_metrics["total_translations"])
 
         return {
-            'performance_summary': {
-                'total_translations': self.performance_metrics['total_translations'],
-                'success_rate': success_rate,
-                'axiom_compliance_rate': axiom_compliance_rate,
-                'average_coherence': self.performance_metrics['average_coherence'],
-                'equilibrium_stability': self.performance_metrics['equilibrium_stability']
+            "performance_summary": {
+                "total_translations": self.performance_metrics["total_translations"],
+                "success_rate": success_rate,
+                "axiom_compliance_rate": axiom_compliance_rate,
+                "average_coherence": self.performance_metrics["average_coherence"],
+                "equilibrium_stability": self.performance_metrics[
+                    "equilibrium_stability"
+                ],
             },
-            'mathematical_validation': {
-                'semantic_space_dimension': self.semantic_space.dimension,
-                'understanding_operator_validated': True,
-                'composition_operator_validated': True,
-                'axiom_validator_active': True
+            "mathematical_validation": {
+                "semantic_space_dimension": self.semantic_space.dimension,
+                "understanding_operator_validated": True,
+                "composition_operator_validated": True,
+                "axiom_validator_active": True,
             },
-            'gyroscopic_status': {
-                'equilibrium_level': self.equilibrium_state.equilibrium_level,
-                'target_equilibrium': 0.5,
-                'stability_maintained': abs(self.equilibrium_state.equilibrium_level - 0.5) < 0.1
+            "gyroscopic_status": {
+                "equilibrium_level": self.equilibrium_state.equilibrium_level,
+                "target_equilibrium": 0.5,
+                "stability_maintained": abs(
+                    self.equilibrium_state.equilibrium_level - 0.5
+                )
+                < 0.1,
             },
-            'recent_validations': self.validation_history[-10:] if self.validation_history else []
+            "recent_validations": (
+                self.validation_history[-10:] if self.validation_history else []
+            ),
         }
 
     async def run_comprehensive_validation(self) -> Dict[str, Any]:
@@ -710,47 +751,59 @@ class RigorousUniversalTranslator:
             ("f(x) = x^2 + 1", "mathematical", "echoform"),
             ("(concept (meaning understanding))", "echoform", "natural_language"),
             ("The quick brown fox jumps.", "natural_language", "echoform"),
-            ("E = mc^2", "mathematical", "natural_language")
+            ("E = mc^2", "mathematical", "natural_language"),
         ]
 
         validation_results = []
 
         for content, source, target in test_cases:
             result = await self.translate(content, source, target)
-            validation_results.append({
-                'test_case': f"{source} → {target}",
-                'content': content,
-                'success': 'error' not in result,
-                'axiom_validated': result.get('axiom_validated', False),
-                'confidence': result.get('confidence_score', 0.0),
-                'stability': result.get('gyroscopic_stability', 0.0)
-            })
+            validation_results.append(
+                {
+                    "test_case": f"{source} → {target}",
+                    "content": content,
+                    "success": "error" not in result,
+                    "axiom_validated": result.get("axiom_validated", False),
+                    "confidence": result.get("confidence_score", 0.0),
+                    "stability": result.get("gyroscopic_stability", 0.0),
+                }
+            )
 
         # Calculate overall validation metrics
-        successful_tests = sum(1 for r in validation_results if r['success'])
-        axiom_compliant_tests = sum(1 for r in validation_results if r['axiom_validated'])
+        successful_tests = sum(1 for r in validation_results if r["success"])
+        axiom_compliant_tests = sum(
+            1 for r in validation_results if r["axiom_validated"]
+        )
 
         overall_validation = {
-            'total_tests': len(test_cases),
-            'successful_tests': successful_tests,
-            'success_rate': successful_tests / len(test_cases),
-            'axiom_compliance_rate': axiom_compliant_tests / len(test_cases),
-            'average_confidence': np.mean([r['confidence'] for r in validation_results]),
-            'average_stability': np.mean([r['stability'] for r in validation_results]),
-            'test_results': validation_results,
-            'validation_timestamp': datetime.now().isoformat(),
-            'mathematical_rigor': 'validated',
-            'scientific_methodology': 'zetetic'
+            "total_tests": len(test_cases),
+            "successful_tests": successful_tests,
+            "success_rate": successful_tests / len(test_cases),
+            "axiom_compliance_rate": axiom_compliant_tests / len(test_cases),
+            "average_confidence": np.mean(
+                [r["confidence"] for r in validation_results]
+            ),
+            "average_stability": np.mean([r["stability"] for r in validation_results]),
+            "test_results": validation_results,
+            "validation_timestamp": datetime.now().isoformat(),
+            "mathematical_rigor": "validated",
+            "scientific_methodology": "zetetic",
         }
 
-        logger.info(f"✅ Validation complete: {successful_tests}/{len(test_cases)} tests passed")
+        logger.info(
+            f"✅ Validation complete: {successful_tests}/{len(test_cases)} tests passed"
+        )
         logger.info(f"   Axiom compliance: {axiom_compliant_tests}/{len(test_cases)}")
-        logger.info(f"   Average confidence: {overall_validation['average_confidence']:.3f}")
+        logger.info(
+            f"   Average confidence: {overall_validation['average_confidence']:.3f}"
+        )
 
         return overall_validation
 
 
-async def create_rigorous_universal_translator(dimension: int = 512) -> RigorousUniversalTranslator:
+async def create_rigorous_universal_translator(
+    dimension: int = 512,
+) -> RigorousUniversalTranslator:
     """Create and initialize rigorous universal translator"""
     translator = RigorousUniversalTranslator(dimension)
 
@@ -758,13 +811,16 @@ async def create_rigorous_universal_translator(dimension: int = 512) -> Rigorous
     validation_result = await translator.run_comprehensive_validation()
 
     logger.info("🚀 Rigorous Universal Translator ready")
-    logger.info(f"   Initial validation: {validation_result['success_rate']:.1%} success rate")
+    logger.info(
+        f"   Initial validation: {validation_result['success_rate']:.1%} success rate"
+    )
 
     return translator
 
 
 # Example usage and testing
 if __name__ == "__main__":
+
     async def main():
         # Create translator
         translator = await create_rigorous_universal_translator()
@@ -773,7 +829,7 @@ if __name__ == "__main__":
         result = await translator.translate(
             "Understanding emerges from the composition of meanings",
             "natural_language",
-            "echoform"
+            "echoform",
         )
 
         logger.info("Translation Result:")
@@ -785,8 +841,14 @@ if __name__ == "__main__":
         # Generate performance report
         report = translator.get_performance_report()
         logger.info("\nPerformance Report:")
-        logger.info(f"  Success Rate: {report['performance_summary']['success_rate']:.1%}")
-        logger.info(f"  Axiom Compliance: {report['performance_summary']['axiom_compliance_rate']:.1%}")
-        logger.info(f"  Average Coherence: {report['performance_summary']['average_coherence']:.3f}")
+        logger.info(
+            f"  Success Rate: {report['performance_summary']['success_rate']:.1%}"
+        )
+        logger.info(
+            f"  Axiom Compliance: {report['performance_summary']['axiom_compliance_rate']:.1%}"
+        )
+        logger.info(
+            f"  Average Coherence: {report['performance_summary']['average_coherence']:.3f}"
+        )
 
     asyncio.run(main())

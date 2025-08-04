@@ -8,19 +8,19 @@ including the text diffusion engine.
 """
 
 import asyncio
-import logging
-import time
-import uuid
-import numpy as np
-from typing import Dict, List, Any, Optional, Tuple, Union, Set
-from dataclasses import dataclass, field
-from enum import Enum
-from datetime import datetime, timedelta
-from collections import defaultdict, deque, OrderedDict
 import json
+import logging
 import math
 import threading
+import time
+import uuid
+from collections import OrderedDict, defaultdict, deque
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from enum import Enum
+from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
+import numpy as np
 from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel, Field
 
@@ -45,8 +45,10 @@ try:
     from src.engines.cognitive_field_dynamics import CognitiveFieldDynamics
     from src.core.embedding_utils import encode_text
     from src.monitoring.kimera_prometheus_metrics import KimeraPrometheusMetrics
-from ..utils.config import get_api_settings
+
 from ..config.settings import get_settings
+from ..utils.config import get_api_settings
+
     # from src.engines.gyroscopic_universal_translator import GyroscopicUniversalTranslator # Assuming this might not exist yet
     KIMERA_CORE_AVAILABLE = True
 except ImportError as e:

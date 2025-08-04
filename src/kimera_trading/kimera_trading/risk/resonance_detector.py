@@ -1,36 +1,39 @@
 class RiskResonanceDetector:
     """
     Detects when multiple risks resonate and amplify.
-    
+
     Concept: Like physical resonance, certain risk frequencies
     can amplify each other, creating systemic threats.
     """
-    
+
     def __init__(self):
         self.critical_threshold = 0.9
 
     def detect_resonance(self, active_risks):
         """Detect resonance patterns in active risks"""
-        
+
         # Calculate risk frequencies
         risk_frequencies = [self._calculate_frequency(risk) for risk in active_risks]
-        
+
         # Find resonant pairs/groups
         resonant_groups = self._find_resonant_frequencies(risk_frequencies)
-        
+
         # Calculate amplification factors
         amplifications = {}
         for group in resonant_groups:
             amp_factor = self._calculate_amplification(group)
             amplifications[group] = amp_factor
-        
+
         # Identify critical resonances
         critical_resonances = [
-            group for group, amp in amplifications.items()
+            group
+            for group, amp in amplifications.items()
             if amp > self.critical_threshold
         ]
-        
-        class ResonanceAnalysis: pass
+
+        class ResonanceAnalysis:
+            pass
+
         ra = ResonanceAnalysis()
         ra.resonant_groups = resonant_groups
         ra.amplification_factors = amplifications

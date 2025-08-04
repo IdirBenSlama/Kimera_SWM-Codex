@@ -21,11 +21,11 @@ provide a complete cognitive processing platform.
 # Import all enhanced capabilities
 try:
     from .understanding_core import (
-        UnderstandingCore,
-        GenuineUnderstanding,
-        SelfModelSystem,
         CausalReasoningEngine,
-        MultimodalGroundingSystem
+        GenuineUnderstanding,
+        MultimodalGroundingSystem,
+        SelfModelSystem,
+        UnderstandingCore,
     )
 except ImportError as e:
     logger.info(f"Warning: Could not import understanding_core: {e}")
@@ -34,10 +34,10 @@ except ImportError as e:
 try:
     from .consciousness_core import (
         ConsciousnessCore,
-        ThermodynamicConsciousnessDetector,
-        QuantumCoherenceAnalyzer,
+        ConsciousnessSignature,
         IntegratedInformationProcessor,
-        ConsciousnessSignature
+        QuantumCoherenceAnalyzer,
+        ThermodynamicConsciousnessDetector,
     )
 except ImportError as e:
     logger.info(f"Warning: Could not import consciousness_core: {e}")
@@ -45,11 +45,11 @@ except ImportError as e:
 
 try:
     from .meta_insight_core import (
-        MetaInsightCore,
         HigherOrderProcessor,
+        InsightGenerationEngine,
         MetaCognitionEngine,
+        MetaInsightCore,
         PatternRecognitionSystem,
-        InsightGenerationEngine
     )
 except ImportError as e:
     logger.info(f"Warning: Could not import meta_insight_core: {e}")
@@ -57,11 +57,11 @@ except ImportError as e:
 
 try:
     from .field_dynamics_core import (
-        FieldDynamicsCore,
         CognitiveFieldProcessor,
+        EnergyFieldDynamics,
+        FieldDynamicsCore,
         GeoidFieldManager,
         SemanticFieldEvolution,
-        EnergyFieldDynamics
     )
 except ImportError as e:
     logger.info(f"Warning: Could not import field_dynamics_core: {e}")
@@ -70,10 +70,10 @@ except ImportError as e:
 try:
     from .learning_core import (
         LearningCore,
-        UnsupervisedCognitiveLearning,
         PhysicsBasedLearning,
         ResonanceClusteringEngine,
-        ThermodynamicOrganization
+        ThermodynamicOrganization,
+        UnsupervisedCognitiveLearning,
     )
 except ImportError as e:
     logger.info(f"Warning: Could not import learning_core: {e}")
@@ -81,8 +81,13 @@ except ImportError as e:
 
 try:
     from .linguistic_intelligence_core import (
-import logging
-logger = logging.getLogger(__name__)
+        =,
+        __name__,
+        er,
+        logging,
+        logging.getLogger,
+        rt,
+    )
         LinguisticIntelligenceCore,
         AdvancedLanguageProcessor,
         UniversalTranslationSystem,

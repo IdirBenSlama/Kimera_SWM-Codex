@@ -13,21 +13,22 @@ introducing ad-hoc globals elsewhere in the codebase.
 
 from __future__ import annotations
 
+import inspect  # Add import for inspect
 import logging
 import platform
 import threading
-import inspect  # Add import for inspect
 from enum import Enum, auto
-from typing import Optional, Dict, Any
+from typing import Any, Dict, Optional
 
 logger = logging.getLogger(__name__)
 
 # GPU System Integration
 try:
-    from src.core.gpu.gpu_manager import get_gpu_manager, is_gpu_available
     from src.core.gpu.gpu_integration import get_gpu_integration_system
+    from src.core.gpu.gpu_manager import get_gpu_manager, is_gpu_available
     from src.engines.gpu.gpu_geoid_processor import get_gpu_geoid_processor
     from src.engines.gpu.gpu_thermodynamic_engine import get_gpu_thermodynamic_engine
+
     GPU_SYSTEM_AVAILABLE = True
     logger.info("GPU system imports successful")
 except ImportError as e:
@@ -37,10 +38,12 @@ except ImportError as e:
 # Legacy GPU Foundation fallback
 try:
     from src.utils.gpu_foundation import GPUFoundation
+
     GPU_FOUNDATION_AVAILABLE = True
 except ImportError:
     GPUFoundation = None
     GPU_FOUNDATION_AVAILABLE = False
+
 
 class SystemState(Enum):
     """Enumeration of Kimera System runtime states."""
@@ -135,7 +138,7 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
                 # Release the lock and wait for the event
                 cls._lock.release()
                 try:
-                    cls._initialization_event.wait(timeout=10) # 10 second timeout
+                    cls._initialization_event.wait(timeout=10)  # 10 second timeout
                 finally:
                     # Re-acquire the lock before returning
                     cls._lock.acquire()
@@ -244,20 +247,32 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             import asyncio
 
             # Check if there are components that need async initialization
-            thermo_integration = self.get_component("revolutionary_thermodynamic_engines")
+            thermo_integration = self.get_component(
+                "revolutionary_thermodynamic_engines"
+            )
             unified_system = self.get_component("unified_thermodynamic_tcse")
 
-            if (thermo_integration and thermo_integration != "initializing" and
-                hasattr(thermo_integration, 'initialize_all_engines')):
+            if (
+                thermo_integration
+                and thermo_integration != "initializing"
+                and hasattr(thermo_integration, "initialize_all_engines")
+            ):
 
                 # Schedule async initialization for later
-                logger.info("🔥 Revolutionary Thermodynamic Engines ready for async initialization")
+                logger.info(
+                    "🔥 Revolutionary Thermodynamic Engines ready for async initialization"
+                )
 
-            if (unified_system and unified_system != "initializing" and
-                hasattr(unified_system, 'initialize_complete_system')):
+            if (
+                unified_system
+                and unified_system != "initializing"
+                and hasattr(unified_system, "initialize_complete_system")
+            ):
 
                 # Schedule async initialization for later
-                logger.info("🌡️ Unified Thermodynamic + TCSE System ready for async initialization")
+                logger.info(
+                    "🌡️ Unified Thermodynamic + TCSE System ready for async initialization"
+                )
 
         except Exception as exc:
             logger.warning(f"⚠️ Async initialization setup failed: {exc}")
@@ -266,6 +281,7 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
         """Initialize the VaultManager subsystem."""
         try:
             from src.vault.vault_manager import VaultManager
+
             vault_manager = VaultManager()
             self._set_component("vault_manager", vault_manager)
             logger.info("VaultManager initialized successfully")
@@ -280,35 +296,48 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
         """Initialize the embedding model subsystem."""
         try:
             from src.core import embedding_utils
-            self._set_component("embedding_model", True)  # Placeholder - actual model loaded in embedding_utils
+
+            self._set_component(
+                "embedding_model", True
+            )  # Placeholder - actual model loaded in embedding_utils
             logger.info("Embedding model initialized successfully")
         except (ImportError, ModuleNotFoundError) as exc:
             logger.error("❌ Failed to import embedding utilities: %s", exc)
             self._set_component("embedding_model", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize embedding model: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize embedding model: %s", exc, exc_info=True
+            )
             self._set_component("embedding_model", None)
 
     def _initialize_human_interface(self) -> None:
         """Initialize the Human Interface subsystem for human-readable system outputs."""
         try:
-            from src.engines.human_interface import create_human_interface, ResponseMode
+            from src.engines.human_interface import ResponseMode, create_human_interface
+
             # Human Interface is synchronous, no need for asyncio handling
             interface = create_human_interface(mode=ResponseMode.HYBRID)
             self._set_component("human_interface", interface)
-            logger.info("👤 Human Interface initialized successfully - Human-readable outputs enabled")
+            logger.info(
+                "👤 Human Interface initialized successfully - Human-readable outputs enabled"
+            )
 
         except (ImportError, ModuleNotFoundError) as exc:
             logger.error("❌ Failed to import Human Interface: %s", exc)
             self._set_component("human_interface", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Human Interface: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Human Interface: %s", exc, exc_info=True
+            )
             self._set_component("human_interface", None)
 
     def _initialize_cognitive_security_orchestrator(self) -> None:
         """Initialize the Cognitive Security Orchestrator for comprehensive data protection."""
         try:
-            from src.engines.cognitive_security_orchestrator import CognitiveSecurityOrchestrator, CognitiveSecurityPolicy
+            from src.engines.cognitive_security_orchestrator import (
+                CognitiveSecurityOrchestrator,
+                CognitiveSecurityPolicy,
+            )
 
             # Create security policy with enhanced settings for production
             policy = CognitiveSecurityPolicy(
@@ -316,7 +345,7 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
                 use_homomorphic=True,
                 use_quantum_resistant=True,
                 require_gdpr=True,
-                audit_logging=True
+                audit_logging=True,
             )
 
             # Get GPU device ID from existing GPU system if available
@@ -324,28 +353,37 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             if self._gpu_acceleration_enabled and self._gpu_manager:
                 try:
                     device_info = self._gpu_manager.get_device_info()
-                    device_id = device_info.get('device_id', 0)
+                    device_id = device_info.get("device_id", 0)
                 except Exception as e:
                     logger.error(f"Error in kimera_system.py: {e}", exc_info=True)
                     raise  # Re-raise for proper error handling
 
-            orchestrator = CognitiveSecurityOrchestrator(policy=policy, device_id=device_id)
+            orchestrator = CognitiveSecurityOrchestrator(
+                policy=policy, device_id=device_id
+            )
             self._set_component("cognitive_security_orchestrator", orchestrator)
-            logger.info("🔒 Cognitive Security Orchestrator initialized successfully - Comprehensive cognitive data protection enabled")
+            logger.info(
+                "🔒 Cognitive Security Orchestrator initialized successfully - Comprehensive cognitive data protection enabled"
+            )
 
         except (ImportError, ModuleNotFoundError) as exc:
             logger.error("❌ Failed to import Cognitive Security Orchestrator: %s", exc)
             self._set_component("cognitive_security_orchestrator", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Cognitive Security Orchestrator: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Cognitive Security Orchestrator: %s",
+                exc,
+                exc_info=True,
+            )
             self._set_component("cognitive_security_orchestrator", None)
 
     def _initialize_linguistic_intelligence_engine(self) -> None:
         """Initialize the Linguistic Intelligence Engine subsystem."""
         try:
-            from src.engines.linguistic_intelligence_engine import get_linguistic_engine
             # Use asyncio to initialize the engine properly
             import asyncio
+
+            from src.engines.linguistic_intelligence_engine import get_linguistic_engine
 
             # Check if we're in an event loop
             try:
@@ -365,15 +403,20 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             logger.error("❌ Failed to import Linguistic Intelligence Engine: %s", exc)
             self._set_component("linguistic_intelligence_engine", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Linguistic Intelligence Engine: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Linguistic Intelligence Engine: %s",
+                exc,
+                exc_info=True,
+            )
             self._set_component("linguistic_intelligence_engine", None)
 
     def _initialize_cognitive_architecture_core(self) -> None:
         """Initialize the Cognitive Architecture Core subsystem."""
         try:
-            from src.core.cognitive_architecture_core import get_cognitive_architecture
             # Use asyncio to initialize the cognitive architecture properly
             import asyncio
+
+            from src.core.cognitive_architecture_core import get_cognitive_architecture
 
             # Check if we're in an event loop
             try:
@@ -393,15 +436,20 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             logger.error("❌ Failed to import Cognitive Architecture Core: %s", exc)
             self._set_component("cognitive_architecture_core", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Cognitive Architecture Core: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Cognitive Architecture Core: %s",
+                exc,
+                exc_info=True,
+            )
             self._set_component("cognitive_architecture_core", None)
 
     def _initialize_understanding_engine(self) -> None:
         """Initialize the Understanding Engine subsystem for genuine understanding capabilities."""
         try:
-            from src.engines.understanding_engine import create_understanding_engine
             # Use asyncio to initialize the engine properly
             import asyncio
+
+            from src.engines.understanding_engine import create_understanding_engine
 
             # Check if we're in an event loop
             try:
@@ -415,19 +463,24 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
                 # No event loop running, create one for initialization
                 engine = asyncio.run(create_understanding_engine())
                 self._set_component("understanding_engine", engine)
-                logger.info("🧠 Understanding Engine initialized successfully - Genuine understanding capabilities enabled")
+                logger.info(
+                    "🧠 Understanding Engine initialized successfully - Genuine understanding capabilities enabled"
+                )
 
         except (ImportError, ModuleNotFoundError) as exc:
             logger.error("❌ Failed to import Understanding Engine: %s", exc)
             self._set_component("understanding_engine", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Understanding Engine: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Understanding Engine: %s", exc, exc_info=True
+            )
             self._set_component("understanding_engine", None)
 
     def _initialize_contradiction_engine(self) -> None:
         """Initialize the contradiction engine subsystem."""
         try:
             from src.engines.contradiction_engine import ContradictionEngine
+
             engine = ContradictionEngine(tension_threshold=0.4)
             self._set_component("contradiction_engine", engine)
             logger.info("Contradiction engine initialized successfully")
@@ -435,13 +488,18 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             logger.error("❌ Failed to import ContradictionEngine: %s", exc)
             self._set_component("contradiction_engine", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize contradiction engine: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize contradiction engine: %s", exc, exc_info=True
+            )
             self._set_component("contradiction_engine", None)
 
     def _initialize_thermodynamics_engine(self) -> None:
         """Initialize the thermodynamics engine subsystem."""
         try:
-            from .foundational_thermodynamic_engine import FoundationalThermodynamicEngine
+            from .foundational_thermodynamic_engine import (
+                FoundationalThermodynamicEngine,
+            )
+
             engine = FoundationalThermodynamicEngine()
             self._set_component("thermodynamics_engine", engine)
             logger.info("Thermodynamic engine initialized successfully")
@@ -449,15 +507,20 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             logger.error("❌ Failed to import FoundationalThermodynamicEngine: %s", exc)
             self._set_component("thermodynamics_engine", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize thermodynamics engine: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize thermodynamics engine: %s", exc, exc_info=True
+            )
             self._set_component("thermodynamics_engine", None)
 
     def _initialize_enhanced_thermodynamic_scheduler(self) -> None:
         """Initialize the Enhanced Thermodynamic Scheduler subsystem."""
         try:
-            from src.engines.thermodynamic_scheduler import get_enhanced_thermodynamic_scheduler
             # Use asyncio to initialize the scheduler properly
             import asyncio
+
+            from src.engines.thermodynamic_scheduler import (
+                get_enhanced_thermodynamic_scheduler,
+            )
 
             # Check if we're in an event loop
             try:
@@ -466,48 +529,70 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
                 future = asyncio.ensure_future(get_enhanced_thermodynamic_scheduler())
                 # For now, we'll mark as initialized and let it initialize lazily
                 self._set_component("enhanced_thermodynamic_scheduler", "initializing")
-                logger.info("🌡️ Enhanced Thermodynamic Scheduler initialization scheduled")
+                logger.info(
+                    "🌡️ Enhanced Thermodynamic Scheduler initialization scheduled"
+                )
             except RuntimeError:
                 # No event loop running, create one for initialization
                 scheduler = asyncio.run(get_enhanced_thermodynamic_scheduler())
                 self._set_component("enhanced_thermodynamic_scheduler", scheduler)
-                logger.info("🌡️ Enhanced Thermodynamic Scheduler initialized successfully - Physics-based optimization enabled")
+                logger.info(
+                    "🌡️ Enhanced Thermodynamic Scheduler initialized successfully - Physics-based optimization enabled"
+                )
 
         except (ImportError, ModuleNotFoundError) as exc:
-            logger.error("❌ Failed to import Enhanced Thermodynamic Scheduler: %s", exc)
+            logger.error(
+                "❌ Failed to import Enhanced Thermodynamic Scheduler: %s", exc
+            )
             self._set_component("enhanced_thermodynamic_scheduler", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Enhanced Thermodynamic Scheduler: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Enhanced Thermodynamic Scheduler: %s",
+                exc,
+                exc_info=True,
+            )
             self._set_component("enhanced_thermodynamic_scheduler", None)
 
     def _initialize_quantum_cognitive_engine(self) -> None:
         """Initialize the Quantum Cognitive Engine subsystem."""
         try:
-            from src.engines.quantum_cognitive_engine import initialize_quantum_cognitive_engine
+            from src.engines.quantum_cognitive_engine import (
+                initialize_quantum_cognitive_engine,
+            )
 
             # Configure based on GPU availability
             gpu_acceleration = self._gpu_acceleration_enabled
-            num_qubits = 20 if gpu_acceleration else 10  # Scale based on available resources
+            num_qubits = (
+                20 if gpu_acceleration else 10
+            )  # Scale based on available resources
 
             engine = initialize_quantum_cognitive_engine(
-                num_qubits=num_qubits,
-                gpu_acceleration=gpu_acceleration
+                num_qubits=num_qubits, gpu_acceleration=gpu_acceleration
             )
             self._set_component("quantum_cognitive_engine", engine)
-            logger.info("⚛️ Quantum Cognitive Engine initialized successfully - Quantum-enhanced cognition enabled")
+            logger.info(
+                "⚛️ Quantum Cognitive Engine initialized successfully - Quantum-enhanced cognition enabled"
+            )
 
         except (ImportError, ModuleNotFoundError) as exc:
             logger.error("❌ Failed to import Quantum Cognitive Engine: %s", exc)
             self._set_component("quantum_cognitive_engine", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Quantum Cognitive Engine: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Quantum Cognitive Engine: %s",
+                exc,
+                exc_info=True,
+            )
             self._set_component("quantum_cognitive_engine", None)
 
     def _initialize_ethical_reasoning_engine(self) -> None:
         """Initialize the Ethical Reasoning Engine subsystem."""
         try:
-            from src.engines.ethical_reasoning_engine import create_ethical_reasoning_engine
             import asyncio
+
+            from src.engines.ethical_reasoning_engine import (
+                create_ethical_reasoning_engine,
+            )
 
             # Configure based on requirements
             try:
@@ -520,19 +605,28 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
                 # No event loop running, create one for initialization
                 engine = asyncio.run(create_ethical_reasoning_engine())
                 self._set_component("ethical_reasoning_engine", engine)
-                logger.info("⚖️ Ethical Reasoning Engine initialized successfully - Advanced ethical decision-making enabled")
+                logger.info(
+                    "⚖️ Ethical Reasoning Engine initialized successfully - Advanced ethical decision-making enabled"
+                )
 
         except (ImportError, ModuleNotFoundError) as exc:
             logger.error("❌ Failed to import Ethical Reasoning Engine: %s", exc)
             self._set_component("ethical_reasoning_engine", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Ethical Reasoning Engine: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Ethical Reasoning Engine: %s",
+                exc,
+                exc_info=True,
+            )
             self._set_component("ethical_reasoning_engine", None)
 
     def _initialize_unsupervised_cognitive_learning_engine(self) -> None:
         """Initialize the Unsupervised Cognitive Learning Engine subsystem."""
         try:
-            from src.engines.unsupervised_cognitive_learning_engine import UnsupervisedCognitiveLearningEngine
+            from src.engines.unsupervised_cognitive_learning_engine import (
+                UnsupervisedCognitiveLearningEngine,
+            )
+
             from .cognitive_field_dynamics import CognitiveFieldDynamics
 
             # Create cognitive field engine for the learning engine
@@ -543,24 +637,37 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
                 cognitive_field_engine=cognitive_field,
                 learning_sensitivity=0.15,
                 emergence_threshold=0.7,
-                insight_threshold=0.85
+                insight_threshold=0.85,
             )
 
-            self._set_component("unsupervised_cognitive_learning_engine", learning_engine)
-            logger.info("🧠 Unsupervised Cognitive Learning Engine initialized successfully - Revolutionary physics-based learning enabled")
+            self._set_component(
+                "unsupervised_cognitive_learning_engine", learning_engine
+            )
+            logger.info(
+                "🧠 Unsupervised Cognitive Learning Engine initialized successfully - Revolutionary physics-based learning enabled"
+            )
 
         except (ImportError, ModuleNotFoundError) as exc:
-            logger.error("❌ Failed to import Unsupervised Cognitive Learning Engine: %s", exc)
+            logger.error(
+                "❌ Failed to import Unsupervised Cognitive Learning Engine: %s", exc
+            )
             self._set_component("unsupervised_cognitive_learning_engine", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Unsupervised Cognitive Learning Engine: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Unsupervised Cognitive Learning Engine: %s",
+                exc,
+                exc_info=True,
+            )
             self._set_component("unsupervised_cognitive_learning_engine", None)
 
     def _initialize_complexity_analysis_engine(self) -> None:
         """Initialize the Complexity Analysis Engine subsystem."""
         try:
-            from src.engines.complexity_analysis_engine import create_complexity_analysis_engine
             import asyncio
+
+            from src.engines.complexity_analysis_engine import (
+                create_complexity_analysis_engine,
+            )
 
             # Configure based on requirements
             try:
@@ -573,13 +680,19 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
                 # No event loop running, create one for initialization
                 engine = asyncio.run(create_complexity_analysis_engine())
                 self._set_component("complexity_analysis_engine", engine)
-                logger.info("🔬 Complexity Analysis Engine initialized successfully - Advanced information integration analysis enabled")
+                logger.info(
+                    "🔬 Complexity Analysis Engine initialized successfully - Advanced information integration analysis enabled"
+                )
 
         except (ImportError, ModuleNotFoundError) as exc:
             logger.error("❌ Failed to import Complexity Analysis Engine: %s", exc)
             self._set_component("complexity_analysis_engine", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Complexity Analysis Engine: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Complexity Analysis Engine: %s",
+                exc,
+                exc_info=True,
+            )
             self._set_component("complexity_analysis_engine", None)
 
     def _initialize_quantum_field_engine(self) -> None:
@@ -593,22 +706,26 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
 
             engine = create_quantum_field_engine(dimension=dimension, device=device)
             self._set_component("quantum_field_engine", engine)
-            logger.info("⚛️ Quantum Field Engine initialized successfully - Quantum field modeling of cognitive states enabled")
+            logger.info(
+                "⚛️ Quantum Field Engine initialized successfully - Quantum field modeling of cognitive states enabled"
+            )
 
         except (ImportError, ModuleNotFoundError) as exc:
             logger.error("❌ Failed to import Quantum Field Engine: %s", exc)
             self._set_component("quantum_field_engine", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Quantum Field Engine: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Quantum Field Engine: %s", exc, exc_info=True
+            )
             self._set_component("quantum_field_engine", None)
 
     def _initialize_gpu_cryptographic_engine(self) -> None:
         """Initialize the GPU Cryptographic Engine subsystem."""
         try:
-            from src.engines.gpu_cryptographic_engine import GPUCryptographicEngine
-
             # Check for GPU availability
             import cupy as cp
+
+            from src.engines.gpu_cryptographic_engine import GPUCryptographicEngine
 
             if cp.cuda.is_available():
                 device_count = cp.cuda.runtime.getDeviceCount()
@@ -619,10 +736,14 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
                     self._set_component("gpu_cryptographic_engine", crypto_engine)
                     logger.info("🔐 GPU Cryptographic Engine successfully initialized")
                 else:
-                    logger.warning("🔐 No CUDA devices available, GPU Cryptographic Engine disabled")
+                    logger.warning(
+                        "🔐 No CUDA devices available, GPU Cryptographic Engine disabled"
+                    )
                     self._set_component("gpu_cryptographic_engine", None)
             else:
-                logger.warning("🔐 CUDA not available, GPU Cryptographic Engine disabled")
+                logger.warning(
+                    "🔐 CUDA not available, GPU Cryptographic Engine disabled"
+                )
                 self._set_component("gpu_cryptographic_engine", None)
 
         except Exception as e:
@@ -632,8 +753,12 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
     def _initialize_thermodynamic_integration(self) -> None:
         """Initialize the core Thermodynamic Integration subsystem."""
         try:
-            from src.engines.thermodynamic_integration import get_thermodynamic_integration, initialize_thermodynamics
             import asyncio
+
+            from src.engines.thermodynamic_integration import (
+                get_thermodynamic_integration,
+                initialize_thermodynamics,
+            )
 
             # Get the thermodynamic integration instance
             integration = get_thermodynamic_integration()
@@ -646,10 +771,14 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
                 loop = asyncio.get_running_loop()
                 # If we're in a running loop, schedule the initialization
                 future = asyncio.ensure_future(initialize_thermodynamics())
-                logger.info("🔥 Thermodynamic Integration system initializing asynchronously...")
+                logger.info(
+                    "🔥 Thermodynamic Integration system initializing asynchronously..."
+                )
             except RuntimeError:
                 # No event loop running, sync mode
-                logger.info("🔥 Thermodynamic Integration system initialized (sync mode)")
+                logger.info(
+                    "🔥 Thermodynamic Integration system initialized (sync mode)"
+                )
 
         except Exception as e:
             logger.error(f"❌ Failed to initialize Thermodynamic Integration: {e}")
@@ -658,28 +787,35 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
     def _initialize_unified_thermodynamic_integration(self) -> None:
         """Initialize the Unified Thermodynamic + TCSE Integration subsystem."""
         try:
-            from src.engines.unified_thermodynamic_integration import UnifiedThermodynamicTCSE
+            from src.engines.unified_thermodynamic_integration import (
+                UnifiedThermodynamicTCSE,
+            )
 
             # Create the unified thermodynamic TCSE system
             unified_system = UnifiedThermodynamicTCSE(
                 auto_start_monitoring=False,  # We'll control monitoring from the core system
                 consciousness_threshold=0.75,
                 thermal_regulation_enabled=True,
-                energy_management_enabled=True
+                energy_management_enabled=True,
             )
 
             self._set_component("unified_thermodynamic_integration", unified_system)
             logger.info("🌡️ Unified Thermodynamic + TCSE Integration system initialized")
 
         except Exception as e:
-            logger.error(f"❌ Failed to initialize Unified Thermodynamic Integration: {e}")
+            logger.error(
+                f"❌ Failed to initialize Unified Thermodynamic Integration: {e}"
+            )
             self._set_component("unified_thermodynamic_integration", None)
 
     def _initialize_revolutionary_thermodynamic_engines(self) -> None:
         """Initialize all revolutionary thermodynamic engines."""
         try:
-            from src.engines.thermodynamic_integration import get_thermodynamic_integration
             import asyncio
+
+            from src.engines.thermodynamic_integration import (
+                get_thermodynamic_integration,
+            )
 
             # Get the thermodynamic integration system
             thermo_integration = get_thermodynamic_integration()
@@ -688,26 +824,45 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             try:
                 loop = asyncio.get_running_loop()
                 # Schedule async initialization
-                future = asyncio.ensure_future(thermo_integration.initialize_all_engines())
-                self._set_component("revolutionary_thermodynamic_engines", "initializing")
-                logger.info("Revolutionary Thermodynamic Engines initialization scheduled")
+                future = asyncio.ensure_future(
+                    thermo_integration.initialize_all_engines()
+                )
+                self._set_component(
+                    "revolutionary_thermodynamic_engines", "initializing"
+                )
+                logger.info(
+                    "Revolutionary Thermodynamic Engines initialization scheduled"
+                )
             except RuntimeError:
                 # No event loop running, mark for later async initialization
-                self._set_component("revolutionary_thermodynamic_engines", thermo_integration)
-                logger.info("Revolutionary Thermodynamic Engines ready for async initialization")
+                self._set_component(
+                    "revolutionary_thermodynamic_engines", thermo_integration
+                )
+                logger.info(
+                    "Revolutionary Thermodynamic Engines ready for async initialization"
+                )
 
         except (ImportError, ModuleNotFoundError) as exc:
-            logger.error("❌ Failed to import revolutionary thermodynamic engines: %s", exc)
+            logger.error(
+                "❌ Failed to import revolutionary thermodynamic engines: %s", exc
+            )
             self._set_component("revolutionary_thermodynamic_engines", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize revolutionary thermodynamic engines: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize revolutionary thermodynamic engines: %s",
+                exc,
+                exc_info=True,
+            )
             self._set_component("revolutionary_thermodynamic_engines", None)
 
     def _initialize_unified_thermodynamic_tcse(self) -> None:
         """Initialize the unified thermodynamic + TCSE integration system."""
         try:
-            from src.engines.unified_thermodynamic_integration import get_unified_thermodynamic_tcse
             import asyncio
+
+            from src.engines.unified_thermodynamic_integration import (
+                get_unified_thermodynamic_tcse,
+            )
 
             # Get the unified system
             unified_system = get_unified_thermodynamic_tcse()
@@ -716,25 +871,38 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             try:
                 loop = asyncio.get_running_loop()
                 # Schedule async initialization
-                future = asyncio.ensure_future(unified_system.initialize_complete_system())
+                future = asyncio.ensure_future(
+                    unified_system.initialize_complete_system()
+                )
                 self._set_component("unified_thermodynamic_tcse", "initializing")
-                logger.info("Unified Thermodynamic + TCSE System initialization scheduled")
+                logger.info(
+                    "Unified Thermodynamic + TCSE System initialization scheduled"
+                )
             except RuntimeError:
                 # No event loop running, mark for later async initialization
                 self._set_component("unified_thermodynamic_tcse", unified_system)
-                logger.info("Unified Thermodynamic + TCSE System ready for async initialization")
+                logger.info(
+                    "Unified Thermodynamic + TCSE System ready for async initialization"
+                )
 
         except (ImportError, ModuleNotFoundError) as exc:
-            logger.error("❌ Failed to import unified thermodynamic TCSE system: %s", exc)
+            logger.error(
+                "❌ Failed to import unified thermodynamic TCSE system: %s", exc
+            )
             self._set_component("unified_thermodynamic_tcse", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize unified thermodynamic TCSE system: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize unified thermodynamic TCSE system: %s",
+                exc,
+                exc_info=True,
+            )
             self._set_component("unified_thermodynamic_tcse", None)
 
     def _initialize_spde_engine(self) -> None:
         """Initialize the SPDE engine subsystem."""
         try:
             from src.engines.spde_engine import create_spde_engine
+
             engine = create_spde_engine(device=self._device)
             self._set_component("spde_engine", engine)
             logger.info("SPDE engine initialized successfully")
@@ -749,6 +917,7 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
         """Initialize the Cognitive Cycle engine subsystem."""
         try:
             from src.engines.cognitive_cycle_engine import create_cognitive_cycle_engine
+
             engine = create_cognitive_cycle_engine(device=self._device)
             self._set_component("cognitive_cycle_engine", engine)
             logger.info("Cognitive Cycle engine initialized successfully")
@@ -756,7 +925,9 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             logger.error("❌ Failed to import Cognitive Cycle engine: %s", exc)
             self._set_component("cognitive_cycle_engine", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Cognitive Cycle engine: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Cognitive Cycle engine: %s", exc, exc_info=True
+            )
             self._set_component("cognitive_cycle_engine", None)
 
     def _initialize_meta_insight_engine(self) -> None:
@@ -769,18 +940,23 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
 
             engine = create_meta_insight_engine(device=device)
             self._set_component("meta_insight_engine", engine)
-            logger.info("🧠 Meta Insight Engine initialized successfully - Higher-order cognitive processing enabled")
+            logger.info(
+                "🧠 Meta Insight Engine initialized successfully - Higher-order cognitive processing enabled"
+            )
         except (ImportError, ModuleNotFoundError) as exc:
             logger.error("❌ Failed to import Meta Insight engine: %s", exc)
             self._set_component("meta_insight_engine", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Meta Insight engine: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Meta Insight engine: %s", exc, exc_info=True
+            )
             self._set_component("meta_insight_engine", None)
 
     def _initialize_proactive_detector(self) -> None:
         """Initialize the Proactive Detector subsystem."""
         try:
             from src.engines.proactive_detector import create_proactive_detector
+
             engine = create_proactive_detector(device=self._device)
             self._set_component("proactive_detector", engine)
             logger.info("Proactive Detector initialized successfully")
@@ -788,31 +964,44 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             logger.error("❌ Failed to import Proactive Detector: %s", exc)
             self._set_component("proactive_detector", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Proactive Detector: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Proactive Detector: %s", exc, exc_info=True
+            )
             self._set_component("proactive_detector", None)
 
     def _initialize_revolutionary_intelligence_engine(self) -> None:
         """Initialize the Revolutionary Intelligence Engine subsystem."""
         try:
-            from src.engines.revolutionary_intelligence_engine import create_revolutionary_intelligence_engine
+            from src.engines.revolutionary_intelligence_engine import (
+                create_revolutionary_intelligence_engine,
+            )
 
             # Configure device based on GPU availability
             device = self._device if self._gpu_acceleration_enabled else "cpu"
 
             engine = create_revolutionary_intelligence_engine(device=device)
             self._set_component("revolutionary_intelligence_engine", engine)
-            logger.info("🚀 Revolutionary Intelligence Engine initialized successfully - Advanced AI capabilities enabled")
+            logger.info(
+                "🚀 Revolutionary Intelligence Engine initialized successfully - Advanced AI capabilities enabled"
+            )
         except (ImportError, ModuleNotFoundError) as exc:
-            logger.error("❌ Failed to import Revolutionary Intelligence Engine: %s", exc)
+            logger.error(
+                "❌ Failed to import Revolutionary Intelligence Engine: %s", exc
+            )
             self._set_component("revolutionary_intelligence_engine", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Revolutionary Intelligence Engine: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Revolutionary Intelligence Engine: %s",
+                exc,
+                exc_info=True,
+            )
             self._set_component("revolutionary_intelligence_engine", None)
 
     def _initialize_geoid_scar_manager(self) -> None:
         """Initialize the Geoid SCAR Manager subsystem."""
         try:
             from src.engines.geoid_scar_manager import GeoidScarManager
+
             manager = GeoidScarManager()
             self._set_component("geoid_scar_manager", manager)
             logger.info("Geoid SCAR Manager initialized successfully")
@@ -820,13 +1009,16 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             logger.error("❌ Failed to import GeoidScarManager: %s", exc)
             self._set_component("geoid_scar_manager", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Geoid SCAR Manager: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Geoid SCAR Manager: %s", exc, exc_info=True
+            )
             self._set_component("geoid_scar_manager", None)
 
     def _initialize_system_monitor(self) -> None:
         """Initialize the System Monitor subsystem."""
         try:
             from src.monitoring.system_monitor import SystemMonitor
+
             monitor = SystemMonitor()
             self._set_component("system_monitor", monitor)
             logger.info("System Monitor initialized successfully")
@@ -834,13 +1026,16 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             logger.error("❌ Failed to import SystemMonitor: %s", exc)
             self._set_component("system_monitor", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize System Monitor: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize System Monitor: %s", exc, exc_info=True
+            )
             self._set_component("system_monitor", None)
 
     def _initialize_ethical_governor(self) -> None:
         """Initialize the Ethical Governor subsystem."""
         try:
             from src.governance.ethical_governor import EthicalGovernor
+
             governor = EthicalGovernor()
             self._set_component("ethical_governor", governor)
             logger.info("Ethical Governor initialized successfully")
@@ -848,39 +1043,61 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             logger.error("❌ Failed to import EthicalGovernor: %s", exc)
             self._set_component("ethical_governor", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Ethical Governor: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Ethical Governor: %s", exc, exc_info=True
+            )
             self._set_component("ethical_governor", None)
 
     def _initialize_high_dimensional_modeling(self) -> None:
         """Initialize High-Dimensional Modeling and Secure Computation system."""
         try:
-            from .high_dimensional_modeling.integration import HighDimensionalModelingIntegrator
+            from .high_dimensional_modeling.integration import (
+                HighDimensionalModelingIntegrator,
+            )
 
             integrator = HighDimensionalModelingIntegrator()
             self._set_component("high_dimensional_modeling", integrator)
-            logger.info("🌀 High-Dimensional Modeling and Secure Computation initialized successfully")
+            logger.info(
+                "🌀 High-Dimensional Modeling and Secure Computation initialized successfully"
+            )
 
         except ImportError as exc:
-            logger.error("❌ Failed to import High-Dimensional Modeling integrator: %s", exc)
+            logger.error(
+                "❌ Failed to import High-Dimensional Modeling integrator: %s", exc
+            )
             self._set_component("high_dimensional_modeling", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize High-Dimensional Modeling: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize High-Dimensional Modeling: %s",
+                exc,
+                exc_info=True,
+            )
             self._set_component("high_dimensional_modeling", None)
 
     def _initialize_contradiction_and_pruning(self) -> None:
         """Initialize Proactive Contradiction Detection and Pruning system with DO-178C Level A compliance."""
         try:
-            from .contradiction_and_pruning.integration import ContradictionAndPruningIntegrator
+            from .contradiction_and_pruning.integration import (
+                ContradictionAndPruningIntegrator,
+            )
 
             integrator = ContradictionAndPruningIntegrator()
             self._set_component("contradiction_and_pruning", integrator)
-            logger.info("🔍 Proactive Contradiction Detection and Pruning system initialized successfully (DO-178C Level A)")
+            logger.info(
+                "🔍 Proactive Contradiction Detection and Pruning system initialized successfully (DO-178C Level A)"
+            )
 
         except ImportError as exc:
-            logger.error("❌ Failed to import Contradiction and Pruning integrator: %s", exc)
+            logger.error(
+                "❌ Failed to import Contradiction and Pruning integrator: %s", exc
+            )
             self._set_component("contradiction_and_pruning", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Contradiction and Pruning: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Contradiction and Pruning: %s",
+                exc,
+                exc_info=True,
+            )
             self._set_component("contradiction_and_pruning", None)
 
     def _initialize_insight_management(self) -> None:
@@ -890,13 +1107,17 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
 
             integrator = InsightManagementIntegrator()
             self._set_component("insight_management", integrator)
-            logger.info("🧠 Insight Management system initialized successfully (DO-178C Level A)")
+            logger.info(
+                "🧠 Insight Management system initialized successfully (DO-178C Level A)"
+            )
 
         except ImportError as exc:
             logger.error("❌ Failed to import Insight Management integrator: %s", exc)
             self._set_component("insight_management", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Insight Management: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Insight Management: %s", exc, exc_info=True
+            )
             self._set_component("insight_management", None)
 
     def _initialize_barenholtz_architecture(self) -> None:
@@ -906,22 +1127,35 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
 
             integrator = BarenholtzDualSystemIntegrator()
             self._set_component("barenholtz_architecture", integrator)
-            logger.info("🧠 Barenholtz Dual-System Architecture initialized successfully (DO-178C Level A)")
-            logger.info("   Components: System 1 (intuitive), System 2 (analytical), Metacognitive Controller")
+            logger.info(
+                "🧠 Barenholtz Dual-System Architecture initialized successfully (DO-178C Level A)"
+            )
+            logger.info(
+                "   Components: System 1 (intuitive), System 2 (analytical), Metacognitive Controller"
+            )
 
         except ImportError as exc:
             logger.error("❌ Failed to import Barenholtz Architecture: %s", exc)
             self._set_component("barenholtz_architecture", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Barenholtz Architecture: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Barenholtz Architecture: %s",
+                exc,
+                exc_info=True,
+            )
             self._set_component("barenholtz_architecture", None)
 
     def _initialize_response_generation(self) -> None:
         """Initialize Response Generation and Security System."""
         try:
-            from .response_generation import ResponseGenerationOrchestrator
-            from .response_generation import ResponseGenerationConfig, IntegrationConfig, QuantumSecurityConfig
-            from .response_generation import IntegrationMode, ProcessingPriority
+            from .response_generation import (
+                IntegrationConfig,
+                IntegrationMode,
+                ProcessingPriority,
+                QuantumSecurityConfig,
+                ResponseGenerationConfig,
+                ResponseGenerationOrchestrator,
+            )
 
             # Configure for optimal integration with existing cognitive systems
             response_config = ResponseGenerationConfig(
@@ -929,7 +1163,7 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
                 enable_cognitive_reporting=True,
                 enable_security_enhancement=True,
                 enable_multi_modal=True,
-                processing_timeout=5.0
+                processing_timeout=5.0,
             )
 
             integration_config = IntegrationConfig(
@@ -941,7 +1175,7 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
                 enable_high_dimensional=True,
                 enable_insight_management=True,
                 max_processing_time=10.0,
-                validate_coherence=True
+                validate_coherence=True,
             )
 
             security_config = QuantumSecurityConfig(
@@ -950,32 +1184,43 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
                 signature_scheme="CRYSTALS-Dilithium",
                 encryption_scheme="CRYSTALS-Kyber",
                 threat_threshold=0.8,
-                hardware_security_enabled=True
+                hardware_security_enabled=True,
             )
 
             orchestrator = ResponseGenerationOrchestrator(
                 response_config=response_config,
                 integration_config=integration_config,
-                security_config=security_config
+                security_config=security_config,
             )
 
             self._set_component("response_generation", orchestrator)
-            logger.info("🎭 Response Generation and Security System initialized successfully (DO-178C Level A)")
-            logger.info("   Features: Quantum security, Dual-system integration, Thermodynamic coherence")
-            logger.info("   Components: Cognitive response, Full integration bridge, Quantum security")
+            logger.info(
+                "🎭 Response Generation and Security System initialized successfully (DO-178C Level A)"
+            )
+            logger.info(
+                "   Features: Quantum security, Dual-system integration, Thermodynamic coherence"
+            )
+            logger.info(
+                "   Components: Cognitive response, Full integration bridge, Quantum security"
+            )
 
         except ImportError as exc:
             logger.error("❌ Failed to import Response Generation system: %s", exc)
             self._set_component("response_generation", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Response Generation: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Response Generation: %s", exc, exc_info=True
+            )
             self._set_component("response_generation", None)
 
     def _initialize_testing_and_protocols(self) -> None:
         """Initialize Testing and Protocols System."""
         try:
-            from .testing_and_protocols import TestingAndProtocolsIntegrator, TestingAndProtocolsConfig
-            from .testing_and_protocols import SystemDimension
+            from .testing_and_protocols import (
+                SystemDimension,
+                TestingAndProtocolsConfig,
+                TestingAndProtocolsIntegrator,
+            )
 
             # Configure for comprehensive testing and protocol communication
             config = TestingAndProtocolsConfig(
@@ -990,28 +1235,41 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
                 enable_test_result_broadcasting=True,
                 enable_cross_dimensional_validation=True,
                 enable_performance_monitoring=True,
-                monitoring_interval_seconds=5
+                monitoring_interval_seconds=5,
             )
 
             integrator = TestingAndProtocolsIntegrator(config)
 
             self._set_component("testing_and_protocols", integrator)
-            logger.info("🔬 Testing and Protocols System initialized successfully (DO-178C Level A)")
-            logger.info("   Features: 96-test matrix, Omnidimensional protocols, Real-time monitoring")
-            logger.info("   Components: Test orchestrator, Protocol engine, Matrix validator")
+            logger.info(
+                "🔬 Testing and Protocols System initialized successfully (DO-178C Level A)"
+            )
+            logger.info(
+                "   Features: 96-test matrix, Omnidimensional protocols, Real-time monitoring"
+            )
+            logger.info(
+                "   Components: Test orchestrator, Protocol engine, Matrix validator"
+            )
 
         except ImportError as exc:
             logger.error("❌ Failed to import Testing and Protocols system: %s", exc)
             self._set_component("testing_and_protocols", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Testing and Protocols: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Testing and Protocols: %s", exc, exc_info=True
+            )
             self._set_component("testing_and_protocols", None)
 
     def _initialize_output_and_portals(self) -> None:
         """Initialize Output Generation and Portal Management System."""
         try:
-            from .output_and_portals import OutputAndPortalsIntegrator, OutputAndPortalsConfig
-            from .output_and_portals import OutputQuality, IntegrationMode, DimensionalSpace
+            from .output_and_portals import (
+                DimensionalSpace,
+                IntegrationMode,
+                OutputAndPortalsConfig,
+                OutputAndPortalsIntegrator,
+                OutputQuality,
+            )
 
             # Configure for optimal output generation and portal management
             config = OutputAndPortalsConfig(
@@ -1030,21 +1288,29 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
                 monitoring_interval_seconds=5,
                 enable_emergency_protocols=True,
                 safety_override_allowed=False,
-                maximum_resource_utilization=0.85
+                maximum_resource_utilization=0.85,
             )
 
             integrator = OutputAndPortalsIntegrator(config)
 
             self._set_component("output_and_portals", integrator)
-            logger.info("🎭 Output and Portals System initialized successfully (DO-178C Level A)")
-            logger.info("   Features: Multi-modal output, Interdimensional portals, Unified integration")
-            logger.info("   Components: Output generator, Portal manager, Safety analyzer, Stability predictor")
+            logger.info(
+                "🎭 Output and Portals System initialized successfully (DO-178C Level A)"
+            )
+            logger.info(
+                "   Features: Multi-modal output, Interdimensional portals, Unified integration"
+            )
+            logger.info(
+                "   Components: Output generator, Portal manager, Safety analyzer, Stability predictor"
+            )
 
         except ImportError as exc:
             logger.error("❌ Failed to import Output and Portals system: %s", exc)
             self._set_component("output_and_portals", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Output and Portals: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Output and Portals: %s", exc, exc_info=True
+            )
             self._set_component("output_and_portals", None)
 
     def _initialize_quantum_interface(self) -> None:
@@ -1053,51 +1319,73 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             from .quantum_interface.integration import QuantumInterfaceIntegrator
 
             integrator = QuantumInterfaceIntegrator(
-                dimensions=1024,
-                adaptive_mode=True,
-                safety_level="catastrophic"
+                dimensions=1024, adaptive_mode=True, safety_level="catastrophic"
             )
 
             self._set_component("quantum_interface", integrator)
-            logger.info("🌌 Quantum Interface System initialized successfully (DO-178C Level A)")
-            logger.info("   Features: Quantum-classical bridge, Multi-modal translation, Safety monitoring")
-            logger.info("   Components: Hybrid processor, Universal translator, Safety orchestrator")
+            logger.info(
+                "🌌 Quantum Interface System initialized successfully (DO-178C Level A)"
+            )
+            logger.info(
+                "   Features: Quantum-classical bridge, Multi-modal translation, Safety monitoring"
+            )
+            logger.info(
+                "   Components: Hybrid processor, Universal translator, Safety orchestrator"
+            )
 
         except ImportError as exc:
             logger.error("❌ Failed to import Quantum Interface system: %s", exc)
             self._set_component("quantum_interface", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Quantum Interface: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Quantum Interface: %s", exc, exc_info=True
+            )
             self._set_component("quantum_interface", None)
 
     def _initialize_quantum_security_complexity(self) -> None:
         """Initialize Quantum Security and Complexity System with DO-178C Level A compliance."""
         try:
-            from .quantum_security_and_complexity.integration import QuantumSecurityComplexityIntegrator
+            from .quantum_security_and_complexity.integration import (
+                QuantumSecurityComplexityIntegrator,
+            )
 
             integrator = QuantumSecurityComplexityIntegrator(
                 crypto_device_id=0,
                 complexity_dimensions=1024,
                 adaptive_mode=True,
-                safety_level="catastrophic"
+                safety_level="catastrophic",
             )
 
             self._set_component("quantum_security_complexity", integrator)
-            logger.info("🔐 Quantum Security and Complexity System initialized successfully (DO-178C Level A)")
-            logger.info("   Features: Post-quantum cryptography, Thermodynamic complexity analysis, Safety orchestration")
-            logger.info("   Components: Quantum crypto, Complexity analyzer, Integration orchestrator")
+            logger.info(
+                "🔐 Quantum Security and Complexity System initialized successfully (DO-178C Level A)"
+            )
+            logger.info(
+                "   Features: Post-quantum cryptography, Thermodynamic complexity analysis, Safety orchestration"
+            )
+            logger.info(
+                "   Components: Quantum crypto, Complexity analyzer, Integration orchestrator"
+            )
 
         except ImportError as exc:
-            logger.error("❌ Failed to import Quantum Security and Complexity system: %s", exc)
+            logger.error(
+                "❌ Failed to import Quantum Security and Complexity system: %s", exc
+            )
             self._set_component("quantum_security_complexity", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Quantum Security and Complexity: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Quantum Security and Complexity: %s",
+                exc,
+                exc_info=True,
+            )
             self._set_component("quantum_security_complexity", None)
 
     def _initialize_quantum_thermodynamics(self) -> None:
         """Initialize Quantum Thermodynamics System with DO-178C Level A compliance."""
         try:
-            from .quantum_thermodynamics.integration import QuantumThermodynamicsIntegrator
+            from .quantum_thermodynamics.integration import (
+                QuantumThermodynamicsIntegrator,
+            )
 
             integrator = QuantumThermodynamicsIntegrator(
                 measurement_interval=50,
@@ -1105,25 +1393,35 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
                 max_signals=1000,
                 max_claims=1000,
                 adaptive_mode=True,
-                safety_level="catastrophic"
+                safety_level="catastrophic",
             )
 
             self._set_component("quantum_thermodynamics", integrator)
-            logger.info("🌡️ Quantum Thermodynamics System initialized successfully (DO-178C Level A)")
-            logger.info("   Features: Thermodynamic signal processing, Quantum truth monitoring, Epistemic validation")
-            logger.info("   Components: Signal processor, Truth monitor, Integration orchestrator")
+            logger.info(
+                "🌡️ Quantum Thermodynamics System initialized successfully (DO-178C Level A)"
+            )
+            logger.info(
+                "   Features: Thermodynamic signal processing, Quantum truth monitoring, Epistemic validation"
+            )
+            logger.info(
+                "   Components: Signal processor, Truth monitor, Integration orchestrator"
+            )
 
         except ImportError as exc:
             logger.error("❌ Failed to import Quantum Thermodynamics system: %s", exc)
             self._set_component("quantum_thermodynamics", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Quantum Thermodynamics: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Quantum Thermodynamics: %s", exc, exc_info=True
+            )
             self._set_component("quantum_thermodynamics", None)
 
     def _initialize_signal_evolution_validation(self) -> None:
         """Initialize Signal Evolution and Validation System with DO-178C Level A compliance."""
         try:
-            from .signal_evolution_and_validation.integration import SignalEvolutionValidationIntegrator
+            from .signal_evolution_and_validation.integration import (
+                SignalEvolutionValidationIntegrator,
+            )
 
             integrator = SignalEvolutionValidationIntegrator(
                 batch_size=32,
@@ -1132,30 +1430,44 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
                 quantum_coherence_threshold=0.8,
                 zetetic_doubt_intensity=0.9,
                 adaptive_mode=True,
-                safety_level="catastrophic"
+                safety_level="catastrophic",
             )
 
             self._set_component("signal_evolution_validation", integrator)
-            logger.info("🌊 Signal Evolution and Validation System initialized successfully (DO-178C Level A)")
-            logger.info("   Features: Real-time signal evolution, Revolutionary epistemic validation, Meta-cognitive analysis")
-            logger.info("   Components: Signal evolution engine, Epistemic validator, Integration orchestrator")
+            logger.info(
+                "🌊 Signal Evolution and Validation System initialized successfully (DO-178C Level A)"
+            )
+            logger.info(
+                "   Features: Real-time signal evolution, Revolutionary epistemic validation, Meta-cognitive analysis"
+            )
+            logger.info(
+                "   Components: Signal evolution engine, Epistemic validator, Integration orchestrator"
+            )
 
         except ImportError as exc:
-            logger.error("❌ Failed to import Signal Evolution and Validation system: %s", exc)
+            logger.error(
+                "❌ Failed to import Signal Evolution and Validation system: %s", exc
+            )
             self._set_component("signal_evolution_validation", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Signal Evolution and Validation: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Signal Evolution and Validation: %s",
+                exc,
+                exc_info=True,
+            )
             self._set_component("signal_evolution_validation", None)
 
     def _initialize_rhetorical_and_symbolic_processing(self) -> None:
         """Initialize the Rhetorical and Symbolic Processing Integration subsystem."""
         try:
-            from .rhetorical_and_symbolic_processing.integration import RhetoricalSymbolicIntegrator, ProcessingMode
+            from .rhetorical_and_symbolic_processing.integration import (
+                ProcessingMode,
+                RhetoricalSymbolicIntegrator,
+            )
 
             # Create integrator with adaptive processing mode
             integrator = RhetoricalSymbolicIntegrator(
-                device=self._device,
-                mode=ProcessingMode.ADAPTIVE
+                device=self._device, mode=ProcessingMode.ADAPTIVE
             )
 
             # Store the integrator for later async initialization
@@ -1169,18 +1481,24 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             logger.error("❌ Failed to import RhetoricalSymbolicIntegrator: %s", exc)
             self._set_component("rhetorical_and_symbolic_processing", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize RhetoricalSymbolicIntegrator: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize RhetoricalSymbolicIntegrator: %s",
+                exc,
+                exc_info=True,
+            )
             self._set_component("rhetorical_and_symbolic_processing", None)
 
     def _initialize_symbolic_and_tcse(self) -> None:
         """Initialize the Symbolic Processing and TCSE Integration subsystem."""
         try:
-            from .symbolic_and_tcse.integration import SymbolicTCSEIntegrator, ProcessingMode
+            from .symbolic_and_tcse.integration import (
+                ProcessingMode,
+                SymbolicTCSEIntegrator,
+            )
 
             # Create integrator with adaptive processing mode
             integrator = SymbolicTCSEIntegrator(
-                device=self._device,
-                mode=ProcessingMode.ADAPTIVE
+                device=self._device, mode=ProcessingMode.ADAPTIVE
             )
 
             # Store the integrator for later async initialization
@@ -1194,39 +1512,62 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             logger.error("❌ Failed to import SymbolicTCSEIntegrator: %s", exc)
             self._set_component("symbolic_and_tcse", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize SymbolicTCSEIntegrator: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize SymbolicTCSEIntegrator: %s", exc, exc_info=True
+            )
             self._set_component("symbolic_and_tcse", None)
 
     def _initialize_thermodynamic_optimization(self) -> None:
         """Initialize Thermodynamic Signal and Efficiency Optimization system with DO-178C Level A compliance."""
         try:
-            from .thermodynamic_optimization.integration import ThermodynamicOptimizationIntegrator
+            from .thermodynamic_optimization.integration import (
+                ThermodynamicOptimizationIntegrator,
+            )
 
             integrator = ThermodynamicOptimizationIntegrator()
             self._set_component("thermodynamic_optimization", integrator)
-            logger.info("🌡️ Thermodynamic Signal and Efficiency Optimization initialized successfully (DO-178C Level A)")
+            logger.info(
+                "🌡️ Thermodynamic Signal and Efficiency Optimization initialized successfully (DO-178C Level A)"
+            )
 
         except ImportError as exc:
-            logger.error("❌ Failed to import Thermodynamic Optimization integrator: %s", exc)
+            logger.error(
+                "❌ Failed to import Thermodynamic Optimization integrator: %s", exc
+            )
             self._set_component("thermodynamic_optimization", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Thermodynamic Optimization: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Thermodynamic Optimization: %s",
+                exc,
+                exc_info=True,
+            )
             self._set_component("thermodynamic_optimization", None)
 
     def _initialize_triton_and_unsupervised_optimization(self) -> None:
         """Initialize Triton Kernels and Unsupervised Optimization system with DO-178C Level A compliance."""
         try:
-            from .triton_and_unsupervised_optimization.integration import TritonUnsupervisedOptimizationIntegrator
+            from .triton_and_unsupervised_optimization.integration import (
+                TritonUnsupervisedOptimizationIntegrator,
+            )
 
             integrator = TritonUnsupervisedOptimizationIntegrator()
             self._set_component("triton_and_unsupervised_optimization", integrator)
-            logger.info("🚀 Triton Kernels and Unsupervised Optimization initialized successfully (DO-178C Level A)")
+            logger.info(
+                "🚀 Triton Kernels and Unsupervised Optimization initialized successfully (DO-178C Level A)"
+            )
 
         except ImportError as exc:
-            logger.error("❌ Failed to import Triton and Unsupervised Optimization integrator: %s", exc)
+            logger.error(
+                "❌ Failed to import Triton and Unsupervised Optimization integrator: %s",
+                exc,
+            )
             self._set_component("triton_and_unsupervised_optimization", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Triton and Unsupervised Optimization: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Triton and Unsupervised Optimization: %s",
+                exc,
+                exc_info=True,
+            )
             self._set_component("triton_and_unsupervised_optimization", None)
 
     def _initialize_vortex_dynamics(self) -> None:
@@ -1236,48 +1577,66 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
 
             integrator = VortexDynamicsIntegrator()
             self._set_component("vortex_dynamics", integrator)
-            logger.info("🌀 Vortex Dynamics and Energy Storage initialized successfully (DO-178C Level A)")
+            logger.info(
+                "🌀 Vortex Dynamics and Energy Storage initialized successfully (DO-178C Level A)"
+            )
 
         except ImportError as exc:
             logger.error("❌ Failed to import Vortex Dynamics integrator: %s", exc)
             self._set_component("vortex_dynamics", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Vortex Dynamics: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Vortex Dynamics: %s", exc, exc_info=True
+            )
             self._set_component("vortex_dynamics", None)
 
     def _initialize_zetetic_and_revolutionary_integration(self) -> None:
         """Initialize Zetetic and Revolutionary Integration system with DO-178C Level A compliance."""
         try:
-            from .zetetic_and_revolutionary_integration.integration import ZeteticRevolutionaryIntegrator
+            from .zetetic_and_revolutionary_integration.integration import (
+                ZeteticRevolutionaryIntegrator,
+            )
 
             integrator = ZeteticRevolutionaryIntegrator(integration_level="RESEARCH")
             self._set_component("zetetic_and_revolutionary_integration", integrator)
-            logger.info("🔬 Zetetic and Revolutionary Integration initialized successfully (DO-178C Level A)")
+            logger.info(
+                "🔬 Zetetic and Revolutionary Integration initialized successfully (DO-178C Level A)"
+            )
 
         except ImportError as exc:
-            logger.error("❌ Failed to import Zetetic Revolutionary integrator: %s", exc)
+            logger.error(
+                "❌ Failed to import Zetetic Revolutionary integrator: %s", exc
+            )
             self._set_component("zetetic_and_revolutionary_integration", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Zetetic Revolutionary Integration: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Zetetic Revolutionary Integration: %s",
+                exc,
+                exc_info=True,
+            )
             self._set_component("zetetic_and_revolutionary_integration", None)
 
     def _initialize_exception_handling(self) -> None:
         """Initialize the Exception Handling subsystem."""
         try:
             from src.core import exception_handling
+
             self._set_component("exception_handling", exception_handling.error_registry)
             logger.info("Exception Handling initialized successfully")
         except (ImportError, ModuleNotFoundError) as exc:
             logger.error("❌ Failed to import Exception Handling: %s", exc)
             self._set_component("exception_handling", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Exception Handling: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Exception Handling: %s", exc, exc_info=True
+            )
             self._set_component("exception_handling", None)
 
     def _initialize_error_recovery(self) -> None:
         """Initialize the Error Recovery subsystem."""
         try:
             from src.core.error_recovery import get_error_recovery_manager
+
             manager = get_error_recovery_manager()
             self._set_component("error_recovery", manager)
             logger.info("Error Recovery initialized successfully")
@@ -1285,13 +1644,16 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             logger.error("❌ Failed to import Error Recovery: %s", exc)
             self._set_component("error_recovery", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Error Recovery: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Error Recovery: %s", exc, exc_info=True
+            )
             self._set_component("error_recovery", None)
 
     def _initialize_performance_manager(self) -> None:
         """Initialize the Performance Manager subsystem."""
         try:
             from src.core.performance_integration import PerformanceManager
+
             manager = PerformanceManager()
             self._set_component("performance_manager", manager)
             logger.info("Performance Manager initialized successfully")
@@ -1299,13 +1661,16 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             logger.error("❌ Failed to import Performance Manager: %s", exc)
             self._set_component("performance_manager", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Performance Manager: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Performance Manager: %s", exc, exc_info=True
+            )
             self._set_component("performance_manager", None)
 
     def _initialize_database_optimization(self) -> None:
         """Initialize the Database Optimization subsystem."""
         try:
             from src.core.database_optimization import DatabaseConnectionPool
+
             db_pool = DatabaseConnectionPool()
             self._set_component("database_optimization", db_pool)
             logger.info("Database Optimization initialized successfully")
@@ -1313,13 +1678,16 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             logger.error("❌ Failed to import Database Optimization: %s", exc)
             self._set_component("database_optimization", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Database Optimization: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Database Optimization: %s", exc, exc_info=True
+            )
             self._set_component("database_optimization", None)
 
     def _initialize_context_supremacy(self) -> None:
         """Initialize the Context Supremacy Engine subsystem."""
         try:
             from src.core.context_supremacy import ContextSupremacyEngine
+
             engine = ContextSupremacyEngine()
             self._set_component("context_supremacy", engine)
             logger.info("Context Supremacy Engine initialized successfully")
@@ -1327,13 +1695,18 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             logger.error("❌ Failed to import Context Supremacy Engine: %s", exc)
             self._set_component("context_supremacy", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Context Supremacy Engine: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Context Supremacy Engine: %s",
+                exc,
+                exc_info=True,
+            )
             self._set_component("context_supremacy", None)
 
     def _initialize_statistical_modeling(self) -> None:
         """Initialize the Statistical Modeling subsystem."""
         try:
             from src.core.statistical_modeling import StatisticalModelingEngine
+
             engine = StatisticalModelingEngine()
             self._set_component("statistical_modeling", engine)
             logger.info("Statistical Modeling Engine initialized successfully")
@@ -1341,13 +1714,18 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             logger.error("❌ Failed to import Statistical Modeling Engine: %s", exc)
             self._set_component("statistical_modeling", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Statistical Modeling Engine: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Statistical Modeling Engine: %s",
+                exc,
+                exc_info=True,
+            )
             self._set_component("statistical_modeling", None)
 
     def _initialize_universal_compassion(self) -> None:
         """Initialize the Universal Compassion Engine subsystem."""
         try:
             from src.core.universal_compassion import UniversalCompassionEngine
+
             engine = UniversalCompassionEngine()
             self._set_component("universal_compassion", engine)
             logger.info("Universal Compassion Engine initialized successfully")
@@ -1355,13 +1733,18 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             logger.error("❌ Failed to import Universal Compassion Engine: %s", exc)
             self._set_component("universal_compassion", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Universal Compassion Engine: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Universal Compassion Engine: %s",
+                exc,
+                exc_info=True,
+            )
             self._set_component("universal_compassion", None)
 
     def _initialize_cache_layer(self) -> None:
         """Initialize the Cache Layer subsystem."""
         try:
             from src.core.cache_layer import CacheManager
+
             manager = CacheManager()
             self._set_component("cache_layer", manager)
             logger.info("Cache Layer initialized successfully")
@@ -1376,6 +1759,7 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
         """Initialize the Dependency Injection subsystem."""
         try:
             from src.core.dependency_injection import ServiceContainer
+
             container = ServiceContainer()
             self._set_component("dependency_injection", container)
             logger.info("Dependency Injection initialized successfully")
@@ -1383,13 +1767,16 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             logger.error("❌ Failed to import Dependency Injection: %s", exc)
             self._set_component("dependency_injection", None)
         except Exception as exc:
-            logger.error("❌ Failed to initialize Dependency Injection: %s", exc, exc_info=True)
+            logger.error(
+                "❌ Failed to initialize Dependency Injection: %s", exc, exc_info=True
+            )
             self._set_component("dependency_injection", None)
 
     def _initialize_task_manager(self) -> None:
         """Initialize the Task Manager subsystem."""
         try:
             from src.core.task_manager import TaskManager
+
             manager = TaskManager()
             self._set_component("task_manager", manager)
             logger.info("Task Manager initialized successfully")
@@ -1414,19 +1801,27 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
         # Shutdown unified thermodynamic systems first (order matters)
         try:
             unified_system = self.get_component("unified_thermodynamic_tcse")
-            if unified_system and hasattr(unified_system, 'shutdown_unified_system'):
+            if unified_system and hasattr(unified_system, "shutdown_unified_system"):
                 await unified_system.shutdown_unified_system()
                 logger.info("✅ Unified Thermodynamic + TCSE System shutdown complete")
         except Exception as exc:
-            logger.error(f"❌ Error shutting down unified thermodynamic system: {exc}", exc_info=True)
+            logger.error(
+                f"❌ Error shutting down unified thermodynamic system: {exc}",
+                exc_info=True,
+            )
 
         try:
-            thermo_integration = self.get_component("revolutionary_thermodynamic_engines")
-            if thermo_integration and hasattr(thermo_integration, 'shutdown_all'):
+            thermo_integration = self.get_component(
+                "revolutionary_thermodynamic_engines"
+            )
+            if thermo_integration and hasattr(thermo_integration, "shutdown_all"):
                 await thermo_integration.shutdown_all()
                 logger.info("✅ Revolutionary Thermodynamic Engines shutdown complete")
         except Exception as exc:
-            logger.error(f"❌ Error shutting down revolutionary thermodynamic engines: {exc}", exc_info=True)
+            logger.error(
+                f"❌ Error shutting down revolutionary thermodynamic engines: {exc}",
+                exc_info=True,
+            )
 
         # Create a snapshot of components to avoid modification during iteration
         components_snapshot = {}
@@ -1437,16 +1832,18 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
 
         # Shutdown remaining subsystems, handling both sync and async shutdown methods
         for component_name, component in components_snapshot.items():
-            if component and hasattr(component, 'shutdown'):
+            if component and hasattr(component, "shutdown"):
                 try:
-                    shutdown_method = getattr(component, 'shutdown')
+                    shutdown_method = getattr(component, "shutdown")
                     if inspect.iscoroutinefunction(shutdown_method):
                         await shutdown_method()
                     else:
                         shutdown_method()
                     logger.info(f"✅ {component_name} shutdown complete")
                 except Exception as exc:
-                    logger.error(f"❌ Error shutting down {component_name}: {exc}", exc_info=True)
+                    logger.error(
+                        f"❌ Error shutting down {component_name}: {exc}", exc_info=True
+                    )
 
         # Clear all components
         for name in list(self._components.keys()):
@@ -1625,14 +2022,42 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             current_state = self._state
 
         # Get component status safely
-        component_names = ["vault_manager", "gpu_foundation", "understanding_engine", "human_interface",
-                          "enhanced_thermodynamic_scheduler", "quantum_cognitive_engine", "revolutionary_intelligence_engine",
-                          "meta_insight_engine", "ethical_reasoning_engine", "unsupervised_cognitive_learning_engine",
-                          "complexity_analysis_engine", "quantum_field_engine", "gpu_cryptographic_engine",
-                          "thermodynamic_integration", "unified_thermodynamic_integration", "contradiction_engine",
-                          "thermodynamics_engine", "embedding_model", "geoid_scar_manager", "system_monitor", "ethical_governor",
-                          "high_dimensional_modeling", "contradiction_and_pruning", "insight_management", "barenholtz_architecture",
-                          "response_generation", "testing_and_protocols", "output_and_portals", "quantum_interface", "quantum_security_complexity", "quantum_thermodynamics", "signal_evolution_validation", "rhetorical_and_symbolic_processing", "symbolic_and_tcse"]
+        component_names = [
+            "vault_manager",
+            "gpu_foundation",
+            "understanding_engine",
+            "human_interface",
+            "enhanced_thermodynamic_scheduler",
+            "quantum_cognitive_engine",
+            "revolutionary_intelligence_engine",
+            "meta_insight_engine",
+            "ethical_reasoning_engine",
+            "unsupervised_cognitive_learning_engine",
+            "complexity_analysis_engine",
+            "quantum_field_engine",
+            "gpu_cryptographic_engine",
+            "thermodynamic_integration",
+            "unified_thermodynamic_integration",
+            "contradiction_engine",
+            "thermodynamics_engine",
+            "embedding_model",
+            "geoid_scar_manager",
+            "system_monitor",
+            "ethical_governor",
+            "high_dimensional_modeling",
+            "contradiction_and_pruning",
+            "insight_management",
+            "barenholtz_architecture",
+            "response_generation",
+            "testing_and_protocols",
+            "output_and_portals",
+            "quantum_interface",
+            "quantum_security_complexity",
+            "quantum_thermodynamics",
+            "signal_evolution_validation",
+            "rhetorical_and_symbolic_processing",
+            "symbolic_and_tcse",
+        ]
         component_status = {}
         for name in component_names:
             component_status[name] = self.get_component(name) is not None
@@ -1642,37 +2067,89 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             "components": component_status,
             "vault_manager_ready": component_status.get("vault_manager", False),
             "gpu_foundation_ready": component_status.get("gpu_foundation", False),
-            "understanding_engine_ready": component_status.get("understanding_engine", False),
+            "understanding_engine_ready": component_status.get(
+                "understanding_engine", False
+            ),
             "human_interface_ready": component_status.get("human_interface", False),
-            "enhanced_thermodynamic_scheduler_ready": component_status.get("enhanced_thermodynamic_scheduler", False),
-            "quantum_cognitive_engine_ready": component_status.get("quantum_cognitive_engine", False),
-            "revolutionary_intelligence_engine_ready": component_status.get("revolutionary_intelligence_engine", False),
-            "meta_insight_engine_ready": component_status.get("meta_insight_engine", False),
-            "ethical_reasoning_engine_ready": component_status.get("ethical_reasoning_engine", False),
-            "unsupervised_cognitive_learning_engine_ready": component_status.get("unsupervised_cognitive_learning_engine", False),
-            "complexity_analysis_engine_ready": component_status.get("complexity_analysis_engine", False),
-            "quantum_field_engine_ready": component_status.get("quantum_field_engine", False),
-            "gpu_cryptographic_engine_ready": component_status.get("gpu_cryptographic_engine", False),
-            "thermodynamic_integration_ready": component_status.get("thermodynamic_integration", False),
-            "unified_thermodynamic_integration_ready": component_status.get("unified_thermodynamic_integration", False),
-            "contradiction_engine_ready": component_status.get("contradiction_engine", False),
-            "thermodynamic_engine_ready": component_status.get("thermodynamics_engine", False),
+            "enhanced_thermodynamic_scheduler_ready": component_status.get(
+                "enhanced_thermodynamic_scheduler", False
+            ),
+            "quantum_cognitive_engine_ready": component_status.get(
+                "quantum_cognitive_engine", False
+            ),
+            "revolutionary_intelligence_engine_ready": component_status.get(
+                "revolutionary_intelligence_engine", False
+            ),
+            "meta_insight_engine_ready": component_status.get(
+                "meta_insight_engine", False
+            ),
+            "ethical_reasoning_engine_ready": component_status.get(
+                "ethical_reasoning_engine", False
+            ),
+            "unsupervised_cognitive_learning_engine_ready": component_status.get(
+                "unsupervised_cognitive_learning_engine", False
+            ),
+            "complexity_analysis_engine_ready": component_status.get(
+                "complexity_analysis_engine", False
+            ),
+            "quantum_field_engine_ready": component_status.get(
+                "quantum_field_engine", False
+            ),
+            "gpu_cryptographic_engine_ready": component_status.get(
+                "gpu_cryptographic_engine", False
+            ),
+            "thermodynamic_integration_ready": component_status.get(
+                "thermodynamic_integration", False
+            ),
+            "unified_thermodynamic_integration_ready": component_status.get(
+                "unified_thermodynamic_integration", False
+            ),
+            "contradiction_engine_ready": component_status.get(
+                "contradiction_engine", False
+            ),
+            "thermodynamic_engine_ready": component_status.get(
+                "thermodynamics_engine", False
+            ),
             "embedding_model_ready": component_status.get("embedding_model", False),
-            "geoid_scar_manager_ready": component_status.get("geoid_scar_manager", False),
+            "geoid_scar_manager_ready": component_status.get(
+                "geoid_scar_manager", False
+            ),
             "system_monitor_ready": component_status.get("system_monitor", False),
             "ethical_governor_ready": component_status.get("ethical_governor", False),
-            "high_dimensional_modeling_ready": component_status.get("high_dimensional_modeling", False),
-            "contradiction_and_pruning_ready": component_status.get("contradiction_and_pruning", False),
-            "insight_management_ready": component_status.get("insight_management", False),
-            "barenholtz_architecture_ready": component_status.get("barenholtz_architecture", False),
-            "response_generation_ready": component_status.get("response_generation", False),
-            "testing_and_protocols_ready": component_status.get("testing_and_protocols", False),
-            "output_and_portals_ready": component_status.get("output_and_portals", False),
+            "high_dimensional_modeling_ready": component_status.get(
+                "high_dimensional_modeling", False
+            ),
+            "contradiction_and_pruning_ready": component_status.get(
+                "contradiction_and_pruning", False
+            ),
+            "insight_management_ready": component_status.get(
+                "insight_management", False
+            ),
+            "barenholtz_architecture_ready": component_status.get(
+                "barenholtz_architecture", False
+            ),
+            "response_generation_ready": component_status.get(
+                "response_generation", False
+            ),
+            "testing_and_protocols_ready": component_status.get(
+                "testing_and_protocols", False
+            ),
+            "output_and_portals_ready": component_status.get(
+                "output_and_portals", False
+            ),
             "quantum_interface_ready": component_status.get("quantum_interface", False),
-            "quantum_security_complexity_ready": component_status.get("quantum_security_complexity", False),
-            "quantum_thermodynamics_ready": component_status.get("quantum_thermodynamics", False),
-            "signal_evolution_validation_ready": component_status.get("signal_evolution_validation", False),
-            "rhetorical_and_symbolic_processing_ready": component_status.get("rhetorical_and_symbolic_processing", False),
+            "quantum_security_complexity_ready": component_status.get(
+                "quantum_security_complexity", False
+            ),
+            "quantum_thermodynamics_ready": component_status.get(
+                "quantum_thermodynamics", False
+            ),
+            "signal_evolution_validation_ready": component_status.get(
+                "signal_evolution_validation", False
+            ),
+            "rhetorical_and_symbolic_processing_ready": component_status.get(
+                "rhetorical_and_symbolic_processing", False
+            ),
             "symbolic_and_tcse_ready": component_status.get("symbolic_and_tcse", False),
         }
 
@@ -1687,7 +2164,9 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             return {
                 "state": str(self._state),
                 "device": self._device,
-                "components": {name: comp is not None for name, comp in self._components.items()}
+                "components": {
+                    name: comp is not None for name, comp in self._components.items()
+                },
             }
         return self._components.get(key, default)
 
@@ -1700,7 +2179,9 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
         logger.info("🚀 Initializing GPU acceleration system...")
 
         if not GPU_SYSTEM_AVAILABLE:
-            logger.warning("⚠️ GPU system components not available - GPU acceleration disabled")
+            logger.warning(
+                "⚠️ GPU system components not available - GPU acceleration disabled"
+            )
             self._device = "cpu"
             self._gpu_acceleration_enabled = False
             return
@@ -1717,9 +2198,15 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
                 self._device = f"cuda:{device_info.get('device_id', 0)}"
                 self._gpu_acceleration_enabled = True
 
-                logger.info(f"✅ GPU Manager initialized - Device: {device_info.get('name', 'Unknown')}")
-                logger.info(f"🔥 GPU Memory: {device_info.get('total_memory_gb', 0):.1f}GB")
-                logger.info(f"⚡ Compute Capability: {device_info.get('compute_capability', (0, 0))}")
+                logger.info(
+                    f"✅ GPU Manager initialized - Device: {device_info.get('name', 'Unknown')}"
+                )
+                logger.info(
+                    f"🔥 GPU Memory: {device_info.get('total_memory_gb', 0):.1f}GB"
+                )
+                logger.info(
+                    f"⚡ Compute Capability: {device_info.get('compute_capability', (0, 0))}"
+                )
 
                 # Initialize GPU Integration System
                 try:
@@ -1728,7 +2215,9 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
                     self._set_component("gpu_integration_system", integration_system)
                     logger.info("✅ GPU Integration System initialized")
                 except Exception as exc:
-                    logger.error(f"❌ Failed to initialize GPU Integration System: {exc}")
+                    logger.error(
+                        f"❌ Failed to initialize GPU Integration System: {exc}"
+                    )
                     self._set_component("gpu_integration_system", None)
 
                 # Initialize GPU Geoid Processor
@@ -1748,7 +2237,9 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
                     self._set_component("gpu_thermodynamic_engine", gpu_thermo_engine)
                     logger.info("✅ GPU Thermodynamic Engine initialized")
                 except Exception as exc:
-                    logger.error(f"❌ Failed to initialize GPU Thermodynamic Engine: {exc}")
+                    logger.error(
+                        f"❌ Failed to initialize GPU Thermodynamic Engine: {exc}"
+                    )
                     self._set_component("gpu_thermodynamic_engine", None)
 
                 logger.info("🎉 GPU acceleration system fully operational!")
@@ -1767,7 +2258,12 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             self._device = "cpu"
             self._gpu_acceleration_enabled = False
             # Set all GPU components to None
-            for component in ["gpu_manager", "gpu_integration_system", "gpu_geoid_processor", "gpu_thermodynamic_engine"]:
+            for component in [
+                "gpu_manager",
+                "gpu_integration_system",
+                "gpu_geoid_processor",
+                "gpu_thermodynamic_engine",
+            ]:
                 self._set_component(component, None)
 
     def _initialize_legacy_gpu_foundation(self) -> None:
@@ -1776,10 +2272,14 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             try:
                 gpu_found = GPUFoundation()
                 self._gpu_foundation = gpu_found
-                if self._device == "cpu":  # Only override if GPU system didn't set device
+                if (
+                    self._device == "cpu"
+                ):  # Only override if GPU system didn't set device
                     self._device = str(gpu_found.get_device())
                 self._set_component("gpu_foundation", gpu_found)
-                logger.info(f"✅ Legacy GPU Foundation initialized - Device: {self._device}")
+                logger.info(
+                    f"✅ Legacy GPU Foundation initialized - Device: {self._device}"
+                )
             except (RuntimeError, ImportError, AttributeError) as exc:
                 self._gpu_foundation = None
                 self._set_component("gpu_foundation", None)
@@ -1800,6 +2300,7 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
             try:
                 # Start GPU monitoring if available
                 import asyncio
+
                 loop = None
                 try:
                     loop = asyncio.get_event_loop()
@@ -1808,7 +2309,9 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
                         asyncio.create_task(self._start_gpu_monitoring())
                         logger.info("🔄 GPU monitoring scheduled")
                 except RuntimeError:
-                    logger.debug("No event loop available - GPU monitoring will start with first async operation")
+                    logger.debug(
+                        "No event loop available - GPU monitoring will start with first async operation"
+                    )
 
                 logger.info("🏁 GPU system integration completed successfully")
 
@@ -1871,8 +2374,8 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
                 "gpu_manager": self._gpu_manager is not None,
                 "gpu_integration_system": self._gpu_integration_system is not None,
                 "gpu_geoid_processor": self._gpu_geoid_processor is not None,
-                "gpu_thermodynamic_engine": self._gpu_thermodynamic_engine is not None
-            }
+                "gpu_thermodynamic_engine": self._gpu_thermodynamic_engine is not None,
+            },
         }
 
     # ------------------------------------------------------------------
@@ -1894,22 +2397,32 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
 
             # Initialize revolutionary thermodynamic engines
             thermo_integration = self.get_thermodynamic_integration()
-            if thermo_integration and hasattr(thermo_integration, 'initialize_all_engines'):
+            if thermo_integration and hasattr(
+                thermo_integration, "initialize_all_engines"
+            ):
                 result = await thermo_integration.initialize_all_engines()
                 if result:
-                    logger.info("✅ Revolutionary Thermodynamic Engines async initialization complete")
+                    logger.info(
+                        "✅ Revolutionary Thermodynamic Engines async initialization complete"
+                    )
                 else:
-                    logger.error("❌ Revolutionary Thermodynamic Engines async initialization failed")
+                    logger.error(
+                        "❌ Revolutionary Thermodynamic Engines async initialization failed"
+                    )
                     success = False
 
             # Initialize unified system
             unified_system = self.get_unified_thermodynamic_tcse()
-            if unified_system and hasattr(unified_system, 'initialize_complete_system'):
+            if unified_system and hasattr(unified_system, "initialize_complete_system"):
                 result = await unified_system.initialize_complete_system()
                 if result:
-                    logger.info("✅ Unified Thermodynamic + TCSE System async initialization complete")
+                    logger.info(
+                        "✅ Unified Thermodynamic + TCSE System async initialization complete"
+                    )
                 else:
-                    logger.error("❌ Unified Thermodynamic + TCSE System async initialization failed")
+                    logger.error(
+                        "❌ Unified Thermodynamic + TCSE System async initialization failed"
+                    )
                     success = False
 
             return success
@@ -1927,9 +2440,11 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
         thermo_integration = self.get_thermodynamic_integration()
 
         # Check if thermodynamic integration is ready
-        thermo_ready = (thermo_integration and
-                       hasattr(thermo_integration, 'engines_initialized') and
-                       thermo_integration.engines_initialized)
+        thermo_ready = (
+            thermo_integration
+            and hasattr(thermo_integration, "engines_initialized")
+            and thermo_integration.engines_initialized
+        )
 
         # For now, we only require thermodynamic_integration to be ready
         # unified_thermodynamic_tcse is optional until foundational_thermodynamic_engine is available
@@ -1987,6 +2502,7 @@ class KimeraSystem:  # pylint: disable=too-few-public-methods
 def get_kimera_system() -> "KimeraSystem":
     """Returns the singleton instance of the KimeraSystem."""
     return KimeraSystem()
+
 
 # Convenience instance for direct import if needed, but get_kimera_system is preferred
 kimera_singleton = get_kimera_system()

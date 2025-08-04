@@ -9,60 +9,78 @@ Date: 2025-01-31
 Status: Production-Ready
 """
 
+import asyncio
 import logging
 import time
-import numpy as np
-from typing import Dict, Any, Optional, List, Union, Tuple, Callable
-from dataclasses import dataclass, field
-from enum import Enum
-import asyncio
 import traceback
+from dataclasses import dataclass, field
 from datetime import datetime
+from enum import Enum
 from pathlib import Path
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+
+import numpy as np
 import psutil
 
 # CUDA Quantum with fallback
 try:
     import cudaq
     from cudaq import spin
+
     CUDAQ_AVAILABLE = True
 except ImportError:
     CUDAQ_AVAILABLE = False
+
     class MockCudaQ:
         pass
+
     cudaq = MockCudaQ()
     spin = MockCudaQ()
 
 # Supporting libraries
 try:
     import torch
+
     TORCH_AVAILABLE = True
 except ImportError:
     TORCH_AVAILABLE = False
 
 try:
     from scipy.optimize import minimize
+
     SCIPY_AVAILABLE = True
 except ImportError:
     SCIPY_AVAILABLE = False
 
 # Kimera infrastructure
 try:
-    from ...utils.gpu_foundation import GPUFoundation, GPUValidationLevel, CognitiveStabilityMetrics
+    from ...utils.gpu_foundation import (
+        CognitiveStabilityMetrics,
+        GPUFoundation,
+        GPUValidationLevel,
+    )
 except ImportError:
     try:
-        from utils.gpu_foundation import GPUFoundation, GPUValidationLevel, CognitiveStabilityMetrics
+        from utils.gpu_foundation import (
+            CognitiveStabilityMetrics,
+            GPUFoundation,
+            GPUValidationLevel,
+        )
     except ImportError:
         # Emergency fallback implementations
         class GPUFoundation:
             def __init__(self):
                 self.available = False
+
         class GPUValidationLevel:
             BASIC = "basic"
             ENHANCED = "enhanced"
+
         class CognitiveStabilityMetrics:
             def __init__(self):
                 self.stability = 1.0
+
+
 from ...utils.kimera_exceptions import KimeraException
 from ..constants import EPSILON
 
@@ -138,10 +156,12 @@ class CUDAQuantumEngine:
     CUDA Quantum Engine with safety features.
     """
 
-    def __init__(self,
-                 backend_type: QuantumBackendType = QuantumBackendType.NVIDIA_SINGLE_GPU,
-                 validation_level: GPUValidationLevel = GPUValidationLevel.RIGOROUS,
-                 enable_cognitive_monitoring: bool = True):
+    def __init__(
+        self,
+        backend_type: QuantumBackendType = QuantumBackendType.NVIDIA_SINGLE_GPU,
+        validation_level: GPUValidationLevel = GPUValidationLevel.RIGOROUS,
+        enable_cognitive_monitoring: bool = True,
+    ):
         self.backend_type = backend_type
         self.validation_level = validation_level
         self.enable_cognitive_monitoring = enable_cognitive_monitoring
@@ -177,16 +197,35 @@ class CUDAQuantumEngine:
         # Implementation as before
         pass
 
-    def simulate_quantum_circuit(self, circuit_kernel: Callable, shots: int = 1024, parameters: Optional[List[float]] = None) -> Tuple[Dict[str, int], QuantumCircuitMetrics]:
+    def simulate_quantum_circuit(
+        self,
+        circuit_kernel: Callable,
+        shots: int = 1024,
+        parameters: Optional[List[float]] = None,
+    ) -> Tuple[Dict[str, int], QuantumCircuitMetrics]:
         # Implementation as before
         pass
 
-    def run_variational_quantum_eigensolver(self, hamiltonian: Union[str, Any], num_qubits: int, num_layers: int = 3, optimizer_strategy: QuantumOptimizationStrategy = QuantumOptimizationStrategy.GRADIENT_DESCENT, max_iterations: int = 100, convergence_threshold: float = 1e-6) -> Dict[str, Any]:
+    def run_variational_quantum_eigensolver(
+        self,
+        hamiltonian: Union[str, Any],
+        num_qubits: int,
+        num_layers: int = 3,
+        optimizer_strategy: QuantumOptimizationStrategy = QuantumOptimizationStrategy.GRADIENT_DESCENT,
+        max_iterations: int = 100,
+        convergence_threshold: float = 1e-6,
+    ) -> Dict[str, Any]:
         # Implementation as before
         pass
 
     # Other methods...
 
 
-def create_cuda_quantum_engine(backend_type: QuantumBackendType = QuantumBackendType.NVIDIA_SINGLE_GPU, validation_level: GPUValidationLevel = GPUValidationLevel.RIGOROUS, enable_cognitive_monitoring: bool = True) -> CUDAQuantumEngine:
-    return CUDAQuantumEngine(backend_type, validation_level, enable_cognitive_monitoring)
+def create_cuda_quantum_engine(
+    backend_type: QuantumBackendType = QuantumBackendType.NVIDIA_SINGLE_GPU,
+    validation_level: GPUValidationLevel = GPUValidationLevel.RIGOROUS,
+    enable_cognitive_monitoring: bool = True,
+) -> CUDAQuantumEngine:
+    return CUDAQuantumEngine(
+        backend_type, validation_level, enable_cognitive_monitoring
+    )

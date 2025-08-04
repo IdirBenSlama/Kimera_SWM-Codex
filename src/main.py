@@ -22,20 +22,21 @@ Classification: AEROSPACE-GRADE ENTRY POINT
 import asyncio
 import logging
 import os
+import socket
 import sys
 import time
 import traceback
 from contextlib import asynccontextmanager
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Any, Optional, List
-import socket
+from typing import Any, Dict, List, Optional
 
 # Configure application-level logging
 logging.basicConfig(level=logging.INFO)
 
 # Environment setup
 from dotenv import load_dotenv
+
 load_dotenv()
 
 # Fix Python path for imports
@@ -44,22 +45,26 @@ project_root = current_dir.parent
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
+import uvicorn
+
 # FastAPI imports
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
-import uvicorn
+
+from src.core.kimera_system import KimeraSystem, get_kimera_system, kimera_singleton
+from src.monitoring.kimera_prometheus_metrics import initialize_background_collection
 
 # KIMERA core imports
 from src.utils.kimera_logger import get_system_logger
-from src.core.kimera_system import KimeraSystem, kimera_singleton, get_kimera_system
-from src.monitoring.kimera_prometheus_metrics import initialize_background_collection
 from src.utils.threading_utils import start_background_task
 
 # Import the new unified cognitive architecture
 try:
-    from src.core.unified_master_cognitive_architecture_fix import patch_unified_architecture
+    from src.core.unified_master_cognitive_architecture_fix import (
+        patch_unified_architecture,
+    )
 except ImportError as e:
     logging.getLogger(__name__).error(
         f"Failed to import patch_unified_architecture: {e}", exc_info=e
@@ -67,11 +72,12 @@ except ImportError as e:
 
 try:
     from src.core.unified_master_cognitive_architecture import (
-        UnifiedMasterCognitiveArchitecture,
         ProcessingMode,
+        UnifiedMasterCognitiveArchitecture,
+        create_safe_architecture,
         create_unified_architecture,
-        create_safe_architecture
     )
+
     UNIFIED_ARCHITECTURE_AVAILABLE = True
 except ImportError as e:
     logger = logging.getLogger(__name__)
@@ -80,11 +86,16 @@ except ImportError as e:
 
 # Progressive initialization imports
 try:
-    from src.core.lazy_initialization_manager import get_global_lazy_manager, ComponentConfig, Priority
-    from src.core.progressive_components import (
-        create_progressive_universal_comprehension,
-        create_progressive_therapeutic_intervention
+    from src.core.lazy_initialization_manager import (
+        ComponentConfig,
+        Priority,
+        get_global_lazy_manager,
     )
+    from src.core.progressive_components import (
+        create_progressive_therapeutic_intervention,
+        create_progressive_universal_comprehension,
+    )
+
     PROGRESSIVE_COMPONENTS_AVAILABLE = True
 except ImportError:
     PROGRESSIVE_COMPONENTS_AVAILABLE = False
@@ -92,6 +103,7 @@ except ImportError:
 # GPU foundation imports
 try:
     from src.utils.gpu_foundation import GPUFoundation
+
     GPU_FOUNDATION_AVAILABLE = True
 except ImportError:
     GPU_FOUNDATION_AVAILABLE = False
@@ -101,7 +113,6 @@ AVAILABLE_ROUTERS = {}
 ROUTER_IMPORTS = [
     ("geoid_scar_router", "src.api.routers.geoid_scar_router"),
     ("cognitive_router", "src.api.routers.cognitive_router"),
-
     ("system_router", "src.api.routers.system_router"),
     ("contradiction_router", "src.api.routers.contradiction_router"),
     ("vault_router", "src.api.routers.vault_router"),
@@ -119,7 +130,7 @@ ROUTER_IMPORTS = [
     ("monitoring_routes", "src.api.monitoring_routes"),
     ("revolutionary_routes", "src.api.revolutionary_routes"),
     ("law_enforcement_routes", "src.api.law_enforcement_routes"),
-    ("foundational_thermodynamic_routes", "src.api.foundational_thermodynamic_routes")
+    ("foundational_thermodynamic_routes", "src.api.foundational_thermodynamic_routes"),
 ]
 
 for router_name, module_path in ROUTER_IMPORTS:
@@ -133,20 +144,24 @@ for router_name, module_path in ROUTER_IMPORTS:
 logger = get_system_logger(__name__)
 
 # Global configuration
-KIMERA_MODE = os.getenv('KIMERA_MODE', 'progressive')  # progressive, full, safe, fast, optimized, hybrid
-DEBUG_MODE = os.getenv('DEBUG', 'false').lower() == 'true'
+KIMERA_MODE = os.getenv(
+    "KIMERA_MODE", "progressive"
+)  # progressive, full, safe, fast, optimized, hybrid
+DEBUG_MODE = os.getenv("DEBUG", "false").lower() == "true"
 PORT_RANGE = [8000, 8001, 8002, 8003, 8080]
-FORCE_PORT = os.getenv('KIMERA_PORT')
+FORCE_PORT = os.getenv("KIMERA_PORT")
+
 
 class KimeraInitializationMode:
     """Comprehensive initialization mode configuration."""
 
-    PROGRESSIVE = 'progressive'    # Lazy loading with background enhancement
-    FULL = 'full'                 # Complete initialization upfront
-    SAFE = 'safe'                 # Maximum fallbacks and error tolerance
-    FAST = 'fast'                 # Minimal features for rapid startup
-    OPTIMIZED = 'optimized'       # Performance-focused initialization
-    HYBRID = 'hybrid'             # Adaptive based on system capabilities
+    PROGRESSIVE = "progressive"  # Lazy loading with background enhancement
+    FULL = "full"  # Complete initialization upfront
+    SAFE = "safe"  # Maximum fallbacks and error tolerance
+    FAST = "fast"  # Minimal features for rapid startup
+    OPTIMIZED = "optimized"  # Performance-focused initialization
+    HYBRID = "hybrid"  # Adaptive based on system capabilities
+
 
 class SystemCapabilities:
     """Detect system capabilities for adaptive initialization."""
@@ -158,24 +173,28 @@ class SystemCapabilities:
         import torch
 
         capabilities = {
-            'cpu_count': psutil.cpu_count(),
-            'memory_gb': psutil.virtual_memory().total / (1024**3),
-            'gpu_available': torch.cuda.is_available(),
-            'gpu_count': torch.cuda.device_count() if torch.cuda.is_available() else 0,
-            'gpu_memory_gb': 0
+            "cpu_count": psutil.cpu_count(),
+            "memory_gb": psutil.virtual_memory().total / (1024**3),
+            "gpu_available": torch.cuda.is_available(),
+            "gpu_count": torch.cuda.device_count() if torch.cuda.is_available() else 0,
+            "gpu_memory_gb": 0,
         }
 
-        if capabilities['gpu_available']:
+        if capabilities["gpu_available"]:
             try:
-                capabilities['gpu_memory_gb'] = torch.cuda.get_device_properties(0).total_memory / (1024**3)
+                capabilities["gpu_memory_gb"] = torch.cuda.get_device_properties(
+                    0
+                ).total_memory / (1024**3)
             except Exception:
                 pass
 
         return capabilities
 
+
 # Global state
 unified_architecture: Optional[UnifiedMasterCognitiveArchitecture] = None
 system_capabilities: Dict[str, Any] = {}
+
 
 @asynccontextmanager
 async def unified_lifespan(app: FastAPI):
@@ -196,9 +215,13 @@ async def unified_lifespan(app: FastAPI):
     try:
         # Detect system capabilities
         system_capabilities = SystemCapabilities.detect_capabilities()
-        logger.info(f"💻 System: {system_capabilities['cpu_count']} CPU, {system_capabilities['memory_gb']:.1f}GB RAM")
-        if system_capabilities['gpu_available']:
-            logger.info(f"🎮 GPU: {system_capabilities['gpu_count']} devices, {system_capabilities['gpu_memory_gb']:.1f}GB VRAM")
+        logger.info(
+            f"💻 System: {system_capabilities['cpu_count']} CPU, {system_capabilities['memory_gb']:.1f}GB RAM"
+        )
+        if system_capabilities["gpu_available"]:
+            logger.info(
+                f"🎮 GPU: {system_capabilities['gpu_count']} devices, {system_capabilities['gpu_memory_gb']:.1f}GB VRAM"
+            )
 
         # Initialize based on mode
         if mode == KimeraInitializationMode.PROGRESSIVE:
@@ -240,12 +263,12 @@ async def unified_lifespan(app: FastAPI):
                 logger.info("✅ Unified architecture shutdown complete")
 
             # Shutdown kimera system
-            if hasattr(app.state, 'kimera_system') and app.state.kimera_system:
+            if hasattr(app.state, "kimera_system") and app.state.kimera_system:
                 await app.state.kimera_system.shutdown()
                 logger.info("✅ Kimera system shutdown complete")
 
             # Shutdown GPU foundation
-            if hasattr(app.state, 'gpu_foundation') and app.state.gpu_foundation:
+            if hasattr(app.state, "gpu_foundation") and app.state.gpu_foundation:
                 app.state.gpu_foundation.cleanup()
                 logger.info("✅ GPU foundation shutdown complete")
 
@@ -254,9 +277,11 @@ async def unified_lifespan(app: FastAPI):
 
         logger.info("🛑 KIMERA SWM Unified shutdown complete")
 
+
 # ============================================================================
 # INITIALIZATION IMPLEMENTATIONS
 # ============================================================================
+
 
 async def _initialize_progressive(app: FastAPI):
     """Progressive initialization with lazy loading and background enhancement."""
@@ -268,15 +293,16 @@ async def _initialize_progressive(app: FastAPI):
         # Phase 1: Unified Architecture (Critical - Fast)
         if UNIFIED_ARCHITECTURE_AVAILABLE:
             unified_architecture = create_unified_architecture(
-                processing_mode=ProcessingMode.ADAPTIVE,
-                enable_experimental=False
+                processing_mode=ProcessingMode.ADAPTIVE, enable_experimental=False
             )
             success = await unified_architecture.initialize_architecture()
             if success:
                 app.state.unified_architecture = unified_architecture
                 logger.info("✅ Unified architecture initialized (progressive)")
             else:
-                logger.warning("⚠️ Unified architecture initialization failed, continuing with fallback")
+                logger.warning(
+                    "⚠️ Unified architecture initialization failed, continuing with fallback"
+                )
 
         # Phase 2: Core Kimera System (Fast)
         app.state.kimera_system = kimera_singleton
@@ -289,11 +315,14 @@ async def _initialize_progressive(app: FastAPI):
         if PROGRESSIVE_COMPONENTS_AVAILABLE:
             asyncio.create_task(_background_enhancement(app))
 
-        logger.info("✅ Progressive initialization complete - Background enhancement active")
+        logger.info(
+            "✅ Progressive initialization complete - Background enhancement active"
+        )
 
     except Exception as e:
         logger.error(f"❌ Progressive initialization failed: {e}")
         await _initialize_minimal_fallback(app)
+
 
 async def _initialize_full(app: FastAPI):
     """Full initialization with ALL features enabled."""
@@ -306,8 +335,7 @@ async def _initialize_full(app: FastAPI):
         # Phase 1: Unified Architecture (Revolutionary Mode)
         if UNIFIED_ARCHITECTURE_AVAILABLE:
             unified_architecture = create_unified_architecture(
-                processing_mode=ProcessingMode.REVOLUTIONARY,
-                enable_experimental=True
+                processing_mode=ProcessingMode.REVOLUTIONARY, enable_experimental=True
             )
             success = await unified_architecture.initialize_architecture()
             if success:
@@ -337,6 +365,7 @@ async def _initialize_full(app: FastAPI):
         logger.error(f"❌ Full initialization failed: {e}")
         await _initialize_safe_fallback(app)
 
+
 async def _initialize_safe(app: FastAPI):
     """Safe mode initialization with maximum fallbacks."""
     global unified_architecture
@@ -365,6 +394,7 @@ async def _initialize_safe(app: FastAPI):
         logger.warning(f"Safe mode fallback activated: {e}")
         await _initialize_minimal_fallback(app)
 
+
 async def _initialize_fast(app: FastAPI):
     """Fast initialization - minimal features for rapid startup."""
     global unified_architecture
@@ -375,8 +405,7 @@ async def _initialize_fast(app: FastAPI):
         # Phase 1: Minimal Unified Architecture
         if UNIFIED_ARCHITECTURE_AVAILABLE:
             unified_architecture = create_unified_architecture(
-                processing_mode=ProcessingMode.SAFE,
-                enable_experimental=False
+                processing_mode=ProcessingMode.SAFE, enable_experimental=False
             )
             # Quick initialization
             app.state.unified_architecture = unified_architecture
@@ -392,6 +421,7 @@ async def _initialize_fast(app: FastAPI):
         logger.error(f"❌ Fast initialization failed: {e}")
         await _initialize_minimal_fallback(app)
 
+
 async def _initialize_optimized(app: FastAPI):
     """Optimized initialization - performance-focused."""
     global unified_architecture
@@ -403,7 +433,7 @@ async def _initialize_optimized(app: FastAPI):
         if UNIFIED_ARCHITECTURE_AVAILABLE:
             unified_architecture = create_unified_architecture(
                 processing_mode=ProcessingMode.OPTIMIZED,
-                enable_gpu=system_capabilities.get('gpu_available', False)
+                enable_gpu=system_capabilities.get("gpu_available", False),
             )
             success = await unified_architecture.initialize_architecture()
             if success:
@@ -411,7 +441,7 @@ async def _initialize_optimized(app: FastAPI):
                 logger.info("✅ Unified architecture initialized (optimized)")
 
         # Phase 2: GPU Foundation (if available)
-        if GPU_FOUNDATION_AVAILABLE and system_capabilities.get('gpu_available'):
+        if GPU_FOUNDATION_AVAILABLE and system_capabilities.get("gpu_available"):
             await _initialize_gpu_foundation(app)
 
         # Phase 3: Optimized Kimera System
@@ -427,6 +457,7 @@ async def _initialize_optimized(app: FastAPI):
         logger.error(f"❌ Optimized initialization failed: {e}")
         await _initialize_progressive(app)
 
+
 async def _initialize_hybrid(app: FastAPI):
     """Hybrid initialization - adaptive based on system capabilities."""
     global unified_architecture
@@ -436,17 +467,21 @@ async def _initialize_hybrid(app: FastAPI):
 
     try:
         # Determine best mode based on capabilities
-        if system_capabilities.get('memory_gb', 0) >= 16 and system_capabilities.get('gpu_available'):
+        if system_capabilities.get("memory_gb", 0) >= 16 and system_capabilities.get(
+            "gpu_available"
+        ):
             # High-end system: Use full mode
             logger.info("🏆 High-end system detected - using full initialization")
             await _initialize_full(app)
-        elif system_capabilities.get('memory_gb', 0) >= 8:
+        elif system_capabilities.get("memory_gb", 0) >= 8:
             # Mid-range system: Use optimized mode
             logger.info("⚡ Mid-range system detected - using optimized initialization")
             await _initialize_optimized(app)
         else:
             # Low-end system: Use progressive mode
-            logger.info("📦 Resource-constrained system detected - using progressive initialization")
+            logger.info(
+                "📦 Resource-constrained system detected - using progressive initialization"
+            )
             await _initialize_progressive(app)
 
         logger.info("✅ Hybrid initialization complete")
@@ -455,9 +490,11 @@ async def _initialize_hybrid(app: FastAPI):
         logger.error(f"❌ Hybrid initialization failed: {e}")
         await _initialize_safe(app)
 
+
 # ============================================================================
 # CORE INITIALIZATION FUNCTIONS
 # ============================================================================
+
 
 async def _initialize_core_fast(app: FastAPI):
     """Fast core initialization."""
@@ -468,11 +505,13 @@ async def _initialize_core_fast(app: FastAPI):
         logger.error(f"❌ Core fast initialization failed: {e}")
         raise
 
+
 async def _initialize_core_complete(app: FastAPI):
     """Complete core initialization with all features."""
     try:
         # Initialize vault
         from src.vault import initialize_vault
+
         if not initialize_vault():
             raise RuntimeError("Vault initialization failed")
 
@@ -487,6 +526,7 @@ async def _initialize_core_complete(app: FastAPI):
         logger.error(f"❌ Complete core initialization failed: {e}")
         raise
 
+
 async def _initialize_core_safe(app: FastAPI):
     """Safe core initialization with maximum error tolerance."""
     initialized_components = 0
@@ -494,6 +534,7 @@ async def _initialize_core_safe(app: FastAPI):
     # Try to initialize vault
     try:
         from src.vault import initialize_vault
+
         if initialize_vault():
             initialized_components += 1
             logger.info("✅ Vault initialized")
@@ -511,7 +552,10 @@ async def _initialize_core_safe(app: FastAPI):
     if initialized_components == 0:
         raise RuntimeError("No core components could be initialized")
 
-    logger.info(f"✅ Safe core initialization complete ({initialized_components}/2 components)")
+    logger.info(
+        f"✅ Safe core initialization complete ({initialized_components}/2 components)"
+    )
+
 
 async def _initialize_core_minimal(app: FastAPI):
     """Minimal core initialization."""
@@ -523,6 +567,7 @@ async def _initialize_core_minimal(app: FastAPI):
         logger.warning(f"⚠️ Minimal core initialization failed: {e}")
         # Continue anyway for fast startup
 
+
 async def _initialize_core_optimized(app: FastAPI):
     """Optimized core initialization."""
     try:
@@ -530,7 +575,7 @@ async def _initialize_core_optimized(app: FastAPI):
         kimera_singleton.initialize()
 
         # Initialize GPU-accelerated components if available
-        if system_capabilities.get('gpu_available'):
+        if system_capabilities.get("gpu_available"):
             await _initialize_gpu_components(app)
 
         logger.info("✅ Core system initialized (optimized mode)")
@@ -538,9 +583,11 @@ async def _initialize_core_optimized(app: FastAPI):
         logger.error(f"❌ Optimized core initialization failed: {e}")
         raise
 
+
 # ============================================================================
 # COMPONENT INITIALIZATION FUNCTIONS
 # ============================================================================
+
 
 async def _initialize_gpu_foundation(app: FastAPI):
     """Initialize GPU foundation."""
@@ -556,23 +603,27 @@ async def _initialize_gpu_foundation(app: FastAPI):
         logger.warning(f"⚠️ GPU foundation initialization failed: {e}")
         app.state.gpu_foundation = None
 
+
 async def _initialize_embedding_models(app: FastAPI):
     """Initialize embedding models."""
     try:
         from src.utils.embedding_utils import initialize_embedding_model
+
         await initialize_embedding_model()
         logger.info("✅ Embedding models initialized")
     except Exception as e:
         logger.warning(f"⚠️ Embedding models initialization failed: {e}")
 
+
 async def _initialize_gpu_components(app: FastAPI):
     """Initialize GPU-accelerated components."""
     try:
         # Initialize GPU-specific components
-        if hasattr(app.state, 'gpu_foundation') and app.state.gpu_foundation:
+        if hasattr(app.state, "gpu_foundation") and app.state.gpu_foundation:
             logger.info("✅ GPU components initialized")
     except Exception as e:
         logger.warning(f"⚠️ GPU components initialization failed: {e}")
+
 
 async def _initialize_monitoring(app: FastAPI):
     """Initialize monitoring and metrics."""
@@ -582,6 +633,7 @@ async def _initialize_monitoring(app: FastAPI):
     except Exception as e:
         logger.warning(f"⚠️ Monitoring initialization failed: {e}")
 
+
 async def _initialize_optional_components(app: FastAPI):
     """Initialize optional components."""
     try:
@@ -590,9 +642,11 @@ async def _initialize_optional_components(app: FastAPI):
     except Exception as e:
         logger.warning(f"⚠️ Optional components initialization failed: {e}")
 
+
 # ============================================================================
 # API STATE SETUP FUNCTIONS
 # ============================================================================
+
 
 async def _setup_basic_api_state(app: FastAPI):
     """Setup basic API state."""
@@ -600,11 +654,13 @@ async def _setup_basic_api_state(app: FastAPI):
     app.state.initialization_mode = KIMERA_MODE
     logger.info("✅ Basic API state configured")
 
+
 async def _setup_essential_api_state(app: FastAPI):
     """Setup essential API state."""
     await _setup_basic_api_state(app)
     app.state.system_capabilities = system_capabilities
     logger.info("✅ Essential API state configured")
+
 
 async def _setup_complete_api_state(app: FastAPI):
     """Setup complete API state."""
@@ -612,9 +668,11 @@ async def _setup_complete_api_state(app: FastAPI):
     # Add any additional state needed for full mode
     logger.info("✅ Complete API state configured")
 
+
 # ============================================================================
 # BACKGROUND ENHANCEMENT
 # ============================================================================
+
 
 async def _background_enhancement(app: FastAPI):
     """Background enhancement for progressive initialization."""
@@ -633,9 +691,11 @@ async def _background_enhancement(app: FastAPI):
     except Exception as e:
         logger.warning(f"⚠️ Background enhancement failed: {e}")
 
+
 # ============================================================================
 # FALLBACK FUNCTIONS
 # ============================================================================
+
 
 async def _initialize_minimal_fallback(app: FastAPI):
     """Minimal fallback initialization."""
@@ -651,6 +711,7 @@ async def _initialize_minimal_fallback(app: FastAPI):
         logger.critical(f"❌ Even minimal fallback failed: {e}")
         raise
 
+
 async def _initialize_safe_fallback(app: FastAPI):
     """Safe fallback initialization."""
     logger.warning("🛡️ Activating safe fallback initialization...")
@@ -661,9 +722,11 @@ async def _initialize_safe_fallback(app: FastAPI):
         logger.error(f"❌ Safe fallback failed: {e}")
         await _initialize_minimal_fallback(app)
 
+
 # ============================================================================
 # FastAPI APPLICATION SETUP
 # ============================================================================
+
 
 def create_application() -> FastAPI:
     """Create the FastAPI application with unified configuration."""
@@ -673,7 +736,7 @@ def create_application() -> FastAPI:
         description="Unified KIMERA SWM API with complete initialization patterns",
         version="3.0.0",
         lifespan=unified_lifespan,
-        debug=DEBUG_MODE
+        debug=DEBUG_MODE,
     )
 
     # CORS middleware
@@ -688,7 +751,10 @@ def create_application() -> FastAPI:
     # Add routers
     for router_name, router in AVAILABLE_ROUTERS.items():
         try:
-            app.include_router(router, prefix=f"/{router_name.replace('_router', '').replace('_routes', '')}")
+            app.include_router(
+                router,
+                prefix=f"/{router_name.replace('_router', '').replace('_routes', '')}",
+            )
             logger.info(f"✅ Router included: {router_name}")
         except Exception as e:
             logger.warning(f"⚠️ Failed to include router {router_name}: {e}")
@@ -696,7 +762,7 @@ def create_application() -> FastAPI:
     # Root endpoint
     @app.get("/")
     async def root():
-        unified_arch = getattr(app.state, 'unified_architecture', None)
+        unified_arch = getattr(app.state, "unified_architecture", None)
         return {
             "service": "KIMERA SWM Unified API",
             "version": "3.0.0",
@@ -704,7 +770,7 @@ def create_application() -> FastAPI:
             "status": "operational",
             "timestamp": datetime.now().isoformat(),
             "unified_architecture": unified_arch is not None,
-            "system_capabilities": system_capabilities
+            "system_capabilities": system_capabilities,
         }
 
     # Health check endpoint
@@ -723,20 +789,21 @@ def create_application() -> FastAPI:
                 "components": {
                     "database": "operational",
                     "api": "operational",
-                    "engines": "operational"
+                    "engines": "operational",
                 },
                 "system_metrics": {
-                    "uptime": time.time() - getattr(app.state, 'startup_time', time.time()),
+                    "uptime": time.time()
+                    - getattr(app.state, "startup_time", time.time()),
                     "memory_usage": "available",
-                    "cpu_usage": "nominal"
-                }
+                    "cpu_usage": "nominal",
+                },
             }
 
             # Try to get more detailed health if systems are available
             try:
                 # Add unified architecture status if available
-                unified_arch = getattr(app.state, 'unified_architecture', None)
-                if unified_arch and hasattr(unified_arch, 'get_system_status'):
+                unified_arch = getattr(app.state, "unified_architecture", None)
+                if unified_arch and hasattr(unified_arch, "get_system_status"):
                     try:
                         arch_status = unified_arch.get_system_status()
                         health_status["unified_architecture"] = arch_status
@@ -748,8 +815,11 @@ def create_application() -> FastAPI:
                 # Add GPU health if available
                 try:
                     import torch
+
                     if torch.cuda.is_available():
-                        health_status["components"]["gpu"] = f"operational ({torch.cuda.device_count()} devices)"
+                        health_status["components"][
+                            "gpu"
+                        ] = f"operational ({torch.cuda.device_count()} devices)"
                     else:
                         health_status["components"]["gpu"] = "cpu_fallback"
                 except Exception:
@@ -768,14 +838,16 @@ def create_application() -> FastAPI:
                 "timestamp": datetime.now().isoformat(),
                 "error": "health_check_partial_failure",
                 "service": "KIMERA SWM Unified API",
-                "basic_status": "responsive"
+                "basic_status": "responsive",
             }
 
     return app
 
+
 # ============================================================================
 # PORT MANAGEMENT
 # ============================================================================
+
 
 def find_available_port() -> int:
     """Find an available port from the configured range."""
@@ -785,19 +857,21 @@ def find_available_port() -> int:
     for port in PORT_RANGE:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             try:
-                s.bind(('127.0.0.1', port))
+                s.bind(("127.0.0.1", port))
                 return port
             except OSError:
                 continue
 
     # If no port from range is available, let the system choose
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.bind(('127.0.0.1', 0))
+        s.bind(("127.0.0.1", 0))
         return s.getsockname()[1]
+
 
 # ============================================================================
 # MAIN EXECUTION
 # ============================================================================
+
 
 def main():
     """Main execution function."""
@@ -823,13 +897,14 @@ def main():
             host="127.0.0.1",
             port=port,
             log_level="info" if DEBUG_MODE else "warning",
-            access_log=DEBUG_MODE
+            access_log=DEBUG_MODE,
         )
 
     except Exception as e:
         logger.critical(f"❌ Failed to start KIMERA SWM: {e}")
         logger.critical(f"Traceback: {traceback.format_exc()}")
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

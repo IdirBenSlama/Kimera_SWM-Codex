@@ -11,22 +11,23 @@ Zero-debugging constraint compliant logging system with:
 - Error context preservation
 """
 
+import json
 import logging
 import logging.handlers
-import json
-import time
-import traceback
-import threading
-import uuid
-from datetime import datetime
-from typing import Dict, Any, Optional, List, Union
-from dataclasses import dataclass, asdict
-from enum import Enum
-from contextlib import contextmanager
 import os
 import sys
+import threading
+import time
+import traceback
+import uuid
 import weakref
+from contextlib import contextmanager
+from dataclasses import asdict, dataclass
+from datetime import datetime
+from enum import Enum
 from pathlib import Path
+from typing import Any, Dict, List, Optional, Union
+
 # Import portalocker but handle Windows/Unix differences gracefully
 try:
     import portalocker
@@ -36,12 +37,14 @@ except ImportError:
 # GPU monitoring imports
 try:
     import torch
+
     GPU_AVAILABLE = True
 except ImportError:
     GPU_AVAILABLE = False
 
 try:
     import psutil
+
     SYSTEM_MONITORING = True
 except ImportError:
     SYSTEM_MONITORING = False
@@ -49,6 +52,7 @@ except ImportError:
 
 class LogLevel(Enum):
     """Structured log levels for Kimera system"""
+
     DEBUG = "debug"
     INFO = "info"
     WARNING = "warning"
@@ -61,6 +65,7 @@ class LogLevel(Enum):
 
 class LogCategory(Enum):
     """Log categories for different system components"""
+
     SYSTEM = "system"
     COGNITIVE = "cognitive"
     TRADING = "trading"
@@ -77,6 +82,7 @@ class LogCategory(Enum):
 @dataclass
 class LogContext:
     """Structured log context for correlation and analysis"""
+
     operation_id: str
     component: str
     category: LogCategory
@@ -97,7 +103,7 @@ class ProcessSafeFileHandler(logging.FileHandler):
     with process-safe locking when available.
     """
 
-    def __init__(self, filename, mode='a', encoding=None, delay=False):
+    def __init__(self, filename, mode="a", encoding=None, delay=False):
         # Create logs directory if it doesn't exist
         Path(filename).parent.mkdir(parents=True, exist_ok=True)
         super().__init__(filename, mode, encoding, delay)
@@ -114,7 +120,9 @@ class ProcessSafeFileHandler(logging.FileHandler):
             # Try to acquire lock if portalocker is available
             if portalocker:
                 try:
-                    portalocker.lock(self.stream, portalocker.LOCK_EX | portalocker.LOCK_NB)
+                    portalocker.lock(
+                        self.stream, portalocker.LOCK_EX | portalocker.LOCK_NB
+                    )
                     super().emit(record)
                     portalocker.unlock(self.stream)
                 except portalocker.LockException:
@@ -130,6 +138,7 @@ class ProcessSafeFileHandler(logging.FileHandler):
         except Exception:
             # If anything fails, handle gracefully
             self.handleError(record)
+
 
 class KimeraStructuredLogger:
     """
@@ -164,9 +173,7 @@ class KimeraStructuredLogger:
             # Use simple file handler instead of rotating handler
             log_file = log_dir / f"kimera_{self.category.value}.log"
             file_handler = ProcessSafeFileHandler(
-                str(log_file),
-                mode='a',
-                encoding='utf-8'
+                str(log_file), mode="a", encoding="utf-8"
             )
 
             # Use structured formatter
@@ -174,9 +181,11 @@ class KimeraStructuredLogger:
 
             # Add console handler for immediate feedback
             console_handler = logging.StreamHandler()
-            console_handler.setFormatter(logging.Formatter(
-                '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-            ))
+            console_handler.setFormatter(
+                logging.Formatter(
+                    "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+                )
+            )
 
             # Add handlers
             self.logger.addHandler(file_handler)
@@ -207,12 +216,14 @@ class KimeraStructuredLogger:
         if SYSTEM_MONITORING:
             try:
                 process = psutil.Process()
-                metrics.update({
-                    'cpu_percent': process.cpu_percent(),
-                    'memory_mb': process.memory_info().rss / 1024 / 1024,
-                    'memory_percent': process.memory_percent(),
-                    'thread_count': process.num_threads(),
-                })
+                metrics.update(
+                    {
+                        "cpu_percent": process.cpu_percent(),
+                        "memory_mb": process.memory_info().rss / 1024 / 1024,
+                        "memory_percent": process.memory_percent(),
+                        "thread_count": process.num_threads(),
+                    }
+                )
             except Exception:
                 pass
 
@@ -227,12 +238,18 @@ class KimeraStructuredLogger:
                 current_memory = torch.cuda.memory_allocated()
                 reserved_memory = torch.cuda.memory_reserved()
 
-                metrics.update({
-                    'gpu_memory_allocated_mb': current_memory / 1024 / 1024,
-                    'gpu_memory_reserved_mb': reserved_memory / 1024 / 1024,
-                    'gpu_memory_growth_mb': (current_memory - (self._gpu_baseline or 0)) / 1024 / 1024,
-                    'gpu_utilization': self._get_gpu_utilization(),
-                })
+                metrics.update(
+                    {
+                        "gpu_memory_allocated_mb": current_memory / 1024 / 1024,
+                        "gpu_memory_reserved_mb": reserved_memory / 1024 / 1024,
+                        "gpu_memory_growth_mb": (
+                            current_memory - (self._gpu_baseline or 0)
+                        )
+                        / 1024
+                        / 1024,
+                        "gpu_utilization": self._get_gpu_utilization(),
+                    }
+                )
             except Exception:
                 pass
 
@@ -242,6 +259,7 @@ class KimeraStructuredLogger:
         """Get GPU utilization percentage"""
         try:
             import pynvml
+
             pynvml.nvmlInit()
             handle = pynvml.nvmlDeviceGetHandleByIndex(0)
             util = pynvml.nvmlDeviceGetUtilizationRates(handle)
@@ -255,28 +273,30 @@ class KimeraStructuredLogger:
 
         # Enhance kwargs with context and metrics
         enhanced_kwargs = {
-            'component': self.name,
-            'category': self.category.value,
-            'timestamp': time.time(),
-            'thread_id': threading.get_ident(),
-            **kwargs
+            "component": self.name,
+            "category": self.category.value,
+            "timestamp": time.time(),
+            "thread_id": threading.get_ident(),
+            **kwargs,
         }
 
         # Add context if available
         if context:
-            enhanced_kwargs.update({
-                'operation_id': context.operation_id,
-                'session_id': context.session_id,
-                'correlation_id': context.correlation_id,
-            })
+            enhanced_kwargs.update(
+                {
+                    "operation_id": context.operation_id,
+                    "session_id": context.session_id,
+                    "correlation_id": context.correlation_id,
+                }
+            )
 
         # Add system metrics for performance/error logs
         if level >= logging.WARNING:
-            enhanced_kwargs['system_metrics'] = self._collect_system_metrics()
-            enhanced_kwargs['gpu_metrics'] = self._collect_gpu_metrics()
+            enhanced_kwargs["system_metrics"] = self._collect_system_metrics()
+            enhanced_kwargs["gpu_metrics"] = self._collect_gpu_metrics()
 
         # Create structured log record
-        extra = {'structured_data': enhanced_kwargs}
+        extra = {"structured_data": enhanced_kwargs}
         self.logger.log(level, message, extra=extra)
 
     def debug(self, message: str, **kwargs):
@@ -294,39 +314,43 @@ class KimeraStructuredLogger:
     def error(self, message: str, error: Optional[Exception] = None, **kwargs):
         """Log error message with context and exception details"""
         if error:
-            kwargs.update({
-                'error_type': type(error).__name__,
-                'error_message': str(error),
-                'traceback': traceback.format_exc() if error else None,
-            })
+            kwargs.update(
+                {
+                    "error_type": type(error).__name__,
+                    "error_message": str(error),
+                    "traceback": traceback.format_exc() if error else None,
+                }
+            )
         self._log(logging.ERROR, message, **kwargs)
 
     def critical(self, message: str, error: Optional[Exception] = None, **kwargs):
         """Log critical message with context and exception details"""
         if error:
-            kwargs.update({
-                'error_type': type(error).__name__,
-                'error_message': str(error),
-                'traceback': traceback.format_exc() if error else None,
-            })
+            kwargs.update(
+                {
+                    "error_type": type(error).__name__,
+                    "error_message": str(error),
+                    "traceback": traceback.format_exc() if error else None,
+                }
+            )
         self._log(logging.CRITICAL, message, **kwargs)
 
     def security(self, message: str, **kwargs):
         """Log security event with enhanced context"""
-        kwargs['security_event'] = True
+        kwargs["security_event"] = True
         self._log(logging.WARNING, f"SECURITY: {message}", **kwargs)
 
     def performance(self, message: str, duration_ms: Optional[float] = None, **kwargs):
         """Log performance event with metrics"""
         if duration_ms is not None:
-            kwargs['duration_ms'] = duration_ms
-        kwargs['performance_event'] = True
+            kwargs["duration_ms"] = duration_ms
+        kwargs["performance_event"] = True
         self._log(logging.INFO, f"PERFORMANCE: {message}", **kwargs)
 
     def gpu_operation(self, message: str, **kwargs):
         """Log GPU operation with memory tracking"""
-        kwargs['gpu_metrics'] = self._collect_gpu_metrics()
-        kwargs['gpu_operation'] = True
+        kwargs["gpu_metrics"] = self._collect_gpu_metrics()
+        kwargs["gpu_operation"] = True
         self._log(logging.INFO, f"GPU: {message}", **kwargs)
 
     @contextmanager
@@ -336,7 +360,9 @@ class KimeraStructuredLogger:
         start_time = time.time()
 
         parent_context = self._get_current_context()
-        correlation_id = parent_context.correlation_id if parent_context else str(uuid.uuid4())
+        correlation_id = (
+            parent_context.correlation_id if parent_context else str(uuid.uuid4())
+        )
 
         context = LogContext(
             operation_id=operation_id,
@@ -345,7 +371,7 @@ class KimeraStructuredLogger:
             timestamp=start_time,
             thread_id=str(threading.get_ident()),
             correlation_id=correlation_id,
-            **context_kwargs
+            **context_kwargs,
         )
 
         try:
@@ -357,7 +383,7 @@ class KimeraStructuredLogger:
             self.performance(
                 f"END: {operation_name}",
                 duration_ms=duration_ms,
-                operation_id=operation_id
+                operation_id=operation_id,
             )
             # Restore parent context or clear it
             self._set_current_context(parent_context)
@@ -368,19 +394,19 @@ class StructuredFormatter(logging.Formatter):
 
     def format(self, record):
         log_data = {
-            'timestamp': datetime.fromtimestamp(record.created).isoformat(),
-            'level': record.levelname,
-            'logger': record.name,
-            'message': record.getMessage(),
+            "timestamp": datetime.fromtimestamp(record.created).isoformat(),
+            "level": record.levelname,
+            "logger": record.name,
+            "message": record.getMessage(),
         }
 
         # Add structured data if available
-        if hasattr(record, 'structured_data'):
+        if hasattr(record, "structured_data"):
             log_data.update(record.structured_data)
 
         # Add exception info if present
         if record.exc_info:
-            log_data['exception'] = self.formatException(record.exc_info)
+            log_data["exception"] = self.formatException(record.exc_info)
 
         return json.dumps(log_data, default=str)
 
@@ -389,7 +415,9 @@ class StructuredFormatter(logging.Formatter):
 _loggers: Dict[str, KimeraStructuredLogger] = {}
 
 
-def get_logger(name: str, category: LogCategory = LogCategory.SYSTEM) -> KimeraStructuredLogger:
+def get_logger(
+    name: str, category: LogCategory = LogCategory.SYSTEM
+) -> KimeraStructuredLogger:
     """Get or create a structured logger for the given name and category"""
     key = f"{name}:{category.value}"
     if key not in _loggers:
@@ -442,8 +470,14 @@ def get_system_logger(name: str) -> KimeraStructuredLogger:
 def configure_third_party_loggers():
     """Configure third-party loggers to reduce noise"""
     third_party_loggers = [
-        "urllib3", "requests", "transformers", "torch",
-        "sqlalchemy", "httpx", "fastapi", "uvicorn"
+        "urllib3",
+        "requests",
+        "transformers",
+        "torch",
+        "sqlalchemy",
+        "httpx",
+        "fastapi",
+        "uvicorn",
     ]
 
     for logger_name in third_party_loggers:
@@ -457,12 +491,13 @@ def setup_logger(level=logging.INFO):
     if not root_logger.handlers:
         handler = logging.StreamHandler()
         formatter = logging.Formatter(
-            '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
         )
         handler.setFormatter(formatter)
         root_logger.addHandler(handler)
         root_logger.setLevel(level)
     return root_logger
+
 
 # Initialize logging configuration
 configure_third_party_loggers()

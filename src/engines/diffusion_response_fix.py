@@ -11,9 +11,10 @@ To apply this fix:
 """
 
 import logging
-import torch
+from typing import Any, Dict, Optional
+
 import numpy as np
-from typing import Dict, Any, Optional
+import torch
 
 logger = logging.getLogger(__name__)
 
@@ -291,9 +292,10 @@ def apply_response_fix(diffusion_engine_instance):
     """
     # Replace the problematic method with our fixed version
     import types
-from ..utils.config import get_api_settings
+
 from ..config.settings import get_settings
-    
+from ..utils.config import get_api_settings
+
     # Bind the fixed method to the instance
     diffusion_engine_instance._generate_text_from_grounded_concepts = types.MethodType(
         generate_text_from_grounded_concepts_fixed,

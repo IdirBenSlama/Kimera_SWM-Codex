@@ -3,12 +3,19 @@
 Exposes runtime metrics such as active geoids, cycle count, and vault pressure
 at `/telemetry/metrics` in Prometheus text format.
 """
+
 from __future__ import annotations
 
-from fastapi import APIRouter, Response
-from prometheus_client import CollectorRegistry, Gauge, generate_latest, CONTENT_TYPE_LATEST
-from typing import Dict, Any
 import logging
+from typing import Any, Dict
+
+from fastapi import APIRouter, Response
+from prometheus_client import (
+    CONTENT_TYPE_LATEST,
+    CollectorRegistry,
+    Gauge,
+    generate_latest,
+)
 
 log = logging.getLogger(__name__)
 
@@ -18,12 +25,19 @@ router = APIRouter(prefix="/telemetry", tags=["telemetry"])
 REGISTRY = CollectorRegistry()
 
 # Gauges
-ACTIVE_GEOIDS = Gauge("kimera_active_geoids", "Number of active geoids", registry=REGISTRY)
-CYCLE_COUNT = Gauge("kimera_cycle_count", "Total cognitive cycles processed", registry=REGISTRY)
-VAULT_PRESSURE = Gauge("kimera_vault_pressure", "Vault memory pressure", registry=REGISTRY)
+ACTIVE_GEOIDS = Gauge(
+    "kimera_active_geoids", "Number of active geoids", registry=REGISTRY
+)
+CYCLE_COUNT = Gauge(
+    "kimera_cycle_count", "Total cognitive cycles processed", registry=REGISTRY
+)
+VAULT_PRESSURE = Gauge(
+    "kimera_vault_pressure", "Vault memory pressure", registry=REGISTRY
+)
 
 
 # Helper ---------------------------------------------------------------------
+
 
 def update_metrics(system: Dict[str, Any]) -> None:  # noqa: D401
     """Update gauge metrics from `kimera_system`."""
@@ -42,12 +56,16 @@ def get_system_metrics() -> Dict[str, Any]:
     try:
         # Import here to avoid circular during app import
         from ..api.main import kimera_system  # type: ignore
-        
+
         metrics = {
             "active_geoids": len(kimera_system.get("active_geoids", {})),
             "cycle_count": kimera_system.get("system_state", {}).get("cycle_count", 0),
-            "vault_pressure": kimera_system.get("system_state", {}).get("vault_pressure", 0.0),
-            "timestamp": kimera_system.get("system_state", {}).get("last_update", "unknown")
+            "vault_pressure": kimera_system.get("system_state", {}).get(
+                "vault_pressure", 0.0
+            ),
+            "timestamp": kimera_system.get("system_state", {}).get(
+                "last_update", "unknown"
+            ),
         }
         return metrics
     except Exception as exc:
@@ -56,11 +74,11 @@ def get_system_metrics() -> Dict[str, Any]:
             "active_geoids": 0,
             "cycle_count": 0,
             "vault_pressure": 0.0,
-            "timestamp": "error"
+            "timestamp": "error",
         }
 
 
 # Commented out to avoid conflict with monitoring_routes.py
 # @router.get("/metrics")
 # async def get_telemetry_metrics():
-#     return get_metrics_data() 
+#     return get_metrics_data()

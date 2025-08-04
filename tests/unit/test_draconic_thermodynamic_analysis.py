@@ -25,13 +25,13 @@ import numpy as np
 
 try:
     from scipy.optimize import approx_fprime
-    
+
     def derivative(func, x: float, dx: float = 1e-6, n: int = 1, order: int = 3):  # type: ignore
         """Wrapper for scipy derivative using approx_fprime."""
         if n != 1:
             raise ValueError("Only first derivative supported.")
         return approx_fprime([x], lambda args: func(args[0]), [dx])[0]
-        
+
 except ImportError:  # Fall back to simple finite-difference implementation
 
     def derivative(func, x: float, dx: float = 1e-6, n: int = 1, order: int = 3):  # type: ignore
@@ -58,7 +58,7 @@ def thermal_lambda(T: float) -> float:
 def partition_function_single(V: float, T: float) -> float:
     """Single-particle translational partition function Z₁ = V / Λ³."""
     lam = thermal_lambda(T)
-    return V / lam ** 3
+    return V / lam**3
 
 
 def ideal_gas_free_energy(N: int, V: float, T: float) -> float:
@@ -68,7 +68,7 @@ def ideal_gas_free_energy(N: int, V: float, T: float) -> float:
     # where lambda = h / sqrt(2 * pi * m * k_B * T)
     lam = thermal_lambda(T)
     V_m = V / N  # molar volume if N moles
-    lnZ = math.log(V_m / lam ** 3)
+    lnZ = math.log(V_m / lam**3)
     return -R * T * (lnZ + 1)
 
 
@@ -98,10 +98,14 @@ class TestThermodynamicAxioms(unittest.TestCase):
         # We deliberately introduce friction on adiabats to make it irreversible.
         Qh = 500.0  # heat absorbed from hot reservoir at Th
         Th = 500.0
-        Qc = -400.0  # heat rejected to cold reservoir at Tc (|Qc| < |Qh|) indicates irreversibility
+        Qc = (
+            -400.0
+        )  # heat rejected to cold reservoir at Tc (|Qc| < |Qh|) indicates irreversibility
         Tc = 300.0
         cyclic_integral = Qh / Th + Qc / Tc  # δQ/T over whole cycle
-        self.assertLess(cyclic_integral, 0.0, "Clausius inequality violated for irreversible cycle.")
+        self.assertLess(
+            cyclic_integral, 0.0, "Clausius inequality violated for irreversible cycle."
+        )
 
 
 class TestIdealGasModel(unittest.TestCase):
@@ -130,7 +134,7 @@ class TestIdealGasModel(unittest.TestCase):
 
         # U = A + TS, where S = -dA/dT
         A = ideal_gas_free_energy(self.N, self.V, self.T)
-        
+
         def A_of_T(T_local):
             return ideal_gas_free_energy(self.N, self.V, T_local)
 
@@ -143,9 +147,9 @@ class TestIdealGasModel(unittest.TestCase):
         """Verify Sackur-Tetrode formula matches −∂A/∂T _V,N."""
         # Analytical Sackur-Tetrode entropy (per mole)
         lam = thermal_lambda(self.T)
-        S_expected = R * (
-            math.log((self.V / self.N) / lam ** 3) + 2.5
-        ) * self.N  # multiply by N mol
+        S_expected = (
+            R * (math.log((self.V / self.N) / lam**3) + 2.5) * self.N
+        )  # multiply by N mol
 
         def A_of_T(T_local):
             return ideal_gas_free_energy(self.N, self.V, T_local)

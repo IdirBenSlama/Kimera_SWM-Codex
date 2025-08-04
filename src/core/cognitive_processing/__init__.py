@@ -13,20 +13,32 @@ These systems provide the fundamental cognitive capabilities that operate
 on the foundational architecture to enable genuine intelligence.
 """
 
-from .understanding_core import UnderstandingCore, GenuineUnderstanding, SemanticProcessor
-from .consciousness_core import ConsciousnessCore, ConsciousnessDetector, QuantumConsciousness
-from .memory_attention_core import MemoryAttentionCore, WorkingMemory, AttentionMechanism
+from .consciousness_core import (
+    ConsciousnessCore,
+    ConsciousnessDetector,
+    QuantumConsciousness,
+)
+from .memory_attention_core import (
+    AttentionMechanism,
+    MemoryAttentionCore,
+    WorkingMemory,
+)
+from .understanding_core import (
+    GenuineUnderstanding,
+    SemanticProcessor,
+    UnderstandingCore,
+)
 
 __all__ = [
-    'UnderstandingCore',
-    'ConsciousnessCore', 
-    'MemoryAttentionCore',
-    'GenuineUnderstanding',
-    'SemanticProcessor',
-    'ConsciousnessDetector',
-    'QuantumConsciousness',
-    'WorkingMemory',
-    'AttentionMechanism'
+    "UnderstandingCore",
+    "ConsciousnessCore",
+    "MemoryAttentionCore",
+    "GenuineUnderstanding",
+    "SemanticProcessor",
+    "ConsciousnessDetector",
+    "QuantumConsciousness",
+    "WorkingMemory",
+    "AttentionMechanism",
 ]
 
 # Version information

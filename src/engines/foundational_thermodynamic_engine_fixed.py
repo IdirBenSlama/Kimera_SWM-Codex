@@ -1,17 +1,24 @@
 from __future__ import annotations
+
 import logging
 import math
 from enum import Enum
 from typing import Any, Dict, List, Literal, Tuple
+
 from pydantic import BaseModel, Field
+
 from ..core.geoid import Geoid
 from ..utils.kimera_exceptions import ThermodynamicComputationError
 from .thermodynamics_utils import (
-from ..utils.config import get_api_settings
-from ..config.settings import get_settings
+    PHYSICS_CONSTANTS,
     AdaptivePhysicsValidator,
     EpistemicTemperature,
-    PHYSICS_CONSTANTS,
+    ..config.settings,
+    ..utils.config,
+    from,
+    get_api_settings,
+    get_settings,
+    import,
 )
 
 logger = logging.getLogger(__name__)

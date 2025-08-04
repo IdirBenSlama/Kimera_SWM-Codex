@@ -21,9 +21,10 @@ Integration Points:
 import asyncio
 import threading
 import time
-from typing import Dict, Any, Optional, List, Tuple, Union
 from dataclasses import dataclass
 from datetime import datetime, timezone
+from typing import Any, Dict, List, Optional, Tuple, Union
+
 import numpy as np
 
 # Kimera imports with robust fallback handling
@@ -34,8 +35,10 @@ except ImportError:
         from utils.kimera_logger import get_system_logger
     except ImportError:
         import logging
+
         def get_system_logger(*args, **kwargs):
             return logging.getLogger(__name__)
+
 
 try:
     from src.core.constants import EPSILON, MAX_ITERATIONS, PHI
@@ -55,7 +58,9 @@ except ImportError:
     ThermodynamicEfficiencyOptimizer = None
 
 try:
-    from .thermodynamic_signal_evolution import ThermodynamicSignalEvolutionEngine as ThermodynamicSignalEvolution
+    from .thermodynamic_signal_evolution import (
+        ThermodynamicSignalEvolutionEngine as ThermodynamicSignalEvolution,
+    )
 except ImportError:
     ThermodynamicSignalEvolution = None
 
@@ -65,7 +70,9 @@ except ImportError:
     ThermodynamicSignalOptimizer = None
 
 try:
-    from .thermodynamic_signal_validation import ThermodynamicSignalValidationSuite as ThermodynamicSignalValidation
+    from .thermodynamic_signal_validation import (
+        ThermodynamicSignalValidationSuite as ThermodynamicSignalValidation,
+    )
 except ImportError:
     ThermodynamicSignalValidation = None
 
@@ -75,6 +82,7 @@ logger = get_system_logger(__name__)
 @dataclass
 class ThermodynamicOptimizationMetrics:
     """Comprehensive metrics for thermodynamic optimization system."""
+
     efficiency_score: float = 0.0
     signal_quality: float = 0.0
     optimization_ratio: float = 0.0
@@ -118,7 +126,10 @@ class ThermodynamicOptimizationIntegrator:
 
         # Initialize foundational engine first (required by other components)
         try:
-            from ..foundational_thermodynamic_engine import FoundationalThermodynamicEngine
+            from ..foundational_thermodynamic_engine import (
+                FoundationalThermodynamicEngine,
+            )
+
             self.foundational_engine = FoundationalThermodynamicEngine()
             logger.info("✅ FoundationalThermodynamicEngine initialized")
         except Exception as e:
@@ -139,33 +150,45 @@ class ThermodynamicOptimizationIntegrator:
 
         try:
             if ThermodynamicSignalEvolution and self.foundational_engine:
-                self.signal_evolution = ThermodynamicSignalEvolution(self.foundational_engine)
+                self.signal_evolution = ThermodynamicSignalEvolution(
+                    self.foundational_engine
+                )
                 logger.info("✅ ThermodynamicSignalEvolution initialized")
             else:
                 self.signal_evolution = None
-                logger.warning("⚠️ ThermodynamicSignalEvolution not available or foundational engine missing")
+                logger.warning(
+                    "⚠️ ThermodynamicSignalEvolution not available or foundational engine missing"
+                )
         except Exception as e:
             logger.error(f"❌ Failed to initialize signal evolution: {e}")
             self.signal_evolution = None
 
         try:
             if ThermodynamicSignalOptimizer and self.foundational_engine:
-                self.signal_optimizer = ThermodynamicSignalOptimizer(self.foundational_engine)
+                self.signal_optimizer = ThermodynamicSignalOptimizer(
+                    self.foundational_engine
+                )
                 logger.info("✅ ThermodynamicSignalOptimizer initialized")
             else:
                 self.signal_optimizer = None
-                logger.warning("⚠️ ThermodynamicSignalOptimizer not available or foundational engine missing")
+                logger.warning(
+                    "⚠️ ThermodynamicSignalOptimizer not available or foundational engine missing"
+                )
         except Exception as e:
             logger.error(f"❌ Failed to initialize signal optimizer: {e}")
             self.signal_optimizer = None
 
         try:
             if ThermodynamicSignalValidation and self.foundational_engine:
-                self.signal_validation = ThermodynamicSignalValidation(self.foundational_engine)
+                self.signal_validation = ThermodynamicSignalValidation(
+                    self.foundational_engine
+                )
                 logger.info("✅ ThermodynamicSignalValidation initialized")
             else:
                 self.signal_validation = None
-                logger.warning("⚠️ ThermodynamicSignalValidation not available or foundational engine missing")
+                logger.warning(
+                    "⚠️ ThermodynamicSignalValidation not available or foundational engine missing"
+                )
         except Exception as e:
             logger.error(f"❌ Failed to initialize signal validation: {e}")
             self.signal_validation = None
@@ -175,12 +198,17 @@ class ThermodynamicOptimizationIntegrator:
         self._initialized = True
         self.metrics.health_status = "OPERATIONAL"
 
-        logger.info("🌡️ Thermodynamic Optimization Integrator initialized successfully (DO-178C Level A)")
+        logger.info(
+            "🌡️ Thermodynamic Optimization Integrator initialized successfully (DO-178C Level A)"
+        )
 
     def _start_health_monitoring(self) -> None:
         """Start health monitoring thread with aerospace-grade protocols."""
+
         def health_monitor():
-            while not self._stop_health_monitoring.wait(1.0):  # SR-4.22.6: 1-second reporting
+            while not self._stop_health_monitoring.wait(
+                1.0
+            ):  # SR-4.22.6: 1-second reporting
                 try:
                     self._update_health_metrics()
                 except Exception as e:
@@ -197,25 +225,35 @@ class ThermodynamicOptimizationIntegrator:
             components_operational = 0
             total_components = 4
 
-            if self.efficiency_optimizer and hasattr(self.efficiency_optimizer, 'current_efficiency'):
+            if self.efficiency_optimizer and hasattr(
+                self.efficiency_optimizer, "current_efficiency"
+            ):
                 components_operational += 1
-                self.metrics.efficiency_score = getattr(self.efficiency_optimizer, 'current_efficiency', 0.0)
+                self.metrics.efficiency_score = getattr(
+                    self.efficiency_optimizer, "current_efficiency", 0.0
+                )
 
-            if self.signal_evolution and hasattr(self.signal_evolution, 'current_signals'):
+            if self.signal_evolution and hasattr(
+                self.signal_evolution, "current_signals"
+            ):
                 components_operational += 1
-                signals = getattr(self.signal_evolution, 'current_signals', [])
+                signals = getattr(self.signal_evolution, "current_signals", [])
                 self.metrics.evolution_stability = min(len(signals) / 10.0, 1.0)
 
-            if self.signal_optimizer and hasattr(self.signal_optimizer, 'optimization_history'):
+            if self.signal_optimizer and hasattr(
+                self.signal_optimizer, "optimization_history"
+            ):
                 components_operational += 1
-                history = getattr(self.signal_optimizer, 'optimization_history', [])
+                history = getattr(self.signal_optimizer, "optimization_history", [])
                 self.metrics.optimization_ratio = min(len(history) / 100.0, 1.0)
 
-            if self.signal_validation and hasattr(self.signal_validation, 'validation_results'):
+            if self.signal_validation and hasattr(
+                self.signal_validation, "validation_results"
+            ):
                 components_operational += 1
-                results = getattr(self.signal_validation, 'validation_results', [])
+                results = getattr(self.signal_validation, "validation_results", [])
                 if results:
-                    passed = sum(1 for r in results if r.get('valid', False))
+                    passed = sum(1 for r in results if r.get("valid", False))
                     self.metrics.validation_pass_rate = passed / len(results)
 
             # Overall health assessment
@@ -229,7 +267,9 @@ class ThermodynamicOptimizationIntegrator:
 
             self.metrics.last_update = datetime.now(timezone.utc)
 
-    async def optimize_system_efficiency(self, current_state: Dict[str, Any]) -> Dict[str, Any]:
+    async def optimize_system_efficiency(
+        self, current_state: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """
         Optimize overall system efficiency with DO-178C validation.
 
@@ -256,9 +296,13 @@ class ThermodynamicOptimizationIntegrator:
 
             # Validate optimization results (SR-4.22.2)
             if self.signal_validation:
-                validation_result = self.signal_validation.validate_state(optimized_state)
-                if not validation_result.get('valid', False):
-                    logger.warning("Optimization failed validation, reverting to safe state")
+                validation_result = self.signal_validation.validate_state(
+                    optimized_state
+                )
+                if not validation_result.get("valid", False):
+                    logger.warning(
+                        "Optimization failed validation, reverting to safe state"
+                    )
                     return current_state
 
             # Check completion time (SR-4.22.1)
@@ -277,7 +321,9 @@ class ThermodynamicOptimizationIntegrator:
             logger.error(f"System efficiency optimization failed: {e}")
             return current_state  # SR-4.22.5: Graceful degradation
 
-    async def evolve_thermodynamic_signals(self, signals: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    async def evolve_thermodynamic_signals(
+        self, signals: List[Dict[str, Any]]
+    ) -> List[Dict[str, Any]]:
         """
         Evolve thermodynamic signals with consistency validation.
 
@@ -303,11 +349,15 @@ class ThermodynamicOptimizationIntegrator:
                     validations_passed += 1
 
                 # Layer 2: Signal integrity
-                if self.signal_validation and self.signal_validation.validate_signal(evolved):
+                if self.signal_validation and self.signal_validation.validate_signal(
+                    evolved
+                ):
                     validations_passed += 1
 
                 # Layer 3: Optimization compatibility
-                if self.signal_optimizer and self.signal_optimizer.is_optimizable(evolved):
+                if self.signal_optimizer and self.signal_optimizer.is_optimizable(
+                    evolved
+                ):
                     validations_passed += 1
 
                 # Require at least 2/3 validations for safety
@@ -330,19 +380,19 @@ class ThermodynamicOptimizationIntegrator:
         """Validate thermodynamic laws compliance."""
         try:
             # First Law: Energy conservation
-            energy_in = signal.get('energy_input', 0.0)
-            energy_out = signal.get('energy_output', 0.0)
+            energy_in = signal.get("energy_input", 0.0)
+            energy_out = signal.get("energy_output", 0.0)
             if energy_out > energy_in * 1.1:  # Allow 10% margin for measurement error
                 return False
 
             # Second Law: Entropy non-decrease
-            entropy_initial = signal.get('entropy_initial', 0.0)
-            entropy_final = signal.get('entropy_final', 0.0)
+            entropy_initial = signal.get("entropy_initial", 0.0)
+            entropy_final = signal.get("entropy_final", 0.0)
             if entropy_final < entropy_initial - EPSILON:
                 return False
 
             # Temperature bounds
-            temperature = signal.get('temperature', 300.0)
+            temperature = signal.get("temperature", 300.0)
             if temperature < 0 or temperature > 10000:  # Reasonable bounds
                 return False
 
@@ -375,8 +425,8 @@ class ThermodynamicOptimizationIntegrator:
                     "efficiency_optimizer": self.efficiency_optimizer is not None,
                     "signal_evolution": self.signal_evolution is not None,
                     "signal_optimizer": self.signal_optimizer is not None,
-                    "signal_validation": self.signal_validation is not None
-                }
+                    "signal_validation": self.signal_validation is not None,
+                },
             }
 
     def shutdown(self) -> None:
@@ -389,10 +439,14 @@ class ThermodynamicOptimizationIntegrator:
             self._health_thread.join(timeout=5.0)
 
         # Shutdown components
-        for component_name in ['efficiency_optimizer', 'signal_evolution',
-                              'signal_optimizer', 'signal_validation']:
+        for component_name in [
+            "efficiency_optimizer",
+            "signal_evolution",
+            "signal_optimizer",
+            "signal_validation",
+        ]:
             component = getattr(self, component_name, None)
-            if component and hasattr(component, 'shutdown'):
+            if component and hasattr(component, "shutdown"):
                 try:
                     component.shutdown()
                     logger.debug(f"✅ {component_name} shutdown complete")
@@ -404,4 +458,4 @@ class ThermodynamicOptimizationIntegrator:
 
 
 # Export integrator for KimeraSystem initialization
-__all__ = ['ThermodynamicOptimizationIntegrator']
+__all__ = ["ThermodynamicOptimizationIntegrator"]
