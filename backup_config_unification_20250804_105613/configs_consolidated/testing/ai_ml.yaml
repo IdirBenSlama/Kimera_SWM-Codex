@@ -1,0 +1,98 @@
+activation_damping_factor: 0.7
+activation_entropy_boost_threshold: 3.5
+activation_entropy_damping_threshold: 1.0
+activation_floor_threshold: 1.0e-09
+balanced_weights:
+- 0.4
+- 0.4
+- 0.2
+base_entropy_threshold: 0.05
+complexity_adjustment_factor: 0.2
+consolidation_weights:
+- 0.3
+- 0.5
+- 0.2
+contradiction_adaptive_range:
+- 0.1
+- 0.6
+contradiction_adjustment_sensitivity: 0.05
+contradiction_base_threshold: 0.22999999999999998
+crystallization_threshold_base: 20.0
+decay_rate_base: 0.1
+entropy_adjustment_factor: 0.1
+entropy_correction_precision: 0.01
+entropy_normalization_point: 2.0
+exploration_weights:
+- 0.5
+- 0.3
+- 0.2
+fusion_similarity_threshold: 0.9
+max_correction_features: 10
+optimization_interval_minutes: 30
+optimization_weights:
+- 0.2
+- 0.3
+- 0.5
+performance_weight: 0.4
+performance_window_size: 100
+predictability_scales:
+- 2
+- 3
+- 4
+proactive_base_batch_size: 20
+proactive_max_batch_size: 200
+proactive_scan_interval_base: 6
+proactive_similarity_threshold_base: 0.7
+scale_weights:
+- 1.0
+- 0.8
+- 0.6
+scientific_fine_tuning:
+  adaptive_entropy_threshold:
+    base_threshold: 0.05
+    complexity_adjustment_factor: 0.2
+    enabled: true
+    entropy_adjustment_factor: 0.1
+    entropy_normalization_point: 2.0
+    performance_weight: 0.4
+  dynamic_complexity_weighting:
+    balanced_weights:
+    - 0.4
+    - 0.4
+    - 0.2
+    consolidation_weights:
+    - 0.3
+    - 0.5
+    - 0.2
+    enabled: true
+    exploration_weights:
+    - 0.5
+    - 0.3
+    - 0.2
+    optimization_weights:
+    - 0.2
+    - 0.3
+    - 0.5
+  enabled: true
+  enhanced_predictability:
+    enabled: true
+    scale_weights:
+    - 1.0
+    - 0.8
+    - 0.6
+    scales:
+    - 2
+    - 3
+    - 4
+    tolerance_factor: 0.2
+  intelligent_entropy_correction:
+    correction_precision: 0.01
+    enabled: true
+    max_correction_features: 10
+    semantic_coherence_weight: 0.3
+semantic_coherence_weight: 0.3
+spde_decay_factor_base: 1.0
+spde_diffusion_rate_base: 0.5
+tolerance_factor: 0.2
+vault_balance_threshold_base: 1.9500000000000002
+vault_rebalance_sensitivity: 0.1

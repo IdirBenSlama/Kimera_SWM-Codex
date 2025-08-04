@@ -1,0 +1,30 @@
+# KIMERA SWM Requirements
+# This file provides a convenient entry point for dependency installation.
+# For detailed requirements, see the requirements/ directory.
+
+# Install base requirements
+-r requirements/base.txt
+
+# Revolutionary Thermodynamic Engines (REQUIRED for physics-compliant AI)
+-r requirements/thermodynamic.txt
+
+# Core data science dependencies (REQUIRED for thermodynamic calculations)
+-r requirements/data.txt
+
+# Quantum computing dependencies (REQUIRED for consciousness detection)
+-r requirements/quantum.txt
+
+# Development dependencies (uncomment if needed)
+# -r requirements/dev.txt
+
+# GPU acceleration dependencies (uncomment if needed)
+# -r requirements/gpu.txt
+
+# Trading system dependencies (uncomment if needed)
+# -r requirements/trading.txt
+
+# Note: For production deployment, use poetry:
+# poetry install --only main
+#
+# For development with all dependencies:
+# poetry install --with dev,data,gpu,trading 

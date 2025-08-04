@@ -1,0 +1,12 @@
+{
+  "neo4j": {
+    "uri": "bolt://localhost:7687",
+    "username": "neo4j",
+    "password": "kimera_neo4j",
+    "encrypted": false,
+    "trust": "TRUST_ALL_CERTIFICATES",
+    "max_connection_lifetime": 1000,
+    "max_connection_pool_size": 50,
+    "connection_acquisition_timeout": 60
+  }
+}
