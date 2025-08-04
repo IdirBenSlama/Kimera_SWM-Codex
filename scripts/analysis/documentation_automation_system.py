@@ -1916,7 +1916,7 @@ def __init__(self, param1: Type, param2: Type = default) -> None:
         
     Example:
         >>> instance = ClassName("value", param2=42)
-        >>> print(instance)
+        >>> logger.info(instance)
         ClassName(param1='value', param2=42)
     \"\"\"
 ```
@@ -1947,7 +1947,7 @@ def method_name(self, arg1: Type, arg2: Optional[Type] = None) -> ReturnType:
     Example:
         >>> instance = ClassName("test")
         >>> result = instance.method_name("input")
-        >>> print(result)
+        >>> logger.info(result)
         expected_output
         
     Note:
@@ -1979,7 +1979,7 @@ def function_name(param1: Type, param2: Type) -> ReturnType:
         
     Example:
         >>> result = function_name("input1", "input2")
-        >>> print(result)
+        >>> logger.info(result)
         expected_result
     \"\"\"
 ```

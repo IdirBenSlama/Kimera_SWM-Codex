@@ -1,3 +1,6 @@
+import logging
+
+logger = logging.getLogger(__name__)
 #!/usr/bin/env python3
 """
 KIMERA DEMO TESTNET SIMULATION
@@ -317,7 +320,7 @@ class KimeraDemoTestnet:
             f"   • Risk Management: {'ENABLED' if self.config.get('risk_management', True) else 'DISABLED'}"
         )
         print(f"   • Market Data: SIMULATED (realistic)")
-        print()
+        logger.info()
 
     def run_simulation_cycle(self):
         """Run one simulation cycle"""

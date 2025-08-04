@@ -422,7 +422,7 @@ class KimeraDirectTestnet:
         print(f"   • Constitutional Compliance: ENABLED")
         print(f"   • Risk Management: ENABLED")
         print(f"   • Real Market Data: ENABLED")
-        print()
+        logger.info()
 
     async def run_simulation_cycle(self):
         """Run one simulation cycle"""

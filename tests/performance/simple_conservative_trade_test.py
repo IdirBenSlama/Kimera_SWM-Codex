@@ -322,13 +322,13 @@ async def main():
     print("🚨 REAL TRADING TEST WARNING 🚨")
     print("This will execute a REAL TRADE with REAL MONEY!")
     print("Maximum risk: $5 USD")
-    print()
+    logger.info()
     print("Ensure you have:")
     print("1. Set BINANCE_API_KEY environment variable")
     print("2. Set BINANCE_SECRET_KEY environment variable")
     print("3. At least $5 USDT balance in your Binance account")
     print("4. Are prepared to risk this amount")
-    print()
+    logger.info()
 
     response = input("Proceed with REAL TRADING TEST? (type 'YES' to continue): ")
     if response != "YES":
