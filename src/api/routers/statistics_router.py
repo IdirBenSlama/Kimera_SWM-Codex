@@ -13,12 +13,16 @@ from typing import Dict, List
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-from ...core.statistical_modeling import (StatisticalModelResult
-                                          analyze_contradiction_factors
-                                          analyze_entropy_time_series
-                                          analyze_semantic_market, statistical_engine)
-from ...monitoring.forecasting_and_control_monitor import \
-    initialize_forecasting_and_control_monitoring
+from ...core.statistical_modeling import (
+    StatisticalModelResult,
+    analyze_contradiction_factors,
+    analyze_entropy_time_series,
+    analyze_semantic_market,
+    statistical_engine,
+)
+from ...monitoring.forecasting_and_control_monitor import (
+    initialize_forecasting_and_control_monitoring,
+)
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -50,7 +54,7 @@ async def get_statistical_capabilities():
 
 @router.post(
     "/statistics/analyze/entropy_series",
-    response_model=StatisticalModelResult
+    response_model=StatisticalModelResult,
     tags=["Statistics"],
 )
 async def analyze_entropy_series_endpoint(
@@ -64,7 +68,7 @@ async def analyze_entropy_series_endpoint(
 
 @router.post(
     "/statistics/analyze/contradiction_factors",
-    response_model=StatisticalModelResult
+    response_model=StatisticalModelResult,
     tags=["Statistics"],
 )
 async def analyze_contradiction_factors_endpoint(
@@ -73,7 +77,7 @@ async def analyze_contradiction_factors_endpoint(
     """Analyzes factors contributing to contradictions."""
     if not contradiction_scores or not semantic_features:
         raise HTTPException(
-            status_code=400
+            status_code=400,
             detail="Contradiction scores and semantic features must be provided",
         )
     return analyze_contradiction_factors(contradiction_scores, semantic_features)
@@ -81,7 +85,7 @@ async def analyze_contradiction_factors_endpoint(
 
 @router.post(
     "/statistics/analyze/semantic_market",
-    response_model=StatisticalModelResult
+    response_model=StatisticalModelResult,
     tags=["Statistics"],
 )
 async def analyze_semantic_market_endpoint(

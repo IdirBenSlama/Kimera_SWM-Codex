@@ -6,12 +6,11 @@ Advanced GPU acceleration for Kimera's cognitive engines using CUDA.
 
 import asyncio
 import logging
-import threading
 import time
+from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 import cupy as cp
 import numpy as np
@@ -30,32 +29,26 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class GPUTask:
-    """Auto-generated class."""
-    pass
-    """GPU processing task"""
+    """GPU processing task."""
 
     task_id: str
     task_type: str
     input_data: Any
     priority: int = 1
     stream_id: int = 0
-    callback: Optional[callable] = None
+    callback: Callable | None = None
 
 
 @dataclass
 class GPUMemoryPool:
-    """Auto-generated class."""
-    pass
-    """GPU memory pool configuration"""
+    """GPU memory pool configuration."""
 
-    tensor_cache: Dict[str, torch.Tensor]
-    cupy_cache: Dict[str, cp.ndarray]
+    tensor_cache: dict[str, torch.Tensor]
+    cupy_cache: dict[str, cp.ndarray]
     max_cache_size_gb: float = 2.0
     current_usage_gb: float = 0.0
 class CUDAKernelManager:
-    """Auto-generated class."""
-    pass
-    """Manager for custom CUDA kernels"""
+    """Manager for custom CUDA kernels."""
 
     def __init__(self):
         self.kernels = {}
@@ -193,9 +186,7 @@ class CUDAKernelManager:
 
         logger.info(f"✅ Loaded {len(self.kernels)} CUDA kernels")
 class GPUCognitiveAccelerator:
-    """Auto-generated class."""
-    pass
-    """Advanced GPU acceleration for cognitive processing"""
+    """Advanced GPU acceleration for cognitive processing."""
 
     def __init__(self, device_id: int = 0):
         self.device_id = device_id
@@ -239,7 +230,7 @@ class GPUCognitiveAccelerator:
 
     async def accelerated_embedding_generation(
         self,
-        texts: List[str],
+        texts: list[str],
         model_name: str = "sentence-transformers/all-MiniLM-L6-v2",
     ) -> torch.Tensor:
         """Generate embeddings using GPU acceleration"""
@@ -281,8 +272,8 @@ class GPUCognitiveAccelerator:
         queries: torch.Tensor,
         keys: torch.Tensor,
         values: torch.Tensor,
-        mask: Optional[torch.Tensor] = None,
-    ) -> Tuple[torch.Tensor, torch.Tensor]:
+        mask: torch.Tensor | None = None,
+    ) -> tuple[torch.Tensor, torch.Tensor]:
         """GPU-accelerated attention mechanism using custom CUDA kernel"""
 
         def _attention_forward():
@@ -395,8 +386,8 @@ class GPUCognitiveAccelerator:
         return torch.as_tensor(c_cp, device=self.device)
 
     async def accelerated_text_processing(
-        self, texts: List[str], processing_type: str = "tokenize"
-    ) -> List[Any]:
+        self, texts: list[str], processing_type: str = "tokenize"
+    ) -> list[Any]:
         """GPU-accelerated text processing pipeline"""
 
         def _process_texts():
@@ -441,8 +432,8 @@ class GPUCognitiveAccelerator:
         return result
 
     async def cognitive_reasoning_acceleration(
-        self, reasoning_task: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, reasoning_task: dict[str, Any]
+    ) -> dict[str, Any]:
         """Accelerate cognitive reasoning tasks using GPU"""
 
         def _reasoning_forward():
@@ -469,10 +460,10 @@ class GPUCognitiveAccelerator:
         result = await loop.run_in_executor(self.executor, _reasoning_forward)
 
         self.completed_tasks += 1
-        logger.info(f"🧠 Cognitive reasoning task completed on GPU")
+        logger.info("🧠 Cognitive reasoning task completed on GPU")
         return result
 
-    def _gpu_logical_reasoning(self, input_data: str) -> Dict[str, Any]:
+    def _gpu_logical_reasoning(self, input_data: str) -> dict[str, Any]:
         """GPU-accelerated logical reasoning"""
         # Placeholder for advanced logical reasoning using GPU
         # This would involve neural symbolic reasoning, constraint satisfaction, etc.
@@ -503,7 +494,7 @@ class GPUCognitiveAccelerator:
             "result": "logical_conclusion_reached",
         }
 
-    def _gpu_pattern_recognition(self, input_data: Any) -> Dict[str, Any]:
+    def _gpu_pattern_recognition(self, input_data: Any) -> dict[str, Any]:
         """GPU-accelerated pattern recognition"""
         processing_time = time.time()
 
@@ -535,7 +526,7 @@ class GPUCognitiveAccelerator:
             "pattern_types": ["sequential", "hierarchical", "cyclical"],
         }
 
-    def _gpu_causal_inference(self, input_data: str) -> Dict[str, Any]:
+    def _gpu_causal_inference(self, input_data: str) -> dict[str, Any]:
         """GPU-accelerated causal inference"""
         processing_time = time.time()
 
@@ -562,7 +553,7 @@ class GPUCognitiveAccelerator:
             "gpu_time": processing_time,
         }
 
-    def _gpu_general_reasoning(self, input_data: str) -> Dict[str, Any]:
+    def _gpu_general_reasoning(self, input_data: str) -> dict[str, Any]:
         """General GPU-accelerated reasoning"""
         processing_time = time.time()
 
@@ -572,7 +563,7 @@ class GPUCognitiveAccelerator:
             context = torch.randn(1, 1024, device=self.device)
 
             # Apply multiple reasoning layers
-            for layer in range(6):  # Deep reasoning
+            for _ in range(6):  # Deep reasoning
                 context = torch.layer_norm(
                     context
                     + torch.relu(
@@ -612,7 +603,7 @@ class GPUCognitiveAccelerator:
         torch.cuda.empty_cache()
         logger.info("🧹 GPU memory cache cleared")
 
-    def get_acceleration_stats(self) -> Dict[str, Any]:
+    def get_acceleration_stats(self) -> dict[str, Any]:
         """Get GPU acceleration performance statistics"""
         if NVML_AVAILABLE:
             try:
@@ -638,7 +629,7 @@ class GPUCognitiveAccelerator:
                     "streams_active": len(self.streams),
                     "kernels_loaded": len(self.kernel_manager.kernels),
                 }
-            except:
+            except Exception:
                 pass
 
         return {
@@ -677,7 +668,7 @@ def initialize_gpu_accelerator(device_id: int = 0) -> GPUCognitiveAccelerator:
     return gpu_accelerator
 
 
-def get_gpu_accelerator() -> Optional[GPUCognitiveAccelerator]:
+def get_gpu_accelerator() -> GPUCognitiveAccelerator | None:
     """Get the global GPU accelerator instance"""
     return gpu_accelerator
 
@@ -685,7 +676,7 @@ def get_gpu_accelerator() -> Optional[GPUCognitiveAccelerator]:
 # Integration functions for existing Kimera engines
 async def accelerate_linguistic_analysis(
     text: str, level: str = "enhanced"
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Accelerated linguistic analysis using GPU"""
     if not gpu_accelerator:
         return {"error": "GPU accelerator not initialized"}
@@ -710,7 +701,7 @@ async def accelerate_linguistic_analysis(
 
 async def accelerate_cognitive_processing(
     input_data: str, depth: str = "deep"
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Accelerated cognitive processing using GPU"""
     if not gpu_accelerator:
         return {"error": "GPU accelerator not initialized"}

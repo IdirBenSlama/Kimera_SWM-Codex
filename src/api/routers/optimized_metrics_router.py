@@ -12,13 +12,12 @@ Optimizations applied:
 """
 
 import asyncio
-import json
 import time
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
-from fastapi import APIRouter, Response, WebSocket, WebSocketDisconnect
-from fastapi.responses import JSONResponse, StreamingResponse
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+from fastapi.responses import JSONResponse
 
 try:
     from ...optimization.metrics_cache import get_metrics_cache
@@ -79,16 +78,16 @@ async def get_system_metrics_optimized() -> Dict[str, Any]:
     # Convert to response format
     response = {
         "timestamp": datetime.utcnow().isoformat(),
-        "cached": is_cached
+        "cached": is_cached,
         "system": {
-            "cpu_percent": cached_metrics.cpu_percent
+            "cpu_percent": cached_metrics.cpu_percent,
             "memory": {
-                "percent": cached_metrics.memory_percent
-                "available_mb": cached_metrics.memory_available_mb
+                "percent": cached_metrics.memory_percent,
+                "available_mb": cached_metrics.memory_available_mb,
             },
             "disk_io": {
-                "read_mb_per_sec": cached_metrics.disk_io_read_mb
-                "write_mb_per_sec": cached_metrics.disk_io_write_mb
+                "read_mb_per_sec": cached_metrics.disk_io_read_mb,
+                "write_mb_per_sec": cached_metrics.disk_io_write_mb,
             },
         },
     }
@@ -96,14 +95,14 @@ async def get_system_metrics_optimized() -> Dict[str, Any]:
     # Add GPU metrics if available
     if cached_metrics.gpu_memory_percent is not None:
         response["gpu"] = {
-            "memory_percent": cached_metrics.gpu_memory_percent
-            "utilization_percent": cached_metrics.gpu_utilization
+            "memory_percent": cached_metrics.gpu_memory_percent,
+            "utilization_percent": cached_metrics.gpu_utilization,
         }
 
     # Add performance metadata
     response_time_us = (time.perf_counter_ns() - start_time) / 1000
     response["_performance"] = {
-        "response_time_us": response_time_us
+        "response_time_us": response_time_us,
         "cache_stats": metrics_cache.get_cache_stats(),
     }
 
@@ -166,15 +165,15 @@ async def get_metrics_history(seconds: int = 60) -> Dict[str, Any]:
                 "memory_available_mb": row[3],
                 "disk_read_mb": row[4],
                 "disk_write_mb": row[5],
-                "gpu_memory_percent": row[6] if row[6] >= 0 else None
-                "gpu_utilization": row[7] if row[7] >= 0 else None
+                "gpu_memory_percent": row[6] if row[6] >= 0 else None,
+                "gpu_utilization": row[7] if row[7] >= 0 else None,
             }
         )
 
     return {
-        "seconds_requested": seconds
+        "seconds_requested": seconds,
         "samples_returned": len(history_list),
-        "history": history_list
+        "history": history_list,
     }
 
 
@@ -196,10 +195,10 @@ async def metrics_stream(websocket: WebSocket):
             await websocket.send_json(
                 {
                     "timestamp": datetime.utcnow().isoformat(),
-                    "cpu": metrics.cpu_percent
-                    "memory": metrics.memory_percent
-                    "gpu_memory": metrics.gpu_memory_percent
-                    "gpu_util": metrics.gpu_utilization
+                    "cpu": metrics.cpu_percent,
+                    "memory": metrics.memory_percent,
+                    "gpu_memory": metrics.gpu_memory_percent,
+                    "gpu_util": metrics.gpu_utilization,
                 }
             )
 

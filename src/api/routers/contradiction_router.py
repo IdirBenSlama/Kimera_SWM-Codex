@@ -8,7 +8,6 @@ cognitive contradictions within the KIMERA system.
 
 import logging
 import uuid
-from datetime import datetime
 from typing import Any, Dict, List, Tuple
 
 import numpy as np
@@ -61,7 +60,7 @@ def to_state(row: GeoidDB) -> GeoidState:
 
 
 def create_scar_from_tension(
-    tension: TensionGradient
+    tension: TensionGradient,
     geoids_dict: Dict[str, GeoidState],
     decision: str = "collapse",
 ) -> Tuple[ScarRecord, List[float]]:
@@ -92,9 +91,9 @@ def create_scar_from_tension(
 
 
 def run_contradiction_processing_bg(
-    body: ProcessContradictionRequest
-    contradiction_engine: ContradictionEngine
-    vault_manager: VaultManager
+    body: ProcessContradictionRequest,
+    contradiction_engine: ContradictionEngine,
+    vault_manager: VaultManager,
 ):
     """The actual logic for contradiction processing, run in the background."""
     if not contradiction_engine or not vault_manager:
@@ -104,7 +103,8 @@ def run_contradiction_processing_bg(
         return
 
     logger.info(
-        f"Starting background contradiction processing for geoid: {body.trigger_geoid_id}"
+        "Starting background contradiction processing for geoid: %s",
+        body.trigger_geoid_id,
     )
     try:
         # Fetch the trigger geoid
@@ -116,11 +116,11 @@ def run_contradiction_processing_bg(
         trigger_geoid_state = to_state(trigger_geoid_db)
 
         # Find potential contradictions
-    potential_matches_df = vault_manager.search_geoids_by_embedding(
-        trigger_geoid_state.embedding,
-        limit=body.search_limit + 1,
-        include_distances=True,
-    )
+        potential_matches_df = vault_manager.search_geoids_by_embedding(
+            trigger_geoid_state.embedding,
+            limit=body.search_limit + 1,
+            include_distances=True,
+        )
 
         # Filter out the trigger geoid itself
         potential_matches_df = potential_matches_df[
@@ -146,7 +146,10 @@ def run_contradiction_processing_bg(
 
             if contradiction_engine.is_significant(tension):
                 logger.info(
-                    f"Significant tension {tension.tension_score:.3f} found between {trigger_geoid_state.geoid_id} and {target_geoid_state.geoid_id}"
+                    "Significant tension %.3f found between %s and %s",
+                    tension.tension_score,
+                    trigger_geoid_state.geoid_id,
+                    target_geoid_state.geoid_id,
                 )
 
                 decision = "collapse"  # Or some other logic
@@ -164,7 +167,9 @@ def run_contradiction_processing_bg(
 
     except Exception as e:
         logger.error(
-            f"Error during background contradiction processing: {e}", exc_info=True
+            "Error during background contradiction processing: %s",
+            e,
+            exc_info=True,
         )
 
 
@@ -248,8 +253,11 @@ async def process_contradictions_sync(
                 )
 
         return {
-            "message": f"Processed {len(potential_matches_df)} potential contradictions, found {len(results)} significant.",
-            "results": results
+            "message": (
+                f"Processed {len(potential_matches_df)} potential contradictions, "
+                f"found {len(results)} significant."
+            ),
+            "results": results,
         }
 
     except Exception as e:
@@ -332,6 +340,7 @@ async def detect_contradictions(
 async def detect_tension(
     geoid_pairs: List[List[str]],
     contradiction_engine: ContradictionEngine = Depends(get_contradiction_engine),
+    vault_manager: VaultManager = Depends(get_vault_manager),
 ) -> Dict[str, Any]:
     """
     Detect tension between pairs of geoids.
@@ -370,11 +379,12 @@ async def detect_tension(
 
 @router.post("/contradictions/resolve", response_model=Dict[str, Any])
 async def resolve_contradiction(
-    contradiction_id: str, resolution_strategy: str = "entropy_minimization"
+    contradiction_id: str,
+    resolution_strategy: str = "entropy_minimization",
+    contradiction_engine: ContradictionEngine = Depends(get_contradiction_engine),
 ) -> Dict[str, Any]:
     """Resolve a detected contradiction"""
     try:
-        contradiction_engine = kimera_singleton.get_component("contradiction_engine")
         if not contradiction_engine:
             raise HTTPException(
                 status_code=503, detail="Contradiction engine not available"
