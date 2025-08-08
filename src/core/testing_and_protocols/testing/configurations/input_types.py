@@ -55,6 +55,8 @@ class InputType(Enum):
 
 @dataclass
 class InputCharacteristics:
+    """Auto-generated class."""
+    pass
     """Characteristics of an input type for testing"""
 
     complexity_factors: Dict[str, float]  # Factors affecting processing complexity
@@ -67,6 +69,8 @@ class InputCharacteristics:
 
 @dataclass
 class InputSample:
+    """Auto-generated class."""
+    pass
     """Generated input sample for testing"""
 
     content: str
@@ -75,9 +79,9 @@ class InputSample:
     metadata: Dict[str, Any]
     expected_processing_time: float
     validation_checksum: str
-
-
 class InputGenerator:
+    """Auto-generated class."""
+    pass
     """
     Generator for realistic test inputs across all cognitive modalities
 
@@ -104,17 +108,17 @@ class InputGenerator:
         return {
             InputType.LINGUISTIC: InputCharacteristics(
                 complexity_factors={
-                    "vocabulary_diversity": 0.3,
-                    "sentence_length": 0.2,
-                    "syntactic_complexity": 0.3,
-                    "semantic_ambiguity": 0.2,
+                    "vocabulary_diversity": 0.3
+                    "sentence_length": 0.2
+                    "syntactic_complexity": 0.3
+                    "semantic_ambiguity": 0.2
                 },
                 typical_size_range=(50, 2000),  # 50 to 2000 characters
                 processing_requirements={
-                    "nlp_engine": True,
-                    "semantic_analysis": True,
-                    "grammar_parsing": True,
-                    "context_memory": True,
+                    "nlp_engine": True
+                    "semantic_analysis": True
+                    "grammar_parsing": True
+                    "context_memory": True
                 },
                 validation_patterns=[
                     r"^[a-zA-Z0-9\s\.,;:!?\-'\"()]+$",  # Standard text
@@ -129,16 +133,16 @@ class InputGenerator:
             ),
             InputType.PERCEPTUAL: InputCharacteristics(
                 complexity_factors={
-                    "pattern_density": 0.4,
-                    "noise_level": 0.3,
-                    "spatial_complexity": 0.3,
+                    "pattern_density": 0.4
+                    "noise_level": 0.3
+                    "spatial_complexity": 0.3
                 },
                 typical_size_range=(100, 5000),  # Pattern descriptions
                 processing_requirements={
-                    "pattern_recognition": True,
-                    "visual_processing": True,
-                    "feature_extraction": True,
-                    "gpu_acceleration": True,
+                    "pattern_recognition": True
+                    "visual_processing": True
+                    "feature_extraction": True
+                    "gpu_acceleration": True
                 },
                 validation_patterns=[
                     r"pattern:|shape:|color:|texture:",  # Must contain pattern descriptors
@@ -154,16 +158,16 @@ class InputGenerator:
             ),
             InputType.MIXED: InputCharacteristics(
                 complexity_factors={
-                    "modality_integration": 0.4,
-                    "context_switching": 0.3,
-                    "cross_modal_coherence": 0.3,
+                    "modality_integration": 0.4
+                    "context_switching": 0.3
+                    "cross_modal_coherence": 0.3
                 },
                 typical_size_range=(200, 3000),  # Combined content
                 processing_requirements={
-                    "nlp_engine": True,
-                    "pattern_recognition": True,
-                    "multimodal_fusion": True,
-                    "context_management": True,
+                    "nlp_engine": True
+                    "pattern_recognition": True
+                    "multimodal_fusion": True
+                    "context_management": True
                 },
                 validation_patterns=[
                     r".*text:.*pattern:.*",  # Must have both text and pattern
@@ -179,16 +183,16 @@ class InputGenerator:
             ),
             InputType.CONCEPTUAL: InputCharacteristics(
                 complexity_factors={
-                    "abstraction_level": 0.4,
-                    "logical_complexity": 0.3,
-                    "symbol_density": 0.3,
+                    "abstraction_level": 0.4
+                    "logical_complexity": 0.3
+                    "symbol_density": 0.3
                 },
                 typical_size_range=(100, 1500),  # Abstract concepts
                 processing_requirements={
-                    "symbolic_reasoning": True,
-                    "logical_inference": True,
-                    "concept_hierarchy": True,
-                    "working_memory": True,
+                    "symbolic_reasoning": True
+                    "logical_inference": True
+                    "concept_hierarchy": True
+                    "working_memory": True
                 },
                 validation_patterns=[
                     r"concept:|relation:|property:",  # Conceptual descriptors
@@ -203,16 +207,16 @@ class InputGenerator:
             ),
             InputType.SCIENTIFIC: InputCharacteristics(
                 complexity_factors={
-                    "mathematical_complexity": 0.5,
-                    "precision_requirements": 0.3,
-                    "computational_depth": 0.2,
+                    "mathematical_complexity": 0.5
+                    "precision_requirements": 0.3
+                    "computational_depth": 0.2
                 },
                 typical_size_range=(150, 2500),  # Scientific notation
                 processing_requirements={
-                    "mathematical_engine": True,
-                    "numerical_computation": True,
-                    "precision_arithmetic": True,
-                    "formula_parsing": True,
+                    "mathematical_engine": True
+                    "numerical_computation": True
+                    "precision_arithmetic": True
+                    "formula_parsing": True
                 },
                 validation_patterns=[
                     r"equation:|formula:|calculation:",  # Mathematical content
@@ -229,16 +233,16 @@ class InputGenerator:
             ),
             InputType.ARTISTIC: InputCharacteristics(
                 complexity_factors={
-                    "creative_novelty": 0.4,
-                    "aesthetic_complexity": 0.3,
-                    "emotional_depth": 0.3,
+                    "creative_novelty": 0.4
+                    "aesthetic_complexity": 0.3
+                    "emotional_depth": 0.3
                 },
                 typical_size_range=(80, 1800),  # Creative expressions
                 processing_requirements={
-                    "creative_analysis": True,
-                    "aesthetic_evaluation": True,
-                    "emotional_processing": True,
-                    "style_recognition": True,
+                    "creative_analysis": True
+                    "aesthetic_evaluation": True
+                    "emotional_processing": True
+                    "style_recognition": True
                 },
                 validation_patterns=[
                     r"style:|mood:|emotion:",  # Artistic descriptors
@@ -303,10 +307,10 @@ class InputGenerator:
         }
 
     def generate_sample(
-        self,
-        input_type: InputType,
+        self
+        input_type: InputType
         complexity_level: str = "medium",
-        custom_parameters: Optional[Dict[str, Any]] = None,
+        custom_parameters: Optional[Dict[str, Any]] = None
     ) -> InputSample:
         """
         Generate a realistic input sample for testing
@@ -345,12 +349,12 @@ class InputGenerator:
         checksum = self._generate_checksum(content, input_type)
 
         sample = InputSample(
-            content=content,
-            input_type=input_type,
-            complexity_score=complexity_score,
-            metadata=metadata,
-            expected_processing_time=expected_time,
-            validation_checksum=checksum,
+            content=content
+            input_type=input_type
+            complexity_score=complexity_score
+            metadata=metadata
+            expected_processing_time=expected_time
+            validation_checksum=checksum
         )
 
         logger.debug(
@@ -433,20 +437,20 @@ class InputGenerator:
         return min(complexity_score, 1.0)
 
     def _generate_metadata(
-        self,
-        input_type: InputType,
-        complexity_level: str,
+        self
+        input_type: InputType
+        complexity_level: str
         custom_parameters: Optional[Dict[str, Any]],
     ) -> Dict[str, Any]:
         """Generate comprehensive metadata for input sample"""
         characteristics = self.characteristics[input_type]
 
         metadata = {
-            "input_type": input_type.value,
-            "complexity_level": complexity_level,
-            "generation_seed": self.seed,
+            "input_type": input_type.value
+            "complexity_level": complexity_level
+            "generation_seed": self.seed
             "processing_requirements": characteristics.processing_requirements.copy(),
-            "expected_error_rate": characteristics.error_probability,
+            "expected_error_rate": characteristics.error_probability
             "validation_patterns": characteristics.validation_patterns.copy(),
             "generation_timestamp": np.datetime64("now").isoformat(),
             "generator_version": "1.0.0",
@@ -563,7 +567,7 @@ class InputGenerator:
                 )
                 for input_type in InputType
             },
-            "seed": self.seed,
+            "seed": self.seed
         }
 
 

@@ -1,9 +1,9 @@
 import numpy as np
 
 from ..core.types import QuantumOrder
-
-
 class SchrodingerOrderSystem:
+    """Auto-generated class."""
+    pass
     """
     Orders exist in superposition until observed (executed).
 

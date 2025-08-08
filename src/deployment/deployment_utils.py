@@ -29,9 +29,9 @@ except ImportError:
 from sqlalchemy import text
 
 logger = logging.getLogger(__name__)
-
-
 class HealthCheckManager:
+    """Auto-generated class."""
+    pass
     """
     Manages health checks for the application and its dependencies
     """
@@ -69,9 +69,9 @@ class HealthCheckManager:
         except Exception as e:
             logger.error(f"Database health check failed: {e}")
             return {"name": "database", "status": "error", "error": str(e)}
-
-
 class GracefulShutdownManager:
+    """Auto-generated class."""
+    pass
     """
     Manages the graceful shutdown of the application
     """

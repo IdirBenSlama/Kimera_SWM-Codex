@@ -99,6 +99,8 @@ class SystemDimension(Enum):
 
 @dataclass
 class MessageHeader:
+    """Auto-generated class."""
+    pass
     """Protocol message header"""
 
     version: ProtocolVersion
@@ -120,6 +122,8 @@ class MessageHeader:
 
 @dataclass
 class MessagePayload:
+    """Auto-generated class."""
+    pass
     """Protocol message payload"""
 
     content_type: str
@@ -133,6 +137,8 @@ class MessagePayload:
 
 @dataclass
 class ProtocolMessage:
+    """Auto-generated class."""
+    pass
     """Complete protocol message"""
 
     header: MessageHeader
@@ -156,24 +162,24 @@ class ProtocolMessage:
             data_bytes = json.dumps(self.payload.data, sort_keys=True).encode("utf-8")
 
         return hashlib.sha256(data_bytes).hexdigest()[:16]
-
-
 class MessageRoute:
+    """Auto-generated class."""
+    pass
     """Message routing information"""
 
     def __init__(
-        self,
-        source: SystemDimension,
-        destination: SystemDimension,
-        hops: Optional[List[SystemDimension]] = None,
+        self
+        source: SystemDimension
+        destination: SystemDimension
+        hops: Optional[List[SystemDimension]] = None
     ):
         self.source = source
         self.destination = destination
         self.hops = hops or []
         self.route_hash = self._calculate_route_hash()
         self.performance_metrics = {
-            "average_latency": 0.0,
-            "success_rate": 1.0,
+            "average_latency": 0.0
+            "success_rate": 1.0
             "last_update": datetime.now(),
         }
 
@@ -183,9 +189,9 @@ class MessageRoute:
         if self.hops:
             route_string += "→" + "→".join(hop.value for hop in self.hops)
         return hashlib.md5(route_string.encode()).hexdigest()[:8]
-
-
 class DimensionRegistry:
+    """Auto-generated class."""
+    pass
     """
     Registry for cognitive system dimensions and their capabilities
 
@@ -201,8 +207,8 @@ class DimensionRegistry:
         self.registry_lock = threading.RLock()
 
     def register_dimension(
-        self,
-        dimension: SystemDimension,
+        self
+        dimension: SystemDimension
         capabilities: List[str],
         metadata: Dict[str, Any],
     ) -> bool:
@@ -274,7 +280,7 @@ class DimensionRegistry:
                 return None
 
             return {
-                "dimension": dimension.value,
+                "dimension": dimension.value
                 "registration": self.dimensions[dimension],
                 "capabilities": list(self.capabilities.get(dimension, [])),
                 "health": self.health_status.get(dimension, {}),
@@ -311,9 +317,9 @@ class DimensionRegistry:
             total_count = len(self.dimensions)
 
             return {
-                "total_dimensions": total_count,
-                "healthy_dimensions": healthy_count,
-                "unhealthy_dimensions": total_count - healthy_count,
+                "total_dimensions": total_count
+                "healthy_dimensions": healthy_count
+                "unhealthy_dimensions": total_count - healthy_count
                 "total_capabilities": sum(
                     len(caps) for caps in self.capabilities.values()
                 ),
@@ -321,9 +327,9 @@ class DimensionRegistry:
                     max(self.last_heartbeat.values()) if self.last_heartbeat else None
                 ),
             }
-
-
 class MessageRouter:
+    """Auto-generated class."""
+    pass
     """
     Intelligent message routing system
 
@@ -341,10 +347,10 @@ class MessageRouter:
         self.router_lock = threading.RLock()
 
     def find_route(
-        self,
-        source: SystemDimension,
-        destination: SystemDimension,
-        requirements: Optional[Dict[str, Any]] = None,
+        self
+        source: SystemDimension
+        destination: SystemDimension
+        requirements: Optional[Dict[str, Any]] = None
     ) -> Optional[MessageRoute]:
         """Find optimal route between dimensions"""
         with self.router_lock:
@@ -366,9 +372,9 @@ class MessageRouter:
             return self._select_best_route(routes, requirements) if routes else None
 
     def _calculate_routes(
-        self,
-        source: SystemDimension,
-        destination: SystemDimension,
+        self
+        source: SystemDimension
+        destination: SystemDimension
         requirements: Optional[Dict[str, Any]],
     ) -> List[MessageRoute]:
         """Calculate possible routes between dimensions"""
@@ -463,8 +469,8 @@ class MessageRouter:
             # Add new measurement
             measurement = {
                 "timestamp": time.time(),
-                "latency": latency,
-                "success": success,
+                "latency": latency
+                "success": success
             }
             self.performance_history[route_hash].append(measurement)
 
@@ -498,8 +504,8 @@ class MessageRouter:
                 if route.route_hash == route_hash:
                     route.performance_metrics.update(
                         {
-                            "average_latency": average_latency,
-                            "success_rate": success_rate,
+                            "average_latency": average_latency
+                            "success_rate": success_rate
                             "last_update": datetime.now(),
                         }
                     )
@@ -509,9 +515,9 @@ class MessageRouter:
         with self.router_lock:
             self.route_cache.clear()
             logger.debug("Route cache cleared")
-
-
 class ProtocolEngine:
+    """Auto-generated class."""
+    pass
     """
     Main omnidimensional protocol engine
 
@@ -537,11 +543,11 @@ class ProtocolEngine:
 
         # Statistics and monitoring
         self.statistics = {
-            "messages_sent": 0,
-            "messages_received": 0,
-            "messages_failed": 0,
-            "bytes_transferred": 0,
-            "average_latency": 0.0,
+            "messages_sent": 0
+            "messages_received": 0
+            "messages_failed": 0
+            "bytes_transferred": 0
+            "average_latency": 0.0
             "start_time": datetime.now(),
         }
 
@@ -569,8 +575,8 @@ class ProtocolEngine:
             "engine_version": "1.0.0",
             "supported_protocols": ["omnidimensional_v1.0"],
             "max_message_size": 10 * 1024 * 1024,  # 10MB
-            "compression_supported": True,
-            "encryption_supported": True,
+            "compression_supported": True
+            "encryption_supported": True
         }
 
         success = self.registry.register_dimension(
@@ -650,9 +656,9 @@ class ProtocolEngine:
         """Send heartbeat messages to connected dimensions"""
         heartbeat_message = self.create_message(
             destination=self.local_dimension,  # Will be updated per connection
-            message_type=MessageType.HEARTBEAT,
+            message_type=MessageType.HEARTBEAT
             data={"timestamp": datetime.now().isoformat(), "status": "healthy"},
-            priority=MessagePriority.LOW,
+            priority=MessagePriority.LOW
         )
 
         for dimension in self.connections:
@@ -666,14 +672,14 @@ class ProtocolEngine:
                 logger.debug(f"Failed to send heartbeat to {dimension.value}: {e}")
 
     def create_message(
-        self,
-        destination: SystemDimension,
-        message_type: MessageType,
+        self
+        destination: SystemDimension
+        message_type: MessageType
         data: Union[str, bytes, Dict[str, Any]],
-        priority: MessagePriority = MessagePriority.NORMAL,
-        delivery_guarantee: DeliveryGuarantee = DeliveryGuarantee.AT_LEAST_ONCE,
-        ttl_seconds: int = 300,
-        metadata: Optional[Dict[str, Any]] = None,
+        priority: MessagePriority = MessagePriority.NORMAL
+        delivery_guarantee: DeliveryGuarantee = DeliveryGuarantee.AT_LEAST_ONCE
+        ttl_seconds: int = 300
+        metadata: Optional[Dict[str, Any]] = None
     ) -> ProtocolMessage:
         """Create a protocol message"""
 
@@ -695,34 +701,34 @@ class ProtocolEngine:
 
         # Create header
         header = MessageHeader(
-            version=ProtocolVersion.V1_0,
+            version=ProtocolVersion.V1_0
             message_id=str(uuid.uuid4()),
-            correlation_id=None,
+            correlation_id=None
             timestamp=datetime.now(),
-            source_dimension=self.local_dimension,
-            destination_dimension=destination,
-            message_type=message_type,
-            priority=priority,
-            delivery_guarantee=delivery_guarantee,
-            ttl_seconds=ttl_seconds,
-            sequence_number=1,
-            total_parts=1,
-            part_number=1,
+            source_dimension=self.local_dimension
+            destination_dimension=destination
+            message_type=message_type
+            priority=priority
+            delivery_guarantee=delivery_guarantee
+            ttl_seconds=ttl_seconds
+            sequence_number=1
+            total_parts=1
+            part_number=1
             security_context={},
             routing_hints={},
         )
 
         # Create payload
         payload = MessagePayload(
-            content_type=content_type,
-            content_encoding=content_encoding,
-            data=content_data,
+            content_type=content_type
+            content_encoding=content_encoding
+            data=content_data
             metadata=metadata or {},
             checksum="",  # Will be calculated in __post_init__
             size_bytes=(
                 len(content_data) if isinstance(content_data, (str, bytes)) else 0
             ),
-            compression_used=False,
+            compression_used=False
         )
 
         return ProtocolMessage(header=header, payload=payload)
@@ -914,7 +920,7 @@ class ProtocolEngine:
 
         return {
             "status": "healthy" if is_healthy else "unhealthy",
-            "registered": True,
+            "registered": True
             "last_heartbeat": dimension_info["last_heartbeat"],
             "capabilities": dimension_info["capabilities"],
             "health_metrics": dimension_info["health"].get("metrics", {}),
@@ -925,8 +931,8 @@ class ProtocolEngine:
         uptime = (datetime.now() - self.statistics["start_time"]).total_seconds()
 
         return {
-            "local_dimension": self.local_dimension.value,
-            "uptime_seconds": uptime,
+            "local_dimension": self.local_dimension.value
+            "uptime_seconds": uptime
             "messages": {
                 "sent": self.statistics["messages_sent"],
                 "received": self.statistics["messages_received"],
@@ -965,11 +971,11 @@ class ProtocolEngine:
             return None
 
         return {
-            "destination": destination.value,
-            "route_hash": route.route_hash,
+            "destination": destination.value
+            "route_hash": route.route_hash
             "hops": [hop.value for hop in route.hops],
-            "performance_metrics": route.performance_metrics,
-            "direct_route": len(route.hops) == 0,
+            "performance_metrics": route.performance_metrics
+            "direct_route": len(route.hops) == 0
         }
 
 

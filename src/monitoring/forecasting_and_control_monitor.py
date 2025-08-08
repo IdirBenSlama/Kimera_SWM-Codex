@@ -11,9 +11,9 @@ from datetime import datetime, timedelta
 from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
-
-
 class ForecastingAndControlMonitor:
+    """Auto-generated class."""
+    pass
     """Monitor with forecasting and control capabilities."""
 
     def __init__(self):

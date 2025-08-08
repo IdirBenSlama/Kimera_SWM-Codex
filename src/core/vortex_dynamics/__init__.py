@@ -1,5 +1,6 @@
 """
-Vortex Dynamics and Energy Storage Module
+"""Vortex Dynamics and Energy Storage Module"""
+
 ========================================
 
 This module provides advanced vortex dynamics modeling and

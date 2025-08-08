@@ -1,5 +1,6 @@
 """
-Output and Portals Integration Module
+"""Output and Portals Integration Module"""
+
 ====================================
 
 DO-178C Level A compliant integration for output and portals.
@@ -14,44 +15,44 @@ from typing import Any, Dict
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 
 try:
-    from core.output_and_portals.integration.unified_integration_manager import (
-        UnifiedIntegrationManager,
-    )
-    from core.output_and_portals.output_generation.multi_modal_output_generator import (
-        MultiModalOutputGenerator,
-    )
-    from core.output_and_portals.portal_management.interdimensional_portal_manager import (
-        InterdimensionalPortalManager,
-    )
+    from core.output_and_portals.integration.unified_integration_manager import \
+        UnifiedIntegrationManager
+    from core.output_and_portals.output_generation.multi_modal_output_generator import \
+        MultiModalOutputGenerator
+    from core.output_and_portals.portal_management.interdimensional_portal_manager import \
+        InterdimensionalPortalManager
 except ImportError as e:
     import logging
 
     logger = logging.getLogger(__name__)
     logger.warning(f"Import error, using emergency fallbacks: {e}")
-
-    class MultiModalOutputGenerator:
+class MultiModalOutputGenerator:
+    """Auto-generated class."""
+    pass
         def __init__(self):
             logger.warning("Emergency output generator activated")
 
         def initialize(self):
             return True
-
-    class InterdimensionalPortalManager:
+class InterdimensionalPortalManager:
+    """Auto-generated class."""
+    pass
         def __init__(self):
             logger.warning("Emergency portal manager activated")
 
         def initialize(self):
             return True
-
-    class UnifiedIntegrationManager:
+class UnifiedIntegrationManager:
+    """Auto-generated class."""
+    pass
         def __init__(self):
             logger.warning("Emergency integration manager activated")
 
         def initialize(self):
             return True
-
-
 class OutputAndPortalsIntegrator:
+    """Auto-generated class."""
+    pass
     """DO-178C Level A compliant integration for output and portals."""
 
     def __init__(self):
@@ -75,10 +76,10 @@ class OutputAndPortalsIntegrator:
 
     def get_status(self) -> Dict[str, Any]:
         return {
-            "initialized": self.initialized,
-            "output_generator": self.output_generator is not None,
-            "portal_manager": self.portal_manager is not None,
-            "unified_manager": self.unified_manager is not None,
+            "initialized": self.initialized
+            "output_generator": self.output_generator is not None
+            "portal_manager": self.portal_manager is not None
+            "unified_manager": self.unified_manager is not None
             "safety_level": "DO-178C_Level_A",
             "compliance_status": "OPERATIONAL",
         }

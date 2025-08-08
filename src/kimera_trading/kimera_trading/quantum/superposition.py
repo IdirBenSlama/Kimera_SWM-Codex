@@ -1,7 +1,7 @@
 import numpy as np
-
-
 class QuantumStateManager:
+    """Auto-generated class."""
+    pass
     """Manages the quantum state of the trading system."""
 
     def __init__(self, num_states=10):

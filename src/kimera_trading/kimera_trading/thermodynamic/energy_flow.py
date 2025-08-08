@@ -1,4 +1,6 @@
 class EnergyGradientDetector:
+    """Auto-generated class."""
+    pass
     """Detects energy gradients in the market."""
 
     def detect(self, market_data):

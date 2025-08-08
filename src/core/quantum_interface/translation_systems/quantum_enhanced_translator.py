@@ -37,17 +37,14 @@ from scipy.linalg import qr, svd
 from scipy.stats import entropy
 
 from src.config.settings import get_settings
-from src.core.constants import (
-    DO_178C_LEVEL_A_SAFETY_LEVEL,
-    DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD,
-)
+from src.core.primitives.constants import (DO_178C_LEVEL_A_SAFETY_LEVEL
+                                           DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD)
 from src.utilities.health_status import HealthStatus, get_system_uptime
 from src.utilities.performance_metrics import PerformanceMetrics
 from src.utilities.safety_assessment import SafetyAssessment
 from src.utilities.system_recommendations import SystemRecommendations
-
 # KIMERA imports with updated paths for core integration
-from src.utils.config import get_api_settings
+from src.utils.robust_config import get_api_settings
 
 # Configure aerospace-grade logging
 logger = logging.getLogger(__name__)
@@ -79,6 +76,8 @@ class SemanticModality(Enum):
 
 @dataclass
 class QuantumCoherenceState:
+    """Auto-generated class."""
+    pass
     """DO-178C Level A quantum coherence measures in understanding operations"""
 
     coherence_amplitude: float
@@ -92,6 +91,8 @@ class QuantumCoherenceState:
 
 @dataclass
 class TemporalDynamics:
+    """Auto-generated class."""
+    pass
     """DO-178C Level A temporal dynamics in semantic transformations"""
 
     temporal_phase: float
@@ -104,6 +105,8 @@ class TemporalDynamics:
 
 @dataclass
 class UncertaintyPrinciple:
+    """Auto-generated class."""
+    pass
     """DO-178C Level A uncertainty principles with gyroscopic stability"""
 
     position_uncertainty: float
@@ -116,6 +119,8 @@ class UncertaintyPrinciple:
 
 @dataclass
 class TranslationResult:
+    """Auto-generated class."""
+    pass
     """DO-178C Level A translation result with comprehensive safety metadata"""
 
     translated_content: Any
@@ -131,13 +136,19 @@ class TranslationResult:
     verification_checksum: str
     error_bounds: Tuple[float, float]
     timestamp: datetime
-
-
 class QuantumSemanticSpace:
+    """Auto-generated class."""
+    pass
     """DO-178C Level A enhanced semantic space with quantum consciousness properties"""
 
     def __init__(self, dimensions: int = 1024):
-        self.settings = get_api_settings()
+        try:
+            self.settings = get_api_settings()
+        except Exception as e:
+            logger.warning(f"API settings loading failed: {e}. Using safe fallback.")
+            from ..utils.robust_config import safe_get_api_settings
+
+            self.settings = safe_get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
 
         # Validate dimensions for safety
@@ -209,9 +220,9 @@ class QuantumSemanticSpace:
         except Exception as e:
             logger.error(f"❌ Consciousness field creation failed: {e}")
             return np.zeros((self.dimensions, len(ConsciousnessState)))
-
-
 class QuantumUnderstandingOperator:
+    """Auto-generated class."""
+    pass
     """DO-178C Level A quantum understanding operations with safety validation"""
 
     def __init__(self, semantic_space: QuantumSemanticSpace):
@@ -240,10 +251,10 @@ class QuantumUnderstandingOperator:
             return np.eye(self.semantic_space.dimensions)
 
     def apply_quantum_understanding(
-        self,
-        vector: np.ndarray,
-        consciousness_state: ConsciousnessState,
-        temporal_context: Optional[TemporalDynamics] = None,
+        self
+        vector: np.ndarray
+        consciousness_state: ConsciousnessState
+        temporal_context: Optional[TemporalDynamics] = None
     ) -> Tuple[np.ndarray, QuantumCoherenceState]:
         """Apply quantum understanding with DO-178C Level A safety validation"""
         try:
@@ -278,24 +289,24 @@ class QuantumUnderstandingOperator:
             logger.error(f"❌ Quantum understanding failed: {e}")
             # Return safe fallback
             coherence_state = QuantumCoherenceState(
-                coherence_amplitude=0.0,
-                phase_relationship=0.0 + 0.0j,
-                entanglement_strength=0.0,
-                decoherence_time=1.0,
-                quantum_fidelity=0.0,
-                safety_validated=False,
+                coherence_amplitude=0.0
+                phase_relationship=0.0 + 0.0j
+                entanglement_strength=0.0
+                decoherence_time=1.0
+                quantum_fidelity=0.0
+                safety_validated=False
             )
             return vector.copy(), coherence_state
 
     def _get_consciousness_factor_safe(self, state: ConsciousnessState) -> float:
         """Get consciousness factor with safety bounds"""
         factors = {
-            ConsciousnessState.LOGICAL: 1.0,
-            ConsciousnessState.INTUITIVE: 0.9,
-            ConsciousnessState.CREATIVE: 1.1,
-            ConsciousnessState.MEDITATIVE: 0.8,
-            ConsciousnessState.QUANTUM_SUPERPOSITION: 1.2,
-            ConsciousnessState.TRANSCENDENT: 0.7,
+            ConsciousnessState.LOGICAL: 1.0
+            ConsciousnessState.INTUITIVE: 0.9
+            ConsciousnessState.CREATIVE: 1.1
+            ConsciousnessState.MEDITATIVE: 0.8
+            ConsciousnessState.QUANTUM_SUPERPOSITION: 1.2
+            ConsciousnessState.TRANSCENDENT: 0.7
         }
         return factors.get(state, 1.0)  # Safe default
 
@@ -329,28 +340,28 @@ class QuantumUnderstandingOperator:
             fidelity = min(1.0 / (1.0 + np.linalg.norm(input_vec - output_vec)), 1.0)
 
             return QuantumCoherenceState(
-                coherence_amplitude=amplitude,
-                phase_relationship=phase,
-                entanglement_strength=entanglement,
-                decoherence_time=decoherence_time,
-                quantum_fidelity=fidelity,
-                safety_validated=True,
+                coherence_amplitude=amplitude
+                phase_relationship=phase
+                entanglement_strength=entanglement
+                decoherence_time=decoherence_time
+                quantum_fidelity=fidelity
+                safety_validated=True
                 error_bounds=(0.0, 0.1),
             )
 
         except Exception as e:
             logger.error(f"❌ Coherence state creation failed: {e}")
             return QuantumCoherenceState(
-                coherence_amplitude=0.0,
-                phase_relationship=0.0 + 0.0j,
-                entanglement_strength=0.0,
-                decoherence_time=1.0,
-                quantum_fidelity=0.0,
-                safety_validated=False,
+                coherence_amplitude=0.0
+                phase_relationship=0.0 + 0.0j
+                entanglement_strength=0.0
+                decoherence_time=1.0
+                quantum_fidelity=0.0
+                safety_validated=False
             )
-
-
 class QuantumCompositionOperator:
+    """Auto-generated class."""
+    pass
     """DO-178C Level A quantum composition operations"""
 
     def __init__(self, semantic_space: QuantumSemanticSpace):
@@ -367,9 +378,9 @@ class QuantumCompositionOperator:
         except Exception as e:
             logger.error(f"❌ Weight initialization failed: {e}")
             return np.full(self.semantic_space.dimensions, 0.5)
-
-
 class QuantumEnhancedUniversalTranslator:
+    """Auto-generated class."""
+    pass
     """
     DO-178C Level A Quantum-Enhanced Universal Translator
 
@@ -389,7 +400,13 @@ class QuantumEnhancedUniversalTranslator:
     """
 
     def __init__(self, dimensions: int = 1024):
-        self.settings = get_api_settings()
+        try:
+            self.settings = get_api_settings()
+        except Exception as e:
+            logger.warning(f"API settings loading failed: {e}. Using safe fallback.")
+            from ..utils.robust_config import safe_get_api_settings
+
+            self.settings = safe_get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
 
         # Initialize with safety validation
@@ -405,12 +422,12 @@ class QuantumEnhancedUniversalTranslator:
 
         # Initialize uncertainty principle with safety validation
         self.base_uncertainty = UncertaintyPrinciple(
-            position_uncertainty=0.1,
-            momentum_uncertainty=0.1,
-            energy_time_uncertainty=1.0,
-            gyroscopic_stability=0.5,
-            uncertainty_product=0.01,
-            safety_validated=True,
+            position_uncertainty=0.1
+            momentum_uncertainty=0.1
+            energy_time_uncertainty=1.0
+            gyroscopic_stability=0.5
+            uncertainty_product=0.01
+            safety_validated=True
         )
 
         # Safety monitoring
@@ -430,13 +447,13 @@ class QuantumEnhancedUniversalTranslator:
         logger.info("   Safety Level: Catastrophic (Level A)")
 
     def translate(
-        self,
-        input_content: Any,
-        source_modality: SemanticModality,
-        target_modality: SemanticModality,
-        consciousness_state: ConsciousnessState = ConsciousnessState.LOGICAL,
-        temporal_context: Optional[TemporalDynamics] = None,
-        safety_validation: bool = True,
+        self
+        input_content: Any
+        source_modality: SemanticModality
+        target_modality: SemanticModality
+        consciousness_state: ConsciousnessState = ConsciousnessState.LOGICAL
+        temporal_context: Optional[TemporalDynamics] = None
+        safety_validation: bool = True
     ) -> TranslationResult:
         """
         Perform quantum-enhanced universal translation with DO-178C Level A safety
@@ -496,30 +513,30 @@ class QuantumEnhancedUniversalTranslator:
 
             # Create result with safety validation
             result = TranslationResult(
-                translated_content=translated_content,
-                source_modality=source_modality.value,
-                target_modality=target_modality.value,
-                consciousness_state=consciousness_state.value,
+                translated_content=translated_content
+                source_modality=source_modality.value
+                target_modality=target_modality.value
+                consciousness_state=consciousness_state.value
                 quantum_coherence={
-                    "amplitude": coherence_state.coherence_amplitude,
+                    "amplitude": coherence_state.coherence_amplitude
                     "phase": str(coherence_state.phase_relationship),
-                    "entanglement_strength": coherence_state.entanglement_strength,
-                    "decoherence_time": coherence_state.decoherence_time,
-                    "quantum_fidelity": coherence_state.quantum_fidelity,
-                    "safety_validated": coherence_state.safety_validated,
+                    "entanglement_strength": coherence_state.entanglement_strength
+                    "decoherence_time": coherence_state.decoherence_time
+                    "quantum_fidelity": coherence_state.quantum_fidelity
+                    "safety_validated": coherence_state.safety_validated
                 },
-                metrics=metrics,
-                processing_time=processing_time,
+                metrics=metrics
+                processing_time=processing_time
                 uncertainty_principle={
-                    "position_uncertainty": self.base_uncertainty.position_uncertainty,
-                    "momentum_uncertainty": self.base_uncertainty.momentum_uncertainty,
-                    "gyroscopic_stability": self.base_uncertainty.gyroscopic_stability,
-                    "safety_validated": self.base_uncertainty.safety_validated,
+                    "position_uncertainty": self.base_uncertainty.position_uncertainty
+                    "momentum_uncertainty": self.base_uncertainty.momentum_uncertainty
+                    "gyroscopic_stability": self.base_uncertainty.gyroscopic_stability
+                    "safety_validated": self.base_uncertainty.safety_validated
                 },
                 safety_score=self._calculate_translation_safety_score(
                     coherence_state, metrics
                 ),
-                safety_validated=safety_validation and coherence_state.safety_validated,
+                safety_validated=safety_validation and coherence_state.safety_validated
                 verification_checksum=self._generate_translation_checksum(
                     metrics, processing_time
                 ),
@@ -806,10 +823,10 @@ class QuantumEnhancedUniversalTranslator:
             return f"Translation[{modality.value}](error)"
 
     def _calculate_quantum_translation_metrics_safe(
-        self,
-        source_vec: np.ndarray,
-        target_vec: np.ndarray,
-        coherence: QuantumCoherenceState,
+        self
+        source_vec: np.ndarray
+        target_vec: np.ndarray
+        coherence: QuantumCoherenceState
     ) -> Dict[str, float]:
         """Calculate translation metrics with safety validation"""
         try:
@@ -854,10 +871,10 @@ class QuantumEnhancedUniversalTranslator:
         except Exception as e:
             logger.error(f"❌ Metrics calculation failed: {e}")
             return {
-                "fidelity": 0.0,
-                "semantic_preservation": 0.0,
-                "translation_quality": 0.0,
-                "information_conservation": 0.0,
+                "fidelity": 0.0
+                "semantic_preservation": 0.0
+                "translation_quality": 0.0
+                "information_conservation": 0.0
             }
 
     def _calculate_translation_safety_score(
@@ -896,43 +913,43 @@ class QuantumEnhancedUniversalTranslator:
             return "QT_ERROR"
 
     def _create_safe_translation_fallback(
-        self,
-        content: Any,
-        source: SemanticModality,
-        target: SemanticModality,
-        error: str,
+        self
+        content: Any
+        source: SemanticModality
+        target: SemanticModality
+        error: str
     ) -> TranslationResult:
         """Create safe fallback translation result"""
         logger.warning(f"🛡️ Creating safe translation fallback due to: {error}")
 
         return TranslationResult(
             translated_content=f"Translation Error: {error}",
-            source_modality=source.value,
-            target_modality=target.value,
-            consciousness_state=ConsciousnessState.LOGICAL.value,
+            source_modality=source.value
+            target_modality=target.value
+            consciousness_state=ConsciousnessState.LOGICAL.value
             quantum_coherence={
-                "amplitude": 0.0,
+                "amplitude": 0.0
                 "phase": "0.0",
-                "entanglement_strength": 0.0,
-                "decoherence_time": 1.0,
-                "quantum_fidelity": 0.0,
-                "safety_validated": False,
+                "entanglement_strength": 0.0
+                "decoherence_time": 1.0
+                "quantum_fidelity": 0.0
+                "safety_validated": False
             },
             metrics={
-                "fidelity": 0.0,
-                "semantic_preservation": 0.0,
-                "translation_quality": 0.0,
-                "information_conservation": 0.0,
+                "fidelity": 0.0
+                "semantic_preservation": 0.0
+                "translation_quality": 0.0
+                "information_conservation": 0.0
             },
-            processing_time=0.001,
+            processing_time=0.001
             uncertainty_principle={
-                "position_uncertainty": 1.0,
-                "momentum_uncertainty": 1.0,
-                "gyroscopic_stability": 0.0,
-                "safety_validated": False,
+                "position_uncertainty": 1.0
+                "momentum_uncertainty": 1.0
+                "gyroscopic_stability": 0.0
+                "safety_validated": False
             },
             safety_score=1.0,  # Safe by design (error state)
-            safety_validated=False,
+            safety_validated=False
             verification_checksum="FALLBACK",
             error_bounds=(0.0, 1.0),
             timestamp=datetime.now(timezone.utc),
@@ -970,26 +987,26 @@ class QuantumEnhancedUniversalTranslator:
                 "version": "1.0.0",
                 "safety_level": "DO-178C Level A",
                 "timestamp": current_time.isoformat(),
-                "uptime_seconds": uptime,
-                "health_status": self.health_status.value,
+                "uptime_seconds": uptime
+                "health_status": self.health_status.value
                 "translation_metrics": {
                     "total_translations": len(self.translation_history),
-                    "avg_safety_score": avg_safety_score,
-                    "avg_processing_time": avg_processing_time,
-                    "success_rate": success_rate,
-                    "safety_interventions": self.safety_interventions,
+                    "avg_safety_score": avg_safety_score
+                    "avg_processing_time": avg_processing_time
+                    "success_rate": success_rate
+                    "safety_interventions": self.safety_interventions
                 },
                 "modalities_supported": [m.value for m in SemanticModality],
                 "consciousness_states": [c.value for c in ConsciousnessState],
                 "semantic_space": {
-                    "dimensions": self.semantic_space.dimensions,
-                    "safety_score": self.semantic_space.safety_score,
-                    "safety_validated": self.semantic_space.safety_validated,
+                    "dimensions": self.semantic_space.dimensions
+                    "safety_score": self.semantic_space.safety_score
+                    "safety_validated": self.semantic_space.safety_validated
                 },
                 "compliance": {
-                    "do_178c_level_a": True,
-                    "safety_score_threshold": DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD,
-                    "current_safety_level": DO_178C_LEVEL_A_SAFETY_LEVEL,
+                    "do_178c_level_a": True
+                    "safety_score_threshold": DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD
+                    "current_safety_level": DO_178C_LEVEL_A_SAFETY_LEVEL
                     "failure_rate_requirement": "≤ 1×10⁻⁹ per hour",
                     "verification_status": "COMPLIANT",
                 },
@@ -1034,7 +1051,7 @@ class QuantumEnhancedUniversalTranslator:
 
 
 def create_quantum_enhanced_translator(
-    dimensions: int = 1024,
+    dimensions: int = 1024
 ) -> QuantumEnhancedUniversalTranslator:
     """
     Factory function for creating DO-178C Level A quantum-enhanced universal translator

@@ -24,7 +24,9 @@ except ImportError as e:
     ENGINE_AVAILABLE = False
 
     # Fallback class
-    class KimeraTextDiffusionEngine:
+class KimeraTextDiffusionEngine:
+    """Auto-generated class."""
+    pass
         def __init__(self):
             pass
 
@@ -37,6 +39,8 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class TextGenerationRequest:
+    """Auto-generated class."""
+    pass
     """Request for text generation"""
 
     input_text: str
@@ -49,6 +53,8 @@ class TextGenerationRequest:
 
 @dataclass
 class TextGenerationResult:
+    """Auto-generated class."""
+    pass
     """Result of text generation"""
 
     generated_text: str
@@ -56,9 +62,9 @@ class TextGenerationResult:
     processing_time: float
     metadata: Dict[str, Any]
     timestamp: datetime
-
-
 class TextDiffusionIntegration:
+    """Auto-generated class."""
+    pass
     """
     Core integration wrapper for Text Diffusion Engine
 
@@ -105,12 +111,12 @@ class TextDiffusionIntegration:
             ):
                 # Use the actual diffusion engine
                 result = await self.diffusion_engine.process_text_generation(
-                    input_text=request.input_text,
+                    input_text=request.input_text
                     context=request.context or {},
-                    max_length=request.max_length,
-                    temperature=request.temperature,
-                    mode=request.mode,
-                    persona_prompt=request.persona_prompt,
+                    max_length=request.max_length
+                    temperature=request.temperature
+                    mode=request.mode
+                    persona_prompt=request.persona_prompt
                 )
 
                 generated_text = result.get("generated_text", "No response generated")
@@ -127,10 +133,10 @@ class TextDiffusionIntegration:
             self.successful_generations += 1
 
             return TextGenerationResult(
-                generated_text=generated_text,
-                confidence=confidence,
-                processing_time=processing_time,
-                metadata=metadata,
+                generated_text=generated_text
+                confidence=confidence
+                processing_time=processing_time
+                metadata=metadata
                 timestamp=datetime.now(),
             )
 
@@ -140,8 +146,8 @@ class TextDiffusionIntegration:
 
             return TextGenerationResult(
                 generated_text=f"I understand your message about: {request.input_text[:30]}...",
-                confidence=0.3,
-                processing_time=processing_time,
+                confidence=0.3
+                processing_time=processing_time
                 metadata={"error": str(e), "fallback": True},
                 timestamp=datetime.now(),
             )
@@ -173,10 +179,10 @@ class TextDiffusionIntegration:
         ) * 100
 
         return {
-            "engine_available": self.engine_available,
-            "total_generations": self.total_generations,
-            "successful_generations": self.successful_generations,
-            "success_rate": success_rate,
+            "engine_available": self.engine_available
+            "total_generations": self.total_generations
+            "successful_generations": self.successful_generations
+            "success_rate": success_rate
             "status": "operational" if self.engine_available else "fallback",
         }
 

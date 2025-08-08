@@ -2,25 +2,26 @@
 """
 Insight Lifecycle Manager
 
-This engine is responsible for managing the lifecycle of an InsightScar,
+This engine is responsible for managing the lifecycle of an InsightScar
 promoting, or deprecating it based on utility and feedback.
 """
 from typing import Literal
 
 try:
-    from src.core.insight import InsightScar
+    from src.core.output.insight import InsightScar
 except ImportError:
     try:
         from core.insight import InsightScar
     except ImportError:
-
-        class InsightScar:
+    class InsightScar:
+    """Auto-generated class."""
+    pass
             def __init__(self, **kwargs):
                 self.__dict__.update(kwargs)
 
 
 try:
-    from src.utils.config import get_api_settings
+    from src.utils.robust_config import get_api_settings
 except ImportError:
     try:
         from utils.config import get_api_settings
@@ -45,8 +46,8 @@ except ImportError:
 FeedbackEvent = Literal["user_explored", "user_dismissed", "system_reinforced"]
 
 UTILITY_SCORE_MAP = {
-    "user_explored": 0.1,
-    "user_dismissed": -0.2,
+    "user_explored": 0.1
+    "user_dismissed": -0.2
     "system_reinforced": 0.05,  # e.g., if the insight leads to another valid insight
 }
 

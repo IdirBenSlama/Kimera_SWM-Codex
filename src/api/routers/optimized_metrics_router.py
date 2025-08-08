@@ -79,16 +79,16 @@ async def get_system_metrics_optimized() -> Dict[str, Any]:
     # Convert to response format
     response = {
         "timestamp": datetime.utcnow().isoformat(),
-        "cached": is_cached,
+        "cached": is_cached
         "system": {
-            "cpu_percent": cached_metrics.cpu_percent,
+            "cpu_percent": cached_metrics.cpu_percent
             "memory": {
-                "percent": cached_metrics.memory_percent,
-                "available_mb": cached_metrics.memory_available_mb,
+                "percent": cached_metrics.memory_percent
+                "available_mb": cached_metrics.memory_available_mb
             },
             "disk_io": {
-                "read_mb_per_sec": cached_metrics.disk_io_read_mb,
-                "write_mb_per_sec": cached_metrics.disk_io_write_mb,
+                "read_mb_per_sec": cached_metrics.disk_io_read_mb
+                "write_mb_per_sec": cached_metrics.disk_io_write_mb
             },
         },
     }
@@ -96,14 +96,14 @@ async def get_system_metrics_optimized() -> Dict[str, Any]:
     # Add GPU metrics if available
     if cached_metrics.gpu_memory_percent is not None:
         response["gpu"] = {
-            "memory_percent": cached_metrics.gpu_memory_percent,
-            "utilization_percent": cached_metrics.gpu_utilization,
+            "memory_percent": cached_metrics.gpu_memory_percent
+            "utilization_percent": cached_metrics.gpu_utilization
         }
 
     # Add performance metadata
     response_time_us = (time.perf_counter_ns() - start_time) / 1000
     response["_performance"] = {
-        "response_time_us": response_time_us,
+        "response_time_us": response_time_us
         "cache_stats": metrics_cache.get_cache_stats(),
     }
 
@@ -150,7 +150,7 @@ async def get_metrics_history(seconds: int = 60) -> Dict[str, Any]:
     """
     Get historical metrics data.
 
-    Returns pre-computed time series data from the circular buffer,
+    Returns pre-computed time series data from the circular buffer
     avoiding expensive database queries.
     """
     history_data = metrics_cache.get_metrics_history(seconds)
@@ -166,15 +166,15 @@ async def get_metrics_history(seconds: int = 60) -> Dict[str, Any]:
                 "memory_available_mb": row[3],
                 "disk_read_mb": row[4],
                 "disk_write_mb": row[5],
-                "gpu_memory_percent": row[6] if row[6] >= 0 else None,
-                "gpu_utilization": row[7] if row[7] >= 0 else None,
+                "gpu_memory_percent": row[6] if row[6] >= 0 else None
+                "gpu_utilization": row[7] if row[7] >= 0 else None
             }
         )
 
     return {
-        "seconds_requested": seconds,
+        "seconds_requested": seconds
         "samples_returned": len(history_list),
-        "history": history_list,
+        "history": history_list
     }
 
 
@@ -196,10 +196,10 @@ async def metrics_stream(websocket: WebSocket):
             await websocket.send_json(
                 {
                     "timestamp": datetime.utcnow().isoformat(),
-                    "cpu": metrics.cpu_percent,
-                    "memory": metrics.memory_percent,
-                    "gpu_memory": metrics.gpu_memory_percent,
-                    "gpu_util": metrics.gpu_utilization,
+                    "cpu": metrics.cpu_percent
+                    "memory": metrics.memory_percent
+                    "gpu_memory": metrics.gpu_memory_percent
+                    "gpu_util": metrics.gpu_utilization
                 }
             )
 
@@ -233,7 +233,7 @@ async def cognitive_metrics_optimized() -> Dict[str, Any]:
             "vault_manager": "active",
         },
         "gpu_foundation": "initialized" if torch.cuda.is_available() else "cpu_mode",
-        "_cached": True,
+        "_cached": True
     }
 
 
@@ -242,7 +242,7 @@ async def get_specific_metric(metric_type: str) -> Dict[str, Any]:
     """
     Get a specific metric type for targeted queries.
 
-    Allows clients to request only the data they need,
+    Allows clients to request only the data they need
     reducing bandwidth and processing time.
     """
     valid_types = ["cpu", "memory", "disk", "network", "gpu", "process"]

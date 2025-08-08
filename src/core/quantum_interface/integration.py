@@ -33,10 +33,8 @@ import numpy as np
 import torch
 
 # KIMERA core imports
-from src.core.constants import (
-    DO_178C_LEVEL_A_SAFETY_LEVEL,
-    DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD,
-)
+from src.core.primitives.constants import (DO_178C_LEVEL_A_SAFETY_LEVEL
+                                           DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD)
 from src.utilities.health_status import HealthStatus, get_system_uptime
 from src.utilities.performance_metrics import PerformanceMetrics
 from src.utilities.safety_assessment import SafetyAssessment
@@ -44,18 +42,11 @@ from src.utilities.system_recommendations import SystemRecommendations
 
 # Import the core quantum interface components
 from .classical_interface.quantum_classical_bridge import (
-    HybridProcessingMode,
-    HybridProcessingResult,
-    QuantumClassicalBridge,
-    create_quantum_classical_bridge,
-)
+    HybridProcessingMode, HybridProcessingResult, QuantumClassicalBridge
+    create_quantum_classical_bridge)
 from .translation_systems.quantum_enhanced_translator import (
-    ConsciousnessState,
-    QuantumEnhancedUniversalTranslator,
-    SemanticModality,
-    TranslationResult,
-    create_quantum_enhanced_translator,
-)
+    ConsciousnessState, QuantumEnhancedUniversalTranslator, SemanticModality
+    TranslationResult, create_quantum_enhanced_translator)
 
 # Configure aerospace-grade logging
 logger = logging.getLogger(__name__)
@@ -68,9 +59,9 @@ class QuantumInterfaceMode(Enum):
     TRANSLATION_ONLY = "translation_only"
     INTEGRATED_PROCESSING = "integrated_processing"
     SAFETY_FALLBACK = "safety_fallback"
-
-
 class QuantumInterfaceIntegrator:
+    """Auto-generated class."""
+    pass
     """
     DO-178C Level A Quantum Interface Integrator
 
@@ -102,9 +93,9 @@ class QuantumInterfaceIntegrator:
         return cls._instance
 
     def __init__(
-        self,
-        dimensions: int = 1024,
-        adaptive_mode: bool = True,
+        self
+        dimensions: int = 1024
+        adaptive_mode: bool = True
         safety_level: str = "catastrophic",
     ):
         """
@@ -163,10 +154,10 @@ class QuantumInterfaceIntegrator:
 
         # DO-178C Level A compliance tracking
         self.compliance_metrics = {
-            "safety_requirements_verified": 0,
-            "formal_verification_passes": 0,
-            "safety_score_threshold_met": True,
-            "independence_verified": True,
+            "safety_requirements_verified": 0
+            "formal_verification_passes": 0
+            "safety_score_threshold_met": True
+            "independence_verified": True
         }
 
         # Mark as initialized
@@ -181,11 +172,11 @@ class QuantumInterfaceIntegrator:
         logger.info("   Compliance: DO-178C Level A")
 
     async def process_quantum_classical_data(
-        self,
+        self
         cognitive_data: Union[np.ndarray, torch.Tensor],
-        processing_mode: Optional[HybridProcessingMode] = None,
-        quantum_enhancement: float = 0.5,
-        safety_validation: bool = True,
+        processing_mode: Optional[HybridProcessingMode] = None
+        quantum_enhancement: float = 0.5
+        safety_validation: bool = True
     ) -> HybridProcessingResult:
         """
         Process cognitive data using quantum-classical bridge with full safety monitoring
@@ -215,10 +206,10 @@ class QuantumInterfaceIntegrator:
 
             # Process using quantum-classical bridge
             result = await self.quantum_classical_bridge.process_hybrid_cognitive_data(
-                cognitive_data=cognitive_data,
-                processing_mode=processing_mode,
-                quantum_enhancement=quantum_enhancement,
-                safety_validation=safety_validation,
+                cognitive_data=cognitive_data
+                processing_mode=processing_mode
+                quantum_enhancement=quantum_enhancement
+                safety_validation=safety_validation
             )
 
             # Post-operation safety validation
@@ -228,9 +219,9 @@ class QuantumInterfaceIntegrator:
             # Record operation
             self._record_operation(
                 "quantum_classical_processing",
-                operation_start,
-                True,
-                result.safety_score,
+                operation_start
+                True
+                result.safety_score
             )
 
             logger.info(f"✅ Quantum-classical processing completed successfully")
@@ -246,14 +237,14 @@ class QuantumInterfaceIntegrator:
             raise
 
     def perform_quantum_translation(
-        self,
-        input_content: Any,
+        self
+        input_content: Any
         source_modality: Union[SemanticModality, str],
         target_modality: Union[SemanticModality, str],
         consciousness_state: Union[
             ConsciousnessState, str
-        ] = ConsciousnessState.LOGICAL,
-        safety_validation: bool = True,
+        ] = ConsciousnessState.LOGICAL
+        safety_validation: bool = True
     ) -> TranslationResult:
         """
         Perform quantum-enhanced translation with full safety monitoring
@@ -292,11 +283,11 @@ class QuantumInterfaceIntegrator:
 
             # Perform translation
             result = self.quantum_translator.translate(
-                input_content=input_content,
-                source_modality=source_modality,
-                target_modality=target_modality,
-                consciousness_state=consciousness_state,
-                safety_validation=safety_validation,
+                input_content=input_content
+                source_modality=source_modality
+                target_modality=target_modality
+                consciousness_state=consciousness_state
+                safety_validation=safety_validation
             )
 
             # Post-operation safety validation
@@ -319,16 +310,16 @@ class QuantumInterfaceIntegrator:
             raise
 
     async def perform_integrated_operation(
-        self,
+        self
         cognitive_data: Union[np.ndarray, torch.Tensor],
-        translation_content: Any,
+        translation_content: Any
         source_modality: Union[SemanticModality, str],
         target_modality: Union[SemanticModality, str],
         consciousness_state: Union[
             ConsciousnessState, str
-        ] = ConsciousnessState.LOGICAL,
-        quantum_enhancement: float = 0.5,
-        safety_validation: bool = True,
+        ] = ConsciousnessState.LOGICAL
+        quantum_enhancement: float = 0.5
+        safety_validation: bool = True
     ) -> Tuple[HybridProcessingResult, TranslationResult]:
         """
         Perform integrated quantum-classical processing and translation with safety orchestration
@@ -357,19 +348,19 @@ class QuantumInterfaceIntegrator:
 
             # Perform both operations concurrently with safety monitoring
             processing_task = self.process_quantum_classical_data(
-                cognitive_data=cognitive_data,
-                quantum_enhancement=quantum_enhancement,
-                safety_validation=safety_validation,
+                cognitive_data=cognitive_data
+                quantum_enhancement=quantum_enhancement
+                safety_validation=safety_validation
             )
 
             translation_task = asyncio.create_task(
                 asyncio.to_thread(
-                    self.perform_quantum_translation,
-                    translation_content,
-                    source_modality,
-                    target_modality,
-                    consciousness_state,
-                    safety_validation,
+                    self.perform_quantum_translation
+                    translation_content
+                    source_modality
+                    target_modality
+                    consciousness_state
+                    safety_validation
                 )
             )
 
@@ -455,9 +446,9 @@ class QuantumInterfaceIntegrator:
             raise RuntimeError(f"Result validation failed for {operation_type}: {e}")
 
     def _validate_integrated_results(
-        self,
-        processing_result: HybridProcessingResult,
-        translation_result: TranslationResult,
+        self
+        processing_result: HybridProcessingResult
+        translation_result: TranslationResult
     ) -> None:
         """Validate integrated operation results"""
         try:
@@ -493,11 +484,11 @@ class QuantumInterfaceIntegrator:
 
             operation_record = {
                 "timestamp": datetime.now(timezone.utc).isoformat(),
-                "operation_type": operation_type,
-                "duration_seconds": operation_time,
-                "success": success,
-                "safety_score": safety_score,
-                "operations_count": self.operations_performed,
+                "operation_type": operation_type
+                "duration_seconds": operation_time
+                "success": success
+                "safety_score": safety_score
+                "operations_count": self.operations_performed
             }
 
             # Add to history with bounds checking
@@ -521,9 +512,9 @@ class QuantumInterfaceIntegrator:
         try:
             error_record = {
                 "timestamp": datetime.now(timezone.utc).isoformat(),
-                "operation_type": operation_type,
-                "error_message": error_message,
-                "safety_interventions": self.safety_interventions,
+                "operation_type": operation_type
+                "error_message": error_message
+                "safety_interventions": self.safety_interventions
             }
 
             # Add to error log with bounds checking
@@ -607,31 +598,31 @@ class QuantumInterfaceIntegrator:
                 "version": "1.0.0",
                 "safety_level": "DO-178C Level A",
                 "timestamp": current_time.isoformat(),
-                "uptime_seconds": uptime,
-                "health_status": self.health_status.value,
+                "uptime_seconds": uptime
+                "health_status": self.health_status.value
                 "overall_metrics": {
-                    "operations_performed": self.operations_performed,
-                    "success_rate": success_rate,
-                    "avg_duration_seconds": avg_duration,
-                    "avg_safety_score": avg_safety_score,
-                    "safety_interventions": self.safety_interventions,
+                    "operations_performed": self.operations_performed
+                    "success_rate": success_rate
+                    "avg_duration_seconds": avg_duration
+                    "avg_safety_score": avg_safety_score
+                    "safety_interventions": self.safety_interventions
                     "last_health_check": self.last_health_check.isoformat(),
                 },
                 "component_status": {
                     "quantum_classical_bridge": {
-                        "available": self.quantum_classical_bridge is not None,
-                        "health": bridge_health,
+                        "available": self.quantum_classical_bridge is not None
+                        "health": bridge_health
                     },
                     "quantum_translator": {
-                        "available": self.quantum_translator is not None,
-                        "health": translator_health,
+                        "available": self.quantum_translator is not None
+                        "health": translator_health
                     },
                 },
-                "compliance_metrics": self.compliance_metrics,
+                "compliance_metrics": self.compliance_metrics
                 "compliance": {
-                    "do_178c_level_a": True,
-                    "safety_score_threshold": DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD,
-                    "current_safety_level": DO_178C_LEVEL_A_SAFETY_LEVEL,
+                    "do_178c_level_a": True
+                    "safety_score_threshold": DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD
+                    "current_safety_level": DO_178C_LEVEL_A_SAFETY_LEVEL
                     "failure_rate_requirement": "≤ 1×10⁻⁹ per hour",
                     "verification_status": "COMPLIANT",
                 },
@@ -704,10 +695,10 @@ class QuantumInterfaceIntegrator:
                 op_type = op["operation_type"]
                 if op_type not in operation_types:
                     operation_types[op_type] = {
-                        "count": 0,
-                        "successes": 0,
-                        "total_time": 0.0,
-                        "total_safety_score": 0.0,
+                        "count": 0
+                        "successes": 0
+                        "total_time": 0.0
+                        "total_safety_score": 0.0
                     }
 
                 operation_types[op_type]["count"] += 1
@@ -726,17 +717,17 @@ class QuantumInterfaceIntegrator:
                     )
 
             return {
-                "total_operations": self.operations_performed,
-                "total_safety_interventions": self.safety_interventions,
-                "operation_breakdown": operation_types,
-                "health_status": self.health_status.value,
+                "total_operations": self.operations_performed
+                "total_safety_interventions": self.safety_interventions
+                "operation_breakdown": operation_types
+                "health_status": self.health_status.value
                 "system_uptime_seconds": (
                     datetime.now(timezone.utc) - self.start_time
                 ).total_seconds(),
                 "components_available": {
                     "quantum_classical_bridge": self.quantum_classical_bridge
-                    is not None,
-                    "quantum_translator": self.quantum_translator is not None,
+                    is not None
+                    "quantum_translator": self.quantum_translator is not None
                 },
             }
 
@@ -747,8 +738,8 @@ class QuantumInterfaceIntegrator:
 
 # Factory function for creating the integrator
 def create_quantum_interface_integrator(
-    dimensions: int = 1024,
-    adaptive_mode: bool = True,
+    dimensions: int = 1024
+    adaptive_mode: bool = True
     safety_level: str = "catastrophic",
 ) -> QuantumInterfaceIntegrator:
     """

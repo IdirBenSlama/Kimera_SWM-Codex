@@ -9,13 +9,11 @@ Author: KIMERA Development Team
 Version: 1.0.0 - DO-178C Level A Compliant
 """
 
-from .revolutionary_epistemic_validator import (
-    EpistemicAnalysisResult,
-    QuantumTruthState,
-    QuantumTruthSuperposition,
-    RevolutionaryEpistemicValidator,
-    ValidationResult,
-)
+from .revolutionary_epistemic_validator import (EpistemicAnalysisResult
+                                                QuantumTruthState
+                                                QuantumTruthSuperposition
+                                                RevolutionaryEpistemicValidator
+                                                ValidationResult)
 
 __all__ = [
     "RevolutionaryEpistemicValidator",

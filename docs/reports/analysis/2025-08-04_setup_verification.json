@@ -1,0 +1,83 @@
+{
+  "timestamp": "2025-08-04T15:55:42.787532",
+  "python_version": "3.13.3",
+  "total_tests": 14,
+  "passed_tests": 14,
+  "success_rate": "100.0%",
+  "test_results": [
+    [
+      "Python Version",
+      true,
+      "3.13.3"
+    ],
+    [
+      "Library torch",
+      true,
+      "2.7.1+cu118"
+    ],
+    [
+      "Library cupy",
+      true,
+      "13.4.1"
+    ],
+    [
+      "Library numpy",
+      true,
+      "2.2.6"
+    ],
+    [
+      "Library scipy",
+      true,
+      "1.16.0"
+    ],
+    [
+      "Library numba",
+      true,
+      "0.61.2"
+    ],
+    [
+      "Library fastrlock",
+      true,
+      "0.8.3"
+    ],
+    [
+      "TaskGroup",
+      true,
+      "Native"
+    ],
+    [
+      "asyncio.timeout",
+      true,
+      "Available"
+    ],
+    [
+      "TaskGroup Performance",
+      true,
+      "0.017s"
+    ],
+    [
+      "Timeout Context",
+      true,
+      "Working"
+    ],
+    [
+      "PyTorch CUDA",
+      true,
+      "1 devices"
+    ],
+    [
+      "CuPy",
+      true,
+      "Working"
+    ],
+    [
+      "Build Environment",
+      true,
+      "Compiled modules working"
+    ]
+  ],
+  "errors": [
+    "Async compatibility failed: No module named 'src'"
+  ],
+  "overall_status": "EXCELLENT"
+}

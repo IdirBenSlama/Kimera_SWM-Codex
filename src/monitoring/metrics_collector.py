@@ -34,6 +34,8 @@ class MetricType(Enum):
 
 @dataclass
 class MetricPoint:
+    """Auto-generated class."""
+    pass
     """Single metric data point."""
 
     timestamp: float
@@ -43,6 +45,8 @@ class MetricPoint:
 
 @dataclass
 class Metric:
+    """Auto-generated class."""
+    pass
     """Metric definition and storage."""
 
     name: str
@@ -67,9 +71,9 @@ class Metric:
     def __post_init__(self):
         if self.type == MetricType.HISTOGRAM and self.buckets:
             self.bucket_counts = {b: 0 for b in self.buckets}
-
-
 class MetricsCollector:
+    """Auto-generated class."""
+    pass
     """
     Centralized metrics collection system.
 

@@ -30,7 +30,6 @@ import numpy as np
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objs as go
-
 # Streamlit for alternative dashboard
 import streamlit as st
 from dash import Input, Output, callback, dcc, html
@@ -45,9 +44,9 @@ except ImportError:
     PANEL_AVAILABLE = False
 
 from .kimera_monitoring_core import AlertSeverity, MonitoringLevel, get_monitoring_core
-
-
 class KimeraDashboard:
+    """Auto-generated class."""
+    pass
     """
     Real-time monitoring dashboard for Kimera SWM
 
@@ -561,9 +560,9 @@ class KimeraDashboard:
         logger.info(f"🌐 Dashboard URL: http://localhost:{self.port}")
 
         self.app.run_server(debug=self.debug, port=self.port, host="0.0.0.0")
-
-
 class StreamlitDashboard:
+    """Auto-generated class."""
+    pass
     """Alternative Streamlit-based monitoring dashboard"""
 
     def __init__(self):

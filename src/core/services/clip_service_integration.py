@@ -53,7 +53,8 @@ except ImportError:
         from core.constants import EPSILON
     except ImportError:
         # Create placeholders for core.constants
-        class EPSILON:
+class EPSILON:
+    """Auto-generated class."""
             pass
 
 
@@ -62,6 +63,8 @@ logger = get_system_logger(__name__)
 
 @dataclass
 class CLIPEmbedding:
+    """Auto-generated class."""
+    pass
     """Container for CLIP embeddings with metadata"""
 
     embedding: np.ndarray
@@ -70,9 +73,9 @@ class CLIPEmbedding:
     timestamp: datetime
     model_version: str
     device: str
-
-
 class SecurityChecker:
+    """Auto-generated class."""
+    pass
     """Security checks for model loading"""
 
     @staticmethod
@@ -107,9 +110,9 @@ class SecurityChecker:
         """Verify model file integrity"""
         # In production, would check against known good hashes
         return os.path.exists(model_path) if model_path else True
-
-
 class ResourceMonitor:
+    """Auto-generated class."""
+    pass
     """Monitor resource usage for CLIP operations"""
 
     def __init__(self):
@@ -145,14 +148,14 @@ class ResourceMonitor:
             )
 
             return {
-                "total_embeddings": self.total_embeddings,
-                "cache_hit_rate": cache_rate,
-                "average_processing_time": avg_time,
-                "peak_memory_mb": self.peak_memory_mb,
+                "total_embeddings": self.total_embeddings
+                "cache_hit_rate": cache_rate
+                "average_processing_time": avg_time
+                "peak_memory_mb": self.peak_memory_mb
             }
-
-
 class EmbeddingCache:
+    """Auto-generated class."""
+    pass
     """LRU cache for embeddings with TTL"""
 
     def __init__(self, max_size: int = 1000, ttl_hours: int = 24):
@@ -194,9 +197,9 @@ class EmbeddingCache:
         with self._lock:
             self.cache.clear()
             self.access_times.clear()
-
-
 class CLIPServiceIntegration:
+    """Auto-generated class."""
+    pass
     """
     CLIP service integration for Kimera with enterprise-grade features.
 
@@ -209,10 +212,10 @@ class CLIPServiceIntegration:
     """
 
     def __init__(
-        self,
+        self
         model_name: str = "openai/clip-vit-base-patch32",
-        use_cache: bool = True,
-        lightweight_mode: Optional[bool] = None,
+        use_cache: bool = True
+        lightweight_mode: Optional[bool] = None
     ):
 
         self.model_name = model_name
@@ -258,10 +261,10 @@ class CLIPServiceIntegration:
 
             # Load with safety considerations
             self.model = CLIPModel.from_pretrained(
-                self.model_name,
+                self.model_name
                 # Add safety parameters for newer transformers versions
-                trust_remote_code=False,
-                local_files_only=False,
+                trust_remote_code=False
+                local_files_only=False
             ).to(self.device)
 
             self.processor = CLIPProcessor.from_pretrained(
@@ -358,12 +361,12 @@ class CLIPServiceIntegration:
         # Cache result
         if self.cache and cache_key:
             clip_embedding = CLIPEmbedding(
-                embedding=embedding,
+                embedding=embedding
                 modality="image",
                 source_hash=cache_key[:16],
                 timestamp=datetime.now(timezone.utc),
-                model_version=self.model_name,
-                device=self.device,
+                model_version=self.model_name
+                device=self.device
             )
             self.cache.put(cache_key, clip_embedding)
 
@@ -408,11 +411,11 @@ class CLIPServiceIntegration:
                 import torch
 
                 inputs = self.processor(
-                    text=text,
+                    text=text
                     return_tensors="pt",
-                    padding=True,
-                    truncation=True,
-                    max_length=77,
+                    padding=True
+                    truncation=True
+                    max_length=77
                 ).to(self.device)
 
                 with torch.no_grad():
@@ -429,12 +432,12 @@ class CLIPServiceIntegration:
         # Cache result
         if self.cache and cache_key:
             clip_embedding = CLIPEmbedding(
-                embedding=embedding,
+                embedding=embedding
                 modality="text",
                 source_hash=cache_key[:16],
                 timestamp=datetime.now(timezone.utc),
-                model_version=self.model_name,
-                device=self.device,
+                model_version=self.model_name
+                device=self.device
             )
             self.cache.put(cache_key, clip_embedding)
 
@@ -470,10 +473,10 @@ class CLIPServiceIntegration:
         return float(np.dot(embedding1_norm, embedding2_norm))
 
     def find_best_match(
-        self,
-        query_embedding: np.ndarray,
+        self
+        query_embedding: np.ndarray
         candidate_embeddings: Dict[str, np.ndarray],
-        threshold: float = 0.0,
+        threshold: float = 0.0
     ) -> Optional[Tuple[str, float]]:
         """
         Find best matching embedding from candidates.
@@ -509,17 +512,17 @@ class CLIPServiceIntegration:
 
         return {
             "available": self.is_available(),
-            "lightweight_mode": self.lightweight_mode,
-            "device": self.device,
+            "lightweight_mode": self.lightweight_mode
+            "device": self.device
             "model_name": (
                 self.model_name if self.is_available() else "lightweight_fallback"
             ),
-            "torch_version": self.torch_version,
-            "torch_safe": self.torch_safe,
-            "embedding_dimension": self.embedding_dim,
-            "cache_enabled": self.use_cache,
-            "cache_size": len(self.cache.cache) if self.cache else 0,
-            "metrics": metrics,
+            "torch_version": self.torch_version
+            "torch_safe": self.torch_safe
+            "embedding_dimension": self.embedding_dim
+            "cache_enabled": self.use_cache
+            "cache_size": len(self.cache.cache) if self.cache else 0
+            "metrics": metrics
         }
 
     def clear_cache(self):

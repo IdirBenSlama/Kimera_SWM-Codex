@@ -34,12 +34,9 @@ from pydantic import BaseModel, Field
 
 # Revolutionary thermodynamic imports
 try:
-    from ...engines.foundational_thermodynamic_engine import (
-        EpistemicTemperature,
-    )
-    from ...engines.foundational_thermodynamic_engine import (
-        FoundationalThermodynamicEngine as ThermodynamicEngine,
-    )
+    from ...engines.foundational_thermodynamic_engine import EpistemicTemperature
+    from ...engines.foundational_thermodynamic_engine import \
+        FoundationalThermodynamicEngine as ThermodynamicEngine
     from ...engines.foundational_thermodynamic_engine import (
         ThermodynamicMode,
         ZeteticCarnotCycle,
@@ -387,7 +384,7 @@ async def run_zetetic_carnot_engine(request: ZeteticCarnotRequest):
                     "original_efficiency": carnot_cycle.actual_efficiency,
                     "corrected_efficiency": min(
                         carnot_cycle.actual_efficiency,
-                        carnot_cycle.theoretical_efficiency * 0.99,
+                        carnot_cycle.theoretical_efficiency * 0.99
                     ),
                     "correction_method": "zetetic_carnot_validation",
                 }
@@ -477,7 +474,7 @@ async def detect_thermodynamic_consciousness(request: ConsciousnessDetectionRequ
                 "phase_transition_proximity": 0.5,
                 "consciousness_temperature": 1.0,
                 "entropy_signature": 1.5,
-                "phase_transition_detected": False,
+                "phase_transition_detected": False
             },
         )()
 
@@ -545,7 +542,7 @@ async def detect_thermodynamic_consciousness(request: ConsciousnessDetectionRequ
 
 @router.post("/optimize/comprehensive")
 async def run_comprehensive_thermodynamic_optimization(
-    request: ThermodynamicOptimizationRequest,
+    request: ThermodynamicOptimizationRequest
 ):
     """
     Run comprehensive thermodynamic optimization of cognitive system
@@ -774,7 +771,7 @@ async def validate_physics_compliance(request: PhysicsComplianceRequest):
                     {
                         "type": v.get("violation_type", "unknown"),
                         "timestamp": v.get("timestamp", datetime.now()).isoformat(),
-                        "details": v,
+                        "details": v
                     }
                     for v in recent_violations
                 ]
@@ -787,17 +784,17 @@ async def validate_physics_compliance(request: PhysicsComplianceRequest):
                 {
                     "type": "efficiency_capping",
                     "description": "Cap efficiency at 99% of Carnot limit",
-                    "automatic": True,
+                    "automatic": True
                 },
                 {
                     "type": "temperature_validation",
                     "description": "Validate temperature calculations using statistical mechanics",
-                    "automatic": True,
+                    "automatic": True
                 },
                 {
                     "type": "energy_conservation_check",
                     "description": "Verify energy conservation in all operations",
-                    "automatic": False,
+                    "automatic": False
                 },
             ]
 

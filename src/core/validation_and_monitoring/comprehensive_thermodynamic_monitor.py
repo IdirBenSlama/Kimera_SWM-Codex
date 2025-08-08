@@ -50,6 +50,8 @@ class SystemHealthLevel(Enum):
 
 @dataclass
 class ThermodynamicState:
+    """Auto-generated class."""
+    pass
     """Thermodynamic state with validation"""
 
     state_id: str
@@ -94,6 +96,8 @@ class ThermodynamicState:
 
 @dataclass
 class MonitoringAlert:
+    """Auto-generated class."""
+    pass
     """Thermodynamic alert"""
 
     alert_id: str
@@ -107,6 +111,8 @@ class MonitoringAlert:
 
 @dataclass
 class OptimizationResult:
+    """Auto-generated class."""
+    pass
     """Optimization result"""
 
     optimization_id: str
@@ -117,19 +123,19 @@ class OptimizationResult:
     performance_boost: float
     optimization_duration: float
     timestamp: datetime = field(default_factory=datetime.now)
-
-
 class ComprehensiveThermodynamicMonitor:
+    """Auto-generated class."""
+    pass
     """
     Comprehensive thermodynamic monitor with safety features.
     """
 
     def __init__(
-        self,
-        monitoring_interval: float = 1.0,
-        optimization_interval: float = 60.0,
-        alert_threshold: float = 0.7,
-        auto_optimization: bool = True,
+        self
+        monitoring_interval: float = 1.0
+        optimization_interval: float = 60.0
+        alert_threshold: float = 0.7
+        auto_optimization: bool = True
     ):
         self.monitoring_interval = monitoring_interval
         self.optimization_interval = optimization_interval
@@ -294,7 +300,7 @@ class ComprehensiveThermodynamicMonitor:
             reversibility_index=rev_index,
             carnot_efficiency=carnot_eff,
             landauer_compliance=landauer,
-            coherence_measure=coherence,
+            coherence_measure=coherence
         )
 
         return state
@@ -353,10 +359,10 @@ class ComprehensiveThermodynamicMonitor:
     ) -> MonitoringAlert:
         return MonitoringAlert(
             alert_id=str(uuid.uuid4()),
-            alert_type=a_type,
-            severity=severity,
-            message=message,
-            affected_components=components,
+            alert_type=a_type
+            severity=severity
+            message=message
+            affected_components=components
             recommended_actions=[],
         )
 
@@ -394,13 +400,13 @@ class ComprehensiveThermodynamicMonitor:
         duration = time.time() - start
 
         return OptimizationResult(
-            optimization_id=opt_id,
+            optimization_id=opt_id
             optimization_type="comprehensive",
-            improvements_made=improvements,
-            efficiency_gain=gain,
-            energy_saved=saved,
-            performance_boost=boost,
-            optimization_duration=duration,
+            improvements_made=improvements
+            efficiency_gain=gain
+            energy_saved=saved
+            performance_boost=boost
+            optimization_duration=duration
         )
 
     def get_monitoring_report(self) -> Dict[str, Any]:

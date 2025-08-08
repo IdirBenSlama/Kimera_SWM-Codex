@@ -15,10 +15,8 @@ from pydantic import BaseModel, Field
 
 from ..pharmaceutical.analysis.dissolution_analyzer import DissolutionAnalyzer
 from ..pharmaceutical.core.kcl_testing_engine import KClTestingEngine
-from ..pharmaceutical.protocols.usp_protocols import (
-    DissolutionTestUSP711,
-    USPProtocolEngine,
-)
+from ..pharmaceutical.protocols.usp_protocols import (DissolutionTestUSP711
+                                                      , USPProtocolEngine)
 from ..pharmaceutical.validation.pharmaceutical_validator import PharmaceuticalValidator
 from ..utils.kimera_exceptions import KimeraException
 from ..utils.kimera_logger import get_logger
@@ -354,9 +352,8 @@ async def perform_dissolution_test(
         # Create reference profile if provided
         reference_profile = None
         if request.reference_profile:
-            from ..pharmaceutical.analysis.dissolution_analyzer import (
-                DissolutionProfile,
-            )
+            from ..pharmaceutical.analysis.dissolution_analyzer import \
+                DissolutionProfile
 
             reference_profile = DissolutionProfile(
                 time_points=request.reference_profile["time_points"],
@@ -443,7 +440,7 @@ async def analyze_dissolution_kinetics(
                     },
                     "best_model": {
                         "name": best_model_name if best_model else None,
-                        "details": best_model.__dict__ if best_model else None,
+                        "details": best_model.__dict__ if best_model else None
                     },
                     "model_comparison": {
                         name: {

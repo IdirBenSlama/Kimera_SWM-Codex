@@ -25,6 +25,8 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class PerformanceMetrics:
+    """Auto-generated class."""
+    pass
     """Performance metrics snapshot."""
 
     timestamp: float
@@ -42,9 +44,9 @@ class PerformanceMetrics:
     gpu_percent: Optional[float] = None
     gpu_memory_mb: Optional[float] = None
     gpu_temperature: Optional[float] = None
-
-
 class PerformanceMonitor:
+    """Auto-generated class."""
+    pass
     """
     Real-time performance monitoring system.
 

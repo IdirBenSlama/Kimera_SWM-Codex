@@ -26,9 +26,9 @@ from .request_hardening import security_middleware
 from .sql_injection_prevention import SafeQueryBuilder
 
 logger = logging.getLogger(__name__)
-
-
 class SecurityManager:
+    """Auto-generated class."""
+    pass
     """
     Central manager for all security components
     """

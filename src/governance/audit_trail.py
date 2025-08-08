@@ -58,6 +58,8 @@ class AuditSeverity(Enum):
 
 @dataclass
 class AuditEvent:
+    """Auto-generated class."""
+    pass
     """
     Immutable audit event with cryptographic integrity.
 
@@ -136,9 +138,9 @@ class AuditEvent:
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary for storage."""
         return asdict(self)
-
-
 class AuditTrail:
+    """Auto-generated class."""
+    pass
     """
     Tamper-proof audit trail with aerospace-grade reliability.
 
@@ -333,7 +335,7 @@ class AuditTrail:
                     description, component, user, session_id, data,
                     hash, previous_hash, signature, system_time_ms
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """,
+            ""","""
                 (
                     event.id,
                     event.sequence_number,

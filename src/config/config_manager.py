@@ -10,9 +10,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 logger = logging.getLogger(__name__)
-
-
 class ConfigManager:
+    """Auto-generated class."""
+    pass
     """
     Enhanced configuration manager for Kimera SWM
     Securely manages API keys and credentials from environment variables

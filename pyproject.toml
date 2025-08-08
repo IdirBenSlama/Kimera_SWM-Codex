@@ -7,7 +7,7 @@ name = "kimera-swm"
 version = "0.1.0"
 description = "KIMERA SWM - Advanced Symbolic Wave Memory System"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.15"
 license = {text = "MIT"}
 authors = [
     {name = "Kimera SWM Team", email = "team@kimera-swm.com"}
@@ -84,7 +84,7 @@ kimera-setup = "scripts.utils.setup_independent_environment:main"
 
 [tool.black]
 line-length = 88
-target-version = ['py311']
+target-version = ['py311', 'py312', 'py313']
 
 [tool.ruff]
 select = ["E", "F", "UP", "B", "SIM", "I"]
@@ -93,7 +93,7 @@ line-length = 88
 target-version = "py311"
 
 [tool.mypy]
-python_version = "3.11"
+python_version = "3.13"
 strict = true
 warn_return_any = true
 warn_unused_configs = true

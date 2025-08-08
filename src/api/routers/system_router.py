@@ -40,8 +40,9 @@ except ImportError:
         from engines.asm import AxisStabilityMonitor
     except ImportError:
         # Create placeholders for engines.asm
-        class AxisStabilityMonitor:
-            pass
+class AxisStabilityMonitor:
+    """Auto-generated class."""
+    pass
 
 
 try:
@@ -246,11 +247,11 @@ async def get_system_stability():
             except Exception as init_error:
                 logger.warning(f"Could not initialize ASM: {init_error}")
                 # Return a default stable value
-                return {
-                    "stability_index": 0.95,
-                    "status": "estimated",
-                    "message": "ASM not fully initialized, returning stable estimate",
-                }
+            return {
+                "stability_index": 0.95,
+                "status": "estimated",
+                "message": "ASM not fully initialized, returning stable estimate",
+            }
 
         if asm and hasattr(asm, "get_stability_index"):
             stability_index = asm.get_stability_index()
@@ -312,7 +313,7 @@ async def get_utilization_statistics():
     except Exception as e:
         logger.error(f"Failed to get utilization stats: {e}", exc_info=True)
         raise HTTPException(
-            status_code=503,
+            status_code=503
             detail=f"Failed to retrieve utilization statistics: {str(e)}",
         )
 
@@ -418,11 +419,11 @@ async def get_system_state(request: Request) -> Dict[str, Any]:
             logger.error(f"metrics_instance_id error: {e}", exc_info=True)
         report = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
-            "system_state": system_state,
-            "is_operational": is_operational,
-            "is_shutdown": is_shutdown,
-            "active_threads": active_threads,
-            "metrics_instance_id": metrics_instance_id,
+            "system_state": system_state
+            "is_operational": is_operational
+            "is_shutdown": is_shutdown
+            "active_threads": active_threads
+            "metrics_instance_id": metrics_instance_id
         }
         if errors:
             report["errors"] = errors
@@ -502,8 +503,8 @@ async def debug_singleton():
 @router.get("/system/ping", tags=["System"])
 async def ping():
     """Minimal endpoint to confirm FastAPI app and router health."""
-    return {
-        "status": "ok",
-        "message": "Kimera API is alive",
-        "timestamp": datetime.now(timezone.utc).isoformat(),
-    }
+        return {
+            "status": "ok",
+            "message": "Kimera API is alive",
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+        }

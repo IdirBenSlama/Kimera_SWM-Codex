@@ -88,6 +88,8 @@ def sanitize_for_json(obj: Any) -> Any:
 
 @dataclass
 class ProactiveDetectionConfig:
+    """Auto-generated class."""
+    pass
     """
     Configuration for proactive contradiction detection.
 
@@ -115,6 +117,8 @@ class ProactiveDetectionConfig:
 
 @dataclass
 class TensionGradient:
+    """Auto-generated class."""
+    pass
     """
     Represents a detected contradiction tension following formal specifications.
 
@@ -137,9 +141,9 @@ class TensionGradient:
             raise ValueError("tension_score must be between 0.0 and 1.0")
         if not 0.0 <= self.evidence_strength <= 1.0:
             raise ValueError("evidence_strength must be between 0.0 and 1.0")
-
-
 class GeoidState:
+    """Auto-generated class."""
+    pass
     """
     Simplified Geoid representation for analysis.
 
@@ -148,12 +152,12 @@ class GeoidState:
     """
 
     def __init__(
-        self,
-        geoid_id: str,
-        semantic_state: Dict,
-        symbolic_state: Dict,
+        self
+        geoid_id: str
+        semantic_state: Dict
+        symbolic_state: Dict
         embedding_vector: List[float],
-        metadata: Dict,
+        metadata: Dict
     ):
         self.geoid_id = geoid_id
         self.semantic_state = semantic_state.copy()  # Defensive copy
@@ -171,9 +175,9 @@ class GeoidState:
             and isinstance(self.symbolic_state, dict)
             and isinstance(self.embedding_vector, list)
         )
-
-
 class ProactiveContradictionDetector:
+    """Auto-generated class."""
+    pass
     """
     Proactively scans for contradictions across all geoids to increase
     SCAR utilization and improve system learning.
@@ -195,17 +199,18 @@ class ProactiveContradictionDetector:
         self.last_scan_time: Optional[datetime] = None
         self.health_status = HealthStatus.OPERATIONAL
         self.performance_metrics = {
-            "scans_completed": 0,
-            "tensions_detected": 0,
-            "average_scan_time": 0.0,
-            "errors_encountered": 0,
+            "scans_completed": 0
+            "tensions_detected": 0
+            "average_scan_time": 0.0
+            "errors_encountered": 0
         }
 
         # Initialize optional dependencies with graceful degradation
         self.contradiction_engine = None
         if SQLALCHEMY_AVAILABLE:
             try:
-                from src.engines.contradiction_engine import ContradictionEngine
+                from src.core.contradiction_and_pruning.contradiction_engine import \
+                    ContradictionEngine
 
                 self.contradiction_engine = ContradictionEngine(tension_threshold=0.3)
                 logger.info("✅ ContradictionEngine initialized")
@@ -224,23 +229,23 @@ class ProactiveContradictionDetector:
         with positive confirmation of operational status.
         """
         return {
-            "status": self.health_status.name,
+            "status": self.health_status.name
             "last_scan": (
                 self.last_scan_time.isoformat() if self.last_scan_time else None
             ),
             "performance_metrics": self.performance_metrics.copy(),
             "configuration": {
-                "batch_size": self.config.batch_size,
-                "scan_interval": self.config.scan_interval_hours,
+                "batch_size": self.config.batch_size
+                "scan_interval": self.config.scan_interval_hours
                 "strategies_enabled": {
-                    "clustering": self.config.enable_clustering,
-                    "temporal": self.config.enable_temporal_analysis,
+                    "clustering": self.config.enable_clustering
+                    "temporal": self.config.enable_temporal_analysis
                 },
             },
             "dependencies": {
-                "sqlalchemy": SQLALCHEMY_AVAILABLE,
-                "sklearn": SKLEARN_AVAILABLE,
-                "contradiction_engine": self.contradiction_engine is not None,
+                "sqlalchemy": SQLALCHEMY_AVAILABLE
+                "sklearn": SKLEARN_AVAILABLE
+                "contradiction_engine": self.contradiction_engine is not None
             },
         }
 
@@ -294,12 +299,12 @@ class ProactiveContradictionDetector:
         results = {
             "scan_start": scan_start.isoformat(),
             "tensions_found": [],
-            "clusters_analyzed": 0,
-            "comparisons_made": 0,
-            "geoids_scanned": 0,
-            "potential_scars": 0,
+            "clusters_analyzed": 0
+            "comparisons_made": 0
+            "geoids_scanned": 0
+            "potential_scars": 0
             "strategies_used": [],
-            "health_status": self.health_status.name,
+            "health_status": self.health_status.name
         }
 
         try:
@@ -400,7 +405,7 @@ class ProactiveContradictionDetector:
 
         try:
             # Dynamic import to avoid circular dependencies
-            from src.vault.database import GeoidDB, SessionLocal
+            from src.config.database_config import GeoidDB, SessionLocal
 
             with SessionLocal() as db:
                 geoid_rows = db.query(GeoidDB).limit(self.config.batch_size * 2).all()
@@ -409,7 +414,7 @@ class ProactiveContradictionDetector:
                 for row in geoid_rows:
                     try:
                         geoid = GeoidState(
-                            geoid_id=row.geoid_id,
+                            geoid_id=row.geoid_id
                             semantic_state=row.semantic_state_json or {},
                             symbolic_state=row.symbolic_state or {},
                             embedding_vector=(
@@ -441,7 +446,7 @@ class ProactiveContradictionDetector:
                 embedding_vector=[float(j) for j in range(10)],  # Simple vector
                 metadata={
                     "created": datetime.now(timezone.utc).isoformat(),
-                    "mock": True,
+                    "mock": True
                 },
             )
             mock_geoids.append(geoid)
@@ -524,15 +529,15 @@ class ProactiveContradictionDetector:
 
                 if tension_score > self.config.similarity_threshold:
                     tension = TensionGradient(
-                        geoid_a_id=geoid_a.geoid_id,
-                        geoid_b_id=geoid_b.geoid_id,
-                        tension_score=tension_score,
+                        geoid_a_id=geoid_a.geoid_id
+                        geoid_b_id=geoid_b.geoid_id
+                        tension_score=tension_score
                         contradiction_type="semantic_cluster",
                         evidence_strength=min(tension_score * 1.2, 1.0),
                         detection_method="cluster_analysis",
                         timestamp=datetime.now(timezone.utc),
                         metadata={
-                            "cluster_similarity": True,
+                            "cluster_similarity": True
                             "semantic_domains": [
                                 geoid_a.semantic_state.get("domain", "unknown"),
                                 geoid_b.semantic_state.get("domain", "unknown"),
@@ -629,15 +634,15 @@ class ProactiveContradictionDetector:
 
                             if tension_score > 0.6:  # Higher threshold for temporal
                                 tension = TensionGradient(
-                                    geoid_a_id=geoid_a.geoid_id,
-                                    geoid_b_id=geoid_b.geoid_id,
-                                    tension_score=tension_score,
+                                    geoid_a_id=geoid_a.geoid_id
+                                    geoid_b_id=geoid_b.geoid_id
+                                    tension_score=tension_score
                                     contradiction_type="temporal_pattern",
-                                    evidence_strength=tension_score * 0.8,
+                                    evidence_strength=tension_score * 0.8
                                     detection_method="temporal_analysis",
                                     timestamp=datetime.now(timezone.utc),
                                     metadata={
-                                        "time_group": hour,
+                                        "time_group": hour
                                         "temporal_distance": abs(
                                             (
                                                 geoid_a._creation_time
@@ -709,17 +714,17 @@ class ProactiveContradictionDetector:
 
                             if tension_score > 0.7:
                                 tension = TensionGradient(
-                                    geoid_a_id=geoid_a.geoid_id,
-                                    geoid_b_id=geoid_b.geoid_id,
-                                    tension_score=tension_score,
+                                    geoid_a_id=geoid_a.geoid_id
+                                    geoid_b_id=geoid_b.geoid_id
+                                    tension_score=tension_score
                                     contradiction_type="cross_domain",
-                                    evidence_strength=tension_score * 0.9,
+                                    evidence_strength=tension_score * 0.9
                                     detection_method="cross_type_analysis",
                                     timestamp=datetime.now(timezone.utc),
                                     metadata={
-                                        "domain_a": domain_a,
-                                        "domain_b": domain_b,
-                                        "cross_domain": True,
+                                        "domain_a": domain_a
+                                        "domain_b": domain_b
+                                        "cross_domain": True
                                     },
                                 )
                                 tensions.append(tension)
@@ -778,17 +783,17 @@ class ProactiveContradictionDetector:
 
                     if tension_score > 0.5:
                         tension = TensionGradient(
-                            geoid_a_id=geoid_a.geoid_id,
-                            geoid_b_id=geoid_b.geoid_id,
-                            tension_score=tension_score,
+                            geoid_a_id=geoid_a.geoid_id
+                            geoid_b_id=geoid_b.geoid_id
+                            tension_score=tension_score
                             contradiction_type="underutilized_pair",
-                            evidence_strength=tension_score * 0.6,
+                            evidence_strength=tension_score * 0.6
                             detection_method="underutilization_analysis",
                             timestamp=datetime.now(timezone.utc),
                             metadata={
-                                "utilization_a": score_a,
-                                "utilization_b": score_b,
-                                "underutilized": True,
+                                "utilization_a": score_a
+                                "utilization_b": score_b
+                                "underutilized": True
                             },
                         )
                         tensions.append(tension)
@@ -849,7 +854,7 @@ class ProactiveContradictionDetector:
 
 
 def create_proactive_contradiction_detector(
-    config: Optional[ProactiveDetectionConfig] = None,
+    config: Optional[ProactiveDetectionConfig] = None
 ) -> ProactiveContradictionDetector:
     """
     Factory function for creating detector instances.

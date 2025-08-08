@@ -11,7 +11,7 @@ Core Principle:
 "Understanding reduces semantic entropy while preserving information"
 
 This axiom serves as the foundation from which all cognitive operations
-in Kimera are derived. It bridges thermodynamics, information theory,
+in Kimera are derived. It bridges thermodynamics, information theory
 and consciousness in a mathematically rigorous framework.
 
 Scientific Foundation:
@@ -83,6 +83,8 @@ class UnderstandingMode(Enum):
 
 @dataclass
 class SemanticState:
+    """Auto-generated class."""
+    pass
     """Represents a state in semantic space"""
 
     vector: np.ndarray
@@ -103,6 +105,8 @@ class SemanticState:
 
 @dataclass
 class UnderstandingTransformation:
+    """Auto-generated class."""
+    pass
     """Represents a transformation in understanding space"""
 
     operator: np.ndarray
@@ -123,15 +127,17 @@ class UnderstandingTransformation:
         new_information = state.information * self.information_preservation_factor
 
         return SemanticState(
-            vector=new_vector,
-            entropy=new_entropy,
-            information=new_information,
+            vector=new_vector
+            entropy=new_entropy
+            information=new_information
             meaning_label=f"U({state.meaning_label})",
         )
 
 
 @dataclass
 class UnderstandingManifold:
+    """Auto-generated class."""
+    pass
     """The Riemannian manifold where understanding occurs"""
 
     dimension: int
@@ -157,9 +163,9 @@ class UnderstandingManifold:
             connection = self.christoffel_symbols[0, :, :]  # Simplified
             transported = transported - connection @ transported * 0.01
         return transported
-
-
 class AxiomOfUnderstanding:
+    """Auto-generated class."""
+    pass
     """
     The fundamental Axiom of Understanding implementation.
 
@@ -225,11 +231,11 @@ class AxiomOfUnderstanding:
         ricci_scalar = curvature_strength * self.dimension * (self.dimension - 1)
 
         return UnderstandingManifold(
-            dimension=self.dimension,
-            metric_tensor=metric,
-            christoffel_symbols=christoffel,
-            riemann_tensor=riemann,
-            ricci_scalar=ricci_scalar,
+            dimension=self.dimension
+            metric_tensor=metric
+            christoffel_symbols=christoffel
+            riemann_tensor=riemann
+            ricci_scalar=ricci_scalar
         )
 
     def _initialize_operators(self):
@@ -268,10 +274,10 @@ class AxiomOfUnderstanding:
                     operator[i, j] = 0.1 / PHI
 
         self.operators[UnderstandingMode.COMPOSITIONAL] = UnderstandingTransformation(
-            operator=operator,
-            mode=UnderstandingMode.COMPOSITIONAL,
-            entropy_reduction_factor=0.7,
-            information_preservation_factor=0.95,
+            operator=operator
+            mode=UnderstandingMode.COMPOSITIONAL
+            entropy_reduction_factor=0.7
+            information_preservation_factor=0.95
             metadata={"block_size": block_size},
         )
 
@@ -286,10 +292,10 @@ class AxiomOfUnderstanding:
                 operator[i, :] = operator[i, :] / (np.linalg.norm(operator[i, :]) * 1.2)
 
         self.operators[UnderstandingMode.CAUSAL] = UnderstandingTransformation(
-            operator=operator,
-            mode=UnderstandingMode.CAUSAL,
-            entropy_reduction_factor=0.6,
-            information_preservation_factor=0.9,
+            operator=operator
+            mode=UnderstandingMode.CAUSAL
+            entropy_reduction_factor=0.6
+            information_preservation_factor=0.9
             metadata={"temporal_structure": "lower_triangular"},
         )
 
@@ -315,8 +321,8 @@ class AxiomOfUnderstanding:
             operator = operator / (max_eigenvalue * 1.1)
 
         self.operators[UnderstandingMode.REFLEXIVE] = UnderstandingTransformation(
-            operator=operator,
-            mode=UnderstandingMode.REFLEXIVE,
+            operator=operator
+            mode=UnderstandingMode.REFLEXIVE
             entropy_reduction_factor=0.5,  # Highest reduction
             information_preservation_factor=0.99,  # Highest preservation
             metadata={"has_fixed_point": True},
@@ -339,17 +345,17 @@ class AxiomOfUnderstanding:
         operator = operator / (np.linalg.norm(operator) * 1.3)
 
         self.operators[UnderstandingMode.EMERGENT] = UnderstandingTransformation(
-            operator=operator,
-            mode=UnderstandingMode.EMERGENT,
-            entropy_reduction_factor=0.65,
-            information_preservation_factor=0.92,
+            operator=operator
+            mode=UnderstandingMode.EMERGENT
+            entropy_reduction_factor=0.65
+            information_preservation_factor=0.92
             metadata={"symmetry": "hermitian", "scaling": "golden_ratio"},
         )
 
     def understand(
-        self,
-        state: SemanticState,
-        mode: UnderstandingMode = UnderstandingMode.COMPOSITIONAL,
+        self
+        state: SemanticState
+        mode: UnderstandingMode = UnderstandingMode.COMPOSITIONAL
     ) -> SemanticState:
         """
         Apply understanding transformation to a semantic state.
@@ -425,9 +431,9 @@ class AxiomOfUnderstanding:
         )
 
         composed_state = SemanticState(
-            vector=composed_vector,
-            entropy=composed_entropy,
-            information=composed_information,
+            vector=composed_vector
+            entropy=composed_entropy
+            information=composed_information
             meaning_label=f"({u_state1.meaning_label} ∘ {u_state2.meaning_label})",
         )
 
@@ -502,11 +508,11 @@ class AxiomOfUnderstanding:
         stability = 1 - np.max(np.abs(eigenvalues))
 
         return {
-            "entropy_reduction": entropy_reduction,
-            "information_preservation": info_preservation,
-            "semantic_coherence": coherence,
-            "complexity_reduction": complexity_reduction,
-            "stability": stability,
+            "entropy_reduction": entropy_reduction
+            "information_preservation": info_preservation
+            "semantic_coherence": coherence
+            "complexity_reduction": complexity_reduction
+            "stability": stability
             "overall_quality": (
                 entropy_reduction
                 + info_preservation
@@ -514,7 +520,7 @@ class AxiomOfUnderstanding:
                 + complexity_reduction
                 + stability
             )
-            / 5,
+            / 5
         }
 
     def find_fixed_points(
@@ -534,7 +540,7 @@ class AxiomOfUnderstanding:
 
                 # Create semantic state
                 state = SemanticState(
-                    vector=vector,
+                    vector=vector
                     entropy=0.1,  # Low entropy at fixed point
                     information=1.0,  # Maximum information
                     meaning_label=f"FixedPoint_{i}",

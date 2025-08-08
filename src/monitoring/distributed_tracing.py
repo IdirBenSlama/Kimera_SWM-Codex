@@ -15,18 +15,15 @@ from opentelemetry.instrumentation.httpx import HTTPXClientInstrumentor
 from opentelemetry.instrumentation.sqlalchemy import SQLAlchemyInstrumentor
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import (
-    BatchSpanProcessor,
-    ConsoleSpanExporter,
-    SpanExporter,
-)
+from opentelemetry.sdk.trace.export import (BatchSpanProcessor, ConsoleSpanExporter,
+                                            SpanExporter)
 
 from src.config import get_settings, is_production
 
 logger = logging.getLogger(__name__)
-
-
 class TracingManager:
+    """Auto-generated class."""
+    pass
     """
     Manages distributed tracing for KIMERA
     """

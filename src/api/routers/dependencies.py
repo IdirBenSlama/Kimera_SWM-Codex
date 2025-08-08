@@ -26,7 +26,7 @@ def get_kimera_system():
     global _kimera_system
     if _kimera_system is None:
         try:
-            from src.core.kimera_system import get_kimera_system as _get_system
+            from src.core.system.kimera_system import get_kimera_system as _get_system
 
             _kimera_system = _get_system()
         except Exception as e:
@@ -54,7 +54,8 @@ def get_contradiction_engine():
     global _contradiction_engine
     if _contradiction_engine is None:
         try:
-            from src.engines.contradiction_engine import ContradictionEngine
+            from src.core.contradiction_and_pruning.contradiction_engine import \
+                ContradictionEngine
 
             _contradiction_engine = ContradictionEngine()
         except Exception as e:
@@ -70,9 +71,8 @@ def get_translator_hub():
     global _translator_hub
     if _translator_hub is None:
         try:
-            from src.engines.universal_translator_hub import (
-                create_universal_translator_hub,
-            )
+            from src.core.communication_layer.universal_translator_hub import \
+                create_universal_translator_hub
 
             _translator_hub = create_universal_translator_hub()
         except Exception as e:
@@ -145,7 +145,7 @@ def get_alert_manager():
 def get_db():
     """Get database session."""
     try:
-        from src.vault.database import SessionLocal
+        from src.config.database_config import SessionLocal
 
         db = SessionLocal()
         try:

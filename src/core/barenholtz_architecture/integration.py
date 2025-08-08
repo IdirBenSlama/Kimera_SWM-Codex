@@ -2,7 +2,7 @@
 Barenholtz Dual-System Architecture Integration Module - DO-178C Level A
 =======================================================================
 
-Unified interface for the Barenholtz dual-system cognitive architecture,
+Unified interface for the Barenholtz dual-system cognitive architecture
 providing seamless integration of System 1 (intuitive) and System 2 (analytical)
 processing with metacognitive control.
 
@@ -26,22 +26,18 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional, Union
 
 # KIMERA core imports
-from src.core.constants import DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD
+from src.core.primitives.constants import DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD
 from src.utilities.health_status import HealthStatus
 
 # Import the core Barenholtz dual-system components
-from .integration.unified_engine import (
-    BarenholtzDualSystemIntegrator,
-    DualSystemRequest,
-    DualSystemResponse,
-    IntegrationMetrics,
-    SystemMode,
-)
+from .integration.unified_engine import (BarenholtzDualSystemIntegrator
+                                         DualSystemRequest, DualSystemResponse
+                                         IntegrationMetrics, SystemMode)
 
 logger = logging.getLogger(__name__)
-
-
 class BarenholtzArchitectureIntegrator:
+    """Auto-generated class."""
+    pass
     """
     DO-178C Level A Barenholtz Dual-System Architecture Integrator
 
@@ -97,9 +93,9 @@ class BarenholtzArchitectureIntegrator:
             return False
 
     def process_dual_system_request(
-        self,
+        self
         request: Union[str, Dict[str, Any]],
-        mode: SystemMode = SystemMode.AUTOMATIC,
+        mode: SystemMode = SystemMode.AUTOMATIC
     ) -> DualSystemResponse:
         """
         Process a request through the dual-system architecture.
@@ -121,7 +117,7 @@ class BarenholtzArchitectureIntegrator:
                 dual_request = DualSystemRequest(
                     content=request.get("content", ""),
                     context=request.get("context", {}),
-                    mode=mode,
+                    mode=mode
                     timestamp=datetime.now(),
                 )
 
@@ -158,13 +154,13 @@ class BarenholtzArchitectureIntegrator:
         uptime = (datetime.now() - self.initialization_time).total_seconds()
 
         return {
-            "health_status": self.health_status,
-            "safety_score": self.safety_score,
-            "uptime_seconds": uptime,
-            "system1_success_rate": metrics.system1_success_rate,
-            "system2_success_rate": metrics.system2_success_rate,
-            "average_processing_time_ms": metrics.average_processing_time_ms,
-            "total_requests_processed": metrics.total_requests_processed,
+            "health_status": self.health_status
+            "safety_score": self.safety_score
+            "uptime_seconds": uptime
+            "system1_success_rate": metrics.system1_success_rate
+            "system2_success_rate": metrics.system2_success_rate
+            "average_processing_time_ms": metrics.average_processing_time_ms
+            "total_requests_processed": metrics.total_requests_processed
             "current_mode": (
                 metrics.current_mode.value if metrics.current_mode else "unknown"
             ),

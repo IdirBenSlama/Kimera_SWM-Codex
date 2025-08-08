@@ -225,13 +225,13 @@ async def create_geoid_from_image_fast(
 
     # Process in background
     background_tasks.add_task(
-        process_image_geoid,
-        geoid_id,
-        contents,
-        file.filename,
-        file.content_type,
-        vault_manager,
-    )
+            process_image_geoid,
+            geoid_id,
+            contents,
+            file.filename,
+            file.content_type,
+            vault_manager,
+        )
 
     return {
         "geoid_id": geoid_id,

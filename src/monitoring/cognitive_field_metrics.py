@@ -40,9 +40,9 @@ def get_metrics_collector():
             # Fallback: create a simple metrics collector
             _metrics_collector = SimpleMetricsCollector()
     return _metrics_collector
-
-
 class SimpleMetricsCollector:
+    """Auto-generated class."""
+    pass
     """Simple fallback metrics collector"""
 
     def __init__(self):
@@ -59,6 +59,8 @@ class SimpleMetricsCollector:
 
 @dataclass
 class CognitiveFieldState:
+    """Auto-generated class."""
+    pass
     """Represents the state of the cognitive field at a moment in time."""
 
     timestamp: datetime
@@ -87,6 +89,8 @@ class CognitiveFieldState:
 
 @dataclass
 class CognitiveWavePacket:
+    """Auto-generated class."""
+    pass
     """Represents a wave packet in the cognitive field."""
 
     id: str
@@ -98,9 +102,9 @@ class CognitiveWavePacket:
     group_velocity: float
     dispersion: float
     created_at: datetime = field(default_factory=datetime.now)
-
-
 class CognitiveFieldMetrics:
+    """Auto-generated class."""
+    pass
     """
     Monitors the quantum-like properties of KIMERA's cognitive field.
 

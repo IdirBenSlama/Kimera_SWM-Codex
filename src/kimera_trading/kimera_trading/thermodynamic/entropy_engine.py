@@ -1,7 +1,7 @@
 import numpy as np
-
-
 class MarketEntropyCalculator:
+    """Auto-generated class."""
+    pass
     """Calculates the entropy of the market."""
 
     def calculate(self, market_data):
@@ -15,9 +15,9 @@ class MarketEntropyCalculator:
             )
             return -np.sum(returns * np.log2(np.abs(returns) + 1e-9))  # Shannon entropy
         return np.random.rand()
-
-
 class ThermodynamicEngine:
+    """Auto-generated class."""
+    pass
     """Manages the thermodynamic state of the trading system."""
 
     def __init__(self):

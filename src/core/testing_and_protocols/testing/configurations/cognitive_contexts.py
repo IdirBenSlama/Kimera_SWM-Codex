@@ -51,6 +51,8 @@ class CognitiveContext(Enum):
 
 @dataclass
 class ContextCharacteristics:
+    """Auto-generated class."""
+    pass
     """Processing characteristics for a cognitive context"""
 
     primary_system: str  # "system1", "system2", or "balanced"
@@ -65,6 +67,8 @@ class ContextCharacteristics:
 
 @dataclass
 class ContextTestConfiguration:
+    """Auto-generated class."""
+    pass
     """Test configuration for a specific cognitive context"""
 
     context: CognitiveContext
@@ -84,9 +88,9 @@ class ContextTestConfiguration:
             and len(self.expected_behaviors) > 0
             and len(self.failure_modes) > 0
         )
-
-
 class CognitiveContextManager:
+    """Auto-generated class."""
+    pass
     """
     Manager for cognitive context configurations and optimization
 
@@ -110,22 +114,22 @@ class CognitiveContextManager:
         )
 
     def _initialize_configurations(
-        self,
+        self
     ) -> Dict[CognitiveContext, ContextTestConfiguration]:
         """Initialize comprehensive context configurations"""
         configurations = {}
 
         # ANALYTICAL Context - Logic-driven, System 2 dominant processing
         configurations[CognitiveContext.ANALYTICAL] = ContextTestConfiguration(
-            context=CognitiveContext.ANALYTICAL,
+            context=CognitiveContext.ANALYTICAL
             characteristics=ContextCharacteristics(
                 primary_system="system2",
                 processing_mode="sequential",
                 cognitive_load_distribution={
-                    "logical_reasoning": 0.4,
-                    "working_memory": 0.3,
-                    "attention_control": 0.2,
-                    "metacognition": 0.1,
+                    "logical_reasoning": 0.4
+                    "working_memory": 0.3
+                    "attention_control": 0.2
+                    "metacognition": 0.1
                 },
                 expected_response_patterns=[
                     "step_by_step_reasoning",
@@ -137,14 +141,14 @@ class CognitiveContextManager:
                     "reasoning_accuracy": 0.95,  # 95% accuracy required
                     "logical_consistency": 0.98,  # 98% consistency
                     "processing_time": 2.0,  # 2 seconds max
-                    "working_memory_efficiency": 0.85,
+                    "working_memory_efficiency": 0.85
                 },
                 activation_patterns={
-                    "system1_active": False,
-                    "system2_active": True,
-                    "metacognitive_active": True,
-                    "pattern_matching_active": False,
-                    "logical_reasoning_active": True,
+                    "system1_active": False
+                    "system2_active": True
+                    "metacognitive_active": True
+                    "pattern_matching_active": False
+                    "logical_reasoning_active": True
                 },
                 optimization_strategy="maximize_accuracy_over_speed",
                 error_tolerance=0.05,  # 5% error tolerance
@@ -157,10 +161,10 @@ class CognitiveContextManager:
                 "evidence_quality": "high",
             },
             validation_criteria={
-                "logical_consistency_score": 0.95,
-                "reasoning_depth_score": 0.90,
-                "evidence_integration_score": 0.93,
-                "response_time_limit": 5.0,
+                "logical_consistency_score": 0.95
+                "reasoning_depth_score": 0.90
+                "evidence_integration_score": 0.93
+                "response_time_limit": 5.0
             },
             expected_behaviors=[
                 "Systematic logical progression",
@@ -188,15 +192,15 @@ class CognitiveContextManager:
 
         # CREATIVE Context - Intuitive, System 1 dominant processing
         configurations[CognitiveContext.CREATIVE] = ContextTestConfiguration(
-            context=CognitiveContext.CREATIVE,
+            context=CognitiveContext.CREATIVE
             characteristics=ContextCharacteristics(
                 primary_system="system1",
                 processing_mode="parallel",
                 cognitive_load_distribution={
-                    "divergent_thinking": 0.4,
-                    "associative_memory": 0.3,
-                    "pattern_synthesis": 0.2,
-                    "aesthetic_evaluation": 0.1,
+                    "divergent_thinking": 0.4
+                    "associative_memory": 0.3
+                    "pattern_synthesis": 0.2
+                    "aesthetic_evaluation": 0.1
                 },
                 expected_response_patterns=[
                     "novel_associations",
@@ -208,14 +212,14 @@ class CognitiveContextManager:
                     "novelty_score": 0.80,  # 80% novelty required
                     "coherence_score": 0.75,  # 75% coherence
                     "processing_time": 0.5,  # 500ms max (fast intuition)
-                    "aesthetic_quality": 0.70,
+                    "aesthetic_quality": 0.70
                 },
                 activation_patterns={
-                    "system1_active": True,
-                    "system2_active": False,
-                    "metacognitive_active": False,
-                    "pattern_matching_active": True,
-                    "associative_networks_active": True,
+                    "system1_active": True
+                    "system2_active": False
+                    "metacognitive_active": False
+                    "pattern_matching_active": True
+                    "associative_networks_active": True
                 },
                 optimization_strategy="maximize_novelty_and_fluency",
                 error_tolerance=0.15,  # 15% error tolerance (creativity allows more errors)
@@ -228,10 +232,10 @@ class CognitiveContextManager:
                 "evaluation_criteria": "originality",
             },
             validation_criteria={
-                "novelty_threshold": 0.75,
-                "fluency_score": 0.80,
-                "flexibility_score": 0.70,
-                "elaboration_score": 0.65,
+                "novelty_threshold": 0.75
+                "fluency_score": 0.80
+                "flexibility_score": 0.70
+                "elaboration_score": 0.65
             },
             expected_behaviors=[
                 "Rapid idea generation",
@@ -259,15 +263,15 @@ class CognitiveContextManager:
 
         # PROBLEM_SOLVING Context - Balanced dual-system approach
         configurations[CognitiveContext.PROBLEM_SOLVING] = ContextTestConfiguration(
-            context=CognitiveContext.PROBLEM_SOLVING,
+            context=CognitiveContext.PROBLEM_SOLVING
             characteristics=ContextCharacteristics(
                 primary_system="balanced",
                 processing_mode="adaptive",
                 cognitive_load_distribution={
-                    "problem_analysis": 0.3,
-                    "solution_generation": 0.3,
-                    "solution_evaluation": 0.2,
-                    "execution_planning": 0.2,
+                    "problem_analysis": 0.3
+                    "solution_generation": 0.3
+                    "solution_evaluation": 0.2
+                    "execution_planning": 0.2
                 },
                 expected_response_patterns=[
                     "problem_decomposition",
@@ -279,14 +283,14 @@ class CognitiveContextManager:
                     "solution_quality": 0.85,  # 85% solution quality
                     "efficiency_score": 0.80,  # 80% efficiency
                     "processing_time": 3.0,  # 3 seconds max
-                    "adaptability_score": 0.75,
+                    "adaptability_score": 0.75
                 },
                 activation_patterns={
-                    "system1_active": True,
-                    "system2_active": True,
-                    "metacognitive_active": True,
-                    "pattern_matching_active": True,
-                    "strategic_planning_active": True,
+                    "system1_active": True
+                    "system2_active": True
+                    "metacognitive_active": True
+                    "pattern_matching_active": True
+                    "strategic_planning_active": True
                 },
                 optimization_strategy="balance_speed_and_accuracy",
                 error_tolerance=0.10,  # 10% error tolerance
@@ -299,10 +303,10 @@ class CognitiveContextManager:
                 "feedback_timing": "delayed",
             },
             validation_criteria={
-                "solution_correctness": 0.85,
-                "approach_efficiency": 0.80,
-                "strategy_adaptation": 0.75,
-                "resource_utilization": 0.70,
+                "solution_correctness": 0.85
+                "approach_efficiency": 0.80
+                "strategy_adaptation": 0.75
+                "resource_utilization": 0.70
             },
             expected_behaviors=[
                 "Problem space exploration",
@@ -330,15 +334,15 @@ class CognitiveContextManager:
 
         # PATTERN_RECOGNITION Context - Automated pattern detection and analysis
         configurations[CognitiveContext.PATTERN_RECOGNITION] = ContextTestConfiguration(
-            context=CognitiveContext.PATTERN_RECOGNITION,
+            context=CognitiveContext.PATTERN_RECOGNITION
             characteristics=ContextCharacteristics(
                 primary_system="system1",
                 processing_mode="parallel",
                 cognitive_load_distribution={
-                    "feature_extraction": 0.4,
-                    "pattern_matching": 0.3,
-                    "similarity_assessment": 0.2,
-                    "pattern_classification": 0.1,
+                    "feature_extraction": 0.4
+                    "pattern_matching": 0.3
+                    "similarity_assessment": 0.2
+                    "pattern_classification": 0.1
                 },
                 expected_response_patterns=[
                     "rapid_pattern_detection",
@@ -350,14 +354,14 @@ class CognitiveContextManager:
                     "detection_accuracy": 0.92,  # 92% detection accuracy
                     "false_positive_rate": 0.05,  # 5% false positive max
                     "processing_time": 0.2,  # 200ms max (very fast)
-                    "pattern_completeness": 0.85,
+                    "pattern_completeness": 0.85
                 },
                 activation_patterns={
-                    "system1_active": True,
-                    "system2_active": False,
-                    "metacognitive_active": False,
-                    "pattern_matching_active": True,
-                    "feature_extraction_active": True,
+                    "system1_active": True
+                    "system2_active": False
+                    "metacognitive_active": False
+                    "pattern_matching_active": True
+                    "feature_extraction_active": True
                 },
                 optimization_strategy="maximize_speed_and_accuracy",
                 error_tolerance=0.08,  # 8% error tolerance
@@ -370,10 +374,10 @@ class CognitiveContextManager:
                 "pattern_novelty": "mixed",
             },
             validation_criteria={
-                "detection_precision": 0.90,
-                "detection_recall": 0.88,
-                "processing_speed": 0.95,
-                "noise_robustness": 0.80,
+                "detection_precision": 0.90
+                "detection_recall": 0.88
+                "processing_speed": 0.95
+                "noise_robustness": 0.80
             },
             expected_behaviors=[
                 "Rapid feature extraction",
@@ -410,11 +414,11 @@ class CognitiveContextManager:
         """Initialize optimization tracking state"""
         return {
             "last_optimization": datetime.now(),
-            "optimization_cycles": 0,
+            "optimization_cycles": 0
             "performance_trends": {},
             "adaptation_history": [],
-            "context_switches": 0,
-            "average_switch_time": 0.0,
+            "context_switches": 0
+            "average_switch_time": 0.0
         }
 
     def get_configuration(self, context: CognitiveContext) -> ContextTestConfiguration:
@@ -548,20 +552,20 @@ class CognitiveContextManager:
 
         # Context-specific switching costs
         switching_matrix = {
-            (CognitiveContext.ANALYTICAL, CognitiveContext.CREATIVE): 0.3,
-            (CognitiveContext.CREATIVE, CognitiveContext.ANALYTICAL): 0.25,
-            (CognitiveContext.ANALYTICAL, CognitiveContext.PROBLEM_SOLVING): 0.15,
-            (CognitiveContext.PROBLEM_SOLVING, CognitiveContext.ANALYTICAL): 0.10,
-            (CognitiveContext.CREATIVE, CognitiveContext.PATTERN_RECOGNITION): 0.20,
-            (CognitiveContext.PATTERN_RECOGNITION, CognitiveContext.CREATIVE): 0.25,
+            (CognitiveContext.ANALYTICAL, CognitiveContext.CREATIVE): 0.3
+            (CognitiveContext.CREATIVE, CognitiveContext.ANALYTICAL): 0.25
+            (CognitiveContext.ANALYTICAL, CognitiveContext.PROBLEM_SOLVING): 0.15
+            (CognitiveContext.PROBLEM_SOLVING, CognitiveContext.ANALYTICAL): 0.10
+            (CognitiveContext.CREATIVE, CognitiveContext.PATTERN_RECOGNITION): 0.20
+            (CognitiveContext.PATTERN_RECOGNITION, CognitiveContext.CREATIVE): 0.25
             (
-                CognitiveContext.PROBLEM_SOLVING,
-                CognitiveContext.PATTERN_RECOGNITION,
-            ): 0.12,
+                CognitiveContext.PROBLEM_SOLVING
+                CognitiveContext.PATTERN_RECOGNITION
+            ): 0.12
             (
-                CognitiveContext.PATTERN_RECOGNITION,
-                CognitiveContext.PROBLEM_SOLVING,
-            ): 0.15,
+                CognitiveContext.PATTERN_RECOGNITION
+                CognitiveContext.PROBLEM_SOLVING
+            ): 0.15
         }
 
         # Get specific switching cost or use base cost
@@ -621,9 +625,9 @@ class CognitiveContextManager:
 
         optimization_result = {
             "status": "optimization_completed",
-            "context": context.value,
-            "recommendations": recommendations,
-            "performance_trend": performance_trend,
+            "context": context.value
+            "recommendations": recommendations
+            "performance_trend": performance_trend
             "optimization_cycle": self.optimization_state["optimization_cycles"],
         }
 
@@ -676,12 +680,12 @@ class CognitiveContextManager:
         )
 
         return {
-            "accuracy_declining": accuracy_slope < -0.01,
-            "speed_declining": speed_slope < -0.01,
-            "consistency_issues": consistency_variance > 0.05,
-            "accuracy_slope": accuracy_slope,
-            "speed_slope": speed_slope,
-            "consistency_variance": consistency_variance,
+            "accuracy_declining": accuracy_slope < -0.01
+            "speed_declining": speed_slope < -0.01
+            "consistency_issues": consistency_variance > 0.05
+            "accuracy_slope": accuracy_slope
+            "speed_slope": speed_slope
+            "consistency_variance": consistency_variance
         }
 
     def get_comprehensive_report(self) -> Dict[str, Any]:
@@ -715,13 +719,13 @@ class CognitiveContextManager:
 
             report["contexts"][context.value] = {
                 "characteristics": {
-                    "primary_system": config.characteristics.primary_system,
-                    "processing_mode": config.characteristics.processing_mode,
-                    "optimization_strategy": config.characteristics.optimization_strategy,
-                    "error_tolerance": config.characteristics.error_tolerance,
+                    "primary_system": config.characteristics.primary_system
+                    "processing_mode": config.characteristics.processing_mode
+                    "optimization_strategy": config.characteristics.optimization_strategy
+                    "error_tolerance": config.characteristics.error_tolerance
                 },
                 "performance": {
-                    "recent_success_rate": success_rate,
+                    "recent_success_rate": success_rate
                     "total_measurements": len(history),
                     "performance_benchmarks": config.performance_benchmarks.copy(),
                 },

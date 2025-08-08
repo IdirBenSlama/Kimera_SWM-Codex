@@ -1,4 +1,6 @@
 class QuantumVenueConnectors:
+    """Auto-generated class."""
+    pass
     """Connects to exchanges using quantum principles."""
 
     def connect(self, venue):

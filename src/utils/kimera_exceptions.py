@@ -41,6 +41,8 @@ class ErrorCategory(Enum):
 
 @dataclass
 class ErrorContext:
+    """Auto-generated class."""
+    pass
     """Comprehensive error context for debugging and recovery"""
 
     error_id: str
@@ -500,6 +502,8 @@ def handle_exception(
 
 # Context manager for automatic exception handling
 class KimeraExceptionHandler:
+    """Auto-generated class."""
+    pass
     """
     Context manager for automatic exception handling and mapping.
     """

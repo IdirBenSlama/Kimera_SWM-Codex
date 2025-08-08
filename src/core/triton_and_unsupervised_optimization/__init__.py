@@ -1,5 +1,6 @@
 """
-Triton Kernels and Unsupervised Optimization Module
+"""Triton Kernels and Unsupervised Optimization Module"""
+
 ==================================================
 
 This module provides high-performance cognitive kernels using Triton

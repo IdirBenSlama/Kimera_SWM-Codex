@@ -1,4 +1,6 @@
 class CarnotCycleRiskModel:
+    """Auto-generated class."""
+    pass
     """
     A risk model inspired by the Carnot cycle.
 

@@ -3,7 +3,7 @@
 Kimera SWM Enhanced Cognitive Services API
 ==========================================
 
-High-performance FastAPI service integrating GPU acceleration, advanced caching,
+High-performance FastAPI service integrating GPU acceleration, advanced caching
 and pipeline optimization for enterprise-grade cognitive processing.
 
 This enhanced API provides:
@@ -28,7 +28,6 @@ from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Union
 
 import uvicorn
-
 # FastAPI and web framework
 from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -44,7 +43,6 @@ from ..core.performance.advanced_caching import (
     initialize_caching,
     put_cached,
 )
-
 # Performance optimization systems
 from ..core.performance.gpu_acceleration import (
     get_gpu_metrics,
@@ -374,14 +372,14 @@ async def system_performance(user: dict = Depends(get_current_user)):
                 "available": caching_available,
                 "hit_rate": cache_stats.hit_rate if cache_stats else 0,
                 "total_entries": cache_stats.total_entries if cache_stats else 0,
-                "efficiency": cache_stats.cache_efficiency if cache_stats else 0,
+                "efficiency": cache_stats.cache_efficiency if cache_stats else 0
             },
             pipeline_optimization={
                 "active": True,
                 "completed_tasks": pipeline_metrics.completed_tasks,
                 "throughput": pipeline_metrics.throughput_tasks_per_second,
                 "resource_efficiency": pipeline_metrics.resource_efficiency,
-                "performance_score": pipeline_metrics.performance_score,
+                "performance_score": pipeline_metrics.performance_score
             },
             total_requests=performance_stats["total_requests"],
             requests_per_second=rps,
@@ -389,7 +387,7 @@ async def system_performance(user: dict = Depends(get_current_user)):
             resource_utilization={
                 "gpu_memory": gpu_metrics.allocated_memory if gpu_metrics else 0,
                 "cache_memory": cache_stats.total_size_mb if cache_stats else 0,
-                "pipeline_active_tasks": pipeline_metrics.completed_tasks,
+                "pipeline_active_tasks": pipeline_metrics.completed_tasks
             },
             overall_performance_score=_calculate_overall_performance_score(
                 gpu_metrics, cache_stats, pipeline_metrics
@@ -539,7 +537,7 @@ async def enhanced_cognitive_processing(
                 "components_used", ["enhanced_processor"]
             ),
             "gpu_accelerated": gpu_accelerated,
-            "pipeline_optimized": pipeline_optimized,
+            "pipeline_optimized": pipeline_optimized
         }
 
         # Cache result if caching enabled
@@ -584,7 +582,7 @@ async def enhanced_cognitive_processing(
 
 
 async def _gpu_accelerated_processing(
-    request: EnhancedCognitiveRequest,
+    request: EnhancedCognitiveRequest
 ) -> Dict[str, Any]:
     """GPU-accelerated cognitive processing simulation"""
     # Simulate GPU processing with actual tensor operations

@@ -60,6 +60,8 @@ class ScarStatus(Enum):
 
 @dataclass
 class AnomalyEvidence:
+    """Auto-generated class."""
+    pass
     """Evidence supporting the anomaly detection"""
 
     evidence_type: str  # Type of evidence
@@ -72,6 +74,8 @@ class AnomalyEvidence:
 
 @dataclass
 class ResolutionAction:
+    """Auto-generated class."""
+    pass
     """Action taken to resolve the anomaly"""
 
     action_type: str  # Type of resolution action
@@ -85,6 +89,8 @@ class ResolutionAction:
 
 @dataclass
 class ScarMetrics:
+    """Auto-generated class."""
+    pass
     """Metrics for tracking SCAR analysis and resolution"""
 
     detection_time: datetime  # When anomaly was detected
@@ -98,6 +104,8 @@ class ScarMetrics:
 
 @dataclass
 class ScarState:
+    """Auto-generated class."""
+    pass
     """
     Semantic Contextual Anomaly Report (SCAR) State
     ===============================================
@@ -159,18 +167,18 @@ class ScarState:
             self.metrics.detection_time = datetime.now()
 
     def add_evidence(
-        self,
-        evidence_type: str,
+        self
+        evidence_type: str
         evidence_data: Dict[str, Any],
-        confidence: float,
-        source_engine: str,
+        confidence: float
+        source_engine: str
     ) -> None:
         """Add evidence supporting this anomaly"""
         evidence = AnomalyEvidence(
-            evidence_type=evidence_type,
-            evidence_data=evidence_data,
-            confidence_score=confidence,
-            source_engine=source_engine,
+            evidence_type=evidence_type
+            evidence_data=evidence_data
+            confidence_score=confidence
+            source_engine=source_engine
         )
         self.evidence.append(evidence)
 
@@ -183,18 +191,18 @@ class ScarState:
             self.related_geoids[geoid.geoid_id] = relationship
 
     def apply_resolution_action(
-        self,
-        action_type: str,
-        description: str,
+        self
+        action_type: str
+        description: str
         parameters: Dict[str, Any],
-        applied_by: str,
+        applied_by: str
     ) -> ResolutionAction:
         """Apply a resolution action and track its effectiveness"""
         action = ResolutionAction(
-            action_type=action_type,
-            action_description=description,
-            parameters=parameters,
-            applied_by=applied_by,
+            action_type=action_type
+            action_description=description
+            parameters=parameters
+            applied_by=applied_by
         )
 
         self.resolution_actions.append(action)
@@ -240,11 +248,11 @@ class ScarState:
     def calculate_impact_score(self) -> float:
         """Calculate the overall impact score of this anomaly"""
         base_impact = {
-            ScarSeverity.CRITICAL: 1.0,
-            ScarSeverity.HIGH: 0.8,
-            ScarSeverity.MEDIUM: 0.5,
-            ScarSeverity.LOW: 0.2,
-            ScarSeverity.INFORMATIONAL: 0.1,
+            ScarSeverity.CRITICAL: 1.0
+            ScarSeverity.HIGH: 0.8
+            ScarSeverity.MEDIUM: 0.5
+            ScarSeverity.LOW: 0.2
+            ScarSeverity.INFORMATIONAL: 0.1
         }[self.severity]
 
         # Adjust based on number of affected geoids
@@ -286,54 +294,54 @@ class ScarState:
     def to_dict(self) -> Dict[str, Any]:
         """Convert SCAR to dictionary for serialization"""
         return {
-            "scar_id": self.scar_id,
-            "scar_type": self.scar_type.value,
-            "severity": self.severity.value,
-            "status": self.status.value,
-            "title": self.title,
-            "description": self.description,
-            "affected_geoids": self.affected_geoids,
-            "affected_engines": self.affected_engines,
-            "context": self.context,
+            "scar_id": self.scar_id
+            "scar_type": self.scar_type.value
+            "severity": self.severity.value
+            "status": self.status.value
+            "title": self.title
+            "description": self.description
+            "affected_geoids": self.affected_geoids
+            "affected_engines": self.affected_engines
+            "context": self.context
             "evidence": [
                 {
-                    "evidence_type": e.evidence_type,
-                    "evidence_data": e.evidence_data,
-                    "confidence_score": e.confidence_score,
-                    "source_engine": e.source_engine,
+                    "evidence_type": e.evidence_type
+                    "evidence_data": e.evidence_data
+                    "confidence_score": e.confidence_score
+                    "source_engine": e.source_engine
                     "timestamp": e.timestamp.isoformat(),
-                    "metadata": e.metadata,
+                    "metadata": e.metadata
                 }
                 for e in self.evidence
             ],
-            "analysis_results": self.analysis_results,
-            "root_cause": self.root_cause,
+            "analysis_results": self.analysis_results
+            "root_cause": self.root_cause
             "resolution_actions": [
                 {
-                    "action_type": a.action_type,
-                    "action_description": a.action_description,
-                    "parameters": a.parameters,
-                    "applied_by": a.applied_by,
+                    "action_type": a.action_type
+                    "action_description": a.action_description
+                    "parameters": a.parameters
+                    "applied_by": a.applied_by
                     "timestamp": a.timestamp.isoformat(),
-                    "success": a.success,
-                    "side_effects": a.side_effects,
+                    "success": a.success
+                    "side_effects": a.side_effects
                 }
                 for a in self.resolution_actions
             ],
-            "resolution_summary": self.resolution_summary,
-            "lessons_learned": self.lessons_learned,
+            "resolution_summary": self.resolution_summary
+            "lessons_learned": self.lessons_learned
             "metrics": {
                 "detection_time": self.metrics.detection_time.isoformat(),
-                "analysis_duration": self.metrics.analysis_duration,
-                "resolution_duration": self.metrics.resolution_duration,
-                "impact_score": self.metrics.impact_score,
-                "resolution_effectiveness": self.metrics.resolution_effectiveness,
-                "recurrence_count": self.metrics.recurrence_count,
-                "related_scars": self.metrics.related_scars,
+                "analysis_duration": self.metrics.analysis_duration
+                "resolution_duration": self.metrics.resolution_duration
+                "impact_score": self.metrics.impact_score
+                "resolution_effectiveness": self.metrics.resolution_effectiveness
+                "recurrence_count": self.metrics.recurrence_count
+                "related_scars": self.metrics.related_scars
             },
-            "parent_scar": self.parent_scar,
-            "child_scars": self.child_scars,
-            "related_geoids": self.related_geoids,
+            "parent_scar": self.parent_scar
+            "child_scars": self.child_scars
+            "related_geoids": self.related_geoids
         }
 
     def __repr__(self) -> str:
@@ -350,10 +358,10 @@ def create_logical_contradiction_scar(
 ) -> ScarState:
     """Create a SCAR for logical contradictions between geoids"""
     scar = ScarState(
-        scar_type=ScarType.LOGICAL_CONTRADICTION,
-        severity=ScarSeverity.HIGH,
+        scar_type=ScarType.LOGICAL_CONTRADICTION
+        severity=ScarSeverity.HIGH
         title="Logical Contradiction Detected",
-        description=description,
+        description=description
     )
 
     for geoid in conflicting_geoids:
@@ -361,14 +369,14 @@ def create_logical_contradiction_scar(
         scar.add_evidence(
             "logical_analysis",
             {
-                "geoid_id": geoid.geoid_id,
+                "geoid_id": geoid.geoid_id
                 "predicates": (
                     geoid.symbolic_state.logical_predicates
                     if geoid.symbolic_state
                     else []
                 ),
             },
-            0.9,
+            0.9
             "LogicalAnalysisEngine",
         )
 
@@ -383,8 +391,8 @@ def create_energy_violation_scar(
     severity = ScarSeverity.CRITICAL if violation_magnitude > 5.0 else ScarSeverity.HIGH
 
     scar = ScarState(
-        scar_type=ScarType.ENERGY_VIOLATION,
-        severity=severity,
+        scar_type=ScarType.ENERGY_VIOLATION
+        severity=severity
         title="Energy Conservation Violation",
         description=f"Energy violation detected: expected {expected_energy:.3f}, actual {actual_energy:.3f}",
     )
@@ -393,11 +401,11 @@ def create_energy_violation_scar(
     scar.add_evidence(
         "energy_measurement",
         {
-            "expected_energy": expected_energy,
-            "actual_energy": actual_energy,
-            "violation_magnitude": violation_magnitude,
+            "expected_energy": expected_energy
+            "actual_energy": actual_energy
+            "violation_magnitude": violation_magnitude
         },
-        1.0,
+        1.0
         "ThermodynamicEvolutionEngine",
     )
 
@@ -412,8 +420,8 @@ def create_coherence_breakdown_scar(
     severity = ScarSeverity.HIGH if coherence_loss > 0.3 else ScarSeverity.MEDIUM
 
     scar = ScarState(
-        scar_type=ScarType.COHERENCE_BREAKDOWN,
-        severity=severity,
+        scar_type=ScarType.COHERENCE_BREAKDOWN
+        severity=severity
         title="Coherence Breakdown Detected",
         description=f"Coherence dropped from {previous_coherence:.3f} to {current_coherence:.3f}",
     )
@@ -422,11 +430,11 @@ def create_coherence_breakdown_scar(
     scar.add_evidence(
         "coherence_analysis",
         {
-            "previous_coherence": previous_coherence,
-            "current_coherence": current_coherence,
-            "coherence_loss": coherence_loss,
+            "previous_coherence": previous_coherence
+            "current_coherence": current_coherence
+            "coherence_loss": coherence_loss
         },
-        0.95,
+        0.95
         "CoherenceAnalysisEngine",
     )
 
@@ -434,15 +442,15 @@ def create_coherence_breakdown_scar(
 
 
 def create_processing_error_scar(
-    geoid: GeoidState,
-    engine_name: str,
-    error_message: str,
+    geoid: GeoidState
+    engine_name: str
+    error_message: str
     error_context: Dict[str, Any],
 ) -> ScarState:
     """Create a SCAR for processing errors"""
     scar = ScarState(
-        scar_type=ScarType.PROCESSING_ERROR,
-        severity=ScarSeverity.MEDIUM,
+        scar_type=ScarType.PROCESSING_ERROR
+        severity=ScarSeverity.MEDIUM
         title=f"Processing Error in {engine_name}",
         description=f"Error processing geoid: {error_message}",
     )
@@ -452,12 +460,12 @@ def create_processing_error_scar(
     scar.add_evidence(
         "error_trace",
         {
-            "error_message": error_message,
-            "error_context": error_context,
+            "error_message": error_message
+            "error_context": error_context
             "geoid_state": geoid.to_dict(),
         },
-        1.0,
-        engine_name,
+        1.0
+        engine_name
     )
 
     return scar
@@ -465,15 +473,15 @@ def create_processing_error_scar(
 
 def create_emergence_anomaly_scar(
     affected_geoids: List[GeoidState],
-    anomaly_description: str,
+    anomaly_description: str
     emergence_data: Dict[str, Any],
 ) -> ScarState:
     """Create a SCAR for unexpected emergent behavior"""
     scar = ScarState(
-        scar_type=ScarType.EMERGENCE_ANOMALY,
-        severity=ScarSeverity.HIGH,
+        scar_type=ScarType.EMERGENCE_ANOMALY
+        severity=ScarSeverity.HIGH
         title="Unexpected Emergent Behavior",
-        description=anomaly_description,
+        description=anomaly_description
     )
 
     for geoid in affected_geoids:

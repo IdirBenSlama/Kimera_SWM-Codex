@@ -23,7 +23,6 @@ import numpy as np
 
 from ..core.enhanced_entropy import EnhancedEntropyCalculator
 from ..core.geoid import GeoidState
-
 # Import base classes
 from .entropy_monitor import EntropyEstimator, EntropyMeasurement, EntropyMonitor
 

@@ -82,9 +82,9 @@ async def analyze_thermodynamic(request: dict):
                 try:
                     # Mock temperature calculation
                     results["results"][geoid_id] = {
-                        "epistemic_temperature": 300.0 + (hash(geoid_id) % 100),
-                        "semantic_entropy": 0.5 + (hash(geoid_id) % 50) / 100,
-                        "information_density": 0.7 + (hash(geoid_id) % 30) / 100,
+                    "epistemic_temperature": 300.0 + (hash(geoid_id) % 100),
+                    "semantic_entropy": 0.5 + (hash(geoid_id) % 50) / 100,
+                    "information_density": 0.7 + (hash(geoid_id) % 30) / 100,
                     }
                 except Exception as e:
                     results["results"][geoid_id] = {"error": str(e)}

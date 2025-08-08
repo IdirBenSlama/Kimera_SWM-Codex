@@ -51,6 +51,8 @@ class GPUValidationLevel(Enum):
 
 @dataclass
 class GPUCapabilities:
+    """Auto-generated class."""
+    pass
     """Scientific characterization of GPU hardware capabilities"""
 
     device_name: str
@@ -68,6 +70,8 @@ class GPUCapabilities:
 
 @dataclass
 class CognitiveStabilityMetrics:
+    """Auto-generated class."""
+    pass
     """Neuropsychiatric safety monitoring for GPU operations"""
 
     identity_coherence_score: float  # 0.0-1.0, must stay > 0.95
@@ -76,9 +80,9 @@ class CognitiveStabilityMetrics:
     reality_testing_score: float  # 0.0-1.0, must stay > 0.85
     processing_stability: bool
     last_assessment: datetime
-
-
 class GPUFoundation:
+    """Auto-generated class."""
+    pass
     """
     GPU Foundation Infrastructure with Neuropsychiatric Safety
 
@@ -447,6 +451,45 @@ class GPUFoundation:
                 status["memory_usage"] = {"error": str(e)}
 
         return status
+def cleanup(self) -> None:
+        """Cleanup method."""
+        pass
+        """Clean up GPU resources and reset state"""
+        try:
+            # Clear any cached GPU data
+            if hasattr(self, "_cached_devices"):
+                self._cached_devices = None
+
+            # Reset validation state
+            if hasattr(self, "_validation_complete"):
+                self._validation_complete = False
+
+            # Clear memory if torch is available
+            try:
+                import torch
+
+                if torch.cuda.is_available():
+                    torch.cuda.empty_cache()
+                    torch.cuda.synchronize()
+            except ImportError:
+                pass
+
+            # Force garbage collection
+            import gc
+
+            gc.collect()
+
+            logger.debug("GPUFoundation cleanup completed successfully")
+
+        except Exception as e:
+            logger.warning(f"GPUFoundation cleanup error: {e}")
+
+    def __del__(self):
+        """Destructor to ensure cleanup on object deletion"""
+        try:
+            self.cleanup()
+        except:
+            pass  # Ignore errors in destructor
 
 
 def initialize_gpu_foundation(

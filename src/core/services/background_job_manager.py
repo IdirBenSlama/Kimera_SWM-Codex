@@ -2,7 +2,7 @@
 Background Job Manager
 =====================
 
-A robust, fault-tolerant background job management system for Kimera,
+A robust, fault-tolerant background job management system for Kimera
 implementing aerospace-grade reliability and monitoring standards.
 
 Features:
@@ -57,16 +57,17 @@ try:
     from ...vault.database import GeoidDB, ScarDB, SessionLocal
 except ImportError:
     try:
-        from vault.database import GeoidDB, ScarDB, SessionLocal
+        from src.config.database_config import GeoidDB, ScarDB, SessionLocal
     except ImportError:
         # Create placeholders for vault.database
-        class SessionLocal:
+class SessionLocal:
+    """Auto-generated class."""
             pass
-
-    class ScarDB:
+class ScarDB:
+    """Auto-generated class."""
         pass
-
-    class GeoidDB:
+class GeoidDB:
+    """Auto-generated class."""
         pass
 
 
@@ -77,7 +78,8 @@ except ImportError:
         from core.constants import EPSILON
     except ImportError:
         # Create placeholders for core.constants
-        class EPSILON:
+class EPSILON:
+    """Auto-generated class."""
             pass
 
 
@@ -107,6 +109,8 @@ class JobStatus(Enum):
 
 @dataclass
 class JobMetrics:
+    """Auto-generated class."""
+    pass
     """Metrics for job execution"""
 
     job_id: str
@@ -122,6 +126,8 @@ class JobMetrics:
 
 @dataclass
 class JobConfiguration:
+    """Auto-generated class."""
+    pass
     """Configuration for a background job"""
 
     name: str
@@ -133,9 +139,9 @@ class JobConfiguration:
     timeout: Optional[int] = None  # seconds
     resource_limit: Optional[Dict[str, Any]] = None
     kwargs: Dict[str, Any] = field(default_factory=dict)
-
-
 class CircuitBreaker:
+    """Auto-generated class."""
+    pass
     """Circuit breaker pattern for failing jobs"""
 
     def __init__(self, failure_threshold: int = 5, recovery_timeout: int = 300):
@@ -178,9 +184,9 @@ class CircuitBreaker:
                 return True
 
         return False
-
-
 class BackgroundJobManager:
+    """Auto-generated class."""
+    pass
     """
     Manages background jobs with aerospace-grade reliability.
 
@@ -285,9 +291,9 @@ class BackgroundJobManager:
         )
 
         self.scheduler.add_job(
-            self._execute_job_wrapper,
+            self._execute_job_wrapper
             "date",
-            run_date=retry_time,
+            run_date=retry_time
             id=f"{job_id}_retry_{uuid.uuid4().hex[:8]}",
             args=[job_id, job_config],
             name=f"{job_config.name} (Retry)",
@@ -360,11 +366,11 @@ class BackgroundJobManager:
 
         # Add to scheduler
         self.scheduler.add_job(
-            job_wrapper,
-            job_config.trigger,
-            id=job_id,
-            name=job_config.name,
-            **job_config.kwargs,
+            job_wrapper
+            job_config.trigger
+            id=job_id
+            name=job_config.name
+            **job_config.kwargs
         )
 
         logger.info(
@@ -402,17 +408,17 @@ class BackgroundJobManager:
             scheduler_job = self.scheduler.get_job(job_id)
 
             status = {
-                "job_id": job_id,
-                "name": job_config.name,
-                "priority": job_config.priority.name,
-                "is_running": job_id in self.running_jobs,
-                "next_run_time": scheduler_job.next_run_time if scheduler_job else None,
+                "job_id": job_id
+                "name": job_config.name
+                "priority": job_config.priority.name
+                "is_running": job_id in self.running_jobs
+                "next_run_time": scheduler_job.next_run_time if scheduler_job else None
                 "metrics": {
-                    "total_executions": metrics.total_executions if metrics else 0,
+                    "total_executions": metrics.total_executions if metrics else 0
                     "successful_executions": (
                         metrics.successful_executions if metrics else 0
                     ),
-                    "failed_executions": metrics.failed_executions if metrics else 0,
+                    "failed_executions": metrics.failed_executions if metrics else 0
                     "success_rate": (
                         (metrics.successful_executions / metrics.total_executions * 100)
                         if metrics and metrics.total_executions > 0
@@ -423,7 +429,7 @@ class BackgroundJobManager:
                         if metrics and metrics.last_execution_time
                         else None
                     ),
-                    "last_error": metrics.last_error if metrics else None,
+                    "last_error": metrics.last_error if metrics else None
                 },
             }
 
@@ -431,8 +437,8 @@ class BackgroundJobManager:
             if job_id in self.circuit_breakers:
                 cb = self.circuit_breakers[job_id]
                 status["circuit_breaker"] = {
-                    "is_open": cb.is_open,
-                    "failure_count": cb.failure_count,
+                    "is_open": cb.is_open
+                    "failure_count": cb.failure_count
                 }
 
             return status
@@ -535,24 +541,24 @@ class BackgroundJobManager:
 
                 # Create crystallized Geoid
                 new_geoid = GeoidDB(
-                    geoid_id=geoid_id,
+                    geoid_id=geoid_id
                     symbolic_state={
                         "type": "crystallized_scar",
-                        "principle": scar.reason,
+                        "principle": scar.reason
                         "timestamp": datetime.now(timezone.utc).isoformat(),
-                        "source_weight": scar.weight,
+                        "source_weight": scar.weight
                     },
                     metadata_json={
-                        "source_scar_id": scar.scar_id,
+                        "source_scar_id": scar.scar_id
                         "crystallization_date": datetime.now(timezone.utc).isoformat(),
                         "created_by": "crystallization_process",
-                        "crystallization_threshold": self.CRYSTAL_WEIGHT_THRESHOLD,
+                        "crystallization_threshold": self.CRYSTAL_WEIGHT_THRESHOLD
                     },
                     semantic_state_json={
                         "embedding_model": "kimera_default",
                         "vector_dimension": len(vector),
                     },
-                    semantic_vector=vector,
+                    semantic_vector=vector
                 )
                 db.add(new_geoid)
 
@@ -579,9 +585,9 @@ class BackgroundJobManager:
         self.add_job(
             JobConfiguration(
                 name="scar_decay",
-                func=self._decay_job,
+                func=self._decay_job
                 trigger="interval",
-                priority=JobPriority.MAINTENANCE,
+                priority=JobPriority.MAINTENANCE
                 kwargs={"hours": 1},
             )
         )
@@ -590,9 +596,9 @@ class BackgroundJobManager:
         self.add_job(
             JobConfiguration(
                 name="scar_fusion",
-                func=self._fusion_job,
+                func=self._fusion_job
                 trigger="interval",
-                priority=JobPriority.LOW,
+                priority=JobPriority.LOW
                 kwargs={"hours": 2},
             )
         )
@@ -601,9 +607,9 @@ class BackgroundJobManager:
         self.add_job(
             JobConfiguration(
                 name="scar_crystallization",
-                func=self._crystallization_job,
+                func=self._crystallization_job
                 trigger="interval",
-                priority=JobPriority.NORMAL,
+                priority=JobPriority.NORMAL
                 kwargs={"hours": 3},
             )
         )
@@ -632,10 +638,10 @@ class BackgroundJobManager:
             total_failures = sum(m.failed_executions for m in self.metrics.values())
 
             return {
-                "total_jobs": total_jobs,
+                "total_jobs": total_jobs
                 "running_jobs": len(self.running_jobs),
-                "total_executions": total_executions,
-                "total_failures": total_failures,
+                "total_executions": total_executions
+                "total_failures": total_failures
                 "overall_success_rate": (
                     ((total_executions - total_failures) / total_executions * 100)
                     if total_executions > 0

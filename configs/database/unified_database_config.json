@@ -1,0 +1,95 @@
+{
+  "databases": {
+    "postgresql": {
+      "primary": {
+        "host": "localhost",
+        "port": 5432,
+        "database": "kimera_swm",
+        "username": "kimera_user",
+        "password": "kimera_secure_pass",
+        "pool_size": 20,
+        "max_overflow": 30,
+        "pool_timeout": 30,
+        "pool_recycle": 1800,
+        "echo": false
+      },
+      "docker": {
+        "host": "postgres",
+        "port": 5432,
+        "database": "kimera_swm",
+        "username": "kimera",
+        "password": "kimera_secure_pass_2025",
+        "pool_size": 20,
+        "max_overflow": 30
+      }
+    },
+    "redis": {
+      "local": {
+        "host": "localhost",
+        "port": 6379,
+        "db": 0,
+        "password": null,
+        "socket_timeout": 5,
+        "connection_pool_kwargs": {
+          "max_connections": 50,
+          "retry_on_timeout": true
+        }
+      },
+      "docker": {
+        "host": "redis",
+        "port": 6379,
+        "db": 0,
+        "password": null
+      }
+    },
+    "neo4j": {
+      "local": {
+        "uri": "bolt://localhost:7687",
+        "username": "neo4j",
+        "password": "kimera_neo4j",
+        "encrypted": false,
+        "trust": "TRUST_ALL_CERTIFICATES",
+        "max_connection_lifetime": 1000,
+        "max_connection_pool_size": 50
+      },
+      "docker": {
+        "uri": "bolt://neo4j:7687",
+        "username": "neo4j",
+        "password": "kimera_neo4j_docker"
+      }
+    },
+    "sqlite": {
+      "fallback": {
+        "path": "data/databases/kimera_swm.db",
+        "timeout": 30,
+        "check_same_thread": false
+      }
+    }
+  },
+  "environment_mappings": {
+    "development": {
+      "postgresql": "local",
+      "redis": "local",
+      "neo4j": "local",
+      "sqlite": "fallback"
+    },
+    "testing": {
+      "postgresql": "local",
+      "redis": "local",
+      "neo4j": "local",
+      "sqlite": "fallback"
+    },
+    "staging": {
+      "postgresql": "docker",
+      "redis": "docker",
+      "neo4j": "docker",
+      "sqlite": "fallback"
+    },
+    "production": {
+      "postgresql": "docker",
+      "redis": "docker",
+      "neo4j": "docker",
+      "sqlite": "fallback"
+    }
+  }
+}

@@ -193,7 +193,7 @@ async def extract_semantic_features(request: dict):
                 "dimensionality": 0,
                 "error": f"Extraction failed: {str(e)}",
             },
-            "feature_count": 6,
+            "feature_count": 6
         }
 
 

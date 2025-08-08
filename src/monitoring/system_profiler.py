@@ -26,6 +26,8 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class SystemProfile:
+    """Auto-generated class."""
+    pass
     """Complete system profile snapshot."""
 
     timestamp: datetime
@@ -47,9 +49,9 @@ class SystemProfile:
 
     # Performance
     performance_metrics: Dict[str, Any]
-
-
 class SystemProfiler:
+    """Auto-generated class."""
+    pass
     """
     Comprehensive system profiling tool.
 

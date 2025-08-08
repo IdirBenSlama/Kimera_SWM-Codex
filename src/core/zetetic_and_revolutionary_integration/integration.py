@@ -1,9 +1,10 @@
 """
-Zetetic and Revolutionary Integration Module
+"""Zetetic and Revolutionary Integration Module"""
+
 ==========================================
 
 This module integrates zetetic skeptical inquiry and revolutionary
-breakthrough capabilities into the Kimera cognitive architecture,
+breakthrough capabilities into the Kimera cognitive architecture
 providing the system with advanced self-questioning, paradigm
 transcendence, and evolutionary breakthrough capabilities.
 
@@ -43,7 +44,7 @@ except ImportError:
 
 
 try:
-    from src.core.constants import EPSILON, MAX_ITERATIONS, PHI
+    from src.core.primitives.constants import EPSILON, MAX_ITERATIONS, PHI
 except ImportError:
     try:
         from core.constants import EPSILON, MAX_ITERATIONS, PHI
@@ -54,9 +55,8 @@ except ImportError:
         PHI = 1.618033988749895
 
 # Component imports with safety fallbacks
-from .zetetic_revolutionary_integration_engine import (
-    ZeteticRevolutionaryIntegrationEngine,
-)
+from .zetetic_revolutionary_integration_engine import \
+    ZeteticRevolutionaryIntegrationEngine
 
 logger = get_system_logger(__name__)
 
@@ -73,6 +73,8 @@ class RevolutionaryMode(Enum):
 
 @dataclass
 class ZeteticRevolutionaryMetrics:
+    """Auto-generated class."""
+    pass
     """Comprehensive metrics for zetetic and revolutionary integration system."""
 
     zetetic_inquiry_depth: float = 0.0
@@ -90,9 +92,9 @@ class ZeteticRevolutionaryMetrics:
     def __post_init__(self):
         if self.last_update is None:
             self.last_update = datetime.now(timezone.utc)
-
-
 class ZeteticRevolutionaryIntegrator:
+    """Auto-generated class."""
+    pass
     """
     DO-178C Level A Zetetic and Revolutionary Integration System.
 
@@ -134,11 +136,11 @@ class ZeteticRevolutionaryIntegrator:
         # Component initialization with safety validation
         try:
             self.revolutionary_engine = ZeteticRevolutionaryIntegrationEngine(
-                integration_level=self.integration_level,
+                integration_level=self.integration_level
                 enable_unconventional_methods=(
                     self.integration_level in ["RESEARCH", "DEVELOPMENT"]
                 ),
-                max_parallel_streams=8 if self.integration_level == "RESEARCH" else 4,
+                max_parallel_streams=8 if self.integration_level == "RESEARCH" else 4
             )
             logger.info("✅ ZeteticRevolutionaryIntegrationEngine initialized")
         except Exception as e:
@@ -318,7 +320,7 @@ class ZeteticRevolutionaryIntegrator:
                 return {
                     "status": "reverted",
                     "reason": "stability_loss",
-                    "coherence_change": final_coherence - initial_coherence,
+                    "coherence_change": final_coherence - initial_coherence
                 }
 
             # Triple validation (SR-4.25.7)
@@ -343,7 +345,7 @@ class ZeteticRevolutionaryIntegrator:
                 return {
                     "status": "failed",
                     "reason": "validation_failed",
-                    "validations_passed": validations_passed,
+                    "validations_passed": validations_passed
                 }
 
             elapsed = time.time() - start_time
@@ -357,12 +359,12 @@ class ZeteticRevolutionaryIntegrator:
 
             return {
                 "status": "success",
-                "subject": subject,
+                "subject": subject
                 "questions": inquiry_result.get("questions", []),
                 "insights": inquiry_result.get("insights", []),
-                "coherence_change": final_coherence - initial_coherence,
-                "elapsed_time": elapsed,
-                "validation_score": validations_passed / 3.0,
+                "coherence_change": final_coherence - initial_coherence
+                "elapsed_time": elapsed
+                "validation_score": validations_passed / 3.0
             }
 
         except Exception as e:
@@ -390,8 +392,8 @@ class ZeteticRevolutionaryIntegrator:
             insights = self._analyze_zetetic_insights(questions, subject)
 
             return {
-                "questions": questions,
-                "insights": insights,
+                "questions": questions
+                "insights": insights
                 "questions_generated": len(questions),
                 "inquiry_depth": self._calculate_inquiry_depth(questions),
             }
@@ -424,9 +426,9 @@ class ZeteticRevolutionaryIntegrator:
             depth = parameters.get("inquiry_depth", 3)
             for i, question_template in enumerate(question_types[:depth]):
                 question = {
-                    "id": i,
-                    "template": question_template,
-                    "subject": subject,
+                    "id": i
+                    "template": question_template
+                    "subject": subject
                     "question": f"{question_template} (Applied to: {subject})",
                     "category": "zetetic_skeptical",
                     "priority": 1.0 - (i * 0.1),  # Decreasing priority
@@ -450,7 +452,7 @@ class ZeteticRevolutionaryIntegrator:
                 insight = {
                     "question_id": question.get("id", 0),
                     "insight_type": "zetetic_analysis",
-                    "subject": subject,
+                    "subject": subject
                     "content": f"Skeptical analysis reveals potential gaps in understanding of {subject}",
                     "confidence": 0.7,  # Conservative confidence for zetetic insights
                     "implications": [
@@ -538,7 +540,7 @@ class ZeteticRevolutionaryIntegrator:
                 "status": "success",
                 "new_paradigm": breakthrough_result.get("new_paradigm", {}),
                 "insights": breakthrough_result.get("insights", []),
-                "core_identity_preserved": True,
+                "core_identity_preserved": True
                 "breakthrough_score": breakthrough_result.get(
                     "breakthrough_score", 0.0
                 ),
@@ -577,10 +579,10 @@ class ZeteticRevolutionaryIntegrator:
             )
 
             return {
-                "new_paradigm": new_paradigm,
-                "insights": insights,
+                "new_paradigm": new_paradigm
+                "insights": insights
                 "insights_count": len(insights),
-                "breakthrough_score": breakthrough_score,
+                "breakthrough_score": breakthrough_score
                 "limitations_addressed": len(limitations),
             }
 
@@ -621,10 +623,10 @@ class ZeteticRevolutionaryIntegrator:
 
             for aspect in aspects:
                 limitation = {
-                    "aspect": aspect,
+                    "aspect": aspect
                     "description": f"Potential limitation in {aspect}",
                     "severity": 0.5,  # Moderate severity default
-                    "addressable": True,
+                    "addressable": True
                 }
                 limitations.append(limitation)
 
@@ -647,8 +649,8 @@ class ZeteticRevolutionaryIntegrator:
                     "insight_type": "paradigm_breakthrough",
                     "content": f"Revolutionary approach to {limitation.get('aspect', 'limitation')}",
                     "innovation_level": parameters.get("innovation_level", 0.7),
-                    "implementation_complexity": 0.6,
-                    "potential_impact": 0.8,
+                    "implementation_complexity": 0.6
+                    "potential_impact": 0.8
                 }
                 insights.append(insight)
 
@@ -683,7 +685,7 @@ class ZeteticRevolutionaryIntegrator:
                 "previous_version": "baseline",
                 "breakthrough_timestamp": datetime.now(timezone.utc).isoformat(),
                 "insights_integrated": len(insights),
-                "paradigm_generation": current_paradigm.get("generation", 0) + 1,
+                "paradigm_generation": current_paradigm.get("generation", 0) + 1
             }
 
             return new_paradigm
@@ -850,19 +852,19 @@ class ZeteticRevolutionaryIntegrator:
         """
         with self._lock:
             return {
-                "status": self.metrics.health_status,
-                "operational_mode": self.metrics.operational_mode.name,
-                "zetetic_inquiry_depth": self.metrics.zetetic_inquiry_depth,
-                "paradigm_breakthrough_score": self.metrics.paradigm_breakthrough_score,
-                "self_transcendence_level": self.metrics.self_transcendence_level,
-                "revolutionary_convergence": self.metrics.revolutionary_convergence,
-                "cognitive_evolution_rate": self.metrics.cognitive_evolution_rate,
-                "questions_generated": self.metrics.questions_generated,
-                "paradigms_transcended": self.metrics.paradigms_transcended,
-                "breakthrough_insights": self.metrics.breakthrough_insights,
+                "status": self.metrics.health_status
+                "operational_mode": self.metrics.operational_mode.name
+                "zetetic_inquiry_depth": self.metrics.zetetic_inquiry_depth
+                "paradigm_breakthrough_score": self.metrics.paradigm_breakthrough_score
+                "self_transcendence_level": self.metrics.self_transcendence_level
+                "revolutionary_convergence": self.metrics.revolutionary_convergence
+                "cognitive_evolution_rate": self.metrics.cognitive_evolution_rate
+                "questions_generated": self.metrics.questions_generated
+                "paradigms_transcended": self.metrics.paradigms_transcended
+                "breakthrough_insights": self.metrics.breakthrough_insights
                 "last_update": self.metrics.last_update.isoformat(),
-                "initialized": self._initialized,
-                "integration_level": self.integration_level,
+                "initialized": self._initialized
+                "integration_level": self.integration_level
                 "emergency_stop_active": self._emergency_stop.is_set(),
                 "components": {
                     "revolutionary_engine": self.revolutionary_engine is not None

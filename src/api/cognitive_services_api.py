@@ -28,7 +28,6 @@ from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Union
 
 import uvicorn
-
 # FastAPI and web framework
 from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -39,7 +38,6 @@ from pydantic import BaseModel, Field, validator
 
 # Configuration and logging
 from ..config.config_loader import ConfigManager
-
 # Kimera SWM Core
 from ..core.master_cognitive_architecture_v2 import (
     ArchitectureState,
@@ -87,14 +85,14 @@ class CognitiveProcessingRequest(BaseModel):
         ge=1,
         le=10,
         description="Processing priority (1-10 scale)",
-        example=7,
+        example=7
     )
     timeout: float = Field(
         default=30.0,
         gt=0,
         le=300,
         description="Processing timeout in seconds",
-        example=60.0,
+        example=60.0
     )
 
     @validator("workflow_type")
@@ -514,8 +512,8 @@ async def analyze_consciousness(
         input_data = request.text_input or request.cognitive_state
         if not input_data:
             raise HTTPException(
-                status_code=400,
-                detail="Either text_input or cognitive_state must be provided",
+            status_code=400,
+            detail="Either text_input or cognitive_state must be provided",
             )
 
         # Create consciousness-focused request

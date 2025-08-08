@@ -17,15 +17,13 @@ from typing import Any, Dict
 import torch
 
 from .high_dimensional_bgm import BGMConfig, HighDimensionalBGM
-from .homomorphic_cognitive_processor import (
-    HomomorphicCognitiveProcessor,
-    HomomorphicParams,
-)
+from .homomorphic_cognitive_processor import (HomomorphicCognitiveProcessor
+                                              HomomorphicParams)
 
 logger = logging.getLogger(__name__)
-
-
 class HighDimensionalModelingIntegrator:
+    """Auto-generated class."""
+    pass
     """
     Integrates high-dimensional modeling and secure computation engines.
     """

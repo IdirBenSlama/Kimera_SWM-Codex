@@ -4,9 +4,9 @@ import pandas as pd
 import requests
 
 logger = logging.getLogger(__name__)
-
-
 class DataFetcher:
+    """Auto-generated class."""
+    pass
     """Fetches real-time market data from various sources."""
 
     def __init__(self):

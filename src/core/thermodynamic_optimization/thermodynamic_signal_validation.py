@@ -18,20 +18,22 @@ import numpy as np
 from ..foundational_thermodynamic_engine import FoundationalThermodynamicEngine
 
 try:
-    from src.core.geoid import GeoidState
+    from src.core.primitives.geoid import GeoidState
 except ImportError:
     try:
         from core.geoid import GeoidState
     except ImportError:
         # Fallback for missing GeoidState
-        class GeoidState:
+class GeoidState:
+    """Auto-generated class."""
+    pass
             @staticmethod
             def create_default():
                 return {}
 
 
 try:
-    from src.utils.config import get_api_settings
+    from src.utils.robust_config import get_api_settings
 except ImportError:
     try:
         from utils.config import get_api_settings
@@ -57,6 +59,8 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class FirstLawResult:
+    """Auto-generated class."""
+    pass
     """Represents the result of a First Law of Thermodynamics compliance test (Energy Conservation)."""
 
     compliant: bool
@@ -68,24 +72,26 @@ class FirstLawResult:
 
 @dataclass
 class SecondLawResult:
+    """Auto-generated class."""
+    pass
     """Represents the result of a Second Law of Thermodynamics compliance test (Entropy Increase)."""
 
     compliant: bool
     violation_count: int
     entropy_sequence: List[float]
     message: str
-
-
 class ThermodynamicSignalValidationSuite:
+    """Auto-generated class."""
+    pass
     """
     Runs comprehensive validation of signal evolution sequences against
     the laws of thermodynamics.
     """
 
     def __init__(
-        self,
-        foundational_engine: FoundationalThermodynamicEngine,
-        energy_conservation_tolerance: float = 0.01,
+        self
+        foundational_engine: FoundationalThermodynamicEngine
+        energy_conservation_tolerance: float = 0.01
     ):
         self.settings = get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
@@ -114,10 +120,10 @@ class ThermodynamicSignalValidationSuite:
             return FirstLawResult(True, 0, 0, 0, "No energy in sequence.")
         if initial_energy == 0:
             return FirstLawResult(
-                False,
-                np.inf,
-                0,
-                final_energy,
+                False
+                np.inf
+                0
+                final_energy
                 "Energy appeared from a zero-energy state.",
             )
 
@@ -125,10 +131,10 @@ class ThermodynamicSignalValidationSuite:
         compliant = conservation_error < self.energy_conservation_tolerance
 
         return FirstLawResult(
-            compliant=compliant,
-            conservation_error_percent=conservation_error * 100,
-            energy_initial=initial_energy,
-            energy_final=final_energy,
+            compliant=compliant
+            conservation_error_percent=conservation_error * 100
+            energy_initial=initial_energy
+            energy_final=final_energy
             message=(
                 "Energy conservation compliant."
                 if compliant
@@ -158,9 +164,9 @@ class ThermodynamicSignalValidationSuite:
         compliant = violations == 0
 
         return SecondLawResult(
-            compliant=compliant,
-            violation_count=violations,
-            entropy_sequence=entropy_sequence,
+            compliant=compliant
+            violation_count=violations
+            entropy_sequence=entropy_sequence
             message=(
                 "Entropy is non-decreasing."
                 if compliant

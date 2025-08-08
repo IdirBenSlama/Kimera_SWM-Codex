@@ -6,8 +6,9 @@ from kimera_trading.cognitive.living_neutrality import LivingNeutralityTradingZo
 @pytest.mark.asyncio
 async def test_living_neutrality_trading_zone():
     zone = LivingNeutralityTradingZone()
-
-    class Context:
+class Context:
+    """Auto-generated class."""
+    pass
         pass
 
     c = Context()

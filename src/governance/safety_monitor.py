@@ -62,6 +62,8 @@ class MonitoringMode(Enum):
 
 @dataclass
 class HealthMetric:
+    """Auto-generated class."""
+    pass
     """Individual health metric with trending."""
 
     name: str
@@ -80,6 +82,8 @@ class HealthMetric:
 
 @dataclass
 class SafetyEvent:
+    """Auto-generated class."""
+    pass
     """Safety-related event for black box recording."""
 
     id: str
@@ -91,9 +95,9 @@ class SafetyEvent:
     actions_taken: List[str] = field(default_factory=list)
     resolved: bool = False
     resolution_time: Optional[datetime] = None
-
-
 class SafetyMonitor:
+    """Auto-generated class."""
+    pass
     """
     Aerospace-grade safety monitoring system.
 

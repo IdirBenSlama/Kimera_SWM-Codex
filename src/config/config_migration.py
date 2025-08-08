@@ -25,12 +25,8 @@ class HardcodedValue:
     value_type: str
     context: str
     suggested_config_key: str
-
-
 class ConfigurationMigrator:
-    """
-    Scans codebase for hardcoded values and suggests configuration replacements
-    """
+    """Scans codebase for hardcoded values and suggests configuration replacements"""
 
     # Patterns to identify hardcoded values
     PATTERNS = {
@@ -157,16 +153,16 @@ class ConfigurationMigrator:
                                     if isinstance(node.value.value, (int, float)):
                                         line_num = node.lineno
                                         self.hardcoded_values.append(
-                                            HardcodedValue(
-                                                file_path=file_path,
-                                                line_number=line_num,
-                                                value=str(node.value.value),
-                                                value_type="numeric_constant",
-                                                context=f"{target.id} = {node.value.value}",
-                                                suggested_config_key=self._suggest_config_key(
-                                                    file_path, "numeric", target.id
-                                                ),
-                                            )
+                                        HardcodedValue(
+                                            file_path=file_path,
+                                            line_number=line_num,
+                                            value=str(node.value.value),
+                                            value_type="numeric_constant",
+                                            context=f"{target.id} = {node.value.value}",
+                                            suggested_config_key=self._suggest_config_key(
+                                                file_path, "numeric", target.id
+                                            ),
+                                        )
                                         )
 
         except Exception as e:
@@ -282,7 +278,7 @@ class ConfigurationMigrator:
                     [
                         f"**Line {hv.line_number}** ({hv.value_type})",
                         f"```python",
-                        hv.context,
+                        hv.context
                         f"```",
                         f"- Value: `{hv.value}`",
                         f"- Suggested config key: `{hv.suggested_config_key}`",

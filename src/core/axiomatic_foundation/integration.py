@@ -1,10 +1,11 @@
 """
-Axiomatic Foundation Integration Module
+"""Axiomatic Foundation Integration Module"""
+
 ======================================
 
 This module integrates all components of the axiomatic foundation into
 the Kimera cognitive architecture, providing a unified interface for
-the core system to leverage mathematical proofs, understanding axioms,
+the core system to leverage mathematical proofs, understanding axioms
 and verification frameworks.
 
 Integration Points:
@@ -47,34 +48,25 @@ except ImportError:
         from core.constants import EPSILON
     except ImportError:
         # Create placeholders for core.constants
-        class EPSILON:
+class EPSILON:
+    """Auto-generated class."""
             pass
 
 
-from .axiom_mathematical_proof import (
-    AxiomProofSystem,
-    ProofStatus,
-    VerificationLevel,
-    get_axiom_proof_system,
-)
-from .axiom_of_understanding import (
-    AxiomOfUnderstanding,
-    SemanticState,
-    UnderstandingMode,
-    get_axiom_of_understanding,
-)
-from .axiom_verification import (
-    AxiomVerificationEngine,
-    CriticalityLevel,
-    VerificationReport,
-    get_axiom_verification_engine,
-)
+from .axiom_mathematical_proof import (AxiomProofSystem, ProofStatus, VerificationLevel
+                                       get_axiom_proof_system)
+from .axiom_of_understanding import (AxiomOfUnderstanding, SemanticState
+                                     UnderstandingMode, get_axiom_of_understanding)
+from .axiom_verification import (AxiomVerificationEngine, CriticalityLevel
+                                 VerificationReport, get_axiom_verification_engine)
 
 logger = get_system_logger(__name__)
 
 
 @dataclass
 class AxiomaticValidation:
+    """Auto-generated class."""
+    pass
     """Result of axiomatic validation for a cognitive operation"""
 
     operation_id: str
@@ -84,9 +76,9 @@ class AxiomaticValidation:
     axiom_compliance: Dict[str, bool]
     warnings: List[str]
     recommendations: List[str]
-
-
 class AxiomaticFoundationIntegration:
+    """Auto-generated class."""
+    pass
     """
     Integration layer for the axiomatic foundation within Kimera.
 
@@ -108,10 +100,10 @@ class AxiomaticFoundationIntegration:
         self._lock = threading.Lock()
         self._validation_cache = {}
         self._metrics = {
-            "total_validations": 0,
-            "valid_operations": 0,
-            "axiom_violations": 0,
-            "average_confidence": 0.0,
+            "total_validations": 0
+            "valid_operations": 0
+            "axiom_violations": 0
+            "average_confidence": 0.0
         }
 
         # Background verification task
@@ -174,8 +166,8 @@ class AxiomaticFoundationIntegration:
                 return False
 
     async def validate_cognitive_operation(
-        self,
-        operation_type: str,
+        self
+        operation_type: str
         input_state: Dict[str, Any],
         output_state: Dict[str, Any],
     ) -> AxiomaticValidation:
@@ -215,10 +207,10 @@ class AxiomaticFoundationIntegration:
         except Exception as e:
             logger.error(f"Failed to convert states: {e}")
             return AxiomaticValidation(
-                operation_id=operation_id,
-                timestamp=timestamp,
-                is_valid=False,
-                confidence=0.0,
+                operation_id=operation_id
+                timestamp=timestamp
+                is_valid=False
+                confidence=0.0
                 axiom_compliance={},
                 warnings=[f"State conversion error: {str(e)}"],
                 recommendations=["Ensure states have proper vector representations"],
@@ -271,13 +263,13 @@ class AxiomaticFoundationIntegration:
 
         # Create validation result
         validation = AxiomaticValidation(
-            operation_id=operation_id,
-            timestamp=timestamp,
-            is_valid=is_valid,
-            confidence=confidence,
-            axiom_compliance=axiom_compliance,
-            warnings=warnings,
-            recommendations=recommendations,
+            operation_id=operation_id
+            timestamp=timestamp
+            is_valid=is_valid
+            confidence=confidence
+            axiom_compliance=axiom_compliance
+            warnings=warnings
+            recommendations=recommendations
         )
 
         # Cache result
@@ -319,9 +311,9 @@ class AxiomaticFoundationIntegration:
             information = np.linalg.norm(vector) * (1 - entropy)
 
         return SemanticState(
-            vector=vector,
-            entropy=entropy,
-            information=information,
+            vector=vector
+            entropy=entropy
+            information=information
             meaning_label=state_dict.get("label", "unknown"),
         )
 
@@ -377,8 +369,8 @@ class AxiomaticFoundationIntegration:
                 # Quick verification checks
                 test_state = SemanticState(
                     vector=np.random.randn(10),
-                    entropy=1.0,
-                    information=1.0,
+                    entropy=1.0
+                    information=1.0
                     meaning_label="continuous_test",
                 )
 
@@ -409,9 +401,9 @@ class AxiomaticFoundationIntegration:
             return self._metrics.copy()
 
     def apply_understanding(
-        self,
-        state: SemanticState,
-        mode: UnderstandingMode = UnderstandingMode.COMPOSITIONAL,
+        self
+        state: SemanticState
+        mode: UnderstandingMode = UnderstandingMode.COMPOSITIONAL
     ) -> SemanticState:
         """
         Apply understanding transformation using the axiom.

@@ -18,18 +18,18 @@ from typing import Any, Dict, List
 import numpy as np
 
 from src.config.settings import get_settings
-from src.core.geoid import GeoidState
-from src.engines.quantum_cognitive_engine import (
-    QuantumCognitiveEngine,
-    QuantumCognitiveState,
-)
-from src.utils.config import get_api_settings
+from src.core.primitives.geoid import GeoidState
+from src.core.quantum_and_privacy.quantum_cognitive_engine import (
+    QuantumCognitiveEngine, QuantumCognitiveState)
+from src.utils.robust_config import get_api_settings
 
 logger = logging.getLogger(__name__)
 
 
 @dataclass
 class QuantumSignalSuperposition:
+    """Auto-generated class."""
+    pass
     """Represents a quantum superposition of multiple thermodynamic signals."""
 
     superposition_state: QuantumCognitiveState
@@ -41,14 +41,16 @@ class QuantumSignalSuperposition:
 
 @dataclass
 class CorrectionResult:
+    """Auto-generated class."""
+    pass
     """Represents the outcome of a decoherence correction event."""
 
     correction_applied: bool
     initial_coherence: float
     restored_coherence: float
-
-
 class SignalDecoherenceController:
+    """Auto-generated class."""
+    pass
     """
     Monitors and actively corrects for signal decoherence in quantum superpositions.
     """
@@ -56,7 +58,13 @@ class SignalDecoherenceController:
     def __init__(
         self, decoherence_threshold: float = 0.5, correction_strength: float = 0.1
     ):
-        self.settings = get_api_settings()
+        try:
+            self.settings = get_api_settings()
+        except Exception as e:
+            logger.warning(f"API settings loading failed: {e}. Using safe fallback.")
+            from ..utils.robust_config import safe_get_api_settings
+
+            self.settings = safe_get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
         self.decoherence_threshold = decoherence_threshold
         self.correction_strength = (
@@ -103,25 +111,31 @@ class SignalDecoherenceController:
                 f"Coherence restored from {current_coherence:.3f} to {restored_coherence:.3f}."
             )
             return CorrectionResult(
-                correction_applied=True,
-                initial_coherence=current_coherence,
-                restored_coherence=restored_coherence,
+                correction_applied=True
+                initial_coherence=current_coherence
+                restored_coherence=restored_coherence
             )
 
         return CorrectionResult(
-            correction_applied=False,
-            initial_coherence=current_coherence,
-            restored_coherence=current_coherence,
+            correction_applied=False
+            initial_coherence=current_coherence
+            restored_coherence=current_coherence
         )
-
-
 class QuantumThermodynamicSignalProcessor:
+    """Auto-generated class."""
+    pass
     """
     Creates and manages quantum superpositions of thermodynamic signal states.
     """
 
     def __init__(self, quantum_engine: QuantumCognitiveEngine):
-        self.settings = get_api_settings()
+        try:
+            self.settings = get_api_settings()
+        except Exception as e:
+            logger.warning(f"API settings loading failed: {e}. Using safe fallback.")
+            from ..utils.robust_config import safe_get_api_settings
+
+            self.settings = safe_get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
         self.quantum_engine = quantum_engine
         logger.info("⚛️ Quantum-Thermodynamic Signal Processor initialized.")
@@ -175,7 +189,7 @@ class QuantumThermodynamicSignalProcessor:
     ) -> float:
         """
         Calculates the overall coherence of the signal superposition.
-        A simple metric could be related to the purity of the quantum state,
+        A simple metric could be related to the purity of the quantum state
         which is related to entanglement entropy.
         """
         # Purity is 1 for a pure state, < 1 for a mixed state.
@@ -212,7 +226,7 @@ class QuantumThermodynamicSignalProcessor:
         signal_coherence = self._calculate_quantum_signal_coherence(superposition_state)
 
         return QuantumSignalSuperposition(
-            superposition_state=superposition_state,
-            signal_coherence=signal_coherence,
-            entanglement_strength=superposition_state.entanglement_entropy,
+            superposition_state=superposition_state
+            signal_coherence=signal_coherence
+            entanglement_strength=superposition_state.entanglement_entropy
         )

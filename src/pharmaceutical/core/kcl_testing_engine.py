@@ -31,6 +31,8 @@ logger = get_logger(__name__)
 
 @dataclass
 class PerformanceMetrics:
+    """Auto-generated class."""
+    pass
     """Performance tracking for pharmaceutical testing operations."""
 
     operation_type: str
@@ -44,6 +46,8 @@ class PerformanceMetrics:
 
 @dataclass
 class RawMaterialSpec:
+    """Auto-generated class."""
+    pass
     """Raw material specifications for pharmaceutical testing."""
 
     name: str
@@ -62,6 +66,8 @@ class RawMaterialSpec:
 
 @dataclass
 class FlowabilityResult:
+    """Auto-generated class."""
+    pass
     """Powder flowability analysis results."""
 
     bulk_density: float
@@ -75,6 +81,8 @@ class FlowabilityResult:
 
 @dataclass
 class DissolutionProfile:
+    """Auto-generated class."""
+    pass
     """Dissolution test profile with time points and release percentages."""
 
     time_points: List[float]
@@ -86,6 +94,8 @@ class DissolutionProfile:
 
 @dataclass
 class FormulationPrototype:
+    """Auto-generated class."""
+    pass
     """Formulation prototype with coating parameters."""
 
     prototype_id: str
@@ -101,9 +111,9 @@ class PharmaceuticalTestingException(KimeraBaseException):
     """Exception for pharmaceutical testing operations."""
 
     pass
-
-
 class KClTestingEngine:
+    """Auto-generated class."""
+    pass
     """
     Main engine for KCl extended-release capsule testing and development.
 

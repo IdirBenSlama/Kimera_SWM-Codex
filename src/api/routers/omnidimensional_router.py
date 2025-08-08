@@ -520,7 +520,7 @@ async def health_check() -> Dict[str, str]:
 #     """Handle Kimera protocol engine specific errors"""
 #     logger.error(f"Kimera Protocol Engine Error: {exc}")
 #     return JSONResponse(
-#         status_code=400,
+#         status_code=400
 #         content={"detail": str(exc), "error_type": "KimeraProtocolEngineError"}
 #     )
 
@@ -529,6 +529,6 @@ async def health_check() -> Dict[str, str]:
 #     """Handle value errors"""
 #     logger.error(f"Value Error: {exc}")
 #     return JSONResponse(
-#         status_code=422,
+#         status_code=422
 #         content={"detail": str(exc), "error_type": "ValueError"}
 #     )

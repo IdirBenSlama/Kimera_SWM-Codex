@@ -76,6 +76,8 @@ class ProcessingPriority(Enum):
 
 @dataclass
 class GPUTask:
+    """Auto-generated class."""
+    pass
     """GPU processing task"""
 
     task_id: str
@@ -90,6 +92,8 @@ class GPUTask:
 
 @dataclass
 class GPUPerformanceMetrics:
+    """Auto-generated class."""
+    pass
     """GPU performance metrics"""
 
     utilization_percent: float
@@ -100,9 +104,9 @@ class GPUPerformanceMetrics:
     latency_ms: float
     efficiency_score: float
     timestamp: float
-
-
 class GPUOptimizer:
+    """Auto-generated class."""
+    pass
     """Advanced GPU optimization engine"""
 
     def __init__(self, config: Dict[str, Any] = None):

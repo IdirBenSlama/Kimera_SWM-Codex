@@ -1,53 +1,25 @@
 """
-KIMERA Configuration Module
+"""KIMERA Configuration Module"""
+
 Centralized configuration management system
 Phase 2, Week 6-7: Configuration Management Implementation
 """
 
-from .config_integration import (
-    ConfigurationContext,
-    ConfigurationManager,
-    development_only,
-    get_api_key,
-    get_config_manager,
-    get_data_dir,
-    get_database_url,
-    get_feature_flag,
-    get_models_dir,
-    get_project_root,
-    initialize_configuration,
-    is_development,
-    is_production,
-    production_only,
-    requires_feature,
-)
-from .config_loader import (
-    ConfigurationExporter,
-    ConfigurationLoader,
-    ConfigurationValidator,
-    export_configuration_template,
-    load_configuration,
-)
-from .config_migration import (
-    ConfigurationMigrator,
-    HardcodedValue,
-    migrate_configuration,
-)
-from .settings import (
-    APIKeysSettings,
-    DatabaseSettings,
-    EnvironmentType,
-    KimeraSettings,
-    LoggingSettings,
-    LogLevel,
-    MonitoringSettings,
-    PathSettings,
-    PerformanceSettings,
-    SecuritySettings,
-    ServerSettings,
-    get_settings,
-    reload_settings,
-)
+from .config_integration import (ConfigurationContext, ConfigurationManager
+                                 development_only, get_api_key, get_config_manager
+                                 get_data_dir, get_database_url, get_feature_flag
+                                 get_models_dir, get_project_root
+                                 initialize_configuration, is_development
+                                 is_production, production_only, requires_feature)
+from .config_loader import (ConfigurationExporter, ConfigurationLoader
+                            ConfigurationValidator, export_configuration_template
+                            load_configuration)
+from .config_migration import (ConfigurationMigrator, HardcodedValue
+                               migrate_configuration)
+from .settings import (APIKeysSettings, DatabaseSettings, EnvironmentType
+                       KimeraSettings, LoggingSettings, LogLevel, MonitoringSettings
+                       PathSettings, PerformanceSettings, SecuritySettings
+                       ServerSettings, get_settings, reload_settings)
 
 __all__ = [
     # Settings classes

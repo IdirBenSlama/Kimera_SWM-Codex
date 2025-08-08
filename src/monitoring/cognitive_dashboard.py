@@ -16,7 +16,6 @@ from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
 import uvicorn
-
 # Dashboard framework
 from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse, JSONResponse
@@ -27,6 +26,8 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class SystemMetrics:
+    """Auto-generated class."""
+    pass
     """Real-time system metrics"""
 
     timestamp: str
@@ -55,9 +56,9 @@ class SystemMetrics:
     patterns_learned: int = 0
     consciousness_events: int = 0
     understanding_quality: float = 0.0
-
-
 class CognitiveDashboard:
+    """Auto-generated class."""
+    pass
     """Real-time cognitive monitoring dashboard"""
 
     def __init__(self):

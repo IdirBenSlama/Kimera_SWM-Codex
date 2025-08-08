@@ -1,4 +1,6 @@
 class RiskResonanceDetector:
+    """Auto-generated class."""
+    pass
     """
     Detects when multiple risks resonate and amplify.
 
@@ -30,8 +32,9 @@ class RiskResonanceDetector:
             for group, amp in amplifications.items()
             if amp > self.critical_threshold
         ]
-
-        class ResonanceAnalysis:
+class ResonanceAnalysis:
+    """Auto-generated class."""
+    pass
             pass
 
         ra = ResonanceAnalysis()

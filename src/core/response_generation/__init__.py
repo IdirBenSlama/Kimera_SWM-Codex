@@ -2,10 +2,10 @@
 KIMERA Response Generation Module v2.0
 ======================================
 
-DO-178C Level A compliant response generation system with quantum security,
+DO-178C Level A compliant response generation system with quantum security
 full cognitive integration, and thermodynamic coherence.
 
-This module provides the complete response generation capabilities for KIMERA,
+This module provides the complete response generation capabilities for KIMERA
 integrating all cognitive systems including:
 - Barenholtz dual-system architecture
 - Quantum-resistant security
@@ -23,44 +23,25 @@ Author: KIMERA Development Team
 Version: 2.0.0 (DO-178C Level A)
 """
 
-from .core.cognitive_response_system import (
-    CognitiveContext,
-    CognitiveMetrics,
-    ResponseContext,
-    ResponseGenerationConfig,
-    ResponseGenerator,
-    ResponseOutput,
-    ResponseQuality,
-    ResponseType,
-    get_cognitive_response_system,
-)
-from .integration.full_integration_bridge import (
-    CognitiveArchitectureState,
-    IntegrationConfig,
-    IntegrationMetrics,
-    IntegrationMode,
-    KimeraFullIntegrationBridge,
-    ProcessingPriority,
-    get_full_integration_bridge,
-)
-from .orchestrator import (
-    ResponseGenerationMode,
-    ResponseGenerationOrchestrator,
-    ResponseGenerationRequest,
-    ResponseGenerationResult,
-    generate_research_response,
-    generate_secure_response,
-    generate_standard_response,
-    get_response_orchestrator,
-)
-from .security.quantum_security import (
-    KimeraQuantumEdgeSecurityArchitecture,
-    QuantumAttackType,
-    QuantumSecurityConfig,
-    SecurityMetrics,
-    ThreatLevel,
-    get_quantum_security,
-)
+from .core.cognitive_response_system import (CognitiveContext, CognitiveMetrics
+                                             ResponseContext, ResponseGenerationConfig
+                                             ResponseGenerator, ResponseOutput
+                                             ResponseQuality, ResponseType
+                                             get_cognitive_response_system)
+from .integration.full_integration_bridge import (CognitiveArchitectureState
+                                                  IntegrationConfig, IntegrationMetrics
+                                                  IntegrationMode
+                                                  KimeraFullIntegrationBridge
+                                                  ProcessingPriority
+                                                  get_full_integration_bridge)
+from .orchestrator import (ResponseGenerationMode, ResponseGenerationOrchestrator
+                           ResponseGenerationRequest, ResponseGenerationResult
+                           generate_research_response, generate_secure_response
+                           generate_standard_response, get_response_orchestrator)
+from .security.quantum_security import (KimeraQuantumEdgeSecurityArchitecture
+                                        QuantumAttackType, QuantumSecurityConfig
+                                        SecurityMetrics, ThreatLevel
+                                        get_quantum_security)
 
 # Version information
 __version__ = "2.0.0"
@@ -118,10 +99,10 @@ def get_module_info() -> dict:
     """Get comprehensive module information"""
     return {
         "name": "KIMERA Response Generation",
-        "version": __version__,
-        "author": __author__,
-        "license": __license__,
-        "status": __status__,
+        "version": __version__
+        "author": __author__
+        "license": __license__
+        "status": __status__
         "compliance": "DO-178C Level A",
         "components": {
             "cognitive_response_system": "Core response generation with cognitive metrics",
@@ -150,22 +131,22 @@ def check_module_health() -> dict:
 
         return {
             "healthy": status.get("status") == "operational",
-            "orchestrator_status": status,
+            "orchestrator_status": status
             "components_available": {
-                "cognitive_response": True,
-                "integration_bridge": True,
-                "quantum_security": True,
+                "cognitive_response": True
+                "integration_bridge": True
+                "quantum_security": True
             },
             "timestamp": status.get("timestamp", 0),
         }
 
     except Exception as e:
         return {
-            "healthy": False,
+            "healthy": False
             "error": str(e),
             "components_available": {
-                "cognitive_response": False,
-                "integration_bridge": False,
-                "quantum_security": False,
+                "cognitive_response": False
+                "integration_bridge": False
+                "quantum_security": False
             },
         }

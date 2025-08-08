@@ -33,15 +33,17 @@ class EthicalViolationType(Enum):
 
 @dataclass
 class EthicalValidationResult:
+    """Auto-generated class."""
+    pass
     """Result of ethical validation."""
 
     is_valid: bool
     violations: List[EthicalViolationType]
     confidence: float
     reasoning: str
-
-
 class EthicalReflexLayer:
+    """Auto-generated class."""
+    pass
     """
     Fast ethical validation layer.
 

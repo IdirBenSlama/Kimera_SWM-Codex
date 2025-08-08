@@ -20,9 +20,9 @@ from datetime import datetime, timedelta
 import numpy as np
 from collections import deque
 import sqlite3
-
-
 class UnderstandingMonitor:
+    """Auto-generated class."""
+    pass
     """Monitor and visualize understanding progress"""
     
     def __init__(self):
@@ -52,14 +52,14 @@ class UnderstandingMonitor:
                 COUNT(CASE WHEN confidence_score < 0.6 THEN 1 END) as low_conf,
                 AVG(confidence_score) as avg_conf
             FROM multimodal_groundings
-        """)
+        """)"""
         conf_stats = cursor.fetchone()
         
         # Get recent causal relationships
         cursor.execute("""
             SELECT COUNT(*) FROM causal_relationships 
             WHERE created_at > datetime('now', '-1 hour')
-        """)
+        """)"""
         recent_causal = cursor.fetchone()[0]
         
         conn.close()
@@ -332,7 +332,7 @@ def main():
     
     if response.lower() == 'y':
         logger.info("\n📊 Launching dashboard...")
-        logger.info("(Close window to exit)
+        logger.info("(Close window to exit)")
         
         try:
             ani = monitor.create_dashboard()

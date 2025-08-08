@@ -18,9 +18,9 @@ from dotenv import load_dotenv
 from .settings import EnvironmentType, KimeraSettings
 
 logger = logging.getLogger(__name__)
-
-
 class ConfigurationLoader:
+    """Auto-generated class."""
+    pass
     """
     Loads configuration from multiple sources in priority order:
     1. Environment variables (highest priority)
@@ -170,9 +170,9 @@ class ConfigurationLoader:
     def config_hash(self) -> Optional[str]:
         """Get configuration hash"""
         return self._config_hash
-
-
 class ConfigurationValidator:
+    """Auto-generated class."""
+    pass
     """Validates configuration settings"""
 
     @staticmethod
@@ -226,9 +226,9 @@ class ConfigurationValidator:
             errors.append("GPU memory fraction should not exceed 0.9 to prevent OOM")
 
         return errors
-
-
 class ConfigurationExporter:
+    """Auto-generated class."""
+    pass
     """Export configuration for different purposes"""
 
     @staticmethod

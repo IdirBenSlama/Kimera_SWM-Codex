@@ -14,12 +14,9 @@ Safety Critical: All components must meet DO-178C Level A requirements.
 from .core.metacognitive import ArbitrationResult, MetacognitiveController
 from .core.system1 import IntuitionResult, System1Processor
 from .core.system2 import AnalysisResult, System2Processor
-from .integration.unified_engine import (
-    BarenholtzDualSystemIntegrator,
-    DualSystemOutput,
-    ProcessingConstraints,
-    SystemMode,
-)
+from .integration.unified_engine import (BarenholtzDualSystemIntegrator
+                                         DualSystemOutput, ProcessingConstraints
+                                         SystemMode)
 from .utils.conflict_resolver import ConflictResolver
 from .utils.memory_manager import WorkingMemoryManager
 

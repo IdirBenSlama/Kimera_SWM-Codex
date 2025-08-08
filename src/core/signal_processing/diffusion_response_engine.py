@@ -34,6 +34,8 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class ResponseQualityMetrics:
+    """Auto-generated class."""
+    pass
     """Formal verification of response quality parameters."""
 
     coherence_score: float  # [0.0, 1.0]
@@ -49,9 +51,9 @@ class ResponseQualityMetrics:
         assert 0.0 <= self.relevance_score <= 1.0, "Relevance score out of bounds"
         assert 0.0 <= self.length_adequacy <= 1.0, "Length adequacy out of bounds"
         assert self.safety_compliance is True, "Safety compliance required"
-
-
 class DiffusionResponseEngine:
+    """Auto-generated class."""
+    pass
     """
     Aerospace-grade diffusion response engine with formal verification.
 
@@ -63,10 +65,10 @@ class DiffusionResponseEngine:
     """
 
     def __init__(
-        self,
-        safety_mode: bool = True,
-        verification_enabled: bool = True,
-        max_response_length: int = 2048,
+        self
+        safety_mode: bool = True
+        verification_enabled: bool = True
+        max_response_length: int = 2048
     ):
         """
         Initialize with aerospace-grade safety parameters.
@@ -218,8 +220,8 @@ class DiffusionResponseEngine:
         return cleaned_text
 
     def _calculate_quality_metrics(
-        self,
-        response: str,
+        self
+        response: str
         grounded_concepts: Dict[str, Any],
         semantic_features: Dict[str, Any],
     ) -> ResponseQualityMetrics:
@@ -258,11 +260,11 @@ class DiffusionResponseEngine:
             )
 
             metrics = ResponseQualityMetrics(
-                coherence_score=coherence,
-                directness_score=directness,
-                relevance_score=relevance,
-                length_adequacy=length_score,
-                safety_compliance=safety_ok,
+                coherence_score=coherence
+                directness_score=directness
+                relevance_score=relevance
+                length_adequacy=length_score
+                safety_compliance=safety_ok
             )
 
             # Store metrics for trend analysis
@@ -276,11 +278,11 @@ class DiffusionResponseEngine:
             logger.error(f"❌ Quality metrics calculation failed: {e}")
             # Return safe default values
             return ResponseQualityMetrics(
-                coherence_score=0.5,
-                directness_score=0.5,
-                relevance_score=0.5,
-                length_adequacy=0.5,
-                safety_compliance=True,
+                coherence_score=0.5
+                directness_score=0.5
+                relevance_score=0.5
+                length_adequacy=0.5
+                safety_compliance=True
             )
 
     def _generate_fallback_response(
@@ -308,7 +310,7 @@ class DiffusionResponseEngine:
             return "I understand your question and will provide a thoughtful response."
 
     async def generate_response(
-        self,
+        self
         grounded_concepts: Dict[str, Any],
         semantic_features: Dict[str, Any],
         persona_prompt: str = "",
@@ -329,10 +331,10 @@ class DiffusionResponseEngine:
                     semantic_features, grounded_concepts
                 )
                 return {
-                    "response": fallback,
+                    "response": fallback
                     "status": "circuit_breaker_fallback",
-                    "quality_metrics": None,
-                    "processing_time": time.time() - start_time,
+                    "quality_metrics": None
+                    "processing_time": time.time() - start_time
                 }
 
             # Input verification (DO-178C requirement)
@@ -343,10 +345,10 @@ class DiffusionResponseEngine:
                     semantic_features, grounded_concepts
                 )
                 return {
-                    "response": fallback,
+                    "response": fallback
                     "status": "input_verification_failed",
-                    "quality_metrics": None,
-                    "processing_time": time.time() - start_time,
+                    "quality_metrics": None
+                    "processing_time": time.time() - start_time
                 }
 
             # Extract parameters safely
@@ -411,10 +413,10 @@ class DiffusionResponseEngine:
             )
 
             return {
-                "response": cleaned_response,
+                "response": cleaned_response
                 "status": "success",
-                "quality_metrics": quality_metrics,
-                "processing_time": processing_time,
+                "quality_metrics": quality_metrics
+                "processing_time": processing_time
                 "verification_status": (
                     "passed" if self.verification_enabled else "disabled"
                 ),
@@ -429,11 +431,11 @@ class DiffusionResponseEngine:
                 semantic_features, grounded_concepts
             )
             return {
-                "response": fallback,
+                "response": fallback
                 "status": "error_fallback",
                 "error": str(e),
-                "quality_metrics": None,
-                "processing_time": time.time() - start_time,
+                "quality_metrics": None
+                "processing_time": time.time() - start_time
             }
 
     def get_system_health(self) -> Dict[str, Any]:
@@ -459,13 +461,13 @@ class DiffusionResponseEngine:
 
         return {
             "status": "healthy" if self.error_count < self.max_errors else "degraded",
-            "error_count": self.error_count,
+            "error_count": self.error_count
             "circuit_breaker_open": not self._circuit_breaker_check(),
-            "average_response_time": avg_response_time,
-            "average_quality_score": avg_quality,
+            "average_response_time": avg_response_time
+            "average_quality_score": avg_quality
             "total_responses": len(self.response_times),
-            "safety_mode": self.safety_mode,
-            "verification_enabled": self.verification_enabled,
+            "safety_mode": self.safety_mode
+            "verification_enabled": self.verification_enabled
         }
 
     def shutdown(self):

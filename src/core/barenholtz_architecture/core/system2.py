@@ -40,8 +40,9 @@ except ImportError:
         # Fallback logger and exception
         def get_logger(name, category=None):
             return logging.getLogger(name)
-
-        class LogCategory:
+class LogCategory:
+    """Auto-generated class."""
+    pass
             DUAL_SYSTEM = "dual_system"
 
         class KimeraCognitiveError(Exception):
@@ -63,6 +64,8 @@ class ReasoningType(Enum):
 
 @dataclass
 class LogicalStep:
+    """Auto-generated class."""
+    pass
     """Single step in logical reasoning chain"""
 
     premise: str
@@ -75,6 +78,8 @@ class LogicalStep:
 
 @dataclass
 class AnalysisResult:
+    """Auto-generated class."""
+    pass
     """Result from System 2 analytical processing"""
 
     reasoning_chain: List[LogicalStep]
@@ -92,13 +97,13 @@ class AnalysisResult:
             and self.processing_time < 1.000  # 1000ms requirement
             and len(self.reasoning_chain) > 0
         )
-
-
 class WorkingMemory:
+    """Auto-generated class."""
+    pass
     """
     Working memory implementation with capacity constraints
 
-    Based on Baddeley's model with central executive, phonological loop,
+    Based on Baddeley's model with central executive, phonological loop
     and visuospatial sketchpad.
     """
 
@@ -172,9 +177,9 @@ class WorkingMemory:
                 "size": len(self.visuospatial_sketchpad),
             },
         ]
-
-
 class LogicalReasoner:
+    """Auto-generated class."""
+    pass
     """
     Implements various forms of logical reasoning
 
@@ -183,11 +188,11 @@ class LogicalReasoner:
 
     def __init__(self):
         self.inference_rules = {
-            "modus_ponens": self._modus_ponens,
-            "modus_tollens": self._modus_tollens,
-            "syllogism": self._syllogism,
-            "analogy": self._analogy,
-            "induction": self._induction,
+            "modus_ponens": self._modus_ponens
+            "modus_tollens": self._modus_tollens
+            "syllogism": self._syllogism
+            "analogy": self._analogy
+            "induction": self._induction
         }
 
     def reason(
@@ -241,9 +246,9 @@ class LogicalReasoner:
                 LogicalStep(
                     premise=str(premises),
                     operation="pattern_generalization",
-                    conclusion=pattern,
+                    conclusion=pattern
                     confidence=0.7,  # Induction is less certain
-                    reasoning_type=ReasoningType.INDUCTIVE,
+                    reasoning_type=ReasoningType.INDUCTIVE
                 )
             ]
 
@@ -262,7 +267,7 @@ class LogicalReasoner:
                     operation="best_explanation",
                     conclusion=best["explanation"],
                     confidence=best["likelihood"],
-                    reasoning_type=ReasoningType.ABDUCTIVE,
+                    reasoning_type=ReasoningType.ABDUCTIVE
                 )
             ]
 
@@ -280,8 +285,8 @@ class LogicalReasoner:
                         premise=str(premises[i]),
                         operation="causes",
                         conclusion=str(premises[i + 1]),
-                        confidence=0.8,
-                        reasoning_type=ReasoningType.CAUSAL,
+                        confidence=0.8
+                        reasoning_type=ReasoningType.CAUSAL
                     )
                 )
 
@@ -303,7 +308,7 @@ class LogicalReasoner:
                 operation="analogy_transfer",
                 conclusion=a["inference"],
                 confidence=a["similarity"],
-                reasoning_type=ReasoningType.ANALOGICAL,
+                reasoning_type=ReasoningType.ANALOGICAL
             )
             for a in analogies
         ]
@@ -321,8 +326,8 @@ class LogicalReasoner:
                 premise=f"If {p1['antecedent']} then {p1['consequent']}; {p2['content']}",
                 operation="modus_ponens",
                 conclusion=p1["consequent"],
-                confidence=0.95,
-                reasoning_type=ReasoningType.DEDUCTIVE,
+                confidence=0.95
+                reasoning_type=ReasoningType.DEDUCTIVE
             )
         return None
 
@@ -338,8 +343,8 @@ class LogicalReasoner:
                 premise=f"If {p1['antecedent']} then {p1['consequent']}; not {p1['consequent']}",
                 operation="modus_tollens",
                 conclusion=f"not {p1['antecedent']}",
-                confidence=0.95,
-                reasoning_type=ReasoningType.DEDUCTIVE,
+                confidence=0.95
+                reasoning_type=ReasoningType.DEDUCTIVE
             )
         return None
 
@@ -351,8 +356,8 @@ class LogicalReasoner:
                 premise=str(premises),
                 operation="syllogism",
                 conclusion="derived_conclusion",
-                confidence=0.9,
-                reasoning_type=ReasoningType.DEDUCTIVE,
+                confidence=0.9
+                reasoning_type=ReasoningType.DEDUCTIVE
             )
         return None
 
@@ -365,8 +370,8 @@ class LogicalReasoner:
                 rule="analogy",
                 premises=[source, target],
                 conclusion={"mapped": f"Structure mapped from {source} to {target}"},
-                confidence=0.7,
-                reasoning_type=ReasoningType.ABDUCTIVE,
+                confidence=0.7
+                reasoning_type=ReasoningType.ABDUCTIVE
             )
         return None
 
@@ -377,10 +382,10 @@ class LogicalReasoner:
             if pattern:
                 return LogicalStep(
                     rule="induction",
-                    premises=examples,
+                    premises=examples
                     conclusion={"generalization": pattern},
-                    confidence=0.6,
-                    reasoning_type=ReasoningType.INDUCTIVE,
+                    confidence=0.6
+                    reasoning_type=ReasoningType.INDUCTIVE
                 )
         return None
 
@@ -410,13 +415,13 @@ class LogicalReasoner:
             {
                 "source": items[0],
                 "target": items[1],
-                "similarity": 0.8,
+                "similarity": 0.8
                 "inference": "analogical_conclusion",
             }
         ]
-
-
 class System2Processor:
+    """Auto-generated class."""
+    pass
     """
     Main System 2 processor implementing slow, analytical cognition
 
@@ -433,10 +438,10 @@ class System2Processor:
 
         # Performance monitoring
         self.performance_stats = {
-            "total_calls": 0,
-            "avg_response_time": 0.0,
-            "max_response_time": 0.0,
-            "timeout_count": 0,
+            "total_calls": 0
+            "avg_response_time": 0.0
+            "max_response_time": 0.0
+            "timeout_count": 0
         }
 
         # Safety limits
@@ -447,10 +452,10 @@ class System2Processor:
         logger.info("🧠 System 2 Processor initialized (slow/analytical)")
 
     async def process(
-        self,
-        input_data: torch.Tensor,
-        context: Optional[Dict[str, Any]] = None,
-        required_reasoning: Optional[List[ReasoningType]] = None,
+        self
+        input_data: torch.Tensor
+        context: Optional[Dict[str, Any]] = None
+        required_reasoning: Optional[List[ReasoningType]] = None
     ) -> AnalysisResult:
         """
         Main System 2 processing function
@@ -496,7 +501,7 @@ class System2Processor:
                 # Apply reasoning
                 steps = await asyncio.wait_for(
                     self._async_reason(premises, reasoning_type),
-                    timeout=self.MAX_RESPONSE_TIME - elapsed,
+                    timeout=self.MAX_RESPONSE_TIME - elapsed
                 )
 
                 all_steps.extend(steps)
@@ -522,12 +527,12 @@ class System2Processor:
             self._update_stats(processing_time)
 
             result = AnalysisResult(
-                reasoning_chain=all_steps,
-                conclusions=conclusions,
+                reasoning_chain=all_steps
+                conclusions=conclusions
                 working_memory_trace=self.working_memory.get_trace(),
-                confidence=confidence,
-                processing_time=processing_time,
-                reasoning_types_used=reasoning_types_used,
+                confidence=confidence
+                processing_time=processing_time
+                reasoning_types_used=reasoning_types_used
             )
 
             # Safety validation
@@ -547,8 +552,8 @@ class System2Processor:
                 reasoning_chain=[],
                 conclusions=[],
                 working_memory_trace=self.working_memory.get_trace(),
-                confidence=0.0,
-                processing_time=self.MAX_RESPONSE_TIME,
+                confidence=0.0
+                processing_time=self.MAX_RESPONSE_TIME
                 reasoning_types_used=set(),
             )
 
@@ -578,7 +583,7 @@ class System2Processor:
             {
                 "type": "observation",
                 "content": f"data_mean={np.mean(data_np):.3f}",
-                "confidence": 1.0,
+                "confidence": 1.0
             }
         )
 
@@ -586,7 +591,7 @@ class System2Processor:
             {
                 "type": "observation",
                 "content": f"data_variance={np.var(data_np):.3f}",
-                "confidence": 1.0,
+                "confidence": 1.0
             }
         )
 
@@ -598,7 +603,7 @@ class System2Processor:
                         {
                             "type": "context",
                             "content": f"{key}={value}",
-                            "confidence": 0.9,
+                            "confidence": 0.9
                         }
                     )
 
@@ -637,9 +642,9 @@ class System2Processor:
             key = step.conclusion
             if key not in conclusion_map:
                 conclusion_map[key] = {
-                    "conclusion": key,
+                    "conclusion": key
                     "supporting_steps": [],
-                    "average_confidence": 0.0,
+                    "average_confidence": 0.0
                     "reasoning_types": set(),
                 }
 
@@ -676,11 +681,11 @@ class System2Processor:
 
         # Weight by reasoning type reliability
         type_weights = {
-            ReasoningType.DEDUCTIVE: 0.95,
-            ReasoningType.CAUSAL: 0.85,
-            ReasoningType.ANALOGICAL: 0.75,
-            ReasoningType.INDUCTIVE: 0.70,
-            ReasoningType.ABDUCTIVE: 0.65,
+            ReasoningType.DEDUCTIVE: 0.95
+            ReasoningType.CAUSAL: 0.85
+            ReasoningType.ANALOGICAL: 0.75
+            ReasoningType.INDUCTIVE: 0.70
+            ReasoningType.ABDUCTIVE: 0.65
         }
 
         weighted_sum = 0.0
@@ -750,11 +755,11 @@ class System2Processor:
     def get_performance_report(self) -> Dict[str, Any]:
         """Get performance statistics for monitoring"""
         return {
-            **self.performance_stats,
+            **self.performance_stats
             "compliance": {
                 "response_time_ok": self.performance_stats["max_response_time"]
-                < self.MAX_RESPONSE_TIME,
-                "memory_ok": self._check_memory_usage() < self.MAX_MEMORY_GB,
+                < self.MAX_RESPONSE_TIME
+                "memory_ok": self._check_memory_usage() < self.MAX_MEMORY_GB
                 "timeout_rate": self.performance_stats["timeout_count"]
                 / max(self.performance_stats["total_calls"], 1),
             },

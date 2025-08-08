@@ -1,0 +1,16 @@
+app:
+  debug: true
+  name: KIMERA SWM
+  version: 2.0.0
+environment: testing
+logging:
+  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  level: INFO
+performance:
+  chunk_size: 50
+  max_workers: 16
+  timeout: 30
+security:
+  cors_origins:
+  - https://kimera.ai
+  secret_key: change-me-in-production

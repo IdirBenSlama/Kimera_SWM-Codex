@@ -22,9 +22,9 @@ from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 
 logger = logging.getLogger(__name__)
-
-
 class RateLimiter:
+    """Auto-generated class."""
+    pass
     """Token bucket rate limiter."""
 
     def __init__(self, rate: int = 100, per: int = 60):
@@ -48,9 +48,9 @@ class RateLimiter:
 
         self.allowance[key] -= 1.0
         return True
-
-
 class SecurityHeaders:
+    """Auto-generated class."""
+    pass
     """Security headers configuration."""
 
     HEADERS = {

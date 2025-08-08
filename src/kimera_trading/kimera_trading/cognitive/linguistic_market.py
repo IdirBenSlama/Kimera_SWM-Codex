@@ -1,4 +1,6 @@
 class LinguisticMarketAnalyzer:
+    """Auto-generated class."""
+    pass
     """Analyzes market data using linguistic intelligence."""
 
     def __init__(self, kimera_bridge):

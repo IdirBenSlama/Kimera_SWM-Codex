@@ -66,6 +66,8 @@ class VoteResult(Generic[T]):
 
 @dataclass
 class Voter:
+    """Auto-generated class."""
+    pass
     """Individual voter in the redundant system."""
 
     id: str

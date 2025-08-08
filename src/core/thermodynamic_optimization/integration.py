@@ -1,5 +1,6 @@
 """
-Thermodynamic Signal and Efficiency Optimization Integration Module
+"""Thermodynamic Signal and Efficiency Optimization Integration Module"""
+
 ==================================================================
 
 This module integrates all thermodynamic optimization components into
@@ -41,7 +42,7 @@ except ImportError:
 
 
 try:
-    from src.core.constants import EPSILON, MAX_ITERATIONS, PHI
+    from src.core.primitives.constants import EPSILON, MAX_ITERATIONS, PHI
 except ImportError:
     try:
         from core.constants import EPSILON, MAX_ITERATIONS, PHI
@@ -58,9 +59,8 @@ except ImportError:
     ThermodynamicEfficiencyOptimizer = None
 
 try:
-    from .thermodynamic_signal_evolution import (
-        ThermodynamicSignalEvolutionEngine as ThermodynamicSignalEvolution,
-    )
+    from .thermodynamic_signal_evolution import \
+        ThermodynamicSignalEvolutionEngine as ThermodynamicSignalEvolution
 except ImportError:
     ThermodynamicSignalEvolution = None
 
@@ -70,9 +70,8 @@ except ImportError:
     ThermodynamicSignalOptimizer = None
 
 try:
-    from .thermodynamic_signal_validation import (
-        ThermodynamicSignalValidationSuite as ThermodynamicSignalValidation,
-    )
+    from .thermodynamic_signal_validation import \
+        ThermodynamicSignalValidationSuite as ThermodynamicSignalValidation
 except ImportError:
     ThermodynamicSignalValidation = None
 
@@ -81,6 +80,8 @@ logger = get_system_logger(__name__)
 
 @dataclass
 class ThermodynamicOptimizationMetrics:
+    """Auto-generated class."""
+    pass
     """Comprehensive metrics for thermodynamic optimization system."""
 
     efficiency_score: float = 0.0
@@ -96,9 +97,9 @@ class ThermodynamicOptimizationMetrics:
     def __post_init__(self):
         if self.last_update is None:
             self.last_update = datetime.now(timezone.utc)
-
-
 class ThermodynamicOptimizationIntegrator:
+    """Auto-generated class."""
+    pass
     """
     DO-178C Level A Thermodynamic Signal and Efficiency Optimization Integrator.
 
@@ -126,9 +127,8 @@ class ThermodynamicOptimizationIntegrator:
 
         # Initialize foundational engine first (required by other components)
         try:
-            from ..foundational_thermodynamic_engine import (
-                FoundationalThermodynamicEngine,
-            )
+            from ..foundational_thermodynamic_engine import \
+                FoundationalThermodynamicEngine
 
             self.foundational_engine = FoundationalThermodynamicEngine()
             logger.info("✅ FoundationalThermodynamicEngine initialized")
@@ -411,21 +411,21 @@ class ThermodynamicOptimizationIntegrator:
         """
         with self._lock:
             return {
-                "status": self.metrics.health_status,
-                "efficiency_score": self.metrics.efficiency_score,
-                "signal_quality": self.metrics.signal_quality,
-                "optimization_ratio": self.metrics.optimization_ratio,
-                "validation_pass_rate": self.metrics.validation_pass_rate,
-                "evolution_stability": self.metrics.evolution_stability,
-                "total_processed_signals": self.metrics.total_processed_signals,
-                "optimization_cycles": self.metrics.optimization_cycles,
+                "status": self.metrics.health_status
+                "efficiency_score": self.metrics.efficiency_score
+                "signal_quality": self.metrics.signal_quality
+                "optimization_ratio": self.metrics.optimization_ratio
+                "validation_pass_rate": self.metrics.validation_pass_rate
+                "evolution_stability": self.metrics.evolution_stability
+                "total_processed_signals": self.metrics.total_processed_signals
+                "optimization_cycles": self.metrics.optimization_cycles
                 "last_update": self.metrics.last_update.isoformat(),
-                "initialized": self._initialized,
+                "initialized": self._initialized
                 "components": {
-                    "efficiency_optimizer": self.efficiency_optimizer is not None,
-                    "signal_evolution": self.signal_evolution is not None,
-                    "signal_optimizer": self.signal_optimizer is not None,
-                    "signal_validation": self.signal_validation is not None,
+                    "efficiency_optimizer": self.efficiency_optimizer is not None
+                    "signal_evolution": self.signal_evolution is not None
+                    "signal_optimizer": self.signal_optimizer is not None
+                    "signal_validation": self.signal_validation is not None
                 },
             }
 

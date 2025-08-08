@@ -1,1 +1,0 @@
-# Kimera SWM - Rebuilt Architecture

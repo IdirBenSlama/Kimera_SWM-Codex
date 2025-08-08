@@ -232,7 +232,7 @@ async def quantum_explore(request: QuantumExploreRequest) -> Dict[str, Any]:
                             # Quantum gate operations
                             rotation_angle = torch.pi * iteration / request.iterations
                             rotation_matrix = torch.tensor(
-                                [
+                        [
                                     [
                                         torch.cos(rotation_angle),
                                         -torch.sin(rotation_angle),
@@ -241,9 +241,9 @@ async def quantum_explore(request: QuantumExploreRequest) -> Dict[str, Any]:
                                         torch.sin(rotation_angle),
                                         torch.cos(rotation_angle),
                                     ],
-                                ],
-                                device=gpu_accelerator.device,
-                                dtype=torch.complex64,
+                        ],
+                        device=gpu_accelerator.device,
+                                dtype=torch.complex64
                             )
 
                             # Apply rotation to part of state
@@ -355,8 +355,8 @@ async def get_acceleration_status() -> Dict[str, Any]:
     except Exception as e:
         logger.error(f"Failed to get acceleration status: {e}")
         return {
-            "gpu_acceleration": False,
-            "reason": f"Error: {str(e)}",
+                "gpu_acceleration": False,
+                "reason": f"Error: {str(e)}",
             "status": "error",
             "fallback": "CPU processing active",
         }

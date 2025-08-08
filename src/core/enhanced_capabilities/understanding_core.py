@@ -54,6 +54,8 @@ class UnderstandingType(Enum):
 
 @dataclass
 class UnderstandingResult:
+    """Auto-generated class."""
+    pass
     """Result from understanding processing"""
 
     understanding_id: str
@@ -88,9 +90,9 @@ class UnderstandingResult:
     )
     success: bool = True
     error_log: List[str] = field(default_factory=list)
-
-
 class SelfModelSystem:
+    """Auto-generated class."""
+    pass
     """Self-model awareness and introspection system"""
 
     def __init__(self, model_dimension: int = 512):
@@ -128,18 +130,18 @@ class SelfModelSystem:
             self_awareness = self._calculate_self_awareness()
 
             introspection_result = {
-                "cognitive_state_analysis": cognitive_analysis,
-                "capability_assessment": capability_assessment,
-                "goal_alignment": goal_alignment,
-                "self_awareness_level": self_awareness,
+                "cognitive_state_analysis": cognitive_analysis
+                "capability_assessment": capability_assessment
+                "goal_alignment": goal_alignment
+                "self_awareness_level": self_awareness
                 "introspection_quality": min(
-                    1.0,
+                    1.0
                     (
                         cognitive_analysis.get("quality", 0.5)
                         + capability_assessment.get("accuracy", 0.5)
                         + goal_alignment.get("coherence", 0.5)
                     )
-                    / 3.0,
+                    / 3.0
                 ),
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             }
@@ -156,8 +158,8 @@ class SelfModelSystem:
             logger.error(f"Self-model introspection failed: {e}")
             return {
                 "error": str(e),
-                "self_awareness_level": 0.0,
-                "introspection_quality": 0.0,
+                "self_awareness_level": 0.0
+                "introspection_quality": 0.0
             }
 
     def _analyze_cognitive_state(self, state: torch.Tensor) -> Dict[str, Any]:
@@ -170,10 +172,10 @@ class SelfModelSystem:
         complexity = torch.sum(state != 0).item() / len(state)
 
         return {
-            "activation_level": activation_level,
+            "activation_level": activation_level
             "coherence": max(0.0, min(1.0, coherence)),
-            "complexity": complexity,
-            "quality": (activation_level + coherence + complexity) / 3.0,
+            "complexity": complexity
+            "quality": (activation_level + coherence + complexity) / 3.0
         }
 
     def _assess_capabilities(self, context: Dict[str, Any]) -> Dict[str, Any]:
@@ -189,9 +191,9 @@ class SelfModelSystem:
 
         return {
             "capability_score": max(0.0, min(1.0, capability_score)),
-            "resource_availability": available_resources,
+            "resource_availability": available_resources
             "task_complexity_match": 1.0 - abs(0.5 - task_complexity),
-            "accuracy": 0.7 + 0.3 * capability_score,
+            "accuracy": 0.7 + 0.3 * capability_score
         }
 
     def _analyze_goal_alignment(self, context: Dict[str, Any]) -> Dict[str, Any]:
@@ -203,11 +205,11 @@ class SelfModelSystem:
         alignment_score = goal_clarity * progress_toward_goal
 
         return {
-            "current_goal": current_goal,
-            "goal_clarity": goal_clarity,
-            "progress_toward_goal": progress_toward_goal,
-            "alignment_score": alignment_score,
-            "coherence": 0.6 + 0.4 * alignment_score,
+            "current_goal": current_goal
+            "goal_clarity": goal_clarity
+            "progress_toward_goal": progress_toward_goal
+            "alignment_score": alignment_score
+            "coherence": 0.6 + 0.4 * alignment_score
         }
 
     def _calculate_self_awareness(self) -> float:
@@ -224,12 +226,12 @@ class SelfModelSystem:
         )
 
         return max(
-            0.0,
+            0.0
             min(1.0, (quality_sum / len(recent_introspections) + consistency) / 2.0),
         )
-
-
 class CausalReasoningEngine:
+    """Auto-generated class."""
+    pass
     """Causal reasoning and inference system"""
 
     def __init__(self, max_causal_depth: int = 5):
@@ -260,11 +262,11 @@ class CausalReasoningEngine:
             explanations = self._generate_causal_explanations(causal_relationships)
 
             return {
-                "causal_elements": causal_elements,
-                "causal_chain": causal_chain,
-                "causal_relationships": causal_relationships,
-                "coherence_score": coherence_score,
-                "explanations": explanations,
+                "causal_elements": causal_elements
+                "causal_chain": causal_chain
+                "causal_relationships": causal_relationships
+                "coherence_score": coherence_score
+                "explanations": explanations
                 "reasoning_depth": len(causal_chain),
                 "confidence": min(1.0, coherence_score * 0.8 + 0.2),
             }
@@ -274,8 +276,8 @@ class CausalReasoningEngine:
             return {
                 "error": str(e),
                 "causal_relationships": [],
-                "coherence_score": 0.0,
-                "confidence": 0.0,
+                "coherence_score": 0.0
+                "confidence": 0.0
             }
 
     def _extract_causal_elements(
@@ -310,11 +312,11 @@ class CausalReasoningEngine:
                 elements.append(
                     {
                         "type": "causal_relation",
-                        "cause": cause,
-                        "effect": effect,
-                        "indicator": word,
+                        "cause": cause
+                        "effect": effect
+                        "indicator": word
                         "strength": 0.7,  # Default strength
-                        "position": i,
+                        "position": i
                     }
                 )
 
@@ -323,9 +325,9 @@ class CausalReasoningEngine:
             elements.append(
                 {
                     "type": "implicit_causal",
-                    "content": premise,
-                    "strength": 0.3,
-                    "requires_inference": True,
+                    "content": premise
+                    "strength": 0.3
+                    "requires_inference": True
                 }
             )
 
@@ -356,7 +358,7 @@ class CausalReasoningEngine:
                         "content": element["content"],
                         "strength": element["strength"],
                         "type": "implicit_causation",
-                        "requires_inference": True,
+                        "requires_inference": True
                     }
                 )
 
@@ -371,11 +373,11 @@ class CausalReasoningEngine:
         for i, step in enumerate(causal_chain):
             relationship = {
                 "id": f"causal_rel_{i}",
-                "step_index": i,
+                "step_index": i
                 "relationship_type": step.get("type", "unknown"),
                 "strength": step.get("strength", 0.5),
                 "confidence": 0.6 + 0.4 * step.get("strength", 0.5),
-                "temporal_order": i,
+                "temporal_order": i
                 "causal_direction": "forward",
             }
 
@@ -423,18 +425,18 @@ class CausalReasoningEngine:
             explanations.append(explanation)
 
         return explanations
-
-
 class MultimodalGroundingSystem:
+    """Auto-generated class."""
+    pass
     """Multimodal grounding and comprehension system"""
 
     def __init__(self, modality_dimensions: Dict[str, int] = None):
         self.modality_dimensions = modality_dimensions or {
-            "linguistic": 768,
-            "visual": 512,
-            "auditory": 256,
-            "sensorimotor": 384,
-            "conceptual": 512,
+            "linguistic": 768
+            "visual": 512
+            "auditory": 256
+            "sensorimotor": 384
+            "conceptual": 512
         }
 
         # Initialize modality representations
@@ -491,12 +493,12 @@ class MultimodalGroundingSystem:
             )
 
             return {
-                "modality_groundings": grounding_results,
-                "cross_modal_alignment": cross_modal_alignment,
-                "coherence_score": coherence_score,
-                "integrated_representation": integrated_representation,
+                "modality_groundings": grounding_results
+                "cross_modal_alignment": cross_modal_alignment
+                "coherence_score": coherence_score
+                "integrated_representation": integrated_representation
                 "grounding_quality": min(1.0, coherence_score * 0.7 + 0.3),
-                "modalities_used": modalities,
+                "modalities_used": modalities
             }
 
         except Exception as e:
@@ -538,9 +540,9 @@ class MultimodalGroundingSystem:
         )
 
         return {
-            "representation": processed_repr,
+            "representation": processed_repr
             "grounding_strength": torch.mean(torch.abs(processed_repr)).item(),
-            "modality_activation": torch.sum(processed_repr > 0.1).item() / dimension,
+            "modality_activation": torch.sum(processed_repr > 0.1).item() / dimension
             "confidence": 0.6 + 0.4 * torch.mean(torch.abs(processed_repr)).item(),
         }
 
@@ -639,9 +641,9 @@ class MultimodalGroundingSystem:
             integrated = torch.zeros(512)
 
         return integrated
-
-
 class GenuineUnderstanding:
+    """Auto-generated class."""
+    pass
     """Core genuine understanding system"""
 
     def __init__(self, understanding_threshold: float = 0.7):
@@ -658,9 +660,9 @@ class GenuineUnderstanding:
         logger.debug("Genuine understanding system initialized")
 
     async def achieve_understanding(
-        self,
-        content: Any,
-        understanding_type: UnderstandingType,
+        self
+        content: Any
+        understanding_type: UnderstandingType
         context: Dict[str, Any],
         semantic_understanding: Dict[str, Any],
         causal_relationships: List[Dict[str, Any]],
@@ -671,18 +673,18 @@ class GenuineUnderstanding:
         try:
             # Calculate understanding depth
             understanding_depth = self._calculate_understanding_depth(
-                semantic_understanding,
-                causal_relationships,
-                self_model_activation,
-                multimodal_grounding,
+                semantic_understanding
+                causal_relationships
+                self_model_activation
+                multimodal_grounding
             )
 
             # Evaluate understanding quality
             understanding_quality = self._evaluate_understanding_quality(
-                semantic_understanding,
-                causal_relationships,
-                self_model_activation,
-                multimodal_grounding,
+                semantic_understanding
+                causal_relationships
+                self_model_activation
+                multimodal_grounding
             )
 
             # Assess genuine understanding criteria
@@ -694,10 +696,10 @@ class GenuineUnderstanding:
             is_genuine = understanding_depth > self.understanding_threshold
 
             understanding_result = {
-                "understanding_achieved": is_genuine,
-                "understanding_depth": understanding_depth,
-                "understanding_quality": understanding_quality,
-                "genuine_criteria": genuine_criteria,
+                "understanding_achieved": is_genuine
+                "understanding_depth": understanding_depth
+                "understanding_quality": understanding_quality
+                "genuine_criteria": genuine_criteria
                 "confidence": min(1.0, understanding_depth * understanding_quality),
                 "explanation": self._generate_understanding_explanation(
                     is_genuine, understanding_depth, genuine_criteria
@@ -709,8 +711,8 @@ class GenuineUnderstanding:
                 {
                     "timestamp": datetime.now(timezone.utc).isoformat(),
                     "content": str(content)[:100],  # Truncated for storage
-                    "understanding_type": understanding_type.value,
-                    "understanding_result": understanding_result,
+                    "understanding_type": understanding_type.value
+                    "understanding_result": understanding_result
                 }
             )
 
@@ -723,14 +725,14 @@ class GenuineUnderstanding:
         except Exception as e:
             logger.error(f"Genuine understanding assessment failed: {e}")
             return {
-                "understanding_achieved": False,
-                "understanding_depth": 0.0,
-                "understanding_quality": 0.0,
+                "understanding_achieved": False
+                "understanding_depth": 0.0
+                "understanding_quality": 0.0
                 "error": str(e),
             }
 
     def _calculate_understanding_depth(
-        self,
+        self
         semantic: Dict[str, Any],
         causal: List[Dict[str, Any]],
         self_model: Dict[str, Any],
@@ -756,7 +758,7 @@ class GenuineUnderstanding:
         return max(0.0, min(1.0, depth))
 
     def _evaluate_understanding_quality(
-        self,
+        self
         semantic: Dict[str, Any],
         causal: List[Dict[str, Any]],
         self_model: Dict[str, Any],
@@ -786,11 +788,11 @@ class GenuineUnderstanding:
     ) -> Dict[str, Any]:
         """Assess criteria for genuine understanding"""
         criteria = {
-            "sufficient_depth": depth > self.understanding_threshold,
-            "high_quality": quality > 0.6,
-            "context_appropriate": context.get("complexity", 0.5) <= depth,
-            "internally_consistent": abs(depth - quality) < 0.3,
-            "demonstrates_comprehension": depth > 0.5 and quality > 0.5,
+            "sufficient_depth": depth > self.understanding_threshold
+            "high_quality": quality > 0.6
+            "context_appropriate": context.get("complexity", 0.5) <= depth
+            "internally_consistent": abs(depth - quality) < 0.3
+            "demonstrates_comprehension": depth > 0.5 and quality > 0.5
         }
 
         criteria["overall_genuine"] = all(
@@ -814,15 +816,15 @@ class GenuineUnderstanding:
                 k for k, v in criteria.items() if not v and k != "overall_genuine"
             ]
             return f"Understanding incomplete (depth: {depth:.3f}). Missing criteria: {', '.join(missing_criteria)}"
-
-
 class UnderstandingCore:
+    """Auto-generated class."""
+    pass
     """Main Understanding Core system integrating all understanding capabilities"""
 
     def __init__(
-        self,
-        default_mode: UnderstandingMode = UnderstandingMode.CONCEPTUAL,
-        understanding_threshold: float = 0.7,
+        self
+        default_mode: UnderstandingMode = UnderstandingMode.CONCEPTUAL
+        understanding_threshold: float = 0.7
         device: str = "cpu",
     ):
 
@@ -852,10 +854,10 @@ class UnderstandingCore:
         logger.info(f"   Device: {device}")
 
     def register_foundational_systems(
-        self,
-        spde_core: Optional[SPDECore] = None,
-        barenholtz_core: Optional[BarenholtzCore] = None,
-        cognitive_cycle_core: Optional[CognitiveCycleCore] = None,
+        self
+        spde_core: Optional[SPDECore] = None
+        barenholtz_core: Optional[BarenholtzCore] = None
+        cognitive_cycle_core: Optional[CognitiveCycleCore] = None
     ):
         """Register foundational systems for integration"""
         if spde_core:
@@ -868,11 +870,11 @@ class UnderstandingCore:
         logger.info("✅ Understanding Core foundational systems registered")
 
     async def understand(
-        self,
-        content: Any,
-        understanding_type: UnderstandingType = UnderstandingType.SEMANTIC,
-        mode: Optional[UnderstandingMode] = None,
-        context: Optional[Dict[str, Any]] = None,
+        self
+        content: Any
+        understanding_type: UnderstandingType = UnderstandingType.SEMANTIC
+        mode: Optional[UnderstandingMode] = None
+        context: Optional[Dict[str, Any]] = None
     ) -> UnderstandingResult:
         """Main understanding processing method"""
 
@@ -914,13 +916,13 @@ class UnderstandingCore:
 
             # Phase 6: Genuine Understanding Assessment
             genuine_assessment = await self.genuine_understanding.achieve_understanding(
-                content,
-                understanding_type,
-                context,
-                semantic_understanding,
-                causal_relationships,
-                self_model_activation,
-                multimodal_grounding,
+                content
+                understanding_type
+                context
+                semantic_understanding
+                causal_relationships
+                self_model_activation
+                multimodal_grounding
             )
 
             # Calculate final metrics
@@ -938,20 +940,20 @@ class UnderstandingCore:
 
             # Create result
             result = UnderstandingResult(
-                understanding_id=understanding_id,
-                input_content=content,
-                understanding_type=understanding_type,
-                mode_used=mode,
-                semantic_understanding=semantic_understanding,
-                causal_relationships=causal_relationships,
-                self_model_activation=self_model_activation,
-                multimodal_grounding=multimodal_grounding,
-                understanding_depth=understanding_depth,
-                confidence_score=confidence_score,
-                comprehension_quality=comprehension_quality,
-                causal_coherence=causal_coherence,
-                self_awareness_level=self_awareness_level,
-                processing_time=processing_time,
+                understanding_id=understanding_id
+                input_content=content
+                understanding_type=understanding_type
+                mode_used=mode
+                semantic_understanding=semantic_understanding
+                causal_relationships=causal_relationships
+                self_model_activation=self_model_activation
+                multimodal_grounding=multimodal_grounding
+                understanding_depth=understanding_depth
+                confidence_score=confidence_score
+                comprehension_quality=comprehension_quality
+                causal_coherence=causal_coherence
+                self_awareness_level=self_awareness_level
+                processing_time=processing_time
                 computational_cost=self._calculate_computational_cost(processing_time),
                 spde_diffusion_patterns=foundational_integration.get("spde_patterns"),
                 barenholtz_dual_processing=foundational_integration.get(
@@ -977,22 +979,22 @@ class UnderstandingCore:
         except Exception as e:
             logger.error(f"Understanding processing failed: {e}")
             error_result = UnderstandingResult(
-                understanding_id=understanding_id,
-                input_content=content,
-                understanding_type=understanding_type,
-                mode_used=mode,
+                understanding_id=understanding_id
+                input_content=content
+                understanding_type=understanding_type
+                mode_used=mode
                 semantic_understanding={},
                 causal_relationships=[],
                 self_model_activation={},
                 multimodal_grounding={},
-                understanding_depth=0.0,
-                confidence_score=0.0,
-                comprehension_quality=0.0,
-                causal_coherence=0.0,
-                self_awareness_level=0.0,
-                processing_time=time.time() - processing_start,
-                computational_cost=0.0,
-                success=False,
+                understanding_depth=0.0
+                confidence_score=0.0
+                comprehension_quality=0.0
+                causal_coherence=0.0
+                self_awareness_level=0.0
+                processing_time=time.time() - processing_start
+                computational_cost=0.0
+                success=False
                 error_log=[str(e)],
             )
 
@@ -1013,9 +1015,9 @@ class UnderstandingCore:
 
                 # Simple semantic features
                 semantic_features = {
-                    "content_length": content_length,
-                    "word_count": word_count,
-                    "complexity": complexity,
+                    "content_length": content_length
+                    "word_count": word_count
+                    "complexity": complexity
                     "semantic_density": word_count / max(content_length, 1),
                     "conceptual_depth": min(
                         1.0, len(set(content.lower().split())) / max(word_count, 1)
@@ -1035,25 +1037,25 @@ class UnderstandingCore:
                 # Non-string content
                 semantic_features = {
                     "content_type": str(type(content)),
-                    "complexity": 0.5,
-                    "analyzable": False,
+                    "complexity": 0.5
+                    "analyzable": False
                 }
                 understanding_quality = 0.3
                 comprehension_score = 0.4
 
             return {
-                "semantic_features": semantic_features,
-                "understanding_quality": understanding_quality,
-                "comprehension_score": comprehension_score,
-                "semantic_confidence": comprehension_score,
+                "semantic_features": semantic_features
+                "understanding_quality": understanding_quality
+                "comprehension_score": comprehension_score
+                "semantic_confidence": comprehension_score
             }
 
         except Exception as e:
             logger.error(f"Semantic understanding failed: {e}")
             return {
                 "semantic_features": {},
-                "understanding_quality": 0.0,
-                "comprehension_score": 0.0,
+                "understanding_quality": 0.0
+                "comprehension_score": 0.0
                 "error": str(e),
             }
 
@@ -1073,8 +1075,8 @@ class UnderstandingCore:
                     {
                         "id": "non_textual_causal",
                         "type": "implicit",
-                        "strength": 0.3,
-                        "confidence": 0.2,
+                        "strength": 0.3
+                        "confidence": 0.2
                         "content": str(content)[:50],
                     }
                 ]
@@ -1131,8 +1133,8 @@ class UnderstandingCore:
         return F.normalize(base_state + context_influence, p=2, dim=0)
 
     async def _integrate_with_foundational_systems(
-        self,
-        content: Any,
+        self
+        content: Any
         semantic_understanding: Dict[str, Any],
         context: Dict[str, Any],
     ) -> Dict[str, Any]:
@@ -1157,9 +1159,9 @@ class UnderstandingCore:
                     spde_state
                 )
                 integration_result["spde_patterns"] = {
-                    "diffusion_entropy": spde_result.entropy_change,
-                    "processing_time": spde_result.processing_time,
-                    "method_used": spde_result.method_used.value,
+                    "diffusion_entropy": spde_result.entropy_change
+                    "processing_time": spde_result.processing_time
+                    "method_used": spde_result.method_used.value
                 }
 
             # Barenholtz integration
@@ -1168,9 +1170,9 @@ class UnderstandingCore:
                     content, context
                 )
                 integration_result["barenholtz_processing"] = {
-                    "dual_system_confidence": dual_result.confidence_score,
-                    "embedding_alignment": dual_result.embedding_alignment,
-                    "processing_time": dual_result.processing_time,
+                    "dual_system_confidence": dual_result.confidence_score
+                    "embedding_alignment": dual_result.embedding_alignment
+                    "processing_time": dual_result.processing_time
                 }
 
             # Cognitive Cycle integration
@@ -1182,9 +1184,9 @@ class UnderstandingCore:
                     cognitive_input, cycle_context
                 )
                 integration_result["cycle_integration"] = {
-                    "cycle_success": cycle_result.success,
-                    "integration_score": cycle_result.metrics.integration_score,
-                    "processing_time": cycle_result.metrics.total_duration,
+                    "cycle_success": cycle_result.success
+                    "integration_score": cycle_result.metrics.integration_score
+                    "processing_time": cycle_result.metrics.total_duration
                 }
 
         except Exception as e:
@@ -1229,12 +1231,12 @@ class UnderstandingCore:
 
         return {
             "understanding_core_status": "operational",
-            "total_understanding_requests": self.total_understanding_requests,
-            "successful_understanding_count": self.successful_understanding_count,
-            "success_rate": success_rate,
-            "understanding_threshold": self.understanding_threshold,
-            "default_mode": self.default_mode.value,
-            "recent_performance": recent_performance,
+            "total_understanding_requests": self.total_understanding_requests
+            "successful_understanding_count": self.successful_understanding_count
+            "success_rate": success_rate
+            "understanding_threshold": self.understanding_threshold
+            "default_mode": self.default_mode.value
+            "recent_performance": recent_performance
             "components": {
                 "self_model_system": len(self.self_model_system.introspection_history),
                 "causal_reasoning_engine": len(
@@ -1248,8 +1250,8 @@ class UnderstandingCore:
                 ),
             },
             "foundational_systems": {
-                "spde_core": self.spde_core is not None,
-                "barenholtz_core": self.barenholtz_core is not None,
-                "cognitive_cycle_core": self.cognitive_cycle_core is not None,
+                "spde_core": self.spde_core is not None
+                "barenholtz_core": self.barenholtz_core is not None
+                "cognitive_cycle_core": self.cognitive_cycle_core is not None
             },
         }

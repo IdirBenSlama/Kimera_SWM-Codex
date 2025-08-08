@@ -10,15 +10,8 @@ import logging
 import time
 from typing import Any, Dict, Optional
 
-from prometheus_client import (
-    CONTENT_TYPE_LATEST,
-    Counter,
-    Gauge,
-    Histogram,
-    Info,
-    Summary,
-    generate_latest,
-)
+from prometheus_client import (CONTENT_TYPE_LATEST, Counter, Gauge, Histogram, Info,
+                               Summary, generate_latest)
 
 logger = logging.getLogger(__name__)
 
@@ -149,7 +142,7 @@ async def collect_system_metrics():
 
             # Component health checks
             try:
-                from src.core.kimera_system import get_kimera_system
+                from src.core.system.kimera_system import get_kimera_system
 
                 system = get_kimera_system()
                 status = system.get_status()
@@ -181,9 +174,8 @@ async def collect_system_metrics():
 
             # Cognitive field metrics
             try:
-                from src.monitoring.cognitive_field_metrics import (
-                    get_cognitive_field_metrics,
-                )
+                from src.monitoring.cognitive_field_metrics import \
+                    get_cognitive_field_metrics
 
                 field_metrics = get_cognitive_field_metrics()
                 summary = field_metrics.get_field_summary()
@@ -286,6 +278,8 @@ def get_kimera_metrics():
 
 # Export commonly used functions
 class KimeraPrometheusMetrics:
+    """Auto-generated class."""
+    pass
     """Legacy compatibility class for KimeraPrometheusMetrics."""
 
     def __init__(self):

@@ -11,9 +11,13 @@ from typing import Any, Dict, List, Optional
 from fastapi import APIRouter, BackgroundTasks, HTTPException
 from pydantic import BaseModel
 
-from src.core.contextual_law_enforcement import get_enforcement_engine
-from src.core.immutable_laws import get_law_registry, verify_law_integrity
-from src.core.relevance_assessment import ContextType, RelevanceLevel, SafetyLevel
+from src.core.context.contextual_law_enforcement import get_enforcement_engine
+from src.core.ethics.immutable_laws import get_law_registry, verify_law_integrity
+from src.core.processing.relevance_assessment import (
+    ContextType,
+    RelevanceLevel,
+    SafetyLevel,
+)
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/law_enforcement", tags=["Law Enforcement"])
@@ -395,9 +399,9 @@ async def get_stability_metrics():
         # Add additional metrics
         stability["active_deviations_detail"] = {
             law_id: {
-                "deviation_amount": dev.deviation_amount,
-                "status": dev.status.value,
-                "monitoring_level": dev.monitoring_level,
+            "deviation_amount": dev.deviation_amount,
+            "status": dev.status.value,
+                "monitoring_level": dev.monitoring_level
             }
             for law_id, dev in enforcement_engine.active_deviations.items()
         }

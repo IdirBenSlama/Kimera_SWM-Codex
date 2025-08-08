@@ -21,7 +21,8 @@ try:
     from vault.vault_manager import VaultManager
 except ImportError:
     # Create placeholders for vault.vault_manager
-    class VaultManager:
+    class VaultManager:  # type: ignore
+        """Auto-generated class."""
         pass
 
 
@@ -29,7 +30,8 @@ try:
     from engines.contradiction_engine import ContradictionEngine
 except ImportError:
     # Create placeholders for engines.contradiction_engine
-    class ContradictionEngine:
+    class ContradictionEngine:  # type: ignore
+        """Auto-generated class."""
         pass
 
 
@@ -39,7 +41,8 @@ try:
     )
 except ImportError:
     # Create placeholders for engines.foundational_thermodynamic_engine
-    class FoundationalThermodynamicEngine:
+    class FoundationalThermodynamicEngine:  # type: ignore
+        """Auto-generated class."""
         pass
 
 
@@ -47,7 +50,8 @@ try:
     from utils.gpu_foundation import GPUFoundation
 except ImportError:
     # Create placeholders for utils.gpu_foundation
-    class GPUFoundation:
+    class GPUFoundation:  # type: ignore
+        """Auto-generated class."""
         pass
 
 
@@ -72,6 +76,14 @@ def get_gpu_foundation() -> Optional[GPUFoundation]:
     except (RuntimeError, ImportError, AttributeError) as exc:
         logger.warning("GPU unavailable or initialisation failed via DI (%s).", exc)
         return None
+
+def _cleanup_gpu_foundation(gpu_foundation: GPUFoundation) -> None:
+    """Best-effort cleanup for GPU foundation instance"""
+    try:
+        if hasattr(gpu_foundation, "cleanup"):
+            gpu_foundation.cleanup()  # type: ignore[attr-defined]
+    except Exception:
+        pass
 
 
 @lru_cache(maxsize=None)

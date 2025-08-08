@@ -45,23 +45,24 @@ class DatabaseSettings(BaseSettings):
     )
 
     pool_size: int = Field(
-        default=20,
+        default=20
         env="KIMERA_DB_POOL_SIZE",
-        ge=1,
-        le=100,
+        ge=1
+        le=100
         description="Database connection pool size",
     )
     pool_timeout: float = Field(
-        default=30.0,
+        default=30.0
         env="KIMERA_DB_POOL_TIMEOUT",
-        ge=1.0,
+        ge=1.0
         description="Database connection pool timeout in seconds",
     )
     echo: bool = Field(
         default=False, env="KIMERA_DB_ECHO", description="Echo SQL statements"
     )
-
-    class Config:
+class Config:
+    """Auto-generated class."""
+    pass
         env_prefix = "KIMERA_DB_"
 
 
@@ -80,7 +81,7 @@ class APIKeysSettings(BaseSettings):
 
     # Add more API keys as needed
     custom_api_keys: Dict[str, SecretStr] = Field(
-        default_factory=dict,
+        default_factory=dict
         env="KIMERA_CUSTOM_API_KEYS",
         description="Custom API keys as JSON",
     )
@@ -93,8 +94,9 @@ class APIKeysSettings(BaseSettings):
             except json.JSONDecodeError:
                 return {}
         return v
-
-    class Config:
+class Config:
+    """Auto-generated class."""
+    pass
         env_file = ".env"
         env_file_encoding = "utf-8"
         extra = "allow"  # Allow extra fields from environment
@@ -139,8 +141,9 @@ class PathSettings(BaseSettings):
         """Create directories if they don't exist"""
         v.mkdir(parents=True, exist_ok=True)
         return v
-
-    class Config:
+class Config:
+    """Auto-generated class."""
+    pass
         env_prefix = "KIMERA_"
 
 
@@ -148,44 +151,45 @@ class PerformanceSettings(BaseSettings):
     """Performance and resource configuration"""
 
     max_threads: int = Field(
-        default=32,
+        default=32
         env="KIMERA_MAX_THREADS",
-        ge=1,
-        le=128,
+        ge=1
+        le=128
         description="Maximum number of threads",
     )
     max_processes: int = Field(
-        default=4,
+        default=4
         env="KIMERA_MAX_PROCESSES",
-        ge=1,
-        le=16,
+        ge=1
+        le=16
         description="Maximum number of processes",
     )
     gpu_memory_fraction: float = Field(
-        default=0.8,
+        default=0.8
         env="KIMERA_GPU_MEMORY_FRACTION",
-        ge=0.1,
-        le=1.0,
+        ge=0.1
+        le=1.0
         description="GPU memory fraction to use",
     )
     batch_size: int = Field(
-        default=100,
+        default=100
         env="KIMERA_BATCH_SIZE",
-        ge=1,
-        le=10000,
+        ge=1
+        le=10000
         description="Default batch size for processing",
     )
     cache_size: int = Field(
         default=1000, env="KIMERA_CACHE_SIZE", ge=0, description="Default cache size"
     )
     request_timeout: float = Field(
-        default=30.0,
+        default=30.0
         env="KIMERA_REQUEST_TIMEOUT",
-        ge=1.0,
+        ge=1.0
         description="Default request timeout in seconds",
     )
-
-    class Config:
+class Config:
+    """Auto-generated class."""
+    pass
         env_prefix = "KIMERA_"
 
 
@@ -197,7 +201,7 @@ class ServerSettings(BaseSettings):
         default=8000, env="KIMERA_PORT", ge=1, le=65535, description="Server port"
     )
     reload: bool = Field(
-        default=False,
+        default=False
         env="KIMERA_RELOAD",
         description="Enable auto-reload (development only)",
     )
@@ -220,8 +224,9 @@ class ServerSettings(BaseSettings):
         if v and os.getenv("KIMERA_ENV", "development") == "production":
             raise ValueError("Auto-reload cannot be enabled in production")
         return v
-
-    class Config:
+class Config:
+    """Auto-generated class."""
+    pass
         env_prefix = "KIMERA_"
 
 
@@ -252,8 +257,9 @@ class LoggingSettings(BaseSettings):
     structured: bool = Field(
         default=True, env="KIMERA_LOG_STRUCTURED", description="Use structured logging"
     )
-
-    class Config:
+class Config:
+    """Auto-generated class."""
+    pass
         env_prefix = "KIMERA_LOG_"
 
 
@@ -282,8 +288,9 @@ class ThresholdSettings(BaseSettings):
     response_time_critical: float = Field(
         5.0, description="Response time critical threshold (s)"
     )
-
-    class Config:
+class Config:
+    """Auto-generated class."""
+    pass
         env_prefix = "KIMERA_MONITORING_THRESHOLDS_"
 
 
@@ -294,20 +301,20 @@ class MonitoringSettings(BaseSettings):
         default=True, env="KIMERA_MONITORING_ENABLED", description="Enable monitoring"
     )
     metrics_port: int = Field(
-        default=9090,
+        default=9090
         env="KIMERA_METRICS_PORT",
-        ge=1,
-        le=65535,
+        ge=1
+        le=65535
         description="Metrics server port",
     )
     health_check_interval: float = Field(
-        default=30.0,
+        default=30.0
         env="KIMERA_HEALTH_CHECK_INTERVAL",
-        ge=1.0,
+        ge=1.0
         description="Health check interval in seconds",
     )
     performance_tracking: bool = Field(
-        default=True,
+        default=True
         env="KIMERA_PERFORMANCE_TRACKING",
         description="Enable performance tracking",
     )
@@ -318,8 +325,9 @@ class MonitoringSettings(BaseSettings):
     thresholds: ThresholdSettings = Field(
         default_factory=ThresholdSettings, description="Health monitoring thresholds"
     )
-
-    class Config:
+class Config:
+    """Auto-generated class."""
+    pass
         env_prefix = "KIMERA_"
 
 
@@ -340,20 +348,20 @@ class SecuritySettings(BaseSettings):
         description="JWT token expiration time",
     )
     rate_limit_enabled: bool = Field(
-        default=True,
+        default=True
         env="KIMERA_RATE_LIMIT_ENABLED",
         description="Enable rate limiting",
     )
     rate_limit_requests: int = Field(
-        default=100,
+        default=100
         env="KIMERA_RATE_LIMIT_REQUESTS",
-        ge=1,
+        ge=1
         description="Rate limit requests per period",
     )
     rate_limit_period: int = Field(
-        default=60,
+        default=60
         env="KIMERA_RATE_LIMIT_PERIOD",
-        ge=1,
+        ge=1
         description="Rate limit period in seconds",
     )
 
@@ -368,8 +376,9 @@ class SecuritySettings(BaseSettings):
             elif v.endswith("m"):
                 return timedelta(minutes=int(v[:-1]))
         return v
-
-    class Config:
+class Config:
+    """Auto-generated class."""
+    pass
         env_prefix = "KIMERA_"
 
 
@@ -400,12 +409,12 @@ class RedisSettings(BaseSettings):
         default=False, env="REDIS_SSL", description="Enable SSL/TLS connection"
     )
     ssl_keyfile: Optional[str] = Field(
-        default=None,
+        default=None
         env="REDIS_SSL_KEYFILE",
         description="Path to SSL private key file",
     )
     ssl_certfile: Optional[str] = Field(
-        default=None,
+        default=None
         env="REDIS_SSL_CERTFILE",
         description="Path to SSL certificate file",
     )
@@ -413,7 +422,7 @@ class RedisSettings(BaseSettings):
         default=None, env="REDIS_CA_PATH", description="Path to SSL CA certificate file"
     )
     ssl_ca_certs: Optional[str] = Field(
-        default=None,
+        default=None
         env="REDIS_CA_CERTS",
         description="Path to SSL CA certificates bundle",
     )
@@ -426,34 +435,34 @@ class RedisSettings(BaseSettings):
 
     # Connection pool settings
     max_connections: int = Field(
-        default=50,
+        default=50
         env="REDIS_MAX_CONNECTIONS",
-        ge=1,
+        ge=1
         description="Maximum number of connections in the pool",
     )
     retry_on_timeout: bool = Field(
-        default=True,
+        default=True
         env="REDIS_RETRY_ON_TIMEOUT",
         description="Retry commands on timeout",
     )
     health_check_interval: int = Field(
-        default=30,
+        default=30
         env="REDIS_HEALTH_CHECK_INTERVAL",
-        ge=0,
+        ge=0
         description="Health check interval in seconds (0 to disable)",
     )
 
     # Timeouts
     socket_timeout: float = Field(
-        default=5.0,
+        default=5.0
         env="REDIS_SOCKET_TIMEOUT",
-        ge=0.1,
+        ge=0.1
         description="Socket timeout in seconds",
     )
     socket_connect_timeout: float = Field(
-        default=5.0,
+        default=5.0
         env="REDIS_SOCKET_CONNECT_TIMEOUT",
-        ge=0.1,
+        ge=0.1
         description="Socket connection timeout in seconds",
     )
 
@@ -462,19 +471,19 @@ class RedisSettings(BaseSettings):
         default=False, env="REDIS_CLUSTER_MODE", description="Enable Redis Cluster mode"
     )
     cluster_nodes: List[str] = Field(
-        default_factory=list,
+        default_factory=list
         env="REDIS_CLUSTER_NODES",
         description="Redis cluster nodes (host:port format)",
     )
     skip_full_coverage_check: bool = Field(
-        default=False,
+        default=False
         env="REDIS_SKIP_FULL_COVERAGE_CHECK",
         description="Skip full coverage check in cluster mode",
     )
 
     # Performance settings
     decode_responses: bool = Field(
-        default=True,
+        default=True
         env="REDIS_DECODE_RESPONSES",
         description="Automatically decode responses to strings",
     )
@@ -515,15 +524,15 @@ class RedisSettings(BaseSettings):
     def connection_kwargs(self) -> Dict[str, Any]:
         """Generate connection kwargs for redis client"""
         kwargs = {
-            "host": self.host,
-            "port": self.port,
-            "db": self.db,
-            "socket_timeout": self.socket_timeout,
-            "socket_connect_timeout": self.socket_connect_timeout,
-            "retry_on_timeout": self.retry_on_timeout,
-            "decode_responses": self.decode_responses,
-            "encoding": self.encoding,
-            "max_connections": self.max_connections,
+            "host": self.host
+            "port": self.port
+            "db": self.db
+            "socket_timeout": self.socket_timeout
+            "socket_connect_timeout": self.socket_connect_timeout
+            "retry_on_timeout": self.retry_on_timeout
+            "decode_responses": self.decode_responses
+            "encoding": self.encoding
+            "max_connections": self.max_connections
         }
 
         # Authentication
@@ -557,8 +566,9 @@ class RedisSettings(BaseSettings):
             kwargs["health_check_interval"] = self.health_check_interval
 
         return kwargs
-
-    class Config:
+class Config:
+    """Auto-generated class."""
+    pass
         env_prefix = "REDIS_"
 
 
@@ -567,7 +577,7 @@ class KimeraSettings(BaseSettings):
 
     # Environment
     environment: EnvironmentType = Field(
-        default=EnvironmentType.DEVELOPMENT,
+        default=EnvironmentType.DEVELOPMENT
         env="KIMERA_ENV",
         description="Application environment",
     )
@@ -628,8 +638,9 @@ class KimeraSettings(BaseSettings):
     def get_feature(self, feature_name: str, default: bool = False) -> bool:
         """Get feature flag value"""
         return self.features.get(feature_name, default)
-
-    class Config:
+class Config:
+    """Auto-generated class."""
+    pass
         # Pydantic-settings configuration
         env_prefix = "KIMERA_"
         if os.getenv("KIMERA_ENV", "development") == "development":

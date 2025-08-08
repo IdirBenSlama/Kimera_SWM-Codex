@@ -95,9 +95,9 @@ def thread_safe(func: Callable) -> Callable:
             return func(*args, **kwargs)
 
     return wrapper
-
-
 class ThreadSafeCounter:
+    """Auto-generated class."""
+    pass
     """Thread-safe counter implementation"""
 
     def __init__(self, initial_value: int = 0):
@@ -128,9 +128,9 @@ class ThreadSafeCounter:
             old_value = self._value
             self._value = new_value
             return old_value
-
-
 class ThreadSafeDict:
+    """Auto-generated class."""
+    pass
     """Thread-safe dictionary implementation"""
 
     def __init__(self):

@@ -7,9 +7,9 @@ import logging
 import torch
 
 logger = logging.getLogger(__name__)
-
-
 class SemanticKernel:
+    """Auto-generated class."""
+    pass
     """Compatibility layer for SemanticKernel"""
 
     def __init__(self):
@@ -26,9 +26,9 @@ class SemanticKernel:
     def _process_single(self, item):
         """Process single item"""
         return item  # Placeholder implementation
-
-
 class HamiltonianKernel:
+    """Auto-generated class."""
+    pass
     """Compatibility layer for HamiltonianKernel"""
 
     def __init__(self):

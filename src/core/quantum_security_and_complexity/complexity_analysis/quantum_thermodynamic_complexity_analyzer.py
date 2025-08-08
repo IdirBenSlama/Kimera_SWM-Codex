@@ -39,12 +39,11 @@ import numpy as np
 import torch
 
 from src.config.settings import get_settings
-
 # Kimera core imports
-from src.core.geoid import GeoidState
-from src.utils.config import get_api_settings
+from src.core.primitives.geoid import GeoidState
 from src.utils.kimera_exceptions import KimeraCognitiveError
 from src.utils.kimera_logger import LogCategory, get_logger
+from src.utils.robust_config import get_api_settings
 
 logger = get_logger(__name__, LogCategory.SYSTEM)
 
@@ -77,6 +76,8 @@ class PhaseTransitionType(Enum):
 
 @dataclass
 class ThermodynamicSignature:
+    """Auto-generated class."""
+    pass
     """Thermodynamic signature result"""
 
     temperature: float
@@ -89,6 +90,8 @@ class ThermodynamicSignature:
 
 @dataclass
 class ComplexityAnalysisResult:
+    """Auto-generated class."""
+    pass
     """Result of complexity analysis"""
 
     complexity_state: ComplexityState
@@ -101,6 +104,8 @@ class ComplexityAnalysisResult:
 
 @dataclass
 class ComplexitySignature:
+    """Auto-generated class."""
+    pass
     """Thermodynamic signature of computational complexity using Integrated Information Theory"""
 
     complexity_id: str
@@ -117,6 +122,8 @@ class ComplexitySignature:
 
 @dataclass
 class PhaseTransitionEvent:
+    """Auto-generated class."""
+    pass
     """Complexity phase transition detection"""
 
     transition_id: str
@@ -130,9 +137,9 @@ class PhaseTransitionEvent:
     complexity_before: ComplexityState
     complexity_after: ComplexityState
     timestamp: datetime
-
-
 class QuantumThermodynamicComplexityAnalyzer:
+    """Auto-generated class."""
+    pass
     """
     Analyze computational complexity using thermodynamic signatures and quantum coherence
 
@@ -148,7 +155,13 @@ class QuantumThermodynamicComplexityAnalyzer:
     """
 
     def __init__(self):
-        self.settings = get_api_settings()
+        try:
+            self.settings = get_api_settings()
+        except Exception as e:
+            logger.warning(f"API settings loading failed: {e}. Using safe fallback.")
+            from ..utils.robust_config import safe_get_api_settings
+
+            self.settings = safe_get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
         self.detected_signatures: List[ComplexitySignature] = []
         self.phase_transitions: List[PhaseTransitionEvent] = []
@@ -217,15 +230,15 @@ class QuantumThermodynamicComplexityAnalyzer:
         )
 
         signature = ComplexitySignature(
-            complexity_id=complexity_id,
-            complexity_state=complexity_state,
-            integrated_information=phi,
-            quantum_coherence=coherence,
-            entropy_production_rate=entropy_production,
-            free_energy_gradient=free_energy_gradient,
-            phase_transition_proximity=phase_proximity,
-            thermodynamic_complexity=complexity,
-            emergence_probability=emergence_prob,
+            complexity_id=complexity_id
+            complexity_state=complexity_state
+            integrated_information=phi
+            quantum_coherence=coherence
+            entropy_production_rate=entropy_production
+            free_energy_gradient=free_energy_gradient
+            phase_transition_proximity=phase_proximity
+            thermodynamic_complexity=complexity
+            emergence_probability=emergence_prob
             timestamp=datetime.now(),
         )
 
@@ -429,12 +442,12 @@ class QuantumThermodynamicComplexityAnalyzer:
             return 0.0
 
     def _calculate_thermodynamic_complexity(
-        self,
-        phi: float,
-        coherence: float,
-        entropy_production: float,
-        free_energy_gradient: float,
-        phase_proximity: float,
+        self
+        phi: float
+        coherence: float
+        entropy_production: float
+        free_energy_gradient: float
+        phase_proximity: float
     ) -> float:
         """
         Calculate overall thermodynamic complexity measure
@@ -453,12 +466,12 @@ class QuantumThermodynamicComplexityAnalyzer:
         return min(1.0, max(0.0, complexity))
 
     def _classify_complexity_state(
-        self,
-        phi: float,
-        coherence: float,
-        entropy_production: float,
-        free_energy_gradient: float,
-        phase_proximity: float,
+        self
+        phi: float
+        coherence: float
+        entropy_production: float
+        free_energy_gradient: float
+        phase_proximity: float
     ) -> ComplexityState:
         """
         Classify complexity state based on thermodynamic measures
@@ -499,11 +512,11 @@ class QuantumThermodynamicComplexityAnalyzer:
         """
         if not self.detected_signatures:
             return {
-                "total_analyses": 0,
+                "total_analyses": 0
                 "complexity_distribution": {},
-                "average_phi": 0.0,
-                "average_coherence": 0.0,
-                "average_complexity": 0.0,
+                "average_phi": 0.0
+                "average_coherence": 0.0
+                "average_complexity": 0.0
             }
 
         # Calculate distribution
@@ -521,7 +534,7 @@ class QuantumThermodynamicComplexityAnalyzer:
 
         return {
             "total_analyses": len(self.detected_signatures),
-            "complexity_distribution": state_counts,
+            "complexity_distribution": state_counts
             "average_phi": float(avg_phi),
             "average_coherence": float(avg_coherence),
             "average_complexity": float(avg_complexity),

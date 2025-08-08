@@ -21,6 +21,8 @@ from ..core.native_math import NativeStats
 
 @dataclass
 class EntropyMeasurement:
+    """Auto-generated class."""
+    pass
     """Container for entropy measurement data"""
 
     timestamp: datetime
@@ -33,9 +35,9 @@ class EntropyMeasurement:
     geoid_count: int
     vault_distribution: Dict[str, int]
     metadata: Dict[str, Any] = field(default_factory=dict)
-
-
 class EntropyEstimator:
+    """Auto-generated class."""
+    pass
     """
     Advanced entropy estimation using multiple estimators as recommended
     in the benchmarking specification
@@ -103,9 +105,9 @@ class EntropyEstimator:
         h_xy = EntropyEstimator.shannon_entropy_mle(joint_probs, base)
 
         return h_x + h_y - h_xy
-
-
 class EntropyMonitor:
+    """Auto-generated class."""
+    pass
     """
     Comprehensive entropy monitoring for Kimera SWM system
 

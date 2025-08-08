@@ -9,13 +9,9 @@ Author: KIMERA Development Team
 Version: 1.0.0 - DO-178C Level A Compliant
 """
 
-from .quantum_truth_monitor import (
-    ClaimTruthEvolution,
-    QuantumMeasurement,
-    QuantumTruthMonitor,
-    QuantumTruthState,
-    TruthMonitoringResult,
-)
+from .quantum_truth_monitor import (ClaimTruthEvolution, QuantumMeasurement
+                                    QuantumTruthMonitor, QuantumTruthState
+                                    TruthMonitoringResult)
 
 __all__ = [
     "QuantumTruthMonitor",

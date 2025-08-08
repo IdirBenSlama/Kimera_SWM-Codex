@@ -29,6 +29,8 @@ logger = get_logger(__name__)
 
 @dataclass
 class DissolutionKinetics:
+    """Auto-generated class."""
+    pass
     """Dissolution kinetics model parameters."""
 
     model_type: (
@@ -43,6 +45,8 @@ class DissolutionKinetics:
 
 @dataclass
 class DissolutionComparison:
+    """Auto-generated class."""
+    pass
     """Dissolution profile comparison results."""
 
     f2_similarity: float
@@ -55,6 +59,8 @@ class DissolutionComparison:
 
 @dataclass
 class ModelPrediction:
+    """Auto-generated class."""
+    pass
     """Dissolution model prediction results."""
 
     predicted_times: List[float]
@@ -62,9 +68,9 @@ class ModelPrediction:
     confidence_interval_lower: List[float]
     confidence_interval_upper: List[float]
     prediction_accuracy: float
-
-
 class DissolutionAnalyzer:
+    """Auto-generated class."""
+    pass
     """
     Advanced dissolution analysis engine for pharmaceutical development.
 

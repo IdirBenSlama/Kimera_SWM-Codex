@@ -39,7 +39,8 @@ try:
     from core.geoid import GeoidState
 except ImportError:
     # Create placeholders for core.geoid
-    class GeoidState:
+class GeoidState:
+    """Auto-generated class."""
         pass
 
 
@@ -47,23 +48,63 @@ try:
     from utils.gpu_foundation import GPUFoundation
 except ImportError:
     # Create placeholders for utils.gpu_foundation
-    class GPUFoundation:
+class GPUFoundation:
+    """Auto-generated class."""
         pass
 
 
 # TCSE Integration
 try:
-    from engines.thermodynamic_signal_evolution import (
-        ThermodynamicSignalEvolutionEngine,
-    )
+    from engines.thermodynamic_signal_evolution import \
+        ThermodynamicSignalEvolutionEngine
 except ImportError:
     # Create placeholders for engines.thermodynamic_signal_evolution
-    class ThermodynamicSignalEvolutionEngine:
+def cleanup(self) -> None:
+        """Cleanup method."""
+        pass
+        """Clean up GPU resources and reset state"""
+        try:
+            # Clear any cached GPU data
+            if hasattr(self, "_cached_devices"):
+                self._cached_devices = None
+
+            # Reset validation state
+            if hasattr(self, "_validation_complete"):
+                self._validation_complete = False
+
+            # Clear memory if torch is available
+            try:
+                import torch
+
+                if torch.cuda.is_available():
+                    torch.cuda.empty_cache()
+                    torch.cuda.synchronize()
+            except ImportError:
+                pass
+
+            # Force garbage collection
+            import gc
+
+            gc.collect()
+
+            logger.debug("GPUFoundation cleanup completed successfully")
+
+        except Exception as e:
+            logger.warning(f"GPUFoundation cleanup error: {e}")
+
+    def __del__(self):
+        """Destructor to ensure cleanup on object deletion"""
+        try:
+            self.cleanup()
+        except:
+            pass  # Ignore errors in destructor
+class ThermodynamicSignalEvolutionEngine:
+    """Auto-generated class."""
         pass
 
 
 from src.config.settings import get_settings
-from src.utils.config import get_api_settings
+from src.utils.robust_config import get_api_settings
 
 logger = logging.getLogger(__name__)
 
@@ -80,6 +121,8 @@ class QuantumSemanticState(Enum):
 
 @dataclass
 class MirrorPortalState:
+    """Auto-generated class."""
+    pass
     """State of the mirror portal between semantic and symbolic"""
 
     portal_id: str
@@ -99,6 +142,8 @@ class MirrorPortalState:
 
 @dataclass
 class PortalTransitionEvent:
+    """Auto-generated class."""
+    pass
     """Event representing a quantum transition through the portal"""
 
     event_id: str
@@ -112,9 +157,9 @@ class PortalTransitionEvent:
     semantic_coherence_after: float
     information_preserved: float  # How much meaning survives transition
     timestamp: datetime
-
-
 class GeoidMirrorPortalEngine:
+    """Auto-generated class."""
+    pass
     """
     The revolutionary engine implementing the Mirror Portal Principle
 
@@ -149,10 +194,10 @@ class GeoidMirrorPortalEngine:
         logger.info("   Wave-particle duality processing enabled")
 
     async def create_mirror_portal(
-        self,
-        semantic_geoid: GeoidState,
-        symbolic_geoid: GeoidState,
-        portal_intensity: float = 0.8,
+        self
+        semantic_geoid: GeoidState
+        symbolic_geoid: GeoidState
+        portal_intensity: float = 0.8
     ) -> MirrorPortalState:
         """
         Create a quantum mirror portal between semantic and symbolic geoids
@@ -198,19 +243,19 @@ class GeoidMirrorPortalEngine:
         )
 
         portal_state = MirrorPortalState(
-            portal_id=portal_id,
-            semantic_geoid=semantic_geoid,
-            symbolic_geoid=symbolic_geoid,
-            contact_point=contact_point,
-            mirror_surface_equation=mirror_surface,
-            portal_aperture=aperture,
-            coherence_strength=coherence,
-            quantum_state=quantum_state,
-            wave_function=wave_function,
+            portal_id=portal_id
+            semantic_geoid=semantic_geoid
+            symbolic_geoid=symbolic_geoid
+            contact_point=contact_point
+            mirror_surface_equation=mirror_surface
+            portal_aperture=aperture
+            coherence_strength=coherence
+            quantum_state=quantum_state
+            wave_function=wave_function
             particle_probability=1.0
             - coherence,  # Lower coherence = more particle-like
-            entanglement_strength=entanglement,
-            portal_energy=self.portal_creation_energy * portal_intensity,
+            entanglement_strength=entanglement
+            portal_energy=self.portal_creation_energy * portal_intensity
             timestamp=datetime.now(),
         )
 
@@ -271,9 +316,9 @@ class GeoidMirrorPortalEngine:
         }
 
     def _find_contact_point(
-        self,
-        semantic_geoid: GeoidState,
-        symbolic_geoid: GeoidState,
+        self
+        semantic_geoid: GeoidState
+        symbolic_geoid: GeoidState
         mirror_surface: Dict[str, float],
     ) -> Tuple[float, float, float]:
         """
@@ -417,10 +462,10 @@ class GeoidMirrorPortalEngine:
         return 0.5
 
     async def transition_through_portal(
-        self,
-        portal_id: str,
-        target_state: QuantumSemanticState,
-        transition_energy: float = 1.0,
+        self
+        portal_id: str
+        target_state: QuantumSemanticState
+        transition_energy: float = 1.0
     ) -> PortalTransitionEvent:
         """
         Execute a quantum transition through the mirror portal
@@ -493,15 +538,15 @@ class GeoidMirrorPortalEngine:
         # Create transition event record
         event = PortalTransitionEvent(
             event_id=f"TRANSITION_{uuid.uuid4().hex[:8]}",
-            portal_id=portal_id,
+            portal_id=portal_id
             transition_type=f"{source_state.value}_to_{target_state.value}",
-            source_state=source_state,
-            target_state=target_state if transition_succeeds else source_state,
-            transition_probability=transition_prob,
-            energy_required=energy_required,
-            semantic_coherence_before=coherence_before,
-            semantic_coherence_after=coherence_after,
-            information_preserved=information_preserved,
+            source_state=source_state
+            target_state=target_state if transition_succeeds else source_state
+            transition_probability=transition_prob
+            energy_required=energy_required
+            semantic_coherence_before=coherence_before
+            semantic_coherence_after=coherence_after
+            information_preserved=information_preserved
             timestamp=datetime.now(),
         )
 
@@ -510,11 +555,11 @@ class GeoidMirrorPortalEngine:
         return event
 
     def _calculate_transition_probability(
-        self,
-        portal: MirrorPortalState,
-        source_state: QuantumSemanticState,
-        target_state: QuantumSemanticState,
-        energy: float,
+        self
+        portal: MirrorPortalState
+        source_state: QuantumSemanticState
+        target_state: QuantumSemanticState
+        energy: float
     ) -> float:
         """
         Calculate quantum transition probability using tunnel effect principles
@@ -546,38 +591,38 @@ class GeoidMirrorPortalEngine:
         """Calculate compatibility between quantum states"""
         compatibility_matrix = {
             (
-                QuantumSemanticState.WAVE_SUPERPOSITION,
-                QuantumSemanticState.PARTICLE_COLLAPSED,
-            ): 0.8,
+                QuantumSemanticState.WAVE_SUPERPOSITION
+                QuantumSemanticState.PARTICLE_COLLAPSED
+            ): 0.8
             (
-                QuantumSemanticState.PARTICLE_COLLAPSED,
-                QuantumSemanticState.WAVE_SUPERPOSITION,
-            ): 0.8,
+                QuantumSemanticState.PARTICLE_COLLAPSED
+                QuantumSemanticState.WAVE_SUPERPOSITION
+            ): 0.8
             (
-                QuantumSemanticState.MIRROR_REFLECTION,
-                QuantumSemanticState.QUANTUM_ENTANGLED,
-            ): 0.95,
+                QuantumSemanticState.MIRROR_REFLECTION
+                QuantumSemanticState.QUANTUM_ENTANGLED
+            ): 0.95
             (
-                QuantumSemanticState.QUANTUM_ENTANGLED,
-                QuantumSemanticState.MIRROR_REFLECTION,
-            ): 0.95,
+                QuantumSemanticState.QUANTUM_ENTANGLED
+                QuantumSemanticState.MIRROR_REFLECTION
+            ): 0.95
             (
-                QuantumSemanticState.PORTAL_TRANSITION,
-                QuantumSemanticState.WAVE_SUPERPOSITION,
-            ): 0.9,
+                QuantumSemanticState.PORTAL_TRANSITION
+                QuantumSemanticState.WAVE_SUPERPOSITION
+            ): 0.9
             (
-                QuantumSemanticState.PORTAL_TRANSITION,
-                QuantumSemanticState.PARTICLE_COLLAPSED,
-            ): 0.9,
+                QuantumSemanticState.PORTAL_TRANSITION
+                QuantumSemanticState.PARTICLE_COLLAPSED
+            ): 0.9
         }
 
         return compatibility_matrix.get((source, target), 0.5)
 
     def _calculate_transition_energy(
-        self,
-        source: QuantumSemanticState,
-        target: QuantumSemanticState,
-        portal: MirrorPortalState,
+        self
+        source: QuantumSemanticState
+        target: QuantumSemanticState
+        portal: MirrorPortalState
     ) -> float:
         """Calculate energy required for quantum transition"""
         base_energy = 0.1
@@ -599,10 +644,10 @@ class GeoidMirrorPortalEngine:
             return base_energy
 
     def _evolve_wave_function(
-        self,
-        wave_function: np.ndarray,
-        source_state: QuantumSemanticState,
-        target_state: QuantumSemanticState,
+        self
+        wave_function: np.ndarray
+        source_state: QuantumSemanticState
+        target_state: QuantumSemanticState
     ) -> np.ndarray:
         """Evolve the quantum wave function during state transition"""
         evolved = wave_function.copy()
@@ -622,19 +667,19 @@ class GeoidMirrorPortalEngine:
     def _calculate_particle_probability(self, state: QuantumSemanticState) -> float:
         """Calculate probability of particle-like behavior"""
         probability_map = {
-            QuantumSemanticState.PARTICLE_COLLAPSED: 1.0,
-            QuantumSemanticState.WAVE_SUPERPOSITION: 0.0,
-            QuantumSemanticState.MIRROR_REFLECTION: 0.5,
-            QuantumSemanticState.QUANTUM_ENTANGLED: 0.3,
-            QuantumSemanticState.PORTAL_TRANSITION: 0.5,
+            QuantumSemanticState.PARTICLE_COLLAPSED: 1.0
+            QuantumSemanticState.WAVE_SUPERPOSITION: 0.0
+            QuantumSemanticState.MIRROR_REFLECTION: 0.5
+            QuantumSemanticState.QUANTUM_ENTANGLED: 0.3
+            QuantumSemanticState.PORTAL_TRANSITION: 0.5
         }
         return probability_map.get(state, 0.5)
 
     def _update_coherence_after_transition(
-        self,
-        portal: MirrorPortalState,
-        source: QuantumSemanticState,
-        target: QuantumSemanticState,
+        self
+        portal: MirrorPortalState
+        source: QuantumSemanticState
+        target: QuantumSemanticState
     ) -> float:
         """Update coherence after quantum transition"""
         current_coherence = portal.coherence_strength
@@ -670,41 +715,41 @@ class GeoidMirrorPortalEngine:
         wave_probabilities = np.abs(portal.wave_function) ** 2
 
         return {
-            "portal_id": portal_id,
-            "quantum_state": portal.quantum_state.value,
-            "coherence_strength": portal.coherence_strength,
-            "particle_probability": portal.particle_probability,
-            "entanglement_strength": portal.entanglement_strength,
-            "portal_energy": portal.portal_energy,
-            "contact_point": portal.contact_point,
-            "portal_aperture": portal.portal_aperture,
+            "portal_id": portal_id
+            "quantum_state": portal.quantum_state.value
+            "coherence_strength": portal.coherence_strength
+            "particle_probability": portal.particle_probability
+            "entanglement_strength": portal.entanglement_strength
+            "portal_energy": portal.portal_energy
+            "contact_point": portal.contact_point
+            "portal_aperture": portal.portal_aperture
             "wave_function_entropy": float(
                 -np.sum(wave_probabilities * np.log2(wave_probabilities + 1e-10))
             ),
-            "mirror_surface": portal.mirror_surface_equation,
+            "mirror_surface": portal.mirror_surface_equation
             "measurement_timestamp": datetime.now().isoformat(),
         }
 
     async def create_dual_state_geoid(
-        self,
+        self
         semantic_content: Dict[str, float],
         symbolic_content: Dict[str, Any],
-        portal_intensity: float = 0.8,
+        portal_intensity: float = 0.8
     ) -> Tuple[GeoidState, GeoidState, MirrorPortalState]:
         """
         Create a pair of geoids in perfect dual-state configuration
 
-        This implements your vision of geoids that mirror each other perfectly,
+        This implements your vision of geoids that mirror each other perfectly
         with a quantum portal enabling transitions between wave and particle states.
         """
         # Create semantic geoid
         semantic_geoid = GeoidState(
             geoid_id=f"SEMANTIC_{uuid.uuid4().hex[:8]}",
-            semantic_state=semantic_content,
+            semantic_state=semantic_content
             symbolic_state={"type": "semantic_representation"},
             metadata={
                 "type": "semantic_geoid",
-                "dual_state_pair": True,
+                "dual_state_pair": True
                 "created_by": "mirror_portal_engine",
                 "timestamp": datetime.now().isoformat(),
             },
@@ -714,11 +759,11 @@ class GeoidMirrorPortalEngine:
         symbolic_geoid = GeoidState(
             geoid_id=f"SYMBOLIC_{uuid.uuid4().hex[:8]}",
             semantic_state={f"symbolic_{k}": v for k, v in semantic_content.items()},
-            symbolic_state=symbolic_content,
+            symbolic_state=symbolic_content
             metadata={
                 "type": "symbolic_geoid",
-                "dual_state_pair": True,
-                "semantic_mirror": semantic_geoid.geoid_id,
+                "dual_state_pair": True
+                "semantic_mirror": semantic_geoid.geoid_id
                 "created_by": "mirror_portal_engine",
                 "timestamp": datetime.now().isoformat(),
             },
@@ -761,15 +806,15 @@ class GeoidMirrorPortalEngine:
             "average_coherence": np.mean(coherence_values),
             "average_energy": np.mean(energy_values),
             "average_aperture": np.mean(aperture_values),
-            "state_distribution": state_distribution,
+            "state_distribution": state_distribution
             "portal_ids": list(self.active_portals.keys()),
         }
 
     async def evolve_signal_through_portal(
-        self,
-        portal_id: str,
+        self
+        portal_id: str
         input_signal: Dict[str, float],
-        tcse_engine: ThermodynamicSignalEvolutionEngine,
+        tcse_engine: ThermodynamicSignalEvolutionEngine
     ) -> Dict[str, float]:
         """
         Evolves a signal thermodynamically as it passes through a portal.
@@ -793,11 +838,11 @@ class GeoidMirrorPortalEngine:
 
         # The core thermodynamic evolution logic is encapsulated here
         evolved_signal = self._thermodynamic_signal_evolution(
-            input_signal,
-            semantic_properties,
-            symbolic_properties,
-            portal.portal_energy,
-            tcse_engine,
+            input_signal
+            semantic_properties
+            symbolic_properties
+            portal.portal_energy
+            tcse_engine
         )
 
         # Log the transformation for scientific validation
@@ -807,12 +852,12 @@ class GeoidMirrorPortalEngine:
         return evolved_signal
 
     def _thermodynamic_signal_evolution(
-        self,
+        self
         input_signal: Dict[str, float],
         semantic_properties: Dict[str, float],
         symbolic_properties: Dict[str, float],
-        portal_energy: float,
-        tcse_engine: ThermodynamicSignalEvolutionEngine,
+        portal_energy: float
+        tcse_engine: ThermodynamicSignalEvolutionEngine
     ) -> Dict[str, float]:
         """
         Applies the mathematical model for thermodynamic signal evolution during portal transit.
@@ -886,10 +931,10 @@ async def demonstrate_mirror_portal_principle():
 
     # Create a dual-state geoid demonstrating wave-particle duality
     semantic_content = {
-        "meaning": 0.8,
-        "understanding": 0.6,
-        "consciousness": 0.9,
-        "quantum_nature": 0.7,
+        "meaning": 0.8
+        "understanding": 0.6
+        "consciousness": 0.9
+        "quantum_nature": 0.7
     }
 
     symbolic_content = {

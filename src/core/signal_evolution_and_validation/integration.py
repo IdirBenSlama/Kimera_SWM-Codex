@@ -34,37 +34,30 @@ from typing import Any, AsyncIterator, Dict, List, Optional, Tuple, Union
 import numpy as np
 
 # KIMERA core imports
-from src.core.constants import (
-    DO_178C_LEVEL_A_SAFETY_LEVEL,
-    DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD,
-)
-from src.core.geoid import GeoidState
+from src.core.primitives.constants import (DO_178C_LEVEL_A_SAFETY_LEVEL
+                                           DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD)
+from src.core.primitives.geoid import GeoidState
 from src.utilities.health_status import HealthStatus, get_system_uptime
 from src.utilities.performance_metrics import PerformanceMetrics
 from src.utilities.safety_assessment import SafetyAssessment
 from src.utilities.system_recommendations import SystemRecommendations
 
 from .epistemic_validation.revolutionary_epistemic_validator import (
-    EpistemicAnalysisResult,
-    QuantumTruthState,
-    QuantumTruthSuperposition,
-    RevolutionaryEpistemicValidator,
-    ValidationResult,
-)
-
+    EpistemicAnalysisResult, QuantumTruthState, QuantumTruthSuperposition
+    RevolutionaryEpistemicValidator, ValidationResult)
 # Import the core signal evolution and validation components
-from .signal_evolution.real_time_signal_evolution import (
-    GeoidStreamProcessor,
-    RealTimeSignalEvolutionEngine,
-    SignalEvolutionResult,
-    ThermalBudgetSignalController,
-)
+from .signal_evolution.real_time_signal_evolution import (GeoidStreamProcessor
+                                                          RealTimeSignalEvolutionEngine
+                                                          SignalEvolutionResult
+                                                          ThermalBudgetSignalController)
 
 try:
     from src.utils.gpu_foundation import GPUFoundation as GPUThermodynamicIntegrator
 except ImportError:
     # Mock integrator for demonstration
-    class GPUThermodynamicIntegrator:
+class GPUThermodynamicIntegrator:
+    """Auto-generated class."""
+    pass
         def get_current_gpu_temperature(self):
             return 65.0
 
@@ -91,9 +84,9 @@ class EpistemicValidationMode(Enum):
     META_COGNITIVE = "meta_cognitive"
     CONSCIOUSNESS_EMERGENCE = "consciousness_emergence"
     REVOLUTIONARY_ANALYSIS = "revolutionary_analysis"
-
-
 class SignalEvolutionValidationIntegrator:
+    """Auto-generated class."""
+    pass
     """
     DO-178C Level A Signal Evolution and Validation Integration System
 
@@ -117,13 +110,13 @@ class SignalEvolutionValidationIntegrator:
         return cls._instance
 
     def __init__(
-        self,
-        batch_size: int = 32,
-        thermal_threshold: float = 75.0,
-        max_recursion_depth: int = 5,
-        quantum_coherence_threshold: float = 0.8,
-        zetetic_doubt_intensity: float = 0.9,
-        adaptive_mode: bool = True,
+        self
+        batch_size: int = 32
+        thermal_threshold: float = 75.0
+        max_recursion_depth: int = 5
+        quantum_coherence_threshold: float = 0.8
+        zetetic_doubt_intensity: float = 0.9
+        adaptive_mode: bool = True
         safety_level: str = "catastrophic",
     ):
         """
@@ -208,8 +201,8 @@ class SignalEvolutionValidationIntegrator:
 
             self.thermal_controller = (
                 ThermalBudgetSignalController(
-                    gpu_integrator=self.gpu_integrator,
-                    thermal_budget_threshold_c=self.thermal_threshold,
+                    gpu_integrator=self.gpu_integrator
+                    thermal_budget_threshold_c=self.thermal_threshold
                 )
                 if self.gpu_integrator
                 else None
@@ -231,9 +224,9 @@ class SignalEvolutionValidationIntegrator:
 
             if tcse_engine and self.thermal_controller:
                 self.signal_evolution_engine = RealTimeSignalEvolutionEngine(
-                    tcse_engine=tcse_engine,
-                    thermal_controller=self.thermal_controller,
-                    batch_size=self.batch_size,
+                    tcse_engine=tcse_engine
+                    thermal_controller=self.thermal_controller
+                    batch_size=self.batch_size
                 )
             else:
                 logger.warning(
@@ -250,9 +243,9 @@ class SignalEvolutionValidationIntegrator:
         """Initialize revolutionary epistemic validator with safety validation"""
         try:
             self.epistemic_validator = RevolutionaryEpistemicValidator(
-                max_recursion_depth=self.max_recursion_depth,
-                quantum_coherence_threshold=self.quantum_coherence_threshold,
-                zetetic_doubt_intensity=self.zetetic_doubt_intensity,
+                max_recursion_depth=self.max_recursion_depth
+                quantum_coherence_threshold=self.quantum_coherence_threshold
+                zetetic_doubt_intensity=self.zetetic_doubt_intensity
             )
             logger.info("✅ Revolutionary Epistemic Validator initialized")
         except Exception as e:
@@ -270,7 +263,7 @@ class SignalEvolutionValidationIntegrator:
         safety_checks.append(
             (
                 "thermal_controller_available",
-                self.thermal_controller is not None or True,
+                self.thermal_controller is not None or True
             )
         )  # Allow mock mode
 
@@ -285,7 +278,7 @@ class SignalEvolutionValidationIntegrator:
         safety_checks.append(
             (
                 "batch_size_valid",
-                isinstance(self.batch_size, int) and self.batch_size > 0,
+                isinstance(self.batch_size, int) and self.batch_size > 0
             )
         )
         safety_checks.append(
@@ -306,9 +299,9 @@ class SignalEvolutionValidationIntegrator:
         logger.info("✅ Integration safety validation completed successfully")
 
     async def evolve_signal_stream(
-        self,
+        self
         geoid_stream: AsyncIterator[GeoidState],
-        evolution_mode: SignalEvolutionMode = SignalEvolutionMode.REAL_TIME,
+        evolution_mode: SignalEvolutionMode = SignalEvolutionMode.REAL_TIME
     ) -> AsyncIterator[SignalEvolutionResult]:
         """
         Evolve cognitive signal stream with DO-178C Level A safety monitoring
@@ -327,10 +320,10 @@ class SignalEvolutionValidationIntegrator:
                 # Mock signal evolution for demonstration
                 async for geoid in geoid_stream:
                     result = SignalEvolutionResult(
-                        geoid_state=geoid,
-                        evolution_success=True,
-                        processing_time_ms=1.0,
-                        thermal_rate_applied=1.0,
+                        geoid_state=geoid
+                        evolution_success=True
+                        processing_time_ms=1.0
+                        thermal_rate_applied=1.0
                         batch_id=f"mock_batch_{int(time.time())}",
                         timestamp=datetime.now(timezone.utc),
                     )
@@ -355,9 +348,9 @@ class SignalEvolutionValidationIntegrator:
             raise
 
     async def validate_claims_epistemically(
-        self,
+        self
         claims: List[Dict[str, str]],
-        validation_mode: EpistemicValidationMode = EpistemicValidationMode.QUANTUM_SUPERPOSITION,
+        validation_mode: EpistemicValidationMode = EpistemicValidationMode.QUANTUM_SUPERPOSITION
     ) -> List[ValidationResult]:
         """
         Validate claims using revolutionary epistemic analysis
@@ -393,10 +386,10 @@ class SignalEvolutionValidationIntegrator:
 
                 # Mock validation result for demonstration
                 result = ValidationResult(
-                    claim_id=claim_id,
-                    truth_probability=0.85,
-                    epistemic_confidence=0.78,
-                    zetetic_doubt_score=0.92,
+                    claim_id=claim_id
+                    truth_probability=0.85
+                    epistemic_confidence=0.78
+                    zetetic_doubt_score=0.92
                     meta_cognitive_insights=[
                         f"Quantum superposition created for {claim_id}",
                         f"Zetetic validation applied with {validation_mode.value} intensity",
@@ -430,11 +423,11 @@ class SignalEvolutionValidationIntegrator:
             return []
 
     async def perform_integrated_analysis(
-        self,
+        self
         geoid_stream: AsyncIterator[GeoidState],
         claims: List[Dict[str, str]],
-        evolution_mode: SignalEvolutionMode = SignalEvolutionMode.REAL_TIME,
-        validation_mode: EpistemicValidationMode = EpistemicValidationMode.QUANTUM_SUPERPOSITION,
+        evolution_mode: SignalEvolutionMode = SignalEvolutionMode.REAL_TIME
+        validation_mode: EpistemicValidationMode = EpistemicValidationMode.QUANTUM_SUPERPOSITION
     ) -> Dict[str, Any]:
         """
         Perform integrated signal evolution and epistemic validation analysis
@@ -497,20 +490,20 @@ class SignalEvolutionValidationIntegrator:
                 zetetic_validation_passed=all(
                     r.zetetic_doubt_score > 0.8 for r in validation_results
                 ),
-                meta_cognitive_depth_reached=self.max_recursion_depth,
+                meta_cognitive_depth_reached=self.max_recursion_depth
                 analysis_timestamp=datetime.now(timezone.utc),
             )
 
             # Combine results
             integrated_results = {
-                "signal_evolution_results": evolution_results,
-                "validation_results": validation_results,
-                "epistemic_analysis": analysis_result,
-                "processing_time_ms": total_time,
+                "signal_evolution_results": evolution_results
+                "validation_results": validation_results
+                "epistemic_analysis": analysis_result
+                "processing_time_ms": total_time
                 "timestamp": datetime.now(timezone.utc),
-                "safety_validated": True,
+                "safety_validated": True
                 "integration_successful": len(evolution_results) > 0
-                and len(validation_results) > 0,
+                and len(validation_results) > 0
             }
 
             logger.info(f"✅ Integrated analysis completed in {total_time:.2f}ms")
@@ -527,11 +520,11 @@ class SignalEvolutionValidationIntegrator:
             return {
                 "signal_evolution_results": [],
                 "validation_results": [],
-                "epistemic_analysis": None,
-                "processing_time_ms": 0,
+                "epistemic_analysis": None
+                "processing_time_ms": 0
                 "timestamp": datetime.now(timezone.utc),
-                "safety_validated": False,
-                "integration_successful": False,
+                "safety_validated": False
+                "integration_successful": False
                 "error": str(e),
             }
 
@@ -592,8 +585,8 @@ class SignalEvolutionValidationIntegrator:
             "signal_evolution_engine": {
                 "available": self.signal_evolution_engine is not None
                 or True,  # Allow mock
-                "batch_size": self.batch_size,
-                "thermal_threshold": self.thermal_threshold,
+                "batch_size": self.batch_size
+                "thermal_threshold": self.thermal_threshold
                 "status": (
                     "operational"
                     if self.signal_evolution_engine is not None
@@ -601,10 +594,10 @@ class SignalEvolutionValidationIntegrator:
                 ),
             },
             "epistemic_validator": {
-                "available": self.epistemic_validator is not None,
-                "max_recursion_depth": self.max_recursion_depth,
-                "quantum_coherence_threshold": self.quantum_coherence_threshold,
-                "zetetic_doubt_intensity": self.zetetic_doubt_intensity,
+                "available": self.epistemic_validator is not None
+                "max_recursion_depth": self.max_recursion_depth
+                "quantum_coherence_threshold": self.quantum_coherence_threshold
+                "zetetic_doubt_intensity": self.zetetic_doubt_intensity
                 "status": (
                     "operational"
                     if self.epistemic_validator is not None
@@ -676,12 +669,12 @@ class SignalEvolutionValidationIntegrator:
         return {
             "module": "SignalEvolutionValidationIntegrator",
             "version": "1.0.0",
-            "safety_level": self.safety_level,
-            "health_status": self.health_status.value,
-            "uptime_seconds": uptime,
-            "component_status": component_status,
-            "performance_metrics": performance_metrics.__dict__,
-            "safety_assessment": safety_assessment.__dict__,
+            "safety_level": self.safety_level
+            "health_status": self.health_status.value
+            "uptime_seconds": uptime
+            "component_status": component_status
+            "performance_metrics": performance_metrics.__dict__
+            "safety_assessment": safety_assessment.__dict__
             "recommendations": recommendations.get_recommendations(),
             "last_updated": datetime.now(timezone.utc).isoformat(),
         }
@@ -689,15 +682,15 @@ class SignalEvolutionValidationIntegrator:
     def get_integration_metrics(self) -> Dict[str, Any]:
         """Get integration-specific metrics for monitoring"""
         return {
-            "total_operations": self.operations_count,
-            "successful_operations": self.success_count,
-            "failed_operations": self.failure_count,
-            "safety_interventions": self.safety_interventions,
+            "total_operations": self.operations_count
+            "successful_operations": self.success_count
+            "failed_operations": self.failure_count
+            "safety_interventions": self.safety_interventions
             "success_rate": self.success_count / max(self.operations_count, 1),
             "component_availability": {
                 "signal_evolution_engine": self.signal_evolution_engine is not None
-                or True,
-                "epistemic_validator": self.epistemic_validator is not None,
+                or True
+                "epistemic_validator": self.epistemic_validator is not None
             },
             "system_uptime": get_system_uptime(),
             "last_health_check": self.last_health_check.isoformat(),
@@ -705,12 +698,12 @@ class SignalEvolutionValidationIntegrator:
 
 
 def create_signal_evolution_validation_integrator(
-    batch_size: int = 32,
-    thermal_threshold: float = 75.0,
-    max_recursion_depth: int = 5,
-    quantum_coherence_threshold: float = 0.8,
-    zetetic_doubt_intensity: float = 0.9,
-    adaptive_mode: bool = True,
+    batch_size: int = 32
+    thermal_threshold: float = 75.0
+    max_recursion_depth: int = 5
+    quantum_coherence_threshold: float = 0.8
+    zetetic_doubt_intensity: float = 0.9
+    adaptive_mode: bool = True
     safety_level: str = "catastrophic",
 ) -> SignalEvolutionValidationIntegrator:
     """
@@ -733,11 +726,11 @@ def create_signal_evolution_validation_integrator(
     )
 
     return SignalEvolutionValidationIntegrator(
-        batch_size=batch_size,
-        thermal_threshold=thermal_threshold,
-        max_recursion_depth=max_recursion_depth,
-        quantum_coherence_threshold=quantum_coherence_threshold,
-        zetetic_doubt_intensity=zetetic_doubt_intensity,
-        adaptive_mode=adaptive_mode,
-        safety_level=safety_level,
+        batch_size=batch_size
+        thermal_threshold=thermal_threshold
+        max_recursion_depth=max_recursion_depth
+        quantum_coherence_threshold=quantum_coherence_threshold
+        zetetic_doubt_intensity=zetetic_doubt_intensity
+        adaptive_mode=adaptive_mode
+        safety_level=safety_level
     )

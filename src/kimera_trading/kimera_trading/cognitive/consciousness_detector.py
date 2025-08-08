@@ -3,9 +3,9 @@ from scipy.signal import find_peaks
 from sklearn.manifold import Isomap
 
 from ..core.types import ConsciousnessState
-
-
 class MarketConsciousnessDetector:
+    """Auto-generated class."""
+    pass
     """
     Detects and analyzes market consciousness levels.
 
@@ -69,8 +69,9 @@ class MarketConsciousnessDetector:
         """Detects emergent patterns in the market data."""
         prices = market_data.get("prices", {})
         if not prices:
-
-            class Emergence:
+class Emergence:
+    """Auto-generated class."""
+    pass
                 pass
 
             e = Emergence()
@@ -90,8 +91,9 @@ class MarketConsciousnessDetector:
             for symbol, price_series in prices.items()
         }
         common_peaks = set.intersection(*[set(p) for p in peaks.values()])
-
-        class Emergence:
+class Emergence:
+    """Auto-generated class."""
+    pass
             pass
 
         e = Emergence()

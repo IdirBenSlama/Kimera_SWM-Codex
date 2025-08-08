@@ -1,4 +1,4 @@
-"""Neo4j session/driver factory.
+"""Neo4j session/driver factory."""
 
 This module centralises Neo4j connectivity so that **all** graph queries go
 through the same connection pool.  Other packages should *only* import
@@ -39,13 +39,17 @@ except ImportError:
     NEO4J_AVAILABLE = False
 
     # Create dummy classes to avoid errors
-    class Driver:
+class Driver:
+    """Auto-generated class."""
+    pass
         pass
-
-    class Session:
+class Session:
+    """Auto-generated class."""
+    pass
         pass
-
-    class GraphDatabase:
+class GraphDatabase:
+    """Auto-generated class."""
+    pass
         @staticmethod
         def driver(*args, **kwargs):
             return None
@@ -121,7 +125,7 @@ def _create_driver() -> Optional[Driver]:
 
 
 def get_driver() -> Optional[Driver]:
-    """Return the lazily-initialised Neo4j driver (singleton).
+    """Return the lazily-initialised Neo4j driver (singleton)."""
 
     Returns None if Neo4j is not available or connection fails.
     """
@@ -135,7 +139,7 @@ def get_driver() -> Optional[Driver]:
 
 @contextmanager
 def get_session(**kwargs) -> Generator[Optional[Session], None, None]:
-    """Context manager yielding a Neo4j session.
+    """Context manager yielding a Neo4j session."""
 
         Example
         -------
@@ -189,7 +193,7 @@ def driver_liveness_check(timeout: float = 3.0) -> bool:
 
 
 def is_neo4j_available() -> bool:
-    """Check if Neo4j is available.
+    """Check if Neo4j is available."""
 
     Returns True if the Neo4j driver is available and connected,
     False otherwise.

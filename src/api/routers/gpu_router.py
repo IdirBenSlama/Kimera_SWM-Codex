@@ -45,8 +45,8 @@ except ImportError:
             return None
 
     submit_gpu_task = None
-
     class GPUWorkloadType:
+        """Auto-generated class."""
         pass
 
 

@@ -3,7 +3,7 @@
 REVOLUTIONARY EPISTEMIC VALIDATION FRAMEWORK
 ============================================
 
-The ultimate truth verification system using quantum superposition of truth states,
+The ultimate truth verification system using quantum superposition of truth states
 meta-cognitive recursion, and unconventional epistemic methods to validate all
 KIMERA claims with unprecedented rigor.
 
@@ -38,19 +38,20 @@ sys.path.insert(0, str(project_root))
 
 # KIMERA Core Components
 try:
-    from src.core.universal_output_comprehension import (
-        UniversalOutputComprehensionEngine,
-    )
+    from src.core.universal.universal_output_comprehension import \
+        UniversalOutputComprehensionEngine
 except ImportError:
     UniversalOutputComprehensionEngine = None
 
 try:
-    from src.engines.axiom_verification import AxiomVerificationEngine
+    from src.core.contradiction_and_pruning.axiom_verification import \
+        AxiomVerificationEngine
 except (ImportError, IndentationError, SyntaxError):
     AxiomVerificationEngine = None
 
 try:
-    from src.engines.quantum_cognitive_engine import QuantumCognitiveEngine
+    from src.core.quantum_and_privacy.quantum_cognitive_engine import \
+        QuantumCognitiveEngine
 except (ImportError, IndentationError, SyntaxError):
     QuantumCognitiveEngine = None
 
@@ -64,14 +65,16 @@ try:
 except (ImportError, IndentationError, SyntaxError):
     CognitiveSeparationFirewall = None
 from src.config.settings import get_settings
-from src.utils.config import get_api_settings
 from src.utils.kimera_logger import LogCategory, get_logger
+from src.utils.robust_config import get_api_settings
 
 logger = get_logger(__name__, LogCategory.COGNITIVE)
 
 
 @dataclass
 class QuantumTruthSuperposition:
+    """Auto-generated class."""
+    pass
     """Quantum superposition of truth states"""
 
     superposition_id: str
@@ -85,6 +88,8 @@ class QuantumTruthSuperposition:
 
 @dataclass
 class ValidationResult:
+    """Auto-generated class."""
+    pass
     """Result of epistemic validation"""
 
     claim_id: str
@@ -99,6 +104,8 @@ class ValidationResult:
 
 @dataclass
 class EpistemicAnalysisResult:
+    """Auto-generated class."""
+    pass
     """Result of comprehensive epistemic analysis"""
 
     analysis_id: str
@@ -159,6 +166,8 @@ class TruthState(Enum):
 
 @dataclass
 class QuantumTruthVector:
+    """Auto-generated class."""
+    pass
     """Represents a claim in quantum truth superposition"""
 
     claim_id: str
@@ -173,6 +182,8 @@ class QuantumTruthVector:
 
 @dataclass
 class EpistemicValidationResult:
+    """Auto-generated class."""
+    pass
     """Result of epistemic validation"""
 
     claim_id: str
@@ -190,6 +201,8 @@ class EpistemicValidationResult:
 
 @dataclass
 class ValidationResult:
+    """Auto-generated class."""
+    pass
     """Result of epistemic validation"""
 
     claim_id: str
@@ -208,6 +221,8 @@ class ValidationResult:
 
 @dataclass
 class QuantumTruthSuperposition:
+    """Auto-generated class."""
+    pass
     """Quantum truth superposition state"""
 
     claim_id: str
@@ -218,9 +233,9 @@ class QuantumTruthSuperposition:
     measurement_count: int
     collapse_threshold: float
     creation_timestamp: datetime
-
-
 class RevolutionaryEpistemicValidator:
+    """Auto-generated class."""
+    pass
     """
     Revolutionary epistemic validator using quantum truth analysis
 
@@ -233,10 +248,10 @@ class RevolutionaryEpistemicValidator:
     """
 
     def __init__(
-        self,
-        max_recursion_depth: int = 5,
-        quantum_coherence_threshold: float = 0.8,
-        zetetic_doubt_intensity: float = 0.9,
+        self
+        max_recursion_depth: int = 5
+        quantum_coherence_threshold: float = 0.8
+        zetetic_doubt_intensity: float = 0.9
     ):
 
         self.settings = get_api_settings()
@@ -282,11 +297,11 @@ class RevolutionaryEpistemicValidator:
 
         # Initialize truth probabilities in superposition
         truth_probabilities = {
-            "definitely_true": 0.2,
-            "probably_true": 0.3,
-            "uncertain": 0.3,
-            "probably_false": 0.15,
-            "definitely_false": 0.05,
+            "definitely_true": 0.2
+            "probably_true": 0.3
+            "uncertain": 0.3
+            "probably_false": 0.15
+            "definitely_false": 0.05
         }
 
         # Calculate initial coherence based on claim complexity
@@ -297,13 +312,13 @@ class RevolutionaryEpistemicValidator:
         entanglement_strength = len(self.active_superpositions) * 0.1
 
         superposition = QuantumTruthSuperposition(
-            claim_id=claim_id,
-            superposition_id=superposition_id,
-            truth_probabilities=truth_probabilities,
-            coherence_level=coherence_level,
-            entanglement_strength=entanglement_strength,
-            measurement_count=0,
-            collapse_threshold=0.8,
+            claim_id=claim_id
+            superposition_id=superposition_id
+            truth_probabilities=truth_probabilities
+            coherence_level=coherence_level
+            entanglement_strength=entanglement_strength
+            measurement_count=0
+            collapse_threshold=0.8
             creation_timestamp=datetime.now(),
         )
 
@@ -384,18 +399,18 @@ class RevolutionaryEpistemicValidator:
 
         # Create validation result
         validation_result = ValidationResult(
-            claim_id=claim_id,
-            validation_level=validation_level,
-            truth_state=truth_state,
-            validation_confidence=validation_confidence,
-            empirical_evidence_score=empirical_evidence_score,
-            logical_consistency_score=logical_consistency_score,
-            zetetic_doubt_score=zetetic_doubt_score,
-            quantum_coherence_score=quantum_coherence_score,
-            meta_cognitive_score=meta_cognitive_score,
+            claim_id=claim_id
+            validation_level=validation_level
+            truth_state=truth_state
+            validation_confidence=validation_confidence
+            empirical_evidence_score=empirical_evidence_score
+            logical_consistency_score=logical_consistency_score
+            zetetic_doubt_score=zetetic_doubt_score
+            quantum_coherence_score=quantum_coherence_score
+            meta_cognitive_score=meta_cognitive_score
             validation_timestamp=datetime.now(),
-            validation_insights=validation_insights,
-            contradiction_analysis=contradiction_analysis,
+            validation_insights=validation_insights
+            contradiction_analysis=contradiction_analysis
         )
 
         self.validation_history.append(validation_result)
@@ -568,10 +583,10 @@ class RevolutionaryEpistemicValidator:
         return TruthState.SUPERPOSITION
 
     def _generate_validation_insights(
-        self,
-        superposition: QuantumTruthSuperposition,
-        validation_confidence: float,
-        validation_level: ValidationLevel,
+        self
+        superposition: QuantumTruthSuperposition
+        validation_confidence: float
+        validation_level: ValidationLevel
     ) -> List[str]:
         """Generate insights from the validation process"""
 
@@ -648,11 +663,11 @@ class RevolutionaryEpistemicValidator:
         ]
 
         return {
-            "internal_contradictions": internal_contradictions,
-            "external_contradictions": external_contradictions,
-            "contradiction_strength": contradiction_strength,
-            "resolution_suggestions": resolution_suggestions,
-            "contradiction_analysis_complete": True,
+            "internal_contradictions": internal_contradictions
+            "external_contradictions": external_contradictions
+            "contradiction_strength": contradiction_strength
+            "resolution_suggestions": resolution_suggestions
+            "contradiction_analysis_complete": True
         }
 
     def get_validation_summary(self) -> Dict[str, Any]:
@@ -681,17 +696,17 @@ class RevolutionaryEpistemicValidator:
             state_counts[state] = state_counts.get(state, 0) + 1
 
         return {
-            "total_validations": total_validations,
+            "total_validations": total_validations
             "active_superpositions": len(self.active_superpositions),
-            "average_confidence": avg_confidence,
-            "validation_level_distribution": level_counts,
-            "truth_state_distribution": state_counts,
+            "average_confidence": avg_confidence
+            "validation_level_distribution": level_counts
+            "truth_state_distribution": state_counts
             "meta_cognitive_insights": len(self.meta_cognitive_insights),
             "latest_validation": {
-                "claim_id": self.validation_history[-1].claim_id,
-                "confidence": self.validation_history[-1].validation_confidence,
-                "level": self.validation_history[-1].validation_level.value,
-                "truth_state": self.validation_history[-1].truth_state.value,
+                "claim_id": self.validation_history[-1].claim_id
+                "confidence": self.validation_history[-1].validation_confidence
+                "level": self.validation_history[-1].validation_level.value
+                "truth_state": self.validation_history[-1].truth_state.value
             },
         }
 
@@ -705,9 +720,9 @@ async def demonstrate_revolutionary_epistemic_validation():
 
     # Initialize validator
     validator = RevolutionaryEpistemicValidator(
-        max_recursion_depth=5,
-        quantum_coherence_threshold=0.8,
-        zetetic_doubt_intensity=0.9,
+        max_recursion_depth=5
+        quantum_coherence_threshold=0.8
+        zetetic_doubt_intensity=0.9
     )
 
     # Test claims for validation

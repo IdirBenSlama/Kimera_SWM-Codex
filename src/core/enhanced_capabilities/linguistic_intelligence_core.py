@@ -73,6 +73,8 @@ class LinguisticLevel(Enum):
 
 @dataclass
 class LinguisticFeature:
+    """Auto-generated class."""
+    pass
     """Representation of a linguistic feature"""
 
     feature_id: str
@@ -107,6 +109,8 @@ class LinguisticFeature:
 
 @dataclass
 class TranslationResult:
+    """Auto-generated class."""
+    pass
     """Result from language translation"""
 
     translation_id: str
@@ -139,6 +143,8 @@ class TranslationResult:
 
 @dataclass
 class LinguisticAnalysisResult:
+    """Auto-generated class."""
+    pass
     """Result from linguistic analysis"""
 
     analysis_id: str
@@ -173,16 +179,16 @@ class LinguisticAnalysisResult:
     timestamp: str = field(
         default_factory=lambda: datetime.now(timezone.utc).isoformat()
     )
-
-
 class AdvancedLanguageProcessor:
+    """Auto-generated class."""
+    pass
     """Advanced language processing system"""
 
     def __init__(
-        self,
-        embedding_dimension: int = 768,
-        max_sequence_length: int = 512,
-        supported_languages: Optional[List[str]] = None,
+        self
+        embedding_dimension: int = 768
+        max_sequence_length: int = 512
+        supported_languages: Optional[List[str]] = None
     ):
 
         self.embedding_dimension = embedding_dimension
@@ -265,27 +271,27 @@ class AdvancedLanguageProcessor:
     def _get_phoneme_inventory(self, language: str) -> int:
         """Get approximate phoneme inventory size"""
         phoneme_counts = {
-            "en": 44,
-            "es": 22,
-            "fr": 32,
-            "de": 40,
-            "it": 25,
-            "pt": 37,
-            "ru": 42,
-            "zh": 32,
-            "ja": 22,
-            "ko": 40,
-            "ar": 28,
-            "hi": 46,
+            "en": 44
+            "es": 22
+            "fr": 32
+            "de": 40
+            "it": 25
+            "pt": 37
+            "ru": 42
+            "zh": 32
+            "ja": 22
+            "ko": 40
+            "ar": 28
+            "hi": 46
         }
         return phoneme_counts.get(language, 35)
 
     async def process_language(
-        self,
-        text: str,
-        processing_mode: LanguageProcessingMode,
-        target_language: Optional[str] = None,
-        context: Optional[Dict[str, Any]] = None,
+        self
+        text: str
+        processing_mode: LanguageProcessingMode
+        target_language: Optional[str] = None
+        context: Optional[Dict[str, Any]] = None
     ) -> Dict[str, Any]:
         """Process language using specified mode"""
         try:
@@ -334,8 +340,8 @@ class AdvancedLanguageProcessor:
             return {
                 "error": str(e),
                 "detected_language": "unknown",
-                "processing_mode": processing_mode,
-                "processing_quality": 0.0,
+                "processing_mode": processing_mode
+                "processing_quality": 0.0
             }
 
     def _detect_language(self, text: str) -> str:
@@ -433,16 +439,16 @@ class AdvancedLanguageProcessor:
             semantic_complexity = 0.0
 
         return {
-            "tokens": tokens,
-            "token_embeddings": token_embeddings,
-            "text_embedding": text_embedding,
+            "tokens": tokens
+            "token_embeddings": token_embeddings
+            "text_embedding": text_embedding
             "semantic_coherence": abs(semantic_coherence),
-            "semantic_entropy": semantic_entropy,
-            "semantic_complexity": semantic_complexity,
+            "semantic_entropy": semantic_entropy
+            "semantic_complexity": semantic_complexity
             "processing_quality": (
                 abs(semantic_coherence) + (1.0 - semantic_complexity)
             )
-            / 2.0,
+            / 2.0
         }
 
     async def _syntactic_parsing(
@@ -470,13 +476,13 @@ class AdvancedLanguageProcessor:
         )
 
         return {
-            "tokens": tokens,
-            "pos_tags": pos_tags,
-            "word_order": word_order,
-            "syntactic_complexity": syntactic_complexity,
-            "syntactic_correctness": syntactic_correctness,
+            "tokens": tokens
+            "pos_tags": pos_tags
+            "word_order": word_order
+            "syntactic_complexity": syntactic_complexity
+            "syntactic_correctness": syntactic_correctness
             "processing_quality": (syntactic_correctness + (1.0 - syntactic_complexity))
-            / 2.0,
+            / 2.0
         }
 
     async def _morphological_analysis(
@@ -512,13 +518,13 @@ class AdvancedLanguageProcessor:
         morphological_richness = min(1.0, unique_morphemes / (len(tokens) + 1))
 
         return {
-            "tokens": tokens,
-            "morphology_type": morphology_type,
-            "morphological_features": morphological_features,
-            "morphological_complexity": morphological_complexity,
-            "morphological_richness": morphological_richness,
+            "tokens": tokens
+            "morphology_type": morphology_type
+            "morphological_features": morphological_features
+            "morphological_complexity": morphological_complexity
+            "morphological_richness": morphological_richness
             "processing_quality": (morphological_richness + morphological_complexity)
-            / 2.0,
+            / 2.0
         }
 
     async def _pragmatic_analysis(
@@ -542,20 +548,20 @@ class AdvancedLanguageProcessor:
         )
 
         return {
-            "tokens": tokens,
-            "speech_act": speech_act,
-            "register": register,
-            "formality_level": formality_level,
-            "context_indicators": context_indicators,
+            "tokens": tokens
+            "speech_act": speech_act
+            "register": register
+            "formality_level": formality_level
+            "context_indicators": context_indicators
             "context_dependence": min(1.0, context_dependence),
-            "pragmatic_appropriateness": pragmatic_appropriateness,
-            "processing_quality": pragmatic_appropriateness,
+            "pragmatic_appropriateness": pragmatic_appropriateness
+            "processing_quality": pragmatic_appropriateness
         }
 
     async def _cross_lingual_analysis(
-        self,
-        text: str,
-        source_language: str,
+        self
+        text: str
+        source_language: str
         target_language: Optional[str],
         context: Dict[str, Any],
     ) -> Dict[str, Any]:
@@ -581,14 +587,14 @@ class AdvancedLanguageProcessor:
         universal_features = self._extract_universal_features(text, source_language)
 
         return {
-            "source_language": source_language,
-            "target_language": target_language,
-            "source_family": source_family,
-            "target_family": target_family,
-            "linguistic_distance": linguistic_distance,
-            "translation_difficulty": translation_difficulty,
-            "universal_features": universal_features,
-            "processing_quality": 1.0 - translation_difficulty,
+            "source_language": source_language
+            "target_language": target_language
+            "source_family": source_family
+            "target_family": target_family
+            "linguistic_distance": linguistic_distance
+            "translation_difficulty": translation_difficulty
+            "universal_features": universal_features
+            "processing_quality": 1.0 - translation_difficulty
         }
 
     async def _cognitive_linguistic_analysis(
@@ -610,12 +616,12 @@ class AdvancedLanguageProcessor:
         understanding_depth = self._assess_understanding_depth(text, tokens, context)
 
         return {
-            "tokens": tokens,
-            "cognitive_load": cognitive_load,
-            "conceptual_mapping": conceptual_mapping,
-            "processing_complexity": processing_complexity,
-            "understanding_depth": understanding_depth,
-            "processing_quality": (1.0 - cognitive_load + understanding_depth) / 2.0,
+            "tokens": tokens
+            "cognitive_load": cognitive_load
+            "conceptual_mapping": conceptual_mapping
+            "processing_complexity": processing_complexity
+            "understanding_depth": understanding_depth
+            "processing_quality": (1.0 - cognitive_load + understanding_depth) / 2.0
         }
 
     def _tokenize(self, text: str, language: str) -> List[str]:
@@ -743,10 +749,10 @@ class AdvancedLanguageProcessor:
                 morpheme_count = 2
 
         return {
-            "morphemes": morphemes,
-            "morpheme_count": morpheme_count,
-            "morphology_type": morphology_type,
-            "stem": morphemes[0] if morphemes else token,
+            "morphemes": morphemes
+            "morpheme_count": morpheme_count
+            "morphology_type": morphology_type
+            "stem": morphemes[0] if morphemes else token
         }
 
     def _identify_speech_act(self, text: str) -> str:
@@ -847,18 +853,18 @@ class AdvancedLanguageProcessor:
     def _get_language_family(self, language: str) -> LanguageFamily:
         """Get language family for language"""
         family_map = {
-            "en": LanguageFamily.INDO_EUROPEAN,
-            "es": LanguageFamily.INDO_EUROPEAN,
-            "fr": LanguageFamily.INDO_EUROPEAN,
-            "de": LanguageFamily.INDO_EUROPEAN,
-            "it": LanguageFamily.INDO_EUROPEAN,
-            "pt": LanguageFamily.INDO_EUROPEAN,
-            "ru": LanguageFamily.INDO_EUROPEAN,
-            "hi": LanguageFamily.INDO_EUROPEAN,
-            "zh": LanguageFamily.SINO_TIBETAN,
-            "ja": LanguageFamily.LANGUAGE_ISOLATE,
-            "ko": LanguageFamily.LANGUAGE_ISOLATE,
-            "ar": LanguageFamily.AFROASIATIC,
+            "en": LanguageFamily.INDO_EUROPEAN
+            "es": LanguageFamily.INDO_EUROPEAN
+            "fr": LanguageFamily.INDO_EUROPEAN
+            "de": LanguageFamily.INDO_EUROPEAN
+            "it": LanguageFamily.INDO_EUROPEAN
+            "pt": LanguageFamily.INDO_EUROPEAN
+            "ru": LanguageFamily.INDO_EUROPEAN
+            "hi": LanguageFamily.INDO_EUROPEAN
+            "zh": LanguageFamily.SINO_TIBETAN
+            "ja": LanguageFamily.LANGUAGE_ISOLATE
+            "ko": LanguageFamily.LANGUAGE_ISOLATE
+            "ar": LanguageFamily.AFROASIATIC
         }
         return family_map.get(language, LanguageFamily.UNKNOWN)
 
@@ -873,14 +879,14 @@ class AdvancedLanguageProcessor:
         if family1 == family2:
             # Same family - calculate based on specific language pairs
             distance_map = {
-                ("en", "de"): 0.6,
-                ("en", "fr"): 0.7,
-                ("en", "es"): 0.7,
-                ("es", "pt"): 0.2,
-                ("es", "it"): 0.3,
-                ("es", "fr"): 0.4,
-                ("fr", "it"): 0.3,
-                ("de", "en"): 0.6,
+                ("en", "de"): 0.6
+                ("en", "fr"): 0.7
+                ("en", "es"): 0.7
+                ("es", "pt"): 0.2
+                ("es", "it"): 0.3
+                ("es", "fr"): 0.4
+                ("fr", "it"): 0.3
+                ("de", "en"): 0.6
             }
 
             key = tuple(sorted([lang1, lang2]))
@@ -1019,9 +1025,9 @@ class AdvancedLanguageProcessor:
         return (
             sum(depth_indicators) / len(depth_indicators) if depth_indicators else 0.0
         )
-
-
 class UniversalTranslationSystem:
+    """Auto-generated class."""
+    pass
     """Universal translation system"""
 
     def __init__(self, quality_threshold: float = 0.7):
@@ -1032,11 +1038,11 @@ class UniversalTranslationSystem:
         logger.debug("Universal translation system initialized")
 
     async def translate_text(
-        self,
-        source_text: str,
-        source_language: str,
-        target_language: str,
-        context: Optional[Dict[str, Any]] = None,
+        self
+        source_text: str
+        source_language: str
+        target_language: str
+        context: Optional[Dict[str, Any]] = None
     ) -> TranslationResult:
         """Translate text between languages"""
         translation_id = f"TRANS_{uuid.uuid4().hex[:8]}"
@@ -1065,11 +1071,11 @@ class UniversalTranslationSystem:
 
             # Create result
             result = TranslationResult(
-                translation_id=translation_id,
-                source_language=source_language,
-                target_language=target_language,
-                source_text=source_text,
-                translated_text=translated_text,
+                translation_id=translation_id
+                source_language=source_language
+                target_language=target_language
+                source_text=source_text
+                translated_text=translated_text
                 translation_quality=quality_metrics["overall_quality"],
                 semantic_preservation=quality_metrics["semantic_preservation"],
                 syntactic_fluency=quality_metrics["syntactic_fluency"],
@@ -1077,7 +1083,7 @@ class UniversalTranslationSystem:
                 translation_confidence=quality_metrics["confidence"],
                 cultural_adaptation=quality_metrics["cultural_adaptation"],
                 register_appropriateness=quality_metrics["register_appropriateness"],
-                translation_time=translation_time,
+                translation_time=translation_time
                 computational_cost=translation_time * 2.0,  # 2 units per second
             )
 
@@ -1090,29 +1096,29 @@ class UniversalTranslationSystem:
         except Exception as e:
             logger.error(f"Translation failed: {e}")
             return TranslationResult(
-                translation_id=translation_id,
-                source_language=source_language,
-                target_language=target_language,
-                source_text=source_text,
+                translation_id=translation_id
+                source_language=source_language
+                target_language=target_language
+                source_text=source_text
                 translated_text=source_text,  # Fallback to source
-                translation_quality=0.0,
-                semantic_preservation=0.0,
-                syntactic_fluency=0.0,
-                pragmatic_appropriateness=0.0,
-                translation_confidence=0.0,
-                cultural_adaptation=0.0,
-                register_appropriateness=0.0,
-                translation_time=time.time() - translation_start,
-                computational_cost=0.0,
-                success=False,
+                translation_quality=0.0
+                semantic_preservation=0.0
+                syntactic_fluency=0.0
+                pragmatic_appropriateness=0.0
+                translation_confidence=0.0
+                cultural_adaptation=0.0
+                register_appropriateness=0.0
+                translation_time=time.time() - translation_start
+                computational_cost=0.0
+                success=False
                 error_log=[str(e)],
             )
 
     async def _perform_translation(
-        self,
-        source_text: str,
-        source_language: str,
-        target_language: str,
+        self
+        source_text: str
+        source_language: str
+        target_language: str
         context: Dict[str, Any],
     ) -> str:
         """Perform actual translation"""
@@ -1206,11 +1212,11 @@ class UniversalTranslationSystem:
         return text
 
     async def _assess_translation_quality(
-        self,
-        source_text: str,
-        translated_text: str,
-        source_language: str,
-        target_language: str,
+        self
+        source_text: str
+        translated_text: str
+        source_language: str
+        target_language: str
     ) -> Dict[str, float]:
         """Assess quality of translation"""
 
@@ -1272,9 +1278,9 @@ class UniversalTranslationSystem:
             "cultural_adaptation": max(0.0, min(1.0, cultural_adaptation)),
             "register_appropriateness": max(0.0, min(1.0, register_appropriateness)),
         }
-
-
 class SemanticEntropyAnalyzer:
+    """Auto-generated class."""
+    pass
     """Semantic entropy analysis and optimization"""
 
     def __init__(self, entropy_threshold: float = 2.0):
@@ -1284,9 +1290,9 @@ class SemanticEntropyAnalyzer:
         logger.debug("Semantic entropy analyzer initialized")
 
     async def analyze_semantic_entropy(
-        self,
-        text: str,
-        language: str,
+        self
+        text: str
+        language: str
         embeddings: List[torch.Tensor],
         context: Dict[str, Any],
     ) -> Dict[str, Any]:
@@ -1311,10 +1317,10 @@ class SemanticEntropyAnalyzer:
             # Record entropy analysis
             analysis_record = {
                 "timestamp": time.time(),
-                "token_entropy": token_entropy,
-                "semantic_entropy": semantic_entropy,
-                "information_entropy": information_entropy,
-                "semantic_coherence": semantic_coherence,
+                "token_entropy": token_entropy
+                "semantic_entropy": semantic_entropy
+                "information_entropy": information_entropy
+                "semantic_coherence": semantic_coherence
             }
 
             self.entropy_history.append(analysis_record)
@@ -1322,12 +1328,12 @@ class SemanticEntropyAnalyzer:
                 self.entropy_history = self.entropy_history[-50:]
 
             return {
-                "token_entropy": token_entropy,
-                "semantic_entropy": semantic_entropy,
-                "information_entropy": information_entropy,
-                "entropy_distribution": entropy_distribution,
-                "semantic_coherence": semantic_coherence,
-                "optimization_potential": optimization_potential,
+                "token_entropy": token_entropy
+                "semantic_entropy": semantic_entropy
+                "information_entropy": information_entropy
+                "entropy_distribution": entropy_distribution
+                "semantic_coherence": semantic_coherence
+                "optimization_potential": optimization_potential
                 "entropy_quality": 1.0
                 - min(1.0, semantic_entropy / self.entropy_threshold),
             }
@@ -1335,13 +1341,13 @@ class SemanticEntropyAnalyzer:
         except Exception as e:
             logger.error(f"Semantic entropy analysis failed: {e}")
             return {
-                "token_entropy": 0.0,
-                "semantic_entropy": 0.0,
-                "information_entropy": 0.0,
+                "token_entropy": 0.0
+                "semantic_entropy": 0.0
+                "information_entropy": 0.0
                 "entropy_distribution": {},
-                "semantic_coherence": 0.0,
-                "optimization_potential": 0.0,
-                "entropy_quality": 0.0,
+                "semantic_coherence": 0.0
+                "optimization_potential": 0.0
+                "entropy_quality": 0.0
                 "error": str(e),
             }
 
@@ -1382,7 +1388,7 @@ class SemanticEntropyAnalyzer:
                 sim = torch.cosine_similarity(
                     embedding_matrix[i].unsqueeze(0),
                     embedding_matrix[j].unsqueeze(0),
-                    dim=1,
+                    dim=1
                 ).item()
                 similarities.append(abs(sim))
 
@@ -1490,9 +1496,9 @@ class SemanticEntropyAnalyzer:
         optimization_potential = (entropy_excess + coherence_deficit) / 2.0
 
         return max(0.0, min(1.0, optimization_potential))
-
-
 class GrammarSyntaxEngine:
+    """Auto-generated class."""
+    pass
     """Grammar and syntax processing engine"""
 
     def __init__(self):
@@ -1521,7 +1527,7 @@ class GrammarSyntaxEngine:
                     "indefinite": ["un", "una"],
                 },
                 "plural_suffix": "s",
-                "gender": True,
+                "gender": True
             },
             "fr": {
                 "word_order": "SVO",
@@ -1530,7 +1536,7 @@ class GrammarSyntaxEngine:
                     "indefinite": ["un", "une"],
                 },
                 "plural_suffix": "s",
-                "gender": True,
+                "gender": True
             },
         }
 
@@ -1560,11 +1566,11 @@ class GrammarSyntaxEngine:
             )
 
             result = {
-                "tokens": tokens,
-                "pos_tags": pos_tags,
-                "syntactic_tree": syntactic_tree,
-                "grammar_analysis": grammar_analysis,
-                "syntax_complexity": syntax_complexity,
+                "tokens": tokens
+                "pos_tags": pos_tags
+                "syntactic_tree": syntactic_tree
+                "grammar_analysis": grammar_analysis
+                "syntax_complexity": syntax_complexity
                 "parsing_quality": grammar_analysis.get("correctness_score", 0.5),
             }
 
@@ -1583,8 +1589,8 @@ class GrammarSyntaxEngine:
                 "pos_tags": [],
                 "syntactic_tree": {},
                 "grammar_analysis": {"correctness_score": 0.0},
-                "syntax_complexity": 0.0,
-                "parsing_quality": 0.0,
+                "syntax_complexity": 0.0
+                "parsing_quality": 0.0
                 "error": str(e),
             }
 
@@ -1718,11 +1724,11 @@ class GrammarSyntaxEngine:
         )
 
         return {
-            "correctness_score": correctness_score,
-            "errors": errors,
-            "has_verb": has_verb,
-            "has_noun": has_noun,
-            "det_noun_pairs": det_noun_pairs,
+            "correctness_score": correctness_score
+            "errors": errors
+            "has_verb": has_verb
+            "has_noun": has_noun
+            "det_noun_pairs": det_noun_pairs
             "agreement_score": correct_pairs / max(det_noun_pairs, 1),
         }
 
@@ -1774,15 +1780,15 @@ class GrammarSyntaxEngine:
                 phrase_count += self._count_phrases(child)
 
         return phrase_count
-
-
 class LinguisticIntelligenceCore:
+    """Auto-generated class."""
+    pass
     """Main Linguistic Intelligence Core system integrating all language processing capabilities"""
 
     def __init__(
-        self,
-        default_processing_mode: LanguageProcessingMode = LanguageProcessingMode.SEMANTIC_ANALYSIS,
-        supported_languages: Optional[List[str]] = None,
+        self
+        default_processing_mode: LanguageProcessingMode = LanguageProcessingMode.SEMANTIC_ANALYSIS
+        supported_languages: Optional[List[str]] = None
         device: str = "cpu",
     ):
 
@@ -1817,11 +1823,11 @@ class LinguisticIntelligenceCore:
         logger.info("✅ Linguistic Intelligence Core foundational systems registered")
 
     async def analyze_linguistic_intelligence(
-        self,
-        text: str,
-        processing_mode: Optional[LanguageProcessingMode] = None,
-        target_language: Optional[str] = None,
-        context: Optional[Dict[str, Any]] = None,
+        self
+        text: str
+        processing_mode: Optional[LanguageProcessingMode] = None
+        target_language: Optional[str] = None
+        context: Optional[Dict[str, Any]] = None
     ) -> LinguisticAnalysisResult:
         """Main linguistic intelligence analysis method"""
 
@@ -1852,17 +1858,17 @@ class LinguisticIntelligenceCore:
             if "token_embeddings" in language_result:
                 entropy_analysis = (
                     await self.semantic_entropy_analyzer.analyze_semantic_entropy(
-                        text,
-                        detected_language,
+                        text
+                        detected_language
                         language_result["token_embeddings"],
-                        context,
+                        context
                     )
                 )
             else:
                 entropy_analysis = {
-                    "semantic_entropy": 0.0,
-                    "semantic_coherence": 0.0,
-                    "entropy_quality": 0.0,
+                    "semantic_entropy": 0.0
+                    "semantic_coherence": 0.0
+                    "entropy_quality": 0.0
                 }
 
             # Phase 4: Grammar and syntax analysis
@@ -1879,14 +1885,14 @@ class LinguisticIntelligenceCore:
 
             # Create result
             result = LinguisticAnalysisResult(
-                analysis_id=analysis_id,
-                input_text=text,
-                processing_mode=processing_mode,
-                detected_language=detected_language,
-                language_family=language_family,
-                extracted_features=linguistic_features,
-                semantic_structure=language_result,
-                syntactic_structure=syntax_analysis,
+                analysis_id=analysis_id
+                input_text=text
+                processing_mode=processing_mode
+                detected_language=detected_language
+                language_family=language_family
+                extracted_features=linguistic_features
+                semantic_structure=language_result
+                syntactic_structure=syntax_analysis
                 morphological_analysis=language_result.get(
                     "morphological_features", {}
                 ),
@@ -1901,7 +1907,7 @@ class LinguisticIntelligenceCore:
                 cognitive_processing_load=linguistic_metrics["cognitive_load"],
                 understanding_complexity=linguistic_metrics["understanding_complexity"],
                 context_integration=linguistic_metrics["context_integration"],
-                analysis_duration=analysis_duration,
+                analysis_duration=analysis_duration
                 computational_cost=self._calculate_computational_cost(
                     analysis_duration, len(text)
                 ),
@@ -1924,36 +1930,36 @@ class LinguisticIntelligenceCore:
         except Exception as e:
             logger.error(f"Linguistic analysis failed: {e}")
             error_result = LinguisticAnalysisResult(
-                analysis_id=analysis_id,
-                input_text=text,
-                processing_mode=processing_mode,
+                analysis_id=analysis_id
+                input_text=text
+                processing_mode=processing_mode
                 detected_language="unknown",
-                language_family=LanguageFamily.UNKNOWN,
+                language_family=LanguageFamily.UNKNOWN
                 extracted_features=[],
                 semantic_structure={},
                 syntactic_structure={},
                 morphological_analysis={},
-                semantic_coherence=0.0,
-                syntactic_correctness=0.0,
-                morphological_complexity=0.0,
-                overall_linguistic_quality=0.0,
-                cognitive_processing_load=0.0,
-                understanding_complexity=0.0,
-                context_integration=0.0,
-                analysis_duration=time.time() - analysis_start,
-                computational_cost=0.0,
-                success=False,
+                semantic_coherence=0.0
+                syntactic_correctness=0.0
+                morphological_complexity=0.0
+                overall_linguistic_quality=0.0
+                cognitive_processing_load=0.0
+                understanding_complexity=0.0
+                context_integration=0.0
+                analysis_duration=time.time() - analysis_start
+                computational_cost=0.0
+                success=False
                 error_log=[str(e)],
             )
 
             return error_result
 
     async def translate_with_intelligence(
-        self,
-        source_text: str,
-        source_language: str,
-        target_language: str,
-        context: Optional[Dict[str, Any]] = None,
+        self
+        source_text: str
+        source_language: str
+        target_language: str
+        context: Optional[Dict[str, Any]] = None
     ) -> TranslationResult:
         """Intelligent translation with linguistic analysis"""
         return await self.universal_translation_system.translate_text(
@@ -1963,18 +1969,18 @@ class LinguisticIntelligenceCore:
     def _map_language_to_family(self, language: str) -> LanguageFamily:
         """Map language code to language family"""
         family_mapping = {
-            "en": LanguageFamily.INDO_EUROPEAN,
-            "es": LanguageFamily.INDO_EUROPEAN,
-            "fr": LanguageFamily.INDO_EUROPEAN,
-            "de": LanguageFamily.INDO_EUROPEAN,
-            "it": LanguageFamily.INDO_EUROPEAN,
-            "pt": LanguageFamily.INDO_EUROPEAN,
-            "ru": LanguageFamily.INDO_EUROPEAN,
-            "hi": LanguageFamily.INDO_EUROPEAN,
-            "zh": LanguageFamily.SINO_TIBETAN,
-            "ja": LanguageFamily.LANGUAGE_ISOLATE,
-            "ko": LanguageFamily.LANGUAGE_ISOLATE,
-            "ar": LanguageFamily.AFROASIATIC,
+            "en": LanguageFamily.INDO_EUROPEAN
+            "es": LanguageFamily.INDO_EUROPEAN
+            "fr": LanguageFamily.INDO_EUROPEAN
+            "de": LanguageFamily.INDO_EUROPEAN
+            "it": LanguageFamily.INDO_EUROPEAN
+            "pt": LanguageFamily.INDO_EUROPEAN
+            "ru": LanguageFamily.INDO_EUROPEAN
+            "hi": LanguageFamily.INDO_EUROPEAN
+            "zh": LanguageFamily.SINO_TIBETAN
+            "ja": LanguageFamily.LANGUAGE_ISOLATE
+            "ko": LanguageFamily.LANGUAGE_ISOLATE
+            "ar": LanguageFamily.AFROASIATIC
         }
         return family_mapping.get(language, LanguageFamily.UNKNOWN)
 
@@ -1995,9 +2001,9 @@ class LinguisticIntelligenceCore:
             feature = LinguisticFeature(
                 feature_id=f"feature_{i}_{token}",
                 feature_type="token",
-                linguistic_level=LinguisticLevel.WORD,
-                feature_text=token,
-                feature_embedding=embedding,
+                linguistic_level=LinguisticLevel.WORD
+                feature_text=token
+                feature_embedding=embedding
                 semantic_vector=embedding,  # Simplified
                 semantic_entropy=language_result.get("semantic_entropy", 0.0),
                 syntactic_complexity=language_result.get("syntactic_complexity", 0.0),
@@ -2128,7 +2134,7 @@ class LinguisticIntelligenceCore:
             return 0.3  # Default low dependence
 
     def _calculate_linguistic_metrics(
-        self,
+        self
         language_result: Dict[str, Any],
         entropy_analysis: Dict[str, Any],
         syntax_analysis: Dict[str, Any],
@@ -2221,12 +2227,12 @@ class LinguisticIntelligenceCore:
 
         return {
             "linguistic_intelligence_core_status": "operational",
-            "total_processing_requests": self.total_processing_requests,
-            "successful_processing_count": self.successful_processing_count,
-            "success_rate": success_rate,
-            "supported_languages": self.supported_languages,
-            "default_processing_mode": self.default_processing_mode.value,
-            "recent_performance": recent_performance,
+            "total_processing_requests": self.total_processing_requests
+            "successful_processing_count": self.successful_processing_count
+            "success_rate": success_rate
+            "supported_languages": self.supported_languages
+            "default_processing_mode": self.default_processing_mode.value
+            "recent_performance": recent_performance
             "components": {
                 "advanced_language_processor": "operational",
                 "universal_translation_system": len(

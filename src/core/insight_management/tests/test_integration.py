@@ -18,19 +18,13 @@ import torch
 from ....core.geoid import GeoidState
 from ....core.insight import InsightScar
 from ..insight_lifecycle import FeedbackEvent
-from ..integration import (
-    COHERENCE_MINIMUM,
-    ENTROPY_VALIDATION_THRESHOLD,
-    MAX_FEEDBACK_GAIN,
-    MAX_INSIGHTS_IN_MEMORY,
-    InsightManagementIntegrator,
-    InsightValidationResult,
-    SystemHealthMetrics,
-    ValidationStatus,
-)
-
-
+from ..integration import (COHERENCE_MINIMUM, ENTROPY_VALIDATION_THRESHOLD
+                           MAX_FEEDBACK_GAIN, MAX_INSIGHTS_IN_MEMORY
+                           InsightManagementIntegrator, InsightValidationResult
+                           SystemHealthMetrics, ValidationStatus)
 class TestInsightManagementIntegrator:
+    """Auto-generated class."""
+    pass
     """Test suite for InsightManagementIntegrator DO-178C compliance"""
 
     @pytest.fixture
@@ -182,12 +176,12 @@ class TestInsightManagementIntegrator:
         # Simulate validation result
         result = InsightValidationResult(
             insight_id="test-001",
-            status=ValidationStatus.VALIDATED,
-            entropy_score=0.8,
-            coherence_score=0.9,
-            confidence=0.85,
+            status=ValidationStatus.VALIDATED
+            entropy_score=0.8
+            coherence_score=0.9
+            confidence=0.85
             timestamp=datetime.now(),
-            validation_time_ms=50.0,
+            validation_time_ms=50.0
         )
 
         integrator._update_metrics(result)
@@ -204,12 +198,12 @@ class TestInsightManagementIntegrator:
         for i in range(10):
             integrator.validation_cache[f"insight-{i}"] = InsightValidationResult(
                 insight_id=f"insight-{i}",
-                status=ValidationStatus.VALIDATED,
-                entropy_score=0.8,
-                coherence_score=0.9,
-                confidence=0.85,
+                status=ValidationStatus.VALIDATED
+                entropy_score=0.8
+                coherence_score=0.9
+                confidence=0.85
                 timestamp=datetime.now(),
-                validation_time_ms=50.0,
+                validation_time_ms=50.0
             )
 
         assert len(integrator.validation_cache) == 10
@@ -249,6 +243,8 @@ class TestInsightManagementIntegrator:
 
 # Performance benchmarks
 class TestPerformanceBenchmarks:
+    """Auto-generated class."""
+    pass
     """Performance validation tests for DO-178C compliance"""
 
     @pytest.mark.benchmark

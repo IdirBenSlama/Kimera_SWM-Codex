@@ -2,7 +2,7 @@
 Axiom Verification Engine
 ========================
 
-A comprehensive verification framework for the Axiom of Understanding,
+A comprehensive verification framework for the Axiom of Understanding
 implementing rigorous validation methods inspired by safety-critical
 systems in aerospace and nuclear engineering.
 
@@ -53,26 +53,18 @@ except ImportError:
         from core.constants import EPSILON, MAX_ITERATIONS
     except ImportError:
         # Create placeholders for core.constants
-        class EPSILON:
+class EPSILON:
+    """Auto-generated class."""
             pass
-
-    class MAX_ITERATIONS:
+class MAX_ITERATIONS:
+    """Auto-generated class."""
         pass
 
 
-from .axiom_mathematical_proof import (
-    AxiomProofSystem,
-    MathematicalProof,
-    ProofStatus,
-    VerificationLevel,
-    get_axiom_proof_system,
-)
-from .axiom_of_understanding import (
-    AxiomOfUnderstanding,
-    SemanticState,
-    UnderstandingMode,
-    get_axiom_of_understanding,
-)
+from .axiom_mathematical_proof import (AxiomProofSystem, MathematicalProof, ProofStatus
+                                       VerificationLevel, get_axiom_proof_system)
+from .axiom_of_understanding import (AxiomOfUnderstanding, SemanticState
+                                     UnderstandingMode, get_axiom_of_understanding)
 
 logger = get_system_logger(__name__)
 
@@ -102,6 +94,8 @@ class VerificationMethod(Enum):
 
 @dataclass
 class VerificationRequirement:
+    """Auto-generated class."""
+    pass
     """A specific verification requirement"""
 
     req_id: str
@@ -115,6 +109,8 @@ class VerificationRequirement:
 
 @dataclass
 class TestCase:
+    """Auto-generated class."""
+    pass
     """A test case for axiom verification"""
 
     test_id: str
@@ -131,6 +127,8 @@ class TestCase:
 
 @dataclass
 class VerificationReport:
+    """Auto-generated class."""
+    pass
     """Comprehensive verification report"""
 
     report_id: str
@@ -144,9 +142,9 @@ class VerificationReport:
     certification_ready: bool
     issues: List[Dict[str, Any]]
     recommendations: List[str]
-
-
 class AxiomVerificationEngine:
+    """Auto-generated class."""
+    pass
     """
     Comprehensive verification engine for the Axiom of Understanding.
 
@@ -183,70 +181,70 @@ class AxiomVerificationEngine:
             VerificationRequirement(
                 req_id="REQ-001",
                 description="Axiom must preserve information content",
-                criticality=CriticalityLevel.LEVEL_A,
+                criticality=CriticalityLevel.LEVEL_A
                 verification_methods=[
-                    VerificationMethod.FORMAL_PROOF,
-                    VerificationMethod.STATISTICAL_TESTING,
+                    VerificationMethod.FORMAL_PROOF
+                    VerificationMethod.STATISTICAL_TESTING
                 ],
                 acceptance_criteria={
                     "information_preservation": 0.99,  # 99% preservation
-                    "max_information_loss": 0.01,
+                    "max_information_loss": 0.01
                 },
             ),
             VerificationRequirement(
                 req_id="REQ-002",
                 description="Axiom must reduce entropy monotonically",
-                criticality=CriticalityLevel.LEVEL_A,
+                criticality=CriticalityLevel.LEVEL_A
                 verification_methods=[
-                    VerificationMethod.FORMAL_PROOF,
-                    VerificationMethod.BOUNDARY_ANALYSIS,
+                    VerificationMethod.FORMAL_PROOF
+                    VerificationMethod.BOUNDARY_ANALYSIS
                 ],
                 acceptance_criteria={
-                    "entropy_reduction": True,
-                    "min_reduction_factor": 0.1,
+                    "entropy_reduction": True
+                    "min_reduction_factor": 0.1
                 },
             ),
             VerificationRequirement(
                 req_id="REQ-003",
                 description="Axiom must satisfy composition law",
-                criticality=CriticalityLevel.LEVEL_A,
+                criticality=CriticalityLevel.LEVEL_A
                 verification_methods=[
-                    VerificationMethod.FORMAL_PROOF,
-                    VerificationMethod.MODEL_CHECKING,
+                    VerificationMethod.FORMAL_PROOF
+                    VerificationMethod.MODEL_CHECKING
                 ],
                 acceptance_criteria={"composition_error": 1e-10, "associativity": True},
             ),
             VerificationRequirement(
                 req_id="REQ-004",
                 description="Axiom must be stable under perturbations",
-                criticality=CriticalityLevel.LEVEL_B,
+                criticality=CriticalityLevel.LEVEL_B
                 verification_methods=[
-                    VerificationMethod.STRESS_TESTING,
-                    VerificationMethod.MUTATION_TESTING,
+                    VerificationMethod.STRESS_TESTING
+                    VerificationMethod.MUTATION_TESTING
                 ],
                 acceptance_criteria={"stability_threshold": 0.95, "max_deviation": 0.1},
             ),
             VerificationRequirement(
                 req_id="REQ-005",
                 description="Axiom must converge to fixed points",
-                criticality=CriticalityLevel.LEVEL_B,
+                criticality=CriticalityLevel.LEVEL_B
                 verification_methods=[
-                    VerificationMethod.MODEL_CHECKING,
-                    VerificationMethod.EMPIRICAL_VALIDATION,
+                    VerificationMethod.MODEL_CHECKING
+                    VerificationMethod.EMPIRICAL_VALIDATION
                 ],
                 acceptance_criteria={"convergence_rate": 0.9, "max_iterations": 100},
             ),
             VerificationRequirement(
                 req_id="REQ-006",
                 description="Axiom must handle edge cases gracefully",
-                criticality=CriticalityLevel.LEVEL_C,
+                criticality=CriticalityLevel.LEVEL_C
                 verification_methods=[
-                    VerificationMethod.BOUNDARY_ANALYSIS,
-                    VerificationMethod.STRESS_TESTING,
+                    VerificationMethod.BOUNDARY_ANALYSIS
+                    VerificationMethod.STRESS_TESTING
                 ],
                 acceptance_criteria={
-                    "no_exceptions": True,
-                    "graceful_degradation": True,
+                    "no_exceptions": True
+                    "graceful_degradation": True
                 },
             ),
         ]
@@ -286,15 +284,15 @@ class AxiomVerificationEngine:
                 test_id=f"TC-001-{i+1:03d}",
                 description=f"Information preservation test with random state {i+1}",
                 requirement_id="REQ-001",
-                test_type=VerificationMethod.STATISTICAL_TESTING,
+                test_type=VerificationMethod.STATISTICAL_TESTING
                 input_data={
                     "vector": np.random.randn(10).tolist(),
                     "entropy": np.random.uniform(0.5, 2.0),
                     "information": np.random.uniform(1.0, 5.0),
                 },
                 expected_output={
-                    "information_preserved": True,
-                    "preservation_ratio": 0.99,
+                    "information_preserved": True
+                    "preservation_ratio": 0.99
                 },
             )
             tests.append(test)
@@ -305,15 +303,15 @@ class AxiomVerificationEngine:
                 test_id="TC-001-011",
                 description="Information preservation with zero entropy state",
                 requirement_id="REQ-001",
-                test_type=VerificationMethod.BOUNDARY_ANALYSIS,
+                test_type=VerificationMethod.BOUNDARY_ANALYSIS
                 input_data={
-                    "vector": [1.0] + [0.0] * 9,
-                    "entropy": 0.0,
-                    "information": 10.0,
+                    "vector": [1.0] + [0.0] * 9
+                    "entropy": 0.0
+                    "information": 10.0
                 },
                 expected_output={
-                    "information_preserved": True,
-                    "preservation_ratio": 1.0,
+                    "information_preserved": True
+                    "preservation_ratio": 1.0
                 },
             )
         )
@@ -331,11 +329,11 @@ class AxiomVerificationEngine:
                 test_id=f"TC-002-{i+1:03d}",
                 description=f"Entropy reduction test with initial entropy {entropy}",
                 requirement_id="REQ-002",
-                test_type=VerificationMethod.STATISTICAL_TESTING,
+                test_type=VerificationMethod.STATISTICAL_TESTING
                 input_data={
                     "vector": np.random.randn(10).tolist(),
-                    "entropy": entropy,
-                    "information": 1.0,
+                    "entropy": entropy
+                    "information": 1.0
                 },
                 expected_output={"entropy_reduced": True, "min_reduction": 0.1},
             )
@@ -353,17 +351,17 @@ class AxiomVerificationEngine:
                 test_id=f"TC-003-{i+1:03d}",
                 description=f"Composition law test {i+1}",
                 requirement_id="REQ-003",
-                test_type=VerificationMethod.FORMAL_PROOF,
+                test_type=VerificationMethod.FORMAL_PROOF
                 input_data={
                     "state1": {
                         "vector": np.random.randn(10).tolist(),
-                        "entropy": 1.0,
-                        "information": 1.0,
+                        "entropy": 1.0
+                        "information": 1.0
                     },
                     "state2": {
                         "vector": np.random.randn(10).tolist(),
-                        "entropy": 1.0,
-                        "information": 1.0,
+                        "entropy": 1.0
+                        "information": 1.0
                     },
                 },
                 expected_output={"composition_holds": True, "max_error": 1e-10},
@@ -383,11 +381,11 @@ class AxiomVerificationEngine:
                 test_id=f"TC-004-{i+1:03d}",
                 description=f"Stability test with perturbation level {perturbation}",
                 requirement_id="REQ-004",
-                test_type=VerificationMethod.STRESS_TESTING,
+                test_type=VerificationMethod.STRESS_TESTING
                 input_data={
                     "base_vector": np.random.randn(10).tolist(),
-                    "perturbation_level": perturbation,
-                    "num_perturbations": 100,
+                    "perturbation_level": perturbation
+                    "num_perturbations": 100
                 },
                 expected_output={"stable": True, "max_deviation": 0.1},
             )
@@ -405,11 +403,11 @@ class AxiomVerificationEngine:
                 test_id=f"TC-005-{i+1:03d}",
                 description=f"Convergence test from random initial state {i+1}",
                 requirement_id="REQ-005",
-                test_type=VerificationMethod.MODEL_CHECKING,
+                test_type=VerificationMethod.MODEL_CHECKING
                 input_data={
                     "initial_vector": np.random.randn(10).tolist(),
-                    "max_iterations": 100,
-                    "convergence_threshold": 0.001,
+                    "max_iterations": 100
+                    "convergence_threshold": 0.001
                 },
                 expected_output={"converged": True, "iterations_required": 100},
             )
@@ -427,7 +425,7 @@ class AxiomVerificationEngine:
                 test_id="TC-006-001",
                 description="Edge case: zero vector input",
                 requirement_id="REQ-006",
-                test_type=VerificationMethod.BOUNDARY_ANALYSIS,
+                test_type=VerificationMethod.BOUNDARY_ANALYSIS
                 input_data={"vector": [0.0] * 10, "entropy": 0.0, "information": 0.0},
                 expected_output={"handled_gracefully": True, "no_exception": True},
             )
@@ -439,11 +437,11 @@ class AxiomVerificationEngine:
                 test_id="TC-006-002",
                 description="Edge case: very large values",
                 requirement_id="REQ-006",
-                test_type=VerificationMethod.BOUNDARY_ANALYSIS,
+                test_type=VerificationMethod.BOUNDARY_ANALYSIS
                 input_data={
-                    "vector": [1e10] * 10,
-                    "entropy": 1e10,
-                    "information": 1e10,
+                    "vector": [1e10] * 10
+                    "entropy": 1e10
+                    "information": 1e10
                 },
                 expected_output={"handled_gracefully": True, "no_exception": True},
             )
@@ -455,9 +453,9 @@ class AxiomVerificationEngine:
                 test_id="TC-006-003",
                 description="Edge case: NaN values",
                 requirement_id="REQ-006",
-                test_type=VerificationMethod.BOUNDARY_ANALYSIS,
+                test_type=VerificationMethod.BOUNDARY_ANALYSIS
                 input_data={
-                    "vector": [float("nan")] * 10,
+                    "vector": [float("nan")] * 10
                     "entropy": float("nan"),
                     "information": float("nan"),
                 },
@@ -520,7 +518,7 @@ class AxiomVerificationEngine:
             vector = vector / np.linalg.norm(vector)
 
         state = SemanticState(
-            vector=vector,
+            vector=vector
             entropy=input_data["entropy"],
             information=input_data["information"],
             meaning_label="test_state",
@@ -541,11 +539,11 @@ class AxiomVerificationEngine:
         )
 
         return {
-            "information_preserved": abs(information_ratio - 1.0) < 0.01,
-            "preservation_ratio": information_ratio,
-            "entropy_reduced": entropy_reduced,
-            "entropy_reduction": entropy_reduction,
-            "min_reduction": entropy_reduction,
+            "information_preserved": abs(information_ratio - 1.0) < 0.01
+            "preservation_ratio": information_ratio
+            "entropy_reduced": entropy_reduced
+            "entropy_reduction": entropy_reduction
+            "min_reduction": entropy_reduction
         }
 
     async def _execute_formal_proof_test(self, test_case: TestCase) -> Dict[str, Any]:
@@ -585,12 +583,12 @@ class AxiomVerificationEngine:
             error = np.linalg.norm(left_side.vector - right_side.vector)
 
             return {
-                "composition_holds": error < 1e-10,
-                "max_error": error,
-                "left_entropy": left_side.entropy,
-                "right_entropy": right_side.entropy,
-                "left_information": left_side.information,
-                "right_information": right_side.information,
+                "composition_holds": error < 1e-10
+                "max_error": error
+                "left_entropy": left_side.entropy
+                "right_entropy": right_side.entropy
+                "left_information": left_side.information
+                "right_information": right_side.information
             }
 
         return {"error": "Invalid test data for formal proof"}
@@ -632,9 +630,9 @@ class AxiomVerificationEngine:
             information = np.clip(information, 0, 1e6)
 
             state = SemanticState(
-                vector=vector,
-                entropy=entropy,
-                information=information,
+                vector=vector
+                entropy=entropy
+                information=information
                 meaning_label="boundary_test",
             )
 
@@ -642,8 +640,8 @@ class AxiomVerificationEngine:
             understood = self.axiom.understand(state)
 
             return {
-                "handled_gracefully": True,
-                "no_exception": True,
+                "handled_gracefully": True
+                "no_exception": True
                 "output_valid": not np.any(np.isnan(understood.vector)),
                 "entropy_valid": not np.isnan(understood.entropy),
                 "information_valid": not np.isnan(understood.information),
@@ -651,8 +649,8 @@ class AxiomVerificationEngine:
 
         except Exception as e:
             return {
-                "handled_gracefully": False,
-                "no_exception": False,
+                "handled_gracefully": False
+                "no_exception": False
                 "exception": str(e),
             }
 
@@ -677,9 +675,9 @@ class AxiomVerificationEngine:
             perturbed_vector = perturbed_vector / np.linalg.norm(perturbed_vector)
 
             perturbed_state = SemanticState(
-                vector=perturbed_vector,
-                entropy=1.0,
-                information=1.0,
+                vector=perturbed_vector
+                entropy=1.0
+                information=1.0
                 meaning_label="perturbed",
             )
 
@@ -695,10 +693,10 @@ class AxiomVerificationEngine:
         avg_deviation = np.mean(deviations)
 
         return {
-            "stable": max_deviation < 0.1,
-            "max_deviation": max_deviation,
-            "avg_deviation": avg_deviation,
-            "perturbation_level": perturbation_level,
+            "stable": max_deviation < 0.1
+            "max_deviation": max_deviation
+            "avg_deviation": avg_deviation
+            "perturbation_level": perturbation_level
         }
 
     async def _execute_model_checking_test(self, test_case: TestCase) -> Dict[str, Any]:
@@ -740,10 +738,10 @@ class AxiomVerificationEngine:
             near_fixed_point = min(distances) < 0.1
 
         return {
-            "converged": converged,
-            "iterations_required": iteration if converged else max_iterations,
-            "final_entropy": state.entropy,
-            "near_fixed_point": near_fixed_point,
+            "converged": converged
+            "iterations_required": iteration if converged else max_iterations
+            "final_entropy": state.entropy
+            "near_fixed_point": near_fixed_point
             "entropy_sequence": [s.entropy for s in states[-10:]],  # Last 10 values
         }
 
@@ -827,14 +825,14 @@ class AxiomVerificationEngine:
             report_id=f"VR-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}",
             timestamp=datetime.now(timezone.utc),
             axiom_id="AXIOM_UNDERSTANDING_001",
-            criticality_level=self.criticality,
-            requirements=self.requirements,
+            criticality_level=self.criticality
+            requirements=self.requirements
             test_cases=list(self.test_results.values()),
-            coverage_metrics=coverage_metrics,
-            verification_summary=verification_summary,
-            certification_ready=certification_ready,
-            issues=issues,
-            recommendations=recommendations,
+            coverage_metrics=coverage_metrics
+            verification_summary=verification_summary
+            certification_ready=certification_ready
+            issues=issues
+            recommendations=recommendations
         )
 
         # Log summary
@@ -883,14 +881,14 @@ class AxiomVerificationEngine:
                 req_pass_rates[req.req_id] = passed / len(req_tests)
 
         return {
-            "requirement_coverage": requirement_coverage,
-            "method_coverage": method_coverage,
+            "requirement_coverage": requirement_coverage
+            "method_coverage": method_coverage
             "overall_pass_rate": (
                 self.total_tests_passed / self.total_tests_run
                 if self.total_tests_run > 0
                 else 0
             ),
-            "requirement_pass_rates": req_pass_rates,
+            "requirement_pass_rates": req_pass_rates
             "test_density": (
                 self.total_tests_run / len(self.requirements)
                 if self.requirements
@@ -908,17 +906,17 @@ class AxiomVerificationEngine:
             ]
             passed = sum(1 for t in req_tests if t.passed)
             req_results[req.req_id] = {
-                "description": req.description,
-                "criticality": req.criticality.name,
+                "description": req.description
+                "criticality": req.criticality.name
                 "total_tests": len(req_tests),
-                "passed": passed,
-                "failed": len(req_tests) - passed,
-                "pass_rate": passed / len(req_tests) if req_tests else 0,
+                "passed": passed
+                "failed": len(req_tests) - passed
+                "pass_rate": passed / len(req_tests) if req_tests else 0
                 "status": "VERIFIED" if passed == len(req_tests) else "FAILED",
             }
 
         return {
-            "requirements_summary": req_results,
+            "requirements_summary": req_results
             "total_requirements": len(self.requirements),
             "verified_requirements": sum(
                 1 for r in req_results.values() if r["status"] == "VERIFIED"
@@ -965,17 +963,17 @@ class AxiomVerificationEngine:
             if not test.passed:
                 req = next(
                     (r for r in self.requirements if r.req_id == test.requirement_id),
-                    None,
+                    None
                 )
                 issues.append(
                     {
                         "type": "TEST_FAILURE",
                         "severity": req.criticality.name if req else "UNKNOWN",
-                        "test_id": test.test_id,
-                        "requirement_id": test.requirement_id,
-                        "description": test.description,
+                        "test_id": test.test_id
+                        "requirement_id": test.requirement_id
+                        "description": test.description
                         "error": test.error_message or "Test criteria not met",
-                        "actual_output": test.actual_output,
+                        "actual_output": test.actual_output
                     }
                 )
 
@@ -986,7 +984,7 @@ class AxiomVerificationEngine:
                 {
                     "type": "PERFORMANCE",
                     "severity": "MINOR",
-                    "test_id": test.test_id,
+                    "test_id": test.test_id
                     "description": f"Test took {test.execution_time:.2f}s to execute",
                     "recommendation": "Consider optimization or parallel execution",
                 }
@@ -1055,21 +1053,21 @@ class AxiomVerificationEngine:
     def _export_json(self, report: VerificationReport) -> str:
         """Export report as JSON"""
         report_dict = {
-            "report_id": report.report_id,
+            "report_id": report.report_id
             "timestamp": report.timestamp.isoformat(),
-            "axiom_id": report.axiom_id,
-            "criticality_level": report.criticality_level.name,
-            "certification_ready": report.certification_ready,
-            "coverage_metrics": report.coverage_metrics,
-            "verification_summary": report.verification_summary,
-            "issues": report.issues,
-            "recommendations": report.recommendations,
+            "axiom_id": report.axiom_id
+            "criticality_level": report.criticality_level.name
+            "certification_ready": report.certification_ready
+            "coverage_metrics": report.coverage_metrics
+            "verification_summary": report.verification_summary
+            "issues": report.issues
+            "recommendations": report.recommendations
             "test_results": [
                 {
-                    "test_id": t.test_id,
-                    "requirement_id": t.requirement_id,
-                    "passed": t.passed,
-                    "execution_time": t.execution_time,
+                    "test_id": t.test_id
+                    "requirement_id": t.requirement_id
+                    "passed": t.passed
+                    "execution_time": t.execution_time
                 }
                 for t in report.test_cases
             ],
@@ -1187,7 +1185,7 @@ _verification_engine_lock = threading.Lock()
 
 
 def get_axiom_verification_engine(
-    criticality: CriticalityLevel = CriticalityLevel.LEVEL_A,
+    criticality: CriticalityLevel = CriticalityLevel.LEVEL_A
 ) -> AxiomVerificationEngine:
     """Get the singleton instance of the AxiomVerificationEngine"""
     global _verification_engine_instance

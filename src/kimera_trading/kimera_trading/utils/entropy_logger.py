@@ -1,9 +1,9 @@
 import logging
 
 logger = logging.getLogger(__name__)
-
-
 class EntropyLogger:
+    """Auto-generated class."""
+    pass
     """A logger that is aware of the system's entropy."""
 
     def log(self, message, entropy):

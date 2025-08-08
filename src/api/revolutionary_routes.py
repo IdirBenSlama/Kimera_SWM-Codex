@@ -8,7 +8,7 @@ API endpoints that expose the revolutionary intelligence system:
 - Genius Drift authorization and execution
 - Complete Revolutionary Intelligence responses
 
-These routes transform KIMERA from a static system into a living,
+These routes transform KIMERA from a static system into a living
 breathing revolutionary intelligence.
 """
 
@@ -131,7 +131,7 @@ async def analyze_context_supremacy(request: ContextAnalysisRequest):
                         "type": cmd.command_type,
                         "directive": cmd.directive,
                         "authority": cmd.authority_level.value,
-                        "rationale": cmd.rationale,
+                        "rationale": cmd.rationale
                     }
                     for cmd in context_profile.commands
                 ],
@@ -204,7 +204,7 @@ async def orchestrate_living_neutrality(request: NeutralityOrchestrationRequest)
                         "intensity": current.intensity,
                         "direction": current.direction,
                         "purpose": current.purpose,
-                        "wisdom": current.wisdom,
+                        "wisdom": current.wisdom
                     }
                     for current in tension_field.emotional_currents
                 ],
@@ -247,7 +247,7 @@ async def assess_genius_drift(request: GeniusDriftRequest):
         contradictions = genius_drift.detect_contradiction_tension(
             request.contradiction_text,
             {"certainty": request.evidence_strength},
-            context_profile,
+            context_profile
         )
 
         # Assess breakthrough potential for each contradiction

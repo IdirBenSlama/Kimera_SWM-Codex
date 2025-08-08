@@ -1,4 +1,4 @@
-"""backend.utils.debug_utils
+"""backend.utils.debug_utils"""
 --------------------------------
 Miscellaneous helpers that aid debugging and observability without relying on
 an external debugger.

@@ -37,6 +37,8 @@ class IndexType(Enum):
 
 @dataclass
 class RegistryStatistics:
+    """Auto-generated class."""
+    pass
     """Statistics about the geoid registry"""
 
     total_geoids: int
@@ -53,6 +55,8 @@ class RegistryStatistics:
 
 @dataclass
 class SearchQuery:
+    """Auto-generated class."""
+    pass
     """Query specification for geoid search"""
 
     geoid_types: Optional[List[GeoidType]] = None
@@ -68,9 +72,9 @@ class SearchQuery:
     has_symbolic_state: Optional[bool] = None
     has_thermodynamic_state: Optional[bool] = None
     limit: Optional[int] = None
-
-
 class GeoidRegistry:
+    """Auto-generated class."""
+    pass
     """
     Central Geoid Registry - System Knowledge Repository
     ===================================================
@@ -112,11 +116,11 @@ class GeoidRegistry:
         self._operation_count = 0
         self._last_cleanup = datetime.now()
         self._registry_metrics = {
-            "registrations": 0,
-            "removals": 0,
-            "searches": 0,
-            "updates": 0,
-            "cleanup_runs": 0,
+            "registrations": 0
+            "removals": 0
+            "searches": 0
+            "updates": 0
+            "cleanup_runs": 0
         }
 
         logger.info(
@@ -347,15 +351,15 @@ class GeoidRegistry:
         """Get comprehensive statistics about the registry"""
         if not self._geoids:
             return RegistryStatistics(
-                total_geoids=0,
+                total_geoids=0
                 geoids_by_type={},
                 geoids_by_state={},
-                average_coherence=0.0,
-                average_energy=0.0,
-                total_relationships=0,
-                most_connected_geoid=None,
-                oldest_geoid=None,
-                newest_geoid=None,
+                average_coherence=0.0
+                average_energy=0.0
+                total_relationships=0
+                most_connected_geoid=None
+                oldest_geoid=None
+                newest_geoid=None
                 processing_depth_distribution={},
             )
 
@@ -407,15 +411,15 @@ class GeoidRegistry:
         total_relationships = sum(len(rels) for rels in self._relationships.values())
 
         return RegistryStatistics(
-            total_geoids=total_geoids,
+            total_geoids=total_geoids
             geoids_by_type=dict(geoids_by_type),
             geoids_by_state=dict(geoids_by_state),
-            average_coherence=coherence_sum / total_geoids,
-            average_energy=energy_sum / total_geoids,
-            total_relationships=total_relationships,
-            most_connected_geoid=most_connected_geoid,
-            oldest_geoid=oldest_geoid,
-            newest_geoid=newest_geoid,
+            average_coherence=coherence_sum / total_geoids
+            average_energy=energy_sum / total_geoids
+            total_relationships=total_relationships
+            most_connected_geoid=most_connected_geoid
+            oldest_geoid=oldest_geoid
+            newest_geoid=newest_geoid
             processing_depth_distribution=dict(processing_depths),
         )
 
@@ -530,12 +534,12 @@ class GeoidRegistry:
         """Get registry performance metrics"""
         stats = self.get_statistics()
         return {
-            **self._registry_metrics,
+            **self._registry_metrics
             "current_size": len(self._geoids),
-            "capacity_utilization": len(self._geoids) / self.max_geoids,
-            "total_operations": self._operation_count,
-            "average_coherence": stats.average_coherence,
-            "average_energy": stats.average_energy,
+            "capacity_utilization": len(self._geoids) / self.max_geoids
+            "total_operations": self._operation_count
+            "average_coherence": stats.average_coherence
+            "average_energy": stats.average_energy
             "index_sizes": {
                 index_type.value: sum(len(s) for s in index_dict.values())
                 for index_type, index_dict in self._indexes.items()

@@ -46,6 +46,8 @@ class AlertState(Enum):
 
 @dataclass
 class Alert:
+    """Auto-generated class."""
+    pass
     """Alert instance with full context."""
 
     id: str
@@ -79,6 +81,8 @@ class Alert:
 
 @dataclass
 class AlertRule:
+    """Auto-generated class."""
+    pass
     """Alert rule definition."""
 
     name: str
@@ -96,9 +100,9 @@ class AlertRule:
     # State tracking
     pending_since: Optional[datetime] = None
     last_alert: Optional[datetime] = None
-
-
 class AlertManager:
+    """Auto-generated class."""
+    pass
     """
     Centralized alert management system.
 

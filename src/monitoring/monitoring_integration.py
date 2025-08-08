@@ -17,30 +17,18 @@ except ImportError:
 
 from datetime import datetime
 
-from .distributed_tracing import (
-    TracingManager,
-    get_tracer,
-    get_tracing_manager,
-    with_span,
-)
-from .metrics_and_alerting import (
-    AlertingManager,
-    MetricsManager,
-    get_alerting_manager,
-    get_metrics_manager,
-    track_requests,
-)
-from .structured_logging import (
-    LoggingManager,
-    correlation_id_middleware,
-    get_logger,
-    get_logging_manager,
-)
+from .distributed_tracing import (TracingManager, get_tracer, get_tracing_manager,
+                                  with_span)
+from .metrics_and_alerting import (AlertingManager, MetricsManager,
+                                   get_alerting_manager, get_metrics_manager,
+                                   track_requests)
+from .structured_logging import (LoggingManager, correlation_id_middleware, get_logger,
+                                 get_logging_manager)
 
 logger = logging.getLogger(__name__)
-
-
 class MonitoringManager:
+    """Auto-generated class."""
+    pass
     """
     Central manager for all monitoring components
     """

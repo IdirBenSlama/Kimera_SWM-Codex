@@ -11,9 +11,9 @@ from sqlalchemy import bindparam, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 logger = logging.getLogger(__name__)
-
-
 class SafeQueryBuilder:
+    """Auto-generated class."""
+    pass
     """
     Builds and executes safe, parameterized SQL queries
     """
@@ -76,7 +76,7 @@ class SafeQueryBuilder:
 # Example of how to use the SafeQueryBuilder
 # This would typically be used within your data access layer
 
-# from src.core.database_optimization import get_db_optimization
+# from src.core.data.database_optimization import get_db_optimization
 #
 # async def get_user_data(username: str):
 #     async with get_db_optimization().optimized_session() as session:

@@ -59,6 +59,8 @@ class DecisionOutcome(Enum):
 
 @dataclass
 class GovernancePolicy:
+    """Auto-generated class."""
+    pass
     """
     Governance policy with aerospace-grade traceability.
 
@@ -134,6 +136,8 @@ class GovernancePolicy:
 
 @dataclass
 class GovernanceDecision:
+    """Auto-generated class."""
+    pass
     """Immutable decision record for audit trail."""
 
     id: str
@@ -158,9 +162,9 @@ class GovernanceDecision:
                 json.dumps(self.context, sort_keys=True).encode()
             ).hexdigest(),
         }
-
-
 class GovernanceEngine:
+    """Auto-generated class."""
+    pass
     """
     Main governance engine with aerospace-grade reliability.
 

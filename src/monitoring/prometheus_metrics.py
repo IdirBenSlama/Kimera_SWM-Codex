@@ -10,19 +10,13 @@ import threading
 import time
 from typing import Any, Dict, List, Optional
 
-from prometheus_client import (
-    CollectorRegistry,
-    Counter,
-    Gauge,
-    Histogram,
-    Summary,
-    generate_latest,
-)
+from prometheus_client import (CollectorRegistry, Counter, Gauge, Histogram, Summary,
+                               generate_latest)
 
 logger = logging.getLogger(__name__)
-
-
 class KimeraPrometheusMetrics:
+    """Auto-generated class."""
+    pass
     """
     Prometheus metrics for Kimera SWM.
 

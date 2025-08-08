@@ -1,4 +1,4 @@
-"""backend/engines/insight_feedback.py
+"""backend/engines/insight_feedback.py"""
 Insight Feedback Engine
 =======================
 This module provides a light–weight feedback mechanism that the KIMERA SWM
@@ -20,27 +20,8 @@ from enum import Enum
 from statistics import mean
 from typing import Any, Dict, List, Protocol
 
-try:
-    from src.utils.config import get_api_settings
-except ImportError:
-    try:
-        from utils.config import get_api_settings
-    except ImportError:
-
-        def get_api_settings():
-            return {}
-
-
-try:
-    from src.config.settings import get_settings
-except ImportError:
-    try:
-        from config.settings import get_settings
-    except ImportError:
-
-        def get_settings():
-            return {}
-
+from ..config.settings import get_settings
+from ..utils.robust_config import get_api_settings
 
 # --- Setup Logging ---
 logging.basicConfig(level=logging.INFO)
@@ -61,15 +42,17 @@ class EngagementType(str, Enum):
 
 
 action_to_weight: Dict[EngagementType, float] = {
-    EngagementType.EXPLORED: +0.10,
-    EngagementType.ELABORATED: +0.25,
-    EngagementType.SYSTEM_REINFORCED: +0.05,
-    EngagementType.DISMISSED: -0.20,
+    EngagementType.EXPLORED: +0.10
+    EngagementType.ELABORATED: +0.25
+    EngagementType.SYSTEM_REINFORCED: +0.05
+    EngagementType.DISMISSED: -0.20
 }
 
 
 @dataclass(slots=True)
 class EngagementRecord:
+    """Auto-generated class."""
+    pass
     """Captures a single engagement event for an insight."""
 
     cycle: int
@@ -107,6 +90,8 @@ class InMemoryFeedbackStore(dict, BaseFeedbackStore):
 
 @dataclass
 class InsightFeedbackEngine:
+    """Auto-generated class."""
+    pass
     """
     Manages feedback on generated insights to tune the synthesis process.
     Implements Task 3.4 from the Re-Contextualization roadmap.
@@ -124,9 +109,9 @@ class InsightFeedbackEngine:
         """
         if insight_id not in self.engagement_data:
             self.engagement_data[insight_id] = {
-                "explored": 0,
-                "dismissed": 0,
-                "elaborated": 0,
+                "explored": 0
+                "dismissed": 0
+                "elaborated": 0
             }
 
         if user_action in self.engagement_data[insight_id]:
@@ -151,7 +136,7 @@ class InsightFeedbackEngine:
         """
         log.info("Adjusting synthesis parameters based on feedback (heuristic).")
 
-        # Placeholder heuristic: if insights are dismissed more than explored,
+        # Placeholder heuristic: if insights are dismissed more than explored
         # increase the 'exploration_factor' to encourage diversity.
         total_explored = sum(
             d.get("explored", 0) for d in self.engagement_data.values()

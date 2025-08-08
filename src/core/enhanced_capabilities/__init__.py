@@ -20,78 +20,53 @@ provide a complete cognitive processing platform.
 
 # Import all enhanced capabilities
 try:
-    from .understanding_core import (
-        CausalReasoningEngine,
-        GenuineUnderstanding,
-        MultimodalGroundingSystem,
-        SelfModelSystem,
-        UnderstandingCore,
-    )
+    from .understanding_core import (CausalReasoningEngine, GenuineUnderstanding
+                                     MultimodalGroundingSystem, SelfModelSystem
+                                     UnderstandingCore)
 except ImportError as e:
     logger.info(f"Warning: Could not import understanding_core: {e}")
     UnderstandingCore = None
 
 try:
-    from .consciousness_core import (
-        ConsciousnessCore,
-        ConsciousnessSignature,
-        IntegratedInformationProcessor,
-        QuantumCoherenceAnalyzer,
-        ThermodynamicConsciousnessDetector,
-    )
+    from .consciousness_core import (ConsciousnessCore, ConsciousnessSignature
+                                     IntegratedInformationProcessor
+                                     QuantumCoherenceAnalyzer
+                                     ThermodynamicConsciousnessDetector)
 except ImportError as e:
     logger.info(f"Warning: Could not import consciousness_core: {e}")
     ConsciousnessCore = None
 
 try:
-    from .meta_insight_core import (
-        HigherOrderProcessor,
-        InsightGenerationEngine,
-        MetaCognitionEngine,
-        MetaInsightCore,
-        PatternRecognitionSystem,
-    )
+    from .meta_insight_core import (HigherOrderProcessor, InsightGenerationEngine
+                                    MetaCognitionEngine, MetaInsightCore
+                                    PatternRecognitionSystem)
 except ImportError as e:
     logger.info(f"Warning: Could not import meta_insight_core: {e}")
     MetaInsightCore = None
 
 try:
-    from .field_dynamics_core import (
-        CognitiveFieldProcessor,
-        EnergyFieldDynamics,
-        FieldDynamicsCore,
-        GeoidFieldManager,
-        SemanticFieldEvolution,
-    )
+    from .field_dynamics_core import (CognitiveFieldProcessor, EnergyFieldDynamics
+                                      FieldDynamicsCore, GeoidFieldManager
+                                      SemanticFieldEvolution)
 except ImportError as e:
     logger.info(f"Warning: Could not import field_dynamics_core: {e}")
     FieldDynamicsCore = None
 
 try:
-    from .learning_core import (
-        LearningCore,
-        PhysicsBasedLearning,
-        ResonanceClusteringEngine,
-        ThermodynamicOrganization,
-        UnsupervisedCognitiveLearning,
-    )
+    from .learning_core import (LearningCore, PhysicsBasedLearning
+                                ResonanceClusteringEngine, ThermodynamicOrganization
+                                UnsupervisedCognitiveLearning)
 except ImportError as e:
     logger.info(f"Warning: Could not import learning_core: {e}")
     LearningCore = None
 
 try:
-    from .linguistic_intelligence_core import (
-        =,
-        __name__,
-        er,
-        logging,
-        logging.getLogger,
-        rt,
-    )
-        LinguisticIntelligenceCore,
-        AdvancedLanguageProcessor,
-        UniversalTranslationSystem,
-        SemanticEntropyAnalyzer,
+    from .linguistic_intelligence_core import (=, __name__, er, logging
+                                               logging.getLogger, rt)
+        LinguisticIntelligenceCore
+        AdvancedLanguageProcessor
+        UniversalTranslationSystem
+        SemanticEntropyAnalyzer
         GrammarSyntaxEngine
     )
 except ImportError as e:

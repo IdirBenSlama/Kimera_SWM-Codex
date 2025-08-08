@@ -18,12 +18,8 @@ from .audit_trail import AuditEvent, AuditTrail
 from .decision_voter import DecisionVoter, VotingStrategy
 from .erl import EthicalReflexLayer as ERL
 from .erl import EthicalViolationType as ContentCategory
-from .governance_engine import (
-    GovernanceDecision,
-    GovernanceEngine,
-    GovernancePolicy,
-    create_default_policies,
-)
+from .governance_engine import (GovernanceDecision, GovernanceEngine, GovernancePolicy,
+                                create_default_policies)
 from .safety_monitor import SafetyLevel, SafetyMonitor
 
 __all__ = [

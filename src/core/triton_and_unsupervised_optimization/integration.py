@@ -1,9 +1,10 @@
 """
-Triton Kernels and Unsupervised Optimization Integration Module
+"""Triton Kernels and Unsupervised Optimization Integration Module"""
+
 ==============================================================
 
 This module integrates Triton-based high-performance cognitive kernels
-and unsupervised test optimization into the Kimera cognitive architecture,
+and unsupervised test optimization into the Kimera cognitive architecture
 providing GPU-accelerated processing and self-optimizing test frameworks.
 
 Integration follows aerospace DO-178C Level A standards with:
@@ -77,6 +78,8 @@ logger = get_system_logger(__name__)
 
 @dataclass
 class TritonOptimizationMetrics:
+    """Auto-generated class."""
+    pass
     """Comprehensive metrics for Triton and unsupervised optimization system."""
 
     kernel_performance_score: float = 0.0
@@ -93,9 +96,9 @@ class TritonOptimizationMetrics:
     def __post_init__(self):
         if self.last_update is None:
             self.last_update = datetime.now(timezone.utc)
-
-
 class TritonUnsupervisedOptimizationIntegrator:
+    """Auto-generated class."""
+    pass
     """
     DO-178C Level A Triton Kernels and Unsupervised Optimization Integrator.
 
@@ -330,8 +333,8 @@ class TritonUnsupervisedOptimizationIntegrator:
 
             # Default processing for unknown operations
             return {
-                "processed": True,
-                "operation": operation,
+                "processed": True
+                "operation": operation
                 "input_keys": list(data.keys()),
             }
 
@@ -436,7 +439,7 @@ class TritonUnsupervisedOptimizationIntegrator:
                 0, (original_complexity - optimized_complexity) / original_complexity
             )
             performance_improvement = max(
-                0,
+                0
                 (optimized_performance - original_performance)
                 / (original_performance + EPSILON),
             )
@@ -478,23 +481,23 @@ class TritonUnsupervisedOptimizationIntegrator:
         """
         with self._lock:
             return {
-                "status": self.metrics.health_status,
-                "kernel_performance_score": self.metrics.kernel_performance_score,
-                "test_optimization_efficiency": self.metrics.test_optimization_efficiency,
-                "gpu_utilization": self.metrics.gpu_utilization,
-                "optimization_convergence_rate": self.metrics.optimization_convergence_rate,
-                "kernel_execution_time": self.metrics.kernel_execution_time,
-                "tests_optimized": self.metrics.tests_optimized,
-                "kernels_executed": self.metrics.kernels_executed,
-                "gpu_memory_usage": self.metrics.gpu_memory_usage,
+                "status": self.metrics.health_status
+                "kernel_performance_score": self.metrics.kernel_performance_score
+                "test_optimization_efficiency": self.metrics.test_optimization_efficiency
+                "gpu_utilization": self.metrics.gpu_utilization
+                "optimization_convergence_rate": self.metrics.optimization_convergence_rate
+                "kernel_execution_time": self.metrics.kernel_execution_time
+                "tests_optimized": self.metrics.tests_optimized
+                "kernels_executed": self.metrics.kernels_executed
+                "gpu_memory_usage": self.metrics.gpu_memory_usage
                 "last_update": self.metrics.last_update.isoformat(),
-                "initialized": self._initialized,
-                "gpu_available": self.gpu_available,
-                "triton_available": self.triton_available,
+                "initialized": self._initialized
+                "gpu_available": self.gpu_available
+                "triton_available": self.triton_available
                 "components": {
-                    "triton_kernels": self.triton_kernels is not None,
+                    "triton_kernels": self.triton_kernels is not None
                     "unsupervised_optimization": self.unsupervised_optimization
-                    is not None,
+                    is not None
                 },
             }
 

@@ -52,6 +52,8 @@ class Role(Enum):
 
 @dataclass
 class AccessContext:
+    """Auto-generated class."""
+    pass
     """Context for access control decisions."""
 
     user_id: str
@@ -64,6 +66,8 @@ class AccessContext:
 
 @dataclass
 class Resource:
+    """Auto-generated class."""
+    pass
     """Resource being accessed."""
 
     id: str
@@ -71,9 +75,9 @@ class Resource:
     owner: Optional[str] = None
     attributes: Dict[str, Any] = field(default_factory=dict)
     sensitivity_level: int = 0  # 0-5, higher is more sensitive
-
-
 class Authorizer:
+    """Auto-generated class."""
+    pass
     """
     Authorization engine with RBAC and ABAC support.
     """

@@ -20,20 +20,22 @@ import numpy as np
 from ..foundational_thermodynamic_engine import FoundationalThermodynamicEngine
 
 try:
-    from src.core.geoid import GeoidState
+    from src.core.primitives.geoid import GeoidState
 except ImportError:
     try:
         from core.geoid import GeoidState
     except ImportError:
         # Fallback for missing GeoidState
-        class GeoidState:
+class GeoidState:
+    """Auto-generated class."""
+    pass
             @staticmethod
             def create_default():
                 return {}
 
 
 try:
-    from src.utils.config import get_api_settings
+    from src.utils.robust_config import get_api_settings
 except ImportError:
     try:
         from utils.config import get_api_settings
@@ -67,6 +69,8 @@ class SignalEvolutionMode(Enum):
 
 @dataclass
 class SignalEvolutionResult:
+    """Auto-generated class."""
+    pass
     """Represents the outcome of a signal evolution event."""
 
     geoid_id: str
@@ -80,15 +84,17 @@ class SignalEvolutionResult:
 
 @dataclass
 class ValidationResult:
+    """Auto-generated class."""
+    pass
     """Structured result for a thermodynamic validation check."""
 
     compliant: bool
     entropy_check: Dict[str, Any]
     energy_check: Dict[str, Any]
     reasons: List[str] = field(default_factory=list)
-
-
 class EntropicFlowCalculator:
+    """Auto-generated class."""
+    pass
     """Calculates entropic gradients and flow fields."""
 
     def calculate_gradient(self, geoid_a: GeoidState, geoid_b: GeoidState) -> float:
@@ -116,9 +122,9 @@ class EntropicFlowCalculator:
             if not isinstance(gradient, list)
             else np.array([np.mean(gradient)])
         )
-
-
 class EntropicSignalMathematics:
+    """Auto-generated class."""
+    pass
     """
     Encapsulates the core mathematical framework for TCSE.
     This class implements the fundamental equations governing signal evolution.
@@ -155,9 +161,9 @@ class EntropicSignalMathematics:
         noise_amplitude = np.sqrt(gpu_temp) * 1e-4  # Scaled noise
         noise = np.random.normal(0, noise_amplitude, signal.shape)
         return signal + noise
-
-
 class ThermodynamicSignalEvolutionEngine:
+    """Auto-generated class."""
+    pass
     """
     Revolutionary signal processing engine implementing TCSE principles.
     Operates alongside existing engines without interference.
@@ -197,10 +203,10 @@ class ThermodynamicSignalEvolutionEngine:
         compliant = abs(delta) < tolerance
 
         return {
-            "compliant": compliant,
-            "energy_before": energy_before,
-            "energy_after": energy_after,
-            "delta_percent": delta * 100,
+            "compliant": compliant
+            "energy_before": energy_before
+            "energy_after": energy_after
+            "delta_percent": delta * 100
             "reason": (
                 "Energy conservation within tolerance"
                 if compliant
@@ -223,10 +229,10 @@ class ThermodynamicSignalEvolutionEngine:
             entropy_after >= entropy_before - 1e-10
         )  # Small tolerance for numerical errors
         entropy_check = {
-            "compliant": entropy_compliant,
-            "entropy_before": entropy_before,
-            "entropy_after": entropy_after,
-            "delta": entropy_after - entropy_before,
+            "compliant": entropy_compliant
+            "entropy_before": entropy_before
+            "entropy_after": entropy_after
+            "delta": entropy_after - entropy_before
             "reason": (
                 "Entropy increased"
                 if entropy_compliant
@@ -247,10 +253,10 @@ class ThermodynamicSignalEvolutionEngine:
         compliant = entropy_check["compliant"] and energy_check["compliant"]
 
         return ValidationResult(
-            compliant=compliant,
-            entropy_check=entropy_check,
-            energy_check=energy_check,
-            reasons=reasons,
+            compliant=compliant
+            entropy_check=entropy_check
+            energy_check=energy_check
+            reasons=reasons
         )
 
     def evolve_signal_state(self, geoid: GeoidState) -> SignalEvolutionResult:
@@ -316,23 +322,23 @@ class ThermodynamicSignalEvolutionEngine:
         if validation_result.compliant:
             geoid.update_semantic_state(evolved_state)
             return SignalEvolutionResult(
-                geoid_id=geoid.geoid_id,
-                success=True,
-                initial_entropy=initial_entropy,
-                final_entropy=final_entropy,
+                geoid_id=geoid.geoid_id
+                success=True
+                initial_entropy=initial_entropy
+                final_entropy=final_entropy
                 energy_consumed=validation_result.energy_check.get(
                     "delta", 0.0
                 ),  # Use actual energy change
                 message="Signal evolved successfully within thermodynamic constraints.",
-                evolved_state=evolved_state,
+                evolved_state=evolved_state
             )
         else:
             return SignalEvolutionResult(
-                geoid_id=geoid.geoid_id,
-                success=False,
-                initial_entropy=initial_entropy,
-                final_entropy=initial_entropy,
-                energy_consumed=0,
+                geoid_id=geoid.geoid_id
+                success=False
+                initial_entropy=initial_entropy
+                final_entropy=initial_entropy
+                energy_consumed=0
                 message=f"Evolution failed: Thermodynamic violation detected. Reasons: {'; '.join(validation_result.reasons)}",
             )
 

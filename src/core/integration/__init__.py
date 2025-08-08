@@ -12,34 +12,18 @@ all cognitive systems:
 - Performance Optimizer: Efficiency and optimization management
 - Architecture Orchestrator: Master system coordination
 
-This layer ensures high interconnectedness, complete transparency,
+This layer ensures high interconnectedness, complete transparency
 and maximum efficiency across the entire cognitive architecture.
 """
 
-from .architecture_orchestrator import (
-    InterconnectionMatrix,
-    KimeraCoreArchitecture,
-    SystemCoordinator,
-)
-from .interoperability_bus import (
-    CognitiveInteroperabilityBus,
-    ComponentRegistry,
-    EventStream,
-    MessageRouter,
-)
-from .performance_optimizer import (
-    CognitivePerformanceOptimizer,
-    GPUOptimizer,
-    MemoryOptimizer,
-    ParallelProcessor,
-)
-from .transparency_monitor import (
-    CognitiveTransparencyMonitor,
-    DecisionAuditor,
-    PerformanceMonitor,
-    ProcessTracer,
-    StateObserver,
-)
+from .architecture_orchestrator import (InterconnectionMatrix, KimeraCoreArchitecture
+                                        SystemCoordinator)
+from .interoperability_bus import (CognitiveInteroperabilityBus, ComponentRegistry
+                                   EventStream, MessageRouter)
+from .performance_optimizer import (CognitivePerformanceOptimizer, GPUOptimizer
+                                    MemoryOptimizer, ParallelProcessor)
+from .transparency_monitor import (CognitiveTransparencyMonitor, DecisionAuditor
+                                   PerformanceMonitor, ProcessTracer, StateObserver)
 
 __all__ = [
     "CognitiveInteroperabilityBus",

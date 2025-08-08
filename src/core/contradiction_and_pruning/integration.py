@@ -28,32 +28,21 @@ from dataclasses import asdict
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Tuple
 
+from .contradiction_detection.proactive_contradiction_detector import GeoidState
+from .contradiction_detection.proactive_contradiction_detector import \
+    HealthStatus as DetectionHealthStatus
 from .contradiction_detection.proactive_contradiction_detector import (
-    GeoidState,
-)
-from .contradiction_detection.proactive_contradiction_detector import (
-    HealthStatus as DetectionHealthStatus,
-)
-from .contradiction_detection.proactive_contradiction_detector import (
-    ProactiveContradictionDetector,
-    ProactiveDetectionConfig,
-    TensionGradient,
-)
-from .pruning_systems.intelligent_pruning_engine import (
-    InsightScar,
-    IntelligentPruningEngine,
-    PrunableItem,
-    PruningConfig,
-    PruningDecision,
-    PruningResult,
-    SafetyStatus,
-    Scar,
-)
+    ProactiveContradictionDetector, ProactiveDetectionConfig, TensionGradient)
+from .pruning_systems.intelligent_pruning_engine import (InsightScar
+                                                         IntelligentPruningEngine
+                                                         PrunableItem, PruningConfig
+                                                         PruningDecision, PruningResult
+                                                         SafetyStatus, Scar)
 
 logger = logging.getLogger(__name__)
-
-
 class ContradictionAndPruningIntegrator:
+    """Auto-generated class."""
+    pass
     """
     Unified integrator for contradiction detection and intelligent pruning.
 
@@ -68,9 +57,9 @@ class ContradictionAndPruningIntegrator:
     """
 
     def __init__(
-        self,
-        detection_config: Optional[ProactiveDetectionConfig] = None,
-        pruning_config: Optional[PruningConfig] = None,
+        self
+        detection_config: Optional[ProactiveDetectionConfig] = None
+        pruning_config: Optional[PruningConfig] = None
     ):
         """
         Initialize the contradiction and pruning integrator.
@@ -102,11 +91,11 @@ class ContradictionAndPruningIntegrator:
 
         # Integration state
         self.integration_metrics = {
-            "scans_completed": 0,
-            "pruning_cycles_completed": 0,
-            "contradictions_detected": 0,
-            "items_pruned": 0,
-            "safety_interventions": 0,
+            "scans_completed": 0
+            "pruning_cycles_completed": 0
+            "contradictions_detected": 0
+            "items_pruned": 0
+            "safety_interventions": 0
             "uptime_start": datetime.now(timezone.utc),
         }
 
@@ -141,9 +130,9 @@ class ContradictionAndPruningIntegrator:
 
             comprehensive_status = {
                 "integration_status": {
-                    "overall_status": self.safety_status,
-                    "uptime_seconds": uptime_seconds,
-                    "uptime_hours": uptime_seconds / 3600,
+                    "overall_status": self.safety_status
+                    "uptime_seconds": uptime_seconds
+                    "uptime_hours": uptime_seconds / 3600
                     "last_health_check": (
                         self.last_health_check.isoformat()
                         if self.last_health_check
@@ -196,15 +185,15 @@ class ContradictionAndPruningIntegrator:
         """
         safety_indicators = {
             "contradiction_detection_available": self.contradiction_detector.health_status
-            == DetectionHealthStatus.OPERATIONAL,
+            == DetectionHealthStatus.OPERATIONAL
             "pruning_engine_available": len(self.pruning_engine.performance_metrics)
-            > 0,
-            "recent_activity": self.integration_metrics["scans_completed"] > 0,
-            "no_critical_errors": self.integration_metrics["safety_interventions"] == 0,
+            > 0
+            "recent_activity": self.integration_metrics["scans_completed"] > 0
+            "no_critical_errors": self.integration_metrics["safety_interventions"] == 0
             "uptime_adequate": (
                 datetime.now(timezone.utc) - self.integration_metrics["uptime_start"]
             ).total_seconds()
-            > 300,
+            > 300
         }
 
         safety_score = sum(safety_indicators.values()) / len(safety_indicators)
@@ -217,9 +206,9 @@ class ContradictionAndPruningIntegrator:
             overall_safety = "CRITICAL"
 
         return {
-            "overall_safety_status": overall_safety,
-            "safety_score": safety_score,
-            "safety_indicators": safety_indicators,
+            "overall_safety_status": overall_safety
+            "safety_score": safety_score
+            "safety_indicators": safety_indicators
             "assessment_timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
@@ -263,10 +252,10 @@ class ContradictionAndPruningIntegrator:
         return recommendations
 
     async def run_integrated_analysis_cycle(
-        self,
-        vault_pressure: float = 0.5,
-        geoids: Optional[List[GeoidState]] = None,
-        prunable_items: Optional[List[PrunableItem]] = None,
+        self
+        vault_pressure: float = 0.5
+        geoids: Optional[List[GeoidState]] = None
+        prunable_items: Optional[List[PrunableItem]] = None
     ) -> Dict[str, Any]:
         """
         Run a complete integrated analysis cycle.
@@ -287,7 +276,7 @@ class ContradictionAndPruningIntegrator:
 
         cycle_results = {
             "cycle_start": cycle_start.isoformat(),
-            "vault_pressure": vault_pressure,
+            "vault_pressure": vault_pressure
             "contradiction_detection": {},
             "pruning_analysis": {},
             "integration_actions": [],
@@ -357,9 +346,9 @@ class ContradictionAndPruningIntegrator:
             # Performance metrics
             cycle_duration = (datetime.now(timezone.utc) - cycle_start).total_seconds()
             cycle_results["performance_metrics"] = {
-                "cycle_duration_seconds": cycle_duration,
+                "cycle_duration_seconds": cycle_duration
                 "detection_duration": detection_results.get("scan_duration", 0),
-                "items_analyzed": len(prunable_items) if prunable_items else 0,
+                "items_analyzed": len(prunable_items) if prunable_items else 0
                 "memory_efficiency": self._calculate_memory_efficiency(cycle_results),
             }
 
@@ -457,7 +446,7 @@ class ContradictionAndPruningIntegrator:
                 action = {
                     "type": "safety_intervention",
                     "description": f"Blocking pruning of {safety_critical_items} safety-critical items",
-                    "items_protected": safety_critical_items,
+                    "items_protected": safety_critical_items
                     "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
                 actions.append(action)
@@ -469,7 +458,7 @@ class ContradictionAndPruningIntegrator:
                 action = {
                     "type": "optimization_recommendation",
                     "description": "High pruning load detected - recommend batch processing",
-                    "items_affected": items_to_prune,
+                    "items_affected": items_to_prune
                     "recommendation": "Consider increasing scan intervals or adjusting thresholds",
                     "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
@@ -490,7 +479,7 @@ class ContradictionAndPruningIntegrator:
                             if detection_results.get("status") == "error"
                             else None
                         ),
-                        "pruning" if pruning_results.get("status") == "error" else None,
+                        "pruning" if pruning_results.get("status") == "error" else None
                     ],
                     "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
@@ -521,10 +510,10 @@ class ContradictionAndPruningIntegrator:
                 "status"
             )
             == "completed",
-            "no_critical_errors": "error" not in cycle_results,
+            "no_critical_errors": "error" not in cycle_results
             "pruning_safety_verified": True,  # Will be detailed below
-            "integration_actions_safe": True,
-            "performance_acceptable": True,
+            "integration_actions_safe": True
+            "performance_acceptable": True
         }
 
         # Detailed pruning safety check
@@ -546,8 +535,8 @@ class ContradictionAndPruningIntegrator:
         safety_score = sum(safety_checks.values()) / len(safety_checks)
 
         return {
-            "overall_safety_score": safety_score,
-            "safety_checks": safety_checks,
+            "overall_safety_score": safety_score
+            "safety_checks": safety_checks
             "safety_level": (
                 "SAFE"
                 if safety_score >= 0.8
@@ -601,9 +590,9 @@ class ContradictionAndPruningIntegrator:
         ).total_seconds()
 
         return {
-            **self.integration_metrics,
-            "uptime_seconds": uptime,
-            "uptime_hours": uptime / 3600,
+            **self.integration_metrics
+            "uptime_seconds": uptime
+            "uptime_hours": uptime / 3600
             "scans_per_hour": self.integration_metrics["scans_completed"]
             / max(uptime / 3600, 1),
             "pruning_efficiency": self.integration_metrics["items_pruned"]
@@ -614,8 +603,8 @@ class ContradictionAndPruningIntegrator:
 
 
 def create_contradiction_and_pruning_integrator(
-    detection_config: Optional[ProactiveDetectionConfig] = None,
-    pruning_config: Optional[PruningConfig] = None,
+    detection_config: Optional[ProactiveDetectionConfig] = None
+    pruning_config: Optional[PruningConfig] = None
 ) -> ContradictionAndPruningIntegrator:
     """
     Factory function for creating integrator instances.

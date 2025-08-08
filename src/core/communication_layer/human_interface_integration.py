@@ -5,7 +5,7 @@ Human Interface Integration - Core Integration Wrapper
 Integrates the Human Interface engine into the core Kimera system
 to translate complex internal processes into human-readable format.
 
-This solves the mathematical opacity problem by providing clear,
+This solves the mathematical opacity problem by providing clear
 understandable explanations of what Kimera is thinking and doing.
 """
 
@@ -17,11 +17,8 @@ from enum import Enum
 from typing import Any, Dict, List, Optional
 
 try:
-    from ...engines.human_interface import (
-        HumanResponse,
-        KimeraHumanInterface,
-        ResponseMode,
-    )
+    from ...engines.human_interface import (HumanResponse, KimeraHumanInterface
+                                            ResponseMode)
 
     ENGINE_AVAILABLE = True
 except ImportError as e:
@@ -33,14 +30,16 @@ except ImportError as e:
         DIRECT = "direct"
         EXPLAIN = "explain"
         HYBRID = "hybrid"
-
-    class HumanResponse:
+class HumanResponse:
+    """Auto-generated class."""
+    pass
         def __init__(self, content, **kwargs):
             self.content = content
             self.confidence = kwargs.get("confidence", 1.0)
             self.thinking_summary = kwargs.get("thinking_summary")
-
-    class KimeraHumanInterface:
+class KimeraHumanInterface:
+    """Auto-generated class."""
+    pass
         def __init__(self):
             self.mode = ResponseMode.DIRECT
 
@@ -53,6 +52,8 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class InterfaceConfiguration:
+    """Auto-generated class."""
+    pass
     """Configuration for human interface"""
 
     default_mode: ResponseMode = ResponseMode.HYBRID
@@ -60,9 +61,9 @@ class InterfaceConfiguration:
     confidence_threshold: float = 0.7
     max_explanation_length: int = 200
     use_simple_language: bool = False
-
-
 class HumanInterfaceIntegration:
+    """Auto-generated class."""
+    pass
     """
     Core integration wrapper for Human Interface
 
@@ -129,11 +130,11 @@ class HumanInterfaceIntegration:
             return "I'm processing your input through my cognitive systems."
 
     def format_response(
-        self,
-        generated_text: str,
-        thinking_summary: Optional[str] = None,
-        confidence: float = 1.0,
-        mode: Optional[ResponseMode] = None,
+        self
+        generated_text: str
+        thinking_summary: Optional[str] = None
+        confidence: float = 1.0
+        mode: Optional[ResponseMode] = None
     ) -> HumanResponse:
         """
         Format a response for human consumption
@@ -156,9 +157,9 @@ class HumanInterfaceIntegration:
                     self.interface.mode = mode
 
                 response = self.interface.format_response(
-                    generated_text=generated_text,
-                    thinking_summary=thinking_summary,
-                    confidence=confidence,
+                    generated_text=generated_text
+                    thinking_summary=thinking_summary
+                    confidence=confidence
                 )
                 self.successful_translations += 1
                 return response
@@ -178,9 +179,9 @@ class HumanInterfaceIntegration:
                 content = generated_text
 
             return HumanResponse(
-                content=content,
-                confidence=confidence,
-                thinking_summary=thinking_summary,
+                content=content
+                confidence=confidence
+                thinking_summary=thinking_summary
             )
 
         except Exception as e:
@@ -201,22 +202,22 @@ class HumanInterfaceIntegration:
         ) * 100
 
         return {
-            "engine_available": self.engine_available,
-            "current_mode": self.config.default_mode.value,
-            "total_translations": self.total_translations,
-            "successful_translations": self.successful_translations,
-            "success_rate": success_rate,
+            "engine_available": self.engine_available
+            "current_mode": self.config.default_mode.value
+            "total_translations": self.total_translations
+            "successful_translations": self.successful_translations
+            "success_rate": success_rate
             "configuration": {
-                "include_thinking": self.config.include_thinking,
-                "confidence_threshold": self.config.confidence_threshold,
-                "use_simple_language": self.config.use_simple_language,
+                "include_thinking": self.config.include_thinking
+                "confidence_threshold": self.config.confidence_threshold
+                "use_simple_language": self.config.use_simple_language
             },
         }
 
     async def test_interface(self) -> bool:
         """Test if the human interface is working correctly"""
         test_thinking = {
-            "complexity_score": 1.2,
+            "complexity_score": 1.2
             "semantic_features": {"coherence": 0.85},
         }
         test_field = {"cognitive_coherence": 0.85, "resonance_frequency": 15.5}
@@ -224,8 +225,8 @@ class HumanInterfaceIntegration:
         thinking_summary = self.translate_thinking_process(test_thinking, test_field)
         response = self.format_response(
             "This is a test response.",
-            thinking_summary=thinking_summary,
-            confidence=0.9,
+            thinking_summary=thinking_summary
+            confidence=0.9
         )
 
         # Check if response is properly formatted

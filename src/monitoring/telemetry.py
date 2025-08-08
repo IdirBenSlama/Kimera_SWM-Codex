@@ -1,4 +1,4 @@
-"""Prometheus / OpenTelemetry exporter for Kimera SWM.
+"""Prometheus / OpenTelemetry exporter for Kimera SWM."""
 
 Exposes runtime metrics such as active geoids, cycle count, and vault pressure
 at `/telemetry/metrics` in Prometheus text format.
@@ -10,12 +10,8 @@ import logging
 from typing import Any, Dict
 
 from fastapi import APIRouter, Response
-from prometheus_client import (
-    CONTENT_TYPE_LATEST,
-    CollectorRegistry,
-    Gauge,
-    generate_latest,
-)
+from prometheus_client import (CONTENT_TYPE_LATEST, CollectorRegistry, Gauge,
+                               generate_latest)
 
 log = logging.getLogger(__name__)
 

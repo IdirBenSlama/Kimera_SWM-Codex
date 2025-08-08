@@ -7,13 +7,14 @@ results in a net reduction of semantic entropy in the system.
 """
 
 try:
-    from src.core.insight import InsightScar
+    from src.core.output.insight import InsightScar
 except ImportError:
     try:
         from core.insight import InsightScar
     except ImportError:
-
-        class InsightScar:
+    class InsightScar:
+    """Auto-generated class."""
+    pass
             def __init__(self, **kwargs):
                 self.__dict__.update(kwargs)
 
@@ -29,7 +30,7 @@ from pathlib import Path
 import numpy as np
 
 try:
-    from src.utils.config import get_api_settings
+    from src.utils.robust_config import get_api_settings
 except ImportError:
     try:
         from utils.config import get_api_settings
@@ -68,9 +69,9 @@ _ADAPTIVE_CONFIG = _load_adaptive_config()
 
 
 def calculate_adaptive_entropy_threshold(
-    system_entropy: float = 2.0,
-    system_complexity: float = 50.0,
-    recent_performance: float = 0.8,
+    system_entropy: float = 2.0
+    system_complexity: float = 50.0
+    recent_performance: float = 0.8
 ) -> float:
     """
     Calculate adaptive entropy threshold based on system state.
@@ -105,10 +106,10 @@ def calculate_adaptive_entropy_threshold(
 
 
 def is_insight_valid_adaptive(
-    insight: InsightScar,
-    system_entropy: float = 2.0,
-    system_complexity: float = 50.0,
-    recent_performance: float = 0.8,
+    insight: InsightScar
+    system_entropy: float = 2.0
+    system_complexity: float = 50.0
+    recent_performance: float = 0.8
 ) -> bool:
     """
     Enhanced insight validation using adaptive entropy threshold.
@@ -145,9 +146,9 @@ def is_insight_valid(insight: InsightScar) -> bool:
 
 
 def validate_insight_entropy_reduction(
-    insight: InsightScar,
-    system_state: dict,
-    threshold: float = MIN_ENTROPY_REDUCTION_THRESHOLD,
+    insight: InsightScar
+    system_state: dict
+    threshold: float = MIN_ENTROPY_REDUCTION_THRESHOLD
 ) -> bool:
     """
     Validates an insight based on entropy reduction with system context.
@@ -165,7 +166,7 @@ def validate_insight_entropy_reduction(
     # Use adaptive validation if system state provided
     if system_state and all(k in system_state for k in ["entropy", "complexity"]):
         return is_insight_valid_adaptive(
-            insight,
+            insight
             system_entropy=system_state.get("entropy", 2.0),
             system_complexity=system_state.get("complexity", 50.0),
             recent_performance=system_state.get("performance", 0.8),

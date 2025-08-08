@@ -34,7 +34,6 @@ from ...core.cognitive_architecture_core import (
     CognitiveState,
     get_cognitive_architecture,
 )
-
 # Import core system
 from ...core.kimera_system import get_kimera_system
 
@@ -599,9 +598,9 @@ async def optimize_cognitive_flow(
             "implementation_priority": [
                 rec["recommendation"]
                 for rec in sorted(
-                    optimization_recommendations,
+                    optimization_recommendations
                     key=lambda x: len(x.get("expected_improvement", "")),
-                    reverse=True,
+                    reverse=True
                 )
             ],
             "analysis_timestamp": datetime.now().isoformat(),
@@ -628,7 +627,7 @@ async def health_check():
         health_factors = [
             status["coherence_score"],
             status["active_components"] / max(status["total_components"], 1),
-            1.0 if status["initialized"] else 0.0,
+            1.0 if status["initialized"] else 0.0
         ]
 
         health_score = sum(health_factors) / len(health_factors)
@@ -740,7 +739,7 @@ Comprehensive cognitive architecture API for Kimera, providing:
 - **Transparency**: Complete transparency into cognitive processing flows
 - **Flow Optimization**: Cognitive flow optimization and performance tuning
 
-**Zetetic Principles**: This API embodies investigative creativity with complete transparency,
+**Zetetic Principles**: This API embodies investigative creativity with complete transparency
 ensuring functioning, interconnectedness, flow, interoperability, and coherence.
 """
 

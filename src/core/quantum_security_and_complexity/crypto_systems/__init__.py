@@ -9,12 +9,8 @@ Author: KIMERA Development Team
 Version: 1.0.0 - DO-178C Level A Compliant
 """
 
-from .quantum_resistant_crypto import (
-    CryptographicResult,
-    DilithiumParams,
-    LatticeParams,
-    QuantumResistantCrypto,
-)
+from .quantum_resistant_crypto import (CryptographicResult, DilithiumParams
+                                       LatticeParams, QuantumResistantCrypto)
 
 __all__ = [
     "QuantumResistantCrypto",

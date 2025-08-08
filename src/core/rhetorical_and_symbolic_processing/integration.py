@@ -1,5 +1,6 @@
 """
-Rhetorical and Symbolic Processing Integration Module
+"""Rhetorical and Symbolic Processing Integration Module"""
+
 =====================================================
 
 DO-178C Level A compliant integration layer for rhetorical and symbolic processing.
@@ -30,18 +31,16 @@ from typing import Any, Dict, List, Optional, Union
 import numpy as np
 
 from .rhetorical_engine import RhetoricalAnalysis, RhetoricalMode, RhetoricalProcessor
-from .symbolic_engine import (
-    ScriptFamily,
-    SymbolicAnalysis,
-    SymbolicModality,
-    SymbolicProcessor,
-)
+from .symbolic_engine import (ScriptFamily, SymbolicAnalysis, SymbolicModality
+                              SymbolicProcessor)
 
 logger = logging.getLogger(__name__)
 
 
 @dataclass
 class UnifiedProcessingResult:
+    """Auto-generated class."""
+    pass
     """Unified result from rhetorical and symbolic processing."""
 
     rhetorical_analysis: Optional[RhetoricalAnalysis]
@@ -71,9 +70,9 @@ class ProcessingMode(Enum):
     SEQUENTIAL = "sequential"  # Process rhetorical then symbolic
     ADAPTIVE = "adaptive"  # Choose based on content analysis
     SAFETY_FALLBACK = "safety_fallback"  # Minimal processing for safety
-
-
 class RhetoricalSymbolicIntegrator:
+    """Auto-generated class."""
+    pass
     """
     Aerospace-grade integration of rhetorical and symbolic processing engines.
 
@@ -111,9 +110,9 @@ class RhetoricalSymbolicIntegrator:
 
         # Component initialization tracking
         self._components_initialized = {
-            "rhetorical_processor": False,
-            "symbolic_processor": False,
-            "integration_layer": False,
+            "rhetorical_processor": False
+            "symbolic_processor": False
+            "integration_layer": False
         }
 
         # Performance and health tracking
@@ -216,9 +215,9 @@ class RhetoricalSymbolicIntegrator:
                 "cultural_symbols": ["ethos", "cultural_credibility"],
             },
             "correlation_weights": {
-                "high_correlation": 0.8,
-                "medium_correlation": 0.5,
-                "low_correlation": 0.2,
+                "high_correlation": 0.8
+                "medium_correlation": 0.5
+                "low_correlation": 0.2
             },
         }
 
@@ -226,38 +225,38 @@ class RhetoricalSymbolicIntegrator:
         """Initialize unified insights generation templates."""
         return {
             "communication_effectiveness": {
-                "rhetorical_weight": 0.6,
-                "symbolic_weight": 0.4,
-                "cultural_adjustment": 0.1,
+                "rhetorical_weight": 0.6
+                "symbolic_weight": 0.4
+                "cultural_adjustment": 0.1
             },
             "cross_cultural_adaptation": {
-                "rhetorical_cultural": 0.5,
-                "symbolic_cultural": 0.5,
-                "universal_elements": 0.3,
+                "rhetorical_cultural": 0.5
+                "symbolic_cultural": 0.5
+                "universal_elements": 0.3
             },
             "neurodivergent_accessibility": {
-                "rhetorical_accessibility": 0.4,
-                "symbolic_accessibility": 0.6,
-                "combined_clarity": 0.5,
+                "rhetorical_accessibility": 0.4
+                "symbolic_accessibility": 0.6
+                "combined_clarity": 0.5
             },
         }
 
     def _initialize_safety_validators(self) -> Dict[str, Any]:
         """Initialize safety validation functions."""
         return {
-            "processing_time_validator": lambda t: t <= self._max_processing_time,
-            "result_consistency_validator": self._validate_result_consistency,
-            "cultural_sensitivity_validator": self._validate_cultural_sensitivity,
-            "accessibility_validator": self._validate_accessibility,
+            "processing_time_validator": lambda t: t <= self._max_processing_time
+            "result_consistency_validator": self._validate_result_consistency
+            "cultural_sensitivity_validator": self._validate_cultural_sensitivity
+            "accessibility_validator": self._validate_accessibility
         }
 
     async def process_content(
-        self,
-        content: str,
-        context: Optional[str] = None,
-        mode: Optional[ProcessingMode] = None,
-        rhetorical_mode: Optional[RhetoricalMode] = None,
-        symbolic_modality: Optional[SymbolicModality] = None,
+        self
+        content: str
+        context: Optional[str] = None
+        mode: Optional[ProcessingMode] = None
+        rhetorical_mode: Optional[RhetoricalMode] = None
+        symbolic_modality: Optional[SymbolicModality] = None
     ) -> UnifiedProcessingResult:
         """
         Process content with unified rhetorical and symbolic analysis.
@@ -351,8 +350,8 @@ class RhetoricalSymbolicIntegrator:
             )
 
     async def _process_parallel(
-        self,
-        content: str,
+        self
+        content: str
         context: Optional[str],
         rhetorical_mode: Optional[RhetoricalMode],
         symbolic_modality: Optional[SymbolicModality],
@@ -396,10 +395,10 @@ class RhetoricalSymbolicIntegrator:
         )
 
         return UnifiedProcessingResult(
-            rhetorical_analysis=rhetorical_analysis,
-            symbolic_analysis=symbolic_analysis,
-            unified_insights=unified_insights,
-            cross_modal_correlations=cross_modal_correlations,
+            rhetorical_analysis=rhetorical_analysis
+            symbolic_analysis=symbolic_analysis
+            unified_insights=unified_insights
+            cross_modal_correlations=cross_modal_correlations
             processing_time=0.0,  # Will be set by caller
             status="success",
             timestamp=time.time(),  # Set current timestamp
@@ -407,8 +406,8 @@ class RhetoricalSymbolicIntegrator:
         )
 
     async def _process_sequential(
-        self,
-        content: str,
+        self
+        content: str
         context: Optional[str],
         rhetorical_mode: Optional[RhetoricalMode],
         symbolic_modality: Optional[SymbolicModality],
@@ -443,19 +442,19 @@ class RhetoricalSymbolicIntegrator:
         )
 
         return UnifiedProcessingResult(
-            rhetorical_analysis=rhetorical_analysis,
-            symbolic_analysis=symbolic_analysis,
-            unified_insights=unified_insights,
-            cross_modal_correlations=cross_modal_correlations,
-            processing_time=0.0,
+            rhetorical_analysis=rhetorical_analysis
+            symbolic_analysis=symbolic_analysis
+            unified_insights=unified_insights
+            cross_modal_correlations=cross_modal_correlations
+            processing_time=0.0
             status="success",
             timestamp=time.time(),
             safety_validation={},
         )
 
     async def _process_rhetorical_only(
-        self,
-        content: str,
+        self
+        content: str
         context: Optional[str],
         rhetorical_mode: Optional[RhetoricalMode],
     ) -> UnifiedProcessingResult:
@@ -469,19 +468,19 @@ class RhetoricalSymbolicIntegrator:
         cross_modal_correlations = {}
 
         return UnifiedProcessingResult(
-            rhetorical_analysis=rhetorical_analysis,
-            symbolic_analysis=None,
-            unified_insights=unified_insights,
-            cross_modal_correlations=cross_modal_correlations,
-            processing_time=0.0,
+            rhetorical_analysis=rhetorical_analysis
+            symbolic_analysis=None
+            unified_insights=unified_insights
+            cross_modal_correlations=cross_modal_correlations
+            processing_time=0.0
             status="rhetorical_only",
             timestamp=time.time(),
             safety_validation={},
         )
 
     async def _process_symbolic_only(
-        self,
-        content: str,
+        self
+        content: str
         context: Optional[str],
         symbolic_modality: Optional[SymbolicModality],
     ) -> UnifiedProcessingResult:
@@ -495,19 +494,19 @@ class RhetoricalSymbolicIntegrator:
         cross_modal_correlations = {}
 
         return UnifiedProcessingResult(
-            rhetorical_analysis=None,
-            symbolic_analysis=symbolic_analysis,
-            unified_insights=unified_insights,
-            cross_modal_correlations=cross_modal_correlations,
-            processing_time=0.0,
+            rhetorical_analysis=None
+            symbolic_analysis=symbolic_analysis
+            unified_insights=unified_insights
+            cross_modal_correlations=cross_modal_correlations
+            processing_time=0.0
             status="symbolic_only",
             timestamp=time.time(),
             safety_validation={},
         )
 
     async def _process_adaptive(
-        self,
-        content: str,
+        self
+        content: str
         context: Optional[str],
         rhetorical_mode: Optional[RhetoricalMode],
         symbolic_modality: Optional[SymbolicModality],
@@ -556,25 +555,25 @@ class RhetoricalSymbolicIntegrator:
         """Minimal processing for safety fallback mode."""
 
         unified_insights = {
-            "safety_mode": True,
+            "safety_mode": True
             "minimal_processing": "basic content acknowledgment",
             "content_length": len(content),
-            "has_context": context is not None,
+            "has_context": context is not None
         }
 
         return UnifiedProcessingResult(
-            rhetorical_analysis=None,
-            symbolic_analysis=None,
-            unified_insights=unified_insights,
+            rhetorical_analysis=None
+            symbolic_analysis=None
+            unified_insights=unified_insights
             cross_modal_correlations={},
-            processing_time=0.0,
+            processing_time=0.0
             status="safety_fallback",
             timestamp=time.time(),
             safety_validation={"fallback_mode": True},
         )
 
     async def _generate_unified_insights(
-        self,
+        self
         rhetorical_analysis: Optional[RhetoricalAnalysis],
         symbolic_analysis: Optional[SymbolicAnalysis],
         context: Optional[str],
@@ -624,9 +623,9 @@ class RhetoricalSymbolicIntegrator:
                 rhetorical_analysis.persuasive_effectiveness
             )
             insights["rhetorical_balance"] = {
-                "ethos": rhetorical_analysis.ethos_score,
-                "pathos": rhetorical_analysis.pathos_score,
-                "logos": rhetorical_analysis.logos_score,
+                "ethos": rhetorical_analysis.ethos_score
+                "pathos": rhetorical_analysis.pathos_score
+                "logos": rhetorical_analysis.logos_score
             }
 
         elif symbolic_analysis:
@@ -640,7 +639,7 @@ class RhetoricalSymbolicIntegrator:
         return insights
 
     async def _calculate_cross_modal_correlations(
-        self,
+        self
         rhetorical_analysis: Optional[RhetoricalAnalysis],
         symbolic_analysis: Optional[SymbolicAnalysis],
     ) -> Dict[str, float]:
@@ -806,14 +805,14 @@ class RhetoricalSymbolicIntegrator:
     ) -> UnifiedProcessingResult:
         """Create result for timeout scenarios."""
         return UnifiedProcessingResult(
-            rhetorical_analysis=None,
-            symbolic_analysis=None,
+            rhetorical_analysis=None
+            symbolic_analysis=None
             unified_insights={
                 "error": "processing_timeout",
                 "content_length": len(content),
             },
             cross_modal_correlations={},
-            processing_time=processing_time,
+            processing_time=processing_time
             status="timeout",
             timestamp=time.time(),
             safety_validation={"timeout_occurred": True},
@@ -824,11 +823,11 @@ class RhetoricalSymbolicIntegrator:
     ) -> UnifiedProcessingResult:
         """Create result for error scenarios."""
         return UnifiedProcessingResult(
-            rhetorical_analysis=None,
-            symbolic_analysis=None,
+            rhetorical_analysis=None
+            symbolic_analysis=None
             unified_insights={"error": error, "content_length": len(content)},
             cross_modal_correlations={},
-            processing_time=processing_time,
+            processing_time=processing_time
             status="error",
             timestamp=time.time(),
             safety_validation={"error_occurred": True},
@@ -859,19 +858,19 @@ class RhetoricalSymbolicIntegrator:
 
         return {
             "integration_metrics": {
-                "initialized": self._initialized,
-                "components_initialized": self._components_initialized,
-                "total_processing": self._processing_count,
-                "avg_processing_time": avg_processing_time,
-                "error_rate": error_rate,
-                "safety_violation_rate": safety_violation_rate,
-                "max_processing_time": self._max_processing_time,
-                "safety_margins": self._safety_margins,
-                "device": self.device,
-                "mode": self.mode.value,
+                "initialized": self._initialized
+                "components_initialized": self._components_initialized
+                "total_processing": self._processing_count
+                "avg_processing_time": avg_processing_time
+                "error_rate": error_rate
+                "safety_violation_rate": safety_violation_rate
+                "max_processing_time": self._max_processing_time
+                "safety_margins": self._safety_margins
+                "device": self.device
+                "mode": self.mode.value
             },
-            "rhetorical_processor": rhetorical_health,
-            "symbolic_processor": symbolic_health,
+            "rhetorical_processor": rhetorical_health
+            "symbolic_processor": symbolic_health
         }
 
     async def shutdown(self) -> None:

@@ -65,6 +65,8 @@ class PatternQuality(Enum):
 
 @dataclass
 class LearnedPattern:
+    """Auto-generated class."""
+    pass
     """Representation of a learned cognitive pattern"""
 
     pattern_id: str
@@ -100,6 +102,8 @@ class LearnedPattern:
 
 @dataclass
 class LearningResult:
+    """Auto-generated class."""
+    pass
     """Result from cognitive learning process"""
 
     learning_id: str
@@ -133,16 +137,16 @@ class LearningResult:
     timestamp: str = field(
         default_factory=lambda: datetime.now(timezone.utc).isoformat()
     )
-
-
 class PhysicsBasedLearning:
+    """Auto-generated class."""
+    pass
     """Physics-based learning algorithms"""
 
     def __init__(
-        self,
-        learning_rate: float = 0.01,
-        energy_threshold: float = 0.1,
-        stability_threshold: float = 0.7,
+        self
+        learning_rate: float = 0.01
+        energy_threshold: float = 0.1
+        stability_threshold: float = 0.7
     ):
 
         self.learning_rate = learning_rate
@@ -157,8 +161,8 @@ class PhysicsBasedLearning:
         logger.debug("Physics-based learning initialized")
 
     async def learn_through_energy_minimization(
-        self,
-        data: torch.Tensor,
+        self
+        data: torch.Tensor
         initial_patterns: List[LearnedPattern],
         context: Dict[str, Any],
     ) -> Dict[str, Any]:
@@ -227,11 +231,11 @@ class PhysicsBasedLearning:
                 learning_efficiency = min(0.5, len(learned_patterns) * 0.1)
 
             return {
-                "learned_patterns": learned_patterns,
-                "final_state": current_state,
-                "energy_reduction": energy_reduction,
+                "learned_patterns": learned_patterns
+                "final_state": current_state
+                "energy_reduction": energy_reduction
                 "convergence_iterations": len(energy_history),
-                "energy_history": energy_history,
+                "energy_history": energy_history
                 "learning_efficiency": max(
                     0.0, learning_efficiency
                 ),  # Ensure non-negative
@@ -241,11 +245,11 @@ class PhysicsBasedLearning:
             logger.error(f"Energy minimization learning failed: {e}")
             return {
                 "learned_patterns": [],
-                "final_state": data,
-                "energy_reduction": 0.0,
-                "convergence_iterations": 0,
+                "final_state": data
+                "energy_reduction": 0.0
+                "convergence_iterations": 0
                 "energy_history": [],
-                "learning_efficiency": 0.0,
+                "learning_efficiency": 0.0
                 "error": str(e),
             }
 
@@ -311,19 +315,19 @@ class PhysicsBasedLearning:
                     pattern_quality=self._assess_pattern_quality(
                         pattern_energy, pattern_coherence, pattern_stability
                     ),
-                    pattern_vector=pattern_vector,
-                    pattern_energy=pattern_energy,
-                    pattern_stability=pattern_stability,
+                    pattern_vector=pattern_vector
+                    pattern_energy=pattern_energy
+                    pattern_stability=pattern_stability
                     pattern_coherence=max(0.0, min(1.0, pattern_coherence)),
                     learning_strength=min(1.0, pattern_energy / self.energy_threshold),
-                    generalization_ability=pattern_coherence,
+                    generalization_ability=pattern_coherence
                     adaptation_rate=0.5,  # Default adaptation rate
-                    consolidation_level=pattern_stability,
+                    consolidation_level=pattern_stability
                     resonance_frequency=1.0 / (pattern_energy + 1e-8),
                     coupling_strength=0.5,  # Will be calculated with interactions
                     field_interactions=[],
-                    learning_mode=LearningMode.THERMODYNAMIC_ORG,
-                    learning_phase=LearningPhase.ORGANIZATION,
+                    learning_mode=LearningMode.THERMODYNAMIC_ORG
+                    learning_phase=LearningPhase.ORGANIZATION
                     formation_time=time.time(),
                 )
 
@@ -338,20 +342,20 @@ class PhysicsBasedLearning:
             basic_pattern = LearnedPattern(
                 pattern_id=f"basic_pattern_{uuid.uuid4().hex[:8]}",
                 pattern_type="basic_discovered",
-                pattern_quality=PatternQuality.MEDIUM,
-                pattern_vector=pattern_vector,
+                pattern_quality=PatternQuality.MEDIUM
+                pattern_vector=pattern_vector
                 pattern_energy=torch.sum(pattern_vector**2).item(),
-                pattern_stability=0.7,
-                pattern_coherence=0.7,
-                learning_strength=0.7,
-                generalization_ability=0.7,
-                adaptation_rate=0.5,
-                consolidation_level=0.5,
-                resonance_frequency=1.0,
-                coupling_strength=0.5,
+                pattern_stability=0.7
+                pattern_coherence=0.7
+                learning_strength=0.7
+                generalization_ability=0.7
+                adaptation_rate=0.5
+                consolidation_level=0.5
+                resonance_frequency=1.0
+                coupling_strength=0.5
                 field_interactions=[],
-                learning_mode=LearningMode.THERMODYNAMIC_ORG,
-                learning_phase=LearningPhase.ORGANIZATION,
+                learning_mode=LearningMode.THERMODYNAMIC_ORG
+                learning_phase=LearningPhase.ORGANIZATION
                 formation_time=time.time(),
             )
             patterns.append(basic_pattern)
@@ -362,22 +366,22 @@ class PhysicsBasedLearning:
             minimal_pattern = LearnedPattern(
                 pattern_id=f"minimal_pattern_{uuid.uuid4().hex[:8]}",
                 pattern_type="minimal_discovered",
-                pattern_quality=PatternQuality.LOW,
+                pattern_quality=PatternQuality.LOW
                 pattern_vector=torch.tensor(
                     [torch.mean(state).item(), torch.std(state).item()]
                 ),
                 pattern_energy=torch.var(state).item(),
-                pattern_stability=0.6,
-                pattern_coherence=0.6,
-                learning_strength=0.6,
-                generalization_ability=0.6,
-                adaptation_rate=0.5,
-                consolidation_level=0.5,
-                resonance_frequency=1.0,
-                coupling_strength=0.5,
+                pattern_stability=0.6
+                pattern_coherence=0.6
+                learning_strength=0.6
+                generalization_ability=0.6
+                adaptation_rate=0.5
+                consolidation_level=0.5
+                resonance_frequency=1.0
+                coupling_strength=0.5
                 field_interactions=[],
-                learning_mode=LearningMode.THERMODYNAMIC_ORG,
-                learning_phase=LearningPhase.ORGANIZATION,
+                learning_mode=LearningMode.THERMODYNAMIC_ORG
+                learning_phase=LearningPhase.ORGANIZATION
                 formation_time=time.time(),
             )
             patterns.append(minimal_pattern)
@@ -403,7 +407,7 @@ class PhysicsBasedLearning:
                     similarity = torch.cosine_similarity(
                         pattern_vector.unsqueeze(0),
                         existing_pattern.pattern_vector.unsqueeze(0),
-                        dim=1,
+                        dim=1
                     ).item()
                     max_similarity = max(max_similarity, abs(similarity))
 
@@ -431,16 +435,16 @@ class PhysicsBasedLearning:
             return PatternQuality.WEAK
         else:
             return PatternQuality.NOISE
-
-
 class ResonanceClusteringEngine:
+    """Auto-generated class."""
+    pass
     """Resonance-based clustering and pattern formation"""
 
     def __init__(
-        self,
-        resonance_threshold: float = 0.6,
-        max_clusters: int = 20,
-        oscillator_count: int = 50,
+        self
+        resonance_threshold: float = 0.6
+        max_clusters: int = 20
+        oscillator_count: int = 50
     ):
 
         self.resonance_threshold = resonance_threshold
@@ -476,10 +480,10 @@ class ResonanceClusteringEngine:
             clustering_quality = self._assess_clustering_quality(clusters, data)
 
             return {
-                "clusters": clusters,
+                "clusters": clusters
                 "oscillator_states": resonance_evolution["final_states"],
-                "resonance_evolution": resonance_evolution,
-                "clustering_quality": clustering_quality,
+                "resonance_evolution": resonance_evolution
+                "clustering_quality": clustering_quality
                 "num_clusters": len(clusters),
             }
 
@@ -489,8 +493,8 @@ class ResonanceClusteringEngine:
                 "clusters": [],
                 "oscillator_states": [],
                 "resonance_evolution": {},
-                "clustering_quality": 0.0,
-                "num_clusters": 0,
+                "clustering_quality": 0.0
+                "num_clusters": 0
                 "error": str(e),
             }
 
@@ -526,23 +530,23 @@ class ResonanceClusteringEngine:
                 if data_similarity > 0.5:  # Connection threshold
                     osc1["connections"].append(
                         {
-                            "target": j,
-                            "strength": data_similarity * self.coupling_strength,
+                            "target": j
+                            "strength": data_similarity * self.coupling_strength
                         }
                     )
                     osc2["connections"].append(
                         {
-                            "target": i,
-                            "strength": data_similarity * self.coupling_strength,
+                            "target": i
+                            "strength": data_similarity * self.coupling_strength
                         }
                     )
 
         return oscillators
 
     async def _evolve_resonance_network(
-        self,
+        self
         oscillators: List[Dict[str, Any]],
-        data: torch.Tensor,
+        data: torch.Tensor
         context: Dict[str, Any],
     ) -> Dict[str, Any]:
         """Evolve the resonance network to find stable patterns"""
@@ -593,10 +597,10 @@ class ResonanceClusteringEngine:
             phase_history.append(step_phases)
 
         return {
-            "final_states": oscillators,
-            "position_history": position_history,
-            "phase_history": phase_history,
-            "evolution_steps": time_steps,
+            "final_states": oscillators
+            "position_history": position_history
+            "phase_history": phase_history
+            "evolution_steps": time_steps
         }
 
     def _extract_resonance_clusters(
@@ -655,17 +659,17 @@ class ResonanceClusteringEngine:
 
             cluster = {
                 "cluster_id": f"resonance_cluster_{group_idx}",
-                "oscillator_indices": group,
-                "data_points": cluster_data,
-                "centroid": cluster_centroid,
-                "coherence": cluster_coherence,
-                "stability": cluster_stability,
+                "oscillator_indices": group
+                "data_points": cluster_data
+                "centroid": cluster_centroid
+                "coherence": cluster_coherence
+                "stability": cluster_stability
                 "size": len(group),
                 "resonance_frequency": sum(
                     final_oscillators[i]["frequency"] for i in group
                 )
                 / len(group),
-                "phase_sync": cluster_coherence,
+                "phase_sync": cluster_coherence
             }
 
             clusters.append(cluster)
@@ -704,16 +708,16 @@ class ResonanceClusteringEngine:
         quality = (avg_coherence + min(1.0, avg_separation) + coverage) / 3.0
 
         return max(0.0, min(1.0, quality))
-
-
 class ThermodynamicOrganization:
+    """Auto-generated class."""
+    pass
     """Thermodynamic self-organization for learning"""
 
     def __init__(
-        self,
-        temperature: float = 1.0,
-        entropy_threshold: float = 0.1,
-        organization_strength: float = 0.1,
+        self
+        temperature: float = 1.0
+        entropy_threshold: float = 0.1
+        organization_strength: float = 0.1
     ):
 
         self.temperature = temperature
@@ -751,10 +755,10 @@ class ThermodynamicOrganization:
             )
 
             return {
-                "organized_structures": organized_structures,
+                "organized_structures": organized_structures
                 "final_state": evolution_result["final_state"],
-                "evolution_result": evolution_result,
-                "thermodynamic_metrics": thermodynamic_metrics,
+                "evolution_result": evolution_result
+                "thermodynamic_metrics": thermodynamic_metrics
                 "organization_quality": thermodynamic_metrics.get(
                     "organization_quality", 0.0
                 ),
@@ -764,10 +768,10 @@ class ThermodynamicOrganization:
             logger.error(f"Thermodynamic organization failed: {e}")
             return {
                 "organized_structures": [],
-                "final_state": data,
+                "final_state": data
                 "evolution_result": {},
                 "thermodynamic_metrics": {},
-                "organization_quality": 0.0,
+                "organization_quality": 0.0
                 "error": str(e),
             }
 
@@ -829,12 +833,12 @@ class ThermodynamicOrganization:
                     break
 
         return {
-            "final_state": current_state,
-            "energy_history": energy_history,
-            "entropy_history": entropy_history,
-            "temperature_history": temperature_history,
+            "final_state": current_state
+            "energy_history": energy_history
+            "entropy_history": entropy_history
+            "temperature_history": temperature_history
             "evolution_steps": len(energy_history),
-            "final_temperature": current_temperature,
+            "final_temperature": current_temperature
         }
 
     def _calculate_free_energy(self, state: torch.Tensor, temperature: float) -> float:
@@ -916,11 +920,11 @@ class ThermodynamicOrganization:
                 if window_variance < 0.1:
                     structure = {
                         "structure_id": f"thermodynamic_structure_{len(structures)}",
-                        "position": i,
-                        "size": window_size,
-                        "organization_level": 1.0 - window_variance,
-                        "mean_value": window_mean,
-                        "variance": window_variance,
+                        "position": i
+                        "size": window_size
+                        "organization_level": 1.0 - window_variance
+                        "mean_value": window_mean
+                        "variance": window_variance
                         "stability": self._calculate_structure_stability(
                             window, energy_history
                         ),
@@ -972,17 +976,17 @@ class ThermodynamicOrganization:
         organization_quality = (energy_improvement + entropy_control) / 2.0
 
         return {
-            "organization_quality": organization_quality,
-            "energy_reduction": energy_reduction,
-            "entropy_change": entropy_change,
-            "energy_improvement": energy_improvement,
-            "entropy_control": entropy_control,
+            "organization_quality": organization_quality
+            "energy_reduction": energy_reduction
+            "entropy_change": entropy_change
+            "energy_improvement": energy_improvement
+            "entropy_control": entropy_control
             "convergence_steps": len(energy_history),
             "final_temperature": evolution_result.get("final_temperature", 0.0),
         }
-
-
 class UnsupervisedCognitiveLearning:
+    """Auto-generated class."""
+    pass
     """Core unsupervised cognitive learning system"""
 
     def __init__(
@@ -999,13 +1003,13 @@ class UnsupervisedCognitiveLearning:
         logger.debug("Unsupervised cognitive learning initialized")
 
     async def learn_unsupervised(
-        self,
-        data: torch.Tensor,
-        learning_mode: LearningMode,
+        self
+        data: torch.Tensor
+        learning_mode: LearningMode
         context: Dict[str, Any],
-        physics_learner: PhysicsBasedLearning,
-        resonance_clusterer: ResonanceClusteringEngine,
-        thermodynamic_organizer: ThermodynamicOrganization,
+        physics_learner: PhysicsBasedLearning
+        resonance_clusterer: ResonanceClusteringEngine
+        thermodynamic_organizer: ThermodynamicOrganization
     ) -> Dict[str, Any]:
         """Perform unsupervised learning using specified mode"""
         try:
@@ -1078,25 +1082,25 @@ class UnsupervisedCognitiveLearning:
             self._manage_pattern_retention()
 
             return {
-                "learned_patterns": quality_patterns,
-                "learning_efficiency": learning_efficiency,
-                "integration_result": integration_result,
+                "learned_patterns": quality_patterns
+                "learning_efficiency": learning_efficiency
+                "integration_result": integration_result
                 "pattern_formation_rate": len(quality_patterns)
                 / (len(patterns) + 1e-8),
                 "knowledge_integration": integration_result.get(
                     "integration_quality", 0.0
                 ),
-                "raw_result": result,
+                "raw_result": result
             }
 
         except Exception as e:
             logger.error(f"Unsupervised learning failed: {e}")
             return {
                 "learned_patterns": [],
-                "learning_efficiency": 0.0,
+                "learning_efficiency": 0.0
                 "integration_result": {"new_patterns": [], "integration_quality": 0.0},
-                "pattern_formation_rate": 0.0,
-                "knowledge_integration": 0.0,
+                "pattern_formation_rate": 0.0
+                "knowledge_integration": 0.0
                 "error": str(e),
             }
 
@@ -1114,19 +1118,19 @@ class UnsupervisedCognitiveLearning:
                 pattern_id=f"cluster_pattern_{cluster['cluster_id']}",
                 pattern_type="resonance_cluster",
                 pattern_quality=self._map_coherence_to_quality(cluster["coherence"]),
-                pattern_vector=pattern_vector,
+                pattern_vector=pattern_vector
                 pattern_energy=len(pattern_vector) * cluster["coherence"],
                 pattern_stability=cluster["stability"],
                 pattern_coherence=cluster["coherence"],
                 learning_strength=cluster["coherence"],
                 generalization_ability=cluster["stability"],
-                adaptation_rate=0.5,
+                adaptation_rate=0.5
                 consolidation_level=cluster["coherence"],
                 resonance_frequency=cluster["resonance_frequency"],
                 coupling_strength=cluster["phase_sync"],
                 field_interactions=[],
-                learning_mode=mode,
-                learning_phase=LearningPhase.ORGANIZATION,
+                learning_mode=mode
+                learning_phase=LearningPhase.ORGANIZATION
                 formation_time=time.time(),
             )
 
@@ -1152,7 +1156,7 @@ class UnsupervisedCognitiveLearning:
                 pattern_quality=self._map_organization_to_quality(
                     structure["organization_level"]
                 ),
-                pattern_vector=pattern_vector,
+                pattern_vector=pattern_vector
                 pattern_energy=structure["organization_level"] * structure["size"],
                 pattern_stability=structure["stability"],
                 pattern_coherence=structure["organization_level"],
@@ -1163,8 +1167,8 @@ class UnsupervisedCognitiveLearning:
                 resonance_frequency=1.0,  # Default frequency
                 coupling_strength=0.5,  # Default coupling
                 field_interactions=[],
-                learning_mode=mode,
-                learning_phase=LearningPhase.STABILIZATION,
+                learning_mode=mode
+                learning_phase=LearningPhase.STABILIZATION
                 formation_time=time.time(),
             )
 
@@ -1254,10 +1258,10 @@ class UnsupervisedCognitiveLearning:
             integration_quality = 0.1
 
         return {
-            "new_patterns": new_unique_patterns,
-            "merged_patterns": merged_patterns,
-            "reinforced_patterns": reinforced_patterns,
-            "integration_quality": integration_quality,
+            "new_patterns": new_unique_patterns
+            "merged_patterns": merged_patterns
+            "reinforced_patterns": reinforced_patterns
+            "integration_quality": integration_quality
         }
 
     def _calculate_pattern_similarity(
@@ -1269,7 +1273,7 @@ class UnsupervisedCognitiveLearning:
             vector_sim = torch.cosine_similarity(
                 pattern1.pattern_vector.unsqueeze(0),
                 pattern2.pattern_vector.unsqueeze(0),
-                dim=1,
+                dim=1
             ).item()
         else:
             vector_sim = 0.0
@@ -1336,32 +1340,32 @@ class UnsupervisedCognitiveLearning:
             pattern_id=f"merged_{pattern1.pattern_id}_{pattern2.pattern_id}",
             pattern_type=f"merged_{pattern1.pattern_type}",
             pattern_quality=max(pattern1.pattern_quality, pattern2.pattern_quality),
-            pattern_vector=merged_vector,
-            pattern_energy=merged_energy,
-            pattern_stability=merged_stability,
-            pattern_coherence=merged_coherence,
+            pattern_vector=merged_vector
+            pattern_energy=merged_energy
+            pattern_stability=merged_stability
+            pattern_coherence=merged_coherence
             learning_strength=(pattern1.learning_strength + pattern2.learning_strength)
-            / 2.0,
+            / 2.0
             generalization_ability=(
                 pattern1.generalization_ability + pattern2.generalization_ability
             )
-            / 2.0,
-            adaptation_rate=(pattern1.adaptation_rate + pattern2.adaptation_rate) / 2.0,
+            / 2.0
+            adaptation_rate=(pattern1.adaptation_rate + pattern2.adaptation_rate) / 2.0
             consolidation_level=(
                 pattern1.consolidation_level + pattern2.consolidation_level
             )
-            / 2.0,
+            / 2.0
             resonance_frequency=(
                 pattern1.resonance_frequency + pattern2.resonance_frequency
             )
-            / 2.0,
+            / 2.0
             coupling_strength=(pattern1.coupling_strength + pattern2.coupling_strength)
-            / 2.0,
+            / 2.0
             field_interactions=list(
                 set(pattern1.field_interactions + pattern2.field_interactions)
             ),
-            learning_mode=pattern1.learning_mode,
-            learning_phase=LearningPhase.CONSOLIDATION,
+            learning_mode=pattern1.learning_mode
+            learning_phase=LearningPhase.CONSOLIDATION
             formation_time=time.time(),
         )
 
@@ -1379,15 +1383,15 @@ class UnsupervisedCognitiveLearning:
             self.learned_patterns = self.learned_patterns[
                 : self.pattern_retention_limit
             ]
-
-
 class LearningCore:
+    """Auto-generated class."""
+    pass
     """Main Learning Core system integrating all unsupervised learning capabilities"""
 
     def __init__(
-        self,
-        default_learning_mode: LearningMode = LearningMode.THERMODYNAMIC_ORG,
-        learning_threshold: float = 0.6,
+        self
+        default_learning_mode: LearningMode = LearningMode.THERMODYNAMIC_ORG
+        learning_threshold: float = 0.6
         device: str = "cpu",
     ):
 
@@ -1420,10 +1424,10 @@ class LearningCore:
         logger.info("✅ Learning Core foundational systems registered")
 
     async def learn_unsupervised(
-        self,
-        data: torch.Tensor,
-        learning_mode: Optional[LearningMode] = None,
-        context: Optional[Dict[str, Any]] = None,
+        self
+        data: torch.Tensor
+        learning_mode: Optional[LearningMode] = None
+        context: Optional[Dict[str, Any]] = None
     ) -> LearningResult:
         """Main unsupervised learning method"""
 
@@ -1439,12 +1443,12 @@ class LearningCore:
 
             # Phase 1: Unsupervised learning with specified mode
             learning_result = await self.unsupervised_learning.learn_unsupervised(
-                data,
-                learning_mode,
-                context,
-                self.physics_based_learner,
-                self.resonance_clustering_engine,
-                self.thermodynamic_organizer,
+                data
+                learning_mode
+                context
+                self.physics_based_learner
+                self.resonance_clustering_engine
+                self.thermodynamic_organizer
             )
 
             # Phase 2: Pattern clustering analysis
@@ -1465,9 +1469,9 @@ class LearningCore:
 
             # Create result
             result = LearningResult(
-                learning_id=learning_id,
-                input_data=data,
-                learning_mode=learning_mode,
+                learning_id=learning_id
+                input_data=data
+                learning_mode=learning_mode
                 learning_phase=self._determine_learning_phase(learning_result),
                 discovered_patterns=learning_result["learned_patterns"],
                 pattern_clusters=cluster_analysis["pattern_clusters"],
@@ -1478,8 +1482,8 @@ class LearningCore:
                 entropy_reduction=learning_metrics["entropy_reduction"],
                 energy_minimization=learning_metrics["energy_minimization"],
                 free_energy_change=learning_metrics["free_energy_change"],
-                phase_transitions=phase_transitions,
-                learning_duration=learning_duration,
+                phase_transitions=phase_transitions
+                learning_duration=learning_duration
                 computational_cost=self._calculate_computational_cost(
                     learning_duration, len(data)
                 ),
@@ -1501,24 +1505,24 @@ class LearningCore:
         except Exception as e:
             logger.error(f"Unsupervised learning failed: {e}")
             error_result = LearningResult(
-                learning_id=learning_id,
-                input_data=data,
-                learning_mode=learning_mode,
-                learning_phase=LearningPhase.EXPLORATION,
+                learning_id=learning_id
+                input_data=data
+                learning_mode=learning_mode
+                learning_phase=LearningPhase.EXPLORATION
                 discovered_patterns=[],
                 pattern_clusters=[],
-                learning_efficiency=0.0,
-                pattern_formation_rate=0.0,
-                knowledge_integration=0.0,
-                adaptation_quality=0.0,
-                entropy_reduction=0.0,
-                energy_minimization=0.0,
-                free_energy_change=0.0,
+                learning_efficiency=0.0
+                pattern_formation_rate=0.0
+                knowledge_integration=0.0
+                adaptation_quality=0.0
+                entropy_reduction=0.0
+                energy_minimization=0.0
+                free_energy_change=0.0
                 phase_transitions=[],
-                learning_duration=time.time() - learning_start,
-                computational_cost=0.0,
-                convergence_achieved=False,
-                success=False,
+                learning_duration=time.time() - learning_start
+                computational_cost=0.0
+                convergence_achieved=False
+                success=False
                 error_log=[str(e)],
             )
 
@@ -1561,7 +1565,7 @@ class LearningCore:
                     cluster_patterns = [patterns[idx] for idx in cluster]
                     cluster_info = {
                         "cluster_id": f"pattern_cluster_{len(clusters)}",
-                        "pattern_indices": cluster,
+                        "pattern_indices": cluster
                         "cluster_size": len(cluster),
                         "avg_learning_strength": sum(
                             p.learning_strength for p in cluster_patterns
@@ -1590,8 +1594,8 @@ class LearningCore:
                 cluster_quality = 0.0
 
             return {
-                "pattern_clusters": clusters,
-                "cluster_quality": cluster_quality,
+                "pattern_clusters": clusters
+                "cluster_quality": cluster_quality
                 "num_clusters": len(clusters),
             }
 
@@ -1642,20 +1646,20 @@ class LearningCore:
 
             return {
                 "adaptation_quality": max(0.0, min(1.0, adaptation_quality)),
-                "entropy_reduction": entropy_reduction,
-                "energy_minimization": energy_minimization,
-                "free_energy_change": free_energy_change,
-                "convergence_achieved": convergence_achieved,
+                "entropy_reduction": entropy_reduction
+                "energy_minimization": energy_minimization
+                "free_energy_change": free_energy_change
+                "convergence_achieved": convergence_achieved
             }
 
         except Exception as e:
             logger.error(f"Learning metrics calculation failed: {e}")
             return {
-                "adaptation_quality": 0.0,
-                "entropy_reduction": 0.0,
-                "energy_minimization": 0.0,
-                "free_energy_change": 0.0,
-                "convergence_achieved": False,
+                "adaptation_quality": 0.0
+                "entropy_reduction": 0.0
+                "energy_minimization": 0.0
+                "free_energy_change": 0.0
+                "convergence_achieved": False
             }
 
     def _calculate_data_entropy(self, data: torch.Tensor) -> float:
@@ -1774,12 +1778,12 @@ class LearningCore:
 
         return {
             "learning_core_status": "operational",
-            "total_learning_sessions": self.total_learning_sessions,
-            "successful_learning_sessions": self.successful_learning_sessions,
-            "success_rate": success_rate,
-            "learning_threshold": self.learning_threshold,
-            "default_learning_mode": self.default_learning_mode.value,
-            "recent_performance": recent_performance,
+            "total_learning_sessions": self.total_learning_sessions
+            "successful_learning_sessions": self.successful_learning_sessions
+            "success_rate": success_rate
+            "learning_threshold": self.learning_threshold
+            "default_learning_mode": self.default_learning_mode.value
+            "recent_performance": recent_performance
             "components": {
                 "physics_based_learner": "operational",
                 "resonance_clustering_engine": "operational",

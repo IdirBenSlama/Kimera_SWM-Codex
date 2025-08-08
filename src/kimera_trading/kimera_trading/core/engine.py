@@ -14,9 +14,9 @@ from ..risk.self_healing import SelfHealingRiskComponent
 from ..strategies.evolutionary import CognitiveEvolutionEngine
 from ..thermodynamic.energy_flow import EnergyGradientDetector
 from ..thermodynamic.entropy_engine import MarketEntropyCalculator, ThermodynamicEngine
-
-
 class CognitiveThermodynamicTradingEngine:
+    """Auto-generated class."""
+    pass
     """
     Unified trading engine operating on cognitive-thermodynamic principles.
     

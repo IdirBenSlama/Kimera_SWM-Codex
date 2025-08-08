@@ -75,6 +75,8 @@ class ProcessingStage(Enum):
 
 @dataclass
 class DualSystemResult:
+    """Auto-generated class."""
+    pass
     """Result from dual-system processing"""
 
     input_content: str
@@ -97,6 +99,8 @@ class DualSystemResult:
 
 @dataclass
 class AlignmentResult:
+    """Auto-generated class."""
+    pass
     """Result from embedding alignment"""
 
     alignment_score: float
@@ -106,9 +110,9 @@ class AlignmentResult:
     convergence_achieved: bool
     error_estimate: float
     metadata: Dict[str, Any] = field(default_factory=dict)
-
-
 class AlignmentEngine:
+    """Auto-generated class."""
+    pass
     """
     Advanced Embedding Alignment Engine
 
@@ -117,9 +121,9 @@ class AlignmentEngine:
     """
 
     def __init__(
-        self,
-        default_method: AlignmentMethod = AlignmentMethod.ENSEMBLE_ALIGNMENT,
-        dimension: int = 768,
+        self
+        default_method: AlignmentMethod = AlignmentMethod.ENSEMBLE_ALIGNMENT
+        dimension: int = 768
     ):
         """
         Initialize Alignment Engine
@@ -133,7 +137,7 @@ class AlignmentEngine:
 
         # Performance monitoring
         self.performance_stats = {
-            "total_alignments": 0,
+            "total_alignments": 0
             "method_usage": {method.value: 0 for method in AlignmentMethod},
             "average_scores": {method.value: 0.0 for method in AlignmentMethod},
             "average_costs": {method.value: 0.0 for method in AlignmentMethod},
@@ -167,10 +171,10 @@ class AlignmentEngine:
         logger.debug("Alignment method components initialized")
 
     async def align_embeddings(
-        self,
-        linguistic_emb: torch.Tensor,
-        perceptual_emb: torch.Tensor,
-        method: Optional[AlignmentMethod] = None,
+        self
+        linguistic_emb: torch.Tensor
+        perceptual_emb: torch.Tensor
+        method: Optional[AlignmentMethod] = None
     ) -> AlignmentResult:
         """
         Align linguistic and perceptual embeddings using specified method
@@ -219,9 +223,9 @@ class AlignmentEngine:
             self.alignment_history.append(
                 {
                     "timestamp": datetime.now(),
-                    "method": method.value,
-                    "score": result.alignment_score,
-                    "cost": computational_cost,
+                    "method": method.value
+                    "score": result.alignment_score
+                    "cost": computational_cost
                 }
             )
 
@@ -234,14 +238,14 @@ class AlignmentEngine:
             logger.error(f"Embedding alignment failed: {e}")
             # Return minimal result on error
             return AlignmentResult(
-                alignment_score=0.0,
-                computational_cost=time.time() - start_time,
-                method_used=method,
+                alignment_score=0.0
+                computational_cost=time.time() - start_time
+                method_used=method
                 transformed_embeddings={
-                    "linguistic": linguistic_emb,
-                    "perceptual": perceptual_emb,
+                    "linguistic": linguistic_emb
+                    "perceptual": perceptual_emb
                 },
-                convergence_achieved=False,
+                convergence_achieved=False
                 error_estimate=float("inf"),
                 metadata={"error": str(e)},
             )
@@ -282,12 +286,12 @@ class AlignmentEngine:
         return AlignmentResult(
             alignment_score=alignment_score.item(),
             computational_cost=0.0,  # Will be set by caller
-            method_used=AlignmentMethod.COSINE_SIMILARITY,
+            method_used=AlignmentMethod.COSINE_SIMILARITY
             transformed_embeddings={
-                "linguistic": ling_transformed,
-                "perceptual": perc_transformed,
+                "linguistic": ling_transformed
+                "perceptual": perc_transformed
             },
-            convergence_achieved=True,
+            convergence_achieved=True
             error_estimate=1.0 - alignment_score.item(),
         )
 
@@ -323,14 +327,14 @@ class AlignmentEngine:
             perc_transformed = perc_emb
 
             return AlignmentResult(
-                alignment_score=alignment_score,
-                computational_cost=0.0,
-                method_used=AlignmentMethod.OPTIMAL_TRANSPORT,
+                alignment_score=alignment_score
+                computational_cost=0.0
+                method_used=AlignmentMethod.OPTIMAL_TRANSPORT
                 transformed_embeddings={
-                    "linguistic": ling_transformed,
-                    "perceptual": perc_transformed,
+                    "linguistic": ling_transformed
+                    "perceptual": perc_transformed
                 },
-                convergence_achieved=True,
+                convergence_achieved=True
                 error_estimate=wasserstein_dist.item(),
                 metadata={"transport_plan": transport_plan},
             )
@@ -391,14 +395,14 @@ class AlignmentEngine:
                 )
 
             return AlignmentResult(
-                alignment_score=alignment_score,
-                computational_cost=0.0,
-                method_used=AlignmentMethod.CANONICAL_CORRELATION,
+                alignment_score=alignment_score
+                computational_cost=0.0
+                method_used=AlignmentMethod.CANONICAL_CORRELATION
                 transformed_embeddings={
-                    "linguistic": ling_transformed,
-                    "perceptual": perc_transformed,
+                    "linguistic": ling_transformed
+                    "perceptual": perc_transformed
                 },
-                convergence_achieved=True,
+                convergence_achieved=True
                 error_estimate=1.0 - abs(correlation),
                 metadata={"correlation": correlation},
             )
@@ -453,15 +457,15 @@ class AlignmentEngine:
                 )
 
             return AlignmentResult(
-                alignment_score=alignment_score,
-                computational_cost=0.0,
-                method_used=AlignmentMethod.PROCRUSTES_ANALYSIS,
+                alignment_score=alignment_score
+                computational_cost=0.0
+                method_used=AlignmentMethod.PROCRUSTES_ANALYSIS
                 transformed_embeddings={
-                    "linguistic": ling_transformed,
-                    "perceptual": perc_transformed,
+                    "linguistic": ling_transformed
+                    "perceptual": perc_transformed
                 },
-                convergence_achieved=True,
-                error_estimate=residual,
+                convergence_achieved=True
+                error_estimate=residual
                 metadata={"rotation_matrix": R, "residual": residual},
             )
 
@@ -477,10 +481,10 @@ class AlignmentEngine:
         try:
             # Run multiple alignment methods
             methods = [
-                AlignmentMethod.COSINE_SIMILARITY,
-                AlignmentMethod.OPTIMAL_TRANSPORT,
-                AlignmentMethod.CANONICAL_CORRELATION,
-                AlignmentMethod.PROCRUSTES_ANALYSIS,
+                AlignmentMethod.COSINE_SIMILARITY
+                AlignmentMethod.OPTIMAL_TRANSPORT
+                AlignmentMethod.CANONICAL_CORRELATION
+                AlignmentMethod.PROCRUSTES_ANALYSIS
             ]
 
             results = []
@@ -515,16 +519,16 @@ class AlignmentEngine:
             best_result = max(results, key=lambda r: r.alignment_score)
 
             return AlignmentResult(
-                alignment_score=ensemble_score,
+                alignment_score=ensemble_score
                 computational_cost=sum(r.computational_cost for r in results),
-                method_used=AlignmentMethod.ENSEMBLE_ALIGNMENT,
-                transformed_embeddings=best_result.transformed_embeddings,
+                method_used=AlignmentMethod.ENSEMBLE_ALIGNMENT
+                transformed_embeddings=best_result.transformed_embeddings
                 convergence_achieved=all(r.convergence_achieved for r in results),
                 error_estimate=min(r.error_estimate for r in results),
                 metadata={
-                    "ensemble_weights": weights,
+                    "ensemble_weights": weights
                     "individual_scores": [r.alignment_score for r in results],
-                    "best_method": best_result.method_used.value,
+                    "best_method": best_result.method_used.value
                 },
             )
 
@@ -534,12 +538,12 @@ class AlignmentEngine:
             return await self._cosine_alignment(ling_emb, perc_emb)
 
     def _sinkhorn_algorithm(
-        self,
-        source: torch.Tensor,
-        target: torch.Tensor,
-        cost_matrix: torch.Tensor,
-        reg: float = 0.1,
-        max_iter: int = 100,
+        self
+        source: torch.Tensor
+        target: torch.Tensor
+        cost_matrix: torch.Tensor
+        reg: float = 0.1
+        max_iter: int = 100
     ) -> torch.Tensor:
         """Sinkhorn algorithm for optimal transport"""
         # Initialize dual variables
@@ -590,9 +594,9 @@ class AlignmentEngine:
         self.performance_stats["average_costs"][method.value] = (
             current_cost_avg * (count - 1) + cost
         ) / count
-
-
 class DualSystemProcessor:
+    """Auto-generated class."""
+    pass
     """
     Dual-System Cognitive Processor
 
@@ -601,9 +605,9 @@ class DualSystemProcessor:
     """
 
     def __init__(
-        self,
-        processing_mode: DualSystemMode = DualSystemMode.ADAPTIVE,
-        alignment_method: AlignmentMethod = AlignmentMethod.ENSEMBLE_ALIGNMENT,
+        self
+        processing_mode: DualSystemMode = DualSystemMode.ADAPTIVE
+        alignment_method: AlignmentMethod = AlignmentMethod.ENSEMBLE_ALIGNMENT
     ):
         """
         Initialize Dual-System Processor
@@ -651,13 +655,13 @@ class DualSystemProcessor:
 
         # Initialize result
         result = DualSystemResult(
-            input_content=content,
+            input_content=content
             linguistic_analysis={},
             perceptual_analysis={},
-            embedding_alignment=0.0,
-            neurodivergent_enhancement=0.0,
-            processing_time=0.0,
-            confidence_score=0.0,
+            embedding_alignment=0.0
+            neurodivergent_enhancement=0.0
+            processing_time=0.0
+            confidence_score=0.0
             integrated_response="",
             system_weights=self.system_weights.copy(),
             stage_durations={},
@@ -787,8 +791,8 @@ class DualSystemProcessor:
         return analysis
 
     async def _process_system_1(
-        self,
-        content: str,
+        self
+        content: str
         input_analysis: Dict[str, Any],
         context: Optional[Dict[str, Any]],
     ) -> Dict[str, Any]:
@@ -800,20 +804,20 @@ class DualSystemProcessor:
 
         return {
             "processing_type": "linguistic",
-            "embedding": linguistic_embedding,
+            "embedding": linguistic_embedding
             "features": input_analysis["linguistic_features"],
-            "confidence": 0.8,
-            "processing_time": 0.1,
+            "confidence": 0.8
+            "processing_time": 0.1
             "analysis": {
-                "semantic_coherence": 0.75,
-                "syntactic_complexity": 0.6,
-                "pragmatic_appropriateness": 0.8,
+                "semantic_coherence": 0.75
+                "syntactic_complexity": 0.6
+                "pragmatic_appropriateness": 0.8
             },
         }
 
     async def _process_system_2(
-        self,
-        content: str,
+        self
+        content: str
         input_analysis: Dict[str, Any],
         context: Optional[Dict[str, Any]],
     ) -> Dict[str, Any]:
@@ -825,14 +829,14 @@ class DualSystemProcessor:
 
         return {
             "processing_type": "perceptual",
-            "embedding": perceptual_embedding,
+            "embedding": perceptual_embedding
             "features": input_analysis["perceptual_cues"],
-            "confidence": 0.7,
-            "processing_time": 0.3,
+            "confidence": 0.7
+            "processing_time": 0.3
             "analysis": {
-                "spatial_coherence": 0.65,
-                "temporal_dynamics": 0.7,
-                "embodied_grounding": 0.75,
+                "spatial_coherence": 0.65
+                "temporal_dynamics": 0.7
+                "embodied_grounding": 0.75
             },
         }
 
@@ -845,14 +849,14 @@ class DualSystemProcessor:
         )
 
     async def _integrate_systems(
-        self,
+        self
         linguistic_result: Dict[str, Any],
         perceptual_result: Dict[str, Any],
-        alignment_result: AlignmentResult,
+        alignment_result: AlignmentResult
     ) -> Dict[str, Any]:
         """Integrate results from both systems"""
         integration = {
-            "alignment_quality": alignment_result.alignment_score,
+            "alignment_quality": alignment_result.alignment_score
             "system_coherence": self._calculate_system_coherence(
                 linguistic_result, perceptual_result
             ),
@@ -867,7 +871,7 @@ class DualSystemProcessor:
         return integration
 
     async def _synthesize_decision(
-        self,
+        self
         linguistic_result: Dict[str, Any],
         perceptual_result: Dict[str, Any],
         integration_result: Dict[str, Any],
@@ -896,7 +900,7 @@ class DualSystemProcessor:
         return decision
 
     async def _generate_output(
-        self,
+        self
         linguistic_result: Dict[str, Any],
         perceptual_result: Dict[str, Any],
         decision_result: Dict[str, Any],
@@ -916,15 +920,15 @@ class DualSystemProcessor:
         response = f"Dual-system processing complete (L:{linguistic_weight:.2f}, P:{perceptual_weight:.2f})"
 
         return {
-            "response": response,
-            "confidence": confidence,
+            "response": response
+            "confidence": confidence
             "generation_method": "weighted_integration",
             "output_quality_score": confidence
             * decision_result.get("decision_factors", {}).get("alignment_quality", 0.5),
         }
 
     async def _calculate_neurodivergent_optimization(
-        self,
+        self
         linguistic_result: Dict[str, Any],
         perceptual_result: Dict[str, Any],
         context: Optional[Dict[str, Any]],
@@ -1020,16 +1024,16 @@ class DualSystemProcessor:
         return 1.0 - abs(ling_conf - perc_conf)
 
     def _calculate_integration_confidence(
-        self,
+        self
         linguistic_result: Dict[str, Any],
         perceptual_result: Dict[str, Any],
-        alignment_result: AlignmentResult,
+        alignment_result: AlignmentResult
     ) -> float:
         """Calculate confidence in system integration"""
         factors = [
             linguistic_result.get("confidence", 0.0),
             perceptual_result.get("confidence", 0.0),
-            alignment_result.alignment_score,
+            alignment_result.alignment_score
         ]
 
         return np.mean(factors)
@@ -1082,11 +1086,11 @@ class DualSystemProcessor:
     def get_system_status(self) -> Dict[str, Any]:
         """Get comprehensive system status"""
         return {
-            "processing_mode": self.processing_mode.value,
+            "processing_mode": self.processing_mode.value
             "system_weights": self.system_weights.copy(),
-            "total_processes": self.total_processes,
-            "success_rate": self.success_rate,
-            "alignment_engine_stats": self.alignment_engine.performance_stats,
+            "total_processes": self.total_processes
+            "success_rate": self.success_rate
+            "alignment_engine_stats": self.alignment_engine.performance_stats
             "recent_performance": {
                 "avg_processing_time": (
                     np.mean(
@@ -1117,9 +1121,9 @@ class DualSystemProcessor:
                 ),
             },
         }
-
-
 class BarenholtzCore:
+    """Auto-generated class."""
+    pass
     """
     Barenholtz Core - Unified Dual-System Architecture
 
@@ -1128,9 +1132,9 @@ class BarenholtzCore:
     """
 
     def __init__(
-        self,
-        processing_mode: DualSystemMode = DualSystemMode.ADAPTIVE,
-        alignment_method: AlignmentMethod = AlignmentMethod.ENSEMBLE_ALIGNMENT,
+        self
+        processing_mode: DualSystemMode = DualSystemMode.ADAPTIVE
+        alignment_method: AlignmentMethod = AlignmentMethod.ENSEMBLE_ALIGNMENT
     ):
         """
         Initialize Barenholtz Core
@@ -1165,10 +1169,10 @@ class BarenholtzCore:
         logger.info(f"   Alignment method: {alignment_method.value}")
 
     def register_integration_components(
-        self,
-        cognitive_field_dynamics: Any = None,
-        embodied_engine: Any = None,
-        spde_core: Any = None,
+        self
+        cognitive_field_dynamics: Any = None
+        embodied_engine: Any = None
+        spde_core: Any = None
     ):
         """Register integration components for enhanced processing"""
         self.cognitive_field_dynamics = cognitive_field_dynamics
@@ -1202,19 +1206,19 @@ class BarenholtzCore:
         # Trigger integration callbacks
         await self._trigger_integration_callbacks(
             {
-                "result": result,
-                "content": content,
-                "context": context,
-                "integration_count": self.total_integrations,
+                "result": result
+                "content": content
+                "context": context
+                "integration_count": self.total_integrations
             }
         )
 
         return result
 
     async def _enhance_with_integration(
-        self,
-        base_result: DualSystemResult,
-        content: str,
+        self
+        base_result: DualSystemResult
+        content: str
         context: Optional[Dict[str, Any]],
     ) -> DualSystemResult:
         """Enhance result with integrated components"""
@@ -1257,9 +1261,9 @@ class BarenholtzCore:
         """Integrate with cognitive field dynamics"""
         # Placeholder for cognitive field integration
         return {
-            "field_coherence": 0.8,
-            "field_dynamics_score": 0.75,
-            "integration_success": True,
+            "field_coherence": 0.8
+            "field_dynamics_score": 0.75
+            "integration_success": True
         }
 
     async def _integrate_with_embodied_semantics(
@@ -1268,9 +1272,9 @@ class BarenholtzCore:
         """Integrate with embodied semantic engine"""
         # Placeholder for embodied semantics integration
         return {
-            "embodied_grounding": 0.7,
-            "semantic_coherence": 0.8,
-            "integration_success": True,
+            "embodied_grounding": 0.7
+            "semantic_coherence": 0.8
+            "integration_success": True
         }
 
     async def _integrate_with_spde(
@@ -1279,9 +1283,9 @@ class BarenholtzCore:
         """Integrate with SPDE core"""
         # Placeholder for SPDE integration
         return {
-            "diffusion_coherence": 0.75,
-            "semantic_evolution": 0.8,
-            "integration_success": True,
+            "diffusion_coherence": 0.75
+            "semantic_evolution": 0.8
+            "integration_success": True
         }
 
     async def _calculate_enhanced_optimization(self, result: DualSystemResult) -> float:
@@ -1321,12 +1325,12 @@ class BarenholtzCore:
         status = self.dual_processor.get_system_status()
         status.update(
             {
-                "total_integrations": self.total_integrations,
+                "total_integrations": self.total_integrations
                 "integration_components": {
                     "cognitive_field_dynamics": self.cognitive_field_dynamics
-                    is not None,
-                    "embodied_engine": self.embodied_engine is not None,
-                    "spde_core": self.spde_core is not None,
+                    is not None
+                    "embodied_engine": self.embodied_engine is not None
+                    "spde_core": self.spde_core is not None
                 },
                 "active_processes": len(self.active_processes),
             }

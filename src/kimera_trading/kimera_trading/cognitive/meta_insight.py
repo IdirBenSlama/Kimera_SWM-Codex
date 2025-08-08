@@ -1,4 +1,6 @@
 class MetaInsightGenerator:
+    """Auto-generated class."""
+    pass
     """
     Generates trading strategies through meta-cognitive insights.
 

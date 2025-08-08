@@ -18,38 +18,42 @@ from typing import Any, AsyncIterator, Dict, List
 
 # Conceptual imports - these would link to real monitoring and GPU systems
 try:
-    from src.utils.gpu_foundation import (
-        GPUFoundation as GPUThermodynamicIntegrator,  # Available alternative
-    )
+    from src.utils.gpu_foundation import \
+        GPUFoundation as GPUThermodynamicIntegrator  # Available alternative
 except ImportError:
     # Mock integrator for demonstration
-    class GPUThermodynamicIntegrator:
+class GPUThermodynamicIntegrator:
+    """Auto-generated class."""
+    pass
         def get_current_gpu_temperature(self):
             return 65.0  # Mock temperature
 
 
 try:
-    from src.engines.thermodynamic_signal_evolution import (
-        ThermodynamicSignalEvolutionEngine,
-    )
+    from src.core.thermodynamic.thermodynamic_signal_evolution import \
+        ThermodynamicSignalEvolutionEngine
 
     # Remove the SignalEvolutionResult import since we've defined it locally
 except ImportError:
     # Mock engine for demonstration
-    class ThermodynamicSignalEvolutionEngine:
+class ThermodynamicSignalEvolutionEngine:
+    """Auto-generated class."""
+    pass
         def process_geoid_batch(self, geoids):
             return []
 
 
 from src.config.settings import get_settings
-from src.core.geoid import GeoidState
-from src.utils.config import get_api_settings
+from src.core.primitives.geoid import GeoidState
+from src.utils.robust_config import get_api_settings
 
 logger = logging.getLogger(__name__)
 
 
 @dataclass
 class GeoidStreamProcessor:
+    """Auto-generated class."""
+    pass
     """Processor for GeoidState streams with performance metrics"""
 
     processed_count: int = 0
@@ -60,6 +64,8 @@ class GeoidStreamProcessor:
 
 @dataclass
 class SignalEvolutionResult:
+    """Auto-generated class."""
+    pass
     """Result of signal evolution processing"""
 
     geoid_state: Any  # GeoidState after evolution
@@ -77,18 +83,18 @@ __all__ = [
     "SignalEvolutionResult",
     "GeoidStreamProcessor",
 ]
-
-
 class ThermalBudgetSignalController:
+    """Auto-generated class."""
+    pass
     """
     Adjusts the signal evolution rate based on the available GPU thermal budget.
     This prevents overheating and ensures system stability under heavy load.
     """
 
     def __init__(
-        self,
-        gpu_integrator: GPUThermodynamicIntegrator,
-        thermal_budget_threshold_c: float = 75.0,
+        self
+        gpu_integrator: GPUThermodynamicIntegrator
+        thermal_budget_threshold_c: float = 75.0
     ):
         self.settings = get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
@@ -123,19 +129,19 @@ class ThermalBudgetSignalController:
                 f"GPU temperature {current_temp}°C exceeds threshold. Halting evolution."
             )
             return 0.0
-
-
 class RealTimeSignalEvolutionEngine:
+    """Auto-generated class."""
+    pass
     """
     Processes a stream of GeoidStates in real-time, applying thermodynamic
     signal evolution in batches and adapting to system load.
     """
 
     def __init__(
-        self,
-        tcse_engine: ThermodynamicSignalEvolutionEngine,
-        thermal_controller: ThermalBudgetSignalController,
-        batch_size: int = 32,
+        self
+        tcse_engine: ThermodynamicSignalEvolutionEngine
+        thermal_controller: ThermalBudgetSignalController
+        batch_size: int = 32
     ):
         self.settings = get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
@@ -187,11 +193,11 @@ class RealTimeSignalEvolutionEngine:
             # If evolution is halted, return failure results for the batch.
             return [
                 SignalEvolutionResult(
-                    g.geoid_id,
-                    False,
+                    g.geoid_id
+                    False
                     g.calculate_entropy(),
                     g.calculate_entropy(),
-                    0,
+                    0
                     "Evolution halted due to thermal constraints.",
                 )
                 for g in geoid_batch

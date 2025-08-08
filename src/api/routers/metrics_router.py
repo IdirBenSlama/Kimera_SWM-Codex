@@ -19,6 +19,7 @@ except ImportError:
     except ImportError:
         # Create placeholders for utils.gpu_foundation
         class GPUFoundation:
+            """Auto-generated class."""
             pass
 
 
@@ -30,6 +31,7 @@ except ImportError:
     except ImportError:
         # Create placeholders for vault.vault_manager
         class VaultManager:
+            """Auto-generated class."""
             pass
 
 

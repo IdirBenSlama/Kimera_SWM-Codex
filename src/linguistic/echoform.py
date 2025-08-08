@@ -1,4 +1,4 @@
-"""Minimal EchoForm parser with quoting and basic atom types.
+"""Minimal EchoForm parser with quoting and basic atom types."""
 
 This module provides :func:`parse_echoform` to transform a text string written
 in a small subset of EchoForm into a nested list representation.  The syntax
@@ -102,7 +102,7 @@ def _parse_tokens(tokens: List[str], pos: int = 0) -> Tuple[List[Any], int]:
 
 
 def parse_echoform(text: str) -> List:
-    """Parse a string of EchoForm into a nested list structure.
+    """Parse a string of EchoForm into a nested list structure."""
 
     Parameters
     ----------

@@ -22,19 +22,19 @@ from typing import Any, Dict, List, Optional, Tuple
 import numpy as np
 import torch
 
-from src.core.geoid import GeoidState
+from src.core.primitives.geoid import GeoidState
 from src.monitoring.entropy_monitor import EntropyMonitor
-from src.monitoring.thermodynamic_analyzer import (
-    ThermodynamicAnalyzer,
-    ThermodynamicState,
-)
-from src.utils.config import get_api_settings
+from src.monitoring.thermodynamic_analyzer import (ThermodynamicAnalyzer
+                                                   ThermodynamicState)
+from src.utils.robust_config import get_api_settings
 
 logger = logging.getLogger(__name__)
 
 
 @dataclass
 class GPUThermodynamicState:
+    """Auto-generated class."""
+    pass
     """GPU state analyzed through thermodynamic principles"""
 
     timestamp: datetime
@@ -68,9 +68,9 @@ class GPUThermodynamicState:
     recommended_adjustments: Dict[str, float]
 
     metadata: Dict[str, Any] = field(default_factory=dict)
-
-
 class GPUThermodynamicIntegrator:
+    """Auto-generated class."""
+    pass
     """
     Revolutionary GPU optimization using Kimera's thermodynamic principles
 
@@ -80,7 +80,13 @@ class GPUThermodynamicIntegrator:
     """
 
     def __init__(self, history_size: int = 1000):
-        self.settings = get_api_settings()
+        try:
+            self.settings = get_api_settings()
+        except Exception as e:
+            logger.warning(f"API settings loading failed: {e}. Using safe fallback.")
+            from ..utils.robust_config import safe_get_api_settings
+
+            self.settings = safe_get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
         self.history_size = history_size
         self.gpu_thermo_states: deque = deque(maxlen=history_size)
@@ -145,21 +151,21 @@ class GPUThermodynamicIntegrator:
         except Exception as e:
             self.logger.warning(f"GPU metrics collection failed: {e}")
             return {
-                "gpu_temperature_celsius": 0.0,
-                "gpu_power_watts": 0.0,
-                "gpu_utilization_percent": 0.0,
-                "memory_utilization_percent": 0.0,
-                "memory_used_mb": 0.0,
-                "clock_graphics_mhz": 0.0,
-                "clock_memory_mhz": 0.0,
+                "gpu_temperature_celsius": 0.0
+                "gpu_power_watts": 0.0
+                "gpu_utilization_percent": 0.0
+                "memory_utilization_percent": 0.0
+                "memory_used_mb": 0.0
+                "clock_graphics_mhz": 0.0
+                "clock_memory_mhz": 0.0
                 "timestamp": time.time(),
             }
 
     def analyze_gpu_thermodynamics(
-        self,
+        self
         gpu_metrics: Dict[str, Any],
         geoids: List[GeoidState],
-        performance_rate: float,
+        performance_rate: float
     ) -> GPUThermodynamicState:
         """
         Apply Kimera's thermodynamic principles to GPU performance analysis
@@ -220,7 +226,7 @@ class GPUThermodynamicIntegrator:
         )
 
         state = GPUThermodynamicState(
-            timestamp=timestamp,
+            timestamp=timestamp
             gpu_temperature_celsius=gpu_metrics["gpu_temperature_celsius"],
             gpu_power_watts=gpu_metrics["gpu_power_watts"],
             gpu_utilization_percent=gpu_metrics["gpu_utilization_percent"],
@@ -228,23 +234,23 @@ class GPUThermodynamicIntegrator:
             memory_used_mb=gpu_metrics["memory_used_mb"],
             clock_graphics_mhz=gpu_metrics["clock_graphics_mhz"],
             clock_memory_mhz=gpu_metrics["clock_memory_mhz"],
-            thermal_entropy=thermal_entropy,
-            computational_work=computational_work,
-            power_efficiency=power_efficiency,
-            thermal_efficiency=thermal_efficiency,
-            free_energy=free_energy,
+            thermal_entropy=thermal_entropy
+            computational_work=computational_work
+            power_efficiency=power_efficiency
+            thermal_efficiency=thermal_efficiency
+            free_energy=free_energy
             cognitive_field_count=len(geoids),
-            cognitive_entropy=cognitive_entropy,
-            semantic_temperature=kimera_thermo.temperature,
-            semantic_pressure=kimera_thermo.pressure,
-            entropy_production_rate=entropy_production_rate,
-            reversibility_index=reversibility_index,
-            optimization_potential=optimization_potential,
-            recommended_adjustments=recommended_adjustments,
+            cognitive_entropy=cognitive_entropy
+            semantic_temperature=kimera_thermo.temperature
+            semantic_pressure=kimera_thermo.pressure
+            entropy_production_rate=entropy_production_rate
+            reversibility_index=reversibility_index
+            optimization_potential=optimization_potential
+            recommended_adjustments=recommended_adjustments
             metadata={
-                "kimera_thermodynamic_state": kimera_thermo,
-                "performance_rate": performance_rate,
-                "gpu_metrics_raw": gpu_metrics,
+                "kimera_thermodynamic_state": kimera_thermo
+                "performance_rate": performance_rate
+                "gpu_metrics_raw": gpu_metrics
             },
         )
 
@@ -275,9 +281,9 @@ class GPUThermodynamicIntegrator:
         return float(thermal_entropy)
 
     def _calculate_entropy_production_rate(
-        self,
-        thermal_entropy: float,
-        cognitive_entropy: float,
+        self
+        thermal_entropy: float
+        cognitive_entropy: float
         gpu_metrics: Dict[str, Any],
     ) -> float:
         """
@@ -305,11 +311,11 @@ class GPUThermodynamicIntegrator:
         return float(total_entropy_production)
 
     def _calculate_optimization_potential(
-        self,
+        self
         gpu_metrics: Dict[str, Any],
-        performance_rate: float,
-        thermal_entropy: float,
-        cognitive_entropy: float,
+        performance_rate: float
+        thermal_entropy: float
+        cognitive_entropy: float
     ) -> float:
         """
         Calculate optimization potential using thermodynamic principles
@@ -353,11 +359,11 @@ class GPUThermodynamicIntegrator:
         return min(total_potential, 1.0)
 
     def _generate_thermodynamic_recommendations(
-        self,
+        self
         gpu_metrics: Dict[str, Any],
-        thermal_entropy: float,
-        cognitive_entropy: float,
-        optimization_potential: float,
+        thermal_entropy: float
+        cognitive_entropy: float
+        optimization_potential: float
     ) -> Dict[str, float]:
         """
         Generate GPU optimization recommendations based on thermodynamic analysis
@@ -444,12 +450,12 @@ class GPUThermodynamicIntegrator:
 
         return {
             "thermodynamic_analysis": {
-                "average_thermal_entropy": avg_thermal_entropy,
-                "average_cognitive_entropy": avg_cognitive_entropy,
+                "average_thermal_entropy": avg_thermal_entropy
+                "average_cognitive_entropy": avg_cognitive_entropy
                 "entropy_balance_ratio": avg_thermal_entropy
                 / max(avg_cognitive_entropy, 0.1),
-                "average_optimization_potential": avg_optimization_potential,
-                "average_reversibility_index": avg_reversibility,
+                "average_optimization_potential": avg_optimization_potential
+                "average_reversibility_index": avg_reversibility
                 "thermodynamic_efficiency": avg_reversibility
                 * (1.0 - avg_optimization_potential),
             },
@@ -470,7 +476,7 @@ class GPUThermodynamicIntegrator:
                     else "stable"
                 ),
             },
-            "master_recommendations": master_recommendations,
+            "master_recommendations": master_recommendations
             "optimization_strategy": self._generate_optimization_strategy(
                 master_recommendations, avg_optimization_potential
             ),
@@ -485,7 +491,7 @@ class GPUThermodynamicIntegrator:
                 ),
                 "semantic_temperature_correlation": "analyzing...",
                 "thermodynamic_learning_potential": avg_optimization_potential
-                * avg_reversibility,
+                * avg_reversibility
             },
         }
 
@@ -541,17 +547,17 @@ class GPUThermodynamicIntegrator:
             "thermodynamic_states": [
                 {
                     "timestamp": state.timestamp.isoformat(),
-                    "thermal_entropy": state.thermal_entropy,
-                    "cognitive_entropy": state.cognitive_entropy,
-                    "optimization_potential": state.optimization_potential,
-                    "power_efficiency": state.power_efficiency,
-                    "thermal_efficiency": state.thermal_efficiency,
+                    "thermal_entropy": state.thermal_entropy
+                    "cognitive_entropy": state.cognitive_entropy
+                    "optimization_potential": state.optimization_potential
+                    "power_efficiency": state.power_efficiency
+                    "thermal_efficiency": state.thermal_efficiency
                     "gpu_metrics": {
-                        "temperature": state.gpu_temperature_celsius,
-                        "power": state.gpu_power_watts,
-                        "utilization": state.gpu_utilization_percent,
+                        "temperature": state.gpu_temperature_celsius
+                        "power": state.gpu_power_watts
+                        "utilization": state.gpu_utilization_percent
                     },
-                    "recommendations": state.recommended_adjustments,
+                    "recommendations": state.recommended_adjustments
                 }
                 for state in list(self.gpu_thermo_states)
             ],

@@ -13,9 +13,9 @@ from typing import Any, Dict, Optional
 import psutil
 
 logger = logging.getLogger(__name__)
-
-
 class SystemHealthMonitor:
+    """Auto-generated class."""
+    pass
     """Monitor system health metrics."""
 
     def __init__(self):

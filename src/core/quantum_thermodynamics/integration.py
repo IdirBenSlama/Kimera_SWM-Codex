@@ -34,10 +34,8 @@ import numpy as np
 import torch
 
 # KIMERA core imports
-from src.core.constants import (
-    DO_178C_LEVEL_A_SAFETY_LEVEL,
-    DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD,
-)
+from src.core.primitives.constants import (DO_178C_LEVEL_A_SAFETY_LEVEL
+                                           DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD)
 from src.utilities.health_status import HealthStatus, get_system_uptime
 from src.utilities.performance_metrics import PerformanceMetrics
 from src.utilities.safety_assessment import SafetyAssessment
@@ -45,18 +43,13 @@ from src.utilities.system_recommendations import SystemRecommendations
 
 # Import the core quantum thermodynamics components
 from .signal_processing.quantum_thermodynamic_signal_processor import (
-    CorrectionResult,
-    QuantumSignalSuperposition,
-    QuantumThermodynamicSignalProcessor,
-    SignalDecoherenceController,
-)
-from .truth_monitoring.quantum_truth_monitor import (
-    ClaimTruthEvolution,
-    QuantumMeasurement,
-    QuantumTruthMonitor,
-    QuantumTruthState,
-    TruthMonitoringResult,
-)
+    CorrectionResult, QuantumSignalSuperposition, QuantumThermodynamicSignalProcessor
+    SignalDecoherenceController)
+from .truth_monitoring.quantum_truth_monitor import (ClaimTruthEvolution
+                                                     QuantumMeasurement
+                                                     QuantumTruthMonitor
+                                                     QuantumTruthState
+                                                     TruthMonitoringResult)
 
 # Configure aerospace-grade logging
 logger = logging.getLogger(__name__)
@@ -80,9 +73,9 @@ class TruthMonitoringMode(Enum):
     CONTINUOUS_MONITORING = "continuous_monitoring"
     EPISTEMIC_VALIDATION = "epistemic_validation"
     SAFETY_CRITICAL = "safety_critical"
-
-
 class QuantumThermodynamicsIntegrator:
+    """Auto-generated class."""
+    pass
     """
     DO-178C Level A Quantum Thermodynamics Integration System
 
@@ -106,12 +99,12 @@ class QuantumThermodynamicsIntegrator:
         return cls._instance
 
     def __init__(
-        self,
-        measurement_interval: int = 50,
-        coherence_threshold: float = 0.7,
-        max_signals: int = 1000,
-        max_claims: int = 1000,
-        adaptive_mode: bool = True,
+        self
+        measurement_interval: int = 50
+        coherence_threshold: float = 0.7
+        max_signals: int = 1000
+        max_claims: int = 1000
+        adaptive_mode: bool = True
         safety_level: str = "catastrophic",
     ):
         """
@@ -183,7 +176,8 @@ class QuantumThermodynamicsIntegrator:
         """Initialize quantum thermodynamic signal processor with safety validation"""
         try:
             # Create a mock quantum engine for now since we need it as dependency
-            from src.engines.quantum_cognitive_engine import QuantumCognitiveEngine
+            from src.core.quantum_and_privacy.quantum_cognitive_engine import \
+                QuantumCognitiveEngine
 
             quantum_engine = QuantumCognitiveEngine(num_qubits=4)
 
@@ -197,10 +191,10 @@ class QuantumThermodynamicsIntegrator:
         """Initialize quantum truth monitor with safety validation"""
         try:
             self.truth_monitor = QuantumTruthMonitor(
-                measurement_interval=self.measurement_interval,
-                coherence_threshold=self.coherence_threshold,
-                decoherence_alerts=True,
-                max_claims=self.max_claims,
+                measurement_interval=self.measurement_interval
+                coherence_threshold=self.coherence_threshold
+                decoherence_alerts=True
+                max_claims=self.max_claims
             )
             logger.info("✅ Quantum Truth Monitor initialized")
         except Exception as e:
@@ -231,7 +225,7 @@ class QuantumThermodynamicsIntegrator:
             (
                 "measurement_interval_valid",
                 isinstance(self.measurement_interval, int)
-                and self.measurement_interval > 0,
+                and self.measurement_interval > 0
             )
         )
         safety_checks.append(
@@ -246,9 +240,9 @@ class QuantumThermodynamicsIntegrator:
         logger.info("✅ Integration safety validation completed successfully")
 
     def process_thermodynamic_signals(
-        self,
+        self
         signal_data: Dict[str, Any],
-        processing_mode: SignalProcessingMode = SignalProcessingMode.STANDARD,
+        processing_mode: SignalProcessingMode = SignalProcessingMode.STANDARD
     ) -> Optional[QuantumSignalSuperposition]:
         """
         Process quantum thermodynamic signals with DO-178C Level A safety monitoring
@@ -299,9 +293,9 @@ class QuantumThermodynamicsIntegrator:
             return None
 
     def monitor_truth_claims(
-        self,
+        self
         claims: List[Dict[str, str]],
-        monitoring_mode: TruthMonitoringMode = TruthMonitoringMode.REAL_TIME,
+        monitoring_mode: TruthMonitoringMode = TruthMonitoringMode.REAL_TIME
     ) -> List[TruthMonitoringResult]:
         """
         Monitor truth claims with quantum superposition analysis
@@ -334,14 +328,14 @@ class QuantumThermodynamicsIntegrator:
 
                 # Mock truth monitoring result for demonstration
                 result = TruthMonitoringResult(
-                    claim_id=claim_id,
-                    truth_state=QuantumTruthState.TRUE_SUPERPOSITION,
-                    probability_true=0.75,
-                    probability_false=0.25,
-                    coherence_measure=self.coherence_threshold + 0.1,
+                    claim_id=claim_id
+                    truth_state=QuantumTruthState.TRUE_SUPERPOSITION
+                    probability_true=0.75
+                    probability_false=0.25
+                    coherence_measure=self.coherence_threshold + 0.1
                     measurement_timestamp=datetime.now(timezone.utc),
-                    epistemic_uncertainty=0.15,
-                    monitoring_successful=True,
+                    epistemic_uncertainty=0.15
+                    monitoring_successful=True
                 )
                 results.append(result)
 
@@ -364,11 +358,11 @@ class QuantumThermodynamicsIntegrator:
             return []
 
     def perform_integrated_quantum_thermodynamics_analysis(
-        self,
+        self
         signal_data: Dict[str, Any],
         claims: List[Dict[str, str]],
-        signal_mode: SignalProcessingMode = SignalProcessingMode.STANDARD,
-        truth_mode: TruthMonitoringMode = TruthMonitoringMode.REAL_TIME,
+        signal_mode: SignalProcessingMode = SignalProcessingMode.STANDARD
+        truth_mode: TruthMonitoringMode = TruthMonitoringMode.REAL_TIME
     ) -> Dict[str, Any]:
         """
         Perform integrated quantum thermodynamics analysis combining signal processing and truth monitoring
@@ -401,13 +395,13 @@ class QuantumThermodynamicsIntegrator:
 
             # Combine results
             integrated_results = {
-                "signal_processing_result": signal_result,
-                "truth_monitoring_results": truth_results,
-                "processing_time_ms": total_time * 1000,
+                "signal_processing_result": signal_result
+                "truth_monitoring_results": truth_results
+                "processing_time_ms": total_time * 1000
                 "timestamp": datetime.now(timezone.utc),
-                "safety_validated": True,
+                "safety_validated": True
                 "integration_successful": signal_result is not None
-                and len(truth_results) > 0,
+                and len(truth_results) > 0
             }
 
             logger.info(f"✅ Integrated analysis completed in {total_time*1000:.2f}ms")
@@ -421,12 +415,12 @@ class QuantumThermodynamicsIntegrator:
         except Exception as e:
             logger.error(f"❌ Integrated analysis failed: {e}")
             return {
-                "signal_processing_result": None,
+                "signal_processing_result": None
                 "truth_monitoring_results": [],
-                "processing_time_ms": 0,
+                "processing_time_ms": 0
                 "timestamp": datetime.now(timezone.utc),
-                "safety_validated": False,
-                "integration_successful": False,
+                "safety_validated": False
+                "integration_successful": False
                 "error": str(e),
             }
 
@@ -483,8 +477,8 @@ class QuantumThermodynamicsIntegrator:
         # Component status
         component_status = {
             "signal_processor": {
-                "available": self.signal_processor is not None,
-                "coherence_threshold": self.coherence_threshold,
+                "available": self.signal_processor is not None
+                "coherence_threshold": self.coherence_threshold
                 "status": (
                     "operational"
                     if self.signal_processor is not None
@@ -492,8 +486,8 @@ class QuantumThermodynamicsIntegrator:
                 ),
             },
             "truth_monitor": {
-                "available": self.truth_monitor is not None,
-                "measurement_interval": self.measurement_interval,
+                "available": self.truth_monitor is not None
+                "measurement_interval": self.measurement_interval
                 "status": (
                     "operational" if self.truth_monitor is not None else "unavailable"
                 ),
@@ -581,12 +575,12 @@ class QuantumThermodynamicsIntegrator:
         return {
             "module": "QuantumThermodynamicsIntegrator",
             "version": "1.0.0",
-            "safety_level": self.safety_level,
-            "health_status": self.health_status.value,
-            "uptime_seconds": uptime,
-            "component_status": component_status,
-            "performance_metrics": performance_metrics.__dict__,
-            "safety_assessment": safety_assessment.__dict__,
+            "safety_level": self.safety_level
+            "health_status": self.health_status.value
+            "uptime_seconds": uptime
+            "component_status": component_status
+            "performance_metrics": performance_metrics.__dict__
+            "safety_assessment": safety_assessment.__dict__
             "recommendations": recommendations.get_recommendations(),
             "last_updated": datetime.now(timezone.utc).isoformat(),
         }
@@ -594,14 +588,14 @@ class QuantumThermodynamicsIntegrator:
     def get_integration_metrics(self) -> Dict[str, Any]:
         """Get integration-specific metrics for monitoring"""
         return {
-            "total_operations": self.operations_count,
-            "successful_operations": self.success_count,
-            "failed_operations": self.failure_count,
-            "safety_interventions": self.safety_interventions,
+            "total_operations": self.operations_count
+            "successful_operations": self.success_count
+            "failed_operations": self.failure_count
+            "safety_interventions": self.safety_interventions
             "success_rate": self.success_count / max(self.operations_count, 1),
             "component_availability": {
-                "signal_processor": self.signal_processor is not None,
-                "truth_monitor": self.truth_monitor is not None,
+                "signal_processor": self.signal_processor is not None
+                "truth_monitor": self.truth_monitor is not None
             },
             "system_uptime": get_system_uptime(),
             "last_health_check": self.last_health_check.isoformat(),
@@ -609,11 +603,11 @@ class QuantumThermodynamicsIntegrator:
 
 
 def create_quantum_thermodynamics_integrator(
-    measurement_interval: int = 50,
-    coherence_threshold: float = 0.7,
-    max_signals: int = 1000,
-    max_claims: int = 1000,
-    adaptive_mode: bool = True,
+    measurement_interval: int = 50
+    coherence_threshold: float = 0.7
+    max_signals: int = 1000
+    max_claims: int = 1000
+    adaptive_mode: bool = True
     safety_level: str = "catastrophic",
 ) -> QuantumThermodynamicsIntegrator:
     """
@@ -633,10 +627,10 @@ def create_quantum_thermodynamics_integrator(
     logger.info("🏗️ Creating DO-178C Level A Quantum Thermodynamics Integrator...")
 
     return QuantumThermodynamicsIntegrator(
-        measurement_interval=measurement_interval,
-        coherence_threshold=coherence_threshold,
-        max_signals=max_signals,
-        max_claims=max_claims,
-        adaptive_mode=adaptive_mode,
-        safety_level=safety_level,
+        measurement_interval=measurement_interval
+        coherence_threshold=coherence_threshold
+        max_signals=max_signals
+        max_claims=max_claims
+        adaptive_mode=adaptive_mode
+        safety_level=safety_level
     )

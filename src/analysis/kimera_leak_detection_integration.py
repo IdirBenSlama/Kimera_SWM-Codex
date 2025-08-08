@@ -28,12 +28,10 @@ try:
     from ..engines.gpu_memory_pool import get_global_memory_pool
     from ..engines.optimized_contradiction_engine import OptimizedContradictionEngine
     from ..trading.core.ultra_low_latency_engine import UltraLowLatencyEngine
-    from .kimera_memory_leak_guardian import (
-        KimeraMemoryLeakGuardian,
-        analyze_for_leaks,
-        get_memory_leak_guardian,
-        track_memory_block,
-    )
+    from .kimera_memory_leak_guardian import (KimeraMemoryLeakGuardian,
+                                              analyze_for_leaks,
+                                              get_memory_leak_guardian,
+                                              track_memory_block)
 
     HAS_KIMERA_COMPONENTS = True
 except ImportError as e:
@@ -43,6 +41,8 @@ except ImportError as e:
 
 @dataclass
 class ComponentHealthMetrics:
+    """Auto-generated class."""
+    pass
     """Health metrics for Kimera components"""
 
     component_name: str
@@ -56,6 +56,8 @@ class ComponentHealthMetrics:
 
 @dataclass
 class SystemOptimizationResult:
+    """Auto-generated class."""
+    pass
     """Result of system-wide optimization"""
 
     optimization_type: str
@@ -64,9 +66,9 @@ class SystemOptimizationResult:
     leaks_fixed: int
     execution_time_ms: float
     success: bool
-
-
 class KimeraLeakDetectionIntegrator:
+    """Auto-generated class."""
+    pass
     """
     Integration layer for memory leak detection in Kimera system
 

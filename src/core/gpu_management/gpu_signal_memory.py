@@ -20,20 +20,26 @@ import cupy as cp
 import torch
 
 from src.config.settings import get_settings
-from src.core.cognitive_field_dynamics import SemanticField
-from src.utils.config import get_api_settings
+from src.core.cognitive.cognitive_field_dynamics import SemanticField
 from src.utils.gpu_foundation import GPUFoundation
+from src.utils.robust_config import get_api_settings
 
 logger = logging.getLogger(__name__)
-
-
 class GPUBufferPool:
+    """Auto-generated class."""
+    pass
     """A simple memory pool for reusing GPU buffers to reduce allocation overhead."""
 
     def __init__(
         self, initial_size=10, buffer_size_bytes=1024 * 1024
     ):  # Default 1MB buffers
-        self.settings = get_api_settings()
+        try:
+            self.settings = get_api_settings()
+        except Exception as e:
+            logger.warning(f"API settings loading failed: {e}. Using safe fallback.")
+            from ..utils.robust_config import safe_get_api_settings
+
+            self.settings = safe_get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
         self.pool = deque(maxlen=initial_size)
         self.buffer_size = buffer_size_bytes
@@ -52,9 +58,9 @@ class GPUBufferPool:
     def deallocate(self, buffer: cp.ndarray):
         """Return a buffer to the pool."""
         self.pool.append(buffer)
-
-
 class SignalEnhancedField:
+    """Auto-generated class."""
+    pass
     """
     Links a base SemanticField to its TCSE signal properties stored on the GPU.
     This structure avoids data duplication by referencing the base field's embedding
@@ -62,7 +68,13 @@ class SignalEnhancedField:
     """
 
     def __init__(self, base_field: SemanticField, signal_properties_buffer: cp.ndarray):
-        self.settings = get_api_settings()
+        try:
+            self.settings = get_api_settings()
+        except Exception as e:
+            logger.warning(f"API settings loading failed: {e}. Using safe fallback.")
+            from ..utils.robust_config import safe_get_api_settings
+
+            self.settings = safe_get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
         self.base_field = base_field
         self.signal_properties = signal_properties_buffer
@@ -76,16 +88,22 @@ class SignalEnhancedField:
     @property
     def embedding(self):
         return self.base_field.embedding
-
-
 class GPUSignalMemoryManager:
+    """Auto-generated class."""
+    pass
     """
-    Manages the allocation and lifecycle of signal-enhanced fields on the GPU,
+    Manages the allocation and lifecycle of signal-enhanced fields on the GPU
     focusing on memory efficiency.
     """
 
     def __init__(self, gpu_foundation: GPUFoundation):
-        self.settings = get_api_settings()
+        try:
+            self.settings = get_api_settings()
+        except Exception as e:
+            logger.warning(f"API settings loading failed: {e}. Using safe fallback.")
+            from ..utils.robust_config import safe_get_api_settings
+
+            self.settings = safe_get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
         self.gpu_foundation = gpu_foundation
         self.signal_buffer_pool = GPUBufferPool()
@@ -132,6 +150,6 @@ class GPUSignalMemoryManager:
         """Return memory management statistics."""
         return {
             "managed_fields_count": len(self.managed_fields),
-            "total_memory_overhead_bytes": self.total_memory_overhead,
+            "total_memory_overhead_bytes": self.total_memory_overhead
             "buffer_pool_size": len(self.signal_buffer_pool.pool),
         }

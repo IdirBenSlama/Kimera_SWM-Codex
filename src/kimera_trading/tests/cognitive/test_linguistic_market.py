@@ -1,9 +1,9 @@
 import pytest
 
 from kimera_trading.cognitive.linguistic_market import LinguisticMarketAnalyzer
-
-
 class MockKimeraCognitiveBridge:
+    """Auto-generated class."""
+    pass
     async def analyze_market_linguistically(self, market_data):
         return {"sentiment": 0.6, "insights": ["Market is bullish"]}
 

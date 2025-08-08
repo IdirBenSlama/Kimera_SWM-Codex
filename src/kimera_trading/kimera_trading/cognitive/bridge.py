@@ -1,4 +1,6 @@
 class KimeraCognitiveBridge:
+    """Auto-generated class."""
+    pass
     """
     Deep integration bridge to KIMERA's cognitive architecture.
 

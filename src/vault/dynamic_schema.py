@@ -10,22 +10,8 @@ import logging
 import uuid
 from datetime import datetime
 
-from sqlalchemy import (
-    JSON,
-    Boolean,
-    Column,
-    DateTime,
-    Float,
-    ForeignKey,
-    Index,
-    Integer,
-    MetaData,
-    String,
-    Table,
-    Text,
-    func,
-    text,
-)
+from sqlalchemy import (JSON, Boolean, Column, DateTime, Float, ForeignKey, Index,
+                        Integer, MetaData, String, Table, Text, func, text)
 from sqlalchemy.dialects.postgresql import ARRAY, JSONB, UUID
 
 logger = logging.getLogger(__name__)

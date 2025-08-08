@@ -26,7 +26,7 @@ class PhysicalState(Enum):
 @dataclass
 class PhysicalProperties:
     """Physical properties of a concept"""
-
+    
     mass: Optional[float] = None  # kg
     volume: Optional[float] = None  # m³
     density: Optional[float] = None  # kg/m³
@@ -45,6 +45,8 @@ class PhysicalProperties:
 
 @dataclass
 class PhysicalInteraction:
+    """Auto-generated class."""
+    pass
     """Represents physical interaction between concepts"""
 
     interaction_type: str  # collision, attraction, repulsion, etc.
@@ -56,6 +58,8 @@ class PhysicalInteraction:
 
 @dataclass
 class PhysicalConstraint:
+    """Auto-generated class."""
+    pass
     """Physical constraint on a concept"""
 
     constraint_type: str  # gravity, friction, inertia, etc.
@@ -66,9 +70,9 @@ class PhysicalConstraint:
     def __post_init__(self):
         if self.parameters is None:
             self.parameters = {}
-
-
 class PhysicalGroundingSystem:
+    """Auto-generated class."""
+    pass
     """
     System for grounding concepts in physical reality.
     Maps abstract concepts to physical properties and constraints.

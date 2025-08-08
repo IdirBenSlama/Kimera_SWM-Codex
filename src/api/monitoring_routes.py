@@ -2,7 +2,7 @@
 Kimera SWM - Monitoring API Routes
 =================================
 
-Comprehensive API endpoints for accessing real-time monitoring data,
+Comprehensive API endpoints for accessing real-time monitoring data
 metrics, alerts, and system status.
 """
 
@@ -23,12 +23,10 @@ from ..layer_2_governance.monitoring import (
     get_monitoring_core,
 )
 from ..layer_2_governance.monitoring.kimera_prometheus_metrics import (
-    get_kimera_metrics,
-    get_metrics_content_type,
-)
+    get_kimera_metrics, get_metrics_content_type)
 from ..layer_2_governance.monitoring.metrics_integration import get_integration_manager
-from ..utils.config import get_api_settings
 from ..utils.debug_utils import get_thread_info
+from ..utils.robust_config import get_api_settings
 
 
 # Response models
@@ -190,7 +188,7 @@ async def get_system_status():
     """
     Get comprehensive system monitoring status
 
-    Returns detailed information about the monitoring system state,
+    Returns detailed information about the monitoring system state
     including running tasks, alerts, and capabilities.
     """
 
@@ -214,7 +212,7 @@ async def get_metrics_summary():
     """
     Get summary of all collected metrics
 
-    Returns aggregated metrics data including current values,
+    Returns aggregated metrics data including current values
     averages, minimums, and maximums.
     """
 
@@ -277,7 +275,7 @@ async def get_kimera_metrics(
     """
     Get Kimera-specific metrics
 
-    Returns cognitive architecture metrics including geoids, scars,
+    Returns cognitive architecture metrics including geoids, scars
     contradictions, and selective feedback data.
     """
 
@@ -532,24 +530,24 @@ async def get_anomaly_detection_results(
     ]
 
     return {
-        "timestamp": datetime.now().isoformat(),
-        "anomaly_detection_enabled": True,
-        "time_range_hours": last_hours,
-        "detected_anomalies": [
-            {
-                "id": alert.id,
-                "timestamp": alert.timestamp.isoformat(),
-                "score": alert.value,
-                "threshold": alert.threshold,
-                "context": alert.context,
-            }
-            for alert in anomaly_alerts
-        ],
-        "anomaly_scores": (
-            monitoring_core.anomaly_scores
-            if hasattr(monitoring_core, "anomaly_scores")
-            else {}
-        ),
+            "timestamp": datetime.now().isoformat(),
+            "anomaly_detection_enabled": True,
+            "time_range_hours": last_hours,
+            "detected_anomalies": [
+                {
+                    "id": alert.id,
+                    "timestamp": alert.timestamp.isoformat(),
+                    "score": alert.value,
+                    "threshold": alert.threshold,
+                    "context": alert.context,
+                }
+                for alert in anomaly_alerts
+            ],
+            "anomaly_scores": (
+                monitoring_core.anomaly_scores
+                if hasattr(monitoring_core, "anomaly_scores")
+                else {}
+            ),
     }
 
 
@@ -957,7 +955,7 @@ async def get_contradiction_engine_metrics():
             "tension_threshold": getattr(
                 contradiction_engine, "tension_threshold", 0.0
             ),
-            "engine_type": type(contradiction_engine).__name__,
+            "engine_type": type(contradiction_engine).__name__
         }
 
         # Try to get recent tensions if available
@@ -996,7 +994,7 @@ async def get_thermodynamics_engine_metrics():
         metrics = {
             "timestamp": datetime.now().isoformat(),
             "status": "operational",
-            "engine_type": type(thermo_engine).__name__,
+            "engine_type": type(thermo_engine).__name__
         }
 
         # Try to get thermodynamic state if available
@@ -1500,7 +1498,7 @@ async def get_revolutionary_thermodynamics_metrics():
     "/prometheus",
     summary="Get system metrics for Prometheus",
     tags=["Monitoring"],
-    response_class=Response,
+    response_class=Response
     responses={
         200: {
             "description": "Prometheus metrics",

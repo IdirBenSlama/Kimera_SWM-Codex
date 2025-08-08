@@ -16,15 +16,10 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional
 
 try:
-    from ...engines.human_interface import (
-        HumanResponse,
-        KimeraHumanInterface,
-        ResponseMode,
-    )
-    from ...engines.meta_commentary_eliminator import (
-        CommentaryType,
-        MetaCommentaryEliminator,
-    )
+    from ...engines.human_interface import (HumanResponse, KimeraHumanInterface
+                                            ResponseMode)
+    from ...engines.meta_commentary_eliminator import (CommentaryType
+                                                       MetaCommentaryEliminator)
 
     ENGINE_AVAILABLE = True
 except ImportError as e:
@@ -32,14 +27,17 @@ except ImportError as e:
     ENGINE_AVAILABLE = False
 
     # Fallback classes
-    class MetaCommentaryEliminator:
+class MetaCommentaryEliminator:
+    """Auto-generated class."""
+    pass
         def __init__(self):
             pass
 
         async def eliminate_meta_commentary(self, text):
             return text
-
-    class KimeraHumanInterface:
+class KimeraHumanInterface:
+    """Auto-generated class."""
+    pass
         def __init__(self):
             pass
 
@@ -52,6 +50,8 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class CommunicationResult:
+    """Auto-generated class."""
+    pass
     """Result of communication processing"""
 
     original_text: str
@@ -61,9 +61,9 @@ class CommunicationResult:
     confidence: float
     processing_time: float
     timestamp: datetime
-
-
 class MetaCommentaryIntegration:
+    """Auto-generated class."""
+    pass
     """
     Core integration wrapper for Meta Commentary Eliminator
 
@@ -87,11 +87,11 @@ class MetaCommentaryIntegration:
             logger.warning("💬 Meta Commentary Integration using fallback mode")
 
     async def process_response(
-        self,
-        text: str,
-        eliminate_meta: bool = True,
-        human_format: bool = True,
-        thinking_summary: Optional[str] = None,
+        self
+        text: str
+        eliminate_meta: bool = True
+        human_format: bool = True
+        thinking_summary: Optional[str] = None
     ) -> CommunicationResult:
         """
         Process a response to eliminate meta-commentary and format for humans
@@ -124,9 +124,9 @@ class MetaCommentaryIntegration:
             # Step 2: Format for human readability if requested
             if human_format and self.human_interface:
                 formatted_response = self.human_interface.format_response(
-                    processed_text,
-                    thinking_summary=thinking_summary,
-                    confidence=confidence,
+                    processed_text
+                    thinking_summary=thinking_summary
+                    confidence=confidence
                 )
                 processed_text = formatted_response.content
                 confidence = formatted_response.confidence
@@ -137,12 +137,12 @@ class MetaCommentaryIntegration:
             processing_time = asyncio.get_event_loop().time() - start_time
 
             return CommunicationResult(
-                original_text=text,
-                processed_text=processed_text,
-                meta_commentary_removed=meta_removed,
-                human_formatted=human_formatted,
-                confidence=confidence,
-                processing_time=processing_time,
+                original_text=text
+                processed_text=processed_text
+                meta_commentary_removed=meta_removed
+                human_formatted=human_formatted
+                confidence=confidence
+                processing_time=processing_time
                 timestamp=datetime.now(),
             )
 
@@ -152,12 +152,12 @@ class MetaCommentaryIntegration:
 
             # Return original text if processing fails
             return CommunicationResult(
-                original_text=text,
-                processed_text=text,
-                meta_commentary_removed=False,
-                human_formatted=False,
-                confidence=0.5,
-                processing_time=processing_time,
+                original_text=text
+                processed_text=text
+                meta_commentary_removed=False
+                human_formatted=False
+                confidence=0.5
+                processing_time=processing_time
                 timestamp=datetime.now(),
             )
 
@@ -168,10 +168,10 @@ class MetaCommentaryIntegration:
         ) * 100
 
         return {
-            "engine_available": self.engine_available,
-            "total_processed": self.total_processed,
-            "successful_eliminations": self.successful_eliminations,
-            "success_rate": success_rate,
+            "engine_available": self.engine_available
+            "total_processed": self.total_processed
+            "successful_eliminations": self.successful_eliminations
+            "success_rate": success_rate
             "status": "operational" if self.engine_available else "fallback",
         }
 

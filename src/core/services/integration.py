@@ -1,5 +1,6 @@
 """
-Services Integration Module
+"""Services Integration Module"""
+
 ==========================
 
 This module integrates all background services and jobs into the Kimera
@@ -37,12 +38,8 @@ except ImportError:
             return None
 
 
-from .background_job_manager import (
-    BackgroundJobManager,
-    JobConfiguration,
-    JobPriority,
-    get_job_manager,
-)
+from .background_job_manager import (BackgroundJobManager, JobConfiguration
+                                     JobPriority, get_job_manager)
 from .clip_service_integration import CLIPServiceIntegration, get_clip_service
 
 logger = get_system_logger(__name__)
@@ -59,6 +56,8 @@ class ServiceStatus(Enum):
 
 @dataclass
 class ServiceHealth:
+    """Auto-generated class."""
+    pass
     """Health status of a service"""
 
     service_name: str
@@ -67,9 +66,9 @@ class ServiceHealth:
     error_count: int
     last_error: Optional[str] = None
     metrics: Dict[str, Any] = None
-
-
 class ServicesIntegration:
+    """Auto-generated class."""
+    pass
     """
     Integration layer for all Kimera services.
 
@@ -136,9 +135,9 @@ class ServicesIntegration:
 
                 self.service_health["job_manager"] = ServiceHealth(
                     service_name="Background Job Manager",
-                    status=ServiceStatus.HEALTHY,
+                    status=ServiceStatus.HEALTHY
                     last_check=datetime.now(timezone.utc),
-                    error_count=0,
+                    error_count=0
                 )
 
                 # Initialize CLIP Service
@@ -154,10 +153,10 @@ class ServicesIntegration:
 
                 self.service_health["clip_service"] = ServiceHealth(
                     service_name="CLIP Service",
-                    status=service_status,
+                    status=service_status
                     last_check=datetime.now(timezone.utc),
-                    error_count=0,
-                    metrics=clip_status,
+                    error_count=0
+                    metrics=clip_status
                 )
 
                 if service_status == ServiceStatus.DEGRADED:
@@ -190,9 +189,9 @@ class ServicesIntegration:
         self.job_manager.add_job(
             JobConfiguration(
                 name="service_health_check",
-                func=self._perform_health_check,
+                func=self._perform_health_check
                 trigger="interval",
-                priority=JobPriority.HIGH,
+                priority=JobPriority.HIGH
                 kwargs={"minutes": 5},
             )
         )
@@ -201,9 +200,9 @@ class ServicesIntegration:
         self.job_manager.add_job(
             JobConfiguration(
                 name="cache_cleanup",
-                func=self._cleanup_caches,
+                func=self._cleanup_caches
                 trigger="interval",
-                priority=JobPriority.MAINTENANCE,
+                priority=JobPriority.MAINTENANCE
                 kwargs={"hours": 6},
             )
         )
@@ -212,9 +211,9 @@ class ServicesIntegration:
         self.job_manager.add_job(
             JobConfiguration(
                 name="metrics_collection",
-                func=self._collect_metrics,
+                func=self._collect_metrics
                 trigger="interval",
-                priority=JobPriority.LOW,
+                priority=JobPriority.LOW
                 kwargs={"minutes": 15},
             )
         )
@@ -238,10 +237,10 @@ class ServicesIntegration:
 
                 self.service_health["job_manager"] = ServiceHealth(
                     service_name="Background Job Manager",
-                    status=status,
+                    status=status
                     last_check=datetime.now(timezone.utc),
-                    error_count=0,
-                    metrics=job_metrics,
+                    error_count=0
+                    metrics=job_metrics
                 )
 
             except Exception as e:
@@ -265,10 +264,10 @@ class ServicesIntegration:
 
                 self.service_health["clip_service"] = ServiceHealth(
                     service_name="CLIP Service",
-                    status=status,
+                    status=status
                     last_check=datetime.now(timezone.utc),
-                    error_count=0,
-                    metrics=clip_status,
+                    error_count=0
+                    metrics=clip_status
                 )
 
             except Exception as e:
@@ -337,17 +336,17 @@ class ServicesIntegration:
         """Get comprehensive status of all services"""
         with self._lock:
             return {
-                "initialized": self._initialized,
-                "initialization_time": self.initialization_time,
-                "total_health_checks": self.total_health_checks,
+                "initialized": self._initialized
+                "initialization_time": self.initialization_time
+                "total_health_checks": self.total_health_checks
                 "services": {
                     name: {
-                        "name": health.service_name,
-                        "status": health.status.name,
+                        "name": health.service_name
+                        "status": health.status.name
                         "last_check": health.last_check.isoformat(),
-                        "error_count": health.error_count,
-                        "last_error": health.last_error,
-                        "healthy": health.status == ServiceStatus.HEALTHY,
+                        "error_count": health.error_count
+                        "last_error": health.last_error
+                        "healthy": health.status == ServiceStatus.HEALTHY
                     }
                     for name, health in self.service_health.items()
                 },

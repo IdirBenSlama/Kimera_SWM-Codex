@@ -11,9 +11,9 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
-
-
 class WorkingMemoryManager:
+    """Auto-generated class."""
+    pass
     """Manages working memory with capacity constraints"""
 
     def __init__(self, capacity: int = 100):
@@ -46,7 +46,7 @@ class WorkingMemoryManager:
         """Get memory statistics"""
         return {
             "size": len(self.memory),
-            "capacity": self.capacity,
-            "utilization": len(self.memory) / self.capacity,
+            "capacity": self.capacity
+            "utilization": len(self.memory) / self.capacity
             "total_accesses": sum(self.access_count.values()),
         }

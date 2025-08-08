@@ -14,9 +14,9 @@ from .config_loader import load_configuration
 from .settings import KimeraSettings, get_settings
 
 logger = logging.getLogger(__name__)
-
-
 class ConfigurationManager:
+    """Central configuration manager for KIMERA system
+    Provides easy access to configuration throughout the application
     """
     Central configuration manager for KIMERA system
     Provides easy access to configuration throughout the application
@@ -324,9 +324,9 @@ def development_only(func):
 
 
 # Configuration context manager
-
-
 class ConfigurationContext:
+    """Auto-generated class."""
+    pass
     """Context manager for temporary configuration changes"""
 
     def __init__(self, **overrides):

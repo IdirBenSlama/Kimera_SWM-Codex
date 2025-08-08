@@ -1,5 +1,6 @@
 """
-Quantum and Privacy Module
+"""Quantum and Privacy Module"""
+
 ==========================
 
 Integration of quantum computing and privacy engines.

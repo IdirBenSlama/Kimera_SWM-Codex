@@ -1,4 +1,6 @@
 class EntropyBasedRiskManager:
+    """Auto-generated class."""
+    pass
     """
     Manages risk through thermodynamic entropy principles.
 

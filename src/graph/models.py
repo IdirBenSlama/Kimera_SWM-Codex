@@ -1,4 +1,4 @@
-"""Graph helper functions for common node/relationship operations.
+"""Graph helper functions for common node/relationship operations."""
 
 This is **not** an OGM.  It is a thin utility layer around *neo4j-driver* that
 keeps Cypher in one place while allowing higher-level code (VaultManager,
@@ -29,7 +29,9 @@ except ImportError:
     NEO4J_AVAILABLE = False
 
     # Create dummy class to avoid errors
-    class Transaction:
+class Transaction:
+    """Auto-generated class."""
+    pass
         pass
 
 
@@ -113,14 +115,14 @@ def _tx_create_geoid(tx: Transaction, props: Dict[str, Any]) -> None:
         """
         MERGE (g:Geoid {geoid_id: $geoid_id})
         SET g += $props
-        """,
+        ""","""
         geoid_id=serialized_props["geoid_id"],
         props={k: v for k, v in serialized_props.items() if k != "geoid_id"},
     )
 
 
 def create_geoid(props: Dict[str, Any]) -> bool:
-    """Create or update a :Geoid node.
+    """Create or update a :Geoid node."""
 
     Parameters
     ----------
@@ -164,7 +166,7 @@ def _tx_get_geoid(tx: Transaction, geoid_id: str) -> Optional[Dict[str, Any]]:
 
 
 def get_geoid(geoid_id: str) -> Optional[Dict[str, Any]]:
-    """Get a geoid by ID.
+    """Get a geoid by ID."""
 
     Parameters
     ----------
@@ -211,7 +213,7 @@ def _tx_create_scar(tx: Transaction, props: Dict[str, Any]) -> None:
         UNWIND $geoids AS gid
         MATCH (g:Geoid {geoid_id: gid})
         MERGE (s)-[:INVOLVES]->(g)
-        """,
+        ""","""
         scar_id=serialized_props["scar_id"],
         props={
             k: v for k, v in serialized_props.items() if k not in {"scar_id", "geoids"}
@@ -221,7 +223,7 @@ def _tx_create_scar(tx: Transaction, props: Dict[str, Any]) -> None:
 
 
 def create_scar(props: Dict[str, Any]) -> bool:
-    """Create or update a :Scar node.
+    """Create or update a :Scar node."""
 
     Parameters
     ----------
@@ -262,7 +264,7 @@ def _tx_get_scar(tx: Transaction, scar_id: str) -> Optional[Dict[str, Any]]:
 
 
 def get_scar(scar_id: str) -> Optional[Dict[str, Any]]:
-    """Get a scar by ID.
+    """Get a scar by ID."""
 
     Parameters
     ----------

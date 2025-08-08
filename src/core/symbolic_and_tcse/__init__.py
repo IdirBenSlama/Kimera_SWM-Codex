@@ -1,5 +1,6 @@
 """
-Symbolic Processing and TCSE Integration Module
+"""Symbolic Processing and TCSE Integration Module"""
+
 ===============================================
 
 DO-178C Level A compliant symbolic processing and TCSE integration system.

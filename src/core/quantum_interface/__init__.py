@@ -17,29 +17,15 @@ Safety Level: Catastrophic (Level A)
 """
 
 from .classical_interface.quantum_classical_bridge import (
-    HybridProcessingMode,
-    HybridProcessingResult,
-    InterfaceMetrics,
-    QuantumClassicalBridge,
-    create_quantum_classical_bridge,
-)
-
+    HybridProcessingMode, HybridProcessingResult, InterfaceMetrics
+    QuantumClassicalBridge, create_quantum_classical_bridge)
 # Import main components
-from .integration import (
-    QuantumInterfaceIntegrator,
-    QuantumInterfaceMode,
-    create_quantum_interface_integrator,
-)
+from .integration import (QuantumInterfaceIntegrator, QuantumInterfaceMode
+                          create_quantum_interface_integrator)
 from .translation_systems.quantum_enhanced_translator import (
-    ConsciousnessState,
-    QuantumCoherenceState,
-    QuantumEnhancedUniversalTranslator,
-    SemanticModality,
-    TemporalDynamics,
-    TranslationResult,
-    UncertaintyPrinciple,
-    create_quantum_enhanced_translator,
-)
+    ConsciousnessState, QuantumCoherenceState, QuantumEnhancedUniversalTranslator
+    SemanticModality, TemporalDynamics, TranslationResult, UncertaintyPrinciple
+    create_quantum_enhanced_translator)
 
 # Package metadata
 __version__ = "1.0.0"

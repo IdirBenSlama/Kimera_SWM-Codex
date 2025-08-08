@@ -23,17 +23,9 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 import numpy as np
 import torch
 
-from ..core import (
-    AnalysisResult,
-    ArbitrationResult,
-    ArbitrationStrategy,
-    IntuitionResult,
-    MetacognitiveController,
-    ProcessingMode,
-    ReasoningType,
-    System1Processor,
-    System2Processor,
-)
+from ..core import (AnalysisResult, ArbitrationResult, ArbitrationStrategy
+                    IntuitionResult, MetacognitiveController, ProcessingMode
+                    ReasoningType, System1Processor, System2Processor)
 from ..utils.conflict_resolver import ConflictResolver
 from ..utils.memory_manager import WorkingMemoryManager
 
@@ -51,8 +43,9 @@ except ImportError:
         # Fallback logger and exception
         def get_logger(name, category=None):
             return logging.getLogger(name)
-
-        class LogCategory:
+class LogCategory:
+    """Auto-generated class."""
+    pass
             DUAL_SYSTEM = "dual_system"
 
         class KimeraCognitiveError(Exception):
@@ -67,7 +60,9 @@ except ImportError:
         from monitoring.performance_monitor import PerformanceMonitor
     except ImportError:
         # Fallback performance monitor
-        class PerformanceMonitor:
+class PerformanceMonitor:
+    """Auto-generated class."""
+    pass
             def __init__(self, *args, **kwargs):
                 pass
 
@@ -96,6 +91,8 @@ class SystemMode(Enum):
 
 @dataclass
 class ProcessingConstraints:
+    """Auto-generated class."""
+    pass
     """Constraints for dual-system processing"""
 
     max_response_time: float = 1.0  # Maximum total response time
@@ -108,6 +105,8 @@ class ProcessingConstraints:
 
 @dataclass
 class DualSystemOutput:
+    """Auto-generated class."""
+    pass
     """Complete output from dual-system processing"""
 
     # Results from each system
@@ -133,9 +132,9 @@ class DualSystemOutput:
             and 0.0 <= self.confidence <= 1.0
             and self.processing_time > 0
         )
-
-
 class DualSystemMonitor:
+    """Auto-generated class."""
+    pass
     """Monitor dual-system health and performance"""
 
     def __init__(self):
@@ -143,20 +142,20 @@ class DualSystemMonitor:
         self.system2_health = {"status": "healthy", "last_check": datetime.now()}
         self.metacognitive_health = {"status": "healthy", "last_check": datetime.now()}
         self.integration_metrics = {
-            "total_requests": 0,
-            "system1_only": 0,
-            "system2_only": 0,
-            "both_systems": 0,
-            "conflicts_resolved": 0,
-            "timeouts": 0,
+            "total_requests": 0
+            "system1_only": 0
+            "system2_only": 0
+            "both_systems": 0
+            "conflicts_resolved": 0
+            "timeouts": 0
         }
 
     def update_health(self, component: str, status: str):
         """Update component health status"""
         health_map = {
-            "system1": self.system1_health,
-            "system2": self.system2_health,
-            "metacognitive": self.metacognitive_health,
+            "system1": self.system1_health
+            "system2": self.system2_health
+            "metacognitive": self.metacognitive_health
         }
 
         if component in health_map:
@@ -178,11 +177,11 @@ class DualSystemMonitor:
         """Get comprehensive health report"""
         return {
             "components": {
-                "system1": self.system1_health,
-                "system2": self.system2_health,
-                "metacognitive": self.metacognitive_health,
+                "system1": self.system1_health
+                "system2": self.system2_health
+                "metacognitive": self.metacognitive_health
             },
-            "metrics": self.integration_metrics,
+            "metrics": self.integration_metrics
             "overall_status": self._calculate_overall_status(),
         }
 
@@ -202,9 +201,9 @@ class DualSystemMonitor:
             return "degraded"
         else:
             return "unknown"
-
-
 class BarenholtzDualSystemIntegrator:
+    """Auto-generated class."""
+    pass
     """
     Main integration engine for Barenholtz dual-system architecture
 
@@ -242,10 +241,10 @@ class BarenholtzDualSystemIntegrator:
         logger.info("   DO-178C Level A Compliant")
 
     async def process(
-        self,
-        input_data: torch.Tensor,
-        context: Optional[Dict[str, Any]] = None,
-        constraints: Optional[ProcessingConstraints] = None,
+        self
+        input_data: torch.Tensor
+        context: Optional[Dict[str, Any]] = None
+        constraints: Optional[ProcessingConstraints] = None
     ) -> DualSystemOutput:
         """
         Main processing function for dual-system architecture
@@ -333,10 +332,10 @@ class BarenholtzDualSystemIntegrator:
                 raise KimeraCognitiveError(f"Processing failed: {e}")
 
     async def _parallel_processing(
-        self,
-        input_data: torch.Tensor,
+        self
+        input_data: torch.Tensor
         context: Optional[Dict[str, Any]],
-        constraints: ProcessingConstraints,
+        constraints: ProcessingConstraints
     ) -> DualSystemOutput:
         """Execute both systems in parallel"""
 
@@ -353,7 +352,7 @@ class BarenholtzDualSystemIntegrator:
         try:
             results = await asyncio.wait_for(
                 asyncio.gather(system1_task, system2_task, return_exceptions=True),
-                timeout=timeout,
+                timeout=timeout
             )
 
             # Handle results
@@ -392,7 +391,7 @@ class BarenholtzDualSystemIntegrator:
             **(context or {}),
             "time_pressure": 1.0 - (time.time() % 10) / 10,  # Example time pressure
             "arbitration_strategy": constraints.arbitration_strategy
-            or ArbitrationStrategy.CONFIDENCE_BASED,
+            or ArbitrationStrategy.CONFIDENCE_BASED
         }
 
         arbitration_result = await self.metacognitive.arbitrate(
@@ -403,22 +402,22 @@ class BarenholtzDualSystemIntegrator:
         processing_time = time.time() - (time.time() - timeout)
 
         return DualSystemOutput(
-            system1_result=system1_result,
-            system2_result=system2_result,
-            arbitration_result=arbitration_result,
-            final_response=arbitration_result.selected_response,
-            confidence=arbitration_result.confidence,
-            processing_time=processing_time,
-            system_mode_used=SystemMode.PARALLEL,
-            processing_mode=arbitration_result.processing_mode,
+            system1_result=system1_result
+            system2_result=system2_result
+            arbitration_result=arbitration_result
+            final_response=arbitration_result.selected_response
+            confidence=arbitration_result.confidence
+            processing_time=processing_time
+            system_mode_used=SystemMode.PARALLEL
+            processing_mode=arbitration_result.processing_mode
             performance_metrics=self._collect_performance_metrics(),
         )
 
     async def _sequential_processing(
-        self,
-        input_data: torch.Tensor,
+        self
+        input_data: torch.Tensor
         context: Optional[Dict[str, Any]],
-        constraints: ProcessingConstraints,
+        constraints: ProcessingConstraints
     ) -> DualSystemOutput:
         """Execute System 1 first, then System 2 if needed"""
 
@@ -439,14 +438,14 @@ class BarenholtzDualSystemIntegrator:
             )
 
             return DualSystemOutput(
-                system1_result=system1_result,
-                system2_result=None,
-                arbitration_result=arbitration_result,
-                final_response=arbitration_result.selected_response,
-                confidence=arbitration_result.confidence,
-                processing_time=time.time() - start_time,
-                system_mode_used=SystemMode.SEQUENTIAL,
-                processing_mode=ProcessingMode.SYSTEM1_ONLY,
+                system1_result=system1_result
+                system2_result=None
+                arbitration_result=arbitration_result
+                final_response=arbitration_result.selected_response
+                confidence=arbitration_result.confidence
+                processing_time=time.time() - start_time
+                system_mode_used=SystemMode.SEQUENTIAL
+                processing_mode=ProcessingMode.SYSTEM1_ONLY
                 performance_metrics=self._collect_performance_metrics(),
             )
 
@@ -459,7 +458,7 @@ class BarenholtzDualSystemIntegrator:
                     self.system2.process(
                         input_data, context, constraints.required_reasoning
                     ),
-                    timeout=remaining_time,
+                    timeout=remaining_time
                 )
             except asyncio.TimeoutError:
                 system2_result = None
@@ -472,22 +471,22 @@ class BarenholtzDualSystemIntegrator:
         )
 
         return DualSystemOutput(
-            system1_result=system1_result,
-            system2_result=system2_result,
-            arbitration_result=arbitration_result,
-            final_response=arbitration_result.selected_response,
-            confidence=arbitration_result.confidence,
-            processing_time=time.time() - start_time,
-            system_mode_used=SystemMode.SEQUENTIAL,
-            processing_mode=arbitration_result.processing_mode,
+            system1_result=system1_result
+            system2_result=system2_result
+            arbitration_result=arbitration_result
+            final_response=arbitration_result.selected_response
+            confidence=arbitration_result.confidence
+            processing_time=time.time() - start_time
+            system_mode_used=SystemMode.SEQUENTIAL
+            processing_mode=arbitration_result.processing_mode
             performance_metrics=self._collect_performance_metrics(),
         )
 
     async def _system1_preferred_processing(
-        self,
-        input_data: torch.Tensor,
+        self
+        input_data: torch.Tensor
         context: Optional[Dict[str, Any]],
-        constraints: ProcessingConstraints,
+        constraints: ProcessingConstraints
     ) -> DualSystemOutput:
         """Prefer System 1 with optional System 2 backup"""
 
@@ -504,7 +503,7 @@ class BarenholtzDualSystemIntegrator:
                 try:
                     system2_result = await asyncio.wait_for(
                         self.system2.process(input_data, context),
-                        timeout=remaining_time,
+                        timeout=remaining_time
                     )
                 except asyncio.TimeoutError:
                     pass
@@ -512,7 +511,7 @@ class BarenholtzDualSystemIntegrator:
         # Arbitrate with strong System 1 preference
         arbitration_context = {
             **(context or {}),
-            "arbitration_strategy": ArbitrationStrategy.TIME_PRESSURE,
+            "arbitration_strategy": ArbitrationStrategy.TIME_PRESSURE
         }
 
         arbitration_result = await self.metacognitive.arbitrate(
@@ -520,22 +519,22 @@ class BarenholtzDualSystemIntegrator:
         )
 
         return DualSystemOutput(
-            system1_result=system1_result,
-            system2_result=system2_result,
-            arbitration_result=arbitration_result,
-            final_response=arbitration_result.selected_response,
-            confidence=arbitration_result.confidence,
-            processing_time=time.time() - start_time,
-            system_mode_used=SystemMode.SYSTEM1_PREFERRED,
-            processing_mode=arbitration_result.processing_mode,
+            system1_result=system1_result
+            system2_result=system2_result
+            arbitration_result=arbitration_result
+            final_response=arbitration_result.selected_response
+            confidence=arbitration_result.confidence
+            processing_time=time.time() - start_time
+            system_mode_used=SystemMode.SYSTEM1_PREFERRED
+            processing_mode=arbitration_result.processing_mode
             performance_metrics=self._collect_performance_metrics(),
         )
 
     async def _system2_preferred_processing(
-        self,
-        input_data: torch.Tensor,
+        self
+        input_data: torch.Tensor
         context: Optional[Dict[str, Any]],
-        constraints: ProcessingConstraints,
+        constraints: ProcessingConstraints
     ) -> DualSystemOutput:
         """Prefer System 2 with System 1 for quick intuitions"""
 
@@ -571,7 +570,7 @@ class BarenholtzDualSystemIntegrator:
         # Arbitrate with System 2 preference
         arbitration_context = {
             **(context or {}),
-            "arbitration_strategy": ArbitrationStrategy.SYSTEM2_OVERRIDE,
+            "arbitration_strategy": ArbitrationStrategy.SYSTEM2_OVERRIDE
         }
 
         arbitration_result = await self.metacognitive.arbitrate(
@@ -579,22 +578,22 @@ class BarenholtzDualSystemIntegrator:
         )
 
         return DualSystemOutput(
-            system1_result=system1_result,
-            system2_result=system2_result,
-            arbitration_result=arbitration_result,
-            final_response=arbitration_result.selected_response,
-            confidence=arbitration_result.confidence,
-            processing_time=time.time() - start_time,
-            system_mode_used=SystemMode.SYSTEM2_PREFERRED,
-            processing_mode=arbitration_result.processing_mode,
+            system1_result=system1_result
+            system2_result=system2_result
+            arbitration_result=arbitration_result
+            final_response=arbitration_result.selected_response
+            confidence=arbitration_result.confidence
+            processing_time=time.time() - start_time
+            system_mode_used=SystemMode.SYSTEM2_PREFERRED
+            processing_mode=arbitration_result.processing_mode
             performance_metrics=self._collect_performance_metrics(),
         )
 
     async def _automatic_processing(
-        self,
-        input_data: torch.Tensor,
+        self
+        input_data: torch.Tensor
         context: Optional[Dict[str, Any]],
-        constraints: ProcessingConstraints,
+        constraints: ProcessingConstraints
     ) -> DualSystemOutput:
         """Let metacognitive controller decide processing mode"""
 
@@ -606,7 +605,7 @@ class BarenholtzDualSystemIntegrator:
             **(context or {}),
             "input_complexity": input_features["complexity"],
             "input_variance": input_features["variance"],
-            "processing_count": self.processing_count,
+            "processing_count": self.processing_count
         }
 
         # Estimate time pressure
@@ -631,10 +630,10 @@ class BarenholtzDualSystemIntegrator:
             )
 
     def _determine_system_mode(
-        self,
-        input_data: torch.Tensor,
+        self
+        input_data: torch.Tensor
         context: Optional[Dict[str, Any]],
-        constraints: ProcessingConstraints,
+        constraints: ProcessingConstraints
     ) -> SystemMode:
         """Determine which system mode to use"""
 
@@ -726,22 +725,22 @@ class BarenholtzDualSystemIntegrator:
     def _create_timeout_output(self, start_time: float) -> DualSystemOutput:
         """Create output for timeout scenario"""
         return DualSystemOutput(
-            system1_result=None,
-            system2_result=None,
+            system1_result=None
+            system2_result=None
             arbitration_result=ArbitrationResult(
                 selected_response={"error": "Processing timeout"},
                 system_contributions={"system1": 0.0, "system2": 0.0},
-                arbitration_strategy=ArbitrationStrategy.HYBRID,
-                processing_mode=ProcessingMode.PARALLEL_COMPETITIVE,
-                confidence=0.0,
+                arbitration_strategy=ArbitrationStrategy.HYBRID
+                processing_mode=ProcessingMode.PARALLEL_COMPETITIVE
+                confidence=0.0
                 rationale="Processing timeout - no results available",
                 monitoring_data={"timeout": True},
             ),
             final_response={"error": "Processing timeout"},
-            confidence=0.0,
-            processing_time=time.time() - start_time,
-            system_mode_used=SystemMode.AUTOMATIC,
-            processing_mode=ProcessingMode.PARALLEL_COMPETITIVE,
+            confidence=0.0
+            processing_time=time.time() - start_time
+            system_mode_used=SystemMode.AUTOMATIC
+            processing_mode=ProcessingMode.PARALLEL_COMPETITIVE
             performance_metrics={},
         )
 
@@ -751,7 +750,7 @@ class BarenholtzDualSystemIntegrator:
             "integrator_status": (
                 "healthy" if self.is_initialized else "not_initialized"
             ),
-            "processing_count": self.processing_count,
+            "processing_count": self.processing_count
             "component_health": self.monitor.get_health_report(),
             "performance": {
                 "system1": self.system1.get_performance_report(),

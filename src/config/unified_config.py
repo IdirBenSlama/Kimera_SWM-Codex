@@ -18,9 +18,9 @@ from typing import Any, Dict, Optional
 import yaml
 
 logger = logging.getLogger(__name__)
-
-
 class UnifiedConfigLoader:
+    """Auto-generated class."""
+    pass
     """Unified configuration loader for KIMERA SWM."""
 
     def __init__(self, config_root: Optional[Path] = None):

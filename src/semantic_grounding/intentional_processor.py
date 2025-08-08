@@ -38,7 +38,7 @@ class AttentionFocus(Enum):
 @dataclass
 class Goal:
     """Represents a processing goal"""
-
+    
     goal_id: str
     description: str
     priority: GoalPriority
@@ -62,6 +62,8 @@ class Goal:
 
 @dataclass
 class AttentionState:
+    """Auto-generated class."""
+    pass
     """Current state of attention system"""
 
     focus_type: AttentionFocus
@@ -80,6 +82,8 @@ class AttentionState:
 
 @dataclass
 class CuriositySignal:
+    """Auto-generated class."""
+    pass
     """Represents a curiosity-driven exploration signal"""
 
     target: str  # What to explore
@@ -92,6 +96,8 @@ class CuriositySignal:
 
 @dataclass
 class IntentionalUnderstanding:
+    """Auto-generated class."""
+    pass
     """Result of intentional processing"""
 
     focused_content: Dict[str, Any]
@@ -100,9 +106,9 @@ class IntentionalUnderstanding:
     attention_trace: List[AttentionState]
     processing_strategy: str
     confidence: float
-
-
 class IntentionalProcessor:
+    """Auto-generated class."""
+    pass
     """
     Processor for goal-oriented and curiosity-driven semantic understanding.
     Moves beyond reactive processing to intentional, directed comprehension.

@@ -81,6 +81,8 @@ class LogCategory(Enum):
 
 @dataclass
 class LogContext:
+    """Auto-generated class."""
+    pass
     """Structured log context for correlation and analysis"""
 
     operation_id: str
@@ -138,9 +140,9 @@ class ProcessSafeFileHandler(logging.FileHandler):
         except Exception:
             # If anything fails, handle gracefully
             self.handleError(record)
-
-
 class KimeraStructuredLogger:
+    """Auto-generated class."""
+    pass
     """
     Enhanced structured logger with comprehensive context tracking and performance metrics.
 

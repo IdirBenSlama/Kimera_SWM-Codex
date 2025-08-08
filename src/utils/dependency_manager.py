@@ -35,6 +35,8 @@ class DependencyLevel(Enum):
 
 @dataclass
 class DependencyInfo:
+    """Auto-generated class."""
+    pass
     """Information about a dependency"""
 
     name: str
@@ -43,9 +45,9 @@ class DependencyInfo:
     level: DependencyLevel = DependencyLevel.OPTIONAL
     fallback_available: bool = False
     description: str = ""
-
-
 class DependencyManager:
+    """Auto-generated class."""
+    pass
     """Manages all KIMERA system dependencies"""
 
     def __init__(self):
@@ -231,15 +233,18 @@ class DependencyManager:
 
     def _get_transformers_fallback(self):
         """Fallback implementation for transformers"""
-
-        class TransformersFallback:
+class TransformersFallback:
+    """Auto-generated class."""
+    pass
             def __init__(self):
                 logger.warning(
                     "Using fallback for transformers - limited functionality"
                 )
 
             def AutoTokenizer(self):
-                class FallbackTokenizer:
+class FallbackTokenizer:
+    """Auto-generated class."""
+    pass
                     def from_pretrained(self, model_name, **kwargs):
                         return self
 
@@ -252,7 +257,9 @@ class DependencyManager:
                 return FallbackTokenizer()
 
             def AutoModel(self):
-                class FallbackModel:
+class FallbackModel:
+    """Auto-generated class."""
+    pass
                     def from_pretrained(self, model_name, **kwargs):
                         return self
 
@@ -265,13 +272,16 @@ class DependencyManager:
 
     def _get_qiskit_fallback(self):
         """Fallback implementation for qiskit"""
-
-        class QiskitFallback:
+class QiskitFallback:
+    """Auto-generated class."""
+    pass
             def __init__(self):
                 logger.warning("Using fallback for qiskit - CPU simulation only")
 
             def QuantumCircuit(self, num_qubits):
-                class FallbackCircuit:
+class FallbackCircuit:
+    """Auto-generated class."""
+    pass
                     def __init__(self, num_qubits):
                         self.num_qubits = num_qubits
 
@@ -287,7 +297,9 @@ class DependencyManager:
                 return FallbackCircuit(num_qubits)
 
             def execute(self, circuit, backend):
-                class FallbackResult:
+class FallbackResult:
+    """Auto-generated class."""
+    pass
                     def get_counts(self):
                         return {"0" * circuit.num_qubits: 1024}
 
@@ -298,8 +310,9 @@ class DependencyManager:
     def _get_cupy_fallback(self):
         """Fallback implementation for cupy"""
         import numpy as np
-
-        class CupyFallback:
+class CupyFallback:
+    """Auto-generated class."""
+    pass
             def __init__(self):
                 logger.warning("Using NumPy fallback for CuPy - no GPU acceleration")
 
@@ -316,8 +329,9 @@ class DependencyManager:
 
     def _get_wandb_fallback(self):
         """Fallback implementation for wandb"""
-
-        class WandbFallback:
+class WandbFallback:
+    """Auto-generated class."""
+    pass
             def __init__(self):
                 logger.warning("Using fallback for wandb - no experiment tracking")
 
@@ -334,8 +348,9 @@ class DependencyManager:
 
     def _get_mlflow_fallback(self):
         """Fallback implementation for mlflow"""
-
-        class MLflowFallback:
+class MLflowFallback:
+    """Auto-generated class."""
+    pass
             def __init__(self):
                 logger.warning("Using fallback for mlflow - no experiment tracking")
 
@@ -355,8 +370,9 @@ class DependencyManager:
 
     def _get_psutil_fallback(self):
         """Fallback implementation for psutil"""
-
-        class PsutilFallback:
+class PsutilFallback:
+    """Auto-generated class."""
+    pass
             def __init__(self):
                 logger.warning("Using fallback for psutil - limited system monitoring")
 
@@ -364,7 +380,9 @@ class DependencyManager:
                 return 0.0
 
             def virtual_memory(self):
-                class Memory:
+class Memory:
+    """Auto-generated class."""
+    pass
                     total = 8 * 1024 * 1024 * 1024  # 8GB default
                     available = 4 * 1024 * 1024 * 1024  # 4GB default
                     percent = 50.0
@@ -372,7 +390,9 @@ class DependencyManager:
                 return Memory()
 
             def disk_usage(self, path):
-                class Disk:
+class Disk:
+    """Auto-generated class."""
+    pass
                     total = 100 * 1024 * 1024 * 1024  # 100GB default
                     used = 50 * 1024 * 1024 * 1024  # 50GB default
                     free = 50 * 1024 * 1024 * 1024  # 50GB default

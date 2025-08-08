@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
-KIMERA Response Generation Integration Module
+"""KIMERA Response Generation Integration Module"""
+
 ===========================================
 
 DO-178C Level A compliant unified orchestrator for the complete response generation system.
-This module integrates all components: cognitive response system, full integration bridge,
+This module integrates all components: cognitive response system, full integration bridge
 and quantum security architecture.
 
 Key Features:
@@ -35,25 +36,15 @@ from src.utils.kimera_exceptions import KimeraCognitiveError, KimeraIntegrationE
 from src.utils.kimera_logger import LogCategory, get_logger
 
 # Import response generation components
-from .core.cognitive_response_system import (
-    CognitiveContext,
-    ResponseContext,
-    ResponseGenerationConfig,
-    ResponseGenerator,
-    ResponseOutput,
-    ResponseType,
-)
-from .integration.full_integration_bridge import (
-    IntegrationConfig,
-    IntegrationMode,
-    KimeraFullIntegrationBridge,
-    ProcessingPriority,
-)
-from .security.quantum_security import (
-    KimeraQuantumEdgeSecurityArchitecture,
-    QuantumSecurityConfig,
-    ThreatLevel,
-)
+from .core.cognitive_response_system import (CognitiveContext, ResponseContext
+                                             ResponseGenerationConfig
+                                             ResponseGenerator, ResponseOutput
+                                             ResponseType)
+from .integration.full_integration_bridge import (IntegrationConfig, IntegrationMode
+                                                  KimeraFullIntegrationBridge
+                                                  ProcessingPriority)
+from .security.quantum_security import (KimeraQuantumEdgeSecurityArchitecture
+                                        QuantumSecurityConfig, ThreatLevel)
 
 logger = get_logger(__name__, LogCategory.COGNITIVE)
 
@@ -70,6 +61,8 @@ class ResponseGenerationMode(Enum):
 
 @dataclass
 class ResponseGenerationRequest:
+    """Auto-generated class."""
+    pass
     """Complete request for response generation"""
 
     query: str
@@ -85,6 +78,8 @@ class ResponseGenerationRequest:
 
 @dataclass
 class ResponseGenerationResult:
+    """Auto-generated class."""
+    pass
     """Complete result from response generation"""
 
     response: ResponseOutput
@@ -94,9 +89,9 @@ class ResponseGenerationResult:
     integration_metrics: Dict[str, Any]
     system_health: Dict[str, Any]
     timestamp: float = field(default_factory=time.time)
-
-
 class ResponseGenerationOrchestrator:
+    """Auto-generated class."""
+    pass
     """
     Response Generation Orchestrator
 
@@ -105,10 +100,10 @@ class ResponseGenerationOrchestrator:
     """
 
     def __init__(
-        self,
-        response_config: Optional[ResponseGenerationConfig] = None,
-        integration_config: Optional[IntegrationConfig] = None,
-        security_config: Optional[QuantumSecurityConfig] = None,
+        self
+        response_config: Optional[ResponseGenerationConfig] = None
+        integration_config: Optional[IntegrationConfig] = None
+        security_config: Optional[QuantumSecurityConfig] = None
     ):
 
         self.settings = get_settings()
@@ -196,10 +191,10 @@ class ResponseGenerationOrchestrator:
             processing_time = (time.time() - start_time) * 1000
 
             result = ResponseGenerationResult(
-                response=validated_response,
-                request_id=request_id,
-                processing_time_ms=processing_time,
-                security_assessment=final_security,
+                response=validated_response
+                request_id=request_id
+                processing_time_ms=processing_time
+                security_assessment=final_security
                 integration_metrics=self._get_integration_metrics(),
                 system_health=self._get_system_health(),
                 timestamp=time.time(),
@@ -296,10 +291,10 @@ class ResponseGenerationOrchestrator:
     ) -> Dict[str, Any]:
         """Perform pre-processing security assessment"""
         security_data = {
-            "query": request.query,
-            "mode": request.mode.value,
-            "user_id": request.user_id,
-            "session_id": request.session_id,
+            "query": request.query
+            "mode": request.mode.value
+            "user_id": request.user_id
+            "session_id": request.session_id
             "conversation_length": len(request.conversation_history),
             "timestamp": time.time(),
         }
@@ -316,17 +311,17 @@ class ResponseGenerationOrchestrator:
         if request.mode == ResponseGenerationMode.MINIMAL:
             # Use basic response generation only
             context = ResponseContext(
-                user_query=request.query,
-                conversation_history=request.conversation_history,
+                user_query=request.query
+                conversation_history=request.conversation_history
             )
             return await self.response_generator.generate_response(context)
 
         else:
             # Use full integration bridge
             return await self.integration_bridge.process_integrated_response(
-                query=request.query,
-                conversation_history=request.conversation_history,
-                context_data=request.context_data,
+                query=request.query
+                conversation_history=request.conversation_history
+                context_data=request.context_data
             )
 
     async def _post_process_response(
@@ -350,9 +345,9 @@ class ResponseGenerationOrchestrator:
         # Add request metadata
         response.metadata.update(
             {
-                "request_mode": request.mode.value,
-                "request_priority": request.priority.value,
-                "user_preferences": request.preferences,
+                "request_mode": request.mode.value
+                "request_priority": request.priority.value
+                "user_preferences": request.preferences
                 "orchestrator_version": "2.0.0",
             }
         )
@@ -365,11 +360,11 @@ class ResponseGenerationOrchestrator:
         """Perform final security assessment on generated response"""
 
         assessment_data = {
-            "response_content": response.content,
-            "response_type": response.response_type.value,
-            "quality_score": response.quality_score,
-            "cognitive_metrics": response.cognitive_metrics.__dict__,
-            "request_mode": request.mode.value,
+            "response_content": response.content
+            "response_type": response.response_type.value
+            "quality_score": response.quality_score
+            "cognitive_metrics": response.cognitive_metrics.__dict__
+            "request_mode": request.mode.value
         }
 
         return await self.quantum_security.process_with_quantum_protection(
@@ -409,12 +404,12 @@ class ResponseGenerationOrchestrator:
         )
 
         return {
-            "overall_healthy": self.system_healthy,
-            "total_requests": self.total_requests,
-            "success_rate": success_rate,
-            "block_rate": block_rate,
-            "error_rate": error_rate,
-            "last_health_check": self.last_health_check,
+            "overall_healthy": self.system_healthy
+            "total_requests": self.total_requests
+            "success_rate": success_rate
+            "block_rate": block_rate
+            "error_rate": error_rate
+            "last_health_check": self.last_health_check
             "components": {
                 "response_generator": "operational",
                 "integration_bridge": "operational",
@@ -432,27 +427,27 @@ class ResponseGenerationOrchestrator:
         processing_time = (time.time() - start_time) * 1000
 
         blocked_metrics = CognitiveMetrics(
-            resonance_frequency=0.0,
-            field_strength=0.0,
-            cognitive_coherence=0.0,
-            semantic_complexity=0.0,
+            resonance_frequency=0.0
+            field_strength=0.0
+            cognitive_coherence=0.0
+            semantic_complexity=0.0
         )
 
         blocked_response = ResponseOutput(
             content="Your request has been blocked due to security policy.",
-            response_type=ResponseType.SECURE,
-            quality_score=0.0,
-            cognitive_metrics=blocked_metrics,
-            security_status=security_result,
-            processing_time_ms=processing_time,
+            response_type=ResponseType.SECURE
+            quality_score=0.0
+            cognitive_metrics=blocked_metrics
+            security_status=security_result
+            processing_time_ms=processing_time
             metadata={"blocked": True, "reason": "security_policy"},
         )
 
         return ResponseGenerationResult(
-            response=blocked_response,
-            request_id=request_id,
-            processing_time_ms=processing_time,
-            security_assessment=security_result,
+            response=blocked_response
+            request_id=request_id
+            processing_time_ms=processing_time
+            security_assessment=security_result
             integration_metrics={"status": "blocked"},
             system_health=self._get_system_health(),
         )
@@ -464,26 +459,26 @@ class ResponseGenerationOrchestrator:
         from .core.cognitive_response_system import CognitiveMetrics
 
         error_metrics = CognitiveMetrics(
-            resonance_frequency=0.0,
-            field_strength=0.0,
-            cognitive_coherence=0.0,
-            semantic_complexity=0.0,
+            resonance_frequency=0.0
+            field_strength=0.0
+            cognitive_coherence=0.0
+            semantic_complexity=0.0
         )
 
         error_response = ResponseOutput(
             content="I apologize, but I encountered an error processing your request. Please try again.",
-            response_type=ResponseType.DIRECT,
-            quality_score=0.3,
-            cognitive_metrics=error_metrics,
+            response_type=ResponseType.DIRECT
+            quality_score=0.3
+            cognitive_metrics=error_metrics
             security_status={"status": "error"},
-            processing_time_ms=processing_time,
+            processing_time_ms=processing_time
             metadata={"error": True, "error_message": error_message},
         )
 
         return ResponseGenerationResult(
-            response=error_response,
-            request_id=request_id,
-            processing_time_ms=processing_time,
+            response=error_response
+            request_id=request_id
+            processing_time_ms=processing_time
             security_assessment={"status": "error"},
             integration_metrics={"status": "error"},
             system_health=self._get_system_health(),
@@ -506,10 +501,10 @@ class ResponseGenerationOrchestrator:
         return {
             "status": "operational" if self.system_healthy else "degraded",
             "version": "2.0.0",
-            "total_requests": self.total_requests,
-            "successful_responses": self.successful_responses,
-            "blocked_requests": self.blocked_requests,
-            "failed_requests": self.failed_requests,
+            "total_requests": self.total_requests
+            "successful_responses": self.successful_responses
+            "blocked_requests": self.blocked_requests
+            "failed_requests": self.failed_requests
             "success_rate": (
                 self.successful_responses / self.total_requests
                 if self.total_requests > 0
@@ -524,12 +519,12 @@ class ResponseGenerationOrchestrator:
             "system_health": self._get_system_health(),
             "integration_metrics": self._get_integration_metrics(),
             "configuration": {
-                "response_config": self.response_config.__dict__,
-                "integration_config": self.integration_config.__dict__,
+                "response_config": self.response_config.__dict__
+                "integration_config": self.integration_config.__dict__
                 "security_config": {
-                    "encryption_scheme": self.security_config.encryption_scheme,
-                    "signature_scheme": self.security_config.signature_scheme,
-                    "threat_threshold": self.security_config.threat_threshold,
+                    "encryption_scheme": self.security_config.encryption_scheme
+                    "signature_scheme": self.security_config.signature_scheme
+                    "threat_threshold": self.security_config.threat_threshold
                 },
             },
         }
@@ -545,27 +540,27 @@ async def generate_standard_response(
     orchestrator = get_response_orchestrator()
 
     request = ResponseGenerationRequest(
-        query=query,
+        query=query
         conversation_history=conversation_history or [],
-        mode=ResponseGenerationMode.STANDARD,
+        mode=ResponseGenerationMode.STANDARD
     )
 
     return await orchestrator.generate_response(request)
 
 
 async def generate_secure_response(
-    query: str,
-    conversation_history: Optional[List[Dict[str, Any]]] = None,
-    user_id: Optional[str] = None,
+    query: str
+    conversation_history: Optional[List[Dict[str, Any]]] = None
+    user_id: Optional[str] = None
 ) -> ResponseGenerationResult:
     """Generate response using high security mode"""
     orchestrator = get_response_orchestrator()
 
     request = ResponseGenerationRequest(
-        query=query,
+        query=query
         conversation_history=conversation_history or [],
-        mode=ResponseGenerationMode.HIGH_SECURITY,
-        user_id=user_id,
+        mode=ResponseGenerationMode.HIGH_SECURITY
+        user_id=user_id
     )
 
     return await orchestrator.generate_response(request)
@@ -578,9 +573,9 @@ async def generate_research_response(
     orchestrator = get_response_orchestrator()
 
     request = ResponseGenerationRequest(
-        query=query,
+        query=query
         conversation_history=conversation_history or [],
-        mode=ResponseGenerationMode.RESEARCH,
+        mode=ResponseGenerationMode.RESEARCH
     )
 
     return await orchestrator.generate_response(request)
@@ -591,9 +586,9 @@ _orchestrator_instance: Optional[ResponseGenerationOrchestrator] = None
 
 
 def get_response_orchestrator(
-    response_config: Optional[ResponseGenerationConfig] = None,
-    integration_config: Optional[IntegrationConfig] = None,
-    security_config: Optional[QuantumSecurityConfig] = None,
+    response_config: Optional[ResponseGenerationConfig] = None
+    integration_config: Optional[IntegrationConfig] = None
+    security_config: Optional[QuantumSecurityConfig] = None
 ) -> ResponseGenerationOrchestrator:
     """Get global response generation orchestrator instance"""
     global _orchestrator_instance

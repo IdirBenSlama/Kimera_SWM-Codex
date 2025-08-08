@@ -47,7 +47,7 @@ fake_users_db = {
         "email": "test@example.com",
         "hashed_password": "$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",  # secret
         "disabled": False,
-        "is_admin": False,
+        "is_admin": False
     },
     "adminuser": {
         "username": "adminuser",
@@ -55,7 +55,7 @@ fake_users_db = {
         "email": "admin@example.com",
         "hashed_password": "$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",  # secret
         "disabled": False,
-        "is_admin": True,
+        "is_admin": True
     },
 }
 

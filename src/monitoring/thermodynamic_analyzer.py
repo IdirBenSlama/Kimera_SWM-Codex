@@ -16,16 +16,16 @@ from typing import Any, Dict, List, Optional, Tuple
 import numpy as np
 
 from ..core.geoid import GeoidState
-from ..utils.thermodynamic_utils import (
-    PHYSICS_CONSTANTS,
-    calculate_physical_temperature,
-    calculate_theoretical_carnot_efficiency,
-    calculate_total_energy,
-)
+from ..utils.thermodynamic_utils import (PHYSICS_CONSTANTS,
+                                         calculate_physical_temperature,
+                                         calculate_theoretical_carnot_efficiency,
+                                         calculate_total_energy)
 
 
 @dataclass
 class ThermodynamicState:
+    """Auto-generated class."""
+    pass
     """Container for thermodynamic state measurements"""
 
     timestamp: datetime
@@ -41,9 +41,9 @@ class ThermodynamicState:
     reversibility_index: float
     landauer_cost: float
     metadata: Dict[str, Any] = field(default_factory=dict)
-
-
 class ThermodynamicAnalyzer:
+    """Auto-generated class."""
+    pass
     """
     Comprehensive thermodynamic analysis for Kimera SWM
 
@@ -464,9 +464,9 @@ class ThermodynamicAnalyzer:
             }
             for s in self.states
         ]
-
-
 class ThermodynamicCalculator:
+    """Auto-generated class."""
+    pass
     """
     Static utility methods for thermodynamic calculations.
     Used by tests and other modules that need individual calculations.

@@ -1,0 +1,16 @@
+app:
+  debug: true
+  name: KIMERA SWM
+  version: 2.0.0
+environment: development
+logging:
+  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  level: DEBUG
+performance:
+  chunk_size: 50
+  max_workers: 8
+  timeout: 30
+security:
+  cors_origins:
+  - '*'
+  secret_key: change-me-in-production

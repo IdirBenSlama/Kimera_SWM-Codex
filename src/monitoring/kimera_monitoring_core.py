@@ -28,13 +28,10 @@ from enum import Enum
 from typing import Any, Callable, Dict, List, Optional, Union
 
 import GPUtil
-
 # Core monitoring infrastructure
 import prometheus_client
-
 # System monitoring
 import psutil
-
 # Structured logging
 import structlog
 from loguru import logger
@@ -43,7 +40,6 @@ from prometheus_fastapi_instrumentator import Instrumentator
 
 # OpenTelemetry distributed tracing
 # OpenTelemetry imports moved to optional section below
-
 
 
 try:
@@ -128,6 +124,8 @@ class AlertSeverity(Enum):
 
 @dataclass
 class KimeraMetric:
+    """Auto-generated class."""
+    pass
     """Kimera-specific metric definition"""
 
     name: str
@@ -140,6 +138,8 @@ class KimeraMetric:
 
 @dataclass
 class MonitoringAlert:
+    """Auto-generated class."""
+    pass
     """Monitoring alert definition"""
 
     id: str
@@ -150,9 +150,9 @@ class MonitoringAlert:
     value: float
     threshold: float
     context: Dict[str, Any] = field(default_factory=dict)
-
-
 class KimeraMonitoringCore:
+    """Auto-generated class."""
+    pass
     """
     State-of-the-art monitoring system for Kimera SWM
 
@@ -241,8 +241,9 @@ class KimeraMonitoringCore:
 
     def _create_dummy_metric(self):
         """Create a dummy metric that doesn't break monitoring when real metrics fail"""
-
-        class DummyMetric:
+class DummyMetric:
+    """Auto-generated class."""
+    pass
             def labels(self, **kwargs):
                 return self
 

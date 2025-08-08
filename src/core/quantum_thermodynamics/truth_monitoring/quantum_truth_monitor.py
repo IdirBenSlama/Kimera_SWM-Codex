@@ -30,7 +30,7 @@ from typing import Any, Callable, Dict, List, Optional
 import numpy as np
 
 from src.config.settings import get_settings
-from src.utils.config import get_api_settings
+from src.utils.robust_config import get_api_settings
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -51,6 +51,8 @@ class QuantumTruthState(Enum):
 
 @dataclass
 class ClaimTruthEvolution:
+    """Auto-generated class."""
+    pass
     """Evolution of a claim's truth state over time"""
 
     claim_id: str
@@ -64,6 +66,8 @@ class ClaimTruthEvolution:
 
 @dataclass
 class TruthMonitoringResult:
+    """Auto-generated class."""
+    pass
     """Result of truth monitoring operation"""
 
     claim_id: str
@@ -79,6 +83,8 @@ class TruthMonitoringResult:
 
 @dataclass
 class QuantumMeasurement:
+    """Auto-generated class."""
+    pass
     """Single quantum measurement of a claim's truth state"""
 
     timestamp: datetime
@@ -93,6 +99,8 @@ class QuantumMeasurement:
 
 @dataclass
 class ClaimTruthEvolution:
+    """Auto-generated class."""
+    pass
     """Tracks evolution of a claim's truth state over time"""
 
     claim_id: str
@@ -148,22 +156,28 @@ class ClaimTruthEvolution:
         # Lower variance = higher stability
         stability = max(0.0, 1.0 - variance)
         return stability
-
-
 class QuantumTruthMonitor:
+    """Auto-generated class."""
+    pass
     """
     Revolutionary quantum truth monitoring system with real-time
     measurement, coherence tracking, and epistemic validation.
     """
 
     def __init__(
-        self,
+        self
         measurement_interval: int = 50,  # ms
-        coherence_threshold: float = 0.7,
-        decoherence_alerts: bool = True,
-        max_claims: int = 1000,
+        coherence_threshold: float = 0.7
+        decoherence_alerts: bool = True
+        max_claims: int = 1000
     ):
-        self.settings = get_api_settings()
+        try:
+            self.settings = get_api_settings()
+        except Exception as e:
+            logger.warning(f"API settings loading failed: {e}. Using safe fallback.")
+            from ..utils.robust_config import safe_get_api_settings
+
+            self.settings = safe_get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
         """Initialize quantum truth monitor"""
 
@@ -249,13 +263,13 @@ class QuantumTruthMonitor:
 
         measurement = QuantumMeasurement(
             timestamp=datetime.now(),
-            claim_id=claim_id,
-            truth_probability=truth_probability,
-            quantum_state=quantum_state,
-            coherence_time=coherence_time,
-            uncertainty_bounds=uncertainty_bounds,
+            claim_id=claim_id
+            truth_probability=truth_probability
+            quantum_state=quantum_state
+            coherence_time=coherence_time
+            uncertainty_bounds=uncertainty_bounds
             measurement_disturbance=abs(measurement_disturbance),
-            epistemic_confidence=epistemic_confidence,
+            epistemic_confidence=epistemic_confidence
         )
 
         # Update evolution
@@ -491,17 +505,17 @@ class QuantumTruthMonitor:
             )
 
         return {
-            "monitoring_active": self.monitoring_active,
-            "uptime_seconds": uptime,
+            "monitoring_active": self.monitoring_active
+            "uptime_seconds": uptime
             "total_claims": len(self.claim_evolutions),
-            "total_measurements": self.total_measurements,
-            "measurement_rate": self.total_measurements / uptime if uptime > 0 else 0,
-            "decoherence_events": total_decoherence,
-            "entanglement_events": self.entanglement_events,
-            "average_coherence_time": avg_coherence_time,
-            "average_epistemic_confidence": avg_epistemic_confidence,
-            "measurement_interval_ms": self.measurement_interval * 1000,
-            "coherence_threshold": self.coherence_threshold,
+            "total_measurements": self.total_measurements
+            "measurement_rate": self.total_measurements / uptime if uptime > 0 else 0
+            "decoherence_events": total_decoherence
+            "entanglement_events": self.entanglement_events
+            "average_coherence_time": avg_coherence_time
+            "average_epistemic_confidence": avg_epistemic_confidence
+            "measurement_interval_ms": self.measurement_interval * 1000
+            "coherence_threshold": self.coherence_threshold
         }
 
     def get_claim_status(self, claim_id: str) -> Optional[Dict[str, Any]]:
@@ -518,16 +532,16 @@ class QuantumTruthMonitor:
         )
 
         return {
-            "claim_id": claim_id,
-            "claim_text": evolution.claim_text,
+            "claim_id": claim_id
+            "claim_text": evolution.claim_text
             "current_state": (
                 evolution.current_state.value if evolution.current_state else None
             ),
             "total_measurements": len(evolution.measurements),
             "coherence_time_seconds": self._calculate_coherence_time(evolution),
-            "total_coherence_time": evolution.total_coherence_time,
-            "decoherence_events": evolution.decoherence_events,
-            "entangled_claims": evolution.entangled_claims,
+            "total_coherence_time": evolution.total_coherence_time
+            "decoherence_events": evolution.decoherence_events
+            "entangled_claims": evolution.entangled_claims
             "coherence_stability": evolution.get_coherence_stability(),
             "average_truth_probability": evolution.get_average_truth_probability(),
             "latest_measurement": (
@@ -558,8 +572,8 @@ async def example_usage():
     # Initialize monitor
     monitor = QuantumTruthMonitor(
         measurement_interval=100,  # 100ms
-        coherence_threshold=0.8,
-        decoherence_alerts=True,
+        coherence_threshold=0.8
+        decoherence_alerts=True
     )
 
     # Register some claims

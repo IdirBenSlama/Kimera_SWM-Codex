@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-Output Generation and Portal Management Module
+"""Output Generation and Portal Management Module"""
+
 =============================================
 
 DO-178C Level A compliant output generation and interdimensional portal
@@ -25,47 +26,26 @@ Version: 1.0.0 (DO-178C Level A)
 
 # Main integration interface
 from .integration.output_and_portals_integrator import (
-    IntegratedSystemHealthReport,
-    OutputAndPortalsConfig,
-    OutputAndPortalsIntegrator,
-    get_output_and_portals_integrator,
-)
-
+    IntegratedSystemHealthReport, OutputAndPortalsConfig, OutputAndPortalsIntegrator
+    get_output_and_portals_integrator)
 # Unified integration components
-from .integration.unified_integration_manager import (
-    IntegratedWorkflowRequest,
-    IntegratedWorkflowResult,
-    IntegrationMode,
-    SystemHealthStatus,
-    UnifiedIntegrationManager,
-    WorkflowType,
-    get_unified_integration_manager,
-)
-
+from .integration.unified_integration_manager import (IntegratedWorkflowRequest
+                                                      IntegratedWorkflowResult
+                                                      IntegrationMode
+                                                      SystemHealthStatus
+                                                      UnifiedIntegrationManager
+                                                      WorkflowType
+                                                      get_unified_integration_manager)
 # Output generation components
 from .output_generation.multi_modal_output_generator import (
-    MultiModalOutputGenerator,
-    OutputArtifact,
-    OutputMetadata,
-    OutputModality,
-    OutputQuality,
-    OutputVerificationEngine,
-    ScientificNomenclatureEngine,
-    get_multi_modal_output_generator,
-)
-
+    MultiModalOutputGenerator, OutputArtifact, OutputMetadata, OutputModality
+    OutputQuality, OutputVerificationEngine, ScientificNomenclatureEngine
+    get_multi_modal_output_generator)
 # Portal management components
 from .portal_management.interdimensional_portal_manager import (
-    DimensionalSafetyAnalyzer,
-    DimensionalSpace,
-    InterdimensionalPortalManager,
-    PortalSafetyLevel,
-    PortalStability,
-    PortalStabilityPredictor,
-    PortalState,
-    PortalType,
-    get_interdimensional_portal_manager,
-)
+    DimensionalSafetyAnalyzer, DimensionalSpace, InterdimensionalPortalManager
+    PortalSafetyLevel, PortalStability, PortalStabilityPredictor, PortalState
+    PortalType, get_interdimensional_portal_manager)
 
 # Version and metadata
 __version__ = "1.0.0"
@@ -130,9 +110,9 @@ def get_module_info() -> dict:
     """Get comprehensive module information"""
     return {
         "name": "output_and_portals",
-        "version": __version__,
-        "compliance": __compliance__,
-        "author": __author__,
+        "version": __version__
+        "compliance": __compliance__
+        "author": __author__
         "description": "Multi-modal output generation and interdimensional portal management",
         "capabilities": [
             "Multi-modal output generation with 8 modalities",
@@ -185,15 +165,12 @@ def validate_module_installation() -> bool:
     """Validate module installation and dependencies"""
     try:
         # Test core component imports
-        from .integration.output_and_portals_integrator import (
-            OutputAndPortalsIntegrator,
-        )
-        from .output_generation.multi_modal_output_generator import (
-            MultiModalOutputGenerator,
-        )
-        from .portal_management.interdimensional_portal_manager import (
-            InterdimensionalPortalManager,
-        )
+        from .integration.output_and_portals_integrator import \
+            OutputAndPortalsIntegrator
+        from .output_generation.multi_modal_output_generator import \
+            MultiModalOutputGenerator
+        from .portal_management.interdimensional_portal_manager import \
+            InterdimensionalPortalManager
 
         # Test component creation
         output_generator = get_multi_modal_output_generator()

@@ -1,4 +1,6 @@
 class RevolutionaryMarketIntelligence:
+    """Auto-generated class."""
+    pass
     """
     Detects when markets are ready for revolutionary changes.
 
@@ -24,8 +26,9 @@ class RevolutionaryMarketIntelligence:
         revolutionary_potential = await self._assess_potential(
             paradigm_tension, contradictions
         )
-
-        class RevolutionarySignal:
+class RevolutionarySignal:
+    """Auto-generated class."""
+    pass
             def __init__(
                 self, detected, confidence=None, strategy=None, paradigm_shift_type=None
             ):

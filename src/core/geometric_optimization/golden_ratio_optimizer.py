@@ -2,7 +2,7 @@
 Golden Ratio Universal Optimizer
 ===============================
 
-This module implements advanced golden ratio and Fibonacci principles across all Kimera systems,
+This module implements advanced golden ratio and Fibonacci principles across all Kimera systems
 integrating insights from natural patterns, market dynamics, and quantum mechanics.
 
 Key Features:
@@ -23,10 +23,11 @@ import numpy as np
 import torch
 
 from src.config.settings import get_settings
-from src.core.enhanced_vortex_system import QuantumVortex
-from src.core.foundational_thermodynamic_engine import EpistemicTemperature
-from src.utils.config import get_api_settings
+from src.core.uncategorized.enhanced_vortex_system import QuantumVortex
+from src.core.uncategorized.foundational_thermodynamic_engine import \
+    EpistemicTemperature
 from src.utils.gpu_foundation import get_default_device
+from src.utils.robust_config import get_api_settings
 
 logger = logging.getLogger(__name__)
 
@@ -42,6 +43,8 @@ class OptimizationDomain(Enum):
 
 @dataclass
 class GoldenParameters:
+    """Auto-generated class."""
+    pass
     """Parameters for golden ratio optimization"""
 
     phi: float = (1 + math.sqrt(5)) / 2
@@ -54,13 +57,19 @@ class GoldenParameters:
     def __post_init__(self):
         self.fibonacci_sequence = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144]
         self.retracement_levels = [0.236, 0.382, 0.500, 0.618, 0.786]
-
-
 class GoldenRatioOptimizer:
+    """Auto-generated class."""
+    pass
     """Universal golden ratio optimization system"""
 
     def __init__(self):
-        self.settings = get_api_settings()
+        try:
+            self.settings = get_api_settings()
+        except Exception as e:
+            logger.warning(f"API settings loading failed: {e}. Using safe fallback.")
+            from ..utils.robust_config import safe_get_api_settings
+
+            self.settings = safe_get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
         self.device = get_default_device()
         self.params = GoldenParameters()
@@ -153,9 +162,9 @@ class GoldenRatioOptimizer:
         vortex.fibonacci_resonance = self._calculate_resonance(vortex.stored_energy)
 
         return {
-            "position_adjustment": position_adjustment,
-            "energy_adjustment": energy_adjustment,
-            "resonance": vortex.fibonacci_resonance,
+            "position_adjustment": position_adjustment
+            "energy_adjustment": energy_adjustment
+            "resonance": vortex.fibonacci_resonance
         }
 
     def optimize_portal_coherence(self, coherence_matrix: torch.Tensor) -> torch.Tensor:
@@ -210,9 +219,9 @@ class GoldenRatioOptimizer:
             "ecoform_naturalness": np.mean(
                 self.optimization_history.get("ecoform", [0])
             ),
-            "quantum_resonance": self.params.quantum_resonance,
-            "market_alignment": self.params.market_alignment,
-            "natural_pattern_score": self.params.natural_pattern_score,
+            "quantum_resonance": self.params.quantum_resonance
+            "market_alignment": self.params.market_alignment
+            "natural_pattern_score": self.params.natural_pattern_score
         }
 
     def apply_universal_optimization(
@@ -282,22 +291,22 @@ class GoldenRatioOptimizer:
         return torch.matmul(data, pattern.T)
 
     def _calculate_optimization_metrics(
-        self,
-        original: torch.Tensor,
-        optimized: torch.Tensor,
-        domain: OptimizationDomain,
+        self
+        original: torch.Tensor
+        optimized: torch.Tensor
+        domain: OptimizationDomain
     ) -> Dict[str, float]:
         """Calculate optimization metrics for given domain"""
         diff = torch.abs(optimized - original).mean().item()
         efficiency = 1.0 / (1.0 + diff)
 
         metrics = {
-            "efficiency": efficiency,
+            "efficiency": efficiency
             "phi_alignment": float(
                 torch.cos(torch.tensor(self.params.phi * efficiency))
             ),
             "fibonacci_resonance": self._calculate_resonance(efficiency),
-            "domain": domain.value,
+            "domain": domain.value
         }
 
         return metrics

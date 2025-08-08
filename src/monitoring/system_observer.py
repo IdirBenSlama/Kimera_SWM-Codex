@@ -25,6 +25,8 @@ from .thermodynamic_analyzer import ThermodynamicAnalyzer, ThermodynamicState
 
 @dataclass
 class SystemSnapshot:
+    """Auto-generated class."""
+    pass
     """Complete system state snapshot"""
 
     timestamp: datetime
@@ -38,6 +40,8 @@ class SystemSnapshot:
 
 @dataclass
 class ObserverProfile:
+    """Auto-generated class."""
+    pass
     """Observer profile for context-dependent monitoring"""
 
     name: str
@@ -46,9 +50,9 @@ class ObserverProfile:
     analysis_depth: str  # 'surface', 'moderate', 'deep'
     priority_metrics: List[str]
     alert_thresholds: Dict[str, float]
-
-
 class SystemObserver:
+    """Auto-generated class."""
+    pass
     """
     Comprehensive system observer implementing observer-dependent monitoring
 

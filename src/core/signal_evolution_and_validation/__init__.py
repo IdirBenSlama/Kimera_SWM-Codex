@@ -24,28 +24,17 @@ Safety Level: Catastrophic (Level A)
 
 # Import epistemic validation components
 from .epistemic_validation.revolutionary_epistemic_validator import (
-    EpistemicAnalysisResult,
-    QuantumTruthState,
-    QuantumTruthSuperposition,
-    RevolutionaryEpistemicValidator,
-    ValidationResult,
-)
-
+    EpistemicAnalysisResult, QuantumTruthState, QuantumTruthSuperposition
+    RevolutionaryEpistemicValidator, ValidationResult)
 # Import main integration component
-from .integration import (
-    EpistemicValidationMode,
-    SignalEvolutionMode,
-    SignalEvolutionValidationIntegrator,
-    create_signal_evolution_validation_integrator,
-)
-
+from .integration import (EpistemicValidationMode, SignalEvolutionMode
+                          SignalEvolutionValidationIntegrator
+                          create_signal_evolution_validation_integrator)
 # Import signal evolution components
-from .signal_evolution.real_time_signal_evolution import (
-    GeoidStreamProcessor,
-    RealTimeSignalEvolutionEngine,
-    SignalEvolutionResult,
-    ThermalBudgetSignalController,
-)
+from .signal_evolution.real_time_signal_evolution import (GeoidStreamProcessor
+                                                          RealTimeSignalEvolutionEngine
+                                                          SignalEvolutionResult
+                                                          ThermalBudgetSignalController)
 
 # Package metadata
 __version__ = "1.0.0"

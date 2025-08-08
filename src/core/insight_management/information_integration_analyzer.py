@@ -39,13 +39,14 @@ import torch
 
 # Kimera core imports
 try:
-    from src.core.geoid import GeoidState
+    from src.core.primitives.geoid import GeoidState
 except ImportError:
     try:
         from core.geoid import GeoidState
     except ImportError:
-
-        class GeoidState:
+    class GeoidState:
+    """Auto-generated class."""
+    pass
             @staticmethod
             def create_default():
                 return {}
@@ -61,8 +62,9 @@ except ImportError:
 
         def get_logger(*args, **kwargs):
             return logging.getLogger(__name__)
-
-        class LogCategory:
+class LogCategory:
+    """Auto-generated class."""
+    pass
             SYSTEM = "system"
 
 
@@ -78,7 +80,7 @@ except ImportError:
 
 
 try:
-    from src.utils.config import get_api_settings
+    from src.utils.robust_config import get_api_settings
 except ImportError:
     try:
         from utils.config import get_api_settings
@@ -130,6 +132,8 @@ class TransitionType(Enum):
 
 @dataclass
 class ComplexitySignature:
+    """Auto-generated class."""
+    pass
     """Information-theoretic complexity signature using Integrated Information Theory"""
 
     analysis_id: str
@@ -146,6 +150,8 @@ class ComplexitySignature:
 
 @dataclass
 class TransitionEvent:
+    """Auto-generated class."""
+    pass
     """Information integration transition event"""
 
     event_id: str
@@ -156,9 +162,9 @@ class TransitionEvent:
     coherence_change: float
     complexity_change: float
     transition_strength: float
-
-
 class InformationIntegrationAnalyzer:
+    """Auto-generated class."""
+    pass
     """
     Analyze information integration complexity using computational signatures
 
@@ -238,15 +244,15 @@ class InformationIntegrationAnalyzer:
         )
 
         signature = ComplexitySignature(
-            analysis_id=analysis_id,
-            complexity_state=complexity_state,
-            integrated_information=phi,
-            system_coherence=coherence,
-            entropy_production_rate=entropy_production,
-            information_gradient=info_gradient,
-            transition_point_proximity=transition_proximity,
-            computational_complexity=complexity,
-            integration_score=integration_score,
+            analysis_id=analysis_id
+            complexity_state=complexity_state
+            integrated_information=phi
+            system_coherence=coherence
+            entropy_production_rate=entropy_production
+            information_gradient=info_gradient
+            transition_point_proximity=transition_proximity
+            computational_complexity=complexity
+            integration_score=integration_score
             timestamp=datetime.now(),
         )
 
@@ -492,12 +498,12 @@ class InformationIntegrationAnalyzer:
         return min(proximity, 1.0)
 
     def _calculate_computational_complexity(
-        self,
-        phi: float,
-        coherence: float,
-        entropy_production: float,
-        info_gradient: float,
-        transition_proximity: float,
+        self
+        phi: float
+        coherence: float
+        entropy_production: float
+        info_gradient: float
+        transition_proximity: float
     ) -> float:
         """Calculate overall computational complexity measure"""
 
@@ -514,12 +520,12 @@ class InformationIntegrationAnalyzer:
         return min(complexity, 1.0)
 
     def _classify_complexity_state(
-        self,
-        phi: float,
-        coherence: float,
-        entropy_production: float,
-        info_gradient: float,
-        transition_proximity: float,
+        self
+        phi: float
+        coherence: float
+        entropy_production: float
+        info_gradient: float
+        transition_proximity: float
     ) -> ComplexityState:
         """Classify complexity state based on information-theoretic signatures"""
 
@@ -588,12 +594,12 @@ class InformationIntegrationAnalyzer:
 
         return {
             "total_analyses": len(self.detected_signatures),
-            "average_phi": avg_phi,
-            "average_coherence": avg_coherence,
-            "average_entropy_production": avg_entropy_production,
-            "average_complexity": avg_complexity,
-            "average_integration_score": avg_integration_score,
-            "state_distribution": state_counts,
+            "average_phi": avg_phi
+            "average_coherence": avg_coherence
+            "average_entropy_production": avg_entropy_production
+            "average_complexity": avg_complexity
+            "average_integration_score": avg_integration_score
+            "state_distribution": state_counts
             "transition_events": len(self.transition_events),
             "latest_state": (
                 self.detected_signatures[-1].complexity_state.value
@@ -633,10 +639,10 @@ async def demonstrate_complexity_analysis():
 
             geoid = GeoidState(
                 geoid_id=f"{level_name.upper()}_GEOID_{i}",
-                semantic_state=semantic_state,
+                semantic_state=semantic_state
                 symbolic_state={
-                    "complexity_level": level_name,
-                    "complexity": complexity,
+                    "complexity_level": level_name
+                    "complexity": complexity
                 },
             )
             geoids.append(geoid)

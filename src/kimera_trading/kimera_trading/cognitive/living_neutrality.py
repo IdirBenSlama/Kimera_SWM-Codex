@@ -1,4 +1,6 @@
 class LivingNeutralityTradingZone:
+    """Auto-generated class."""
+    pass
     """
     Creates cognitive spaces free from bias and emotion.
 
@@ -23,8 +25,9 @@ class LivingNeutralityTradingZone:
         neutral_market = await self._neutralize_market_data(
             context.market_data, neutral_space
         )
-
-        class NeutralTradingContext:
+class NeutralTradingContext:
+    """Auto-generated class."""
+    pass
             pass
 
         ntc = NeutralTradingContext()
@@ -35,9 +38,13 @@ class LivingNeutralityTradingZone:
 
     async def _get_neutrality_engine(self):
         # Placeholder
-        class NeutralityEngine:
+class NeutralityEngine:
+    """Auto-generated class."""
+    pass
             async def create_neutral_field(self, intensity, scope):
-                class NeutralSpace:
+class NeutralSpace:
+    """Auto-generated class."""
+    pass
                     pass
 
                 ns = NeutralSpace()

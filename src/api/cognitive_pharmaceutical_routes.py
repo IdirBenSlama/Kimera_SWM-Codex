@@ -226,7 +226,7 @@ async def test_cognitive_bioavailability(request: BioavailabilityTestRequest):
     """
     Test cognitive bioavailability - effectiveness of thought-to-insight conversion.
 
-    Measures how effectively cognitive formulations convert thoughts into actionable insights,
+    Measures how effectively cognitive formulations convert thoughts into actionable insights
     similar to how pharmaceutical bioavailability tests measure drug absorption.
     """
     try:
@@ -319,7 +319,7 @@ async def perform_cognitive_quality_control(request: QualityControlRequest):
     """
     Perform USP-like quality control testing on cognitive processing.
 
-    Applies rigorous pharmaceutical quality control standards to cognitive processes,
+    Applies rigorous pharmaceutical quality control standards to cognitive processes
     ensuring consistency, purity, and potency of thought-to-insight conversion.
     """
     try:
@@ -445,7 +445,7 @@ async def perform_cognitive_stability_test(request: StabilityTestRequest):
     """
     Perform stability testing on cognitive formulation over time.
 
-    Tests how cognitive formulations maintain their effectiveness over extended periods,
+    Tests how cognitive formulations maintain their effectiveness over extended periods
     similar to pharmaceutical stability testing for shelf-life determination.
     """
     try:
@@ -599,7 +599,7 @@ async def generate_comprehensive_report():
 
 
 def _generate_dissolution_recommendations(
-    profile: CognitiveDissolutionProfile,
+    profile: CognitiveDissolutionProfile
 ) -> List[str]:
     """Generate recommendations based on dissolution profile."""
     recommendations = []
@@ -679,7 +679,7 @@ def _assess_stability_compliance(
 
 
 def _generate_optimization_recommendations(
-    formulation: CognitiveFormulation,
+    formulation: CognitiveFormulation
 ) -> List[str]:
     """Generate optimization recommendations."""
     return [
@@ -691,7 +691,7 @@ def _generate_optimization_recommendations(
 
 
 def _generate_stability_recommendations(
-    stability_test: CognitiveStabilityTest,
+    stability_test: CognitiveStabilityTest
 ) -> List[str]:
     """Generate stability recommendations."""
     recommendations = []

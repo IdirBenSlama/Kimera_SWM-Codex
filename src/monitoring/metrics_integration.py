@@ -53,6 +53,8 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class MetricIntegrationConfig:
+    """Auto-generated class."""
+    pass
     """Configuration for metrics integration"""
 
     # Monitoring settings
@@ -167,9 +169,9 @@ class KimeraMetricsMiddleware(BaseHTTPMiddleware):
             # Close span if it was created
             if span and OPENTELEMETRY_AVAILABLE:
                 span.end()
-
-
 class MetricsDecorator:
+    """Auto-generated class."""
+    pass
     """Decorator for automatic metrics collection on functions/methods"""
 
     def __init__(
@@ -260,9 +262,9 @@ class MetricsDecorator:
             # Close span if it was created
             if span and OPENTELEMETRY_AVAILABLE:
                 span.end()
-
-
 class KimeraComponentIntegration:
+    """Auto-generated class."""
+    pass
     """Integration layer for monitoring Kimera-specific components"""
 
     def __init__(self, config: MetricIntegrationConfig):
@@ -441,9 +443,9 @@ class KimeraComponentIntegration:
 
         if scar_count is not None:
             self.monitoring_core.scar_count.set(scar_count)
-
-
 class MetricsIntegrationManager:
+    """Auto-generated class."""
+    pass
     """Main manager for integrating monitoring across all Kimera components"""
 
     def __init__(self, config: Optional[MetricIntegrationConfig] = None):

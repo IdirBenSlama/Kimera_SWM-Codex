@@ -39,9 +39,8 @@ from ..core.gyroscopic_security import (
     create_balanced_security_core,
     create_maximum_security_core,
 )
-from ..layer_2_governance.monitoring.psychiatric_stability_monitor import (
-    CognitiveCoherenceMonitor,
-)
+from ..layer_2_governance.monitoring.psychiatric_stability_monitor import \
+    CognitiveCoherenceMonitor
 
 logger = logging.getLogger(__name__)
 
@@ -538,7 +537,7 @@ async def secure_enhanced_processing(
     req: Request, process_request: SecureProcessingRequest
 ):
     """
-    Process input text using a combination of the context selector,
+    Process input text using a combination of the context selector
     profiler, and gyroscopic security core.
     """
     global context_selector
@@ -557,7 +556,7 @@ async def secure_enhanced_processing(
     # 1. Security Analysis
     if process_request.use_gyroscopic_security:
         threat_analysis = security_core.analyze_input(process_request.input_text)
-        if threat_analysis.threat_detected:
+        if getattr(threat_analysis, "threat_detected", False):
             raise HTTPException(
                 status_code=403,
                 detail={
@@ -599,7 +598,7 @@ async def secure_enhanced_processing(
     # 4. Core Processing (Simulated)
     try:
         # Use the selector to get relevant context
-        # This part is highly dependent on the actual cognitive core,
+        # This part is highly dependent on the actual cognitive core
         # so we'll simulate the output.
 
         # Simulate selecting context based on input
@@ -616,7 +615,7 @@ async def secure_enhanced_processing(
             "security_status": "clear",
             "profiler_status": (
                 "stable"
-                if not interaction_analysis.is_drift_detected
+                if not getattr(interaction_analysis, "is_drift_detected", False)
                 else "drift_detected"
             ),
             "context_summary": processing_selector.get_processing_summary(),

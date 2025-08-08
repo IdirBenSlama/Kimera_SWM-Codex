@@ -34,12 +34,10 @@ import torch
 
 # KIMERA imports with updated paths for core integration
 try:
-    from ...engines.quantum_cognitive_engine import (
-        QuantumCognitiveEngine,
-        QuantumCognitiveMode,
-        QuantumCognitiveState,
-        QuantumProcessingMetrics,
-    )
+    from ...engines.quantum_cognitive_engine import (QuantumCognitiveEngine
+                                                     QuantumCognitiveMode
+                                                     QuantumCognitiveState
+                                                     QuantumProcessingMetrics)
 except ImportError:
     # Graceful degradation for missing quantum engine
     QuantumCognitiveEngine = None
@@ -55,19 +53,17 @@ except ImportError:
     CognitiveStabilityMetrics = None
 
 from src.config.settings import get_settings
-from src.core.constants import (
-    DO_178C_LEVEL_A_SAFETY_LEVEL,
-    DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD,
-)
+from src.core.primitives.constants import (DO_178C_LEVEL_A_SAFETY_LEVEL
+                                           DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD)
 from src.utilities.health_status import HealthStatus, get_system_uptime
 from src.utilities.performance_metrics import PerformanceMetrics
 from src.utilities.safety_assessment import SafetyAssessment
 from src.utilities.system_recommendations import SystemRecommendations
-from src.utils.config import get_api_settings
+from src.utils.robust_config import get_api_settings
 
 # Configure aerospace-grade logging
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.INFO
     format="%(asctime)s - %(name)s - %(levelname)s - [DO-178C-A] %(message)s",
 )
 logger = logging.getLogger(__name__)
@@ -87,6 +83,8 @@ class HybridProcessingMode(Enum):
 
 @dataclass
 class HybridProcessingResult:
+    """Auto-generated class."""
+    pass
     """DO-178C Level A result of hybrid quantum-classical processing"""
 
     quantum_component: Optional[QuantumCognitiveState]
@@ -105,6 +103,8 @@ class HybridProcessingResult:
 
 @dataclass
 class InterfaceMetrics:
+    """Auto-generated class."""
+    pass
     """DO-178C Level A performance metrics for quantum-classical interface"""
 
     quantum_processing_time: float
@@ -117,9 +117,9 @@ class InterfaceMetrics:
     throughput_operations_per_second: float
     safety_compliance_score: float
     formal_verification_status: bool
-
-
 class QuantumClassicalBridge:
+    """Auto-generated class."""
+    pass
     """
     DO-178C Level A Quantum-Classical Hybrid Processing Interface
 
@@ -136,10 +136,10 @@ class QuantumClassicalBridge:
     """
 
     def __init__(
-        self,
-        quantum_engine: Optional[QuantumCognitiveEngine] = None,
-        gpu_foundation: Optional[GPUFoundation] = None,
-        adaptive_mode: bool = True,
+        self
+        quantum_engine: Optional[QuantumCognitiveEngine] = None
+        gpu_foundation: Optional[GPUFoundation] = None
+        adaptive_mode: bool = True
         safety_level: str = "catastrophic",
     ):
         """
@@ -190,10 +190,10 @@ class QuantumClassicalBridge:
 
         # Processing mode optimization with safety bounds
         self.mode_performance = {
-            HybridProcessingMode.QUANTUM_ENHANCED: 0.0,
-            HybridProcessingMode.CLASSICAL_ENHANCED: 0.0,
-            HybridProcessingMode.PARALLEL_PROCESSING: 0.0,
-            HybridProcessingMode.ADAPTIVE_SWITCHING: 0.0,
+            HybridProcessingMode.QUANTUM_ENHANCED: 0.0
+            HybridProcessingMode.CLASSICAL_ENHANCED: 0.0
+            HybridProcessingMode.PARALLEL_PROCESSING: 0.0
+            HybridProcessingMode.ADAPTIVE_SWITCHING: 0.0
             HybridProcessingMode.SAFETY_FALLBACK: 1.0,  # Always reliable
         }
 
@@ -260,11 +260,11 @@ class QuantumClassicalBridge:
         return min(score, 1.0)
 
     async def process_hybrid_cognitive_data(
-        self,
+        self
         cognitive_data: Union[np.ndarray, torch.Tensor],
-        processing_mode: Optional[HybridProcessingMode] = None,
-        quantum_enhancement: float = 0.5,
-        safety_validation: bool = True,
+        processing_mode: Optional[HybridProcessingMode] = None
+        quantum_enhancement: float = 0.5
+        safety_validation: bool = True
     ) -> HybridProcessingResult:
         """
         Process cognitive data using hybrid quantum-classical approach with DO-178C Level A safety
@@ -457,14 +457,14 @@ class QuantumClassicalBridge:
         processing_time = time.perf_counter() - start_time
 
         return HybridProcessingResult(
-            quantum_component=None,
-            classical_component=result_tensor,
+            quantum_component=None
+            classical_component=result_tensor
             hybrid_fidelity=0.8,  # Conservative but reliable
-            processing_time=processing_time,
+            processing_time=processing_time
             quantum_advantage=0.0,  # No quantum component
             classical_correlation=1.0,  # Perfect classical correlation
             safety_validated=True,  # Always safe
-            processing_mode=HybridProcessingMode.SAFETY_FALLBACK,
+            processing_mode=HybridProcessingMode.SAFETY_FALLBACK
             timestamp=datetime.now(timezone.utc),
             safety_score=1.0,  # Maximum safety
             error_bounds=(0.0, 0.1),  # Conservative error bounds
@@ -487,14 +487,14 @@ class QuantumClassicalBridge:
             safe_data = torch.zeros((64, 64), dtype=torch.float32)
 
         return HybridProcessingResult(
-            quantum_component=None,
-            classical_component=safe_data,
+            quantum_component=None
+            classical_component=safe_data
             hybrid_fidelity=0.0,  # No meaningful processing occurred
             processing_time=0.001,  # Minimal time
-            quantum_advantage=0.0,
-            classical_correlation=0.0,
+            quantum_advantage=0.0
+            classical_correlation=0.0
             safety_validated=True,  # Safe by design
-            processing_mode=HybridProcessingMode.SAFETY_FALLBACK,
+            processing_mode=HybridProcessingMode.SAFETY_FALLBACK
             timestamp=datetime.now(timezone.utc),
             safety_score=1.0,  # Maximum safety despite failure
             error_bounds=(0.0, 1.0),  # Large error bounds due to failure
@@ -601,11 +601,11 @@ class QuantumClassicalBridge:
 
             self.performance_metrics.append(
                 {
-                    "timestamp": result.timestamp,
-                    "mode": mode.value,
-                    "processing_time": result.processing_time,
-                    "safety_score": result.safety_score,
-                    "hybrid_fidelity": result.hybrid_fidelity,
+                    "timestamp": result.timestamp
+                    "mode": mode.value
+                    "processing_time": result.processing_time
+                    "safety_score": result.safety_score
+                    "hybrid_fidelity": result.hybrid_fidelity
                 }
             )
 
@@ -642,30 +642,30 @@ class QuantumClassicalBridge:
                 "version": "1.0.0",
                 "safety_level": "DO-178C Level A",
                 "timestamp": current_time.isoformat(),
-                "uptime_seconds": uptime,
-                "health_status": self.health_status.value,
+                "uptime_seconds": uptime
+                "health_status": self.health_status.value
                 "safety_metrics": {
-                    "safety_level": self.safety_level,
-                    "safety_score": avg_safety_score,
+                    "safety_level": self.safety_level
+                    "safety_score": avg_safety_score
                     "safety_validated_rate": len(
                         [r for r in recent_results if r.safety_validated]
                     )
                     / max(len(recent_results), 1),
-                    "safety_interventions": self.safety_interventions,
-                    "formal_verification_enabled": self.formal_verification_enabled,
+                    "safety_interventions": self.safety_interventions
+                    "formal_verification_enabled": self.formal_verification_enabled
                 },
                 "performance_metrics": {
                     "total_processed": len(self.processing_history),
-                    "avg_processing_time": avg_processing_time,
-                    "quantum_engine_available": self.quantum_engine is not None,
-                    "gpu_foundation_available": self.gpu_foundation is not None,
+                    "avg_processing_time": avg_processing_time
+                    "quantum_engine_available": self.quantum_engine is not None
+                    "gpu_foundation_available": self.gpu_foundation is not None
                     "classical_device": str(self.classical_device),
                 },
                 "mode_performance": dict(self.mode_performance),
                 "compliance": {
-                    "do_178c_level_a": True,
-                    "safety_score_threshold": DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD,
-                    "current_safety_level": DO_178C_LEVEL_A_SAFETY_LEVEL,
+                    "do_178c_level_a": True
+                    "safety_score_threshold": DO_178C_LEVEL_A_SAFETY_SCORE_THRESHOLD
+                    "current_safety_level": DO_178C_LEVEL_A_SAFETY_LEVEL
                     "failure_rate_requirement": "≤ 1×10⁻⁹ per hour",
                     "verification_status": "COMPLIANT",
                 },
@@ -722,9 +722,9 @@ class QuantumClassicalBridge:
 
 
 def create_quantum_classical_bridge(
-    quantum_engine: Optional[QuantumCognitiveEngine] = None,
-    gpu_foundation: Optional[GPUFoundation] = None,
-    adaptive_mode: bool = True,
+    quantum_engine: Optional[QuantumCognitiveEngine] = None
+    gpu_foundation: Optional[GPUFoundation] = None
+    adaptive_mode: bool = True
     safety_level: str = "catastrophic",
 ) -> QuantumClassicalBridge:
     """
@@ -742,8 +742,8 @@ def create_quantum_classical_bridge(
     logger.info("🏗️ Creating DO-178C Level A Quantum-Classical Bridge...")
 
     return QuantumClassicalBridge(
-        quantum_engine=quantum_engine,
-        gpu_foundation=gpu_foundation,
-        adaptive_mode=adaptive_mode,
-        safety_level=safety_level,
+        quantum_engine=quantum_engine
+        gpu_foundation=gpu_foundation
+        adaptive_mode=adaptive_mode
+        safety_level=safety_level
     )

@@ -68,6 +68,8 @@ class GPUWorkloadType(Enum):
 
 @dataclass
 class GPUTask:
+    """Auto-generated class."""
+    pass
     """GPU computation task"""
 
     task_id: str
@@ -88,6 +90,8 @@ class GPUTask:
 
 @dataclass
 class GPUPerformanceMetrics:
+    """Auto-generated class."""
+    pass
     """Comprehensive GPU performance metrics"""
 
     gpu_utilization: float
@@ -101,13 +105,13 @@ class GPUPerformanceMetrics:
     queue_length: int
     error_rate: float
     timestamp: float = field(default_factory=time.time)
-
-
 class GPUIntegrationSystem:
+    """Auto-generated class."""
+    pass
     """Unified GPU integration and orchestration system"""
 
     def __init__(self, max_concurrent_tasks: int = 8, monitoring_interval: float = 1.0):
-        """Initialize GPU integration system
+        """Initialize GPU integration system"""
 
         Args:
             max_concurrent_tasks: Maximum concurrent GPU tasks
@@ -137,23 +141,23 @@ class GPUIntegrationSystem:
 
         # Statistics
         self.stats = {
-            "total_tasks_submitted": 0,
-            "total_tasks_completed": 0,
-            "total_gpu_time": 0.0,
-            "total_cpu_fallback": 0,
-            "peak_gpu_utilization": 0.0,
-            "peak_memory_usage": 0.0,
-            "average_throughput": 0.0,
+            "total_tasks_submitted": 0
+            "total_tasks_completed": 0
+            "total_gpu_time": 0.0
+            "total_cpu_fallback": 0
+            "peak_gpu_utilization": 0.0
+            "peak_memory_usage": 0.0
+            "average_throughput": 0.0
         }
 
         # Load balancing
         self.workload_weights = {
-            GPUWorkloadType.GEOID_PROCESSING: 1.0,
-            GPUWorkloadType.THERMODYNAMIC_EVOLUTION: 2.0,
-            GPUWorkloadType.SEMANTIC_ENHANCEMENT: 0.8,
-            GPUWorkloadType.COGNITIVE_FIELD: 1.5,
-            GPUWorkloadType.CRYPTOGRAPHIC: 0.5,
-            GPUWorkloadType.MIXED_WORKLOAD: 1.2,
+            GPUWorkloadType.GEOID_PROCESSING: 1.0
+            GPUWorkloadType.THERMODYNAMIC_EVOLUTION: 2.0
+            GPUWorkloadType.SEMANTIC_ENHANCEMENT: 0.8
+            GPUWorkloadType.COGNITIVE_FIELD: 1.5
+            GPUWorkloadType.CRYPTOGRAPHIC: 0.5
+            GPUWorkloadType.MIXED_WORKLOAD: 1.2
         }
 
         # Initialize engines
@@ -293,16 +297,16 @@ class GPUIntegrationSystem:
                 throughput = 0
 
             return GPUPerformanceMetrics(
-                gpu_utilization=gpu_util,
-                memory_utilization=memory_used_percent,
-                temperature=temp,
-                power_usage=power,
-                compute_throughput=throughput,
+                gpu_utilization=gpu_util
+                memory_utilization=memory_used_percent
+                temperature=temp
+                power_usage=power
+                compute_throughput=throughput
                 memory_bandwidth=0,  # Would need more complex calculation
-                tasks_completed=completed_count,
-                average_task_time=avg_task_time,
-                queue_length=queue_length,
-                error_rate=error_rate,
+                tasks_completed=completed_count
+                average_task_time=avg_task_time
+                queue_length=queue_length
+                error_rate=error_rate
             )
 
         except Exception as e:
@@ -310,13 +314,13 @@ class GPUIntegrationSystem:
             return GPUPerformanceMetrics(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
     async def submit_task(
-        self,
-        workload_type: GPUWorkloadType,
-        data: Any,
-        priority: int = 5,
-        callback: Optional[Callable] = None,
+        self
+        workload_type: GPUWorkloadType
+        data: Any
+        priority: int = 5
+        callback: Optional[Callable] = None
     ) -> str:
-        """Submit a task for GPU processing
+        """Submit a task for GPU processing"""
 
         Args:
             workload_type: Type of GPU workload
@@ -330,11 +334,11 @@ class GPUIntegrationSystem:
         task_id = f"{workload_type.value}_{int(time.time() * 1000000)}"
 
         task = GPUTask(
-            task_id=task_id,
-            workload_type=workload_type,
-            priority=priority,
-            data=data,
-            callback=callback,
+            task_id=task_id
+            workload_type=workload_type
+            priority=priority
+            data=data
+            callback=callback
         )
 
         # Add to queue with priority (lower number = higher priority in asyncio.PriorityQueue)
@@ -458,9 +462,9 @@ class GPUIntegrationSystem:
         )
 
         return {
-            "success": True,
-            "evolved_geoids": evolved_geoids,
-            "evolution_data": evolution_data,
+            "success": True
+            "evolved_geoids": evolved_geoids
+            "evolution_data": evolution_data
         }
 
     async def _process_semantic_task(self, task: GPUTask) -> Dict[str, Any]:
@@ -501,11 +505,11 @@ class GPUIntegrationSystem:
 
         return {
             "gpu_status": {
-                "available": self.gpu_available,
+                "available": self.gpu_available
                 "current_device": self.gpu_manager.get_device_info(),
-                "average_utilization": avg_gpu_util,
-                "average_memory_utilization": avg_memory_util,
-                "average_temperature": avg_temp,
+                "average_utilization": avg_gpu_util
+                "average_memory_utilization": avg_memory_util
+                "average_temperature": avg_temp
             },
             "task_statistics": {
                 "total_submitted": self.stats["total_tasks_submitted"],
@@ -530,10 +534,10 @@ class GPUIntegrationSystem:
                 ),
             },
             "engines_status": {
-                "geoid_processor": self.geoid_processor is not None,
-                "thermodynamic_engine": self.thermodynamic_engine is not None,
+                "geoid_processor": self.geoid_processor is not None
+                "thermodynamic_engine": self.thermodynamic_engine is not None
                 "cryptographic_engine": hasattr(self, "crypto_engine")
-                and self.crypto_engine is not None,
+                and self.crypto_engine is not None
             },
         }
 
@@ -586,12 +590,12 @@ class GPUIntegrationSystem:
             )
 
         return {
-            "optimization_performed": True,
-            "actions_taken": optimization_actions,
+            "optimization_performed": True
+            "actions_taken": optimization_actions
             "current_performance": {
-                "gpu_utilization": avg_gpu_util if recent_metrics else 0,
-                "memory_utilization": avg_memory_util if recent_metrics else 0,
-                "temperature": avg_temp if recent_metrics else 0,
+                "gpu_utilization": avg_gpu_util if recent_metrics else 0
+                "memory_utilization": avg_memory_util if recent_metrics else 0
+                "temperature": avg_temp if recent_metrics else 0
             },
         }
 

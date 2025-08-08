@@ -61,15 +61,15 @@ class ProcessingRequest(BaseModel):
         True, description="Enable thermal regulation"
     )
     enable_energy_management: bool = Field(True, description="Enable energy management")
-
     class Config:
+        """Auto-generated class."""
         json_schema_extra = {
             "example": {
                 "geoid_data": [
                     {
                         "id": "geoid_1",
                         "semantic_state": {"concept": "thermodynamics", "value": 1.0},
-                        "cognitive_energy": 5.0,
+                        "cognitive_energy": 5.0
                     }
                 ],
                 "enable_consciousness_detection": True,
@@ -373,7 +373,7 @@ async def detect_consciousness(
 async def store_energy(
     energy_content: float,
     coherence_score: float,
-    metadata: Optional[Dict[str, Any]] = None,
+    metadata: Optional[Dict[str, Any]] = None
 ):
     """Store energy in the vortex thermodynamic battery"""
     try:
@@ -485,15 +485,15 @@ async def optimize_system():
         # Run optimization
         result = await thermo_integration.optimize_system()
 
-        return {
-            "optimization_id": result.optimization_id,
-            "efficiency_gain": result.efficiency_gain,
-            "energy_saved": result.energy_saved,
-            "performance_boost": result.performance_boost,
-            "improvements_made": result.improvements_made,
-            "optimization_duration": result.optimization_duration,
-            "timestamp": result.timestamp.isoformat(),
-        }
+            return {
+                "optimization_id": result.optimization_id,
+                "efficiency_gain": result.efficiency_gain,
+                "energy_saved": result.energy_saved,
+                "performance_boost": result.performance_boost,
+                "improvements_made": result.improvements_made,
+                "optimization_duration": result.optimization_duration,
+                "timestamp": result.timestamp.isoformat(),
+            }
 
     except Exception as e:
         logger.error(f"Error during optimization: {e}")

@@ -44,6 +44,8 @@ class GeoidProcessingState(Enum):
 
 @dataclass
 class SemanticState:
+    """Auto-generated class."""
+    pass
     """
     Probabilistic semantic representation of the geoid's meaning.
     Captures the fuzzy, continuous aspects of knowledge.
@@ -65,6 +67,8 @@ class SemanticState:
 
 @dataclass
 class SymbolicState:
+    """Auto-generated class."""
+    pass
     """
     Logical symbolic representation of the geoid's meaning.
     Captures the discrete, rule-based aspects of knowledge.
@@ -88,6 +92,8 @@ class SymbolicState:
 
 @dataclass
 class ThermodynamicProperties:
+    """Auto-generated class."""
+    pass
     """
     Thermodynamic properties for physics-compliant evolution.
     Enables the geoid to evolve according to thermodynamic principles.
@@ -115,6 +121,8 @@ class ThermodynamicProperties:
 
 @dataclass
 class ProcessingMetadata:
+    """Auto-generated class."""
+    pass
     """
     Metadata tracking the geoid's journey through the system.
     Essential for debugging, monitoring, and system transparency.
@@ -130,18 +138,18 @@ class ProcessingMetadata:
     processing_flags: Dict[str, bool]  # Various processing status flags
 
     def add_processing_step(
-        self,
-        engine_name: str,
-        operation: str,
-        duration: float,
-        metadata: Dict[str, Any] = None,
+        self
+        engine_name: str
+        operation: str
+        duration: float
+        metadata: Dict[str, Any] = None
     ) -> None:
         """Record a processing step in the geoid's history"""
         step = {
             "timestamp": datetime.now(),
-            "engine": engine_name,
-            "operation": operation,
-            "duration_ms": duration * 1000,
+            "engine": engine_name
+            "operation": operation
+            "duration_ms": duration * 1000
             "metadata": metadata or {},
         }
         self.processing_history.append(step)
@@ -151,6 +159,8 @@ class ProcessingMetadata:
 
 @dataclass
 class GeoidState:
+    """Auto-generated class."""
+    pass
     """
     The Foundational Geoid State - Atomic Unit of Knowledge
     =======================================================
@@ -185,8 +195,8 @@ class GeoidState:
             creation_timestamp=datetime.now(),
             last_modified=datetime.now(),
             processing_history=[],
-            source_engine=None,
-            processing_depth=0,
+            source_engine=None
+            processing_depth=0
             parent_geoids=[],
             child_geoids=[],
             processing_flags={},
@@ -252,8 +262,8 @@ class GeoidState:
         # Create evolved copy
         evolved = GeoidState(
             geoid_id=str(uuid.uuid4()),
-            geoid_type=self.geoid_type,
-            processing_state=GeoidProcessingState.EVOLVING,
+            geoid_type=self.geoid_type
+            processing_state=GeoidProcessingState.EVOLVING
             semantic_state=self.semantic_state,  # Will be updated
             symbolic_state=self.symbolic_state,  # Will be updated
             thermodynamic=self.thermodynamic,  # Will be updated
@@ -266,7 +276,7 @@ class GeoidState:
         evolved.metadata.add_processing_step(
             engine_name="ThermodynamicEvolution",
             operation="evolve",
-            duration=time_step,
+            duration=time_step
             metadata={"evolution_type": "thermodynamic", "time_step": time_step},
         )
 
@@ -275,9 +285,9 @@ class GeoidState:
     def to_dict(self) -> Dict[str, Any]:
         """Convert geoid to dictionary for serialization"""
         return {
-            "geoid_id": self.geoid_id,
-            "geoid_type": self.geoid_type.value,
-            "processing_state": self.processing_state.value,
+            "geoid_id": self.geoid_id
+            "geoid_type": self.geoid_type.value
+            "processing_state": self.processing_state.value
             "semantic_state": (
                 {
                     "embedding_vector": (
@@ -377,16 +387,16 @@ class GeoidState:
             "metadata": {
                 "creation_timestamp": self.metadata.creation_timestamp.isoformat(),
                 "last_modified": self.metadata.last_modified.isoformat(),
-                "processing_history": self.metadata.processing_history,
-                "source_engine": self.metadata.source_engine,
-                "processing_depth": self.metadata.processing_depth,
-                "parent_geoids": self.metadata.parent_geoids,
-                "child_geoids": self.metadata.child_geoids,
-                "processing_flags": self.metadata.processing_flags,
+                "processing_history": self.metadata.processing_history
+                "source_engine": self.metadata.source_engine
+                "processing_depth": self.metadata.processing_depth
+                "parent_geoids": self.metadata.parent_geoids
+                "child_geoids": self.metadata.child_geoids
+                "processing_flags": self.metadata.processing_flags
             },
-            "coherence_score": self.coherence_score,
-            "cognitive_energy": self.cognitive_energy,
-            "is_complete": self.is_complete,
+            "coherence_score": self.coherence_score
+            "cognitive_energy": self.cognitive_energy
+            "is_complete": self.is_complete
         }
 
     def __repr__(self) -> str:
@@ -402,9 +412,9 @@ def create_concept_geoid(concept_name: str, embedding: np.ndarray = None) -> Geo
     semantic_state = SemanticState(
         embedding_vector=embedding if embedding is not None else np.random.random(768),
         confidence_scores={"concept_clarity": 0.8},
-        uncertainty_measure=0.2,
-        semantic_entropy=1.5,
-        coherence_score=0.8,
+        uncertainty_measure=0.2
+        semantic_entropy=1.5
+        coherence_score=0.8
     )
 
     symbolic_state = SymbolicState(
@@ -416,9 +426,9 @@ def create_concept_geoid(concept_name: str, embedding: np.ndarray = None) -> Geo
     )
 
     return GeoidState(
-        geoid_type=GeoidType.CONCEPT,
-        semantic_state=semantic_state,
-        symbolic_state=symbolic_state,
+        geoid_type=GeoidType.CONCEPT
+        semantic_state=semantic_state
+        symbolic_state=symbolic_state
     )
 
 
@@ -427,9 +437,9 @@ def create_relation_geoid(subject: str, predicate: str, object_: str) -> GeoidSt
     symbolic_state = SymbolicState(
         logical_predicates=[f"{predicate}({subject}, {object_})"],
         symbolic_relations={
-            "subject": subject,
-            "predicate": predicate,
-            "object": object_,
+            "subject": subject
+            "predicate": predicate
+            "object": object_
         },
         rule_activations={},
         symbolic_constraints=[],
@@ -446,9 +456,9 @@ def create_hypothesis_geoid(
     semantic_state = SemanticState(
         embedding_vector=np.random.random(768),  # Would use real embedder
         confidence_scores={"hypothesis_strength": confidence},
-        uncertainty_measure=1.0 - confidence,
-        semantic_entropy=2.0,
-        coherence_score=confidence,
+        uncertainty_measure=1.0 - confidence
+        semantic_entropy=2.0
+        coherence_score=confidence
     )
 
     symbolic_state = SymbolicState(
@@ -460,17 +470,17 @@ def create_hypothesis_geoid(
     )
 
     thermodynamic = ThermodynamicProperties(
-        cognitive_temperature=1.0,
-        information_entropy=2.0,
-        free_energy=confidence * 10.0,
-        activation_energy=5.0,
-        dissipation_rate=0.1,
-        equilibrium_tendency=0.3,
+        cognitive_temperature=1.0
+        information_entropy=2.0
+        free_energy=confidence * 10.0
+        activation_energy=5.0
+        dissipation_rate=0.1
+        equilibrium_tendency=0.3
     )
 
     return GeoidState(
-        geoid_type=GeoidType.HYPOTHESIS,
-        semantic_state=semantic_state,
-        symbolic_state=symbolic_state,
-        thermodynamic=thermodynamic,
+        geoid_type=GeoidType.HYPOTHESIS
+        semantic_state=semantic_state
+        symbolic_state=symbolic_state
+        thermodynamic=thermodynamic
     )

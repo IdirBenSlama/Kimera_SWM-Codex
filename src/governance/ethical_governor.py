@@ -21,9 +21,9 @@ class EthicalPrinciple(Enum):
     JUSTICE = "justice"
     TRANSPARENCY = "transparency"
     ACCOUNTABILITY = "accountability"
-
-
 class EthicalGovernor:
+    """Auto-generated class."""
+    pass
     """Governs ethical decision-making in Kimera"""
 
     def __init__(self):

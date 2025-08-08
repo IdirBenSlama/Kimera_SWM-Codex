@@ -52,6 +52,8 @@ class GPUStatus(Enum):
 
 @dataclass
 class GPUDevice:
+    """Auto-generated class."""
+    pass
     """Information about a GPU device"""
 
     device_id: int
@@ -69,22 +71,24 @@ class GPUDevice:
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary for serialization"""
         return {
-            "device_id": self.device_id,
-            "name": self.name,
-            "compute_capability": self.compute_capability,
-            "total_memory_gb": self.total_memory_gb,
-            "available_memory_gb": self.available_memory_gb,
-            "utilization_percent": self.utilization_percent,
-            "temperature_celsius": self.temperature_celsius,
-            "power_limit_watts": self.power_limit_watts,
-            "driver_version": self.driver_version,
-            "is_available": self.is_available,
-            "capability_level": self.capability_level.value,
+            "device_id": self.device_id
+            "name": self.name
+            "compute_capability": self.compute_capability
+            "total_memory_gb": self.total_memory_gb
+            "available_memory_gb": self.available_memory_gb
+            "utilization_percent": self.utilization_percent
+            "temperature_celsius": self.temperature_celsius
+            "power_limit_watts": self.power_limit_watts
+            "driver_version": self.driver_version
+            "is_available": self.is_available
+            "capability_level": self.capability_level.value
         }
 
 
 @dataclass
 class GPUConfiguration:
+    """Auto-generated class."""
+    pass
     """GPU system configuration"""
 
     enable_gpu: bool = True
@@ -97,9 +101,9 @@ class GPUConfiguration:
     max_batch_size: int = 32
     enable_profiling: bool = False
     cuda_visible_devices: Optional[str] = None
-
-
 class GPUManager:
+    """Auto-generated class."""
+    pass
     """Centralized GPU management system for Kimera SWM"""
 
     _instance = None
@@ -230,11 +234,11 @@ class GPUManager:
 
                 # Create device info
                 device = GPUDevice(
-                    device_id=i,
-                    name=device_props.name,
+                    device_id=i
+                    name=device_props.name
                     compute_capability=(device_props.major, device_props.minor),
-                    total_memory_gb=total_memory,
-                    available_memory_gb=available_memory,
+                    total_memory_gb=total_memory
+                    available_memory_gb=available_memory
                     utilization_percent=0.0,  # Will be updated by monitoring
                     temperature_celsius=0.0,  # Will be updated by monitoring
                     power_limit_watts=0.0,  # Will be updated by monitoring
@@ -306,11 +310,11 @@ class GPUManager:
         scored_devices = []
         for device in self.devices:
             capability_score = {
-                GPUCapabilityLevel.ENTERPRISE: 100,
-                GPUCapabilityLevel.HIGH_PERFORMANCE: 80,
-                GPUCapabilityLevel.STANDARD: 60,
-                GPUCapabilityLevel.BASIC: 40,
-                GPUCapabilityLevel.NONE: 0,
+                GPUCapabilityLevel.ENTERPRISE: 100
+                GPUCapabilityLevel.HIGH_PERFORMANCE: 80
+                GPUCapabilityLevel.STANDARD: 60
+                GPUCapabilityLevel.BASIC: 40
+                GPUCapabilityLevel.NONE: 0
             }[device.capability_level]
 
             memory_score = device.available_memory_gb * 10
@@ -325,13 +329,13 @@ class GPUManager:
     def _assess_capabilities(self) -> None:
         """Assess overall system GPU capabilities"""
         self.capabilities = {
-            "cuda_available": self.cuda_available,
-            "torch_available": self.torch_available,
-            "cupy_available": self.cupy_available,
+            "cuda_available": self.cuda_available
+            "torch_available": self.torch_available
+            "cupy_available": self.cupy_available
             "device_count": len(self.devices),
-            "mixed_precision_supported": False,
-            "tensor_cores_available": False,
-            "multi_gpu_supported": len(self.devices) > 1,
+            "mixed_precision_supported": False
+            "tensor_cores_available": False
+            "multi_gpu_supported": len(self.devices) > 1
         }
 
         if self.current_device:
@@ -398,19 +402,19 @@ class GPUManager:
     def get_system_status(self) -> Dict[str, Any]:
         """Get comprehensive GPU system status"""
         return {
-            "status": self.status.value,
-            "cuda_available": self.cuda_available,
-            "torch_available": self.torch_available,
-            "cupy_available": self.cupy_available,
+            "status": self.status.value
+            "cuda_available": self.cuda_available
+            "torch_available": self.torch_available
+            "cupy_available": self.cupy_available
             "device_count": len(self.devices),
-            "current_device": self.get_device_info() if self.current_device else None,
+            "current_device": self.get_device_info() if self.current_device else None
             "all_devices": [device.to_dict() for device in self.devices],
-            "capabilities": self.capabilities,
+            "capabilities": self.capabilities
             "configuration": {
-                "optimization_level": self.config.optimization_level,
-                "max_batch_size": self.config.max_batch_size,
-                "memory_fraction": self.config.memory_fraction,
-                "mixed_precision": self.config.enable_mixed_precision,
+                "optimization_level": self.config.optimization_level
+                "max_batch_size": self.config.max_batch_size
+                "memory_fraction": self.config.memory_fraction
+                "mixed_precision": self.config.enable_mixed_precision
             },
         }
 
@@ -445,7 +449,7 @@ class GPUManager:
                     if self.capabilities.get("mixed_precision_supported")
                     else "float32"
                 ),
-                "memory_efficient": True,
+                "memory_efficient": True
             }
         elif task_type == "cognitive_field":
             optimization_settings = {
@@ -457,7 +461,7 @@ class GPUManager:
             optimization_settings = {
                 "batch_size": min(self.config.max_batch_size, 8),
                 "precision": "float64",  # Higher precision for thermodynamic calculations
-                "memory_efficient": False,
+                "memory_efficient": False
             }
 
         return optimization_settings

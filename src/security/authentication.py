@@ -37,9 +37,9 @@ class AuthenticationLevel(Enum):
     AAL1 = 1  # Single factor
     AAL2 = 2  # Multi-factor
     AAL3 = 3  # Hardware-based multi-factor
-
-
 class Authenticator:
+    """Auto-generated class."""
+    pass
     """
     Multi-method authenticator with aerospace-grade security.
     """
@@ -316,9 +316,9 @@ async def get_current_user(token: str) -> dict:
         raise credentials_exception
 
     return user
-
-
 class RoleChecker:
+    """Auto-generated class."""
+    pass
     """Role-based access control checker."""
 
     def __init__(self, allowed_roles: List[str]):

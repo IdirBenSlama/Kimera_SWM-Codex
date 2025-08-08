@@ -15,24 +15,15 @@ from sqlalchemy import func
 from ..core.geoid import GeoidState
 from ..core.scar import ScarRecord
 from .database import SessionLocal
-from .enhanced_database_schema import (
-    CausalRelationshipDB,
-    ComplexityIndicatorDB,
-    CompositionSemanticDB,
-    ConceptualAbstractionDB,
-    EnhancedGeoidDB,
-    EnhancedScarDB,
-    EthicalReasoningDB,
-    GenuineOpinionDB,
-    IntrospectionLogDB,
-    MultimodalGroundingDB,
-    SelfModelDB,
-    UnderstandingTestDB,
-    ValueSystemDB,
-)
-
-
+from .enhanced_database_schema import (CausalRelationshipDB, ComplexityIndicatorDB,
+                                       CompositionSemanticDB, ConceptualAbstractionDB,
+                                       EnhancedGeoidDB, EnhancedScarDB,
+                                       EthicalReasoningDB, GenuineOpinionDB,
+                                       IntrospectionLogDB, MultimodalGroundingDB,
+                                       SelfModelDB, UnderstandingTestDB, ValueSystemDB)
 class UnderstandingVaultManager:
+    """Auto-generated class."""
+    pass
     """
     Enhanced vault manager that moves beyond pattern recognition toward genuine understanding.
 

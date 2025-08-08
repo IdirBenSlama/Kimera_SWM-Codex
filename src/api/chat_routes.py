@@ -55,9 +55,9 @@ class ConversationHistoryResponse(BaseModel):
 
 # Simple in-memory conversation storage
 conversation_store: Dict[str, List[Dict[str, Any]]] = {}
-
-
 class SimpleChatService:
+    """Auto-generated class."""
+    pass
     """Simple chat service that provides basic functionality without complex dependencies"""
 
     @staticmethod

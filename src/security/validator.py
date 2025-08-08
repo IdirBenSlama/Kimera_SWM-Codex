@@ -36,15 +36,17 @@ class ValidationRule(Enum):
 
 @dataclass
 class ValidationError:
+    """Auto-generated class."""
+    pass
     """Validation error details."""
 
     field: str
     rule: ValidationRule
     message: str
     value: Any
-
-
 class InputValidator:
+    """Auto-generated class."""
+    pass
     """
     Comprehensive input validation with aerospace-grade reliability.
     """

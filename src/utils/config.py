@@ -1,7 +1,7 @@
 """backend.utils.config
---------------------------------
 Light-weight compatibility layer that exposes convenient helpers for accessing
 configuration without importing the (heavy) full settings module everywhere.
+"""
 
 Historically, several API modules imported :pyfunc:`get_api_settings` and a
 ``Config`` class from ``backend.utils.config``. During the recent refactor we
@@ -32,7 +32,7 @@ Config = KimeraSettings  # Backwards-compatibility alias
 
 @lru_cache(maxsize=1)
 def _cached_settings() -> KimeraSettings:  # noqa: D401
-    """Load and cache the global Kimera settings instance.
+    """Load and cache the global Kimera settings instance."""
 
     Using ``functools.lru_cache`` ensures the settings object is initialised
     only once during the lifecycle which prevents duplicate environment reads
@@ -48,7 +48,7 @@ def _cached_settings() -> KimeraSettings:  # noqa: D401
 
 
 def get_api_settings() -> KimeraSettings:  # noqa: D401
-    """Return the cached global :class:`KimeraSettings` instance.
+    """Return the cached global :class:`KimeraSettings` instance."""
 
     The name is preserved for legacy import paths.
     """
@@ -67,7 +67,7 @@ def reload_settings() -> KimeraSettings:  # noqa: D401
 
 
 def get_setting(path: str, default: Any | None = None) -> Any:  # noqa: D401
-    """Retrieve a dotted-path attribute from the global settings.
+    """Retrieve a dotted-path attribute from the global settings."""
 
     Examples
     --------

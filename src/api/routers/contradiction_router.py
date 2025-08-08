@@ -61,7 +61,7 @@ def to_state(row: GeoidDB) -> GeoidState:
 
 
 def create_scar_from_tension(
-    tension: TensionGradient,
+    tension: TensionGradient
     geoids_dict: Dict[str, GeoidState],
     decision: str = "collapse",
 ) -> Tuple[ScarRecord, List[float]]:
@@ -92,9 +92,9 @@ def create_scar_from_tension(
 
 
 def run_contradiction_processing_bg(
-    body: ProcessContradictionRequest,
-    contradiction_engine: ContradictionEngine,
-    vault_manager: VaultManager,
+    body: ProcessContradictionRequest
+    contradiction_engine: ContradictionEngine
+    vault_manager: VaultManager
 ):
     """The actual logic for contradiction processing, run in the background."""
     if not contradiction_engine or not vault_manager:
@@ -116,11 +116,11 @@ def run_contradiction_processing_bg(
         trigger_geoid_state = to_state(trigger_geoid_db)
 
         # Find potential contradictions
-        potential_matches_df = vault_manager.search_geoids_by_embedding(
-            trigger_geoid_state.embedding,
-            limit=body.search_limit + 1,
-            include_distances=True,
-        )
+    potential_matches_df = vault_manager.search_geoids_by_embedding(
+        trigger_geoid_state.embedding,
+        limit=body.search_limit + 1,
+        include_distances=True,
+    )
 
         # Filter out the trigger geoid itself
         potential_matches_df = potential_matches_df[
@@ -202,9 +202,9 @@ async def process_contradictions_sync(
         trigger_geoid_db = vault_manager.get_geoid(body.trigger_geoid_id)
         if not trigger_geoid_db:
             raise HTTPException(
-                status_code=404,
-                detail=f"Trigger geoid {body.trigger_geoid_id} not found.",
-            )
+            status_code=404,
+            detail=f"Trigger geoid {body.trigger_geoid_id} not found.",
+        )
 
         trigger_geoid_state = to_state(trigger_geoid_db)
 
@@ -249,7 +249,7 @@ async def process_contradictions_sync(
 
         return {
             "message": f"Processed {len(potential_matches_df)} potential contradictions, found {len(results)} significant.",
-            "results": results,
+            "results": results
         }
 
     except Exception as e:

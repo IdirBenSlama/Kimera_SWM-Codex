@@ -1,5 +1,6 @@
 """
-Rhetorical and Symbolic Processing Integration Module
+"""Rhetorical and Symbolic Processing Integration Module"""
+
 =====================================================
 
 DO-178C Level A compliant rhetorical and symbolic processing system.

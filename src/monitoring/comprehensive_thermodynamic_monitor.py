@@ -30,9 +30,8 @@ import torch
 
 from ..core.cognitive_field_dynamics import CognitiveFieldDynamics
 from ..core.foundational_thermodynamic_engine import FoundationalThermodynamicEngine
-from ..engines.quantum_thermodynamic_consciousness import (
-    QuantumThermodynamicConsciousness,
-)
+from ..engines.quantum_thermodynamic_consciousness import \
+    QuantumThermodynamicConsciousness
 from ..utils.kimera_logger import get_system_logger
 from .entropy_monitor import EntropyMonitor
 from .thermodynamic_analyzer import ThermodynamicAnalyzer, ThermodynamicState
@@ -42,6 +41,8 @@ logger = get_system_logger(__name__)
 
 @dataclass
 class ComprehensiveThermodynamicState:
+    """Auto-generated class."""
+    pass
     """Complete thermodynamic state including all revolutionary applications"""
 
     timestamp: datetime
@@ -79,9 +80,9 @@ class ComprehensiveThermodynamicState:
     energy_savings: float
 
     metadata: Dict[str, Any] = field(default_factory=dict)
-
-
 class ComprehensiveThermodynamicMonitor:
+    """Auto-generated class."""
+    pass
     """
     Revolutionary comprehensive thermodynamic monitoring system
 

@@ -22,11 +22,9 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional
 
 try:
-    from ...engines.understanding_engine import (
-        GenuineUnderstanding,
-        UnderstandingContext,
-        UnderstandingEngine,
-    )
+    from ...engines.understanding_engine import (GenuineUnderstanding
+                                                 UnderstandingContext
+                                                 UnderstandingEngine)
 
     ENGINE_AVAILABLE = True
 except ImportError as e:
@@ -34,22 +32,26 @@ except ImportError as e:
     ENGINE_AVAILABLE = False
 
     # Fallback classes
-    class UnderstandingContext:
+class UnderstandingContext:
+    """Auto-generated class."""
+    pass
         def __init__(self, input_content, **kwargs):
             self.input_content = input_content
             self.modalities = kwargs.get("modalities", {})
             self.goals = kwargs.get("goals", [])
             self.current_state = kwargs.get("current_state", {})
             self.confidence_threshold = kwargs.get("confidence_threshold", 0.7)
-
-    class GenuineUnderstanding:
+class GenuineUnderstanding:
+    """Auto-generated class."""
+    pass
         def __init__(self, **kwargs):
             self.understanding_depth = kwargs.get("understanding_depth", 0.5)
             self.confidence_score = kwargs.get("confidence_score", 0.5)
             self.insights = kwargs.get("insights", [])
             self.ethical_analysis = kwargs.get("ethical_analysis", {})
-
-    class UnderstandingEngine:
+class UnderstandingEngine:
+    """Auto-generated class."""
+    pass
         def __init__(self):
             pass
 
@@ -65,6 +67,8 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class AdvancedUnderstandingRequest:
+    """Auto-generated class."""
+    pass
     """Request for advanced understanding processing"""
 
     content: str
@@ -78,6 +82,8 @@ class AdvancedUnderstandingRequest:
 
 @dataclass
 class AdvancedUnderstandingResult:
+    """Auto-generated class."""
+    pass
     """Result of advanced understanding processing"""
 
     genuine_understanding: GenuineUnderstanding
@@ -86,9 +92,9 @@ class AdvancedUnderstandingResult:
     capabilities_used: List[str]
     metadata: Dict[str, Any]
     timestamp: datetime
-
-
 class AdvancedUnderstandingIntegration:
+    """Auto-generated class."""
+    pass
     """
     Core integration wrapper for Advanced Understanding Engine
 
@@ -165,11 +171,11 @@ class AdvancedUnderstandingIntegration:
             if self.understanding_engine:
                 # Create understanding context
                 understanding_context = UnderstandingContext(
-                    input_content=request.content,
+                    input_content=request.content
                     modalities=request.modalities or {},
                     goals=request.goals or ["understand", "analyze", "explain"],
                     current_state=request.context or {},
-                    confidence_threshold=request.confidence_threshold,
+                    confidence_threshold=request.confidence_threshold
                 )
 
                 # Process through advanced understanding engine
@@ -216,8 +222,8 @@ class AdvancedUnderstandingIntegration:
             else:
                 # Fallback understanding
                 genuine_understanding = GenuineUnderstanding(
-                    understanding_depth=0.5,
-                    confidence_score=0.5,
+                    understanding_depth=0.5
+                    confidence_score=0.5
                     insights=[f"Basic analysis of: {request.content[:50]}..."],
                     ethical_analysis={"fallback": True},
                 )
@@ -234,8 +240,8 @@ class AdvancedUnderstandingIntegration:
                     "understanding_depth": getattr(
                         genuine_understanding, "understanding_depth", 0.5
                     ),
-                    "processing_time": processing_time,
-                    "capabilities_used": capabilities_used,
+                    "processing_time": processing_time
+                    "capabilities_used": capabilities_used
                 }
             )
 
@@ -244,15 +250,15 @@ class AdvancedUnderstandingIntegration:
                 self.understanding_history = self.understanding_history[-50:]
 
             result = AdvancedUnderstandingResult(
-                genuine_understanding=genuine_understanding,
-                processing_time=processing_time,
-                analysis_depth=analysis_depth,
-                capabilities_used=capabilities_used,
+                genuine_understanding=genuine_understanding
+                processing_time=processing_time
+                analysis_depth=analysis_depth
+                capabilities_used=capabilities_used
                 metadata={
                     "content_length": len(request.content),
                     "modalities_count": len(request.modalities or {}),
                     "goals_count": len(request.goals or []),
-                    "engine_available": self.engine_available,
+                    "engine_available": self.engine_available
                 },
                 timestamp=datetime.now(),
             )
@@ -265,15 +271,15 @@ class AdvancedUnderstandingIntegration:
 
             # Return fallback result
             fallback_understanding = GenuineUnderstanding(
-                understanding_depth=0.3,
-                confidence_score=0.3,
+                understanding_depth=0.3
+                confidence_score=0.3
                 insights=[f"Error processing: {str(e)[:100]}"],
                 ethical_analysis={"error": True},
             )
 
             return AdvancedUnderstandingResult(
-                genuine_understanding=fallback_understanding,
-                processing_time=processing_time,
+                genuine_understanding=fallback_understanding
+                processing_time=processing_time
                 analysis_depth="error",
                 capabilities_used=["error_handling"],
                 metadata={"error": str(e)},
@@ -291,9 +297,9 @@ class AdvancedUnderstandingIntegration:
             Simple understanding result
         """
         request = AdvancedUnderstandingRequest(
-            content=content,
-            require_ethical_analysis=False,
-            require_causal_analysis=False,
+            content=content
+            require_ethical_analysis=False
+            require_causal_analysis=False
         )
 
         result = await self.process_advanced_understanding(request)
@@ -306,8 +312,8 @@ class AdvancedUnderstandingIntegration:
                 result.genuine_understanding, "confidence_score", 0.5
             ),
             "insights": getattr(result.genuine_understanding, "insights", []),
-            "analysis_depth": result.analysis_depth,
-            "processing_time": result.processing_time,
+            "analysis_depth": result.analysis_depth
+            "processing_time": result.processing_time
         }
 
     def get_understanding_stats(self) -> Dict[str, Any]:
@@ -339,15 +345,15 @@ class AdvancedUnderstandingIntegration:
         ) * 100
 
         return {
-            "engine_available": self.engine_available,
-            "initialization_complete": self.initialization_complete,
-            "total_requests": self.total_understanding_requests,
-            "successful_operations": self.successful_understanding_operations,
-            "success_rate": success_rate,
+            "engine_available": self.engine_available
+            "initialization_complete": self.initialization_complete
+            "total_requests": self.total_understanding_requests
+            "successful_operations": self.successful_understanding_operations
+            "success_rate": success_rate
             "performance": {
-                "avg_understanding_depth": avg_understanding_depth,
-                "avg_processing_time": avg_processing_time,
-                "capability_usage": capability_counts,
+                "avg_understanding_depth": avg_understanding_depth
+                "avg_processing_time": avg_processing_time
+                "capability_usage": capability_counts
             },
             "capabilities": [
                 "semantic_analysis",
@@ -365,8 +371,8 @@ class AdvancedUnderstandingIntegration:
             # Test basic understanding
             test_request = AdvancedUnderstandingRequest(
                 content="What is the relationship between consciousness and artificial intelligence?",
-                require_ethical_analysis=True,
-                require_causal_analysis=True,
+                require_ethical_analysis=True
+                require_causal_analysis=True
             )
 
             result = await self.process_advanced_understanding(test_request)

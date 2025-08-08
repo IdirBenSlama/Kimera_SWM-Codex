@@ -1,4 +1,6 @@
 class CognitiveConfig:
+    """Auto-generated class."""
+    pass
     """Configuration for the cognitive-thermodynamic trading system."""
 
     def __init__(self):

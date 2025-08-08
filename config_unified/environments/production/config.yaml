@@ -1,0 +1,57 @@
+algorithms:
+  entropy_precision: 1.0e-12
+  similarity_threshold: 0.8
+  top_k_default: 10
+
+app:
+  debug: false
+  environment: production
+  name: KIMERA SWM
+  version: 2.0.0
+
+concurrency:
+  chunk_size: 100
+  max_workers: 24
+  timeout: 60
+
+database:
+  host: ${KIMERA_DB_HOST}
+  port: 5432
+  name: kimera_prod
+  user: kimera_user
+  password: ${KIMERA_DB_PASSWORD}
+  pool_size: 20
+  
+gpu:
+  enabled: true
+  memory_limit: 0.9
+  device_ids: [0, 1, 2, 3]
+  
+monitoring:
+  enabled: true
+  metrics_port: 9090
+  grafana_port: 3000
+  alerts_enabled: true
+  
+semantic_grounding:
+  confidence_threshold: 0.85
+  max_concepts: 100000
+  embedding_dimensions: 1024
+  
+thermodynamic:
+  temperature_range: [50, 2000]
+  entropy_calculations: true
+  carnot_efficiency: true
+  optimization_enabled: true
+  
+consciousness:
+  detection_threshold: 0.9
+  barenholtz_integration: true
+  field_dynamics: true
+  advanced_analysis: true
+
+trading:
+  mode: live
+  base_currency: USD
+  risk_tolerance: 0.05
+  max_position_size: 1000000 

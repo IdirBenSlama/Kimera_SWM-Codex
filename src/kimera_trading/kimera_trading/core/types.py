@@ -7,6 +7,8 @@ import numpy as np
 
 @dataclass
 class ConsciousnessState:
+    """Auto-generated class."""
+    pass
     """Represents consciousness state of system/market"""
 
     level: float  # 0-1 scale
@@ -17,6 +19,8 @@ class ConsciousnessState:
 
 @dataclass
 class ThermodynamicState:
+    """Auto-generated class."""
+    pass
     """Represents thermodynamic state"""
 
     entropy: float  # System entropy
@@ -27,6 +31,8 @@ class ThermodynamicState:
 
 @dataclass
 class QuantumOrder:
+    """Auto-generated class."""
+    pass
     """Order existing in superposition"""
 
     state_vector: np.ndarray  # Quantum state

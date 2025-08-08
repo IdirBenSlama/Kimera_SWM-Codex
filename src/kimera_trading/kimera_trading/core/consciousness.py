@@ -1,9 +1,9 @@
 import numpy as np
 
 from ..core.types import ConsciousnessState
-
-
 class ConsciousnessStateManager:
+    """Auto-generated class."""
+    pass
     """Manages the consciousness state of the trading system."""
 
     def __init__(self):

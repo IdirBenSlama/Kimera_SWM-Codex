@@ -1,7 +1,7 @@
 from ..core.types import MarketPhase
-
-
 class MarketPhaseDetector:
+    """Auto-generated class."""
+    pass
     """Detects the thermodynamic phase of the market."""
 
     def detect(self, market_data) -> MarketPhase:

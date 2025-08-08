@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class ModalityFeatures:
     """Features extracted from a specific modality"""
-
+    
     modality: str
     raw_features: np.ndarray
     processed_features: Dict[str, Any]

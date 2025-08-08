@@ -11,21 +11,21 @@ from typing import Any, Dict, List, Tuple
 import numpy as np
 
 logger = logging.getLogger(__name__)
-
-
 class ConflictResolver:
+    """Auto-generated class."""
+    pass
     """Resolves conflicts between dual-system outputs"""
 
     def __init__(self):
         self.resolution_history = []
         self.strategies = {
-            "confidence": self._resolve_by_confidence,
-            "consensus": self._resolve_by_consensus,
-            "weighted": self._resolve_by_weighting,
+            "confidence": self._resolve_by_confidence
+            "consensus": self._resolve_by_consensus
+            "weighted": self._resolve_by_weighting
         }
 
     def resolve(
-        self,
+        self
         system1_output: Dict[str, Any],
         system2_output: Dict[str, Any],
         strategy: str = "weighted",
@@ -40,9 +40,9 @@ class ConflictResolver:
         # Record resolution
         self.resolution_history.append(
             {
-                "strategy": strategy,
+                "strategy": strategy
                 "inputs": (system1_output, system2_output),
-                "output": resolution,
+                "output": resolution
                 "timestamp": str(datetime.now()),
             }
         )
@@ -66,7 +66,7 @@ class ConflictResolver:
         return {
             "type": "consensus",
             "elements": [s1, s2],
-            "confidence": (s1.get("confidence", 0) + s2.get("confidence", 0)) / 2,
+            "confidence": (s1.get("confidence", 0) + s2.get("confidence", 0)) / 2
         }
 
     def _resolve_by_weighting(
@@ -86,8 +86,8 @@ class ConflictResolver:
 
         return {
             "type": "weighted",
-            "system1_contribution": s1,
-            "system2_contribution": s2,
+            "system1_contribution": s1
+            "system2_contribution": s2
             "weights": {"system1": w1, "system2": w2},
             "confidence": w1 * s1.get("confidence", 0) + w2 * s2.get("confidence", 0),
         }
@@ -104,7 +104,7 @@ class ConflictResolver:
 
         return {
             "total_resolutions": len(self.resolution_history),
-            "strategy_usage": strategy_counts,
+            "strategy_usage": strategy_counts
         }
 
 

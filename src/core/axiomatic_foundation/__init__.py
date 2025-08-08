@@ -1,5 +1,6 @@
 """
-Axiomatic Foundation Module
+"""Axiomatic Foundation Module"""
+
 ==========================
 
 This module establishes a formal, verifiable, and self-consistent foundation

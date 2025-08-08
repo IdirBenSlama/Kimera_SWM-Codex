@@ -62,6 +62,8 @@ class InsightQuality(Enum):
 
 @dataclass
 class PatternInsight:
+    """Auto-generated class."""
+    pass
     """Pattern recognition insight"""
 
     pattern_id: str
@@ -76,6 +78,8 @@ class PatternInsight:
 
 @dataclass
 class MetaInsightResult:
+    """Auto-generated class."""
+    pass
     """Result from meta-insight processing"""
 
     insight_id: str
@@ -110,9 +114,9 @@ class MetaInsightResult:
     )
     success: bool = True
     error_log: List[str] = field(default_factory=list)
-
-
 class HigherOrderProcessor:
+    """Auto-generated class."""
+    pass
     """Higher-order cognitive processing system"""
 
     def __init__(self, max_meta_depth: int = 3, recursion_limit: int = 5):
@@ -131,9 +135,9 @@ class HigherOrderProcessor:
         logger.debug("Higher-order processor initialized")
 
     async def process_higher_order(
-        self,
-        cognitive_input: torch.Tensor,
-        target_meta_level: MetaCognitionLevel,
+        self
+        cognitive_input: torch.Tensor
+        target_meta_level: MetaCognitionLevel
         context: Dict[str, Any],
     ) -> Dict[str, Any]:
         """Process at higher-order meta-cognitive levels"""
@@ -159,8 +163,8 @@ class HigherOrderProcessor:
             logger.error(f"Higher-order processing failed: {e}")
             return {
                 "error": str(e),
-                "meta_level": target_meta_level.value,
-                "processing_quality": 0.0,
+                "meta_level": target_meta_level.value
+                "processing_quality": 0.0
             }
 
     async def _process_object_level(
@@ -179,11 +183,11 @@ class HigherOrderProcessor:
 
         return {
             "processing_level": "object_level",
-            "processed_state": processed_state,
-            "activation_level": activation_level,
+            "processed_state": processed_state
+            "activation_level": activation_level
             "coherence": max(0.0, min(1.0, coherence)),
-            "complexity": complexity,
-            "processing_quality": (activation_level + coherence + complexity) / 3.0,
+            "complexity": complexity
+            "processing_quality": (activation_level + coherence + complexity) / 3.0
         }
 
     async def _process_meta_level_1(
@@ -203,14 +207,14 @@ class HigherOrderProcessor:
 
         return {
             "processing_level": "meta_level_1",
-            "object_level_result": object_result,
-            "meta_reflection": meta_reflection,
-            "meta_insights": meta_insights,
+            "object_level_result": object_result
+            "meta_reflection": meta_reflection
+            "meta_insights": meta_insights
             "processing_quality": (
                 object_result.get("processing_quality", 0.0)
                 + meta_reflection.get("reflection_quality", 0.0)
             )
-            / 2.0,
+            / 2.0
         }
 
     async def _process_meta_level_2(
@@ -230,17 +234,17 @@ class HigherOrderProcessor:
 
         return {
             "processing_level": "meta_level_2",
-            "meta_level_1_result": meta_1_result,
-            "meta_meta_reflection": meta_meta_reflection,
-            "higher_order_insights": higher_order_insights,
+            "meta_level_1_result": meta_1_result
+            "meta_meta_reflection": meta_meta_reflection
+            "higher_order_insights": higher_order_insights
             "processing_quality": min(
-                1.0,
+                1.0
                 (
                     meta_1_result.get("processing_quality", 0.0)
                     + meta_meta_reflection.get("meta_reflection_quality", 0.0)
                     + higher_order_insights.get("insight_quality", 0.0)
                 )
-                / 3.0,
+                / 3.0
             ),
         }
 
@@ -261,17 +265,17 @@ class HigherOrderProcessor:
 
         return {
             "processing_level": "meta_level_3",
-            "meta_level_2_result": meta_2_result,
-            "ultra_meta_reflection": ultra_meta_reflection,
-            "transcendent_insights": transcendent_insights,
+            "meta_level_2_result": meta_2_result
+            "ultra_meta_reflection": ultra_meta_reflection
+            "transcendent_insights": transcendent_insights
             "processing_quality": min(
-                1.0,
+                1.0
                 (
                     meta_2_result.get("processing_quality", 0.0)
                     + ultra_meta_reflection.get("ultra_reflection_quality", 0.0)
                     + transcendent_insights.get("transcendence_quality", 0.0)
                 )
-                / 3.0,
+                / 3.0
             ),
         }
 
@@ -314,13 +318,13 @@ class HigherOrderProcessor:
 
         # Meta-cognitive assessment
         reflection = {
-            "processing_effectiveness": (activation + coherence) / 2.0,
-            "cognitive_load_assessment": complexity,
-            "processing_coherence_evaluation": coherence,
-            "attention_allocation_analysis": activation,
+            "processing_effectiveness": (activation + coherence) / 2.0
+            "cognitive_load_assessment": complexity
+            "processing_coherence_evaluation": coherence
+            "attention_allocation_analysis": activation
             "cognitive_resource_utilization": (activation * coherence + complexity)
-            / 2.0,
-            "reflection_quality": (activation + coherence + (1.0 - complexity)) / 3.0,
+            / 2.0
+            "reflection_quality": (activation + coherence + (1.0 - complexity)) / 3.0
         }
 
         # Add contextual reflections
@@ -341,7 +345,7 @@ class HigherOrderProcessor:
                 reflection.get("processing_effectiveness", 0.0)
                 + reflection.get("reflection_quality", 0.0)
             )
-            / 2.0,
+            / 2.0
         }
 
         return insights
@@ -356,13 +360,13 @@ class HigherOrderProcessor:
         meta_quality = meta_1_result.get("processing_quality", 0.0)
 
         meta_reflection = {
-            "meta_processing_effectiveness": meta_quality,
-            "object_meta_integration": (object_quality + meta_quality) / 2.0,
+            "meta_processing_effectiveness": meta_quality
+            "object_meta_integration": (object_quality + meta_quality) / 2.0
             "meta_cognitive_coherence": meta_1_result.get("meta_reflection", {}).get(
                 "reflection_quality", 0.0
             ),
             "recursive_thinking_quality": min(1.0, meta_quality * 1.1),
-            "meta_reflection_quality": (meta_quality + object_quality) / 2.0,
+            "meta_reflection_quality": (meta_quality + object_quality) / 2.0
         }
 
         return meta_reflection
@@ -387,14 +391,14 @@ class HigherOrderProcessor:
         processing_quality = meta_2_result.get("processing_quality", 0.0)
 
         ultra_reflection = {
-            "transcendent_processing_assessment": processing_quality,
+            "transcendent_processing_assessment": processing_quality
             "meta_meta_cognitive_coherence": min(1.0, processing_quality * 1.15),
             "consciousness_of_consciousness": processing_quality
             ** 2,  # Squared for consciousness depth
             "recursive_depth_analysis": min(
                 1.0, len(str(meta_2_result)) / 1000.0
             ),  # Complexity proxy
-            "ultra_reflection_quality": processing_quality,
+            "ultra_reflection_quality": processing_quality
         }
 
         return ultra_reflection
@@ -412,7 +416,7 @@ class HigherOrderProcessor:
             "transcendent_pattern_insight": f"Transcendent processing quality: {ultra_reflection.get('transcendent_processing_assessment', 0.0):.3f}",
             "recursive_depth_insight": f"Recursive cognitive depth: {ultra_reflection.get('recursive_depth_analysis', 0.0):.3f}",
             "meta_meta_coherence_insight": f"Meta-meta-cognitive coherence: {ultra_reflection.get('meta_meta_cognitive_coherence', 0.0):.3f}",
-            "transcendence_quality": consciousness_level,
+            "transcendence_quality": consciousness_level
         }
 
         return insights
@@ -447,15 +451,15 @@ class HigherOrderProcessor:
 
         return {
             "processing_level": "recursive_meta",
-            "current_result": current_result,
-            "recursive_result": recursive_result,
-            "integrated_quality": integrated_quality,
-            "recursion_depth": self.recursion_count,
-            "processing_quality": integrated_quality,
+            "current_result": current_result
+            "recursive_result": recursive_result
+            "integrated_quality": integrated_quality
+            "recursion_depth": self.recursion_count
+            "processing_quality": integrated_quality
         }
-
-
 class MetaCognitionEngine:
+    """Auto-generated class."""
+    pass
     """Meta-cognition and self-reflection engine"""
 
     def __init__(self, awareness_threshold: float = 0.6):
@@ -493,17 +497,17 @@ class MetaCognitionEngine:
             awareness_level = self._evaluate_metacognitive_awareness(cognitive_analysis)
 
             monitoring_result = {
-                "cognitive_analysis": cognitive_analysis,
-                "resource_monitoring": resource_monitoring,
-                "strategy_assessment": strategy_assessment,
-                "awareness_level": awareness_level,
+                "cognitive_analysis": cognitive_analysis
+                "resource_monitoring": resource_monitoring
+                "strategy_assessment": strategy_assessment
+                "awareness_level": awareness_level
                 "monitoring_quality": (
                     cognitive_analysis.get("analysis_quality", 0.0)
                     + resource_monitoring.get("monitoring_accuracy", 0.0)
                     + strategy_assessment.get("assessment_quality", 0.0)
                     + awareness_level
                 )
-                / 4.0,
+                / 4.0
             }
 
             # Record monitoring data
@@ -540,12 +544,12 @@ class MetaCognitionEngine:
         efficiency = processing_intensity * coherence / (complexity + 1e-8)
 
         return {
-            "processing_intensity": processing_intensity,
+            "processing_intensity": processing_intensity
             "processing_coherence": max(0.0, min(1.0, coherence)),
-            "processing_complexity": complexity,
+            "processing_complexity": complexity
             "processing_efficiency": min(1.0, efficiency),
             "analysis_quality": (processing_intensity + coherence + (1.0 - complexity))
-            / 3.0,
+            / 3.0
         }
 
     def _monitor_cognitive_resources(self, state: torch.Tensor) -> Dict[str, Any]:
@@ -576,11 +580,11 @@ class MetaCognitionEngine:
         ) / 4.0
 
         return {
-            "attention_usage": attention_usage,
-            "memory_usage": memory_usage,
-            "processing_usage": processing_usage,
-            "executive_usage": executive_usage,
-            "total_utilization": total_utilization,
+            "attention_usage": attention_usage
+            "memory_usage": memory_usage
+            "processing_usage": processing_usage
+            "executive_usage": executive_usage
+            "total_utilization": total_utilization
             "resource_balance": 1.0
             - np.std(
                 [attention_usage, memory_usage, processing_usage, executive_usage]
@@ -597,7 +601,7 @@ class MetaCognitionEngine:
             torch.cosine_similarity(
                 state[: len(state) // 2].unsqueeze(0),
                 state[len(state) // 2 :].unsqueeze(0),
-                dim=1,
+                dim=1
             ).item()
             if len(state) > 1
             else 0.0
@@ -612,12 +616,12 @@ class MetaCognitionEngine:
 
         return {
             "strategy_coherence": abs(strategy_coherence),
-            "strategy_appropriateness": strategy_appropriateness,
-            "strategy_persistence": persistence,
+            "strategy_appropriateness": strategy_appropriateness
+            "strategy_persistence": persistence
             "strategy_effectiveness": (
                 abs(strategy_coherence) + strategy_appropriateness + persistence
             )
-            / 3.0,
+            / 3.0
             "assessment_quality": min(
                 1.0, (abs(strategy_coherence) + strategy_appropriateness) / 2.0
             ),
@@ -641,9 +645,9 @@ class MetaCognitionEngine:
             awareness = awareness * 1.2  # Boost above threshold
 
         return max(0.0, min(1.0, awareness))
-
-
 class PatternRecognitionSystem:
+    """Auto-generated class."""
+    pass
     """Advanced pattern recognition for insights"""
 
     def __init__(self, pattern_threshold: float = 0.5, max_patterns: int = 50):
@@ -659,28 +663,28 @@ class PatternRecognitionSystem:
         templates = [
             {
                 "name": "periodic_pattern",
-                "detector": self._detect_periodic_pattern,
-                "significance": 0.7,
+                "detector": self._detect_periodic_pattern
+                "significance": 0.7
             },
             {
                 "name": "hierarchical_pattern",
-                "detector": self._detect_hierarchical_pattern,
-                "significance": 0.8,
+                "detector": self._detect_hierarchical_pattern
+                "significance": 0.8
             },
             {
                 "name": "emergent_pattern",
-                "detector": self._detect_emergent_pattern,
-                "significance": 0.9,
+                "detector": self._detect_emergent_pattern
+                "significance": 0.9
             },
             {
                 "name": "causal_pattern",
-                "detector": self._detect_causal_pattern,
-                "significance": 0.75,
+                "detector": self._detect_causal_pattern
+                "significance": 0.75
             },
             {
                 "name": "recursive_pattern",
-                "detector": self._detect_recursive_pattern,
-                "significance": 0.85,
+                "detector": self._detect_recursive_pattern
+                "significance": 0.85
             },
         ]
         return templates
@@ -760,7 +764,7 @@ class PatternRecognitionSystem:
                         {"frequency_index": max_index, "magnitude": max_magnitude}
                     ],
                     "confidence": min(1.0, max_magnitude),
-                    "generalizability": 0.7,
+                    "generalizability": 0.7
                 }
 
             return None
@@ -794,14 +798,14 @@ class PatternRecognitionSystem:
 
                 if hierarchy_strength > 0.4:
                     return {
-                        "strength": hierarchy_strength,
+                        "strength": hierarchy_strength
                         "description": f"Hierarchical pattern across {len(scales)} scales",
                         "evidence": [
                             {"scale": s, "score": score}
                             for s, score in zip(scales, hierarchical_scores)
                         ],
-                        "confidence": hierarchy_strength,
-                        "generalizability": 0.8,
+                        "confidence": hierarchy_strength
+                        "generalizability": 0.8
                     }
 
             return None
@@ -837,12 +841,12 @@ class PatternRecognitionSystem:
                     "description": f"Emergent pattern with interaction strength {interaction_strength:.3f}",
                     "evidence": [
                         {
-                            "emergent_signal": emergent_signal,
-                            "interactions": interaction_strength,
+                            "emergent_signal": emergent_signal
+                            "interactions": interaction_strength
                         }
                     ],
                     "confidence": min(1.0, emergence_strength),
-                    "generalizability": 0.6,
+                    "generalizability": 0.6
                 }
 
             return None
@@ -871,11 +875,11 @@ class PatternRecognitionSystem:
 
             if causal_strength > 0.5:
                 return {
-                    "strength": causal_strength,
+                    "strength": causal_strength
                     "description": f"Temporal causal pattern with correlation {correlation:.3f}",
                     "evidence": [{"temporal_correlation": correlation}],
-                    "confidence": causal_strength,
-                    "generalizability": 0.75,
+                    "confidence": causal_strength
+                    "generalizability": 0.75
                 }
 
             return None
@@ -905,11 +909,11 @@ class PatternRecognitionSystem:
 
             if recursive_strength > 0.6:
                 return {
-                    "strength": recursive_strength,
+                    "strength": recursive_strength
                     "description": f"Recursive self-similar pattern with similarity {similarity:.3f}",
                     "evidence": [{"self_similarity": similarity}],
-                    "confidence": recursive_strength,
-                    "generalizability": 0.85,
+                    "confidence": recursive_strength
+                    "generalizability": 0.85
                 }
 
             return None
@@ -928,9 +932,9 @@ class PatternRecognitionSystem:
         novelty = 1.0 / (1.0 + existing_count * 0.1)
 
         return max(0.1, min(1.0, novelty))
-
-
 class InsightGenerationEngine:
+    """Auto-generated class."""
+    pass
     """Core insight generation and synthesis engine"""
 
     def __init__(
@@ -944,7 +948,7 @@ class InsightGenerationEngine:
         logger.debug("Insight generation engine initialized")
 
     async def generate_insight(
-        self,
+        self
         patterns: List[PatternInsight],
         meta_cognitive_analysis: Dict[str, Any],
         higher_order_processing: Dict[str, Any],
@@ -989,14 +993,14 @@ class InsightGenerationEngine:
             )
 
             insight_result = {
-                "insight_content": combined_insights,
-                "insight_description": insight_description,
-                "insight_type": insight_type,
-                "insight_quality": insight_quality,
-                "insight_significance": insight_significance,
-                "pattern_synthesis": pattern_synthesis,
-                "meta_insights": meta_insights,
-                "higher_order_insights": higher_order_insights,
+                "insight_content": combined_insights
+                "insight_description": insight_description
+                "insight_type": insight_type
+                "insight_quality": insight_quality
+                "insight_significance": insight_significance
+                "pattern_synthesis": pattern_synthesis
+                "meta_insights": meta_insights
+                "higher_order_insights": higher_order_insights
                 "breakthrough_potential": self._assess_breakthrough_potential(
                     insight_quality, insight_significance
                 ),
@@ -1019,8 +1023,8 @@ class InsightGenerationEngine:
             return {
                 "insight_content": "",
                 "insight_description": f"Insight generation failed: {e}",
-                "insight_quality": 0.0,
-                "breakthrough_potential": 0.0,
+                "insight_quality": 0.0
+                "breakthrough_potential": 0.0
             }
 
     def _synthesize_patterns(self, patterns: List[PatternInsight]) -> Dict[str, Any]:
@@ -1038,9 +1042,9 @@ class InsightGenerationEngine:
                 if connection_strength > 0.3:
                     connections.append(
                         {
-                            "pattern1": pattern1.pattern_id,
-                            "pattern2": pattern2.pattern_id,
-                            "connection_strength": connection_strength,
+                            "pattern1": pattern1.pattern_id
+                            "pattern2": pattern2.pattern_id
+                            "connection_strength": connection_strength
                             "connection_type": self._determine_connection_type(
                                 pattern1, pattern2
                             ),
@@ -1060,11 +1064,11 @@ class InsightGenerationEngine:
 
         return {
             "synthesis_quality": min(1.0, synthesis_quality),
-            "pattern_connections": connections,
+            "pattern_connections": connections
             "dominant_patterns": sorted(
                 patterns, key=lambda p: p.pattern_strength, reverse=True
             )[:3],
-            "synthesis_coherence": avg_confidence,
+            "synthesis_coherence": avg_confidence
         }
 
     def _generate_meta_cognitive_insights(
@@ -1075,10 +1079,10 @@ class InsightGenerationEngine:
         awareness_level = meta_analysis.get("awareness_level", 0.0)
 
         insights = {
-            "meta_cognitive_effectiveness": processing_quality,
+            "meta_cognitive_effectiveness": processing_quality
             "self_awareness_insight": f"Self-awareness level: {awareness_level:.2f}",
             "cognitive_monitoring_insight": f"Cognitive monitoring quality: {processing_quality:.2f}",
-            "meta_insight_quality": (processing_quality + awareness_level) / 2.0,
+            "meta_insight_quality": (processing_quality + awareness_level) / 2.0
         }
 
         # Add specific insights based on analysis
@@ -1098,9 +1102,9 @@ class InsightGenerationEngine:
         processing_level = higher_order_processing.get("processing_level", "unknown")
 
         insights = {
-            "higher_order_quality": processing_quality,
+            "higher_order_quality": processing_quality
             "processing_level_insight": f"Achieved {processing_level} processing",
-            "meta_level_effectiveness": processing_quality,
+            "meta_level_effectiveness": processing_quality
         }
 
         # Add level-specific insights
@@ -1117,7 +1121,7 @@ class InsightGenerationEngine:
         return insights
 
     def _combine_insights(
-        self,
+        self
         pattern_synthesis: Dict[str, Any],
         meta_insights: Dict[str, Any],
         higher_order_insights: Dict[str, Any],
@@ -1242,10 +1246,10 @@ class InsightGenerationEngine:
             return InsightQuality.TRIVIAL
 
     def _generate_insight_description(
-        self,
-        insight_content: str,
+        self
+        insight_content: str
         pattern_synthesis: Dict[str, Any],
-        insight_type: InsightType,
+        insight_type: InsightType
     ) -> str:
         """Generate a descriptive explanation of the insight"""
         synthesis_quality = pattern_synthesis.get("synthesis_quality", 0.0)
@@ -1265,11 +1269,11 @@ class InsightGenerationEngine:
     ) -> float:
         """Assess the breakthrough potential of the insight"""
         significance_scores = {
-            InsightQuality.TRIVIAL: 0.1,
-            InsightQuality.BASIC: 0.3,
-            InsightQuality.SIGNIFICANT: 0.6,
-            InsightQuality.PROFOUND: 0.8,
-            InsightQuality.REVOLUTIONARY: 1.0,
+            InsightQuality.TRIVIAL: 0.1
+            InsightQuality.BASIC: 0.3
+            InsightQuality.SIGNIFICANT: 0.6
+            InsightQuality.PROFOUND: 0.8
+            InsightQuality.REVOLUTIONARY: 1.0
         }
 
         significance_score = significance_scores.get(insight_significance, 0.5)
@@ -1280,15 +1284,15 @@ class InsightGenerationEngine:
             breakthrough_potential = min(1.0, breakthrough_potential * 1.2)
 
         return breakthrough_potential
-
-
 class MetaInsightCore:
+    """Auto-generated class."""
+    pass
     """Main Meta Insight Core system integrating all meta-cognitive capabilities"""
 
     def __init__(
-        self,
-        default_meta_level: MetaCognitionLevel = MetaCognitionLevel.META_LEVEL_1,
-        insight_threshold: float = 0.6,
+        self
+        default_meta_level: MetaCognitionLevel = MetaCognitionLevel.META_LEVEL_1
+        insight_threshold: float = 0.6
         device: str = "cpu",
     ):
 
@@ -1321,10 +1325,10 @@ class MetaInsightCore:
         logger.info("✅ Meta Insight Core foundational systems registered")
 
     async def generate_meta_insight(
-        self,
-        cognitive_state: torch.Tensor,
-        meta_level: Optional[MetaCognitionLevel] = None,
-        context: Optional[Dict[str, Any]] = None,
+        self
+        cognitive_state: torch.Tensor
+        meta_level: Optional[MetaCognitionLevel] = None
+        context: Optional[Dict[str, Any]] = None
     ) -> MetaInsightResult:
         """Main meta-insight generation method"""
 
@@ -1359,18 +1363,18 @@ class MetaInsightCore:
 
             # Phase 4: Insight Generation
             insight_result = await self.insight_generation_engine.generate_insight(
-                recognized_patterns,
-                meta_cognitive_analysis,
-                higher_order_result,
-                context,
+                recognized_patterns
+                meta_cognitive_analysis
+                higher_order_result
+                context
             )
 
             # Phase 5: Integration and Assessment
             final_assessment = self._integrate_and_assess(
-                insight_result,
-                higher_order_result,
-                meta_cognitive_analysis,
-                recognized_patterns,
+                insight_result
+                higher_order_result
+                meta_cognitive_analysis
+                recognized_patterns
             )
 
             # Calculate final metrics
@@ -1384,22 +1388,22 @@ class MetaInsightCore:
 
             # Create meta-insight result
             result = MetaInsightResult(
-                insight_id=insight_id,
-                insight_type=insight_type,
+                insight_id=insight_id
+                insight_type=insight_type
                 insight_quality=self._map_quality_to_enum(insight_quality),
-                meta_cognition_level=meta_level,
+                meta_cognition_level=meta_level
                 insight_content=insight_result.get("insight_content", ""),
                 insight_description=insight_result.get("insight_description", ""),
-                supporting_patterns=recognized_patterns,
-                meta_cognitive_assessment=meta_cognitive_analysis,
-                self_reflection_analysis=higher_order_result,
-                cognitive_monitoring=meta_cognitive_analysis,
+                supporting_patterns=recognized_patterns
+                meta_cognitive_assessment=meta_cognitive_analysis
+                self_reflection_analysis=higher_order_result
+                cognitive_monitoring=meta_cognitive_analysis
                 insight_strength=final_assessment.get("insight_strength", 0.0),
                 novelty_score=final_assessment.get("novelty_score", 0.0),
                 significance_score=final_assessment.get("significance_score", 0.0),
                 confidence_score=final_assessment.get("confidence_score", 0.0),
                 generalizability=final_assessment.get("generalizability", 0.0),
-                processing_time=processing_time,
+                processing_time=processing_time
                 computational_cost=self._calculate_computational_cost(
                     processing_time, meta_level
                 ),
@@ -1423,32 +1427,32 @@ class MetaInsightCore:
         except Exception as e:
             logger.error(f"Meta-insight generation failed: {e}")
             error_result = MetaInsightResult(
-                insight_id=insight_id,
-                insight_type=InsightType.PATTERN_INSIGHT,
-                insight_quality=InsightQuality.TRIVIAL,
-                meta_cognition_level=meta_level,
+                insight_id=insight_id
+                insight_type=InsightType.PATTERN_INSIGHT
+                insight_quality=InsightQuality.TRIVIAL
+                meta_cognition_level=meta_level
                 insight_content="",
                 insight_description=f"Meta-insight generation failed: {e}",
                 supporting_patterns=[],
                 meta_cognitive_assessment={},
                 self_reflection_analysis={},
                 cognitive_monitoring={},
-                insight_strength=0.0,
-                novelty_score=0.0,
-                significance_score=0.0,
-                confidence_score=0.0,
-                generalizability=0.0,
-                processing_time=time.time() - processing_start,
-                computational_cost=0.0,
-                breakthrough_potential=0.0,
-                success=False,
+                insight_strength=0.0
+                novelty_score=0.0
+                significance_score=0.0
+                confidence_score=0.0
+                generalizability=0.0
+                processing_time=time.time() - processing_start
+                computational_cost=0.0
+                breakthrough_potential=0.0
+                success=False
                 error_log=[str(e)],
             )
 
             return error_result
 
     def _integrate_and_assess(
-        self,
+        self
         insight_result: Dict[str, Any],
         higher_order_result: Dict[str, Any],
         meta_cognitive_analysis: Dict[str, Any],
@@ -1552,11 +1556,11 @@ class MetaInsightCore:
 
         # Meta-level specific costs
         level_costs = {
-            MetaCognitionLevel.OBJECT_LEVEL: 0.5,
-            MetaCognitionLevel.META_LEVEL_1: 1.0,
-            MetaCognitionLevel.META_LEVEL_2: 2.0,
-            MetaCognitionLevel.META_LEVEL_3: 4.0,
-            MetaCognitionLevel.RECURSIVE_META: 8.0,
+            MetaCognitionLevel.OBJECT_LEVEL: 0.5
+            MetaCognitionLevel.META_LEVEL_1: 1.0
+            MetaCognitionLevel.META_LEVEL_2: 2.0
+            MetaCognitionLevel.META_LEVEL_3: 4.0
+            MetaCognitionLevel.RECURSIVE_META: 8.0
         }
 
         level_cost = level_costs.get(meta_level, 1.0)
@@ -1600,12 +1604,12 @@ class MetaInsightCore:
 
         return {
             "meta_insight_core_status": "operational",
-            "total_insight_requests": self.total_insight_requests,
-            "successful_insights": self.successful_insights,
-            "success_rate": success_rate,
-            "insight_threshold": self.insight_threshold,
-            "default_meta_level": self.default_meta_level.value,
-            "recent_performance": recent_performance,
+            "total_insight_requests": self.total_insight_requests
+            "successful_insights": self.successful_insights
+            "success_rate": success_rate
+            "insight_threshold": self.insight_threshold
+            "default_meta_level": self.default_meta_level.value
+            "recent_performance": recent_performance
             "components": {
                 "higher_order_processor": "operational",
                 "metacognition_engine": len(

@@ -2,7 +2,7 @@
 """
 API Router for Geoid and Scar Operations
 -----------------------------------------
-This module contains all API endpoints related to the creation, retrieval,
+This module contains all API endpoints related to the creation, retrieval
 and management of Geoids (Geometrical-Semantic Objects) and Scars
 (Semantic Contradiction and Resolution records).
 """

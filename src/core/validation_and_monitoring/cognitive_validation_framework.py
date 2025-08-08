@@ -77,6 +77,8 @@ class CongruencyType(Enum):
 
 @dataclass
 class CognitiveTestStimulus:
+    """Auto-generated class."""
+    pass
     """Individual test stimulus with validation"""
 
     test_type: CognitiveTestType
@@ -94,6 +96,8 @@ class CognitiveTestStimulus:
 
 @dataclass
 class CognitiveTestResult:
+    """Auto-generated class."""
+    pass
     """Result from cognitive test with metrics"""
 
     test_type: CognitiveTestType
@@ -108,6 +112,8 @@ class CognitiveTestResult:
 
 @dataclass
 class ValidationBatteryResult:
+    """Auto-generated class."""
+    pass
     """Complete validation battery results with statistics"""
 
     stroop_results: List[CognitiveTestResult]
@@ -132,9 +138,9 @@ class ValidationBatteryResult:
     # Validation metrics
     test_coverage: float = 100.0
     confidence_interval: Tuple[float, float] = (0.0, 0.0)
-
-
 class CognitiveValidationFramework:
+    """Auto-generated class."""
+    pass
     """
     Cognitive validation framework with formal verification.
 
@@ -163,21 +169,21 @@ class CognitiveValidationFramework:
 
         # Monitoring
         self.performance_metrics = {
-            "total_tests": 0,
-            "validation_failures": 0,
-            "average_accuracy": 0.0,
-            "average_time": 0.0,
+            "total_tests": 0
+            "validation_failures": 0
+            "average_accuracy": 0.0
+            "average_time": 0.0
         }
 
         logger.info("🧠 Cognitive Validation Framework initialized")
 
     async def run_complete_validation_battery(
-        self,
-        n_stroop: int = 60,
-        n_dual_task: int = 40,
-        n_attention: int = 48,
-        n_memory: int = 30,
-        n_priming: int = 40,
+        self
+        n_stroop: int = 60
+        n_dual_task: int = 40
+        n_attention: int = 48
+        n_memory: int = 30
+        n_priming: int = 40
     ) -> ValidationBatteryResult:
         """
         Run complete validation battery with monitoring.
@@ -220,22 +226,22 @@ class CognitiveValidationFramework:
 
             # Unpack results
             (
-                stroop_results,
-                dual_task_results,
-                attention_results,
-                memory_results,
-                priming_results,
-                nlp_results,
+                stroop_results
+                dual_task_results
+                attention_results
+                memory_results
+                priming_results
+                nlp_results
             ) = results
 
             # Compute statistics
             validation_result = self._compute_validation_statistics(
-                stroop_results,
-                dual_task_results,
-                attention_results,
-                memory_results,
-                priming_results,
-                nlp_results,
+                stroop_results
+                dual_task_results
+                attention_results
+                memory_results
+                priming_results
+                nlp_results
             )
 
             # Update metrics
@@ -280,11 +286,11 @@ class CognitiveValidationFramework:
 
                 results.append(
                     CognitiveTestResult(
-                        test_type=stimulus.test_type,
-                        stimulus=stimulus,
-                        response=response,
-                        processing_time=processing_time,
-                        accuracy=accuracy,
+                        test_type=stimulus.test_type
+                        stimulus=stimulus
+                        response=response
+                        processing_time=processing_time
+                        accuracy=accuracy
                     )
                 )
             except Exception as e:
@@ -304,7 +310,7 @@ class CognitiveValidationFramework:
         # Add more calculations...
 
         return ValidationBatteryResult(
-            *test_results,
-            overall_accuracy=overall_accuracy,
+            *test_results
+            overall_accuracy=overall_accuracy
             # ... other fields
         )

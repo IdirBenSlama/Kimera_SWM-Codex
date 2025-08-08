@@ -5,13 +5,8 @@ Core Components of Barenholtz Dual-System Architecture
 DO-178C Level A compliant cognitive processing systems.
 """
 
-from .metacognitive import (
-    ArbitrationResult,
-    ArbitrationStrategy,
-    MetacognitiveController,
-    MetacognitiveState,
-    ProcessingMode,
-)
+from .metacognitive import (ArbitrationResult, ArbitrationStrategy,
+                            MetacognitiveController, MetacognitiveState, ProcessingMode)
 from .system1 import IntuitionResult, System1Processor
 from .system2 import AnalysisResult, ReasoningType, System2Processor
 

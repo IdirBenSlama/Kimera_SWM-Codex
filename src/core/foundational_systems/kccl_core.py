@@ -61,6 +61,8 @@ class CyclePhase(Enum):
 
 @dataclass
 class CognitiveCycleMetrics:
+    """Auto-generated class."""
+    pass
     """Comprehensive metrics for cognitive cycle execution"""
 
     cycle_id: str
@@ -92,6 +94,8 @@ class CognitiveCycleMetrics:
 
 @dataclass
 class CognitiveCycleResult:
+    """Auto-generated class."""
+    pass
     """Result of cognitive cycle execution"""
 
     success: bool
@@ -100,9 +104,9 @@ class CognitiveCycleResult:
     processed_geoids: List[Any]
     system_updates: Dict[str, Any]
     error_log: List[str] = field(default_factory=list)
-
-
 class KCCLCore:
+    """Auto-generated class."""
+    pass
     """
     Kimera Cognitive Cycle Logic Core
 
@@ -111,10 +115,10 @@ class KCCLCore:
     """
 
     def __init__(
-        self,
-        max_geoids_per_cycle: int = 500,
-        max_tensions_per_cycle: int = 20,
-        safety_mode: bool = True,
+        self
+        max_geoids_per_cycle: int = 500
+        max_tensions_per_cycle: int = 20
+        safety_mode: bool = True
     ):
         """
         Initialize KCCL Core
@@ -146,12 +150,12 @@ class KCCLCore:
         # Performance tracking
         self.cycle_history = deque(maxlen=1000)
         self.performance_metrics = {
-            "average_cycle_time": 0.0,
-            "cycles_per_second": 0.0,
-            "success_rate": 0.0,
-            "error_rate": 0.0,
-            "geoids_processed_total": 0,
-            "scars_generated_total": 0,
+            "average_cycle_time": 0.0
+            "cycles_per_second": 0.0
+            "success_rate": 0.0
+            "error_rate": 0.0
+            "geoids_processed_total": 0
+            "scars_generated_total": 0
         }
 
         # Event callbacks
@@ -169,11 +173,11 @@ class KCCLCore:
         logger.info(f"   Safety mode: {safety_mode}")
 
     def register_components(
-        self,
-        spde_engine: Any,
-        contradiction_engine: Any,
-        vault_manager: Any,
-        transparency_monitor: Any = None,
+        self
+        spde_engine: Any
+        contradiction_engine: Any
+        vault_manager: Any
+        transparency_monitor: Any = None
     ):
         """Register required cognitive processing components"""
         self.spde_engine = spde_engine
@@ -213,8 +217,8 @@ class KCCLCore:
 
         # Initialize result
         result = CognitiveCycleResult(
-            success=False,
-            metrics=metrics,
+            success=False
+            metrics=metrics
             generated_scars=[],
             processed_geoids=[],
             system_updates={},
@@ -287,10 +291,10 @@ class KCCLCore:
         return result
 
     async def _execute_preparation_phase(
-        self,
+        self
         system: Dict[str, Any],
-        metrics: CognitiveCycleMetrics,
-        result: CognitiveCycleResult,
+        metrics: CognitiveCycleMetrics
+        result: CognitiveCycleResult
     ):
         """Execute preparation phase of cognitive cycle"""
         phase_start = time.time()
@@ -331,17 +335,17 @@ class KCCLCore:
             await self._trigger_callbacks(
                 "on_phase_complete",
                 {
-                    "phase": CyclePhase.PREPARATION,
-                    "duration": phase_duration,
-                    "cycle_id": metrics.cycle_id,
+                    "phase": CyclePhase.PREPARATION
+                    "duration": phase_duration
+                    "cycle_id": metrics.cycle_id
                 },
             )
 
     async def _execute_semantic_diffusion_phase(
-        self,
+        self
         system: Dict[str, Any],
-        metrics: CognitiveCycleMetrics,
-        result: CognitiveCycleResult,
+        metrics: CognitiveCycleMetrics
+        result: CognitiveCycleResult
     ):
         """Execute semantic pressure diffusion phase"""
         phase_start = time.time()
@@ -417,17 +421,17 @@ class KCCLCore:
             await self._trigger_callbacks(
                 "on_phase_complete",
                 {
-                    "phase": CyclePhase.SEMANTIC_DIFFUSION,
-                    "duration": phase_duration,
-                    "cycle_id": metrics.cycle_id,
+                    "phase": CyclePhase.SEMANTIC_DIFFUSION
+                    "duration": phase_duration
+                    "cycle_id": metrics.cycle_id
                 },
             )
 
     async def _execute_contradiction_analysis_phase(
-        self,
+        self
         system: Dict[str, Any],
-        metrics: CognitiveCycleMetrics,
-        result: CognitiveCycleResult,
+        metrics: CognitiveCycleMetrics
+        result: CognitiveCycleResult
     ):
         """Execute contradiction detection and analysis phase"""
         phase_start = time.time()
@@ -480,17 +484,17 @@ class KCCLCore:
             await self._trigger_callbacks(
                 "on_phase_complete",
                 {
-                    "phase": CyclePhase.CONTRADICTION_ANALYSIS,
-                    "duration": phase_duration,
-                    "cycle_id": metrics.cycle_id,
+                    "phase": CyclePhase.CONTRADICTION_ANALYSIS
+                    "duration": phase_duration
+                    "cycle_id": metrics.cycle_id
                 },
             )
 
     async def _execute_scar_processing_phase(
-        self,
+        self
         system: Dict[str, Any],
-        metrics: CognitiveCycleMetrics,
-        result: CognitiveCycleResult,
+        metrics: CognitiveCycleMetrics
+        result: CognitiveCycleResult
     ):
         """Execute scar generation and processing phase"""
         phase_start = time.time()
@@ -541,17 +545,17 @@ class KCCLCore:
             await self._trigger_callbacks(
                 "on_phase_complete",
                 {
-                    "phase": CyclePhase.SCAR_PROCESSING,
-                    "duration": phase_duration,
-                    "cycle_id": metrics.cycle_id,
+                    "phase": CyclePhase.SCAR_PROCESSING
+                    "duration": phase_duration
+                    "cycle_id": metrics.cycle_id
                 },
             )
 
     async def _execute_integration_phase(
-        self,
+        self
         system: Dict[str, Any],
-        metrics: CognitiveCycleMetrics,
-        result: CognitiveCycleResult,
+        metrics: CognitiveCycleMetrics
+        result: CognitiveCycleResult
     ):
         """Execute integration and coherence phase"""
         phase_start = time.time()
@@ -575,10 +579,10 @@ class KCCLCore:
             # Update system state
             result.system_updates.update(
                 {
-                    "cycle_coherence": coherence_score,
-                    "integration_success": metrics.integration_success,
-                    "processed_count": metrics.geoids_processed,
-                    "scars_count": metrics.scars_created,
+                    "cycle_coherence": coherence_score
+                    "integration_success": metrics.integration_success
+                    "processed_count": metrics.geoids_processed
+                    "scars_count": metrics.scars_created
                 }
             )
 
@@ -596,17 +600,17 @@ class KCCLCore:
             await self._trigger_callbacks(
                 "on_phase_complete",
                 {
-                    "phase": CyclePhase.INTEGRATION,
-                    "duration": phase_duration,
-                    "cycle_id": metrics.cycle_id,
+                    "phase": CyclePhase.INTEGRATION
+                    "duration": phase_duration
+                    "cycle_id": metrics.cycle_id
                 },
             )
 
     async def _execute_finalization_phase(
-        self,
+        self
         system: Dict[str, Any],
-        metrics: CognitiveCycleMetrics,
-        result: CognitiveCycleResult,
+        metrics: CognitiveCycleMetrics
+        result: CognitiveCycleResult
     ):
         """Execute finalization and cleanup phase"""
         phase_start = time.time()
@@ -655,9 +659,9 @@ class KCCLCore:
             await self._trigger_callbacks(
                 "on_phase_complete",
                 {
-                    "phase": CyclePhase.FINALIZATION,
-                    "duration": phase_duration,
-                    "cycle_id": metrics.cycle_id,
+                    "phase": CyclePhase.FINALIZATION
+                    "duration": phase_duration
+                    "cycle_id": metrics.cycle_id
                 },
             )
 
@@ -688,10 +692,10 @@ class KCCLCore:
             reason=f"auto-cycle-{cycle_id}",
             timestamp=datetime.now(timezone.utc).isoformat(),
             resolved_by="KCCLCore",
-            pre_entropy=0.0,
-            post_entropy=0.0,
-            delta_entropy=0.0,
-            cls_angle=tension_score * 180,
+            pre_entropy=0.0
+            post_entropy=0.0
+            delta_entropy=0.0
+            cls_angle=tension_score * 180
             semantic_polarity=0.5,  # Add required semantic_polarity
             mutation_frequency=0.1,  # Add required mutation_frequency
         )
@@ -813,21 +817,21 @@ class KCCLCore:
     def get_system_status(self) -> Dict[str, Any]:
         """Get current system status and metrics"""
         return {
-            "current_state": self.current_state.value,
-            "cycle_count": self.cycle_count,
-            "total_cycles_executed": self.total_cycles_executed,
-            "total_processing_time": self.total_processing_time,
+            "current_state": self.current_state.value
+            "cycle_count": self.cycle_count
+            "total_cycles_executed": self.total_cycles_executed
+            "total_processing_time": self.total_processing_time
             "performance_metrics": self.performance_metrics.copy(),
             "components_registered": {
-                "spde_engine": self.spde_engine is not None,
-                "contradiction_engine": self.contradiction_engine is not None,
-                "vault_manager": self.vault_manager is not None,
-                "transparency_monitor": self.transparency_monitor is not None,
+                "spde_engine": self.spde_engine is not None
+                "contradiction_engine": self.contradiction_engine is not None
+                "vault_manager": self.vault_manager is not None
+                "transparency_monitor": self.transparency_monitor is not None
             },
             "configuration": {
-                "max_geoids_per_cycle": self.max_geoids_per_cycle,
-                "max_tensions_per_cycle": self.max_tensions_per_cycle,
-                "safety_mode": self.safety_mode,
+                "max_geoids_per_cycle": self.max_geoids_per_cycle
+                "max_tensions_per_cycle": self.max_tensions_per_cycle
+                "safety_mode": self.safety_mode
             },
         }
 

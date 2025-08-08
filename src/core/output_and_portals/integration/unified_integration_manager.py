@@ -4,7 +4,7 @@ Unified Integration Manager for Output Generation and Portal Management
 =====================================================================
 
 DO-178C Level A compliant unified integration system that coordinates
-multi-modal output generation with interdimensional portal management,
+multi-modal output generation with interdimensional portal management
 ensuring seamless cognitive state transitions and information exchange.
 
 Key Features:
@@ -39,19 +39,11 @@ from utils.kimera_logger import LogCategory, get_logger
 
 # Import core components
 from ..output_generation.multi_modal_output_generator import (
-    MultiModalOutputGenerator,
-    OutputArtifact,
-    OutputModality,
-    OutputQuality,
-    get_multi_modal_output_generator,
-)
+    MultiModalOutputGenerator, OutputArtifact, OutputModality, OutputQuality
+    get_multi_modal_output_generator)
 from ..portal_management.interdimensional_portal_manager import (
-    DimensionalSpace,
-    InterdimensionalPortalManager,
-    PortalStability,
-    PortalType,
-    get_interdimensional_portal_manager,
-)
+    DimensionalSpace, InterdimensionalPortalManager, PortalStability, PortalType
+    get_interdimensional_portal_manager)
 
 logger = get_logger(__name__, LogCategory.SYSTEM)
 
@@ -92,6 +84,8 @@ class SystemHealthStatus(Enum):
 
 @dataclass
 class IntegratedWorkflowRequest:
+    """Auto-generated class."""
+    pass
     """Request for integrated output generation and portal operation"""
 
     workflow_id: str
@@ -106,6 +100,8 @@ class IntegratedWorkflowRequest:
 
 @dataclass
 class IntegratedWorkflowResult:
+    """Auto-generated class."""
+    pass
     """Result of integrated workflow execution"""
 
     workflow_id: str
@@ -121,6 +117,8 @@ class IntegratedWorkflowResult:
 
 @dataclass
 class SystemHealthReport:
+    """Auto-generated class."""
+    pass
     """Comprehensive system health report"""
 
     report_timestamp: datetime
@@ -132,9 +130,9 @@ class SystemHealthReport:
     error_rates: Dict[str, float]
     recommendations: List[str]
     alerts: List[Dict[str, Any]]
-
-
 class ResourceScheduler:
+    """Auto-generated class."""
+    pass
     """
     Intelligent resource scheduler for coordinated operations
 
@@ -146,9 +144,9 @@ class ResourceScheduler:
 
     def __init__(self):
         self.resource_limits = {
-            "cpu_percent": 80.0,
-            "memory_mb": 8192.0,
-            "gpu_utilization": 90.0,
+            "cpu_percent": 80.0
+            "memory_mb": 8192.0
+            "gpu_utilization": 90.0
             "network_bandwidth": 1000.0,  # Mbps
         }
 
@@ -176,9 +174,9 @@ class ResourceScheduler:
         else:
             self.scheduling_queue.append(
                 {
-                    "task_id": task_id,
-                    "component": component,
-                    "requirements": resource_requirements,
+                    "task_id": task_id
+                    "component": component
+                    "requirements": resource_requirements
                     "queue_time": datetime.now(),
                 }
             )
@@ -210,8 +208,8 @@ class ResourceScheduler:
     ) -> None:
         """Allocate resources to task"""
         self.active_tasks[task_id] = {
-            "component": component,
-            "requirements": requirements,
+            "component": component
+            "requirements": requirements
             "start_time": datetime.now(),
         }
 
@@ -266,9 +264,9 @@ class ResourceScheduler:
 
         return {
             "current_usage": {
-                "cpu_percent": total_cpu,
-                "memory_mb": total_memory,
-                "gpu_utilization": total_gpu,
+                "cpu_percent": total_cpu
+                "memory_mb": total_memory
+                "gpu_utilization": total_gpu
             },
             "limits": self.resource_limits.copy(),
             "utilization_ratios": {
@@ -280,9 +278,9 @@ class ResourceScheduler:
             "queued_tasks": len(self.scheduling_queue),
             "component_allocations": self.current_allocations.copy(),
         }
-
-
 class PerformanceMonitor:
+    """Auto-generated class."""
+    pass
     """
     Real-time performance monitoring system
 
@@ -332,12 +330,12 @@ class PerformanceMonitor:
                     alert_id = f"alert_{metric_name}_{current_time.timestamp()}"
 
                     alert = {
-                        "alert_id": alert_id,
-                        "metric": metric_name,
-                        "value": value,
-                        "threshold": threshold,
+                        "alert_id": alert_id
+                        "metric": metric_name
+                        "value": value
+                        "threshold": threshold
                         "severity": "HIGH" if value > threshold * 1.5 else "MEDIUM",
-                        "timestamp": current_time,
+                        "timestamp": current_time
                         "status": "active",
                     }
 
@@ -386,15 +384,15 @@ class PerformanceMonitor:
 
         return {
             "report_timestamp": datetime.now(),
-            "statistics": statistics,
+            "statistics": statistics
             "baselines": self.performance_baselines.copy(),
             "active_alerts": len(self.active_alerts),
             "alert_details": list(self.active_alerts.values()),
             "metrics_count": len(self.metrics_history),
         }
-
-
 class UnifiedIntegrationManager:
+    """Auto-generated class."""
+    pass
     """
     Main unified integration manager for output generation and portal management
 
@@ -406,10 +404,10 @@ class UnifiedIntegrationManager:
     """
 
     def __init__(
-        self,
-        integration_mode: IntegrationMode = IntegrationMode.UNIFIED,
-        enable_performance_monitoring: bool = True,
-        enable_resource_scheduling: bool = True,
+        self
+        integration_mode: IntegrationMode = IntegrationMode.UNIFIED
+        enable_performance_monitoring: bool = True
+        enable_resource_scheduling: bool = True
     ):
 
         self.integration_mode = integration_mode
@@ -418,9 +416,9 @@ class UnifiedIntegrationManager:
 
         # Initialize core components
         self.output_generator = get_multi_modal_output_generator(
-            default_quality=OutputQuality.HIGH,
-            enable_verification=True,
-            enable_citations=True,
+            default_quality=OutputQuality.HIGH
+            enable_verification=True
+            enable_citations=True
         )
 
         self.portal_manager = get_interdimensional_portal_manager(
@@ -448,13 +446,13 @@ class UnifiedIntegrationManager:
 
         # Statistics
         self.integration_stats = {
-            "workflows_executed": 0,
-            "workflows_successful": 0,
-            "workflows_failed": 0,
-            "total_execution_time": 0.0,
-            "average_execution_time": 0.0,
-            "resource_efficiency": 0.0,
-            "uptime_seconds": 0.0,
+            "workflows_executed": 0
+            "workflows_successful": 0
+            "workflows_failed": 0
+            "total_execution_time": 0.0
+            "average_execution_time": 0.0
+            "resource_efficiency": 0.0
+            "uptime_seconds": 0.0
         }
 
         self.start_time = datetime.now()
@@ -518,7 +516,7 @@ class UnifiedIntegrationManager:
         try:
             # Register workflow
             self.active_workflows[workflow_id] = {
-                "request": request,
+                "request": request
                 "start_time": datetime.now(),
                 "status": "executing",
             }
@@ -540,8 +538,8 @@ class UnifiedIntegrationManager:
             if self.performance_monitor:
                 self.performance_monitor.record_metrics(
                     {
-                        "workflow_execution_time_ms": total_time,
-                        "workflow_success": 1.0 if result.success else 0.0,
+                        "workflow_execution_time_ms": total_time
+                        "workflow_success": 1.0 if result.success else 0.0
                         "output_artifacts_generated": len(result.output_artifacts),
                         "portal_operations_completed": len(result.portal_operations),
                     }
@@ -554,10 +552,10 @@ class UnifiedIntegrationManager:
             # Add to history
             self.workflow_history.append(
                 {
-                    "workflow_id": workflow_id,
-                    "request": request,
-                    "result": result,
-                    "execution_time": total_time,
+                    "workflow_id": workflow_id
+                    "request": request
+                    "result": result
+                    "execution_time": total_time
                 }
             )
 
@@ -579,10 +577,10 @@ class UnifiedIntegrationManager:
 
             # Create error result
             error_result = IntegratedWorkflowResult(
-                workflow_id=workflow_id,
+                workflow_id=workflow_id
                 execution_timestamp=datetime.now(),
-                success=False,
-                total_execution_time_ms=total_time,
+                success=False
+                total_execution_time_ms=total_time
                 error_details=str(e),
             )
 
@@ -605,10 +603,10 @@ class UnifiedIntegrationManager:
         """Execute workflow based on its type"""
 
         result = IntegratedWorkflowResult(
-            workflow_id=request.workflow_id,
+            workflow_id=request.workflow_id
             execution_timestamp=datetime.now(),
-            success=True,
-            total_execution_time_ms=0.0,
+            success=True
+            total_execution_time_ms=0.0
         )
 
         if request.workflow_type == WorkflowType.OUTPUT_ONLY:
@@ -656,14 +654,14 @@ class UnifiedIntegrationManager:
 
             # Generate output
             output_artifact = self.output_generator.generate_output(
-                content_request=request.output_specification,
+                content_request=request.output_specification
                 modality=OutputModality(
                     request.output_specification.get("modality", "text")
                 ),
                 quality_level=OutputQuality(
                     request.output_specification.get("quality", "standard")
                 ),
-                context=request.context,
+                context=request.context
             )
 
             result.output_artifacts.append(output_artifact)
@@ -720,7 +718,7 @@ class UnifiedIntegrationManager:
                 traversal_result = await self.portal_manager.traverse_portal(
                     portal_id=spec["portal_id"],
                     data_payload=spec.get("data_payload", {}),
-                    traversal_context=request.context,
+                    traversal_context=request.context
                 )
 
                 result.portal_operations.append(traversal_result)
@@ -759,9 +757,9 @@ class UnifiedIntegrationManager:
             # Create temporary request for portal operation
             portal_request = IntegratedWorkflowRequest(
                 workflow_id=f"{request.workflow_id}_portal",
-                workflow_type=WorkflowType.PORTAL_ONLY,
-                portal_specification=portal_spec,
-                context=request.context,
+                workflow_type=WorkflowType.PORTAL_ONLY
+                portal_specification=portal_spec
+                context=request.context
             )
 
             # Execute portal operation
@@ -781,17 +779,17 @@ class UnifiedIntegrationManager:
             output_spec = request.output_specification or {}
             output_spec["content"] = json.dumps(
                 {
-                    "portal_operations": result.portal_operations,
-                    "source_workflow": request.workflow_id,
+                    "portal_operations": result.portal_operations
+                    "source_workflow": request.workflow_id
                 }
             )
 
             # Create temporary request for output generation
             output_request = IntegratedWorkflowRequest(
                 workflow_id=f"{request.workflow_id}_output",
-                workflow_type=WorkflowType.OUTPUT_ONLY,
-                output_specification=output_spec,
-                context=request.context,
+                workflow_type=WorkflowType.OUTPUT_ONLY
+                output_specification=output_spec
+                context=request.context
             )
 
             # Execute output generation
@@ -816,10 +814,10 @@ class UnifiedIntegrationManager:
 
             return_request = IntegratedWorkflowRequest(
                 workflow_id=f"{request.workflow_id}_return",
-                workflow_type=WorkflowType.PORTAL_THEN_OUTPUT,
-                output_specification=request.output_specification,
-                portal_specification=return_spec,
-                context=request.context,
+                workflow_type=WorkflowType.PORTAL_THEN_OUTPUT
+                output_specification=request.output_specification
+                portal_specification=return_spec
+                context=request.context
             )
 
             await self._execute_portal_then_output_workflow(return_request, result)
@@ -842,15 +840,15 @@ class UnifiedIntegrationManager:
         for i, dimension in enumerate(dimensions):
             step_request = IntegratedWorkflowRequest(
                 workflow_id=f"{request.workflow_id}_step_{i}",
-                workflow_type=WorkflowType.OUTPUT_THEN_PORTAL,
-                output_specification=request.output_specification,
+                workflow_type=WorkflowType.OUTPUT_THEN_PORTAL
+                output_specification=request.output_specification
                 portal_specification={
                     "operation": "traverse",
                     "source_dimension": dimension.get("source"),
                     "target_dimension": dimension.get("target"),
                     "portal_type": dimension.get("type", "cognitive"),
                 },
-                context=request.context,
+                context=request.context
             )
 
             await self._execute_output_then_portal_workflow(step_request, result)
@@ -885,8 +883,8 @@ class UnifiedIntegrationManager:
 
                 # Check for alerts
                 if health_report.overall_health in [
-                    SystemHealthStatus.CRITICAL,
-                    SystemHealthStatus.EMERGENCY,
+                    SystemHealthStatus.CRITICAL
+                    SystemHealthStatus.EMERGENCY
                 ]:
                     self._trigger_event("system_alert", health_report)
 
@@ -996,26 +994,26 @@ class UnifiedIntegrationManager:
 
         return SystemHealthReport(
             report_timestamp=datetime.now(),
-            overall_health=overall_health,
+            overall_health=overall_health
             component_health={
                 "output_generation": {
-                    "success_rate": output_success_rate,
-                    "active": True,
+                    "success_rate": output_success_rate
+                    "active": True
                     "cache_hit_rate": output_stats.get("cache_performance", {}).get(
                         "cache_hit_rate", 0
                     ),
                 },
                 "portal_management": {
-                    "active_portals": active_portals,
+                    "active_portals": active_portals
                     "monitoring_active": portal_status.get("system_info", {}).get(
                         "monitoring_active", False
                     ),
-                    "portal_health": portal_health,
+                    "portal_health": portal_health
                 },
                 "resource_scheduler": {
-                    "active": self.resource_scheduler is not None,
-                    "cpu_utilization": cpu_util,
-                    "memory_utilization": memory_util,
+                    "active": self.resource_scheduler is not None
+                    "cpu_utilization": cpu_util
+                    "memory_utilization": memory_util
                     "queued_tasks": resource_status.get("queued_tasks", 0),
                 },
             },
@@ -1028,18 +1026,18 @@ class UnifiedIntegrationManager:
                 "system_uptime": (datetime.now() - self.start_time).total_seconds(),
             },
             resource_utilization={
-                "cpu": cpu_util,
-                "memory": memory_util,
+                "cpu": cpu_util
+                "memory": memory_util
                 "gpu": resource_status.get("utilization_ratios", {}).get("gpu", 0),
             },
             active_workflows=len(self.active_workflows),
             error_rates={
-                "output_generation": 1.0 - output_success_rate,
+                "output_generation": 1.0 - output_success_rate
                 "portal_operations": portal_status.get("operation_statistics", {}).get(
                     "safety_violations", 0
                 )
                 / max(
-                    1,
+                    1
                     portal_status.get("operation_statistics", {}).get(
                         "total_traversals", 1
                     ),
@@ -1126,9 +1124,9 @@ class UnifiedIntegrationManager:
     def get_system_status(self) -> Dict[str, Any]:
         """Get comprehensive system status"""
         return {
-            "integration_active": self.integration_active,
-            "integration_mode": self.integration_mode.value,
-            "monitoring_active": self.monitoring_active,
+            "integration_active": self.integration_active
+            "integration_mode": self.integration_mode.value
+            "monitoring_active": self.monitoring_active
             "active_workflows": len(self.active_workflows),
             "workflow_queue_size": len(self.workflow_queue),
             "integration_statistics": self.integration_stats.copy(),
@@ -1176,16 +1174,16 @@ _integration_manager: Optional[UnifiedIntegrationManager] = None
 
 
 def get_unified_integration_manager(
-    integration_mode: IntegrationMode = IntegrationMode.UNIFIED,
-    enable_performance_monitoring: bool = True,
-    enable_resource_scheduling: bool = True,
+    integration_mode: IntegrationMode = IntegrationMode.UNIFIED
+    enable_performance_monitoring: bool = True
+    enable_resource_scheduling: bool = True
 ) -> UnifiedIntegrationManager:
     """Get global unified integration manager instance"""
     global _integration_manager
     if _integration_manager is None:
         _integration_manager = UnifiedIntegrationManager(
-            integration_mode=integration_mode,
-            enable_performance_monitoring=enable_performance_monitoring,
-            enable_resource_scheduling=enable_resource_scheduling,
+            integration_mode=integration_mode
+            enable_performance_monitoring=enable_performance_monitoring
+            enable_resource_scheduling=enable_resource_scheduling
         )
     return _integration_manager

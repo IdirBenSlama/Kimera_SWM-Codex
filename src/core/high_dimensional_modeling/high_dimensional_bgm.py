@@ -34,7 +34,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 
-from src.core.cognitive_field_dynamics import CognitiveFieldDynamics
+from src.core.cognitive.cognitive_field_dynamics import CognitiveFieldDynamics
 
 try:
     from monitoring.metrics_collector import get_metrics_collector
@@ -53,6 +53,8 @@ DTYPE = torch.float32
 
 @dataclass
 class BGMConfig:
+    """Auto-generated class."""
+    pass
     """Configuration for high-dimensional BGM simulation"""
 
     dimension: int = (
@@ -65,9 +67,9 @@ class BGMConfig:
     use_moment_matching: bool = True
     device: str = "cuda" if torch.cuda.is_available() else "cpu"
     dtype: torch.dtype = torch.float32
-
-
 class HighDimensionalBGM:
+    """Auto-generated class."""
+    pass
     """
     High-dimensional Geometric Brownian Motion engine with GPU acceleration.
 
@@ -100,10 +102,10 @@ class HighDimensionalBGM:
 
         # Performance tracking
         self.simulation_stats = {
-            "total_simulations": 0,
-            "total_time": 0.0,
-            "avg_time_per_simulation": 0.0,
-            "memory_usage": 0.0,
+            "total_simulations": 0
+            "total_time": 0.0
+            "avg_time_per_simulation": 0.0
+            "memory_usage": 0.0
         }
 
         logger.info(
@@ -111,10 +113,10 @@ class HighDimensionalBGM:
         )
 
     def set_parameters(
-        self,
-        drift: torch.Tensor,
-        volatility: torch.Tensor,
-        correlation: Optional[torch.Tensor] = None,
+        self
+        drift: torch.Tensor
+        volatility: torch.Tensor
+        correlation: Optional[torch.Tensor] = None
     ):
         """
         Set BGM parameters.
@@ -154,10 +156,10 @@ class HighDimensionalBGM:
             )
 
     def simulate_paths(
-        self,
-        initial_values: torch.Tensor,
-        num_paths: int = 1000,
-        num_steps: Optional[int] = None,
+        self
+        initial_values: torch.Tensor
+        num_paths: int = 1000
+        num_steps: Optional[int] = None
     ) -> torch.Tensor:
         """
         Simulate multiple BGM paths using GPU acceleration.
@@ -177,11 +179,11 @@ class HighDimensionalBGM:
 
         # Initialize path tensor
         paths = torch.zeros(
-            num_paths,
-            num_steps + 1,
-            self.config.dimension,
-            device=self.device,
-            dtype=self.dtype,
+            num_paths
+            num_steps + 1
+            self.config.dimension
+            device=self.device
+            dtype=self.dtype
         )
 
         # Ensure initial_values is on the correct device and broadcasted properly
@@ -209,10 +211,10 @@ class HighDimensionalBGM:
             else:
                 # Standard multivariate normal
                 dW_uncorr = torch.randn(
-                    num_paths,
-                    self.config.dimension,
-                    device=self.device,
-                    dtype=self.dtype,
+                    num_paths
+                    self.config.dimension
+                    device=self.device
+                    dtype=self.dtype
                 )
                 dW = torch.matmul(dW_uncorr, self.cholesky_factor.T)
                 if self.config.use_antithetic_variates:
@@ -300,9 +302,9 @@ class HighDimensionalBGM:
         return kurtosis
 
     def integrate_with_cognitive_field(
-        self,
+        self
         market_data: Dict[str, Any],
-        cognitive_weights: Optional[torch.Tensor] = None,
+        cognitive_weights: Optional[torch.Tensor] = None
     ) -> torch.Tensor:
         """
         Integrate BGM simulation with cognitive field dynamics.
@@ -339,11 +341,11 @@ class HighDimensionalBGM:
             cognitive_factor = torch.tensor(
                 [
                     sentiment_score * 2 - 1,  # Convert to [-1, 1]
-                    technical_alignment * 2 - 1,
-                    cognitive_pressure * 2 - 1,
+                    technical_alignment * 2 - 1
+                    cognitive_pressure * 2 - 1
                 ],
-                device=self.device,
-                dtype=self.dtype,
+                device=self.device
+                dtype=self.dtype
             )
 
             # Expand to full dimension
@@ -396,10 +398,10 @@ class HighDimensionalBGM:
         portfolio_returns = torch.mean(returns, dim=1)  # Equal-weighted portfolio
 
         risk_metrics = {
-            "scenarios": scenarios,
-            "final_prices": final_prices,
-            "returns": returns,
-            "portfolio_returns": portfolio_returns,
+            "scenarios": scenarios
+            "final_prices": final_prices
+            "returns": returns
+            "portfolio_returns": portfolio_returns
             "var_95": torch.quantile(portfolio_returns, 0.05),
             "var_99": torch.quantile(portfolio_returns, 0.01),
             "expected_shortfall_95": torch.mean(
@@ -422,12 +424,12 @@ class HighDimensionalBGM:
         """Get BGM engine performance statistics"""
         return {
             "config": {
-                "dimension": self.config.dimension,
+                "dimension": self.config.dimension
                 "device": str(self.device),
                 "dtype": str(self.dtype),
             },
-            "simulation_stats": self.simulation_stats,
-            "cognitive_integration": self.cognitive_field is not None,
+            "simulation_stats": self.simulation_stats
+            "cognitive_integration": self.cognitive_field is not None
             "gpu_available": torch.cuda.is_available(),
             "memory_usage_mb": self.simulation_stats["memory_usage"],
         }
@@ -435,10 +437,10 @@ class HighDimensionalBGM:
 
 # Factory function for easy instantiation
 def create_high_dimensional_bgm(
-    dimension: int = 512,
-    time_horizon: float = 1.0,
-    dt: float = 1.0 / 252.0,
-    batch_size: int = 1000,
+    dimension: int = 512
+    time_horizon: float = 1.0
+    dt: float = 1.0 / 252.0
+    batch_size: int = 1000
 ) -> HighDimensionalBGM:
     """
     Factory function to create high-dimensional BGM engine.

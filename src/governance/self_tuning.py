@@ -1,4 +1,4 @@
-"""Self-Tuning Governance Monitor
+"""Self-Tuning Governance Monitor"""
 ================================
 Implements automatic parameter tuning as described in Phase 5 task 5.1.
 The monitor analyses recent system metrics and adjusts thresholds in
@@ -61,7 +61,7 @@ class SelfTuningMonitor:  # noqa: D101
     def run_periodic_adjustment(
         self, recent_metrics: List[Dict[str, Any]]
     ) -> None:  # noqa: D401
-        """Analyse recent metrics and adjust thresholds if required.
+        """Analyse recent metrics and adjust thresholds if required."""
 
         Args:
             recent_metrics: A list of per-cycle metric dictionaries that MUST

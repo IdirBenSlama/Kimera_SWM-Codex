@@ -9,13 +9,9 @@ Author: KIMERA Development Team
 Version: 1.0.0 - DO-178C Level A Compliant
 """
 
-from .quantum_classical_bridge import (
-    HybridProcessingMode,
-    HybridProcessingResult,
-    InterfaceMetrics,
-    QuantumClassicalBridge,
-    create_quantum_classical_bridge,
-)
+from .quantum_classical_bridge import (HybridProcessingMode, HybridProcessingResult
+                                       InterfaceMetrics, QuantumClassicalBridge
+                                       create_quantum_classical_bridge)
 
 __all__ = [
     "QuantumClassicalBridge",

@@ -1,0 +1,31 @@
+networks:
+  kimera_network:
+    driver: bridge
+services:
+  neo4j:
+    container_name: kimera_neo4j
+    environment:
+      NEO4J_AUTH: neo4j/kimera_neo4j
+      NEO4J_PLUGINS: '["apoc"]'
+      NEO4J_dbms_security_procedures_unrestricted: apoc.*
+    healthcheck:
+      interval: 10s
+      retries: 5
+      test:
+      - CMD-SHELL
+      - cypher-shell -u neo4j -p kimera_neo4j 'RETURN 1'
+      timeout: 5s
+    image: neo4j:5.15-community
+    networks:
+    - kimera_network
+    ports:
+    - 7474:7474
+    - 7687:7687
+    restart: unless-stopped
+    volumes:
+    - kimera_neo4j_data:/data
+    - kimera_neo4j_logs:/logs
+version: '3.8'
+volumes:
+  kimera_neo4j_data: null
+  kimera_neo4j_logs: null

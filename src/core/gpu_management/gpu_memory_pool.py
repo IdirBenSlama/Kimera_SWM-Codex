@@ -2,7 +2,7 @@
 TCSE Optimized GPU Memory Pool
 ==============================
 
-This module implements a specialized memory pool for TCSE GPU operations,
+This module implements a specialized memory pool for TCSE GPU operations
 designed to minimize the overhead of frequent memory allocations and deallocations
 by reusing pre-allocated memory blocks.
 """
@@ -17,7 +17,7 @@ import cupy as cp
 
 # Configuration Management
 try:
-    from src.utils.config import get_api_settings
+    from src.utils.robust_config import get_api_settings
 except ImportError:
     try:
         from ...utils.config import get_api_settings
@@ -45,9 +45,9 @@ except ImportError:
 
 
 logger = logging.getLogger(__name__)
-
-
 class TCSignalMemoryPool:
+    """Auto-generated class."""
+    pass
     """
     Manages a pool of CuPy memory allocations for efficient reuse in TCSE tasks.
 
@@ -59,10 +59,10 @@ class TCSignalMemoryPool:
     """
 
     def __init__(
-        self,
-        initial_blocks: int = 10,
-        block_size: int = 1024 * 1024 * 32,
-        device_id: int = 0,
+        self
+        initial_blocks: int = 10
+        block_size: int = 1024 * 1024 * 32
+        device_id: int = 0
     ):
         """
         Initializes the memory pool.
@@ -191,8 +191,8 @@ class TCSignalMemoryPool:
         """Returns statistics about the memory pool's current state."""
         with self.lock:
             stats = {
-                "total_blocks": 0,
-                "total_pooled_memory_mb": 0,
+                "total_blocks": 0
+                "total_pooled_memory_mb": 0
                 "pool_breakdown": {},
             }
             for size, blocks in self.pool.items():

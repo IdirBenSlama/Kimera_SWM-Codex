@@ -2,7 +2,7 @@
 CUDA Quantum Configuration Module
 ================================
 
-Configuration management for CUDA Quantum integration with KIMERA,
+Configuration management for CUDA Quantum integration with KIMERA
 providing scientific-grade parameter management and hardware optimization.
 
 Configuration Categories:
@@ -313,9 +313,9 @@ class CUDAQuantumConfiguration:
         config.configuration_version = config_dict.get("configuration_version", "1.0.0")
 
         return config
-
-
 class QuantumConfigurationManager:
+    """Auto-generated class."""
+    pass
     """Configuration manager for CUDA Quantum integration"""
 
     def __init__(self, config_path: Optional[Path] = None):
@@ -549,7 +549,7 @@ def get_quantum_config_manager() -> QuantumConfigurationManager:
 
 
 def initialize_quantum_configuration(
-    config_path: Optional[Path] = None,
+    config_path: Optional[Path] = None
 ) -> QuantumConfigurationManager:
     """Initialize quantum configuration system"""
     global _config_manager

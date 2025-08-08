@@ -1,0 +1,54 @@
+code_standards:
+  python:
+    line_length: 88
+    import_order: ["future", "standard", "third_party", "first_party", "local"]
+    docstring_style: "google"
+    type_checking: true
+    
+  formatting:
+    tools:
+      - black
+      - isort
+    config:
+      black:
+        line_length: 88
+        target_version: ["py39", "py310", "py311"]
+      isort:
+        profile: "black"
+        line_length: 88
+        
+  linting:
+    tools:
+      - pylint
+      - flake8
+      - mypy
+    config:
+      pylint:
+        max_line_length: 88
+        disable: ["C0114", "C0115", "C0116"]
+      flake8:
+        max_line_length: 88
+        ignore: ["E203", "E501", "W503"]
+      mypy:
+        strict: true
+        warn_return_any: true
+        
+  testing:
+    framework: pytest
+    coverage_threshold: 80
+    test_patterns:
+      - "test_*.py"
+      - "*_test.py"
+    
+  documentation:
+    format: markdown
+    auto_generate: true
+    include_examples: true
+    
+  pre_commit:
+    hooks:
+      - black
+      - isort
+      - pylint
+      - mypy
+      - pytest 

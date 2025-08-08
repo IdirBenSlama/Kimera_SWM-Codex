@@ -20,9 +20,9 @@ from typing import Any, Dict, Optional
 from cryptography.fernet import Fernet
 
 logger = logging.getLogger(__name__)
-
-
 class SecureCredentialManager:
+    """Auto-generated class."""
+    pass
     """
     Aerospace-grade credential management with zero hardcoded secrets.
     """

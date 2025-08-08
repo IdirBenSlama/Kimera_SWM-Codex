@@ -24,7 +24,7 @@ import torch
 from numba import cuda
 
 from src.config.settings import get_settings
-from src.utils.config import get_api_settings
+from src.utils.robust_config import get_api_settings
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -33,6 +33,8 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class HomomorphicParams:
+    """Auto-generated class."""
+    pass
     """Parameters for homomorphic encryption scheme"""
 
     # BFV/BGV parameters
@@ -49,6 +51,8 @@ class HomomorphicParams:
 
 @dataclass
 class CognitiveEncryptedTensor:
+    """Auto-generated class."""
+    pass
     """Encrypted tensor for cognitive computations"""
 
     ciphertext: cp.ndarray
@@ -65,19 +69,25 @@ class CognitiveEncryptedTensor:
 
     def __post_init__(self):
         self.metadata = {}
-
-
 class HomomorphicCognitiveProcessor:
+    """Auto-generated class."""
+    pass
     """Homomorphic encryption for privacy-preserving cognitive processing"""
 
     def __init__(self, params: Optional[HomomorphicParams] = None, device_id: int = 0):
-        """Initialize homomorphic processor
+        """Initialize homomorphic processor"""
 
         Args:
             params: Homomorphic encryption parameters
             device_id: CUDA device ID
         """
-        self.settings = get_api_settings()
+        try:
+            self.settings = get_api_settings()
+        except Exception as e:
+            logger.warning(f"API settings loading failed: {e}. Using safe fallback.")
+            from ..utils.robust_config import safe_get_api_settings
+
+            self.settings = safe_get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
         self.params = params or HomomorphicParams()
         self.device_id = device_id
@@ -248,7 +258,7 @@ class HomomorphicCognitiveProcessor:
             output[idx] = noise % modulus
 
     def generate_keys(self) -> Tuple[Dict[str, cp.ndarray], Dict[str, cp.ndarray]]:
-        """Generate public and secret keys
+        """Generate public and secret keys"""
 
         Returns:
             Tuple of (public_key, secret_key)
@@ -336,7 +346,7 @@ class HomomorphicCognitiveProcessor:
     def encrypt_cognitive_tensor(
         self, tensor: Union[cp.ndarray, torch.Tensor], scale: Optional[float] = None
     ) -> CognitiveEncryptedTensor:
-        """Encrypt cognitive tensor
+        """Encrypt cognitive tensor"""
 
         Args:
             tensor: Tensor to encrypt
@@ -386,9 +396,9 @@ class HomomorphicCognitiveProcessor:
         ciphertext = cp.stack([c0, c1])
 
         encrypted = CognitiveEncryptedTensor(
-            ciphertext=ciphertext,
-            scale=scale,
-            level=0,
+            ciphertext=ciphertext
+            scale=scale
+            level=0
             modulus_chain=self.modulus_chain.copy(),
             noise_budget=40.0,  # Initial noise budget in bits
         )
@@ -400,7 +410,7 @@ class HomomorphicCognitiveProcessor:
     def decrypt_cognitive_tensor(
         self, encrypted: CognitiveEncryptedTensor
     ) -> cp.ndarray:
-        """Decrypt cognitive tensor
+        """Decrypt cognitive tensor"""
 
         Args:
             encrypted: Encrypted tensor
@@ -433,7 +443,7 @@ class HomomorphicCognitiveProcessor:
     def add_encrypted(
         self, enc1: CognitiveEncryptedTensor, enc2: CognitiveEncryptedTensor
     ) -> CognitiveEncryptedTensor:
-        """Add two encrypted tensors
+        """Add two encrypted tensors"""
 
         Args:
             enc1: First encrypted tensor
@@ -457,11 +467,11 @@ class HomomorphicCognitiveProcessor:
 
         # Create result
         result = CognitiveEncryptedTensor(
-            ciphertext=result_ciphertext,
-            scale=enc1.scale,
-            level=enc1.level,
+            ciphertext=result_ciphertext
+            scale=enc1.scale
+            level=enc1.level
             modulus_chain=enc1.modulus_chain.copy(),
-            noise_budget=min(enc1.noise_budget, enc2.noise_budget) - 1,
+            noise_budget=min(enc1.noise_budget, enc2.noise_budget) - 1
         )
 
         # Preserve metadata from first operand
@@ -472,7 +482,7 @@ class HomomorphicCognitiveProcessor:
     def multiply_encrypted(
         self, enc1: CognitiveEncryptedTensor, enc2: CognitiveEncryptedTensor
     ) -> CognitiveEncryptedTensor:
-        """Multiply two encrypted tensors
+        """Multiply two encrypted tensors"""
 
         Args:
             enc1: First encrypted tensor
@@ -515,11 +525,11 @@ class HomomorphicCognitiveProcessor:
         new_level = enc1.level  # Would increment after modulus switching
 
         result = CognitiveEncryptedTensor(
-            ciphertext=result_ciphertext,
-            scale=new_scale,
-            level=new_level,
+            ciphertext=result_ciphertext
+            scale=new_scale
+            level=new_level
             modulus_chain=enc1.modulus_chain.copy(),
-            noise_budget=min(enc1.noise_budget, enc2.noise_budget) - 10,
+            noise_budget=min(enc1.noise_budget, enc2.noise_budget) - 10
         )
 
         result.metadata = enc1.metadata.copy()
@@ -529,7 +539,7 @@ class HomomorphicCognitiveProcessor:
     def rotate_encrypted(
         self, encrypted: CognitiveEncryptedTensor, steps: int
     ) -> CognitiveEncryptedTensor:
-        """Rotate encrypted vector
+        """Rotate encrypted vector"""
 
         Args:
             encrypted: Encrypted tensor
@@ -548,10 +558,10 @@ class HomomorphicCognitiveProcessor:
 
         result = CognitiveEncryptedTensor(
             ciphertext=cp.stack([rotated_c0, rotated_c1]),
-            scale=encrypted.scale,
-            level=encrypted.level,
+            scale=encrypted.scale
+            level=encrypted.level
             modulus_chain=encrypted.modulus_chain.copy(),
-            noise_budget=encrypted.noise_budget - 2,
+            noise_budget=encrypted.noise_budget - 2
         )
 
         result.metadata = encrypted.metadata.copy()
@@ -561,7 +571,7 @@ class HomomorphicCognitiveProcessor:
     def bootstrap_encrypted(
         self, encrypted: CognitiveEncryptedTensor
     ) -> CognitiveEncryptedTensor:
-        """Bootstrap to refresh noise budget (simplified)
+        """Bootstrap to refresh noise budget (simplified)"""
 
         Args:
             encrypted: Encrypted tensor with low noise budget
@@ -577,7 +587,7 @@ class HomomorphicCognitiveProcessor:
         # For now, just reset noise budget (insecure!)
         result = CognitiveEncryptedTensor(
             ciphertext=encrypted.ciphertext.copy(),
-            scale=encrypted.scale,
+            scale=encrypted.scale
             level=0,  # Reset to top level
             modulus_chain=self.modulus_chain.copy(),
             noise_budget=40.0,  # Reset noise budget
@@ -590,7 +600,7 @@ class HomomorphicCognitiveProcessor:
     def cognitive_privacy_metrics(
         self, encrypted: CognitiveEncryptedTensor
     ) -> Dict[str, float]:
-        """Compute privacy metrics for encrypted cognitive data
+        """Compute privacy metrics for encrypted cognitive data"""
 
         Args:
             encrypted: Encrypted tensor
@@ -599,18 +609,18 @@ class HomomorphicCognitiveProcessor:
             Privacy metrics
         """
         return {
-            "noise_budget_bits": encrypted.noise_budget,
-            "multiplication_depth": encrypted.level,
-            "remaining_depth": len(encrypted.modulus_chain) - encrypted.level - 1,
-            "ciphertext_size_kb": encrypted.ciphertext.nbytes / 1024,
+            "noise_budget_bits": encrypted.noise_budget
+            "multiplication_depth": encrypted.level
+            "remaining_depth": len(encrypted.modulus_chain) - encrypted.level - 1
+            "ciphertext_size_kb": encrypted.ciphertext.nbytes / 1024
             "expansion_ratio": encrypted.ciphertext.size
             / encrypted.metadata.get("original_length", 1),
             "security_level_bits": sum(self.params.coeff_modulus_bits),
-            "polynomial_degree": self.params.poly_modulus_degree,
+            "polynomial_degree": self.params.poly_modulus_degree
         }
 
     def benchmark_homomorphic_ops(self) -> Dict[str, Any]:
-        """Benchmark homomorphic operations
+        """Benchmark homomorphic operations"""
 
         Returns:
             Performance metrics
@@ -650,12 +660,12 @@ class HomomorphicCognitiveProcessor:
 
             size_str = "x".join(map(str, size))
             results[f"size_{size_str}"] = {
-                "encryption_ms": enc_time * 1000,
-                "addition_ms": add_time * 1000,
-                "multiplication_ms": mul_time * 1000,
-                "decryption_ms": dec_time * 1000,
-                "ciphertext_expansion": encrypted.ciphertext.size / test_tensor.size,
-                "noise_budget_after_mul": prod_result.noise_budget,
+                "encryption_ms": enc_time * 1000
+                "addition_ms": add_time * 1000
+                "multiplication_ms": mul_time * 1000
+                "decryption_ms": dec_time * 1000
+                "ciphertext_expansion": encrypted.ciphertext.size / test_tensor.size
+                "noise_budget_after_mul": prod_result.noise_budget
             }
 
         return results

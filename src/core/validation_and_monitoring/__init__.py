@@ -1,5 +1,6 @@
 """
-Validation and Monitoring Module
+"""Validation and Monitoring Module"""
+
 ================================
 
 This module integrates validation framework and thermodynamic monitoring

@@ -2,7 +2,7 @@
 """
 API Router for Output Comprehension and Self-Analysis
 ------------------------------------------------------
-This module contains endpoints related to KIMERA's ability to analyze,
+This module contains endpoints related to KIMERA's ability to analyze
 comprehend, and assess its own outputs, forming a meta-cognitive loop.
 """
 
@@ -111,7 +111,7 @@ async def get_comprehension_history(limit: int = 10):
     return {
         "status": "success",
         "comprehension_history": report[:limit],
-        "limit_applied": limit,
+        "limit_applied": limit
     }
 
 

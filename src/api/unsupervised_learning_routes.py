@@ -2,7 +2,7 @@
 Unsupervised Cognitive Learning API Routes
 
 RESTful API endpoints for Kimera's revolutionary unsupervised learning engine.
-Provides access to autonomous pattern discovery, cognitive field learning,
+Provides access to autonomous pattern discovery, cognitive field learning
 and pharmaceutical data integration capabilities.
 """
 
@@ -16,11 +16,8 @@ from pydantic import BaseModel, Field
 
 from ..engines.cognitive_field_dynamics import CognitiveFieldDynamics
 from ..engines.unsupervised_cognitive_learning_engine import (
-    LearningEvent,
-    LearningPhase,
-    UnsupervisedCognitiveLearningEngine,
-    UnsupervisedLearningState,
-)
+    LearningEvent, LearningPhase, UnsupervisedCognitiveLearningEngine
+    UnsupervisedLearningState)
 from ..pharmaceutical.analysis.dissolution_analyzer import DissolutionAnalyzer
 from ..pharmaceutical.core.kcl_testing_engine import KClTestingEngine
 from ..utils.kimera_exceptions import KimeraBaseException as KimeraException
@@ -125,10 +122,10 @@ async def initialize_learning_engine(
 
         # Initialize learning engine
         learning_engine = UnsupervisedCognitiveLearningEngine(
-            cognitive_field_engine=cognitive_field,
-            learning_sensitivity=config.learning_sensitivity,
-            emergence_threshold=config.emergence_threshold,
-            insight_threshold=config.insight_threshold,
+            cognitive_field_engine=cognitive_field
+            learning_sensitivity=config.learning_sensitivity
+            emergence_threshold=config.emergence_threshold
+            insight_threshold=config.insight_threshold
         )
 
         # Start autonomous learning in background
@@ -136,16 +133,16 @@ async def initialize_learning_engine(
             background_tasks.add_task(learning_engine.start_autonomous_learning)
 
         return JSONResponse(
-            status_code=200,
+            status_code=200
             content={
-                "success": True,
+                "success": True
                 "message": "Unsupervised Cognitive Learning Engine initialized successfully",
                 "data": {
-                    "configuration": config.__dict__,
+                    "configuration": config.__dict__
                     "learning_status": "INITIALIZED",
                     "device": str(learning_engine.device),
-                    "cognitive_field_dimension": cognitive_field.dimension,
-                    "autonomous_learning_active": config.enable_pharmaceutical_integration,
+                    "cognitive_field_dimension": cognitive_field.dimension
+                    "autonomous_learning_active": config.enable_pharmaceutical_integration
                 },
                 "timestamp": datetime.now().isoformat(),
             },
@@ -158,8 +155,8 @@ async def initialize_learning_engine(
 
 @router.post("/learn/pharmaceutical-data")
 async def learn_from_pharmaceutical_data(
-    request: PharmaceuticalDataRequest,
-    background_tasks: BackgroundTasks,
+    request: PharmaceuticalDataRequest
+    background_tasks: BackgroundTasks
     engine: UnsupervisedCognitiveLearningEngine = Depends(get_learning_engine),
 ) -> JSONResponse:
     """
@@ -203,18 +200,18 @@ async def learn_from_pharmaceutical_data(
         learning_status = engine.get_learning_status()
 
         return JSONResponse(
-            status_code=200,
+            status_code=200
             content={
-                "success": True,
+                "success": True
                 "message": "Pharmaceutical data learning completed",
                 "data": {
                     "discovered_patterns": {
-                        "dissolution_patterns": dissolution_patterns,
-                        "formulation_patterns": formulation_patterns,
-                        "quality_patterns": quality_patterns,
+                        "dissolution_patterns": dissolution_patterns
+                        "formulation_patterns": formulation_patterns
+                        "quality_patterns": quality_patterns
                     },
-                    "generated_insights": insights,
-                    "learning_status": learning_status,
+                    "generated_insights": insights
+                    "learning_status": learning_status
                     "pattern_discovery_metrics": {
                         "total_patterns_discovered": len(dissolution_patterns)
                         + len(formulation_patterns)
@@ -230,7 +227,7 @@ async def learn_from_pharmaceutical_data(
                         ),
                         "insight_generation_rate": len(insights)
                         / max(
-                            1,
+                            1
                             len(dissolution_patterns)
                             + len(formulation_patterns)
                             + len(quality_patterns),
@@ -251,7 +248,7 @@ async def learn_from_pharmaceutical_data(
 
 @router.post("/insights/generate")
 async def generate_learning_insights(
-    request: LearningInsightRequest,
+    request: LearningInsightRequest
     engine: UnsupervisedCognitiveLearningEngine = Depends(get_learning_engine),
 ) -> JSONResponse:
     """
@@ -286,21 +283,21 @@ async def generate_learning_insights(
         ranked_insights = sorted(all_insights, key=lambda x: x.confidence, reverse=True)
 
         return JSONResponse(
-            status_code=200,
+            status_code=200
             content={
-                "success": True,
+                "success": True
                 "message": f"{request.insight_type.title()} insights generated successfully",
                 "data": {
                     "insights": [
                         {
-                            "insight_id": insight.insight_id,
-                            "description": insight.insight_description,
-                            "confidence": insight.confidence,
-                            "insight_type": request.insight_type,
-                            "discovery_method": insight.event_type.value,
-                            "resonance_strength": insight.resonance_strength,
-                            "field_coherence": insight.field_coherence,
-                            "emergent_properties": insight.emergent_properties,
+                            "insight_id": insight.insight_id
+                            "description": insight.insight_description
+                            "confidence": insight.confidence
+                            "insight_type": request.insight_type
+                            "discovery_method": insight.event_type.value
+                            "resonance_strength": insight.resonance_strength
+                            "field_coherence": insight.field_coherence
+                            "emergent_properties": insight.emergent_properties
                             "timestamp": insight.discovery_timestamp.isoformat(),
                         }
                         for insight in ranked_insights[:20]  # Top 20 insights
@@ -352,12 +349,12 @@ async def get_learning_status(
         insights = engine.get_learning_insights()
 
         return JSONResponse(
-            status_code=200,
+            status_code=200
             content={
-                "success": True,
+                "success": True
                 "message": "Learning status retrieved successfully",
                 "data": {
-                    "learning_status": status,
+                    "learning_status": status
                     "pattern_summary": {
                         "total_patterns": len(patterns),
                         "pattern_types": list(
@@ -391,9 +388,9 @@ async def get_learning_status(
                         ),
                     },
                     "cognitive_field_status": {
-                        "active": engine.learning_active,
-                        "temperature": engine.learning_temperature,
-                        "self_awareness": engine.self_awareness_level,
+                        "active": engine.learning_active
+                        "temperature": engine.learning_temperature
+                        "self_awareness": engine.self_awareness_level
                         "evolution_trajectory_length": len(
                             engine.cognitive_evolution_trajectory
                         ),
@@ -433,12 +430,12 @@ async def stop_autonomous_learning(
         engine.stop_autonomous_learning()
 
         return JSONResponse(
-            status_code=200,
+            status_code=200
             content={
-                "success": True,
+                "success": True
                 "message": "Autonomous learning stopped successfully",
                 "data": {
-                    "final_status": final_status,
+                    "final_status": final_status
                     "learning_summary": {
                         "total_patterns_discovered": len(final_patterns),
                         "total_insights_generated": len(final_insights),
@@ -450,10 +447,10 @@ async def stop_autonomous_learning(
                         ),
                     },
                     "preservation_status": {
-                        "patterns_preserved": True,
-                        "insights_preserved": True,
-                        "history_preserved": True,
-                        "metrics_preserved": True,
+                        "patterns_preserved": True
+                        "insights_preserved": True
+                        "history_preserved": True
+                        "metrics_preserved": True
                     },
                 },
                 "timestamp": datetime.now().isoformat(),
@@ -468,7 +465,7 @@ async def stop_autonomous_learning(
 # Helper functions for pharmaceutical data processing
 async def _discover_dissolution_patterns(
     dissolution_profiles: List[Dict[str, Any]],
-    engine: UnsupervisedCognitiveLearningEngine,
+    engine: UnsupervisedCognitiveLearningEngine
 ) -> List[Dict[str, Any]]:
     """Discover patterns in dissolution profiles."""
     patterns = []
@@ -481,7 +478,7 @@ async def _discover_dissolution_patterns(
                 pattern = {
                     "pattern_id": f"dissolution_pattern_{i}",
                     "pattern_type": "dissolution_kinetics",
-                    "profile_data": profile,
+                    "profile_data": profile
                     "confidence": 0.85,  # Simplified confidence calculation
                     "discovered_properties": {
                         "release_rate": _calculate_release_rate(profile),
@@ -501,7 +498,7 @@ async def _discover_dissolution_patterns(
 
 async def _discover_formulation_patterns(
     formulation_parameters: List[Dict[str, Any]],
-    engine: UnsupervisedCognitiveLearningEngine,
+    engine: UnsupervisedCognitiveLearningEngine
 ) -> List[Dict[str, Any]]:
     """Discover patterns in formulation parameters."""
     patterns = []
@@ -512,8 +509,8 @@ async def _discover_formulation_patterns(
             pattern = {
                 "pattern_id": f"formulation_pattern_{i}",
                 "pattern_type": "formulation_relationship",
-                "formulation_data": formulation,
-                "confidence": 0.80,
+                "formulation_data": formulation
+                "confidence": 0.80
                 "discovered_properties": {
                     "coating_effect": _analyze_coating_effect(formulation),
                     "polymer_impact": _analyze_polymer_impact(formulation),
@@ -532,7 +529,7 @@ async def _discover_formulation_patterns(
 
 async def _discover_quality_patterns(
     quality_attributes: List[Dict[str, Any]],
-    engine: UnsupervisedCognitiveLearningEngine,
+    engine: UnsupervisedCognitiveLearningEngine
 ) -> List[Dict[str, Any]]:
     """Discover patterns in quality attributes."""
     patterns = []
@@ -543,8 +540,8 @@ async def _discover_quality_patterns(
             pattern = {
                 "pattern_id": f"quality_pattern_{i}",
                 "pattern_type": "quality_correlation",
-                "attribute_data": attributes,
-                "confidence": 0.75,
+                "attribute_data": attributes
+                "confidence": 0.75
                 "discovered_properties": {
                     "attribute_correlations": _find_attribute_correlations(attributes),
                     "critical_factors": _identify_critical_factors(attributes),
@@ -565,7 +562,7 @@ async def _generate_pharmaceutical_insights(
     dissolution_patterns: List[Dict[str, Any]],
     formulation_patterns: List[Dict[str, Any]],
     quality_patterns: List[Dict[str, Any]],
-    engine: UnsupervisedCognitiveLearningEngine,
+    engine: UnsupervisedCognitiveLearningEngine
 ) -> List[Dict[str, Any]]:
     """Generate insights from discovered pharmaceutical patterns."""
     insights = []
@@ -578,7 +575,7 @@ async def _generate_pharmaceutical_insights(
                     "insight_id": f"dissolution_synthesis_{datetime.now().timestamp()}",
                     "type": "dissolution_optimization",
                     "description": "Dissolution patterns suggest optimal coating thickness range for sustained release",
-                    "confidence": 0.88,
+                    "confidence": 0.88
                     "actionable_recommendations": [
                         "Optimize coating thickness between 12-15% for target release profile",
                         "Consider polymer ratio adjustment for improved linearity",
@@ -594,7 +591,7 @@ async def _generate_pharmaceutical_insights(
                     "insight_id": f"formulation_optimization_{datetime.now().timestamp()}",
                     "type": "formulation_design",
                     "description": "Formulation patterns reveal critical parameter interactions",
-                    "confidence": 0.82,
+                    "confidence": 0.82
                     "actionable_recommendations": [
                         "Polymer ratio has highest impact on release rate",
                         "Process temperature affects encapsulation efficiency",
@@ -610,7 +607,7 @@ async def _generate_pharmaceutical_insights(
                     "insight_id": f"quality_prediction_{datetime.now().timestamp()}",
                     "type": "quality_assurance",
                     "description": "Quality patterns enable predictive batch assessment",
-                    "confidence": 0.79,
+                    "confidence": 0.79
                     "actionable_recommendations": [
                         "Implement real-time quality monitoring",
                         "Focus on critical quality attributes identified",
@@ -629,8 +626,8 @@ async def _generate_pharmaceutical_insights(
 
 async def _generate_contextual_insights(
     data_context: Dict[str, Any],
-    insight_type: str,
-    engine: UnsupervisedCognitiveLearningEngine,
+    insight_type: str
+    engine: UnsupervisedCognitiveLearningEngine
 ) -> List[Any]:
     """Generate contextual insights based on data context."""
     # Simplified implementation - would use cognitive field dynamics in full version
@@ -646,12 +643,12 @@ async def _generate_contextual_insights(
                     {
                         "insight_id": f"contextual_optimization_{datetime.now().timestamp()}",
                         "insight_description": "Contextual optimization opportunities identified",
-                        "confidence": 0.75,
-                        "resonance_strength": 0.8,
-                        "field_coherence": 0.82,
+                        "confidence": 0.75
+                        "resonance_strength": 0.8
+                        "field_coherence": 0.82
                         "emergent_properties": {"optimization_potential": 0.85},
                         "discovery_timestamp": datetime.now(),
-                        "event_type": LearningEvent.INSIGHT_FLASH,
+                        "event_type": LearningEvent.INSIGHT_FLASH
                     },
                 )()
             )
@@ -723,7 +720,7 @@ def _analyze_coating_effect(formulation: Dict[str, Any]) -> Dict[str, float]:
     coating_thickness = formulation.get("coating_thickness_percent", 0)
     return {
         "thickness_impact": min(coating_thickness / 20.0, 1.0),
-        "uniformity_score": 0.85 if coating_thickness > 10 else 0.65,
+        "uniformity_score": 0.85 if coating_thickness > 10 else 0.65
     }
 
 
@@ -732,8 +729,8 @@ def _analyze_polymer_impact(formulation: Dict[str, Any]) -> Dict[str, float]:
     polymer_ratios = formulation.get("polymer_ratio", {})
     ec_ratio = polymer_ratios.get("ethylcellulose", 0.8)
     return {
-        "release_modulation": ec_ratio,
-        "stability_impact": 1.0 - abs(ec_ratio - 0.8) * 2,
+        "release_modulation": ec_ratio
+        "stability_impact": 1.0 - abs(ec_ratio - 0.8) * 2
     }
 
 
@@ -741,18 +738,18 @@ def _analyze_process_sensitivity(formulation: Dict[str, Any]) -> Dict[str, float
     """Analyze process parameter sensitivity."""
     process_params = formulation.get("process_parameters", {})
     return {
-        "temperature_sensitivity": 0.7,
-        "spray_rate_impact": 0.6,
-        "overall_robustness": 0.75,
+        "temperature_sensitivity": 0.7
+        "spray_rate_impact": 0.6
+        "overall_robustness": 0.75
     }
 
 
 def _find_attribute_correlations(attributes: Dict[str, Any]) -> Dict[str, float]:
     """Find correlations between quality attributes."""
     return {
-        "dissolution_content_correlation": 0.85,
-        "hardness_disintegration_correlation": -0.72,
-        "friability_hardness_correlation": -0.68,
+        "dissolution_content_correlation": 0.85
+        "hardness_disintegration_correlation": -0.72
+        "friability_hardness_correlation": -0.68
     }
 
 
@@ -784,10 +781,10 @@ async def initialize_unsupervised_learning_engines(use_gpu: bool = True):
 
         # Initialize learning engine
         learning_engine = UnsupervisedCognitiveLearningEngine(
-            cognitive_field_engine=cognitive_field,
-            learning_sensitivity=0.15,
-            emergence_threshold=0.7,
-            insight_threshold=0.85,
+            cognitive_field_engine=cognitive_field
+            learning_sensitivity=0.15
+            emergence_threshold=0.7
+            insight_threshold=0.85
         )
 
         logger.info("✅ Unsupervised Learning Engines initialized successfully")

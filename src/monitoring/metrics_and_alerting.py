@@ -10,14 +10,8 @@ import time
 from datetime import datetime
 from typing import Any, Callable, Dict, List, Optional
 
-from prometheus_client import (
-    REGISTRY,
-    Counter,
-    Gauge,
-    Histogram,
-    Summary,
-    start_http_server,
-)
+from prometheus_client import (REGISTRY, Counter, Gauge, Histogram, Summary,
+                               start_http_server)
 
 try:
     from config import get_settings
@@ -28,9 +22,9 @@ except ImportError:
 
 
 logger = logging.getLogger(__name__)
-
-
 class MetricsManager:
+    """Auto-generated class."""
+    pass
     """
     Manages Prometheus metrics for KIMERA
     """
@@ -116,9 +110,9 @@ class MetricsManager:
     def get_metric(self, name: str) -> Optional[Any]:
         """Get a registered metric"""
         return self.metrics.get(name)
-
-
 class AlertingManager:
+    """Auto-generated class."""
+    pass
     """
     Manages alerting rules and notifications
     """

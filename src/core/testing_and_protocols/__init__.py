@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-Testing and Protocols Module
+"""Testing and Protocols Module"""
+
 ============================
 
 DO-178C Level A compliant large-scale testing framework and omnidimensional
@@ -24,58 +25,35 @@ Version: 1.0.0 (DO-178C Level A)
 """
 
 # Main integration interface
-from .integration import (
-    SystemHealthReport,
-    TestingAndProtocolsConfig,
-    TestingAndProtocolsIntegrator,
-    get_testing_and_protocols_integrator,
-)
-
+from .integration import (SystemHealthReport, TestingAndProtocolsConfig
+                          TestingAndProtocolsIntegrator
+                          get_testing_and_protocols_integrator)
 # Protocol engine components
-from .protocols.omnidimensional.protocol_engine import (
-    DeliveryGuarantee,
-    DimensionRegistry,
-    MessagePriority,
-    MessageType,
-    ProtocolEngine,
-    ProtocolMessage,
-    SystemDimension,
-    get_global_registry,
-    get_protocol_engine,
-)
-from .testing.configurations.cognitive_contexts import (
-    CognitiveContext,
-    CognitiveContextManager,
-    ContextTestConfiguration,
-    get_cognitive_context_manager,
-)
-from .testing.configurations.complexity_levels import (
-    ComplexityConfiguration,
-    ComplexityLevel,
-    ComplexityLevelManager,
-    get_complexity_manager,
-)
-from .testing.configurations.input_types import (
-    InputGenerator,
-    InputSample,
-    InputType,
-    get_input_generator,
-)
-from .testing.configurations.matrix_validator import (
-    MatrixValidationReport,
-    TestConfiguration,
-    TestMatrixValidator,
-    get_matrix_validator,
-)
-
+from .protocols.omnidimensional.protocol_engine import (DeliveryGuarantee
+                                                        DimensionRegistry
+                                                        MessagePriority, MessageType
+                                                        ProtocolEngine, ProtocolMessage
+                                                        SystemDimension
+                                                        get_global_registry
+                                                        get_protocol_engine)
+from .testing.configurations.cognitive_contexts import (CognitiveContext
+                                                        CognitiveContextManager
+                                                        ContextTestConfiguration
+                                                        get_cognitive_context_manager)
+from .testing.configurations.complexity_levels import (ComplexityConfiguration
+                                                       ComplexityLevel
+                                                       ComplexityLevelManager
+                                                       get_complexity_manager)
+from .testing.configurations.input_types import (InputGenerator, InputSample, InputType
+                                                 get_input_generator)
+from .testing.configurations.matrix_validator import (MatrixValidationReport
+                                                      TestConfiguration
+                                                      TestMatrixValidator
+                                                      get_matrix_validator)
 # Testing framework components
-from .testing.framework.test_orchestrator import (
-    TestExecutionStatus,
-    TestOrchestrator,
-    TestPriority,
-    TestResult,
-    get_test_orchestrator,
-)
+from .testing.framework.test_orchestrator import (TestExecutionStatus, TestOrchestrator
+                                                  TestPriority, TestResult
+                                                  get_test_orchestrator)
 
 # Version and metadata
 __version__ = "1.0.0"
@@ -146,9 +124,9 @@ def get_module_info() -> dict:
     """Get comprehensive module information"""
     return {
         "name": "testing_and_protocols",
-        "version": __version__,
-        "compliance": __compliance__,
-        "author": __author__,
+        "version": __version__
+        "compliance": __compliance__
+        "author": __author__
         "description": "Large-scale testing framework and omnidimensional protocol engine",
         "capabilities": [
             "96-configuration test matrix execution",
@@ -179,7 +157,7 @@ def get_module_info() -> dict:
             }
         },
         "test_matrix": {
-            "total_configurations": TOTAL_TEST_CONFIGURATIONS,
+            "total_configurations": TOTAL_TEST_CONFIGURATIONS
             "dimensions": "4 complexity × 6 input types × 4 contexts",
             "parallel_execution": f"Up to {DEFAULT_MAX_PARALLEL_TESTS} concurrent tests",
             "timeout_per_test": f"{DEFAULT_TEST_TIMEOUT} seconds"
@@ -201,7 +179,6 @@ def validate_module_installation() -> bool:
         from .integration import TestingAndProtocolsIntegrator
         from .protocols.omnidimensional.protocol_engine import ProtocolEngine
         from .testing.configurations.complexity_levels import get_complexity_manager
-
         # Test configuration managers
         from .testing.configurations.matrix_validator import get_matrix_validator
         from .testing.framework.test_orchestrator import TestOrchestrator

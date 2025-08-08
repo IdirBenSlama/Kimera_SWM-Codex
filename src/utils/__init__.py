@@ -1,4 +1,5 @@
-"""backend.utils package
+"""
+backend.utils package
 ========================
 Utility sub-packages for Kimera.
 This file ensures Python recognises `backend.utils` as a proper package so

@@ -19,20 +19,22 @@ import numpy as np
 from ..foundational_thermodynamic_engine import FoundationalThermodynamicEngine
 
 try:
-    from src.core.geoid import GeoidState
+    from src.core.primitives.geoid import GeoidState
 except ImportError:
     try:
         from core.geoid import GeoidState
     except ImportError:
         # Fallback for missing GeoidState
-        class GeoidState:
+class GeoidState:
+    """Auto-generated class."""
+    pass
             @staticmethod
             def create_default():
                 return {}
 
 
 try:
-    from src.utils.config import get_api_settings
+    from src.utils.robust_config import get_api_settings
 except ImportError:
     try:
         from utils.config import get_api_settings
@@ -58,6 +60,8 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class ThermodynamicConstraints:
+    """Auto-generated class."""
+    pass
     """Defines thermodynamic constraints for an optimization task."""
 
     max_temperature: float = 100.0
@@ -67,6 +71,8 @@ class ThermodynamicConstraints:
 
 @dataclass
 class OptimizationResult:
+    """Auto-generated class."""
+    pass
     """Represents the result of a signal evolution path optimization."""
 
     success: bool
@@ -77,15 +83,17 @@ class OptimizationResult:
 
 @dataclass
 class MultiObjectiveConstraints:
+    """Auto-generated class."""
+    pass
     """Defines weights for multi-objective optimization."""
 
     entropy_weight: float = 1.0
     energy_weight: float = -0.5  # Negative because we want to minimize energy cost
     coherence_weight: float = 0.8
     speed_weight: float = 0.3
-
-
 class ThermodynamicSignalOptimizer:
+    """Auto-generated class."""
+    pass
     """
     Finds optimal signal evolution paths satisfying thermodynamic constraints.
     It uses the FoundationalThermodynamicEngine for validation and calculations.
@@ -126,9 +134,9 @@ class ThermodynamicSignalOptimizer:
         return 1.0 / (1.0 + len([v for v in signal_state.values() if v != 0]))
 
     def _multi_objective_signal_optimization(
-        self,
+        self
         candidate_states: List[Dict[str, float]],
-        objectives: MultiObjectiveConstraints,
+        objectives: MultiObjectiveConstraints
     ) -> Dict[str, float]:
         """
         Performs multi-objective optimization over a set of candidate states.
@@ -162,10 +170,10 @@ class ThermodynamicSignalOptimizer:
         return best_state if best_state is not None else {}
 
     async def optimize_signal_evolution_path(
-        self,
-        source_geoid: GeoidState,
-        target_entropy_state: float,
-        constraints: ThermodynamicConstraints,
+        self
+        source_geoid: GeoidState
+        target_entropy_state: float
+        constraints: ThermodynamicConstraints
     ) -> OptimizationResult:
         """
         Finds the optimal signal evolution path from a source to a target entropy state.
@@ -199,14 +207,14 @@ class ThermodynamicSignalOptimizer:
         if validation_passed:
             self.optimization_history.append(evolution_path)
             return OptimizationResult(
-                success=True,
-                optimal_path=evolution_path,
-                validation_passed=True,
+                success=True
+                optimal_path=evolution_path
+                validation_passed=True
                 message="Optimal path found and validated.",
             )
         else:
             return OptimizationResult(
-                success=False,
+                success=False
                 message="Calculated path failed thermodynamic validation.",
             )
 
@@ -236,10 +244,10 @@ class ThermodynamicSignalOptimizer:
         return path
 
     def _validate_evolution_path(
-        self,
-        source_geoid: GeoidState,
+        self
+        source_geoid: GeoidState
         path: List[Dict[str, float]],
-        constraints: ThermodynamicConstraints,
+        constraints: ThermodynamicConstraints
     ) -> bool:
         """
         Validates an entire evolution path against thermodynamic constraints.

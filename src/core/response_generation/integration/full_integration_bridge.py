@@ -37,13 +37,9 @@ from src.utils.kimera_exceptions import KimeraCognitiveError, KimeraIntegrationE
 from src.utils.kimera_logger import LogCategory, get_logger
 
 # Import core systems
-from ..core.cognitive_response_system import (
-    CognitiveMetrics,
-    ResponseContext,
-    ResponseGenerationConfig,
-    ResponseGenerator,
-    ResponseOutput,
-)
+from ..core.cognitive_response_system import (CognitiveMetrics, ResponseContext
+                                              ResponseGenerationConfig
+                                              ResponseGenerator, ResponseOutput)
 from ..security.quantum_security import get_quantum_security
 
 # Import Barenholtz architecture
@@ -81,6 +77,8 @@ class ProcessingPriority(Enum):
 
 @dataclass
 class IntegrationConfig:
+    """Auto-generated class."""
+    pass
     """Configuration for full integration bridge"""
 
     mode: IntegrationMode = IntegrationMode.FULL_COGNITIVE
@@ -97,6 +95,8 @@ class IntegrationConfig:
 
 @dataclass
 class IntegrationMetrics:
+    """Auto-generated class."""
+    pass
     """Metrics for integration processing"""
 
     total_processing_time: float
@@ -113,6 +113,8 @@ class IntegrationMetrics:
 
 @dataclass
 class CognitiveArchitectureState:
+    """Auto-generated class."""
+    pass
     """Complete state of cognitive architecture"""
 
     barenholtz_state: Optional[Dict[str, Any]] = None
@@ -122,9 +124,9 @@ class CognitiveArchitectureState:
     insight_state: Optional[Dict[str, Any]] = None
     overall_coherence: float = 0.0
     timestamp: float = field(default_factory=time.time)
-
-
 class BarenholtzIntegrationAdapter:
+    """Auto-generated class."""
+    pass
     """Adapter for Barenholtz dual-system integration"""
 
     def __init__(self):
@@ -146,9 +148,9 @@ class BarenholtzIntegrationAdapter:
         if not self.available or not self.integrator:
             return {
                 "status": "unavailable",
-                "system1_result": None,
-                "system2_result": None,
-                "arbitration_result": None,
+                "system1_result": None
+                "system2_result": None
+                "arbitration_result": None
             }
 
         try:
@@ -162,11 +164,11 @@ class BarenholtzIntegrationAdapter:
 
             return {
                 "status": "success",
-                "system1_result": result.system1_result,
-                "system2_result": result.system2_result,
-                "arbitration_result": result.arbitration_result,
-                "confidence": result.confidence,
-                "processing_time": result.processing_time,
+                "system1_result": result.system1_result
+                "system2_result": result.system2_result
+                "arbitration_result": result.arbitration_result
+                "confidence": result.confidence
+                "processing_time": result.processing_time
             }
 
         except Exception as e:
@@ -174,13 +176,13 @@ class BarenholtzIntegrationAdapter:
             return {
                 "status": "error",
                 "error": str(e),
-                "system1_result": None,
-                "system2_result": None,
-                "arbitration_result": None,
+                "system1_result": None
+                "system2_result": None
+                "arbitration_result": None
             }
-
-
 class ThermodynamicCoherenceManager:
+    """Auto-generated class."""
+    pass
     """Manager for thermodynamic coherence integration"""
 
     def __init__(self):
@@ -202,19 +204,19 @@ class ThermodynamicCoherenceManager:
             coherent = coherence >= self.coherence_threshold
 
             return {
-                "entropy": entropy,
-                "coherence": coherence,
-                "coherent": coherent,
-                "threshold": self.coherence_threshold,
+                "entropy": entropy
+                "coherence": coherence
+                "coherent": coherent
+                "threshold": self.coherence_threshold
                 "assessment": "coherent" if coherent else "incoherent",
             }
 
         except Exception as e:
             logger.error(f"❌ Thermodynamic coherence assessment failed: {e}")
             return {
-                "entropy": 0.0,
-                "coherence": 0.0,
-                "coherent": False,
+                "entropy": 0.0
+                "coherence": 0.0
+                "coherent": False
                 "error": str(e),
             }
 
@@ -258,9 +260,9 @@ class ThermodynamicCoherenceManager:
             coherence = max(0.0, 1.0 - deviation / optimal_entropy_range[1])
 
         return coherence
-
-
 class HighDimensionalIntegrationAdapter:
+    """Auto-generated class."""
+    pass
     """Adapter for high-dimensional modeling integration"""
 
     def __init__(self):
@@ -286,9 +288,9 @@ class HighDimensionalIntegrationAdapter:
         if not self.available:
             return {
                 "status": "unavailable",
-                "embedding": None,
-                "bgm_result": None,
-                "homomorphic_result": None,
+                "embedding": None
+                "bgm_result": None
+                "homomorphic_result": None
             }
 
         try:
@@ -308,7 +310,7 @@ class HighDimensionalIntegrationAdapter:
 
             return {
                 "status": "success",
-                "embedding": query_embedding,
+                "embedding": query_embedding
                 "bgm_result": result.get("bgm_result"),
                 "homomorphic_result": result.get("homomorphic_result"),
                 "processing_time": result.get("processing_time", 0.0),
@@ -317,9 +319,9 @@ class HighDimensionalIntegrationAdapter:
         except Exception as e:
             logger.error(f"❌ High-dimensional processing failed: {e}")
             return {"status": "error", "error": str(e), "embedding": None}
-
-
 class InsightManagementAdapter:
+    """Auto-generated class."""
+    pass
     """Adapter for insight management integration"""
 
     def __init__(self):
@@ -345,17 +347,17 @@ class InsightManagementAdapter:
             return {
                 "status": "unavailable",
                 "insights": [],
-                "entropy_validation": False,
+                "entropy_validation": False
             }
 
         try:
             # Convert cognitive metrics to insight data
             insight_data = {
-                "cognitive_coherence": cognitive_metrics.cognitive_coherence,
-                "semantic_complexity": cognitive_metrics.semantic_complexity,
-                "resonance_frequency": cognitive_metrics.resonance_frequency,
-                "field_strength": cognitive_metrics.field_strength,
-                "timestamp": cognitive_metrics.timestamp,
+                "cognitive_coherence": cognitive_metrics.cognitive_coherence
+                "semantic_complexity": cognitive_metrics.semantic_complexity
+                "resonance_frequency": cognitive_metrics.resonance_frequency
+                "field_strength": cognitive_metrics.field_strength
+                "timestamp": cognitive_metrics.timestamp
             }
 
             # Process through insight management
@@ -363,17 +365,17 @@ class InsightManagementAdapter:
 
             return {
                 "status": "success",
-                "insights": insights,
-                "entropy_validation": True,
-                "processing_time": time.time() - cognitive_metrics.timestamp,
+                "insights": insights
+                "entropy_validation": True
+                "processing_time": time.time() - cognitive_metrics.timestamp
             }
 
         except Exception as e:
             logger.error(f"❌ Insight processing failed: {e}")
             return {"status": "error", "error": str(e), "insights": []}
-
-
 class KimeraFullIntegrationBridge:
+    """Auto-generated class."""
+    pass
     """
     Full Integration Bridge for KIMERA Cognitive Architecture
 
@@ -427,10 +429,10 @@ class KimeraFullIntegrationBridge:
         )
 
     async def process_integrated_response(
-        self,
-        query: str,
-        conversation_history: Optional[List[Dict[str, Any]]] = None,
-        context_data: Optional[Dict[str, Any]] = None,
+        self
+        query: str
+        conversation_history: Optional[List[Dict[str, Any]]] = None
+        context_data: Optional[Dict[str, Any]] = None
     ) -> ResponseOutput:
         """
         Process response through full cognitive architecture integration
@@ -451,9 +453,9 @@ class KimeraFullIntegrationBridge:
 
             # Step 1: Prepare response context
             response_context = ResponseContext(
-                user_query=query,
+                user_query=query
                 conversation_history=conversation_history or [],
-                system_state=context_data,
+                system_state=context_data
                 security_context=None,  # Will be populated by security processing
                 performance_constraints=self._get_performance_constraints(),
             )
@@ -547,10 +549,10 @@ class KimeraFullIntegrationBridge:
     ) -> Dict[str, Any]:
         """Process quantum security assessment"""
         security_data = {
-            "query": query,
+            "query": query
             "context": context or {},
             "timestamp": time.time(),
-            "integration_mode": self.config.mode.value,
+            "integration_mode": self.config.mode.value
         }
 
         return await self.quantum_security.process_with_quantum_protection(
@@ -623,22 +625,22 @@ class KimeraFullIntegrationBridge:
     ) -> ResponseContext:
         """Enhance response context with architecture state"""
         enhanced_context = ResponseContext(
-            user_query=context.user_query,
-            conversation_history=context.conversation_history,
+            user_query=context.user_query
+            conversation_history=context.conversation_history
             system_state=context.system_state or {},
-            security_context=context.security_context,
-            performance_constraints=context.performance_constraints,
-            modality_preferences=context.modality_preferences,
+            security_context=context.security_context
+            performance_constraints=context.performance_constraints
+            modality_preferences=context.modality_preferences
         )
 
         # Add architecture state to system state
         enhanced_context.system_state.update(
             {
                 "cognitive_architecture": {
-                    "barenholtz_state": state.barenholtz_state,
-                    "high_dimensional_state": state.high_dimensional_state,
-                    "overall_coherence": state.overall_coherence,
-                    "integration_timestamp": state.timestamp,
+                    "barenholtz_state": state.barenholtz_state
+                    "high_dimensional_state": state.high_dimensional_state
+                    "overall_coherence": state.overall_coherence
+                    "integration_timestamp": state.timestamp
                 }
             }
         )
@@ -646,10 +648,10 @@ class KimeraFullIntegrationBridge:
         return enhanced_context
 
     async def _post_process_response(
-        self,
-        response: ResponseOutput,
-        state: CognitiveArchitectureState,
-        metrics: IntegrationMetrics,
+        self
+        response: ResponseOutput
+        state: CognitiveArchitectureState
+        metrics: IntegrationMetrics
     ) -> ResponseOutput:
         """Post-process response with additional integrations"""
 
@@ -675,15 +677,15 @@ class KimeraFullIntegrationBridge:
         response.metadata.update(
             {
                 "integration_metrics": {
-                    "systems_engaged": metrics.systems_engaged,
-                    "total_time": metrics.total_processing_time,
-                    "coherence_score": metrics.coherence_score,
-                    "error_count": metrics.error_count,
+                    "systems_engaged": metrics.systems_engaged
+                    "total_time": metrics.total_processing_time
+                    "coherence_score": metrics.coherence_score
+                    "error_count": metrics.error_count
                 },
                 "architecture_state": {
-                    "overall_coherence": state.overall_coherence,
+                    "overall_coherence": state.overall_coherence
                     "systems_available": len(metrics.systems_engaged),
-                    "integration_mode": self.config.mode.value,
+                    "integration_mode": self.config.mode.value
                 },
             }
         )
@@ -694,21 +696,21 @@ class KimeraFullIntegrationBridge:
         """Get performance constraints based on priority"""
         if self.config.priority == ProcessingPriority.CRITICAL:
             return {
-                "max_response_time": 1.0,
-                "max_memory_mb": 512,
-                "max_cpu_percent": 50,
+                "max_response_time": 1.0
+                "max_memory_mb": 512
+                "max_cpu_percent": 50
             }
         elif self.config.priority == ProcessingPriority.HIGH:
             return {
-                "max_response_time": 2.0,
-                "max_memory_mb": 1024,
-                "max_cpu_percent": 70,
+                "max_response_time": 2.0
+                "max_memory_mb": 1024
+                "max_cpu_percent": 70
             }
         else:  # NORMAL, LOW, BATCH
             return {
-                "max_response_time": self.config.max_processing_time,
-                "max_memory_mb": 2048,
-                "max_cpu_percent": 90,
+                "max_response_time": self.config.max_processing_time
+                "max_memory_mb": 2048
+                "max_cpu_percent": 90
             }
 
     def _create_security_blocked_response(
@@ -718,19 +720,19 @@ class KimeraFullIntegrationBridge:
         from ..core.cognitive_response_system import CognitiveMetrics, ResponseType
 
         blocked_metrics = CognitiveMetrics(
-            resonance_frequency=0.0,
-            field_strength=0.0,
-            cognitive_coherence=0.0,
-            semantic_complexity=0.0,
+            resonance_frequency=0.0
+            field_strength=0.0
+            cognitive_coherence=0.0
+            semantic_complexity=0.0
         )
 
         return ResponseOutput(
             content="Request blocked due to security assessment. Please rephrase your query.",
-            response_type=ResponseType.SECURE,
-            quality_score=0.0,
-            cognitive_metrics=blocked_metrics,
-            security_status=security_result,
-            processing_time_ms=metrics.total_processing_time * 1000,
+            response_type=ResponseType.SECURE
+            quality_score=0.0
+            cognitive_metrics=blocked_metrics
+            security_status=security_result
+            processing_time_ms=metrics.total_processing_time * 1000
             metadata={"blocked": True, "reason": "security_threat"},
         )
 
@@ -750,22 +752,22 @@ class KimeraFullIntegrationBridge:
         except Exception as e:
             # Last resort response
             fallback_metrics = CognitiveMetrics(
-                resonance_frequency=7.83,
-                field_strength=0.5,
-                cognitive_coherence=0.5,
-                semantic_complexity=0.3,
+                resonance_frequency=7.83
+                field_strength=0.5
+                cognitive_coherence=0.5
+                semantic_complexity=0.3
             )
 
             return ResponseOutput(
                 content=f"I apologize, but I'm experiencing technical difficulties processing your request. Please try again.",
-                response_type=ResponseType.DIRECT,
-                quality_score=0.5,
-                cognitive_metrics=fallback_metrics,
+                response_type=ResponseType.DIRECT
+                quality_score=0.5
+                cognitive_metrics=fallback_metrics
                 security_status={"status": "fallback"},
-                processing_time_ms=0.0,
+                processing_time_ms=0.0
                 metadata={
-                    "fallback": True,
-                    "integration_error": error,
+                    "fallback": True
+                    "integration_error": error
                     "generation_error": str(e),
                 },
             )
@@ -798,16 +800,16 @@ class KimeraFullIntegrationBridge:
 
         return {
             "status": "operational",
-            "total_integrations": self.total_integrations,
-            "successful_integrations": self.successful_integrations,
-            "success_rate": success_rate,
-            "average_processing_time": avg_processing_time,
-            "average_coherence": avg_coherence,
+            "total_integrations": self.total_integrations
+            "successful_integrations": self.successful_integrations
+            "success_rate": success_rate
+            "average_processing_time": avg_processing_time
+            "average_coherence": avg_coherence
             "systems_available": {
                 "barenholtz": self.barenholtz_adapter
-                and self.barenholtz_adapter.available,
-                "quantum_security": self.config.enable_quantum_security,
-                "thermodynamic_coherence": self.config.enable_thermodynamic_coherence,
+                and self.barenholtz_adapter.available
+                "quantum_security": self.config.enable_quantum_security
+                "thermodynamic_coherence": self.config.enable_thermodynamic_coherence
                 "high_dimensional": (
                     self.high_dimensional_adapter
                     and self.high_dimensional_adapter.available
@@ -816,7 +818,7 @@ class KimeraFullIntegrationBridge:
                     self.insight_adapter and self.insight_adapter.available
                 ),
             },
-            "configuration": self.config.__dict__,
+            "configuration": self.config.__dict__
         }
 
 
@@ -825,7 +827,7 @@ _integration_bridge_instance: Optional[KimeraFullIntegrationBridge] = None
 
 
 def get_full_integration_bridge(
-    config: Optional[IntegrationConfig] = None,
+    config: Optional[IntegrationConfig] = None
 ) -> KimeraFullIntegrationBridge:
     """Get global full integration bridge instance"""
     global _integration_bridge_instance

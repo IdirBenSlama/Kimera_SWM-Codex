@@ -1,7 +1,7 @@
 import numpy as np
-
-
 class QuantumStateMachine:
+    """Auto-generated class."""
+    pass
     """
     Quantum state machine allowing superposition of states.
 

@@ -1,0 +1,141 @@
+{
+  "timestamp": "2025-08-04T15:52:34.051595",
+  "system_info": {
+    "python_version": "3.13.3",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "architecture": "64bit"
+  },
+  "python_analysis": {
+    "current_version": "3.13.3",
+    "is_python_313": true,
+    "compatibility_status": "compatible",
+    "issues": [],
+    "async_features": {
+      "TaskGroup": true,
+      "timeout": true,
+      "timeout_at": true
+    }
+  },
+  "performance_analysis": {
+    "libraries_status": {
+      "torch": {
+        "installed": true,
+        "version": "2.7.1+cu118",
+        "info": {
+          "required_for": "Neural networks",
+          "compilation": "C++/CUDA"
+        }
+      },
+      "cupy": {
+        "installed": true,
+        "version": "13.4.1",
+        "info": {
+          "required_for": "GPU arrays",
+          "compilation": "CUDA"
+        }
+      },
+      "numpy": {
+        "installed": true,
+        "version": "2.2.6",
+        "info": {
+          "required_for": "Numerical computing",
+          "compilation": "C/Fortran"
+        }
+      },
+      "scipy": {
+        "installed": true,
+        "version": "1.16.0",
+        "info": {
+          "required_for": "Scientific computing",
+          "compilation": "C/Fortran"
+        }
+      },
+      "numba": {
+        "installed": true,
+        "version": "0.61.2",
+        "info": {
+          "required_for": "JIT compilation",
+          "compilation": "LLVM"
+        }
+      },
+      "fastrlock": {
+        "installed": true,
+        "version": "0.8.3",
+        "info": {
+          "required_for": "Fast locks",
+          "compilation": "C"
+        }
+      },
+      "psutil": {
+        "installed": true,
+        "version": "7.0.0",
+        "info": {
+          "required_for": "System monitoring",
+          "compilation": "C"
+        }
+      }
+    },
+    "compilation_needed": [
+      {
+        "library": "torch",
+        "requirements": "C++/CUDA"
+      },
+      {
+        "library": "cupy",
+        "requirements": "CUDA"
+      },
+      {
+        "library": "numpy",
+        "requirements": "C/Fortran"
+      },
+      {
+        "library": "scipy",
+        "requirements": "C/Fortran"
+      },
+      {
+        "library": "numba",
+        "requirements": "LLVM"
+      },
+      {
+        "library": "fastrlock",
+        "requirements": "C"
+      },
+      {
+        "library": "psutil",
+        "requirements": "C"
+      }
+    ],
+    "missing_build_tools": []
+  },
+  "build_tools_analysis": {
+    "available_tools": {
+      "cmake": "cmake version 4.0.3",
+      "nvcc": "nvcc: NVIDIA (R) Cuda compiler driver",
+      "python-dev": "Available"
+    },
+    "missing_tools": [
+      "gcc",
+      "g++",
+      "make"
+    ],
+    "recommendations": [
+      "Install Visual Studio Build Tools or Visual Studio Community"
+    ]
+  },
+  "async_analysis": {
+    "patterns_found": {
+      "async def": 2274,
+      "await ": 2422,
+      "asyncio.": 741,
+      "async with": 92,
+      "AsyncIterator": 12,
+      "TaskGroup": 0,
+      "asyncio.timeout": 0,
+      "CancelledError": 39
+    },
+    "files_analyzed": 773,
+    "potential_issues": [
+      "No TaskGroup usage found - consider upgrading async patterns"
+    ]
+  }
+}

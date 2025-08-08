@@ -8,15 +8,17 @@ try:
     from utils.kimera_exceptions import KimeraSecurityError
 except ImportError:
     # Create placeholders for utils.kimera_exceptions
-    class KimeraSecurityError:
+class KimeraSecurityError:
+    """Auto-generated class."""
+    pass
         pass
 
 
 # Configure logging
 logger = logging.getLogger(__name__)
-
-
 class CognitiveSeparationFirewall:
+    """Auto-generated class."""
+    pass
     """
     Enforces a strict separation between KIMERA's core cognitive layer and
     the anthropomorphic contextualization layer using advanced detection algorithms.

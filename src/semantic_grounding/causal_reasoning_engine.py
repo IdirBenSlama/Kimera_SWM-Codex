@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class CausalRelation:
     """Represents a causal relationship between concepts"""
-
+    
     cause: str
     effect: str
     mechanism: str
@@ -36,7 +36,7 @@ class CausalRelation:
 @dataclass
 class CausalChain:
     """Represents a chain of causal relationships"""
-
+    
     steps: List[CausalRelation]
     total_strength: float
     weakest_link: float
@@ -50,9 +50,9 @@ class CausalChain:
         for step in self.steps:
             path.append(step.effect)
         return path
-
-
 class CausalReasoningEngine:
+    """Auto-generated class."""
+    pass
     """
     Engine for understanding and reasoning about causal relationships.
     Goes beyond correlation to identify actual causal mechanisms.

@@ -1,5 +1,6 @@
 """
-Insight Management Integration Module
+"""Insight Management Integration Module"""
+
 ====================================
 
 DO-178C Level A compliant integration of insight processing components.
@@ -29,44 +30,40 @@ from typing import Any, Dict, List, Optional, Tuple
 import numpy as np
 import torch
 
-from .information_integration_analyzer import (
-    ComplexitySignature,
-    ComplexityState,
-    InformationIntegrationAnalyzer,
-)
-from .insight_entropy import (
-    calculate_adaptive_entropy_threshold,
-    validate_insight_entropy_reduction,
-)
+from .information_integration_analyzer import (ComplexitySignature, ComplexityState
+                                               InformationIntegrationAnalyzer)
+from .insight_entropy import (calculate_adaptive_entropy_threshold
+                              validate_insight_entropy_reduction)
 from .insight_feedback import EngagementType, InsightFeedbackEngine
-from .insight_lifecycle import (
-    FeedbackEvent,
-    manage_insight_lifecycle,
-    update_utility_score,
-)
+from .insight_lifecycle import (FeedbackEvent, manage_insight_lifecycle
+                                update_utility_score)
 
 # DO-178C requires explicit typing
 try:
-    from src.core.geoid import GeoidState
+    from src.core.primitives.geoid import GeoidState
 except ImportError:
     try:
         from core.geoid import GeoidState
     except ImportError:
         # Fallback for missing GeoidState
-        class GeoidState:
+class GeoidState:
+    """Auto-generated class."""
+    pass
             @staticmethod
             def create_default():
                 return {}
 
 
 try:
-    from src.core.insight import InsightScar
+    from src.core.output.insight import InsightScar
 except ImportError:
     try:
         from core.insight import InsightScar
     except ImportError:
         # Fallback for missing InsightScar
-        class InsightScar:
+class InsightScar:
+    """Auto-generated class."""
+    pass
             def __init__(self, **kwargs):
                 self.__dict__.update(kwargs)
 
@@ -92,6 +89,8 @@ class ValidationStatus(Enum):
 
 @dataclass
 class InsightValidationResult:
+    """Auto-generated class."""
+    pass
     """Comprehensive validation result for DO-178C traceability"""
 
     insight_id: str
@@ -106,6 +105,8 @@ class InsightValidationResult:
 
 @dataclass
 class SystemHealthMetrics:
+    """Auto-generated class."""
+    pass
     """Real-time system health for safety monitoring"""
 
     total_insights: int
@@ -116,13 +117,13 @@ class SystemHealthMetrics:
     memory_usage_mb: float
     feedback_gain: float
     last_update: datetime
-
-
 class InsightManagementIntegrator:
+    """Auto-generated class."""
+    pass
     """
     DO-178C Level A compliant insight management system.
 
-    Integrates all insight processing components with safety checks,
+    Integrates all insight processing components with safety checks
     bounded operations, and comprehensive monitoring.
     """
 
@@ -150,13 +151,13 @@ class InsightManagementIntegrator:
 
         # Performance monitoring
         self.health_metrics = SystemHealthMetrics(
-            total_insights=0,
-            validated_insights=0,
-            rejected_insights=0,
-            average_entropy_reduction=0.0,
-            average_coherence=0.0,
-            memory_usage_mb=0.0,
-            feedback_gain=1.0,
+            total_insights=0
+            validated_insights=0
+            rejected_insights=0
+            average_entropy_reduction=0.0
+            average_coherence=0.0
+            memory_usage_mb=0.0
+            feedback_gain=1.0
             last_update=datetime.now(),
         )
 
@@ -172,9 +173,9 @@ class InsightManagementIntegrator:
         )
 
     async def process_insight(
-        self,
-        insight: InsightScar,
-        geoid_state: GeoidState,
+        self
+        insight: InsightScar
+        geoid_state: GeoidState
         system_state: Dict[str, Any],
     ) -> InsightValidationResult:
         """
@@ -216,14 +217,14 @@ class InsightManagementIntegrator:
             validation_time = (time.time() - start_time) * 1000  # ms
 
             result = InsightValidationResult(
-                insight_id=insight.id,
-                status=status,
-                entropy_score=entropy_score,
-                coherence_score=coherence_score,
-                confidence=confidence,
+                insight_id=insight.id
+                status=status
+                entropy_score=entropy_score
+                coherence_score=coherence_score
+                confidence=confidence
                 timestamp=datetime.now(),
-                validation_time_ms=validation_time,
-                rejection_reason=rejection_reason,
+                validation_time_ms=validation_time
+                rejection_reason=rejection_reason
             )
 
             # 6. Update metrics and cache
@@ -241,13 +242,13 @@ class InsightManagementIntegrator:
             logger.error(f"❌ Insight processing failed: {e}")
             # Fail-safe: reject on any error
             return InsightValidationResult(
-                insight_id=insight.id,
-                status=ValidationStatus.REJECTED,
-                entropy_score=0.0,
-                coherence_score=0.0,
-                confidence=0.0,
+                insight_id=insight.id
+                status=ValidationStatus.REJECTED
+                entropy_score=0.0
+                coherence_score=0.0
+                confidence=0.0
                 timestamp=datetime.now(),
-                validation_time_ms=(time.time() - start_time) * 1000,
+                validation_time_ms=(time.time() - start_time) * 1000
                 rejection_reason=f"Processing error: {str(e)}",
             )
 
@@ -257,8 +258,8 @@ class InsightManagementIntegrator:
         """Validate insight entropy reduction with adaptive thresholds"""
         # Calculate adaptive threshold
         threshold = calculate_adaptive_entropy_threshold(
-            system_entropy=self.system_entropy,
-            system_complexity=self.system_complexity,
+            system_entropy=self.system_entropy
+            system_complexity=self.system_complexity
             recent_performance=self._calculate_recent_performance(),
         )
 
@@ -329,10 +330,10 @@ class InsightManagementIntegrator:
         )
 
     async def process_feedback(
-        self,
-        insight_id: str,
-        feedback_type: FeedbackEvent,
-        user_id: Optional[str] = None,
+        self
+        insight_id: str
+        feedback_type: FeedbackEvent
+        user_id: Optional[str] = None
     ) -> None:
         """
         Process feedback with safety-bounded gain adjustment (SR-4.10.3).
@@ -346,8 +347,8 @@ class InsightManagementIntegrator:
             engagement = EngagementType.EXPLORED  # Default
 
         await self.feedback_engine.track_engagement(
-            insight_id=insight_id,
-            engagement_type=engagement,
+            insight_id=insight_id
+            engagement_type=engagement
             user_id=user_id or "system",
         )
 
@@ -435,7 +436,7 @@ class InsightManagementIntegrator:
         return {
             "average_integrated_information": float(avg_phi),
             "average_coherence": float(avg_coherence),
-            "complexity_distribution": complexity_distribution,
+            "complexity_distribution": complexity_distribution
             "total_analyzed": len(results),
             "timestamp": datetime.now().isoformat(),
         }

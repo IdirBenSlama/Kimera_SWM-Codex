@@ -22,9 +22,9 @@ except ImportError:
 
 
 logger = logging.getLogger(__name__)
-
-
 class RateLimiter:
+    """Auto-generated class."""
+    pass
     """
     Rate limiter using a token bucket algorithm with Redis
     """
@@ -88,9 +88,9 @@ class RateLimiter:
         except Exception as e:
             logger.error(f"Rate limiting check failed: {e}")
             return False  # Fail open
-
-
 class RequestValidator:
+    """Auto-generated class."""
+    pass
     """
     Validates and sanitizes incoming requests
     """
@@ -164,9 +164,9 @@ def get_validated_data(request: Request) -> Dict[str, Any]:
     if not hasattr(request.state, "validated_data"):
         raise RuntimeError("Request validation was not performed correctly")
     return request.state.validated_data
-
-
 class RateLimitMiddleware:
+    """Auto-generated class."""
+    pass
     """FastAPI middleware wrapper for rate limiting"""
 
     def __init__(self, app):

@@ -75,6 +75,8 @@ class VerificationStatus(Enum):
 
 @dataclass
 class OutputMetadata:
+    """Auto-generated class."""
+    pass
     """Comprehensive metadata for generated outputs"""
 
     generation_timestamp: datetime
@@ -94,6 +96,8 @@ class OutputMetadata:
 
 @dataclass
 class OutputArtifact:
+    """Auto-generated class."""
+    pass
     """Complete output artifact with content and metadata"""
 
     artifact_id: str
@@ -122,9 +126,9 @@ class OutputArtifact:
             content_bytes = str(self.content).encode("utf-8")
 
         return hashlib.sha256(content_bytes).hexdigest()[:16]
-
-
 class ScientificNomenclatureEngine:
+    """Auto-generated class."""
+    pass
     """
     Engine for ensuring scientific accuracy and academic nomenclature
 
@@ -269,9 +273,9 @@ class ScientificNomenclatureEngine:
                     formatted_content += f"{i}. {citation['authors']} ({citation['year']}). {citation['title']}. {citation['publisher']}. DOI: {citation.get('doi', 'N/A')}\n"
 
         return formatted_content
-
-
 class OutputVerificationEngine:
+    """Auto-generated class."""
+    pass
     """
     Independent verification engine for output quality and accuracy
 
@@ -284,11 +288,11 @@ class OutputVerificationEngine:
     def __init__(self):
         self.verification_history = []
         self.quality_thresholds = {
-            OutputQuality.DRAFT: 0.5,
-            OutputQuality.STANDARD: 0.7,
-            OutputQuality.HIGH: 0.85,
-            OutputQuality.SCIENTIFIC: 0.95,
-            OutputQuality.MISSION_CRITICAL: 0.99,
+            OutputQuality.DRAFT: 0.5
+            OutputQuality.STANDARD: 0.7
+            OutputQuality.HIGH: 0.85
+            OutputQuality.SCIENTIFIC: 0.95
+            OutputQuality.MISSION_CRITICAL: 0.99
         }
 
         logger.info("✅ Output Verification Engine initialized (DO-178C Level A)")
@@ -302,14 +306,14 @@ class OutputVerificationEngine:
         verification_start = time.time()
 
         verification_report = {
-            "artifact_id": artifact.artifact_id,
+            "artifact_id": artifact.artifact_id
             "verification_timestamp": datetime.now(),
-            "modality": artifact.modality.value,
-            "quality_level": artifact.metadata.quality_level.value,
+            "modality": artifact.modality.value
+            "quality_level": artifact.metadata.quality_level.value
             "verification_methods": [],
             "results": {},
-            "overall_score": 0.0,
-            "status": VerificationStatus.PENDING,
+            "overall_score": 0.0
+            "status": VerificationStatus.PENDING
             "issues": [],
             "recommendations": [],
         }
@@ -327,9 +331,9 @@ class OutputVerificationEngine:
 
             # Scientific accuracy verification
             if artifact.modality in [
-                OutputModality.SCIENTIFIC_PAPER,
-                OutputModality.MATHEMATICAL,
-                OutputModality.FORMAL_PROOF,
+                OutputModality.SCIENTIFIC_PAPER
+                OutputModality.MATHEMATICAL
+                OutputModality.FORMAL_PROOF
             ]:
                 accuracy_score = self._verify_scientific_accuracy(artifact)
                 verification_report["results"]["scientific_accuracy"] = accuracy_score
@@ -339,8 +343,8 @@ class OutputVerificationEngine:
 
             # Formal verification for mathematical content
             if artifact.modality in [
-                OutputModality.MATHEMATICAL,
-                OutputModality.FORMAL_PROOF,
+                OutputModality.MATHEMATICAL
+                OutputModality.FORMAL_PROOF
             ]:
                 formal_score = self._verify_mathematical_content(artifact)
                 verification_report["results"]["formal_verification"] = formal_score
@@ -511,9 +515,9 @@ class OutputVerificationEngine:
             )
 
         return recommendations
-
-
 class MultiModalOutputGenerator:
+    """Auto-generated class."""
+    pass
     """
     Main multi-modal output generator with aerospace-grade reliability
 
@@ -524,10 +528,10 @@ class MultiModalOutputGenerator:
     """
 
     def __init__(
-        self,
-        default_quality: OutputQuality = OutputQuality.STANDARD,
-        enable_verification: bool = True,
-        enable_citations: bool = True,
+        self
+        default_quality: OutputQuality = OutputQuality.STANDARD
+        enable_verification: bool = True
+        enable_citations: bool = True
     ):
 
         self.default_quality = default_quality
@@ -542,10 +546,10 @@ class MultiModalOutputGenerator:
 
         # Generation statistics
         self.generation_stats = {
-            "total_generations": 0,
-            "successful_generations": 0,
-            "failed_generations": 0,
-            "average_generation_time": 0.0,
+            "total_generations": 0
+            "successful_generations": 0
+            "failed_generations": 0
+            "average_generation_time": 0.0
             "modality_counts": {modality: 0 for modality in OutputModality},
             "quality_counts": {quality: 0 for quality in OutputQuality},
         }
@@ -564,11 +568,11 @@ class MultiModalOutputGenerator:
         logger.info(f"   Citations enabled: {enable_citations}")
 
     def generate_output(
-        self,
+        self
         content_request: Dict[str, Any],
-        modality: OutputModality = OutputModality.TEXT,
-        quality_level: OutputQuality = None,
-        context: Optional[Dict[str, Any]] = None,
+        modality: OutputModality = OutputModality.TEXT
+        quality_level: OutputQuality = None
+        context: Optional[Dict[str, Any]] = None
     ) -> OutputArtifact:
         """
         Generate output artifact with specified modality and quality level
@@ -618,27 +622,27 @@ class MultiModalOutputGenerator:
             generation_time = (time.time() - generation_start) * 1000
             metadata = OutputMetadata(
                 generation_timestamp=datetime.now(),
-                modality=modality,
-                quality_level=quality_level,
-                verification_status=VerificationStatus.PENDING,
+                modality=modality
+                quality_level=quality_level
+                verification_status=VerificationStatus.PENDING
                 confidence_score=0.0,  # Will be calculated during verification
-                scientific_accuracy_score=0.0,
-                semantic_coherence_score=0.0,
+                scientific_accuracy_score=0.0
+                semantic_coherence_score=0.0
                 citation_count=len(citations),
                 computational_cost=self._calculate_computational_cost(
                     content_request, modality
                 ),
-                generation_time_ms=generation_time,
+                generation_time_ms=generation_time
                 resource_usage=self._measure_resource_usage(),
             )
 
             # Create output artifact
             artifact = OutputArtifact(
-                artifact_id=artifact_id,
-                content=content,
-                modality=modality,
-                metadata=metadata,
-                citations=citations,
+                artifact_id=artifact_id
+                content=content
+                modality=modality
+                metadata=metadata
+                citations=citations
             )
 
             # Perform verification if enabled
@@ -688,10 +692,10 @@ class MultiModalOutputGenerator:
             raise KimeraCognitiveError(f"Output generation failed: {str(e)}")
 
     def _generate_content_by_modality(
-        self,
+        self
         content_request: Dict[str, Any],
-        modality: OutputModality,
-        quality_level: OutputQuality,
+        modality: OutputModality
+        quality_level: OutputQuality
         context: Optional[Dict[str, Any]],
     ) -> Union[str, Dict[str, Any], bytes]:
         """Generate content specific to the requested modality"""
@@ -775,11 +779,11 @@ class MultiModalOutputGenerator:
         format_type = specs.get("format", "json")
 
         structured = {
-            "topic": topic,
-            "content": content,
+            "topic": topic
+            "content": content
             "metadata": {
-                "quality_level": quality.value,
-                "format": format_type,
+                "quality_level": quality.value
+                "format": format_type
                 "generation_timestamp": datetime.now().isoformat(),
                 "scientific_compliance": quality
                 in [OutputQuality.SCIENTIFIC, OutputQuality.MISSION_CRITICAL],
@@ -788,9 +792,9 @@ class MultiModalOutputGenerator:
 
         if quality in [OutputQuality.SCIENTIFIC, OutputQuality.MISSION_CRITICAL]:
             structured["validation"] = {
-                "terminology_verified": True,
-                "citations_required": True,
-                "peer_review_recommended": quality == OutputQuality.SCIENTIFIC,
+                "terminology_verified": True
+                "citations_required": True
+                "peer_review_recommended": quality == OutputQuality.SCIENTIFIC
             }
 
         return structured
@@ -918,7 +922,7 @@ class {topic.replace(" ", "")}Processor:
             # Implementation based on content
             result = {{
                 "topic": "{topic}",
-                "content": self.content,
+                "content": self.content
                 "verification_status": "VERIFIED",
                 "quality_level": "{quality.value}"
             }}
@@ -998,16 +1002,16 @@ Technical Specifications:
 """
 
     def _generate_cache_key(
-        self,
+        self
         content_request: Dict[str, Any],
-        modality: OutputModality,
-        quality: OutputQuality,
+        modality: OutputModality
+        quality: OutputQuality
     ) -> str:
         """Generate cache key for content request"""
         key_data = {
             "content": str(content_request),
-            "modality": modality.value,
-            "quality": quality.value,
+            "modality": modality.value
+            "quality": quality.value
         }
         key_string = json.dumps(key_data, sort_keys=True)
         return hashlib.md5(key_string.encode()).hexdigest()
@@ -1020,14 +1024,14 @@ Technical Specifications:
 
         # Modality-specific costs
         modality_costs = {
-            OutputModality.TEXT: 1.0,
-            OutputModality.STRUCTURED_DATA: 1.2,
-            OutputModality.MATHEMATICAL: 1.5,
-            OutputModality.SCIENTIFIC_PAPER: 2.0,
-            OutputModality.FORMAL_PROOF: 2.5,
-            OutputModality.EXECUTABLE_CODE: 1.8,
-            OutputModality.VISUAL: 3.0,
-            OutputModality.AUDIO: 2.5,
+            OutputModality.TEXT: 1.0
+            OutputModality.STRUCTURED_DATA: 1.2
+            OutputModality.MATHEMATICAL: 1.5
+            OutputModality.SCIENTIFIC_PAPER: 2.0
+            OutputModality.FORMAL_PROOF: 2.5
+            OutputModality.EXECUTABLE_CODE: 1.8
+            OutputModality.VISUAL: 3.0
+            OutputModality.AUDIO: 2.5
         }
 
         # Content complexity factor
@@ -1041,8 +1045,8 @@ Technical Specifications:
         # Simplified resource measurement
         return {
             "cpu_percent": 0.0,  # Would use psutil in production
-            "memory_mb": 0.0,
-            "gpu_utilization": 0.0,
+            "memory_mb": 0.0
+            "gpu_utilization": 0.0
         }
 
     def _generate_digital_signature(self, artifact: OutputArtifact) -> str:
@@ -1084,14 +1088,14 @@ Technical Specifications:
         return {
             "generation_stats": self.generation_stats.copy(),
             "cache_performance": {
-                "cache_hits": self.cache_hits,
-                "cache_misses": self.cache_misses,
+                "cache_hits": self.cache_hits
+                "cache_misses": self.cache_misses
                 "cache_hit_rate": self.cache_hits
                 / max(1, self.cache_hits + self.cache_misses),
             },
             "registry_size": len(self.output_registry),
-            "verification_enabled": self.verification_engine is not None,
-            "citations_enabled": self.enable_citations,
+            "verification_enabled": self.verification_engine is not None
+            "citations_enabled": self.enable_citations
         }
 
     def clear_cache(self) -> None:
@@ -1107,16 +1111,16 @@ _output_generator: Optional[MultiModalOutputGenerator] = None
 
 
 def get_multi_modal_output_generator(
-    default_quality: OutputQuality = OutputQuality.STANDARD,
-    enable_verification: bool = True,
-    enable_citations: bool = True,
+    default_quality: OutputQuality = OutputQuality.STANDARD
+    enable_verification: bool = True
+    enable_citations: bool = True
 ) -> MultiModalOutputGenerator:
     """Get global multi-modal output generator instance"""
     global _output_generator
     if _output_generator is None:
         _output_generator = MultiModalOutputGenerator(
-            default_quality=default_quality,
-            enable_verification=enable_verification,
-            enable_citations=enable_citations,
+            default_quality=default_quality
+            enable_verification=enable_verification
+            enable_citations=enable_citations
         )
     return _output_generator

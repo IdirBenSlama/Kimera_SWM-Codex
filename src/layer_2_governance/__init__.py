@@ -1,4 +1,4 @@
-"""Compatibility layer for the legacy ``layer_2_governance`` package.
+"""Compatibility layer for the legacy ``layer_2_governance`` package."""
 
 Historically, many parts of the codebase imported monitoring, security and core
 functionality from ``src.layer_2_governance``.  The real implementations now

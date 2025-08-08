@@ -1,4 +1,4 @@
-"""KIMERA SWM Graph Database Package
+"""KIMERA SWM Graph Database Package"""
 
 This package provides Neo4j integration for the KIMERA system, enabling
 graph-based storage and querying of semantic relationships, causal chains,

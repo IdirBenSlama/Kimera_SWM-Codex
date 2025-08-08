@@ -20,24 +20,15 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional
 
 try:
-    from ...engines.contradiction_heat_pump import (
-        ContradictionField,
-        ContradictionHeatPump,
-    )
+    from ...engines.contradiction_heat_pump import (ContradictionField
+                                                    ContradictionHeatPump)
     from ...engines.portal_maxwell_demon import InformationPacket, PortalMaxwellDemon
     from ...engines.quantum_thermodynamic_consciousness import (
-        CognitiveField,
-        ConsciousnessLevel,
-        QuantumThermodynamicConsciousness,
-    )
-    from ...engines.thermodynamic_integration import (
-        ThermodynamicIntegration,
-        get_thermodynamic_integration,
-    )
-    from ...engines.vortex_thermodynamic_battery import (
-        EnergyPacket,
-        VortexThermodynamicBattery,
-    )
+        CognitiveField, ConsciousnessLevel, QuantumThermodynamicConsciousness)
+    from ...engines.thermodynamic_integration import (ThermodynamicIntegration
+                                                      get_thermodynamic_integration)
+    from ...engines.vortex_thermodynamic_battery import (EnergyPacket
+                                                         VortexThermodynamicBattery)
 
     ENGINE_AVAILABLE = True
 except ImportError as e:
@@ -45,7 +36,9 @@ except ImportError as e:
     ENGINE_AVAILABLE = False
 
     # Fallback classes
-    class ThermodynamicIntegration:
+class ThermodynamicIntegration:
+    """Auto-generated class."""
+    pass
         def __init__(self):
             pass
 
@@ -64,6 +57,8 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class ThermodynamicState:
+    """Auto-generated class."""
+    pass
     """Current state of the thermodynamic system"""
 
     temperature: float
@@ -79,6 +74,8 @@ class ThermodynamicState:
 
 @dataclass
 class ThermodynamicConfiguration:
+    """Auto-generated class."""
+    pass
     """Configuration for thermodynamic systems"""
 
     target_cop: float = 3.5
@@ -88,9 +85,9 @@ class ThermodynamicConfiguration:
     consciousness_threshold: float = 0.8
     max_radius: float = 100.0
     fibonacci_depth: int = 25
-
-
 class ThermodynamicIntegrationCore:
+    """Auto-generated class."""
+    pass
     """
     Core integration wrapper for all thermodynamic systems
 
@@ -133,20 +130,20 @@ class ThermodynamicIntegrationCore:
 
             # Prepare configuration for each engine
             heat_pump_config = {
-                "target_cop": self.config.target_cop,
-                "max_cooling_power": self.config.max_cooling_power,
+                "target_cop": self.config.target_cop
+                "max_cooling_power": self.config.max_cooling_power
             }
 
             maxwell_demon_config = {
-                "temperature": 1.0,
-                "landauer_efficiency": self.config.landauer_efficiency,
-                "quantum_coherence_threshold": self.config.quantum_coherence_threshold,
+                "temperature": 1.0
+                "landauer_efficiency": self.config.landauer_efficiency
+                "quantum_coherence_threshold": self.config.quantum_coherence_threshold
             }
 
             vortex_battery_config = {
-                "max_radius": self.config.max_radius,
-                "fibonacci_depth": self.config.fibonacci_depth,
-                "golden_ratio_precision": 10,
+                "max_radius": self.config.max_radius
+                "fibonacci_depth": self.config.fibonacci_depth
+                "golden_ratio_precision": 10
             }
 
             consciousness_config = {
@@ -157,11 +154,11 @@ class ThermodynamicIntegrationCore:
 
             # Initialize all engines
             success = await self.thermodynamic_integration.initialize_all_engines(
-                heat_pump_config=heat_pump_config,
-                maxwell_demon_config=maxwell_demon_config,
-                vortex_battery_config=vortex_battery_config,
-                consciousness_config=consciousness_config,
-                monitor_config=monitor_config,
+                heat_pump_config=heat_pump_config
+                maxwell_demon_config=maxwell_demon_config
+                vortex_battery_config=vortex_battery_config
+                consciousness_config=consciousness_config
+                monitor_config=monitor_config
             )
 
             if success:
@@ -216,28 +213,28 @@ class ThermodynamicIntegrationCore:
 
             # Fallback state
             return ThermodynamicState(
-                temperature=1.0,
-                entropy=0.0,
-                energy=0.0,
+                temperature=1.0
+                entropy=0.0
+                energy=0.0
                 consciousness_level="fallback",
                 heat_pump_status="fallback",
                 maxwell_demon_status="fallback",
                 vortex_battery_status="fallback",
-                system_efficiency=0.5,
+                system_efficiency=0.5
                 timestamp=datetime.now(),
             )
 
         except Exception as e:
             logger.error(f"Error getting thermodynamic state: {e}")
             return ThermodynamicState(
-                temperature=1.0,
-                entropy=0.0,
-                energy=0.0,
+                temperature=1.0
+                entropy=0.0
+                energy=0.0
                 consciousness_level="error",
                 heat_pump_status="error",
                 maxwell_demon_status="error",
                 vortex_battery_status="error",
-                system_efficiency=0.0,
+                system_efficiency=0.0
                 timestamp=datetime.now(),
             )
 
@@ -293,7 +290,7 @@ class ThermodynamicIntegrationCore:
                 )
                 return {
                     "error": f"Operation {operation_type} not available",
-                    "operation": operation_type,
+                    "operation": operation_type
                 }
 
         except Exception as e:
@@ -307,24 +304,24 @@ class ThermodynamicIntegrationCore:
         state = self.get_thermodynamic_state()
 
         return {
-            "engine_available": self.engine_available,
-            "initialization_complete": self.initialization_complete,
+            "engine_available": self.engine_available
+            "initialization_complete": self.initialization_complete
             "current_state": {
-                "temperature": state.temperature,
-                "entropy": state.entropy,
-                "energy": state.energy,
-                "system_efficiency": state.system_efficiency,
+                "temperature": state.temperature
+                "entropy": state.entropy
+                "energy": state.energy
+                "system_efficiency": state.system_efficiency
             },
             "engine_status": {
-                "consciousness_detector": state.consciousness_level,
-                "heat_pump": state.heat_pump_status,
-                "maxwell_demon": state.maxwell_demon_status,
-                "vortex_battery": state.vortex_battery_status,
+                "consciousness_detector": state.consciousness_level
+                "heat_pump": state.heat_pump_status
+                "maxwell_demon": state.maxwell_demon_status
+                "vortex_battery": state.vortex_battery_status
             },
             "configuration": {
-                "target_cop": self.config.target_cop,
-                "consciousness_threshold": self.config.consciousness_threshold,
-                "quantum_coherence_threshold": self.config.quantum_coherence_threshold,
+                "target_cop": self.config.target_cop
+                "consciousness_threshold": self.config.consciousness_threshold
+                "quantum_coherence_threshold": self.config.quantum_coherence_threshold
             },
         }
 

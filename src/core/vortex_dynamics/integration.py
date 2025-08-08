@@ -1,5 +1,6 @@
 """
-Vortex Dynamics and Energy Storage Integration Module
+"""Vortex Dynamics and Energy Storage Integration Module"""
+
 ====================================================
 
 This module integrates vortex dynamics modeling and thermodynamic energy
@@ -41,7 +42,7 @@ except ImportError:
 
 
 try:
-    from src.core.constants import EPSILON, MAX_ITERATIONS, PHI
+    from src.core.primitives.constants import EPSILON, MAX_ITERATIONS, PHI
 except ImportError:
     try:
         from core.constants import EPSILON, MAX_ITERATIONS, PHI
@@ -70,6 +71,8 @@ logger = get_system_logger(__name__)
 
 @dataclass
 class VortexDynamicsMetrics:
+    """Auto-generated class."""
+    pass
     """Comprehensive metrics for vortex dynamics and energy storage system."""
 
     vortex_stability_index: float = 0.0
@@ -87,9 +90,9 @@ class VortexDynamicsMetrics:
     def __post_init__(self):
         if self.last_update is None:
             self.last_update = datetime.now(timezone.utc)
-
-
 class VortexDynamicsIntegrator:
+    """Auto-generated class."""
+    pass
     """
     DO-178C Level A Vortex Dynamics and Energy Storage Integrator.
 
@@ -336,7 +339,7 @@ class VortexDynamicsIntegrator:
 
                 # Record state
                 state = {
-                    "time": step * dt,
+                    "time": step * dt
                     "vortex_count": len(vortex_field.get("vortices", [])),
                     "total_circulation": sum(
                         v.get("circulation", 0.0)
@@ -356,8 +359,8 @@ class VortexDynamicsIntegrator:
                         break
 
             return {
-                "vortex_field": vortex_field,
-                "simulation_history": simulation_history,
+                "vortex_field": vortex_field
+                "simulation_history": simulation_history
                 "final_stability": self._calculate_stability_metric(vortex_field),
                 "status": "completed",
             }
@@ -375,7 +378,7 @@ class VortexDynamicsIntegrator:
 
         for i, spec in enumerate(vortex_specs[:max_vortices]):  # Limit enforcement
             vortex = {
-                "id": i,
+                "id": i
                 "position": spec.get("position", [0.0, 0.0]),
                 "circulation": spec.get("circulation", 1.0),
                 "core_radius": spec.get("core_radius", 0.1),
@@ -384,7 +387,7 @@ class VortexDynamicsIntegrator:
             vortices.append(vortex)
 
         return {
-            "vortices": vortices,
+            "vortices": vortices
             "domain_size": initial_conditions.get("domain_size", 10.0),
             "viscosity": initial_conditions.get("viscosity", 0.01),
         }
@@ -540,8 +543,8 @@ class VortexDynamicsIntegrator:
             simulation_history = []
             for step in range(time_steps):
                 state = {
-                    "time": step * 0.01,
-                    "vortex_count": vortex_count,
+                    "time": step * 0.01
+                    "vortex_count": vortex_count
                     "total_circulation": vortex_count * 1.0,  # Simplified circulation
                     "kinetic_energy": vortex_count * 0.5,  # Simplified energy
                 }
@@ -549,7 +552,7 @@ class VortexDynamicsIntegrator:
 
             return {
                 "vortex_field": {"vortices": initial_conditions.get("vortices", [])},
-                "simulation_history": simulation_history,
+                "simulation_history": simulation_history
                 "final_stability": 1.0,  # Simplified simulation is always stable
                 "status": "completed_simplified",
             }
@@ -634,10 +637,10 @@ class VortexDynamicsIntegrator:
 
             return {
                 "status": "success",
-                "energy_stored": energy_amount,
-                "conservation_error": energy_conservation_error,
+                "energy_stored": energy_amount
+                "conservation_error": energy_conservation_error
                 "storage_efficiency": storage_result.get("efficiency", 0.0),
-                "total_stored": self.metrics.total_energy_stored,
+                "total_stored": self.metrics.total_energy_stored
             }
 
         except Exception as e:
@@ -728,23 +731,23 @@ class VortexDynamicsIntegrator:
         """
         with self._lock:
             return {
-                "status": self.metrics.health_status,
-                "vortex_stability_index": self.metrics.vortex_stability_index,
-                "energy_storage_efficiency": self.metrics.energy_storage_efficiency,
-                "thermodynamic_consistency": self.metrics.thermodynamic_consistency,
-                "vortex_coherence_ratio": self.metrics.vortex_coherence_ratio,
-                "energy_conservation_score": self.metrics.energy_conservation_score,
-                "active_vortices": self.metrics.active_vortices,
-                "total_energy_stored": self.metrics.total_energy_stored,
-                "storage_cycles": self.metrics.storage_cycles,
-                "temperature_stability": self.metrics.temperature_stability,
+                "status": self.metrics.health_status
+                "vortex_stability_index": self.metrics.vortex_stability_index
+                "energy_storage_efficiency": self.metrics.energy_storage_efficiency
+                "thermodynamic_consistency": self.metrics.thermodynamic_consistency
+                "vortex_coherence_ratio": self.metrics.vortex_coherence_ratio
+                "energy_conservation_score": self.metrics.energy_conservation_score
+                "active_vortices": self.metrics.active_vortices
+                "total_energy_stored": self.metrics.total_energy_stored
+                "storage_cycles": self.metrics.storage_cycles
+                "temperature_stability": self.metrics.temperature_stability
                 "last_update": self.metrics.last_update.isoformat(),
-                "initialized": self._initialized,
-                "scipy_available": self.scipy_available,
+                "initialized": self._initialized
+                "scipy_available": self.scipy_available
                 "components": {
-                    "vortex_dynamics": self.vortex_dynamics is not None,
-                    "energy_storage": self.energy_storage is not None,
-                    "thermodynamic_battery": self.thermodynamic_battery is not None,
+                    "vortex_dynamics": self.vortex_dynamics is not None
+                    "energy_storage": self.energy_storage is not None
+                    "thermodynamic_battery": self.thermodynamic_battery is not None
                 },
             }
 
@@ -770,7 +773,25 @@ class VortexDynamicsIntegrator:
             component = getattr(self, component_name, None)
             if component and hasattr(component, "shutdown"):
                 try:
-                    component.shutdown()
+                    # Handle async shutdown properly
+                    try:
+                        if hasattr(component, "shutdown"):
+                            import asyncio
+
+                            if asyncio.iscoroutinefunction(component.shutdown):
+                                # Run async shutdown in event loop
+                                loop = asyncio.new_event_loop()
+                                asyncio.set_event_loop(loop)
+                                try:
+                                    loop.run_until_complete(component.shutdown())
+                                finally:
+                                    loop.close()
+                            else:
+                                component.shutdown()
+                    except Exception as e:
+                        logger.warning(
+                            f"Shutdown error for {type(component).__name__}: {e}"
+                        )
                     logger.debug(f"✅ {component_name} shutdown complete")
                 except Exception as e:
                     logger.error(f"❌ {component_name} shutdown error: {e}")

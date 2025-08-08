@@ -15,13 +15,9 @@ Version: 1.0.0 - DO-178C Level A Compliant
 Safety Level: Catastrophic (Level A)
 """
 
-from .full_integration_bridge import (
-    IntegrationConfig,
-    IntegrationMetrics,
-    IntegrationMode,
-    KimeraFullIntegrationBridge,
-    ProcessingPriority,
-)
+from .full_integration_bridge import (IntegrationConfig, IntegrationMetrics
+                                      IntegrationMode, KimeraFullIntegrationBridge
+                                      ProcessingPriority)
 
 # Alias for compatibility
 ResponseGenerationIntegrator = KimeraFullIntegrationBridge

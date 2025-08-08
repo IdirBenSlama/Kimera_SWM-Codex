@@ -19,9 +19,9 @@ from .geoid_mirror_portal_engine import GeoidMirrorPortalEngine
 from .golden_ratio_optimizer import GoldenRatioOptimizer, OptimizationDomain
 
 logger = logging.getLogger(__name__)
-
-
 class GeometricOptimizationIntegrator:
+    """Auto-generated class."""
+    pass
     """
     Integrates geometric and aesthetic optimization engines.
     """
@@ -56,10 +56,10 @@ class GeometricOptimizationIntegrator:
         logger.info(f"Portal {portal.portal_id} optimized with golden ratio.")
 
         return {
-            "portal_id": portal.portal_id,
-            "semantic_geoid_id": semantic_geoid.geoid_id,
-            "symbolic_geoid_id": symbolic_geoid.geoid_id,
-            "optimized_coherence": portal.coherence_strength,
+            "portal_id": portal.portal_id
+            "semantic_geoid_id": semantic_geoid.geoid_id
+            "symbolic_geoid_id": symbolic_geoid.geoid_id
+            "optimized_coherence": portal.coherence_strength
         }
 
     def get_global_optimization_metrics(self) -> Dict[str, float]:

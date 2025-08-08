@@ -22,6 +22,8 @@ from ..core.models import LinguisticGeoid
 
 @dataclass
 class SemanticMeasurement:
+    """Auto-generated class."""
+    pass
     """Container for semantic measurement data"""
 
     timestamp: datetime
@@ -35,9 +37,9 @@ class SemanticMeasurement:
     ambiguity_index: float
     information_utility: float
     metadata: Dict[str, Any] = field(default_factory=dict)
-
-
 class SemanticAnalyzer:
+    """Auto-generated class."""
+    pass
     """
     Advanced semantic analysis tools implementing concepts from semantic thermodynamics
     """
@@ -185,9 +187,9 @@ class SemanticAnalyzer:
             return float("inf")
 
         return syntactic_complexity / semantic_score
-
-
 class SemanticMetricsCollector:
+    """Auto-generated class."""
+    pass
     """
     Comprehensive semantic metrics collection for Kimera SWM
 

@@ -2,7 +2,7 @@
 KIMERA SWM - VAULT SYSTEM
 =========================
 
-The Vault System provides persistent storage and retrieval for geoids, SCARs,
+The Vault System provides persistent storage and retrieval for geoids, SCARs
 and other system data. It supports multiple storage backends and provides
 a unified interface for all persistence operations.
 
@@ -54,6 +54,8 @@ class DataType(Enum):
 
 @dataclass
 class StorageConfiguration:
+    """Auto-generated class."""
+    pass
     """Configuration for storage backends"""
 
     backend: StorageBackend
@@ -69,6 +71,8 @@ class StorageConfiguration:
 
 @dataclass
 class StorageMetrics:
+    """Auto-generated class."""
+    pass
     """Metrics for storage operations"""
 
     total_items_stored: int
@@ -140,11 +144,11 @@ class SQLiteAdapter(StorageAdapter):
             conn.execute(
                 """
                 CREATE TABLE IF NOT EXISTS vault_data (
-                    key TEXT PRIMARY KEY,
-                    data_type TEXT NOT NULL,
-                    data_blob BLOB NOT NULL,
-                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    key TEXT PRIMARY KEY
+                    data_type TEXT NOT NULL
+                    data_blob BLOB NOT NULL
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                     metadata TEXT
                 )
             """
@@ -180,7 +184,7 @@ class SQLiteAdapter(StorageAdapter):
                         INSERT OR REPLACE INTO vault_data 
                         (key, data_type, data_blob, updated_at)
                         VALUES (?, ?, ?, CURRENT_TIMESTAMP)
-                    """,
+                    ""","""
                         (key, data_type.value, data_blob),
                     )
                     conn.commit()
@@ -200,7 +204,7 @@ class SQLiteAdapter(StorageAdapter):
                         """
                         SELECT data_blob FROM vault_data 
                         WHERE key = ? AND data_type = ?
-                    """,
+                    ""","""
                         (key, data_type.value),
                     )
 
@@ -233,7 +237,7 @@ class SQLiteAdapter(StorageAdapter):
                         """
                         DELETE FROM vault_data 
                         WHERE key = ? AND data_type = ?
-                    """,
+                    ""","""
                         (key, data_type.value),
                     )
                     conn.commit()
@@ -254,7 +258,7 @@ class SQLiteAdapter(StorageAdapter):
                             SELECT key FROM vault_data 
                             WHERE data_type = ? AND key LIKE ?
                             ORDER BY created_at DESC
-                        """,
+                        ""","""
                             (data_type.value, f"{prefix}%"),
                         )
                     else:
@@ -263,7 +267,7 @@ class SQLiteAdapter(StorageAdapter):
                             SELECT key FROM vault_data 
                             WHERE data_type = ?
                             ORDER BY created_at DESC
-                        """,
+                        ""","""
                             (data_type.value,),
                         )
 
@@ -282,7 +286,7 @@ class SQLiteAdapter(StorageAdapter):
                         """
                         SELECT 1 FROM vault_data 
                         WHERE key = ? AND data_type = ?
-                    """,
+                    ""","""
                         (key, data_type.value),
                     )
                     return cursor.fetchone() is not None
@@ -309,7 +313,7 @@ class SQLiteAdapter(StorageAdapter):
                         """
                         DELETE FROM vault_data 
                         WHERE created_at < ?
-                    """,
+                    ""","""
                         (cutoff_date,),
                     )
                     conn.commit()
@@ -323,15 +327,10 @@ class SQLiteAdapter(StorageAdapter):
         """Reconstruct GeoidState from dictionary"""
         # This is a simplified reconstruction - in practice would need
         # proper deserialization handling for all nested objects
-        from ..data_structures.geoid_state import (
-            GeoidProcessingState,
-            GeoidState,
-            GeoidType,
-            ProcessingMetadata,
-            SemanticState,
-            SymbolicState,
-            ThermodynamicProperties,
-        )
+        from ..data_structures.geoid_state import (GeoidProcessingState, GeoidState
+                                                   GeoidType, ProcessingMetadata
+                                                   SemanticState, SymbolicState
+                                                   ThermodynamicProperties)
 
         # Create basic geoid - full reconstruction would be more complex
         geoid = GeoidState(
@@ -348,12 +347,8 @@ class SQLiteAdapter(StorageAdapter):
     def _reconstruct_scar(self, data_dict: Dict[str, Any]) -> ScarState:
         """Reconstruct ScarState from dictionary"""
         # This is a simplified reconstruction
-        from ..data_structures.scar_state import (
-            ScarSeverity,
-            ScarState,
-            ScarStatus,
-            ScarType,
-        )
+        from ..data_structures.scar_state import (ScarSeverity, ScarState, ScarStatus
+                                                  ScarType)
 
         scar = ScarState(
             scar_id=data_dict["scar_id"],
@@ -393,10 +388,10 @@ class JSONFileAdapter(StorageAdapter):
 
                 # Add metadata
                 storage_data = {
-                    "data": data_dict,
+                    "data": data_dict
                     "stored_at": datetime.now().isoformat(),
-                    "data_type": data_type.value,
-                    "key": key,
+                    "data_type": data_type.value
+                    "key": key
                 }
 
                 with open(file_path, "w") as f:
@@ -519,9 +514,9 @@ class MemoryAdapter(StorageAdapter):
                     self.storage[data_type.value] = {}
 
                 self.storage[data_type.value][key] = {
-                    "data": data,
+                    "data": data
                     "stored_at": datetime.now(),
-                    "data_type": data_type.value,
+                    "data_type": data_type.value
                 }
                 return True
 
@@ -611,9 +606,9 @@ class MemoryAdapter(StorageAdapter):
         except Exception as e:
             logger.error(f"Error cleaning up memory: {str(e)}")
             return 0
-
-
 class VaultSystem:
+    """Auto-generated class."""
+    pass
     """
     Vault System - Persistent Knowledge Storage
     ==========================================
@@ -644,7 +639,7 @@ class VaultSystem:
             storage_size_bytes=0,
             last_backup_time=None,
             error_count=0,
-            cache_hit_rate=0.0,
+            cache_hit_rate=0.0
         )
 
         # Simple cache for performance
@@ -909,7 +904,7 @@ def get_global_vault() -> VaultSystem:
     if _global_vault is None:
         # Default configuration
         config = StorageConfiguration(
-            backend=StorageBackend.SQLITE,
+            backend=StorageBackend.SQLITE
             base_path=os.path.join(os.getcwd(), "vault_data"),
         )
         _global_vault = VaultSystem(config)

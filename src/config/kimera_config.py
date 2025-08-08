@@ -2,7 +2,7 @@
 KIMERA Configuration Management System
 =====================================
 
-Centralized configuration management with environment variable support,
+Centralized configuration management with environment variable support
 validation, and dynamic updates.
 
 Features:
@@ -37,6 +37,8 @@ class ConfigProfile(Enum):
 
 @dataclass
 class DatabaseConfig:
+    """Auto-generated class."""
+    pass
     """Database configuration settings."""
 
     url: str = field(
@@ -60,6 +62,8 @@ class DatabaseConfig:
 
 @dataclass
 class ServerConfig:
+    """Auto-generated class."""
+    pass
     """Server configuration settings."""
 
     host: str = field(default_factory=lambda: os.getenv("SERVER_HOST", "0.0.0.0"))
@@ -73,6 +77,8 @@ class ServerConfig:
 
 @dataclass
 class GPUConfig:
+    """Auto-generated class."""
+    pass
     """GPU configuration settings."""
 
     enabled: bool = field(
@@ -92,6 +98,8 @@ class GPUConfig:
 
 @dataclass
 class DiffusionConfig:
+    """Auto-generated class."""
+    pass
     """Diffusion engine configuration."""
 
     num_steps: int = field(
@@ -117,6 +125,8 @@ class DiffusionConfig:
 
 @dataclass
 class SecurityConfig:
+    """Auto-generated class."""
+    pass
     """Security configuration settings."""
 
     secret_key: str = field(
@@ -144,6 +154,8 @@ class SecurityConfig:
 
 @dataclass
 class MonitoringConfig:
+    """Auto-generated class."""
+    pass
     """Monitoring and metrics configuration."""
 
     prometheus_enabled: bool = field(
@@ -161,6 +173,8 @@ class MonitoringConfig:
 
 @dataclass
 class CacheConfig:
+    """Auto-generated class."""
+    pass
     """Cache configuration settings."""
 
     redis_url: Optional[str] = field(default_factory=lambda: os.getenv("REDIS_URL"))
@@ -172,6 +186,8 @@ class CacheConfig:
 
 @dataclass
 class MCPConfig:
+    """Auto-generated class."""
+    pass
     """MCP (Model Context Protocol) configuration."""
 
     config_path: str = field(
@@ -199,6 +215,8 @@ class MCPConfig:
 
 @dataclass
 class KimeraConfig:
+    """Auto-generated class."""
+    pass
     """Main KIMERA configuration container."""
 
     profile: ConfigProfile = field(

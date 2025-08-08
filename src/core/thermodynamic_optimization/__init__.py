@@ -1,5 +1,6 @@
 """
-Thermodynamic Signal and Efficiency Optimization Module
+"""Thermodynamic Signal and Efficiency Optimization Module"""
+
 =======================================================
 
 This module provides comprehensive thermodynamic signal processing
@@ -19,13 +20,11 @@ Integration follows DO-178C Level A standards with:
 """
 
 from .thermodynamic_efficiency_optimizer import ThermodynamicEfficiencyOptimizer
-from .thermodynamic_signal_evolution import (
-    ThermodynamicSignalEvolutionEngine as ThermodynamicSignalEvolution,
-)
+from .thermodynamic_signal_evolution import \
+    ThermodynamicSignalEvolutionEngine as ThermodynamicSignalEvolution
 from .thermodynamic_signal_optimizer import ThermodynamicSignalOptimizer
-from .thermodynamic_signal_validation import (
-    ThermodynamicSignalValidationSuite as ThermodynamicSignalValidation,
-)
+from .thermodynamic_signal_validation import \
+    ThermodynamicSignalValidationSuite as ThermodynamicSignalValidation
 
 __all__ = [
     "ThermodynamicEfficiencyOptimizer",

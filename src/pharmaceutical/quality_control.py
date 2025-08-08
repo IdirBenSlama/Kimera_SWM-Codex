@@ -9,9 +9,9 @@ import numpy as np
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 from engines.thermodynamic_engine import ThermodynamicEngine
-
-
 class QualityControlSystem:
+    """Auto-generated class."""
+    pass
     """
     A pharmaceutical quality control system implementing Statistical Process Control (SPC)
     with integration to thermodynamic analysis for process stability assessment.

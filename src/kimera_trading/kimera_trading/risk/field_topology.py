@@ -1,7 +1,7 @@
 import numpy as np
-
-
 class CognitiveRiskFieldMapper:
+    """Auto-generated class."""
+    pass
     """
     Maps risk as disturbances in cognitive fields.
 
@@ -33,8 +33,9 @@ class CognitiveRiskFieldMapper:
 
         # Calculate gradient for navigation
         gradient = np.gradient(field)
-
-        class RiskField:
+class RiskField:
+    """Auto-generated class."""
+    pass
             pass
 
         rf = RiskField()

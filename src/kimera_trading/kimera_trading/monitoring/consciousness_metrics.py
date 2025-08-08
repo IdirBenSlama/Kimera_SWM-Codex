@@ -1,7 +1,7 @@
 import numpy as np
-
-
 class CognitiveThermodynamicMetrics:
+    """Auto-generated class."""
+    pass
     """Calculate paradigm-specific performance metrics"""
 
     def calculate_cognitive_sharpe_ratio(

@@ -40,6 +40,8 @@ class RhetoricalMode(Enum):
 
 @dataclass
 class RhetoricalAnalysis:
+    """Auto-generated class."""
+    pass
     """Rhetorical analysis result with formal verification."""
 
     ethos_score: float
@@ -66,9 +68,9 @@ class RhetoricalAnalysis:
         ), "Accessibility must be in [0,1]"
         assert 0.0 <= self.confidence <= 1.0, "Confidence must be in [0,1]"
         assert self.processing_time >= 0.0, "Processing time must be non-negative"
-
-
 class RhetoricalProcessor:
+    """Auto-generated class."""
+    pass
     """
     Aerospace-grade rhetorical analysis processor.
 
@@ -214,10 +216,10 @@ class RhetoricalProcessor:
         }
 
     async def analyze_rhetoric(
-        self,
-        text: str,
-        context: Optional[str] = None,
-        mode: Optional[RhetoricalMode] = None,
+        self
+        text: str
+        context: Optional[str] = None
+        mode: Optional[RhetoricalMode] = None
     ) -> RhetoricalAnalysis:
         """
         Analyze rhetorical elements with aerospace-grade safety validation.
@@ -281,16 +283,16 @@ class RhetoricalProcessor:
                 )
 
             analysis = RhetoricalAnalysis(
-                ethos_score=ethos_score,
-                pathos_score=pathos_score,
-                logos_score=logos_score,
-                argument_structure=argument_structure,
-                cultural_context=cultural_context,
-                persuasive_effectiveness=persuasive_effectiveness,
-                rhetorical_devices=rhetorical_devices,
-                neurodivergent_accessibility=neurodivergent_accessibility,
-                processing_time=processing_time,
-                confidence=confidence,
+                ethos_score=ethos_score
+                pathos_score=pathos_score
+                logos_score=logos_score
+                argument_structure=argument_structure
+                cultural_context=cultural_context
+                persuasive_effectiveness=persuasive_effectiveness
+                rhetorical_devices=rhetorical_devices
+                neurodivergent_accessibility=neurodivergent_accessibility
+                processing_time=processing_time
+                confidence=confidence
             )
 
             # Update performance metrics
@@ -363,8 +365,8 @@ class RhetoricalProcessor:
             keywords = description.split()
             presence = any(kw.lower() in text.lower() for kw in keywords)
             structure[component] = {
-                "present": presence,
-                "confidence": 0.5 if presence else 0.1,
+                "present": presence
+                "confidence": 0.5 if presence else 0.1
             }
 
         return structure
@@ -383,9 +385,9 @@ class RhetoricalProcessor:
         )
 
         scores = {
-            "western": western_score,
-            "eastern": eastern_score,
-            "indigenous": indigenous_score,
+            "western": western_score
+            "eastern": eastern_score
+            "indigenous": indigenous_score
         }
         return max(scores.items(), key=lambda x: x[1])[0]
 
@@ -474,14 +476,14 @@ class RhetoricalProcessor:
         )
 
         return {
-            "initialized": self._initialized,
-            "total_analyses": self._analysis_count,
-            "avg_processing_time": avg_processing_time,
-            "error_rate": error_rate,
-            "max_processing_time": self._max_processing_time,
-            "safety_margins": self._safety_margins,
-            "device": self.device,
-            "mode": self.mode.value,
+            "initialized": self._initialized
+            "total_analyses": self._analysis_count
+            "avg_processing_time": avg_processing_time
+            "error_rate": error_rate
+            "max_processing_time": self._max_processing_time
+            "safety_margins": self._safety_margins
+            "device": self.device
+            "mode": self.mode.value
         }
 
     async def shutdown(self) -> None:

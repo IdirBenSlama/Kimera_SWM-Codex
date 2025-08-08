@@ -29,6 +29,8 @@ from .thermodynamic_analyzer import ThermodynamicAnalyzer, ThermodynamicCalculat
 
 @dataclass
 class BenchmarkResult:
+    """Auto-generated class."""
+    pass
     """Container for benchmark test results"""
 
     test_name: str
@@ -43,6 +45,8 @@ class BenchmarkResult:
 
 @dataclass
 class BenchmarkSuite:
+    """Auto-generated class."""
+    pass
     """Configuration for a benchmark suite"""
 
     name: str
@@ -51,9 +55,9 @@ class BenchmarkSuite:
     parameters: Dict[str, Any]
     expected_results: Dict[str, Dict[str, float]]
     tolerance: float = 0.1
-
-
 class StandardBenchmarks:
+    """Auto-generated class."""
+    pass
     """
     Standard benchmark tests for entropy and thermodynamic calculations
     Following the computational tools specification
@@ -220,9 +224,9 @@ class StandardBenchmarks:
         }
 
         return results
-
-
 class BenchmarkRunner:
+    """Auto-generated class."""
+    pass
     """
     Comprehensive benchmark runner for Kimera SWM monitoring system
     """

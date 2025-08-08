@@ -33,33 +33,16 @@ References:
 """
 
 from .contradiction_detection.proactive_contradiction_detector import (
-    DetectionStrategy,
-    GeoidState,
-    HealthStatus,
-    ProactiveContradictionDetector,
-    ProactiveDetectionConfig,
-    TensionGradient,
-    create_proactive_contradiction_detector,
-)
-from .integration import (
-    ContradictionAndPruningIntegrator,
-    create_contradiction_and_pruning_integrator,
-)
+    DetectionStrategy, GeoidState, HealthStatus, ProactiveContradictionDetector
+    ProactiveDetectionConfig, TensionGradient, create_proactive_contradiction_detector)
+from .integration import (ContradictionAndPruningIntegrator
+                          create_contradiction_and_pruning_integrator)
+from .pruning_systems.intelligent_pruning_engine import \
+    should_prune  # Legacy compatibility
 from .pruning_systems.intelligent_pruning_engine import (
-    should_prune,  # Legacy compatibility
-)
-from .pruning_systems.intelligent_pruning_engine import (
-    InsightScar,
-    IntelligentPruningEngine,
-    PrunableItem,
-    PruningConfig,
-    PruningDecision,
-    PruningResult,
-    PruningStrategy,
-    SafetyStatus,
-    Scar,
-    create_intelligent_pruning_engine,
-)
+    InsightScar, IntelligentPruningEngine, PrunableItem, PruningConfig, PruningDecision
+    PruningResult, PruningStrategy, SafetyStatus, Scar
+    create_intelligent_pruning_engine)
 
 # Version information for certification tracking
 __version__ = "1.0.0"
@@ -107,10 +90,10 @@ def verify_module_health():
         Dict containing health status and dependency information
     """
     health_status = {
-        "module_loaded": True,
-        "version": __version__,
-        "certification_level": __certification_level__,
-        "safety_critical": __safety_critical__,
+        "module_loaded": True
+        "version": __version__
+        "certification_level": __certification_level__
+        "safety_critical": __safety_critical__
         "components_available": {},
         "dependencies": {},
     }

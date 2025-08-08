@@ -1,5 +1,6 @@
 """
-Signal Processing Module
+"""Signal Processing Module"""
+
 =======================
 
 Advanced signal processing capabilities for Kimera SWM, implementing

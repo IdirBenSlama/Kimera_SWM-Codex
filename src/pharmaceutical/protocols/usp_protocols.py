@@ -25,6 +25,8 @@ logger = get_logger(__name__)
 
 @dataclass
 class USPTestResult:
+    """Auto-generated class."""
+    pass
     """Standard USP test result structure."""
 
     test_id: str
@@ -41,6 +43,8 @@ class USPTestResult:
 
 @dataclass
 class DissolutionTestUSP711:
+    """Auto-generated class."""
+    pass
     """USP <711> Dissolution Test implementation."""
 
     apparatus: int  # 1 = Basket, 2 = Paddle
@@ -54,15 +58,17 @@ class DissolutionTestUSP711:
 
 @dataclass
 class ContentUniformityUSP905:
+    """Auto-generated class."""
+    pass
     """USP <905> Content Uniformity test parameters."""
 
     sample_size: int
     acceptance_value: float
     reference_value: float
     individual_limits: Tuple[float, float]
-
-
 class USPProtocolEngine:
+    """Auto-generated class."""
+    pass
     """
     Engine implementing official USP testing protocols.
 

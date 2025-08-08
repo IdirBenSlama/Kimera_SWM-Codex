@@ -1,5 +1,6 @@
 """
-Proactive Contradiction Detection Module
+"""Proactive Contradiction Detection Module"""
+
 =======================================
 
 This module implements proactive scanning for contradictions across all geoids
@@ -14,16 +15,13 @@ Key Components:
 Safety Compliance: DO-178C Level A
 """
 
-from .proactive_contradiction_detector import (
-    DetectionStrategy,
-    GeoidState,
-    HealthStatus,
-    ProactiveContradictionDetector,
-    ProactiveDetectionConfig,
-    TensionGradient,
-    create_proactive_contradiction_detector,
-    sanitize_for_json,
-)
+from .proactive_contradiction_detector import (DetectionStrategy, GeoidState
+                                               HealthStatus
+                                               ProactiveContradictionDetector
+                                               ProactiveDetectionConfig
+                                               TensionGradient
+                                               create_proactive_contradiction_detector
+                                               sanitize_for_json)
 
 __all__ = [
     "ProactiveContradictionDetector",

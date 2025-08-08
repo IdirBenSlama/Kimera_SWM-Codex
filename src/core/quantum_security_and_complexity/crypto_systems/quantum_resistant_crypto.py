@@ -24,7 +24,7 @@ import torch
 from numba import cuda
 
 from src.config.settings import get_settings
-from src.utils.config import get_api_settings
+from src.utils.robust_config import get_api_settings
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -33,6 +33,8 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class LatticeParams:
+    """Auto-generated class."""
+    pass
     """Parameters for lattice-based cryptography"""
 
     n: int = 512  # Dimension
@@ -49,6 +51,8 @@ class LatticeParams:
 
 @dataclass
 class CryptographicResult:
+    """Auto-generated class."""
+    pass
     """Result of cryptographic operations"""
 
     ciphertext: bytes
@@ -61,6 +65,8 @@ class CryptographicResult:
 
 @dataclass
 class DilithiumParams:
+    """Auto-generated class."""
+    pass
     """Parameters for Dilithium digital signatures"""
 
     n: int = 256  # Polynomial degree
@@ -74,15 +80,21 @@ class DilithiumParams:
     eta: int = 2  # Secret key range
     beta: int = 78  # Rejection bound
     omega: int = 80  # Maximum ones in hint
-
-
 class QuantumResistantCrypto:
+    """Auto-generated class."""
+    pass
     """GPU-accelerated post-quantum cryptography for KIMERA"""
 
     def __init__(self, device_id: int = 0):
-        self.settings = get_api_settings()
+        try:
+            self.settings = get_api_settings()
+        except Exception as e:
+            logger.warning(f"API settings loading failed: {e}. Using safe fallback.")
+            from ..utils.robust_config import safe_get_api_settings
+
+            self.settings = safe_get_api_settings()
         logger.debug(f"   Environment: {self.settings.environment}")
-        """Initialize quantum-resistant crypto engine
+        """Initialize quantum-resistant crypto engine"""
 
         Args:
             device_id: CUDA device ID
@@ -221,9 +233,9 @@ class QuantumResistantCrypto:
             poly[idx] = val
 
     def generate_kyber_keypair(
-        self,
+        self
     ) -> Tuple[Dict[str, cp.ndarray], Dict[str, cp.ndarray]]:
-        """Generate Kyber (ML-KEM) key pair for encryption
+        """Generate Kyber (ML-KEM) key pair for encryption"""
 
         Returns:
             Tuple of (public_key, secret_key)
@@ -262,7 +274,7 @@ class QuantumResistantCrypto:
         return public_key, secret_key
 
     def _sample_cbd(self, n: int, eta: int) -> cp.ndarray:
-        """Sample from centered binomial distribution
+        """Sample from centered binomial distribution"""
 
         Args:
             n: Number of samples
@@ -299,7 +311,7 @@ class QuantumResistantCrypto:
         return samples
 
     def _poly_multiply(self, a: cp.ndarray, b: cp.ndarray, q: int) -> cp.ndarray:
-        """Multiply polynomials using NTT
+        """Multiply polynomials using NTT"""
 
         Args:
             a, b: Polynomial coefficients
@@ -393,7 +405,7 @@ class QuantumResistantCrypto:
     def kyber_encrypt(
         self, message: cp.ndarray, public_key: Dict[str, cp.ndarray]
     ) -> Dict[str, cp.ndarray]:
-        """Encrypt message using Kyber
+        """Encrypt message using Kyber"""
 
         Args:
             message: Message to encrypt (binary array)
@@ -444,7 +456,7 @@ class QuantumResistantCrypto:
     def kyber_decrypt(
         self, ciphertext: Dict[str, cp.ndarray], secret_key: Dict[str, cp.ndarray]
     ) -> cp.ndarray:
-        """Decrypt Kyber ciphertext
+        """Decrypt Kyber ciphertext"""
 
         Args:
             ciphertext: Kyber ciphertext
@@ -486,7 +498,7 @@ class QuantumResistantCrypto:
         return message
 
     def generate_dilithium_keypair(self) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-        """Generate Dilithium (ML-DSA) key pair for signatures
+        """Generate Dilithium (ML-DSA) key pair for signatures"""
 
         Returns:
             Tuple of (public_key, secret_key)
@@ -529,10 +541,10 @@ class QuantumResistantCrypto:
         # Simplified - use deterministic expansion
         cp.random.seed(int.from_bytes(seed[:4].get(), "little"))
         A = cp.random.randint(
-            0,
-            self.dilithium_params.q,
+            0
+            self.dilithium_params.q
             size=(k, l, self.dilithium_params.n),
-            dtype=cp.int32,
+            dtype=cp.int32
         )
         return A
 
@@ -547,7 +559,7 @@ class QuantumResistantCrypto:
     def dilithium_sign(
         self, message: bytes, secret_key: Dict[str, Any]
     ) -> Dict[str, Any]:
-        """Sign message using Dilithium
+        """Sign message using Dilithium"""
 
         Args:
             message: Message to sign
@@ -615,7 +627,7 @@ class QuantumResistantCrypto:
     def dilithium_verify(
         self, message: bytes, signature: Dict[str, Any], public_key: Dict[str, Any]
     ) -> bool:
-        """Verify Dilithium signature
+        """Verify Dilithium signature"""
 
         Args:
             message: Original message
@@ -658,7 +670,7 @@ class QuantumResistantCrypto:
         return c_tilde_prime == signature["c_tilde"]
 
     def secure_cognitive_hash(self, cognitive_state: cp.ndarray) -> cp.ndarray:
-        """Compute quantum-resistant hash of cognitive state
+        """Compute quantum-resistant hash of cognitive state"""
 
         Args:
             cognitive_state: Cognitive state tensor
@@ -674,7 +686,7 @@ class QuantumResistantCrypto:
         return cp.frombuffer(hash_value, dtype=cp.uint8)
 
     def benchmark_pqc_operations(self) -> Dict[str, Any]:
-        """Benchmark post-quantum crypto operations
+        """Benchmark post-quantum crypto operations"""
 
         Returns:
             Performance metrics
@@ -701,11 +713,11 @@ class QuantumResistantCrypto:
         dec_time = time.time() - start
 
         results["kyber"] = {
-            "keygen_ms": keygen_time * 1000,
-            "encrypt_ms": enc_time * 1000,
-            "decrypt_ms": dec_time * 1000,
-            "ciphertext_size_bytes": ct["u"].nbytes + ct["v"].nbytes,
-            "public_key_size_bytes": pk["A"].nbytes + pk["b"].nbytes,
+            "keygen_ms": keygen_time * 1000
+            "encrypt_ms": enc_time * 1000
+            "decrypt_ms": dec_time * 1000
+            "ciphertext_size_bytes": ct["u"].nbytes + ct["v"].nbytes
+            "public_key_size_bytes": pk["A"].nbytes + pk["b"].nbytes
         }
 
         # Benchmark Dilithium
@@ -728,11 +740,11 @@ class QuantumResistantCrypto:
         verify_time = time.time() - start
 
         results["dilithium"] = {
-            "keygen_ms": keygen_time * 1000,
-            "sign_ms": sign_time * 1000,
-            "verify_ms": verify_time * 1000,
+            "keygen_ms": keygen_time * 1000
+            "sign_ms": sign_time * 1000
+            "verify_ms": verify_time * 1000
             "signature_size_bytes": sig["z"].nbytes + len(sig["c_tilde"]),
-            "verification_result": valid,
+            "verification_result": valid
         }
 
         return results

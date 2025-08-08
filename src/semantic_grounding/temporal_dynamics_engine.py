@@ -29,7 +29,7 @@ class TemporalScale(Enum):
 @dataclass
 class TemporalPattern:
     """Represents a temporal pattern in concept behavior"""
-
+    
     pattern_type: str  # periodic, trending, sporadic, etc.
     period: Optional[float] = None  # For periodic patterns
     trend: Optional[str] = None  # increasing, decreasing, stable
@@ -44,7 +44,7 @@ class TemporalPattern:
 @dataclass
 class TemporalContext:
     """Temporal context for a concept"""
-
+    
     concept: str
     duration: Optional[Dict[str, float]] = None  # min, max, typical
     frequency: Optional[Dict[str, float]] = None  # occurrences per time unit

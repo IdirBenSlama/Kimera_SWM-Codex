@@ -2,7 +2,7 @@
 """
 API Router for Vault Management and Data Retrieval
 --------------------------------------------------
-This module contains endpoints for interacting with Kimera's data vaults,
+This module contains endpoints for interacting with Kimera's data vaults
 including retrieving contents, rebalancing, and fetching specific data
 representations like the linguistic form of a Geoid.
 """
@@ -168,7 +168,7 @@ def get_recent_activities(limit: int = 20):
         return {
             "status": "activities_retrieved",
             "count": len(activities),
-            "activities": activities,
+            "activities": activities
         }
     except Exception as e:
         logger.error(f"Failed to get recent activities: {e}")
@@ -193,7 +193,7 @@ def get_performance_summary():
 
         return {
             "status": "performance_data_available",
-            "performance_summary": performance,
+            "performance_summary": performance
         }
     except Exception as e:
         logger.error(f"Failed to get performance summary: {e}")
@@ -207,7 +207,7 @@ def get_cognitive_analytics():
     """
     Get advanced cognitive analytics from the vault monitoring system.
 
-    Provides insights into cognitive patterns, activity distributions,
+    Provides insights into cognitive patterns, activity distributions
     and formation rates across different types of mental constructs.
     """
     try:
@@ -230,7 +230,7 @@ def get_monitoring_report():
     """
     Generate a comprehensive monitoring report including all available data.
 
-    This endpoint provides a complete overview of the vault's current state,
+    This endpoint provides a complete overview of the vault's current state
     recent activities, performance metrics, and cognitive analytics.
     """
     try:
@@ -257,22 +257,22 @@ def get_monitoring_status():
             return {
                 "status": "monitor_unavailable",
                 "message": "Vault monitor not initialized",
-                "is_monitoring": False,
+                "is_monitoring": False
             }
 
-        return {
-            "status": "monitor_available",
-            "is_monitoring": monitor.is_monitoring,
-            "configuration": {
-                "monitoring_interval": monitor.monitoring_interval,
-                "health_check_interval": monitor.health_check_interval,
-                "activity_window_minutes": monitor.activity_window.total_seconds() / 60,
-            },
-            "history_sizes": {
-                "activities": len(monitor.activity_history),
-                "health_checks": len(monitor.health_history),
-            },
-        }
+            return {
+                "status": "monitor_available",
+                "is_monitoring": monitor.is_monitoring,
+                "configuration": {
+                    "monitoring_interval": monitor.monitoring_interval,
+                    "health_check_interval": monitor.health_check_interval,
+                    "activity_window_minutes": monitor.activity_window.total_seconds() / 60,
+                },
+                "history_sizes": {
+                    "activities": len(monitor.activity_history),
+                    "health_checks": len(monitor.health_history),
+                },
+            }
     except Exception as e:
         logger.error(f"Failed to get monitoring status: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to get status: {str(e)}")
@@ -334,7 +334,8 @@ async def query_vault(query: dict, vault: VaultManager = Depends(get_vault_manag
     - epistemic_questions: Generate learning questions
     """
     try:
-        from src.core.vault_cognitive_interface import get_vault_cognitive_interface
+        from src.core.vault.vault_cognitive_interface import \
+            get_vault_cognitive_interface
 
         cognitive_interface = get_vault_cognitive_interface()
 
