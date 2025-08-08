@@ -16,26 +16,20 @@ Provides endpoints for:
 This router exposes the unified cognitive nervous system of Kimera.
 """
 
-import asyncio
 import logging
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from fastapi import APIRouter, Body, Depends, HTTPException, Query
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 
 # Import cognitive architecture core
 from ...core.cognitive_architecture_core import (
     CognitiveArchitectureCore,
     CognitiveComponent,
-    CognitiveFlowResult,
     CognitiveFlowStage,
-    CognitiveState,
     get_cognitive_architecture,
 )
-# Import core system
-from ...core.kimera_system import get_kimera_system
 
 logger = logging.getLogger(__name__)
 
@@ -52,10 +46,10 @@ class CognitiveRequest(BaseModel):
     input_text: str = Field(
         ..., description="Text input for cognitive processing", max_length=16384
     )
-    context: Optional[Dict[str, Any]] = Field(
+    context: dict[str, Any] | None = Field(
         default=None, description="Optional context information"
     )
-    processing_preferences: Optional[Dict[str, Any]] = Field(
+    processing_preferences: dict[str, Any] | None = Field(
         default=None, description="Processing preferences"
     )
 
@@ -64,24 +58,24 @@ class CognitiveResponse(BaseModel):
     """Response model for cognitive processing"""
 
     success: bool
-    response: Optional[str] = None
+    response: str | None = None
     confidence: float
     processing_time: float
 
     # Cognitive Analysis
-    understanding_analysis: Dict[str, Any]
-    insight_events: List[Dict[str, Any]]
-    consciousness_indicators: Dict[str, float]
+    understanding_analysis: dict[str, Any]
+    insight_events: list[dict[str, Any]]
+    consciousness_indicators: dict[str, float]
 
     # Flow Information
-    stages_completed: List[str]
-    component_contributions: Dict[str, float]
+    stages_completed: list[str]
+    component_contributions: dict[str, float]
 
     # Transparency
-    processing_trace: List[Dict[str, Any]]
-    confidence_breakdown: Dict[str, float]
+    processing_trace: list[dict[str, Any]]
+    confidence_breakdown: dict[str, float]
 
-    error: Optional[str] = None
+    error: str | None = None
     timestamp: datetime = Field(default_factory=datetime.now)
 
 
@@ -92,21 +86,21 @@ class ArchitectureStatusResponse(BaseModel):
     coherence_score: float
     active_components: int
     total_components: int
-    component_status: Dict[str, bool]
+    component_status: dict[str, bool]
     system_health: str
-    performance_metrics: Dict[str, Any]
+    performance_metrics: dict[str, Any]
     flow_stage: str
-    transparency_report: Dict[str, Any]
+    transparency_report: dict[str, Any]
 
 
 class ComponentAnalysisResponse(BaseModel):
     """Response model for component analysis"""
 
-    components: List[str]
-    interconnections: Dict[str, List[str]]
-    component_health: Dict[str, Dict[str, Any]]
-    processing_flows: Dict[str, Any]
-    recommendations: List[str]
+    components: list[str]
+    interconnections: dict[str, list[str]]
+    component_health: dict[str, dict[str, Any]]
+    processing_flows: dict[str, Any]
+    recommendations: list[str]
 
 
 class CoherenceReportResponse(BaseModel):
@@ -116,21 +110,21 @@ class CoherenceReportResponse(BaseModel):
     component_coherence: float
     flow_coherence: float
     interconnection_coherence: float
-    health_indicators: Dict[str, float]
-    recommendations: List[str]
-    improvement_suggestions: List[str]
+    health_indicators: dict[str, float]
+    recommendations: list[str]
+    improvement_suggestions: list[str]
 
 
 class FlowOptimizationRequest(BaseModel):
     """Request model for flow optimization"""
 
-    target_components: Optional[List[str]] = Field(
+    target_components: list[str] | None = Field(
         default=None, description="Target components to optimize"
     )
-    optimization_goals: List[str] = Field(
+    optimization_goals: list[str] = Field(
         default=["speed", "accuracy"], description="Optimization goals"
     )
-    constraints: Optional[Dict[str, Any]] = Field(
+    constraints: dict[str, Any] | None = Field(
         default=None, description="Optimization constraints"
     )
 
@@ -138,10 +132,10 @@ class FlowOptimizationRequest(BaseModel):
 class TransparencyRequest(BaseModel):
     """Request model for transparency analysis"""
 
-    component_filter: Optional[List[str]] = Field(
+    component_filter: list[str] | None = Field(
         default=None, description="Components to analyze"
     )
-    time_range: Optional[Dict[str, str]] = Field(
+    time_range: dict[str, str] | None = Field(
         default=None, description="Time range for analysis"
     )
     detail_level: str = Field(
@@ -157,13 +151,16 @@ async def get_cognitive_architecture_dependency() -> CognitiveArchitectureCore:
     try:
         return await get_cognitive_architecture()
     except Exception as e:
-        logger.error(f"Failed to get cognitive architecture: {e}")
+        logger.error(f"Failed to get cognitive architecture: {e}", exc_info=True)
         raise HTTPException(
             status_code=500, detail=f"Cognitive architecture unavailable: {str(e)}"
-        )
+        ) from e
 
 
-def validate_component_names(components: Optional[List[str]]) -> Optional[List[str]]:
+architecture_dependency = Depends(get_cognitive_architecture_dependency)
+
+
+def validate_component_names(components: list[str] | None) -> list[str] | None:
     """Validate component names"""
     if components is None:
         return None
@@ -174,7 +171,7 @@ def validate_component_names(components: Optional[List[str]]) -> Optional[List[s
     if invalid_components:
         raise HTTPException(
             status_code=400,
-            detail=f"Invalid components: {invalid_components}. Valid options: {valid_components}",
+            detail=f"Invalid components: {invalid_components}. Valid options: {valid_components}",  # noqa: E501
         )
 
     return components
@@ -188,7 +185,7 @@ async def cognitive_overview():
     """Get overview of the cognitive architecture"""
     return {
         "service": "Kimera Cognitive Architecture Core",
-        "description": "Unified cognitive nervous system with complete transparency and coherence",
+        "description": "Unified cognitive nervous system with complete transparency and coherence",  # noqa: E501
         "components": [comp.value for comp in CognitiveComponent],
         "flow_stages": [stage.value for stage in CognitiveFlowStage],
         "endpoints": {
@@ -215,9 +212,7 @@ async def cognitive_overview():
 )
 async def process_cognitive_request(
     request: CognitiveRequest,
-    architecture: CognitiveArchitectureCore = Depends(
-        get_cognitive_architecture_dependency
-    ),
+    architecture: CognitiveArchitectureCore = architecture_dependency,
 ):
     """
     Process a cognitive request through the complete cognitive architecture
@@ -280,9 +275,7 @@ async def process_cognitive_request(
     "/status", response_model=ArchitectureStatusResponse, summary="Architecture Status"
 )
 async def get_architecture_status(
-    architecture: CognitiveArchitectureCore = Depends(
-        get_cognitive_architecture_dependency
-    ),
+    architecture: CognitiveArchitectureCore = architecture_dependency,
 ):
     """Get comprehensive status of the cognitive architecture"""
     try:
@@ -304,7 +297,7 @@ async def get_architecture_status(
         logger.error(f"Failed to get architecture status: {e}", exc_info=True)
         raise HTTPException(
             status_code=500, detail=f"Status retrieval failed: {str(e)}"
-        )
+        ) from e
 
 
 @router.get(
@@ -313,9 +306,7 @@ async def get_architecture_status(
     summary="Component Analysis",
 )
 async def analyze_components(
-    architecture: CognitiveArchitectureCore = Depends(
-        get_cognitive_architecture_dependency
-    ),
+    architecture: CognitiveArchitectureCore = architecture_dependency,
 ):
     """Get detailed analysis of all cognitive components"""
     try:
@@ -385,16 +376,14 @@ async def analyze_components(
         logger.error(f"Component analysis failed: {e}", exc_info=True)
         raise HTTPException(
             status_code=500, detail=f"Component analysis failed: {str(e)}"
-        )
+        ) from e
 
 
 @router.get(
     "/coherence", response_model=CoherenceReportResponse, summary="Coherence Report"
 )
 async def get_coherence_report(
-    architecture: CognitiveArchitectureCore = Depends(
-        get_cognitive_architecture_dependency
-    ),
+    architecture: CognitiveArchitectureCore = architecture_dependency,
 ):
     """Get detailed coherence analysis of the cognitive system"""
     try:
@@ -456,15 +445,13 @@ async def get_coherence_report(
         logger.error(f"Coherence analysis failed: {e}", exc_info=True)
         raise HTTPException(
             status_code=500, detail=f"Coherence analysis failed: {str(e)}"
-        )
+        ) from e
 
 
 @router.post("/transparency", summary="Transparency Analysis")
 async def analyze_transparency(
     request: TransparencyRequest,
-    architecture: CognitiveArchitectureCore = Depends(
-        get_cognitive_architecture_dependency
-    ),
+    architecture: CognitiveArchitectureCore = architecture_dependency,
 ):
     """Get detailed transparency analysis of cognitive processing"""
     try:
@@ -502,7 +489,7 @@ async def analyze_transparency(
                         "component_performance"
                     ].items()
                 },
-                "bottleneck_analysis": architecture.transparency_layer._analyze_flow_patterns(),
+                "bottleneck_analysis": architecture.transparency_layer._analyze_flow_patterns(),  # noqa: E501
             }
 
         return {
@@ -517,15 +504,13 @@ async def analyze_transparency(
         logger.error(f"Transparency analysis failed: {e}", exc_info=True)
         raise HTTPException(
             status_code=500, detail=f"Transparency analysis failed: {str(e)}"
-        )
+        ) from e
 
 
 @router.post("/optimize", summary="Flow Optimization")
 async def optimize_cognitive_flow(
     request: FlowOptimizationRequest,
-    architecture: CognitiveArchitectureCore = Depends(
-        get_cognitive_architecture_dependency
-    ),
+    architecture: CognitiveArchitectureCore = architecture_dependency,
 ):
     """Optimize cognitive flow based on specified goals and constraints"""
     try:
@@ -539,17 +524,18 @@ async def optimize_cognitive_flow(
         # Generate optimization recommendations
         optimization_recommendations = []
 
-        if "speed" in request.optimization_goals:
-            # Recommend parallel processing optimizations
-            if current_metrics["average_processing_time"] > 1.0:
-                optimization_recommendations.append(
-                    {
-                        "goal": "speed",
-                        "recommendation": "Enable parallel component processing",
-                        "expected_improvement": "30-50% faster processing",
-                        "implementation": "Use asyncio.gather for concurrent component execution",
-                    }
-                )
+        if (
+            "speed" in request.optimization_goals
+            and current_metrics["average_processing_time"] > 1.0
+        ):
+            optimization_recommendations.append(
+                {
+                    "goal": "speed",
+                    "recommendation": "Enable parallel component processing",
+                    "expected_improvement": "30-50% faster processing",
+                    "implementation": "Use asyncio.gather for concurrent component execution",  # noqa: E501
+                }
+            )
 
         if "accuracy" in request.optimization_goals:
             # Recommend accuracy improvements
@@ -560,23 +546,24 @@ async def optimize_cognitive_flow(
                 optimization_recommendations.append(
                     {
                         "goal": "accuracy",
-                        "recommendation": "Improve component error handling and fallback mechanisms",
-                        "expected_improvement": f"Increase success rate from {success_rate:.1%} to >90%",
-                        "implementation": "Add robust error recovery in critical components",
+                        "recommendation": "Improve component error handling and fallback mechanisms",  # noqa: E501
+                        "expected_improvement": f"Increase success rate from {success_rate:.1%} to >90%",  # noqa: E501
+                        "implementation": "Add robust error recovery in critical components",  # noqa: E501
                     }
                 )
 
-        if "coherence" in request.optimization_goals:
-            # Recommend coherence improvements
-            if architecture.state.coherence_score < 0.9:
-                optimization_recommendations.append(
-                    {
-                        "goal": "coherence",
-                        "recommendation": "Strengthen component interconnections",
-                        "expected_improvement": "Improved system coherence and reliability",
-                        "implementation": "Initialize missing components and optimize flow pathways",
-                    }
-                )
+        if (
+            "coherence" in request.optimization_goals
+            and architecture.state.coherence_score < 0.9
+        ):
+            optimization_recommendations.append(
+                {
+                    "goal": "coherence",
+                    "recommendation": "Strengthen component interconnections",
+                    "expected_improvement": "Improved system coherence and reliability",  # noqa: E501
+                    "implementation": "Initialize missing components and optimize flow pathways",  # noqa: E501
+                }
+            )
 
         # Apply constraints
         if request.constraints:
@@ -598,9 +585,9 @@ async def optimize_cognitive_flow(
             "implementation_priority": [
                 rec["recommendation"]
                 for rec in sorted(
-                    optimization_recommendations
+                    optimization_recommendations,
                     key=lambda x: len(x.get("expected_improvement", "")),
-                    reverse=True
+                    reverse=True,
                 )
             ],
             "analysis_timestamp": datetime.now().isoformat(),
@@ -610,7 +597,7 @@ async def optimize_cognitive_flow(
         logger.error(f"Flow optimization failed: {e}", exc_info=True)
         raise HTTPException(
             status_code=500, detail=f"Flow optimization failed: {str(e)}"
-        )
+        ) from e
 
 
 @router.get("/health", summary="System Health Check")
@@ -660,7 +647,7 @@ async def health_check():
                     else (
                         "Consider component optimization"
                         if health_score >= 0.6
-                        else "System requires attention - multiple components may need initialization"
+                        else "System requires attention - multiple components may need initialization"  # noqa: E501
                     )
                 )
             ],
@@ -684,7 +671,7 @@ async def get_cognitive_flows():
         "cognitive_flows": [
             {
                 "name": "linguistic_to_understanding",
-                "description": "Process text through linguistic intelligence to understanding",
+                "description": "Process text through linguistic intelligence to understanding",  # noqa: E501
                 "components": ["linguistic_intelligence", "understanding_engine"],
                 "typical_time": "100-300ms",
                 "use_cases": ["Text comprehension", "Semantic analysis"],
@@ -732,14 +719,16 @@ router.summary = "Cognitive Architecture Core API"
 router.description = """
 Comprehensive cognitive architecture API for Kimera, providing:
 
-- **Cognitive Processing**: Complete cognitive request processing through integrated architecture
+- **Cognitive Processing**: Complete cognitive request processing
+  through integrated architecture
 - **System Status**: Real-time architecture status and health monitoring
 - **Component Analysis**: Detailed component status and interconnection analysis
 - **Coherence Monitoring**: System coherence analysis and optimization recommendations
 - **Transparency**: Complete transparency into cognitive processing flows
 - **Flow Optimization**: Cognitive flow optimization and performance tuning
 
-**Zetetic Principles**: This API embodies investigative creativity with complete transparency
+**Zetetic Principles**: This API embodies investigative creativity with
+complete transparency
 ensuring functioning, interconnectedness, flow, interoperability, and coherence.
 """
 

@@ -16,29 +16,26 @@ Provides endpoints for:
 Excludes all financial and trading-related functionality.
 """
 
-import asyncio
 import logging
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional
 
-from fastapi import APIRouter, Body, Depends, HTTPException, Query
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 
 # Import processing levels
 from ...core.context_field_selector import ProcessingLevel
 # Import core system
-from ...core.kimera_system import get_kimera_system
-# Import translation components
-from ...engines.gyroscopic_universal_translator import (TranslationModality
-                                                        TranslationRequest
-                                                        TranslationResult)
-# Import linguistic engine
+from ...engines.gyroscopic_universal_translator import (
+    TranslationModality,
+)
 from ...engines.linguistic_intelligence_engine import (
-    LinguisticAnalysis, LinguisticCapability, LinguisticEngineConfig
-    LinguisticIntelligenceEngine, create_comprehensive_linguistic_engine
-    create_lightweight_linguistic_engine, create_linguistic_engine
-    get_linguistic_engine)
+    LinguisticCapability,
+    LinguisticEngineConfig,
+    LinguisticIntelligenceEngine,
+    create_linguistic_engine,
+    get_linguistic_engine,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -154,7 +151,9 @@ def validate_processing_level(level: str) -> ProcessingLevel:
     if level.lower() not in level_map:
         raise HTTPException(
             status_code=400,
-            detail=f"Invalid processing level. Must be one of: {list(level_map.keys())}",
+            detail=(
+                f"Invalid processing level. Must be one of: {list(level_map.keys())}"
+            ),
         )
 
     return level_map[level.lower()]
@@ -186,7 +185,9 @@ def validate_capabilities(
         if cap not in valid_cap_values:
             raise HTTPException(
                 status_code=400,
-                detail=f"Invalid capability '{cap}'. Must be one of: {valid_cap_values}",
+                detail=(
+                    f"Invalid capability '{cap}'. Must be one of: {valid_cap_values}"
+                ),
             )
         validated_caps.append(LinguisticCapability(cap))
 
@@ -496,43 +497,45 @@ async def configure_engine(
         processing_level = validate_processing_level(config.processing_level)
 
         # Create new configuration
-            new_config = LinguisticEngineConfig(
-                enable_semantic_processing=config.enable_semantic_processing,
-                enable_universal_translation=config.enable_universal_translation,
-                enable_grammar_analysis=config.enable_grammar_analysis,
-                enable_entropy_analysis=config.enable_entropy_analysis,
-                enable_context_processing=config.enable_context_processing,
-                enable_meta_commentary_elimination=config.enable_meta_commentary_elimination,
-                enable_relevance_assessment=config.enable_relevance_assessment,
-                processing_level=processing_level,
-                lightweight_mode=config.lightweight_mode,
-                max_input_length=config.max_input_length,
-            )
+        new_config = LinguisticEngineConfig(
+            enable_semantic_processing=config.enable_semantic_processing,
+            enable_universal_translation=config.enable_universal_translation,
+            enable_grammar_analysis=config.enable_grammar_analysis,
+            enable_entropy_analysis=config.enable_entropy_analysis,
+            enable_context_processing=config.enable_context_processing,
+            enable_meta_commentary_elimination=config.enable_meta_commentary_elimination,
+            enable_relevance_assessment=config.enable_relevance_assessment,
+            processing_level=processing_level,
+            lightweight_mode=config.lightweight_mode,
+            max_input_length=config.max_input_length,
+        )
 
         # Create new engine with configuration
         new_engine = create_linguistic_engine(new_config)
         await new_engine.initialize()
 
-            return {
-                "success": True,
-                "message": "Engine configured successfully",
-                "configuration": {
-                    "processing_level": processing_level.value,
-                    "enabled_capabilities": [
-                        k
-                        for k, v in config.__dict__.items()
-                        if k.startswith("enable_") and v
-                    ],
-                    "lightweight_mode": config.lightweight_mode,
-                    "max_input_length": config.max_input_length,
-                },
-                "component_status": new_engine.get_component_status(),
-                "timestamp": datetime.now().isoformat(),
-            }
+        return {
+            "success": True,
+            "message": "Engine configured successfully",
+            "configuration": {
+                "processing_level": processing_level.value,
+                "enabled_capabilities": [
+                    k
+                    for k, v in config.__dict__.items()
+                    if k.startswith("enable_") and v
+                ],
+                "lightweight_mode": config.lightweight_mode,
+                "max_input_length": config.max_input_length,
+            },
+            "component_status": new_engine.get_component_status(),
+            "timestamp": datetime.now().isoformat(),
+        }
 
     except Exception as e:
         logger.error(f"Engine configuration failed: {e}", exc_info=True)
-        raise HTTPException(status_code=500, detail=f"Configuration failed: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Configuration failed: {str(e)}"
+        )
 
 
 @router.get("/processing-levels", summary="Available Processing Levels")
@@ -567,7 +570,9 @@ async def get_processing_levels():
             },
         ],
         "default": "standard",
-        "note": "Processing level affects both capability availability and resource usage",
+        "note": (
+            "Processing level affects both capability availability and resource usage"
+        ),
     }
 
 

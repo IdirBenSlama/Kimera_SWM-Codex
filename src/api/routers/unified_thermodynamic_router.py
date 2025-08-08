@@ -16,7 +16,6 @@ Endpoints:
 - System health monitoring
 """
 
-import asyncio
 import logging
 from datetime import datetime
 from typing import Any, Dict, List, Optional
@@ -127,7 +126,7 @@ async def get_system_status():
     """Get comprehensive system status"""
     try:
         # Get systems
-        kimera_system = get_kimera_system()
+        _ = get_kimera_system()
         unified_system = get_unified_thermodynamic_tcse()
         thermo_integration = get_thermodynamic_integration()
 
@@ -485,15 +484,15 @@ async def optimize_system():
         # Run optimization
         result = await thermo_integration.optimize_system()
 
-            return {
-                "optimization_id": result.optimization_id,
-                "efficiency_gain": result.efficiency_gain,
-                "energy_saved": result.energy_saved,
-                "performance_boost": result.performance_boost,
-                "improvements_made": result.improvements_made,
-                "optimization_duration": result.optimization_duration,
-                "timestamp": result.timestamp.isoformat(),
-            }
+        return {
+            "optimization_id": result.optimization_id,
+            "efficiency_gain": result.efficiency_gain,
+            "energy_saved": result.energy_saved,
+            "performance_boost": result.performance_boost,
+            "improvements_made": result.improvements_made,
+            "optimization_duration": result.optimization_duration,
+            "timestamp": result.timestamp.isoformat(),
+        }
 
     except Exception as e:
         logger.error(f"Error during optimization: {e}")

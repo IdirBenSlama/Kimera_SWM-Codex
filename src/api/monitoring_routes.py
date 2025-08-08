@@ -6,20 +6,18 @@ Comprehensive API endpoints for accessing real-time monitoring data
 metrics, alerts, and system status.
 """
 
-import json
 import logging
 from datetime import datetime, timedelta
 from typing import Any, Dict, List, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, Query, Request, Response
-from fastapi.responses import JSONResponse, PlainTextResponse
+from fastapi import APIRouter, HTTPException, Query, Request, Response
+from fastapi.responses import PlainTextResponse
+from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 from pydantic import BaseModel
 
-from ..core.kimera_system import KimeraSystem, get_kimera_system
-from ..core.knowledge_base import KNOWLEDGE_BASE_DIR, get_vault_metadata, list_vaults
+from ..core.kimera_system import get_kimera_system
 from ..layer_2_governance.monitoring import (
     AlertSeverity,
-    MonitoringLevel,
     get_monitoring_core,
 )
 from ..layer_2_governance.monitoring.kimera_prometheus_metrics import (
@@ -164,7 +162,8 @@ async def health_check():
     # 2. No critical monitoring components are in error state
     engine_health = operational_engines >= (total_engines * 0.8)
 
-    # Check for critical errors in monitoring (ignore disabled/no_channels as these are configuration choices)
+# Check for critical monitoring errors.
+# Ignore disabled or no_channels statuses since they're configuration choices.
     critical_monitoring_errors = any(
         status in ["error", "failed"]
         for status in components.values()
@@ -269,7 +268,7 @@ async def get_system_metrics(
 
 
 @router.get("/metrics/kimera")
-async def get_kimera_metrics(
+async def get_kimera_metrics_endpoint(
     last_minutes: int = Query(default=60, description="Last N minutes of data")
 ):
     """
@@ -614,8 +613,6 @@ async def export_prometheus_metrics():
 
     Returns all metrics in Prometheus exposition format.
     """
-
-    from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 
     metrics_data = generate_latest()
 
@@ -1498,7 +1495,7 @@ async def get_revolutionary_thermodynamics_metrics():
     "/prometheus",
     summary="Get system metrics for Prometheus",
     tags=["Monitoring"],
-    response_class=Response
+    response_class=Response,
     responses={
         200: {
             "description": "Prometheus metrics",

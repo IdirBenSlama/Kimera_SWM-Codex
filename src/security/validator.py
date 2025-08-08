@@ -13,10 +13,10 @@ import json
 import logging
 import re
 import urllib.parse
+from collections import defaultdict
 from dataclasses import dataclass
-from datetime import datetime
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+from typing import Any, Callable
 
 logger = logging.getLogger(__name__)
 
@@ -36,25 +36,21 @@ class ValidationRule(Enum):
 
 @dataclass
 class ValidationError:
-    """Auto-generated class."""
-    pass
     """Validation error details."""
 
     field: str
     rule: ValidationRule
     message: str
     value: Any
-class InputValidator:
-    """Auto-generated class."""
-    pass
-    """
-    Comprehensive input validation with aerospace-grade reliability.
-    """
 
-    def __init__(self):
-        self.validation_rules: Dict[str, List[Dict[str, Any]]] = {}
-        self.custom_validators: Dict[str, Callable] = {}
-        self.validation_stats = {
+
+class InputValidator:
+    """Comprehensive input validation with aerospace-grade reliability."""
+
+    def __init__(self) -> None:
+        self.validation_rules: dict[str, list[dict[str, Any]]] = {}
+        self.custom_validators: dict[str, Callable[[Any], bool]] = {}
+        self.validation_stats: dict[str, Any] = {
             "total_validations": 0,
             "failed_validations": 0,
             "blocked_patterns": defaultdict(int),
@@ -88,7 +84,7 @@ class InputValidator:
             re.compile(r"expression\s*\(", re.IGNORECASE),
         ]
 
-    def add_rule(self, field: str, rule: Dict[str, Any]):
+    def add_rule(self, field: str, rule: dict[str, Any]) -> None:
         """Add validation rule for a field."""
         if field not in self.validation_rules:
             self.validation_rules[field] = []
@@ -96,14 +92,14 @@ class InputValidator:
         self.validation_rules[field].append(rule)
         logger.debug(f"Added validation rule for field: {field}")
 
-    def add_custom_validator(self, name: str, validator: Callable):
+    def add_custom_validator(self, name: str, validator: Callable[[Any], bool]) -> None:
         """Add custom validation function."""
         self.custom_validators[name] = validator
         logger.debug(f"Added custom validator: {name}")
 
     def validate(
-        self, data: Dict[str, Any], schema: Optional[str] = None
-    ) -> Tuple[bool, List[ValidationError]]:
+        self, data: dict[str, Any], schema: str | None = None
+    ) -> tuple[bool, list[ValidationError]]:
         """
         Validate input data against rules.
 
@@ -151,8 +147,8 @@ class InputValidator:
         return len(errors) == 0, errors
 
     def _validate_field(
-        self, field: str, value: Any, rule: Dict[str, Any]
-    ) -> Optional[ValidationError]:
+        self, field: str, value: Any, rule: dict[str, Any]
+    ) -> ValidationError | None:
         """Validate a single field against a rule."""
         rule_type = ValidationRule(rule.get("type", "required"))
 
@@ -166,8 +162,8 @@ class InputValidator:
                 )
 
         elif rule_type == ValidationRule.TYPE:
-            expected_type = rule.get("expected_type")
-            if not self._check_type(value, expected_type):
+            expected_type: str | None = rule.get("expected_type")
+            if expected_type and not self._check_type(value, expected_type):
                 return ValidationError(
                     field=field,
                     rule=rule_type,
@@ -179,40 +175,43 @@ class InputValidator:
             min_length = rule.get("min", 0)
             max_length = rule.get("max", float("inf"))
 
-            if hasattr(value, "__len__"):
-                if not min_length <= len(value) <= max_length:
-                    return ValidationError(
-                        field=field,
-                        rule=rule_type,
-                        message=f"{field} length must be between {min_length} and {max_length}",
-                        value=value,
-                    )
+            if hasattr(value, "__len__") and not min_length <= len(value) <= max_length:
+                return ValidationError(
+                    field=field,
+                    rule=rule_type,
+                    message=(
+                        f"{field} length must be between {min_length} and {max_length}"
+                    ),
+                    value=value,
+                )
 
         elif rule_type == ValidationRule.RANGE:
             min_val = rule.get("min", float("-inf"))
             max_val = rule.get("max", float("inf"))
 
-            if isinstance(value, (int, float)):
-                if not min_val <= value <= max_val:
-                    return ValidationError(
-                        field=field,
-                        rule=rule_type,
-                        message=f"{field} must be between {min_val} and {max_val}",
-                        value=value,
-                    )
+            if isinstance(value, (int, float)) and not min_val <= value <= max_val:
+                return ValidationError(
+                    field=field,
+                    rule=rule_type,
+                    message=f"{field} must be between {min_val} and {max_val}",
+                    value=value,
+                )
 
         elif rule_type == ValidationRule.PATTERN:
             pattern_name = rule.get("pattern")
-            pattern = self.patterns.get(pattern_name)
+            pattern = (
+                self.patterns.get(pattern_name)
+                if isinstance(pattern_name, str)
+                else None
+            )
 
-            if pattern and isinstance(value, str):
-                if not pattern.match(value):
-                    return ValidationError(
-                        field=field,
-                        rule=rule_type,
-                        message=f"{field} does not match pattern {pattern_name}",
-                        value=value,
-                    )
+            if pattern and isinstance(value, str) and not pattern.match(value):
+                return ValidationError(
+                    field=field,
+                    rule=rule_type,
+                    message=f"{field} does not match pattern {pattern_name}",
+                    value=value,
+                )
 
         elif rule_type == ValidationRule.WHITELIST:
             allowed_values = rule.get("values", [])
@@ -238,7 +237,11 @@ class InputValidator:
 
         elif rule_type == ValidationRule.CUSTOM:
             validator_name = rule.get("validator")
-            validator = self.custom_validators.get(validator_name)
+            validator = (
+                self.custom_validators.get(validator_name)
+                if isinstance(validator_name, str)
+                else None
+            )
 
             if validator:
                 try:
@@ -246,11 +249,15 @@ class InputValidator:
                         return ValidationError(
                             field=field,
                             rule=rule_type,
-                            message=f"{field} failed custom validation {validator_name}",
+                            message=(
+                                f"{field} failed custom validation {validator_name}"
+                            ),
                             value=value,
                         )
-                except Exception as e:
-                    logger.error(f"Custom validator {validator_name} error: {e}")
+                except Exception as e:  # noqa: BLE001
+                    logger.error(
+                        "Custom validator %s error: %s", validator_name, e
+                    )
                     return ValidationError(
                         field=field,
                         rule=rule_type,
@@ -277,7 +284,7 @@ class InputValidator:
 
         return True
 
-    def _get_rules_for_schema(self, schema: str) -> Dict[str, List[Dict[str, Any]]]:
+    def _get_rules_for_schema(self, schema: str) -> dict[str, list[dict[str, Any]]]:
         """Get validation rules for a specific schema."""
         # This would load schema-specific rules
         # For now, return default rules
@@ -315,8 +322,8 @@ class InputValidator:
         return value
 
     def validate_json(
-        self, json_string: str, schema: Optional[Dict[str, Any]] = None
-    ) -> Tuple[bool, Any]:
+        self, json_string: str, schema: dict[str, Any] | None = None
+    ) -> tuple[bool, Any]:
         """
         Validate JSON string.
 
@@ -349,7 +356,7 @@ class InputValidator:
             return False
 
     def validate_url(
-        self, url: str, allowed_schemes: List[str] = ["http", "https"]
+        self, url: str, allowed_schemes: list[str] | None = None
     ) -> bool:
         """
         Validate URL.
@@ -361,6 +368,9 @@ class InputValidator:
         Returns:
             True if valid
         """
+        if allowed_schemes is None:
+            allowed_schemes = ["http", "https"]
+
         try:
             parsed = urllib.parse.urlparse(url)
 
@@ -373,15 +383,14 @@ class InputValidator:
                 return False
 
             # Check for dangerous patterns
-            if any(pattern.search(url) for pattern in self.dangerous_patterns):
-                return False
+            return not any(
+                pattern.search(url) for pattern in self.dangerous_patterns
+            )
 
-            return True
-
-        except Exception:
+        except Exception:  # noqa: BLE001
             return False
 
-    def get_validation_stats(self) -> Dict[str, Any]:
+    def get_validation_stats(self) -> dict[str, Any]:
         """Get validation statistics."""
         return {
             "total_validations": self.validation_stats["total_validations"],
@@ -423,5 +432,3 @@ def create_user_input_validator() -> InputValidator:
 
     return validator
 
-
-from collections import defaultdict

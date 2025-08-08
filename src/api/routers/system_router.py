@@ -10,6 +10,7 @@ import logging
 import threading
 from datetime import datetime, timezone
 from typing import Any, Dict
+from traceback import format_exc
 
 from fastapi import APIRouter, HTTPException, Request, Response
 from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
@@ -40,9 +41,9 @@ except ImportError:
         from engines.asm import AxisStabilityMonitor
     except ImportError:
         # Create placeholders for engines.asm
-class AxisStabilityMonitor:
-    """Auto-generated class."""
-    pass
+        class AxisStabilityMonitor:
+            """Auto-generated class."""
+            pass
 
 
 try:
@@ -303,7 +304,8 @@ async def get_utilization_statistics():
                 if hasattr(vault_manager, "get_all_vault_stats")
                 else "not_available"
             ),
-            "cognitive_cycle_stats": "not_available",  # Will be implemented when cognitive cycle is restored
+            "cognitive_cycle_stats": "not_available",  # TODO: implement when
+            # cognitive cycle is restored
             "statistical_engine_cache": (
                 statistical_engine.get_cache_stats()
                 if hasattr(statistical_engine, "get_cache_stats")
@@ -313,7 +315,7 @@ async def get_utilization_statistics():
     except Exception as e:
         logger.error(f"Failed to get utilization stats: {e}", exc_info=True)
         raise HTTPException(
-            status_code=503
+            status_code=503,
             detail=f"Failed to retrieve utilization statistics: {str(e)}",
         )
 
@@ -344,7 +346,7 @@ async def run_zetetic_audit():
 
 @router.get("/test-metrics-redirect", tags=["System"])
 async def test_metrics_redirect():
-    """Test endpoint to check if redirection is happening from middleware or route handlers"""
+    """Check if redirection occurs from middleware or route handlers."""
     return {"status": "direct_access_successful"}
 
 
@@ -419,11 +421,11 @@ async def get_system_state(request: Request) -> Dict[str, Any]:
             logger.error(f"metrics_instance_id error: {e}", exc_info=True)
         report = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
-            "system_state": system_state
-            "is_operational": is_operational
-            "is_shutdown": is_shutdown
-            "active_threads": active_threads
-            "metrics_instance_id": metrics_instance_id
+            "system_state": system_state,
+            "is_operational": is_operational,
+            "is_shutdown": is_shutdown,
+            "active_threads": active_threads,
+            "metrics_instance_id": metrics_instance_id,
         }
         if errors:
             report["errors"] = errors
@@ -463,8 +465,6 @@ async def get_system_threads():
     """
     Provides a list of all active threads for debugging purposes.
     """
-    metrics = get_kimera_metrics()
-
     threads = []
     for thread in threading.enumerate():
         threads.append(
@@ -503,8 +503,8 @@ async def debug_singleton():
 @router.get("/system/ping", tags=["System"])
 async def ping():
     """Minimal endpoint to confirm FastAPI app and router health."""
-        return {
-            "status": "ok",
-            "message": "Kimera API is alive",
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-        }
+    return {
+        "status": "ok",
+        "message": "Kimera API is alive",
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+    }
