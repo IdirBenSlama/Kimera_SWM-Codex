@@ -104,11 +104,28 @@ class TestingAndProtocolsIntegrator:
         self.input_generator = get_input_generator(self.config.test_matrix_seed)
         self.context_manager = get_cognitive_context_manager()
         self.matrix_validator = get_matrix_validator(self.config.test_matrix_seed)
+ 6ohxu1-codex/calculate-src-technical-debts-and-create-roadmap
+
+        try:
+            from .testing.framework.orchestrator import get_test_orchestrator
+        except ImportError as exc:
+            logger.warning("Testing orchestrator unavailable: %s", exc)
+            if self.config.enable_large_scale_testing:
+                raise RuntimeError(
+                    "Testing orchestrator is required for large-scale testing"
+                ) from exc
+            self.test_orchestrator = None
+        else:
+            self.test_orchestrator = get_test_orchestrator(
+                self.config.max_parallel_tests
+            )
+
         from .testing.framework.orchestrator import get_test_orchestrator
 
         self.test_orchestrator = get_test_orchestrator(
             self.config.max_parallel_tests
         )
+ main
 
         # Protocol components
         self.global_registry = get_global_registry()
