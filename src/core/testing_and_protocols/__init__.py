@@ -69,7 +69,10 @@ from .testing.configurations.matrix_validator import (
 )
 # Testing framework components
 # Attempt to import the test orchestrator; fall back gracefully if unavailable
+ 6ohxu1-codex/calculate-src-technical-debts-and-create-roadmap
 
+
+ main
 try:
     from .testing.framework.orchestrator import (
         TestExecutionStatus,
@@ -78,6 +81,7 @@ try:
         TestResult,
         get_test_orchestrator,
     )
+ 6ohxu1-codex/calculate-src-technical-debts-and-create-roadmap
 except ImportError as exc:  # pragma: no cover - orchestrator module may be incomplete
     TestExecutionStatus = TestOrchestrator = TestPriority = TestResult = None
     logging.getLogger(__name__).warning(
@@ -85,6 +89,12 @@ except ImportError as exc:  # pragma: no cover - orchestrator module may be inco
     )
 
     def get_test_orchestrator(*args, **kwargs):  # type: ignore
+
+except Exception:  # pragma: no cover - orchestrator module may be incomplete
+    TestExecutionStatus = TestOrchestrator = TestPriority = TestResult = None
+
+    def get_test_orchestrator(*args: Any, **kwargs: Any):  # type: ignore
+ main
         raise RuntimeError("Testing orchestrator unavailable")
 
 # Version and metadata
@@ -162,7 +172,11 @@ def validate_module_installation() -> bool:
         from .testing.configurations.complexity_levels import get_complexity_manager
         # Test configuration managers
         from .testing.configurations.matrix_validator import get_matrix_validator
+ 6ohxu1-codex/calculate-src-technical-debts-and-create-roadmap
         from .testing.framework.orchestrator import TestOrchestrator
+
+    from .testing.framework.orchestrator import TestOrchestrator
+ main
 
         # Validate matrix generation capability
         validator = get_matrix_validator(seed=42)

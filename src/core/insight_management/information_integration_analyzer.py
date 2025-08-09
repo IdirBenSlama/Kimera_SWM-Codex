@@ -40,14 +40,18 @@ import torch
 # Kimera core imports
 try:
     from src.core.primitives.geoid import GeoidState
-except ImportError:
+except Exception:
     try:
         from core.geoid import GeoidState
+ 6ohxu1-codex/calculate-src-technical-debts-and-create-roadmap
     except ImportError:
         logging.getLogger(__name__).warning(
             "GeoidState import failed; using fallback implementation"
         )
 
+
+    except Exception:
+ main
         class GeoidState:
             """Fallback GeoidState implementation."""
 
