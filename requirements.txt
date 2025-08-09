@@ -2,3 +2,5 @@
 # Use independent production requirements for optimal dependency resolution
 -r requirements/independent_production.txt
 
+
+bcrypt==4.3.0

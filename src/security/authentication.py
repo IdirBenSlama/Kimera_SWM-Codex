@@ -9,6 +9,7 @@ Implements multi-factor authentication based on:
 """
 
 import hashlib
+import bcrypt
 import logging
 import secrets
 import time
@@ -255,15 +256,16 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    """Verify a password against a hash."""
-    # Simple verification - in production use bcrypt or similar
-    return hashlib.sha256(plain_password.encode()).hexdigest() == hashed_password
-
+    """Verify a password against a hash using bcrypt."""
+    # bcrypt expects bytes, and hashed_password should be bytes
+    if isinstance(hashed_password, str):
+        hashed_password = hashed_password.encode('utf-8')
+    return bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password)
 
 def get_password_hash(password: str) -> str:
-    """Hash a password."""
-    # Simple hashing - in production use bcrypt or similar
-    return hashlib.sha256(password.encode()).hexdigest()
+    """Hash a password using bcrypt."""
+    hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    return hashed.decode('utf-8')
 
 
 def decode_access_token(token: str) -> Optional[dict]:
