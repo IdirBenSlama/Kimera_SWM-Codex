@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-"""
-"""Testing and Protocols Module"""
-
+"""Testing and Protocols Module
 ============================
 
 DO-178C Level A compliant large-scale testing framework and omnidimensional
@@ -24,36 +22,70 @@ Author: KIMERA Development Team
 Version: 1.0.0 (DO-178C Level A)
 """
 
+import logging
+
 # Main integration interface
-from .integration import (SystemHealthReport, TestingAndProtocolsConfig
-                          TestingAndProtocolsIntegrator
-                          get_testing_and_protocols_integrator)
+from .integration import (
+    SystemHealthReport,
+    TestingAndProtocolsConfig,
+    TestingAndProtocolsIntegrator,
+    get_testing_and_protocols_integrator,
+)
 # Protocol engine components
-from .protocols.omnidimensional.protocol_engine import (DeliveryGuarantee
-                                                        DimensionRegistry
-                                                        MessagePriority, MessageType
-                                                        ProtocolEngine, ProtocolMessage
-                                                        SystemDimension
-                                                        get_global_registry
-                                                        get_protocol_engine)
-from .testing.configurations.cognitive_contexts import (CognitiveContext
-                                                        CognitiveContextManager
-                                                        ContextTestConfiguration
-                                                        get_cognitive_context_manager)
-from .testing.configurations.complexity_levels import (ComplexityConfiguration
-                                                       ComplexityLevel
-                                                       ComplexityLevelManager
-                                                       get_complexity_manager)
-from .testing.configurations.input_types import (InputGenerator, InputSample, InputType
-                                                 get_input_generator)
-from .testing.configurations.matrix_validator import (MatrixValidationReport
-                                                      TestConfiguration
-                                                      TestMatrixValidator
-                                                      get_matrix_validator)
+from .protocols.omnidimensional.protocol_engine import (
+    DeliveryGuarantee,
+    DimensionRegistry,
+    MessagePriority,
+    MessageType,
+    ProtocolEngine,
+    ProtocolMessage,
+    SystemDimension,
+    get_global_registry,
+    get_protocol_engine,
+)
+from .testing.configurations.cognitive_contexts import (
+    CognitiveContext,
+    CognitiveContextManager,
+    ContextTestConfiguration,
+    get_cognitive_context_manager,
+)
+from .testing.configurations.complexity_levels import (
+    ComplexityConfiguration,
+    ComplexityLevel,
+    ComplexityLevelManager,
+    get_complexity_manager,
+)
+from .testing.configurations.input_types import (
+    InputGenerator,
+    InputSample,
+    InputType,
+    get_input_generator,
+)
+from .testing.configurations.matrix_validator import (
+    MatrixValidationReport,
+    TestConfiguration,
+    TestMatrixValidator,
+    get_matrix_validator,
+)
 # Testing framework components
-from .testing.framework.test_orchestrator import (TestExecutionStatus, TestOrchestrator
-                                                  TestPriority, TestResult
-                                                  get_test_orchestrator)
+# Attempt to import the test orchestrator; fall back gracefully if unavailable
+
+try:
+    from .testing.framework.orchestrator import (
+        TestExecutionStatus,
+        TestOrchestrator,
+        TestPriority,
+        TestResult,
+        get_test_orchestrator,
+    )
+except ImportError as exc:  # pragma: no cover - orchestrator module may be incomplete
+    TestExecutionStatus = TestOrchestrator = TestPriority = TestResult = None
+    logging.getLogger(__name__).warning(
+        "Testing orchestrator unavailable: %s", exc
+    )
+
+    def get_test_orchestrator(*args, **kwargs):  # type: ignore
+        raise RuntimeError("Testing orchestrator unavailable")
 
 # Version and metadata
 __version__ = "1.0.0"
@@ -120,57 +152,6 @@ __all__ = [
 ]
 
 
-def get_module_info() -> dict:
-    """Get comprehensive module information"""
-    return {
-        "name": "testing_and_protocols",
-        "version": __version__
-        "compliance": __compliance__
-        "author": __author__
-        "description": "Large-scale testing framework and omnidimensional protocol engine",
-        "capabilities": [
-            "96-configuration test matrix execution",
-            "Parallel test orchestration",
-            "Inter-dimensional communication",
-            "Quantum-resistant protocols",
-            "Real-time system monitoring",
-            "Aerospace-grade reliability"
-        ],
-        "components": {
-            "testing_framework": {
-                "test_orchestrator": "Manages parallel test execution",
-                "matrix_validator": "Validates 96-test configuration matrix",
-                "complexity_manager": "Manages 4 complexity levels",
-                "input_generator": "Generates 6 types of test inputs",
-                "context_manager": "Manages 4 cognitive contexts"
-            },
-            "protocol_engine": {
-                "omnidimensional_engine": "Inter-dimensional communication",
-                "message_router": "Intelligent message routing",
-                "dimension_registry": "Service discovery and registration",
-                "security_layer": "Quantum-resistant encryption"
-            },
-            "integration": {
-                "unified_integrator": "Coordinates all components",
-                "health_monitor": "Real-time system monitoring",
-                "event_system": "Asynchronous event handling"
-            }
-        },
-        "test_matrix": {
-            "total_configurations": TOTAL_TEST_CONFIGURATIONS
-            "dimensions": "4 complexity × 6 input types × 4 contexts",
-            "parallel_execution": f"Up to {DEFAULT_MAX_PARALLEL_TESTS} concurrent tests",
-            "timeout_per_test": f"{DEFAULT_TEST_TIMEOUT} seconds"
-        },
-        "protocols": {
-            "supported_versions": ["1.0"],
-            "message_types": len(MessageType),
-            "priority_levels": len(MessagePriority),
-            "delivery_guarantees": len(DeliveryGuarantee),
-            "system_dimensions": len(SystemDimension)
-        }
-    }
-
 
 def validate_module_installation() -> bool:
     """Validate module installation and dependencies"""
@@ -181,7 +162,7 @@ def validate_module_installation() -> bool:
         from .testing.configurations.complexity_levels import get_complexity_manager
         # Test configuration managers
         from .testing.configurations.matrix_validator import get_matrix_validator
-        from .testing.framework.test_orchestrator import TestOrchestrator
+        from .testing.framework.orchestrator import TestOrchestrator
 
         # Validate matrix generation capability
         validator = get_matrix_validator(seed=42)
@@ -201,21 +182,3 @@ def validate_module_installation() -> bool:
         return False
 
 
-# Module initialization check
-if __name__ == "__main__":
-    logger.info(f"KIMERA Testing and Protocols Module v{__version__}")
-    logger.info(f"Compliance: {__compliance__}")
-    logger.info(f"Total Test Configurations: {TOTAL_TEST_CONFIGURATIONS}")
-
-    if validate_module_installation():
-        logger.info("✅ Module installation validated successfully")
-    else:
-        logger.info("❌ Module installation validation failed")
-
-    import json
-
-import logging
-
-logger = logging.getLogger(__name__)
-    logger.info("\nModule Information:")
-    logger.info(json.dumps(get_module_info(), indent=2))
