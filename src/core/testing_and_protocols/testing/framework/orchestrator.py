@@ -154,8 +154,8 @@ class ResourceMonitor:
         self.monitoring_active = False
         self.resource_history: List[Dict[str, float]] = []
         self.alert_thresholds = {
-            "cpu_percent": 90.0
-            "memory_percent": 85.0
+            "cpu_percent": 90.0,
+            "memory_percent": 85.0,
             "disk_io_rate": 100.0,  # MB/s
             "temperature": 80.0,  # Celsius (if available)
         }
@@ -245,8 +245,8 @@ class ResourceMonitor:
 
             metrics = {
                 "timestamp": time.time(),
-                "cpu_percent": cpu_percent
-                "memory_percent": memory.percent
+                "cpu_percent": cpu_percent,
+                "memory_percent": memory.percent,
                 "memory_available_gb": memory.available / (1024**3),
                 "disk_io_rate": (
                     (disk_io.read_bytes + disk_io.write_bytes) / (1024**2)
@@ -254,7 +254,7 @@ class ResourceMonitor:
                     else 0.0
                 ),
                 "network_rate": network_rate / (1024**2),
-                "gpu_utilization": gpu_utilization
+                "gpu_utilization": gpu_utilization,
                 "process_count": len(psutil.pids()),
             }
 
@@ -269,9 +269,9 @@ class ResourceMonitor:
         for metric, threshold in self.alert_thresholds.items():
             if metric in metrics and metrics[metric] > threshold:
                 alert_data = {
-                    "metric": metric
+                    "metric": metric,
                     "value": metrics[metric],
-                    "threshold": threshold
+                    "threshold": threshold,
                     "timestamp": datetime.now(),
                     "severity": (
                         "HIGH" if metrics[metric] > threshold * 1.1 else "MEDIUM"
@@ -321,10 +321,10 @@ class TestOrchestrator:
     """
 
     def __init__(
-        self
-        max_parallel_tests: int = 8
-        default_timeout: float = 30.0
-        max_retries: int = 2
+        self,
+        max_parallel_tests: int = 8,
+        default_timeout: float = 30.0,
+        max_retries: int = 2,
     ):
 
         self.max_parallel_tests = max_parallel_tests

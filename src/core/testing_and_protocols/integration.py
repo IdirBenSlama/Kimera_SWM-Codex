@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-"""
-"""Testing and Protocols Integration Module"""
-
+"""Testing and Protocols Integration Module
 ========================================
 
 DO-178C Level A compliant integration of large-scale testing framework
@@ -43,7 +41,6 @@ from .testing.configurations.cognitive_contexts import get_cognitive_context_man
 from .testing.configurations.complexity_levels import get_complexity_manager
 from .testing.configurations.input_types import get_input_generator
 from .testing.configurations.matrix_validator import get_matrix_validator
-from .testing.framework.test_orchestrator import get_test_orchestrator
 
 logger = get_logger(__name__, LogCategory.SYSTEM)
 
@@ -107,7 +104,11 @@ class TestingAndProtocolsIntegrator:
         self.input_generator = get_input_generator(self.config.test_matrix_seed)
         self.context_manager = get_cognitive_context_manager()
         self.matrix_validator = get_matrix_validator(self.config.test_matrix_seed)
-        self.test_orchestrator = get_test_orchestrator(self.config.max_parallel_tests)
+        from .testing.framework.orchestrator import get_test_orchestrator
+
+        self.test_orchestrator = get_test_orchestrator(
+            self.config.max_parallel_tests
+        )
 
         # Protocol components
         self.global_registry = get_global_registry()
