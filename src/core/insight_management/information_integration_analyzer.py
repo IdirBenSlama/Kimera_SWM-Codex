@@ -40,15 +40,15 @@ import torch
 # Kimera core imports
 try:
     from src.core.primitives.geoid import GeoidState
-except ImportError:
+except Exception:
     try:
         from core.geoid import GeoidState
-    except ImportError:
-    class GeoidState:
-    """Auto-generated class."""
-    pass
+    except Exception:
+        class GeoidState:
+            """Fallback GeoidState implementation."""
+
             @staticmethod
-            def create_default():
+            def create_default() -> Dict[str, Any]:
                 return {}
 
 
@@ -60,12 +60,11 @@ except ImportError:
     except ImportError:
         import logging
 
-        def get_logger(*args, **kwargs):
-            return logging.getLogger(__name__)
-class LogCategory:
-    """Auto-generated class."""
-    pass
+        class LogCategory:
             SYSTEM = "system"
+
+        def get_logger(*args: Any, **kwargs: Any) -> logging.Logger:
+            return logging.getLogger(__name__)
 
 
 try:
@@ -244,15 +243,15 @@ class InformationIntegrationAnalyzer:
         )
 
         signature = ComplexitySignature(
-            analysis_id=analysis_id
-            complexity_state=complexity_state
-            integrated_information=phi
-            system_coherence=coherence
-            entropy_production_rate=entropy_production
-            information_gradient=info_gradient
-            transition_point_proximity=transition_proximity
-            computational_complexity=complexity
-            integration_score=integration_score
+            analysis_id=analysis_id,
+            complexity_state=complexity_state,
+            integrated_information=phi,
+            system_coherence=coherence,
+            entropy_production_rate=entropy_production,
+            information_gradient=info_gradient,
+            transition_point_proximity=transition_proximity,
+            computational_complexity=complexity,
+            integration_score=integration_score,
             timestamp=datetime.now(),
         )
 
@@ -498,12 +497,12 @@ class InformationIntegrationAnalyzer:
         return min(proximity, 1.0)
 
     def _calculate_computational_complexity(
-        self
-        phi: float
-        coherence: float
-        entropy_production: float
-        info_gradient: float
-        transition_proximity: float
+        self,
+        phi: float,
+        coherence: float,
+        entropy_production: float,
+        info_gradient: float,
+        transition_proximity: float,
     ) -> float:
         """Calculate overall computational complexity measure"""
 
@@ -520,12 +519,12 @@ class InformationIntegrationAnalyzer:
         return min(complexity, 1.0)
 
     def _classify_complexity_state(
-        self
-        phi: float
-        coherence: float
-        entropy_production: float
-        info_gradient: float
-        transition_proximity: float
+        self,
+        phi: float,
+        coherence: float,
+        entropy_production: float,
+        info_gradient: float,
+        transition_proximity: float,
     ) -> ComplexityState:
         """Classify complexity state based on information-theoretic signatures"""
 
@@ -594,12 +593,12 @@ class InformationIntegrationAnalyzer:
 
         return {
             "total_analyses": len(self.detected_signatures),
-            "average_phi": avg_phi
-            "average_coherence": avg_coherence
-            "average_entropy_production": avg_entropy_production
-            "average_complexity": avg_complexity
-            "average_integration_score": avg_integration_score
-            "state_distribution": state_counts
+            "average_phi": avg_phi,
+            "average_coherence": avg_coherence,
+            "average_entropy_production": avg_entropy_production,
+            "average_complexity": avg_complexity,
+            "average_integration_score": avg_integration_score,
+            "state_distribution": state_counts,
             "transition_events": len(self.transition_events),
             "latest_state": (
                 self.detected_signatures[-1].complexity_state.value
@@ -639,10 +638,10 @@ async def demonstrate_complexity_analysis():
 
             geoid = GeoidState(
                 geoid_id=f"{level_name.upper()}_GEOID_{i}",
-                semantic_state=semantic_state
+                semantic_state=semantic_state,
                 symbolic_state={
-                    "complexity_level": level_name
-                    "complexity": complexity
+                    "complexity_level": level_name,
+                    "complexity": complexity,
                 },
             )
             geoids.append(geoid)
